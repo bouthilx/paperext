@@ -291,12 +291,12 @@ def build_subtree_mapping(tree, item, _root_level=True):
     return mapping
 
 
-def get_papers_stats(analysis, category_trees, categories_selected, k=None):
-
+def get_papers_and(analysis, category_trees, categories_selected):
     selectors = {
         "multi-domains": get_papers_multi_domain,
         "domains": get_papers_per_domain,
         "models": get_papers_per_models,
+        "datasets": get_papers_per_datasets,
     }
     selected_papers = analysis
     for i, (info_type, category) in enumerate(categories_selected):
@@ -307,9 +307,26 @@ def get_papers_stats(analysis, category_trees, categories_selected, k=None):
             replace_labels=i + 1 == len(categories_selected),
         )
 
-    stats = {"domains": get_paper_domains_stats, "models": get_paper_model_stats}[
-        info_type.replace("multi-", "")
-    ](analysis, selected_papers, dropped_papers)
+    return selected_papers, dropped_papers
+
+
+def get_papers_stats(
+    analysis, category_trees, categories_selected, aggregate="and", k=None
+):
+
+    if aggregate == "and":
+        selected_papers, dropped_papers = get_papers_and(
+            analysis, category_trees, categories_selected
+        )
+    else:
+        raise ValueError(f"Unsupported aggregation operator: {aggregate}")
+
+    info_type = categories_selected[-1][0]
+    stats = {
+        "domains": get_paper_domains_stats,
+        "models": get_paper_model_stats,
+        "datasets": get_paper_dataset_stats,
+    }[info_type.replace("multi-", "")](analysis, selected_papers, dropped_papers)
 
     if k is not None:
         kstats = stats[-k:]
@@ -338,6 +355,11 @@ def get_paper_domains_stats(analysis, selected_papers, dropped_papers):
 def get_paper_model_stats(analysis, selected_papers, dropped_papers):
 
     return _get_paper_stats(analysis, selected_papers, dropped_papers, "models")
+
+
+def get_paper_dataset_stats(analysis, selected_papers, dropped_papers):
+
+    return _get_paper_stats(analysis, selected_papers, dropped_papers, "datasets")
 
 
 def _get_paper_stats(analysis, selected_papers, dropped_papers, info_type):
@@ -406,7 +428,12 @@ def get_papers_per_domain(analysis, domains, domain, replace_labels=True):
 
 
 def get_papers_per_models(analysis, models, model, replace_labels=True):
-    models_mapping = build_subtree_mapping(models, model)
+    if isinstance(model, list):
+        models_mapping = {}
+        for m in model:
+            models_mapping.update(build_subtree_mapping(models, m))
+    else:
+        models_mapping = build_subtree_mapping(models, model)
 
     models_mapped = analysis["models"].copy()
     models_mapped["name"] = analysis["models"]["name"].map(models_mapping)
@@ -416,6 +443,23 @@ def get_papers_per_models(analysis, models, model, replace_labels=True):
     selected_papers, dropped_papers = select_papers(analysis, models_mapped["paper_id"])
     if replace_labels:
         selected_papers["models"] = models_mapped
+
+    return selected_papers, dropped_papers
+
+
+def get_papers_per_datasets(analysis, datasets, dataset, replace_labels=True):
+    datasets_mapping = build_subtree_mapping(datasets, dataset)
+
+    datasets_mapped = analysis["datasets"].copy()
+    datasets_mapped["name"] = analysis["datasets"]["name"].map(datasets_mapping)
+    datasets_mapped.dropna(subset=["name"], inplace=True)
+    datasets_mapped.drop_duplicates(subset=["paper_id", "name"], inplace=True)
+
+    selected_papers, dropped_papers = select_papers(
+        analysis, datasets_mapped["paper_id"]
+    )
+    if replace_labels:
+        selected_papers["datasets"] = datasets_mapped
 
     return selected_papers, dropped_papers
 
@@ -433,6 +477,36 @@ def select_papers(analysis, ids):
         )
 
     return selected_papers, dropped_papers
+
+
+def test_something(analysis, category_trees, categories, models):
+    print(categories)
+    categories = [
+        "Computer Vision",
+        "Natural Language Processing",
+        "Reinforcement Learning and Decision Making",
+    ]
+    ids = set()
+    for key in categories:
+        selected_papers = get_papers_per_domain(
+            analysis, category_trees["domains"], key
+        )[0]
+        ids |= set(selected_papers["attrs"]["paper_id"].unique())
+
+    selected_papers, dropped_papers = select_papers(analysis, ids)
+    print(get_paper_domains_stats(analysis, selected_papers, dropped_papers))
+    print(get_paper_domains_stats(analysis, dropped_papers, selected_papers))
+    # print(get_paper_model_stats(analysis, dropped_papers, selected_papers))
+
+    for key in models:
+        selected_papers = get_papers_per_models(
+            dropped_papers, category_trees["models"], key
+        )[0]
+        ids |= set(selected_papers["attrs"]["paper_id"].unique())
+
+    selected_papers, dropped_papers = select_papers(analysis, ids)
+
+    print(get_paper_domains_stats(analysis, selected_papers, dropped_papers))
 
 
 def print_titles(analysis, ids):
@@ -706,6 +780,20 @@ def build_graph(
     )
 
     remaining_papers = analysis
+    for application in application_domains:
+        selected_papers, dropped_papers = get_papers_per_domain(
+            analysis, category_trees["domains"], application, replace_labels=False
+        )
+        nodes_custom_data[application] = build_node_customdata(
+            selected_papers, [("domains", application)]
+        )
+        remaining_papers = intersect_papers(remaining_papers, dropped_papers)
+
+    nodes_custom_data["Other applications"] = build_node_customdata(
+        remaining_papers, [("domains", "application_domains")]
+    )
+
+    remaining_papers = analysis
     for model in models:
         selected_papers, dropped_papers = get_papers_per_models(
             analysis, category_trees["models"], model, replace_labels=False
@@ -800,6 +888,10 @@ def sankey(analysis, category_trees):
     analysis = analysis.copy()
 
     print(analysis["attrs"].index)
+
+    import pdb
+
+    pdb.set_trace()
 
     print(
         get_papers_stats(
@@ -901,7 +993,7 @@ def sankey(analysis, category_trees):
 
     application_domains = [
         "Biomedical and Healthcare",
-        "Computational Biology and Chemistry",
+        # "Computational Biology and Chemistry",
         "Engineering and Robotics",
         "Neuroscience",
         "Astronomy & Astrophysics",
@@ -931,7 +1023,7 @@ def sankey(analysis, category_trees):
                     thickness=15,
                     line=dict(color="black", width=0.5),
                     label=[node["label"] for node in nodes],
-                    color=["blue", "red", "green", "yellow"],
+                    color=[],  # "blue", "red", "green", "yellow"],
                     customdata=[node["customdata"] for node in nodes],
                     hovertemplate="%{label}<br /><br />%{customdata}<extra></extra>",
                 ),
@@ -956,6 +1048,87 @@ def sankey(analysis, category_trees):
     )
 
     fig.show()
+
+
+def stats_of_selected_groups(analysis, category_trees, domains, models):
+    papers_stats = get_papers_stats(
+        analysis, category_trees, [("domains", "abstract_research_topics")]
+    )
+    print(papers_stats[papers_stats.index.isin(domains)])
+    papers_stats[papers_stats.index.isin(domains)].to_pickle("phyl_domains.pkl")
+    papers_stats[papers_stats.index.isin(domains)].reset_index().to_csv(
+        "phyl_domains.csv", index=False, sep="\t"
+    )
+
+    papers_stats = get_papers_stats(
+        analysis,
+        category_trees,
+        [("domains", domain) for domain in domains],
+    )
+    print(papers_stats[papers_stats.index.isin(domains)])
+    papers_stats[papers_stats.index.isin(domains)].to_pickle("phyl_domains.pkl")
+    papers_stats[papers_stats.index.isin(domains)].reset_index().to_csv(
+        "phyl_domains.csv", index=False, sep="\t"
+    )
+
+    # test_something(analysis, category_trees, domains, models)
+
+    papers_with_models = get_papers_per_models(
+        analysis, category_trees["models"], "neural networks", replace_labels=False
+    )[0]
+    print(analysis["attrs"].shape[0])
+    print(papers_with_models["attrs"].shape[0])
+
+    papers_stats = get_papers_stats(
+        papers_with_models, category_trees, [("models", "neural networks")]
+    )
+    print(papers_stats[papers_stats.index.isin(models)])
+    papers_stats = get_papers_stats(
+        papers_with_models, category_trees, [("models", "neural networks")]
+    )
+    print(papers_stats[papers_stats.index.isin(models)])
+
+    df = get_papers_stats(
+        papers_with_models,
+        category_trees,
+        [("models", list(category_trees["models"]["neural networks"].keys()))],
+        aggregate="and",
+    )
+    submodels = sum(
+        [list(d.keys()) for d in category_trees["models"]["neural networks"].values()],
+        [],
+    )
+    print(build_subtree_mapping(category_trees["models"], models[0]))
+    print(df)
+    print(df[df.index.isin(submodels)])
+    breakpoint()
+    papers_stats[papers_stats.index.isin(models)].to_pickle("phyl_models.pkl")
+    papers_stats[papers_stats.index.isin(models)].reset_index().to_csv(
+        "phyl_models.csv", index=False, sep="\t"
+    )
+
+    papers_stats = get_papers_stats(
+        papers_with_models, category_trees, [("models", "convolutional neural network")]
+    )
+    print(papers_stats)
+    papers_stats.to_pickle("phyl_cnn.pkl")
+    papers_stats.reset_index().to_csv("phyl_cnn.csv", index=False, sep="\t")
+
+    papers_stats = get_papers_stats(
+        papers_with_models, category_trees, [("models", "Vision Transformer")]
+    )
+    print(papers_stats)
+
+    papers_stats = get_papers_stats(
+        papers_with_models, category_trees, [("models", "transformer")]
+    )
+    print(papers_stats[-20:])
+    papers_stats[-20:].to_pickle("phyl_transformers.pkl")
+    papers_stats[-20:].reset_index().to_csv(
+        "phyl_transformers.csv", index=False, sep="\t"
+    )
+
+    return
 
 
 def sanity_checks(analysis, papers):
@@ -1008,6 +1181,13 @@ def update_research_fields_based_on_datasets(analysis, category_trees):
             research_fields += dataset_mappings_to_research_fields.get(
                 dataset, [dataset]
             )
+
+        if (
+            "Computer Vision" in research_fields
+            and "Natural Language Processing" in research_fields
+            and not "Vision + NLP" in research_fields
+        ):
+            research_fields.append("Vision + NLP")
 
         return research_fields
 
@@ -1142,6 +1322,75 @@ def main(argv=None):
         papers, options.analysis_folder, selector=lambda paper_path: True
     )
 
+    # Som stats for GNNs
+    print(get_papers_stats(analysis, category_trees, [("datasets", "Graph-based")]))
+    print(
+        get_papers_per_domain(analysis, category_trees["domains"], "Graph-based")[0][
+            "attrs"
+        ]["title"]
+    )
+    print(
+        select_papers(
+            analysis,
+            analysis["datasets"][analysis["datasets"]["name"] == "qm9"][
+                "paper_id"
+            ].unique(),
+        )[0]["models"]
+        .groupby("paper_id")
+        .agg({"name": "count", "title": "first"})
+        .sort_values(by=["name"])
+    )
+
+    print(
+        get_papers_per_models(
+            analysis, category_trees["models"], "graph neural network"
+        )[0]["models"]
+        .groupby("name")
+        .agg({"name": "first", "paper_id": "count", "referenced_paper_title": "first"})
+        .sort_values(by=["paper_id"])
+    )
+
+    # Some stats for RL
+    print(
+        get_papers_per_models(
+            analysis, category_trees["models"], "reinforcement learning"
+        )[0]["models"]
+        .groupby("name")
+        .agg({"name": "first", "paper_id": "count", "referenced_paper_title": "first"})
+        .sort_values(by=["paper_id"])[-10:]
+    )
+
+    # Some stats for RLHF
+    rlhf_papers = get_papers_per_domain(
+        analysis,
+        category_trees["domains"],
+        "Reinforcement Learning from Human Feedback",
+    )[0]["attrs"]["paper_id"]
+
+    def is_from_mila(author):
+        refs = ["mila", "mcgill", "montreal"]
+        for affiliation in author["affiliations"]:
+            print(affiliation)
+            if any(keyword in affiliation["name"].lower() for keyword in refs):
+                print("weeeh")
+                return True
+        print(author["author"]["name"], "oups")
+        return False
+
+    print(
+        "\n".join(
+            [
+                ", ".join(
+                    author["author"]["name"]
+                    for author in paper["authors"]
+                    if is_from_mila(author)
+                )
+                for paper in papers
+                if paper["paper_id"] in rlhf_papers
+            ]
+        )
+    )
+
     print(analysis["attrs"].shape[0], "paper analysis found")
     print(missing_analysis.shape[0], "paper analysis missing")
 
@@ -1156,7 +1405,7 @@ def main(argv=None):
     link_df = pd.DataFrame(links_found.items(), columns=["paper_id", "links"])
     link_df["n_links"] = link_df["links"].str.len()
     print(link_df.groupby("n_links").count())
-    pd.options.display.max_colwidth = 300
+    pd.options.display.max_colwidth = 200
     print(link_df[link_df["links"].str.len() > 1]["links"])
 
     missing_papers_per_sources = get_counts_per_source(missing_analysis)[0]
@@ -1258,6 +1507,36 @@ def main(argv=None):
     #     .first()
     #     .unique(),
     # )[0]
+
+    stats_of_selected_groups(
+        analysis,
+        category_trees,
+        [
+            "Computer Vision",
+            "Natural Language Processing",
+            "Reinforcement Learning and Decision Making",
+            "Graph-based",
+            "Generative Models",
+            "Vision + NLP",
+            "Adversarial Machine Learning",
+        ],
+        [
+            "transformer",
+            "convolutional neural network",
+            "recurrent neural network",
+            "generative flow networks",
+            "generative adversarial network",
+            "graph neural network",
+            "autoencoder",
+            "multi layer perceptron",
+            "diffusion model",
+        ],
+    )
+
+    breakpoint()
+
+    # return
+
     return sankey(analysis, category_trees)
 
     abstract_domains_of_interest = [
