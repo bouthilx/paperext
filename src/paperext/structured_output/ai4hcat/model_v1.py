@@ -64,6 +64,10 @@ def get_applications(category: str, sub_category: str):
     )
 
 
+SYSTEM_MESSAGE = (
+    "Your role is to extract Deep Learning Models, Datasets and Deep Learning "
+    "Libraries from a given research paper."
+)
 FIRST_MESSAGE = (
     "Your main task is to analyze the a Deep Learning scientific paper, assign it "
     "an eco-responsible category and sub-category, and, if possible, extract any "

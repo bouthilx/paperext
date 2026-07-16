@@ -7,6 +7,7 @@ from paperext.structured_output.mdl.convert import (
     _model_dump,
     convert_model_v1,
     convert_model_v2,
+    convert_model_v3,
 )
 
 
@@ -28,6 +29,8 @@ def test_model_dump(cfg):
         ["2401.14487_00", 1, 2],
         ["2401.14487_00", 2, 3],
         ["2402.04821_00", 2, 3],
+        ["2401.14487_00", 3, 4],
+        ["2402.04821_00", 3, 4],
     ],
 )
 def test_convert_model(cfg, query_file: str, from_version: int, dest_version: int):
@@ -42,6 +45,10 @@ def test_convert_model(cfg, query_file: str, from_version: int, dest_version: in
             convert_model = convert_model_v2
             from_model = model_v2
             dest_model = model_v3
+        case 3:
+            convert_model = convert_model_v3
+            from_model = model_v3
+            dest_model = model
         case _:
             raise ValueError(f"Unknown version: {from_version}")
 
