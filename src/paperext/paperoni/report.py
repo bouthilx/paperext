@@ -1,13 +1,14 @@
 import argparse
 import json
-import subprocess
+import urllib.error
 import urllib.parse
+import urllib.request
 from datetime import date, datetime
 from pathlib import Path
 
 from paperext import CFG
 from paperext.log import logger
-from paperext.paperoni.utils import parse_curl
+from paperext.paperoni.utils import parse_curl_headers
 
 # Paperoni migrated from the (now dev-gated) `/report` endpoint to a paginated
 # `/api/v1/search` API. See src/paperext/paperoni/README notes / issue #6.
@@ -33,29 +34,25 @@ def date_type(string: str):
     return datetime.strptime(string, "%Y-%m-%d")
 
 
-def _curl_json(url: str):
+def _get_json(url: str):
     """GET `url` reusing the browser auth from `curl_tokens`, return parsed JSON."""
-    result = subprocess.run(
-        ["curl", "-sS", url, *parse_curl()],
-        capture_output=True,
-        text=True,
-    )
-    if result.returncode != 0:
-        # Raise our own error rather than letting subprocess (check=True) echo the
-        # argv, which contains the auth header from curl_tokens. curl's own stderr
-        # does not include the -H value, so it is safe to surface for diagnostics.
-        raise RuntimeError(
-            f"curl failed (exit {result.returncode}) fetching {url}: "
-            f"{result.stderr.strip()[:200]}"
-        )
+    request = urllib.request.Request(url, headers=parse_curl_headers())
     try:
-        payload = json.loads(result.stdout)
-    except json.decoder.JSONDecodeError as e:
+        with urllib.request.urlopen(request) as response:
+            payload = json.load(response)
+    except urllib.error.HTTPError as e:
+        # The response body (e.g. {"detail": "..."}) is safe to surface; the
+        # request carrying the auth header is not exposed by HTTPError.
+        detail = e.read().decode(errors="replace")[:200]
         raise RuntimeError(
-            f"Paperoni returned a non-JSON response for {url}: {result.stdout[:200]!r}"
+            f"Paperoni request failed (HTTP {e.code}) for {url}: {detail}"
         ) from e
+    except urllib.error.URLError as e:
+        raise RuntimeError(f"Paperoni request failed for {url}: {e.reason}") from e
+    except json.decoder.JSONDecodeError as e:
+        raise RuntimeError(f"Paperoni returned a non-JSON response for {url}") from e
 
-    # Auth / permission errors come back as valid JSON like {"detail": "..."}.
+    # A 200 with an unexpected shape (should not happen, but guard the contract).
     if isinstance(payload, dict) and "results" not in payload:
         raise RuntimeError(f"Unexpected paperoni response for {url}: {payload}")
 
@@ -82,7 +79,7 @@ def fetch_valid_papers(start: str, end: str):
     offset = 0
     while True:
         params = urllib.parse.urlencode({**query, "offset": offset})
-        page = _curl_json(f"{CFG.paperoni.url}{SEARCH_ENDPOINT}?{params}")
+        page = _get_json(f"{CFG.paperoni.url}{SEARCH_ENDPOINT}?{params}")
 
         results = page["results"]
         for paper in results:
