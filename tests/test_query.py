@@ -7,6 +7,7 @@ from paperext.query import (
     get_extraction_response,
     get_first_message,
     get_paper_extractions,
+    get_system_message,
     main,
 )
 from paperext.structured_output import STRUCT_MODULES
@@ -31,6 +32,7 @@ def test_model_struct_from_cfg(cfg, model_struct):
     cfg.platform.struct = model_struct
 
     assert get_first_message() is STRUCT_MODULES[model_struct].FIRST_MESSAGE
+    assert get_system_message() is STRUCT_MODULES[model_struct].SYSTEM_MESSAGE
     assert get_extraction_response() is STRUCT_MODULES[model_struct].ExtractionResponse
     assert get_paper_extractions() is STRUCT_MODULES[model_struct].PaperExtractions
 

@@ -20,6 +20,10 @@ def get_first_message() -> str:
     return STRUCT_MODULES[CFG.platform.struct].FIRST_MESSAGE
 
 
+def get_system_message() -> str:
+    return STRUCT_MODULES[CFG.platform.struct].SYSTEM_MESSAGE
+
+
 def get_extraction_response() -> (
     ai4hcat.model.ExtractionResponse | mdl.model.ExtractionResponse
 ):
@@ -134,10 +138,7 @@ async def extract_from_research_paper(
                 messages=[
                     {
                         "role": "system",
-                        "content": f"Your role is to extract Deep Learning Models, Datasets and Deep Learning Libraries from a given research paper.",
-                        #  f"The Models, Datasets and Frameworks must be used in the paper "
-                        #  f"and / or the comparison analysis of the results of the "
-                        #  f"paper. The papers provided will be a convertion from pdf to text, which could imply some formatting issues.",
+                        "content": get_system_message(),
                     },
                     {
                         "role": "user",

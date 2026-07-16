@@ -158,7 +158,7 @@ def convert_model_v1(extractions: model_v1.PaperExtractions):
 
 
 def convert_model_v2(extractions: model_v2.PaperExtractions):
-    from paperext.structured_output.mdl import model as dest_model
+    from paperext.structured_output.mdl import model_v3 as dest_model
 
     def convert_enum(enum_cls, value):
         try:
