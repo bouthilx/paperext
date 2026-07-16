@@ -8,7 +8,7 @@ from pathlib import Path
 
 from paperext import CFG
 from paperext.log import logger
-from paperext.paperoni.utils import parse_curl_headers
+from paperext.paperoni.utils import auth_headers
 
 # Paperoni migrated from the (now dev-gated) `/report` endpoint to a paginated
 # `/api/v1/search` API. See src/paperext/paperoni/README notes / issue #6.
@@ -35,8 +35,8 @@ def date_type(string: str):
 
 
 def _get_json(url: str):
-    """GET `url` reusing the browser auth from `curl_tokens`, return parsed JSON."""
-    request = urllib.request.Request(url, headers=parse_curl_headers())
+    """GET `url` with the Paperoni API token, return parsed JSON."""
+    request = urllib.request.Request(url, headers=auth_headers())
     try:
         with urllib.request.urlopen(request) as response:
             payload = json.load(response)
