@@ -7,7 +7,7 @@ import yaml
 from pydantic import BaseModel
 
 from paperext import CFG
-from paperext.structured_output.mdl import model_v1, model_v2
+from paperext.structured_output.mdl import model_v1, model_v2, model_v3
 from paperext.structured_output.utils import model_dump_yaml
 from paperext.utils import split_entry, str_eq
 
@@ -249,15 +249,81 @@ def convert_model_v2(extractions: model_v2.PaperExtractions):
     return dest_model.PaperExtractions(**{k: _model_dump(v) for k, v in fields.items()})
 
 
+def convert_model_v3(extractions: model_v3.PaperExtractions):
+    from paperext.structured_output.mdl import model as dest_model
+
+    fields = {}
+
+    for field_name, field in extractions:
+        if field_name in ("models",):
+            fields[field_name] = []
+            for m in extractions.models:
+                m = dest_model.RefModel(
+                    name=m.name.model_dump(),
+                    aliases=m.aliases,
+                    is_contributed=m.is_contributed.model_dump(),
+                    is_executed=m.is_executed.model_dump(),
+                    is_compared=m.is_compared.model_dump(),
+                    # New in v4. The stored extraction was produced without these
+                    # fields and the paper is not re-read here, so default to
+                    # `unknown` with no grounding quote/justification.
+                    execution_mode=dest_model.Explained(
+                        value=dest_model.ExecutionMode.UNKNOWN,
+                        justification="",
+                        quote="",
+                    ).model_dump(),
+                    parameter_count=dest_model.Explained(
+                        value="unknown",
+                        justification="",
+                        quote="",
+                    ).model_dump(),
+                    referenced_paper_title=m.referenced_paper_title.model_dump(),
+                )
+                fields[field_name].append(m)
+
+        else:
+            fields[field_name] = field
+
+    return dest_model.PaperExtractions(**{k: _model_dump(v) for k, v in fields.items()})
+
+
 CONVERT_MODEL = {
     model_v1: convert_model_v1,
     model_v2: convert_model_v2,
+    model_v3: convert_model_v3,
 }
+
+# Ordered conversion chain: each module maps to a converter producing the next
+# version, ending at the `model` proxy (currently v4).
+CONVERT_CHAIN = [model_v1, model_v2, model_v3]
+
+
+def _detect_version(model_data):
+    """Return (module, response, extractions) for the newest version that
+    validates. `module` is the `model` proxy when the data is already up to date.
+    `response` is the ExtractionResponse wrapper or None when the data is a bare
+    PaperExtractions."""
+    from paperext.structured_output.mdl import model as dest_model
+
+    # Newest first: v4 files also validate as older PaperExtractions (extra
+    # fields are ignored), so the proxy must be tried before the older versions.
+    for module in (dest_model, *reversed(CONVERT_CHAIN)):
+        try:
+            response = module.ExtractionResponse.model_validate(model_data)
+            return module, response, response.extractions
+        except pydantic_core._pydantic_core.ValidationError:
+            pass
+        try:
+            extractions = module.PaperExtractions.model_validate(model_data)
+            return module, None, extractions
+        except pydantic_core._pydantic_core.ValidationError:
+            pass
+
+    return None, None, None
 
 
 if __name__ == "__main__":
     from paperext.structured_output.mdl import model as dest_model
-    from paperext.structured_output.mdl import model_v2 as src_model
 
     for path in sorted(
         sum(
@@ -282,36 +348,19 @@ if __name__ == "__main__":
         except json.decoder.JSONDecodeError:
             model_data = yaml.safe_load(model_data)
 
-        for model_cls in (
-            *[m.PaperExtractions for m in (dest_model, src_model)],
-            *[m.ExtractionResponse for m in (dest_model, src_model)],
-        ):
-            try:
-                extractions = model_cls.model_validate(model_data)
-                break
-            except pydantic_core._pydantic_core.ValidationError as _e:
-                e = _e
-                logging.warning(
-                    f"Failed to validate json {path} of model {model_cls}",
-                    exc_info=True,
-                )
-        else:
-            raise e
+        module, response, extractions = _detect_version(model_data)
 
-        try:
-            # extractions might be a [dest_model | src_model].ExtractionResponse
-            response: src_model.ExtractionResponse = extractions
-            extractions = response.extractions
-        except AttributeError:
-            # extractions is of type [dest_model | src_model].PaperExtractions
-            response = None
+        if module is None:
+            raise ValueError(f"Could not validate {path} against any model version")
 
-        if isinstance(extractions, dest_model.PaperExtractions):
+        if module is dest_model:
             logging.info(f"Model {path.relative_to(CFG.dir.root)} already updated")
             continue
 
         logging.info(f"Updating {path.relative_to(CFG.dir.root)}")
-        extractions = CONVERT_MODEL[src_model](extractions)
+        # Chain converters from the detected version up to the proxy (v4).
+        for src_model in CONVERT_CHAIN[CONVERT_CHAIN.index(module) :]:
+            extractions = CONVERT_MODEL[src_model](extractions)
 
         if response is not None:
             src = dest_model.ExtractionResponse(
