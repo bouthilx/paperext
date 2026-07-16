@@ -36,12 +36,18 @@ def date_type(string: str):
 def _curl_json(url: str):
     """GET `url` reusing the browser auth from `curl_tokens`, return parsed JSON."""
     result = subprocess.run(
-        # TODO: remove --insecure as soon as the certificate becomes valid again
-        ["curl", "-sS", "--insecure", url, *parse_curl()],
+        ["curl", "-sS", url, *parse_curl()],
         capture_output=True,
         text=True,
-        check=True,
     )
+    if result.returncode != 0:
+        # Raise our own error rather than letting subprocess (check=True) echo the
+        # argv, which contains the auth header from curl_tokens. curl's own stderr
+        # does not include the -H value, so it is safe to surface for diagnostics.
+        raise RuntimeError(
+            f"curl failed (exit {result.returncode}) fetching {url}: "
+            f"{result.stderr.strip()[:200]}"
+        )
     try:
         payload = json.loads(result.stdout)
     except json.decoder.JSONDecodeError as e:
