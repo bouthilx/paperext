@@ -11,7 +11,8 @@ Two ways to specify the cut (mirroring the two mechanisms in the codebase):
 - ``cut = <iterable of dot-paths>`` — *per-branch* cut nodes, e.g. loaded from a
   milabench-style file like ``data/mdl/evaluation/model_categories/milabenchv1``.
   Every node rolls up to its **nearest** ancestor (or itself) whose dot-path is in
-  the set.
+  the set. A single dot-path may be passed as a bare ``str`` (treated as one entry).
+  Cut dot-paths are matched from the **root**, exactly as in the milabench file.
 
 Semantics (locked in #16):
 
@@ -138,6 +139,11 @@ def roll_up(
     if isinstance(cut, bool):  # bool is an int subclass; reject it explicitly
         raise TypeError("cut must be an int depth or an iterable of dot-paths")
 
+    if isinstance(cut, str):
+        # A bare string is iterable char-by-char; treat it as a single cut node
+        # rather than silently rolling every node up to Other.
+        cut = [cut]
+
     if isinstance(cut, int):
         if cut < 1:
             raise ValueError(f"depth cut must be >= 1, got {cut}")
@@ -149,8 +155,19 @@ def roll_up(
 
     all_paths: "set[str]" = set()
     mapping: "dict[str, str]" = {}
+    seen_reserved = False
     for norm_path, raw_path in _iter_nodes(tree):
         all_paths.add(".".join(norm_path))
+
+        if raw_path[-1] == OTHER and not seen_reserved:
+            # A real node named exactly like the fallback bucket would be
+            # indistinguishable from it in the output.
+            seen_reserved = True
+            logger.warning(
+                "tree contains a node named %r, the reserved fallback label; "
+                "its counts will merge with unmatched nodes",
+                OTHER,
+            )
 
         if norm_path[0] in drop:
             continue

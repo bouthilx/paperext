@@ -194,6 +194,28 @@ def test_conflict_prefers_non_other_regardless_of_order():
     assert roll_up(tree_b, ["a"])["dup"] == "a"
 
 
+# --- cut passed as a bare string ------------------------------------------
+
+
+def test_string_cut_is_single_entry_not_char_iterable():
+    # A bare string must be one cut node, not iterated character-by-character.
+    m = roll_up(TREE, "algorithms.reinforcement learning")
+    assert m["bcq"] == "reinforcement learning"
+    assert m["adam"] == OTHER
+
+
+# --- reserved fallback label ----------------------------------------------
+
+
+def test_node_named_like_fallback_warns(caplog):
+    import logging
+
+    tree = {"algorithms": {"Other": {"child": {}}}}
+    with caplog.at_level(logging.WARNING, logger="paperext.analysis.rollup"):
+        roll_up(tree, 2)
+    assert any("reserved fallback label" in r.message for r in caplog.records)
+
+
 # --- input validation -----------------------------------------------------
 
 
