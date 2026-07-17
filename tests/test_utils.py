@@ -5,6 +5,7 @@ from pathlib import Path
 
 import paperext.utils
 from paperext.config import Config
+from paperext.paths import platform_bucket
 from paperext.utils import (
     Paper,
     build_validation_set,
@@ -39,9 +40,7 @@ def test_paper(cfg: Config):
     # When it exists, the filename of an existing a query file should be used to
     # infer the paper id
     expected_id = arxiv_id
-    expected_query_files = [
-        cfg.dir.queries / cfg.platform.select / f"{expected_id}_00.json"
-    ]
+    expected_query_files = [platform_bucket(cfg.dir.queries) / f"{expected_id}_00.json"]
     # Paperoni's newer cache structure should be used as the older path
     # structure is not present in test data
     expected_pdf = cfg.dir.cache / f"fulltext/{p['paper_id']}/fulltext.txt"
@@ -59,9 +58,7 @@ def test_paper(cfg: Config):
     # When it exists, the filename of an existing a query file should be used to
     # infer the paper id
     expected_id = f"query_{arxiv_id}"
-    expected_query_files = [
-        cfg.dir.queries / cfg.platform.select / f"{expected_id}_00.json"
-    ]
+    expected_query_files = [platform_bucket(cfg.dir.queries) / f"{expected_id}_00.json"]
     # There is no pdf file for this id, only the query file exists in test data
     expected_pdf = None
 
@@ -157,12 +154,12 @@ def test_multiple_sources(cfg: Config):
 
     # With only a single query file of the other source for each arxiv and openreview
     _cp(
-        cfg.dir.queries / f"openai/{openreview_id}_00.json",
-        arxiv_cfg.dir.queries / f"openai/{openreview_id}_00.json",
+        cfg.dir.queries / f"openai/gpt-4o/{openreview_id}_00.json",
+        arxiv_cfg.dir.queries / f"openai/gpt-4o/{openreview_id}_00.json",
     )
     _cp(
-        cfg.dir.queries / f"openai/{arxiv_id}_00.json",
-        openreview_cfg.dir.queries / f"openai/{arxiv_id}_00.json",
+        cfg.dir.queries / f"openai/gpt-4o/{arxiv_id}_00.json",
+        openreview_cfg.dir.queries / f"openai/gpt-4o/{arxiv_id}_00.json",
     )
 
     _, arxiv_paper, openreview_paper = _get_papers()
@@ -180,12 +177,12 @@ def test_multiple_sources(cfg: Config):
 
     # With both query files for each arxiv and openreview
     _cp(
-        cfg.dir.queries / f"openai/{arxiv_id}_00.json",
-        arxiv_cfg.dir.queries / f"openai/{arxiv_id}_00.json",
+        cfg.dir.queries / f"openai/gpt-4o/{arxiv_id}_00.json",
+        arxiv_cfg.dir.queries / f"openai/gpt-4o/{arxiv_id}_00.json",
     )
     _cp(
-        cfg.dir.queries / f"openai/{openreview_id}_00.json",
-        openreview_cfg.dir.queries / f"openai/{openreview_id}_00.json",
+        cfg.dir.queries / f"openai/gpt-4o/{openreview_id}_00.json",
+        openreview_cfg.dir.queries / f"openai/gpt-4o/{openreview_id}_00.json",
     )
 
     paper, arxiv_paper, openreview_paper = _get_papers()

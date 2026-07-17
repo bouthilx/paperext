@@ -23,7 +23,7 @@ def set_cfg(cfg, monkeypatch):
 def clean_up(cfg):
     yield
 
-    for query_file in cfg.dir.queries.glob(f"*/new_*.json"):
+    for query_file in cfg.dir.queries.glob(f"**/new_*.json"):
         query_file.unlink(missing_ok=True)
 
 
@@ -90,7 +90,9 @@ def test_query(
     assert (
         len(
             list(
-                paperext.query.CFG.dir.queries.glob(f"{platform}/new_1234.12345_*.json")
+                paperext.query.CFG.dir.queries.glob(
+                    f"{platform}/*/new_1234.12345_*.json"
+                )
             )
         )
         == 1
