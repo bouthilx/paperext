@@ -330,10 +330,10 @@ if __name__ == "__main__":
             map(
                 lambda p: sorted(
                     [
-                        *p.glob(f"*.json"),
-                        *p.glob(f"*.yaml"),
-                        *p.glob(f"*/*.json"),
-                        *p.glob(f"*/*.yaml"),
+                        # Recursive: results are bucketed <provider>/<model>/
+                        # (A7 #27), so extractions live several levels deep.
+                        *p.rglob(f"*.json"),
+                        *p.rglob(f"*.yaml"),
                     ]
                 ),
                 [CFG.dir.merged, CFG.dir.queries],

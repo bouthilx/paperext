@@ -12,6 +12,7 @@ import pydantic_core
 
 from paperext import CFG
 from paperext.log import logger
+from paperext.paths import platform_bucket
 from paperext.structured_output import STRUCT_MODULES, ai4hcat, mdl
 from paperext.utils import Paper, build_validation_set
 
@@ -317,7 +318,7 @@ def main(argv=None):
         ignore_exceptions(
             client,
             [paper.absolute() for paper in papers],
-            destination=CFG.dir.queries / CFG.platform.select,
+            destination=platform_bucket(CFG.dir.queries),
         )
     )
 

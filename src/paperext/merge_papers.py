@@ -18,6 +18,7 @@ from pygments.lexers.data import YamlLexer
 
 from paperext import CFG
 from paperext.log import logger
+from paperext.paths import bucket
 from paperext.structured_output.mdl.model import (
     ExtractionResponse,
     PaperExtractions,
@@ -408,7 +409,12 @@ def get_papers_from_file(
             .lower()
             .replace("\n", " ")
         )
-        responses = list((CFG.dir.queries / "openai").glob(f"{paper_id}_[0-9]*.json"))
+        # Historical 2024 corpus, relocated to <provider>/<model>/ by A7 (#27).
+        responses = list(
+            bucket(CFG.dir.queries, "openai", "legacy-2024").glob(
+                f"{paper_id}_[0-9]*.json"
+            )
+        )
         if not responses:
             logger.info(f"No responses found for {paper_id}\nSkipping...")
             continue
@@ -424,7 +430,8 @@ def get_papers_from_file(
 
 
 def get_papers_from_folder() -> List[Tuple[str, Path, ExtractionResponse]]:
-    responses = (CFG.dir.queries / "openai").glob("*.json")
+    # Historical 2024 corpus, relocated to <provider>/<model>/ by A7 (#27).
+    responses = bucket(CFG.dir.queries, "openai", "legacy-2024").glob("*.json")
 
     extractions_tuple = []
     for response_path in responses:

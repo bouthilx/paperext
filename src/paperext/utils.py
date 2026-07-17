@@ -6,6 +6,7 @@ from pathlib import Path
 
 from paperext import CFG
 from paperext.log import logger
+from paperext.paths import platform_bucket
 
 ROOT_FOLDER = Path(__file__).resolve().parent.parent
 PAPERS_TO_IGNORE = {
@@ -42,7 +43,7 @@ class Paper:
         self._queries = sum(
             [
                 sorted(
-                    (CFG.dir.queries / CFG.platform.select).glob(f"{link_id}_*.json")
+                    platform_bucket(CFG.dir.queries).glob(f"{link_id}_*.json")
                 )
                 for link_id in link_ids
             ],
