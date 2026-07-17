@@ -37,6 +37,17 @@ def selected_model() -> str:
     return getattr(CFG, CFG.platform.select).model
 
 
+def bucket(base: Path, provider: str, model: str) -> Path:
+    """``base / <provider> / <model-slug>`` for an explicit provider + model.
+
+    Use this to read or compare results across providers/models -- e.g. the
+    bake-off scoring several arms, or cross-model analysis -- without mutating
+    the global ``CFG.platform`` selection. ``platform_bucket`` is the wrapper
+    that resolves both arguments from the current selection.
+    """
+    return Path(base) / provider / model_slug(model)
+
+
 def platform_bucket(base: Path) -> Path:
-    """``base / <provider> / <model-slug>`` for the current platform + model."""
-    return Path(base) / CFG.platform.select / model_slug(selected_model())
+    """``bucket`` for the currently selected platform and its configured model."""
+    return bucket(base, CFG.platform.select, selected_model())

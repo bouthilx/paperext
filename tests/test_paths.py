@@ -3,7 +3,7 @@ from pathlib import Path
 import pytest
 
 from paperext.config import CFG
-from paperext.paths import model_slug, platform_bucket, selected_model
+from paperext.paths import bucket, model_slug, platform_bucket, selected_model
 
 
 @pytest.mark.parametrize(
@@ -39,9 +39,34 @@ def test_selected_model_reads_selected_platform_section():
     assert selected_model() == CFG.openai.model == "gpt-4o"
 
 
+def test_bucket_takes_explicit_provider_and_model():
+    base = Path("/tmp/queries")
+    # Independent of the current CFG selection -- the comparison use case.
+    assert bucket(base, "claude", "claude-3-5-sonnet@20240620") == (
+        base / "claude" / "claude-3-5-sonnet-20240620"
+    )
+    assert bucket(base, "openai", "legacy-2024") == base / "openai" / "legacy-2024"
+
+
+def test_bucket_does_not_read_global_selection():
+    base = Path("/tmp/queries")
+    assert CFG.platform.select == "openai"
+    # A different provider/model resolves regardless of the active selection.
+    assert bucket(base, "vertexai", "models/gemini-1.5-pro") == (
+        base / "vertexai" / "models-gemini-1.5-pro"
+    )
+
+
 def test_platform_bucket_nests_provider_and_model():
     base = Path("/tmp/queries")
     assert platform_bucket(base) == base / "openai" / "gpt-4o"
+
+
+def test_platform_bucket_delegates_to_bucket():
+    base = Path("/tmp/queries")
+    assert platform_bucket(base) == bucket(
+        base, CFG.platform.select, selected_model()
+    )
 
 
 def test_platform_bucket_follows_runtime_platform_switch():
