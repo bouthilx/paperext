@@ -103,35 +103,64 @@ def node_dim(tree_path):
 
 def test_within_paper_category_dedup(depth2_dim):
     # Two models in the same category -> that category counted once for the paper.
+    # Assert the *whole* dict so a stray extra bucket would fail.
     papers = [make_paper(models=["ppo", "dqn"])]
     res = aggregate(papers, depth2_dim)
-    assert res.category_counts["reinforcement learning"] == 1
-    # ... but each distinct name is still counted once.
-    assert res.name_counts["ppo"] == 1
-    assert res.name_counts["dqn"] == 1
+    assert res.category_counts == {"reinforcement learning": 1}
+    # ... but each distinct name is still counted once, and nothing else appears.
+    assert res.name_counts == {"ppo": 1, "dqn": 1}
 
 
 def test_non_exclusive_across_categories(depth2_dim):
-    # One paper spanning two categories counts toward both.
+    # One paper spanning two categories counts toward both, and only those.
     papers = [make_paper(models=["ppo", "adam"])]
     res = aggregate(papers, depth2_dim)
-    assert res.category_counts["reinforcement learning"] == 1
-    assert res.category_counts["optimizer"] == 1
+    assert res.category_counts == {"reinforcement learning": 1, "optimizer": 1}
 
 
 def test_alias_folds_at_category_level(depth2_dim):
-    # resnet and its nested alias resnet-50 both roll up to cnn.
+    # resnet and its nested alias resnet-50 both roll up to cnn (2 papers -> 2),
+    # but the two distinct names are tracked separately at the name level.
     papers = [make_paper(models=["resnet"]), make_paper(models=["resnet-50"])]
     res = aggregate(papers, depth2_dim)
-    assert res.category_counts["cnn"] == 2
+    assert res.category_counts == {"cnn": 2}
+    assert res.name_counts == {"resnet": 1, "resnet50": 1}
 
 
 def test_paper_frequency_not_mention_frequency(depth2_dim):
     # Three mentions of ppo in one paper is still one paper.
     papers = [make_paper(models=["ppo", "ppo", "ppo"])]
     res = aggregate(papers, depth2_dim)
-    assert res.name_counts["ppo"] == 1
-    assert res.category_counts["reinforcement learning"] == 1
+    assert res.name_counts == {"ppo": 1}
+    assert res.category_counts == {"reinforcement learning": 1}
+
+
+def test_cumulative_counts_across_papers(depth2_dim):
+    # Counts must accumulate above 1 and land in the right buckets: ppo in 3
+    # papers, dqn in 1 (both RL -> RL should be 3, deduped per paper), adam in 2
+    # (optimizer), resnet in 1 (cnn).
+    papers = [
+        make_paper(models=["ppo"]),
+        make_paper(models=["ppo", "dqn"]),  # RL counted once for this paper
+        make_paper(models=["ppo", "adam"]),
+        make_paper(models=["adam", "resnet"]),
+    ]
+    res = aggregate(papers, depth2_dim)
+    assert res.category_counts == {
+        "reinforcement learning": 3,
+        "optimizer": 2,
+        "cnn": 1,
+    }
+    assert res.name_counts == {"ppo": 3, "dqn": 1, "adam": 2, "resnet": 1}
+    # global_prop is count / n_papers.
+    cat_rows = {r[0]: r for r in res.category_rows()}
+    assert cat_rows["reinforcement learning"][2] == pytest.approx(3 / 4)
+    # rows come back ranked by count desc.
+    assert [r[0] for r in res.category_rows()] == [
+        "reinforcement learning",
+        "optimizer",
+        "cnn",
+    ]
 
 
 # --- Other policy -----------------------------------------------------------
@@ -141,22 +170,20 @@ def test_inclusive_other_counts_even_with_selected(node_dim):
     # Paper has a selected model (ppo) AND an unselected one (adam -> Other).
     papers = [make_paper(models=["ppo", "adam"])]
     res = aggregate(papers, node_dim, other_policy="inclusive")
-    assert res.category_counts["reinforcement learning"] == 1
-    assert res.category_counts["Other"] == 1
+    assert res.category_counts == {"reinforcement learning": 1, "Other": 1}
 
 
 def test_residual_other_excludes_papers_with_a_selected_bucket(node_dim):
     papers = [
         make_paper(models=["ppo", "adam"]),  # has a selected bucket -> not Other
         make_paper(models=["adam"]),  # only Other -> counts as residual Other
+        make_paper(models=["dqn"]),  # selected only -> bumps RL to 2, no Other
     ]
     inc = aggregate(papers, node_dim, other_policy="inclusive")
     res = aggregate(papers, node_dim, other_policy="residual")
-    assert inc.category_counts["Other"] == 2
-    assert res.category_counts["Other"] == 1
-    # Non-Other counts are identical under both policies.
-    assert inc.category_counts["reinforcement learning"] == 1
-    assert res.category_counts["reinforcement learning"] == 1
+    # Full dicts: only the Other row differs between policies; RL accumulates to 2.
+    assert inc.category_counts == {"reinforcement learning": 2, "Other": 2}
+    assert res.category_counts == {"reinforcement learning": 2, "Other": 1}
 
 
 def test_residual_other_dropped_when_empty(node_dim):
@@ -171,18 +198,20 @@ def test_residual_other_dropped_when_empty(node_dim):
 def test_ignore_branch_dropped_not_counted(depth2_dim):
     papers = [make_paper(models=["badname"])]
     res = aggregate(papers, depth2_dim)
-    assert "badname" not in res.name_counts
+    # Dropped everywhere: not a name, not a category, not flagged unmapped.
+    assert res.name_counts == {}
+    assert res.category_counts == {}
+    assert res.unmapped_names == set()
     assert res.n_papers == 1
     assert res.n_papers_with_dim == 0  # the only item was dropped
-    assert "badname" not in res.unmapped_names
 
 
 def test_unknown_name_is_unmapped_other(depth2_dim):
     papers = [make_paper(models=["totallynovelmodel"])]
     res = aggregate(papers, depth2_dim)
-    assert res.name_counts["totallynovelmodel"] == 1
-    assert res.category_counts["Other"] == 1
-    assert "totallynovelmodel" in res.unmapped_names
+    assert res.name_counts == {"totallynovelmodel": 1}
+    assert res.category_counts == {"Other": 1}
+    assert res.unmapped_names == {"totallynovelmodel"}
 
 
 # --- display name recovery / aliases in extraction --------------------------
@@ -200,8 +229,9 @@ def test_extraction_alias_resolves(depth2_dim):
     # Primary name unknown, but an alias matches a tree node.
     papers = [make_paper(models=[("some marketing name", ["resnet-50"])])]
     res = aggregate(papers, depth2_dim)
-    assert res.category_counts["cnn"] == 1
-    assert "resnet50" in res.name_counts
+    assert res.category_counts == {"cnn": 1}
+    # Resolved by alias, so the item keys on the matched node, not the raw name.
+    assert res.name_counts == {"resnet50": 1}
 
 
 # --- research fields --------------------------------------------------------
@@ -212,10 +242,12 @@ def test_research_fields_fan_primary_and_sub(tmp_path):
     p = tmp_path / "dom.json"
     p.write_text(json.dumps(tree))
     dim = build_maps(Dimension("research_fields", p, 1))
-    papers = [make_paper(primary_rf="computer vision", sub_rfs=["language"])]
+    papers = [
+        make_paper(primary_rf="computer vision", sub_rfs=["language"]),
+        make_paper(primary_rf="computer vision"),  # vision -> 2, nlp -> 1
+    ]
     res = aggregate(papers, dim)
-    assert res.category_counts["vision"] == 1
-    assert res.category_counts["nlp"] == 1
+    assert res.category_counts == {"vision": 2, "nlp": 1}
 
 
 # --- no-tree dimension (datasets/libraries by name) -------------------------
@@ -229,10 +261,9 @@ def test_no_tree_dimension_reports_by_name():
         make_paper(datasets=["CIFAR-10"]),
     ]
     res = aggregate(papers, dim)
-    # Each name is its own category; raw display preserved.
-    assert res.category_counts["CIFAR-10"] == 2
-    assert res.category_counts["ImageNet"] == 1
-    assert res.name_counts["cifar10"] == 2
+    # Each name is its own category; raw display preserved; nothing else appears.
+    assert res.category_counts == {"CIFAR-10": 2, "ImageNet": 1}
+    assert res.name_counts == {"cifar10": 2, "imagenet": 1}
 
 
 # --- validation -------------------------------------------------------------

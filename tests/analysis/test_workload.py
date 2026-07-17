@@ -108,11 +108,14 @@ def test_is_executed_split(depth2_dim):
         )
     ]
     res = aggregate_split(papers, depth2_dim, IS_EXECUTED)
-    # Both models are in the RL category, one executed one referenced.
-    assert res.category_split_counts[("reinforcement learning", "executed")] == 1
-    assert res.category_split_counts[("reinforcement learning", "referenced")] == 1
+    # Both models are in the RL category, one executed one referenced; assert the
+    # whole cell dict so no stray cell can hide.
+    assert res.category_split_counts == {
+        ("reinforcement learning", "executed"): 1,
+        ("reinforcement learning", "referenced"): 1,
+    }
     # Union over splits: the paper counts once in the category.
-    assert res.category_counts["reinforcement learning"] == 1
+    assert res.category_counts == {"reinforcement learning": 1}
 
 
 def test_execution_mode_split(depth2_dim):
@@ -122,9 +125,12 @@ def test_execution_mode_split(depth2_dim):
         make_paper(models=[{"name": "adam", "execution_mode": "inference"}]),
     ]
     res = aggregate_split(papers, depth2_dim, EXECUTION_MODE)
-    assert res.category_split_counts[("reinforcement learning", "train")] == 1
-    assert res.category_split_counts[("reinforcement learning", "finetune")] == 1
-    assert res.category_split_counts[("optimizer", "inference")] == 1
+    assert res.category_split_counts == {
+        ("reinforcement learning", "train"): 1,
+        ("reinforcement learning", "finetune"): 1,
+        ("optimizer", "inference"): 1,
+    }
+    assert res.category_counts == {"reinforcement learning": 2, "optimizer": 1}
 
 
 def test_role_split_datasets(datasets_dim):
@@ -137,8 +143,47 @@ def test_role_split_datasets(datasets_dim):
         )
     ]
     res = aggregate_split(papers, datasets_dim, ROLE)
-    assert res.category_split_counts[("CIFAR-10", "used")] == 1
-    assert res.category_split_counts[("MyData", "contributed")] == 1
+    assert res.category_split_counts == {
+        ("CIFAR-10", "used"): 1,
+        ("MyData", "contributed"): 1,
+    }
+
+
+def test_cumulative_split_counts(depth2_dim):
+    # Cells and totals must accumulate above 1. ppo executed in 3 papers, dqn
+    # referenced in 2 (both RL); adam executed in 1 (optimizer). Same-category
+    # items with different splits land in different cells, but the paper is only
+    # counted once per (category, split) and once in the union total.
+    papers = [
+        make_paper(models=[{"name": "ppo", "is_executed": True}]),
+        make_paper(models=[{"name": "ppo", "is_executed": True}]),
+        make_paper(
+            models=[
+                {"name": "ppo", "is_executed": True},
+                {"name": "dqn", "is_executed": False},
+            ]
+        ),
+        make_paper(
+            models=[
+                {"name": "dqn", "is_executed": False},
+                {"name": "adam", "is_executed": True},
+            ]
+        ),
+    ]
+    res = aggregate_split(papers, depth2_dim, IS_EXECUTED)
+    assert res.category_split_counts == {
+        ("reinforcement learning", "executed"): 3,  # papers 1,2,3 have executed ppo
+        ("reinforcement learning", "referenced"): 2,  # papers 3,4 have referenced dqn
+        ("optimizer", "executed"): 1,
+    }
+    # Union totals: RL in 4 distinct papers, optimizer in 1.
+    assert res.category_counts == {"reinforcement learning": 4, "optimizer": 1}
+    assert res.name_split_counts == {
+        ("ppo", "executed"): 3,
+        ("dqn", "referenced"): 2,
+        ("adam", "executed"): 1,
+    }
+    assert res.name_counts == {"ppo": 3, "dqn": 2, "adam": 1}
 
 
 # --- reconciliation with E1b ------------------------------------------------
@@ -154,9 +199,14 @@ def test_unsplit_reconciles_with_frequency_inclusive(node_dim):
             ]
         ),
         make_paper(models=[{"name": "resnet"}]),  # Other under node cut
+        make_paper(models=[{"name": "dqn"}]),  # selected -> RL bumps to 2
     ]
     freq = aggregate(papers, node_dim, other_policy="inclusive")
     wl = aggregate_split(papers, node_dim, IS_EXECUTED, other_policy="inclusive")
+    # Concrete expected values (so both sides aren't just identically wrong)...
+    assert freq.category_counts == {"reinforcement learning": 2, "Other": 2}
+    assert freq.name_counts == {"ppo": 1, "adam": 1, "resnet": 1, "dqn": 1}
+    # ... and the workload union reproduces them exactly.
     assert wl.category_counts == freq.category_counts
     assert wl.name_counts == freq.name_counts
 
@@ -165,9 +215,11 @@ def test_unsplit_reconciles_with_frequency_residual(node_dim):
     papers = [
         make_paper(models=[{"name": "ppo"}, {"name": "adam"}]),  # selected + Other
         make_paper(models=[{"name": "adam"}]),  # only Other
+        make_paper(models=[{"name": "ppo"}]),  # selected -> RL bumps to 2
     ]
     freq = aggregate(papers, node_dim, other_policy="residual")
     wl = aggregate_split(papers, node_dim, IS_EXECUTED, other_policy="residual")
+    assert freq.category_counts == {"reinforcement learning": 2, "Other": 1}
     assert wl.category_counts == freq.category_counts
 
 
@@ -186,13 +238,19 @@ def test_residual_other_split_drops_papers_with_selected(node_dim):
     ]
     inc = aggregate_split(papers, node_dim, IS_EXECUTED, other_policy="inclusive")
     res = aggregate_split(papers, node_dim, IS_EXECUTED, other_policy="residual")
-    # Inclusive: both papers' Other items counted (executed once, referenced once).
-    assert inc.category_split_counts[("Other", "executed")] == 1
-    assert inc.category_split_counts[("Other", "referenced")] == 1
-    # Residual: the first paper had a selected bucket -> its Other item is dropped;
-    # only the second (Other-only, referenced) survives.
-    assert res.category_split_counts.get(("Other", "executed"), 0) == 0
-    assert res.category_split_counts[("Other", "referenced")] == 1
+    # Inclusive: both papers' Other items counted (executed once, referenced once);
+    # the selected RL cell is untouched by the policy.
+    assert inc.category_split_counts == {
+        ("reinforcement learning", "executed"): 1,
+        ("Other", "executed"): 1,
+        ("Other", "referenced"): 1,
+    }
+    # Residual: the first paper had a selected bucket -> its Other cell is dropped;
+    # only the second (Other-only, referenced) survives. RL cell unchanged.
+    assert res.category_split_counts == {
+        ("reinforcement learning", "executed"): 1,
+        ("Other", "referenced"): 1,
+    }
 
 
 # --- ignore dropped ---------------------------------------------------------
