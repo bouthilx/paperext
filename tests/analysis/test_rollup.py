@@ -216,6 +216,39 @@ def test_node_named_like_fallback_warns(caplog):
     assert any("reserved fallback label" in r.message for r in caplog.records)
 
 
+# --- empty cut ------------------------------------------------------------
+
+
+def test_empty_cut_warns_and_maps_all_to_other(caplog):
+    import logging
+
+    with caplog.at_level(logging.WARNING, logger="paperext.analysis.rollup"):
+        m = roll_up(TREE, [])
+    assert set(m.values()) == {OTHER}
+    assert any("cut is empty" in r.message for r in caplog.records)
+
+
+# --- normalizer parity (guards silent drift) ------------------------------
+
+
+def test_str_normalize_matches_canonical():
+    # The whole pipeline's canonicalization depends on this staying identical to
+    # structured_output.utils.str_normalize; guard against drift.
+    utils = pytest.importorskip("paperext.structured_output.utils")
+    for s in [
+        "ResNet-50",
+        "GPT-3.5",
+        "ν3 decay",
+        "(CNN)",
+        "multi layer perceptron",
+        "soft actor-critic (SAC)",
+        "a_b/c",
+        "x²",
+        "",
+    ]:
+        assert str_normalize(s) == utils.str_normalize(s)
+
+
 # --- input validation -----------------------------------------------------
 
 

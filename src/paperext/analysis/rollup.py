@@ -150,6 +150,8 @@ def roll_up(
         cutset = None
     else:
         cutset = {_normalize_path(entry) for entry in cut}
+        if not cutset:
+            logger.warning("cut is empty: every node will roll up to %r", OTHER)
 
     drop = {str_normalize(root) for root in drop_roots}
 
