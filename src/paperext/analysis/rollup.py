@@ -23,6 +23,13 @@ Semantics (locked in #16):
   key in the returned map, so a later lookup by any extracted name or alias
   resolves to the same category.
 
+Names containing ``.``: ``str_normalize`` strips ``.`` (among other separators), so
+a tree name like ``"gpt-3.5"`` collapses to the single segment ``"gpt35"``. Such a
+node is still a valid key and rolls up correctly under a depth cut or a cut at any
+ancestor whose own name has no ``.``. It **cannot** be targeted directly by a dotted
+cut entry (the ``.`` would be read as a path separator) — ``roll_up`` logs a warning
+for any cut entry that matches no node so this (and plain typos) never fails silently.
+
 This module intentionally has no dependency on :mod:`paperext.config` or on
 ``paperext.structured_output.utils`` (whose import builds the category maps from
 disk). ``str_normalize`` is duplicated below — kept byte-for-byte identical to
@@ -140,8 +147,11 @@ def roll_up(
 
     drop = {str_normalize(root) for root in drop_roots}
 
+    all_paths: "set[str]" = set()
     mapping: "dict[str, str]" = {}
     for norm_path, raw_path in _iter_nodes(tree):
+        all_paths.add(".".join(norm_path))
+
         if norm_path[0] in drop:
             continue
 
@@ -168,6 +178,14 @@ def roll_up(
                 continue
 
         mapping[key] = category
+
+    if cutset is not None:
+        # A cut entry that matches no node is a typo, or a name whose '.' was
+        # read as a path separator (str_normalize strips '.', so a tree name
+        # containing '.' collapses to a single segment and cannot be targeted by
+        # a dotted cut entry). Surface it loudly instead of silently no-op'ing.
+        for entry in sorted(cutset - all_paths):
+            logger.warning("cut node %r matches no node in the tree", entry)
 
     return mapping
 

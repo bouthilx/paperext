@@ -127,6 +127,53 @@ def test_alias_and_canonical_resolve_to_same_category():
     assert m[str_normalize("resnet-50")] == "convolutional neural network"
 
 
+# --- names containing '.' -------------------------------------------------
+
+# str_normalize strips '.', so a tree name with '.' collapses to one segment.
+# The risk is the node-cut path parser, which splits raw cut entries on '.'.
+DOT_TREE = {"transformer": {"gpt-3.5": {"variant": {}}}}
+
+
+def test_dot_name_normalizes_and_keys_by_stripped_name():
+    m = roll_up(DOT_TREE, 3)
+    assert "gpt35" in m  # '.' stripped, not two segments
+    assert "gpt3" not in m and "5" not in m
+    assert m["gpt35"] == "gpt-3.5"  # label keeps the raw name
+
+
+def test_dot_name_depth_cut():
+    m = roll_up(DOT_TREE, 1)
+    assert m["gpt35"] == "transformer"
+    assert m["variant"] == "transformer"
+
+
+def test_dot_name_node_cut_at_clean_ancestor_works():
+    # Cutting at a clean ancestor is unaffected by a '.' lower in the path.
+    m = roll_up(DOT_TREE, ["transformer"])
+    assert m["gpt35"] == "transformer"
+    assert m["variant"] == "transformer"
+
+
+def test_dot_name_as_cut_target_warns_and_no_ops(caplog):
+    # The '.' in the cut entry is read as a separator, so it matches no node.
+    import logging
+
+    with caplog.at_level(logging.WARNING, logger="paperext.analysis.rollup"):
+        m = roll_up(DOT_TREE, ["transformer.gpt-3.5"])
+    # children fall through to Other rather than the intended bucket ...
+    assert m["variant"] == OTHER
+    # ... but the failure is loud, not silent.
+    assert any("matches no node" in r.message for r in caplog.records)
+
+
+def test_unknown_cut_entry_warns(caplog):
+    import logging
+
+    with caplog.at_level(logging.WARNING, logger="paperext.analysis.rollup"):
+        roll_up(TREE, ["algorithms.does not exist"])
+    assert any("matches no node" in r.message for r in caplog.records)
+
+
 # --- conflict handling ----------------------------------------------------
 
 
