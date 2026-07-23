@@ -11,6 +11,7 @@ import instructor
 import pydantic_core
 
 from paperext import CFG
+from paperext.backends import available, get_backend
 from paperext.log import logger
 from paperext.paths import platform_bucket
 from paperext.structured_output import STRUCT_MODULES, ai4hcat, mdl
@@ -50,85 +51,15 @@ Example:
   $ {PROG} --input data/query_set.txt
 """
 
-PLATFORMS = {}
-
-try:
-    import openai
-    from openai.types.chat.chat_completion import CompletionUsage
-
-    def _client():
-        model = CFG.openai.model
-        client = instructor.from_openai(
-            # TODO: update to use the new feature Mode.TOOLS_STRICT
-            # https://openai.com/index/introducing-structured-outputs-in-the-api/
-            openai.AsyncOpenAI(),
-            mode=instructor.Mode.TOOLS_STRICT,
-        )
-        _create_with_completion = client.chat.completions.create_with_completion
-
-        async def _wrap(*args, **kwargs):
-            extractions, completion = await _create_with_completion(
-                model=model, *args, **kwargs
-            )
-            return extractions, completion.usage
-
-        client.chat.completions.create_with_completion = _wrap
-        return client
-
-    PLATFORMS["openai"] = _client
-except ModuleNotFoundError as e:
-    logger.info(e, exc_info=True)
-    logging.info(e, exc_info=True)
-
-try:
-    import vertexai
-    from vertexai.generative_models import GenerativeModel
-
-    vertexai.init(project=CFG.vertexai.project)
-
-    def _client():
-        model = CFG.vertexai.model
-        client = instructor.from_vertexai(GenerativeModel(model_name=model))
-        _create_with_completion = client.chat.completions.create_with_completion
-
-        def _wrap(*args, **kwargs):
-            # Gemini does not support "system" role
-            system_messages = []
-            for message in kwargs["messages"][:]:
-                if message["role"] == "system":
-                    system_messages.append(message["content"])
-                    kwargs["messages"].remove(message)
-                    continue
-                if system_messages:
-                    message["content"] = "\n".join(
-                        (*system_messages, message["content"])
-                    )
-                    system_messages = []
-            extractions, completion = _create_with_completion(*args, **kwargs)
-            # completion.usage_metadata doesn't seams to be serializable
-            # Unable to serialize unknown type: <class
-            # 'google.cloud.aiplatform_v1beta1.types.prediction_service.GenerateContentResponse.UsageMetadata'>
-            usage = {
-                "cached_content_token_count": completion.usage_metadata.cached_content_token_count,
-                "candidates_token_count": completion.usage_metadata.cached_content_token_count,
-                "prompt_token_count": completion.usage_metadata.cached_content_token_count,
-                "total_token_count": completion.usage_metadata.total_token_count,
-            }
-            return extractions, usage
-
-        client.chat.completions.create_with_completion = _wrap
-        return client
-
-    PLATFORMS["vertexai"] = _client
-except ModuleNotFoundError as e:
-    logger.info(e, exc_info=True)
-    logging.info(e, exc_info=True)
+# Backends register themselves in paperext.backends (SDK-guarded). query() picks
+# one via get_backend(CFG.platform.select); see paperext/backends/.
 
 
 async def extract_from_research_paper(
     client: instructor.client.Instructor | instructor.client.AsyncInstructor,
     message: str,
-) -> Tuple[Any, CompletionUsage]:
+    rate_limit_errors: Tuple[type, ...] = (),
+) -> Tuple[Any, Any]:
     """Extract Models, Datasets and Frameworks names from a research paper."""
     retries = [True] * 1
     while True:
@@ -155,7 +86,7 @@ async def extract_from_research_paper(
                 extractions, usage = await result
 
             return extractions, usage
-        except openai.RateLimitError as e:
+        except rate_limit_errors as e:
             asyncio.sleep(60)
             if retries:
                 retries.pop()
@@ -167,6 +98,7 @@ async def batch_extract_models_names(
     client: instructor.client.Instructor | instructor.client.AsyncInstructor,
     papers_fn: List[Path],
     destination: Path = CFG.dir.queries,
+    rate_limit_errors: Tuple[type, ...] = (),
 ) -> List:
     destination.mkdir(parents=True, exist_ok=True)
 
@@ -194,7 +126,9 @@ async def batch_extract_models_names(
 
                 message = message.format(*data, paper_fn.read_text())
 
-                extractions, usage = await extract_from_research_paper(client, message)
+                extractions, usage = await extract_from_research_paper(
+                    client, message, rate_limit_errors=rate_limit_errors
+                )
 
                 f.parent.mkdir(parents=True, exist_ok=True)
 
@@ -257,7 +191,7 @@ def main(argv=None):
     parser.add_argument(
         "--platform",
         type=str,
-        choices=sorted(PLATFORMS.keys()),
+        choices=available() or None,
         default=CFG.platform.select,
         help="Platform to use",
     )
@@ -304,7 +238,8 @@ def main(argv=None):
 
     assert all([p.exists() for p in papers])
 
-    client = PLATFORMS[CFG.platform.select]()
+    backend = get_backend(CFG.platform.select)
+    client = backend.make_client()
 
     # Set logging to DEBUG to print OpenAI requests
     # TODO: there must be a better way that would not impact other usage of
@@ -319,6 +254,7 @@ def main(argv=None):
             client,
             [paper.absolute() for paper in papers],
             destination=platform_bucket(CFG.dir.queries),
+            rate_limit_errors=backend.rate_limit_errors,
         )
     )
 

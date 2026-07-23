@@ -67,12 +67,13 @@ export PAPEREXT_OPENAI_MODEL=gpt-5.6-terra
 Results are stored per `<provider>/<model>/`, e.g.
 `data/mdl/queries/openai/gpt-5.6-sol/`.
 
-Verify connectivity with the smoke-check (one trivial completion, no pipeline):
+Verify connectivity with the backend smoke-check (one trivial completion, no
+pipeline — works for any backend):
 
 ```console
-OPENAI_API_KEY=... openai-check                 # uses CFG.openai.model
-OPENAI_API_KEY=... openai-check --model gpt-5.6-terra
-# OK: model='gpt-5.6-sol' reply='ok' usage=CompletionUsage(...)
+OPENAI_API_KEY=... backend-check --platform openai                 # uses CFG.openai.model
+OPENAI_API_KEY=... backend-check --platform openai --model gpt-5.6-terra
+# OK: platform='openai' model='gpt-5.6-sol' reply='ok' usage=CompletionUsage(...)
 ```
 
 ## Usage

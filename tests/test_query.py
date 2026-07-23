@@ -1,7 +1,9 @@
 from unittest.mock import MagicMock
 
+import openai
 import pytest
 
+import paperext.backends.vertexai
 import paperext.query
 from paperext.query import (
     get_extraction_response,
@@ -47,14 +49,16 @@ def test_query(
     * creates a query result file on success
     """
     if platform == "openai":
-        monkeypatch.setattr(paperext.query.openai, "AsyncOpenAI", MagicMock)
+        monkeypatch.setattr(openai, "AsyncOpenAI", MagicMock)
 
     elif platform == "vertexai":
-        monkeypatch.setattr(paperext.query, "GenerativeModel", MagicMock)
+        monkeypatch.setattr(
+            paperext.backends.vertexai, "GenerativeModel", MagicMock
+        )
 
     monkeypatch.setattr(paperext.query.instructor, f"from_{platform}", MagicMock())
 
-    monkeypatch.setattr(paperext.query.openai, "AsyncOpenAI", MagicMock)
+    monkeypatch.setattr(openai, "AsyncOpenAI", MagicMock)
     monkeypatch.setattr(paperext.query.instructor, "from_openai", MagicMock())
 
     main(["--platform", platform, "--papers", "2401.14487"])
@@ -117,7 +121,7 @@ def test_query_error_logged(monkeypatch: pytest.MonkeyPatch):
         )
         return magicmock
 
-    monkeypatch.setattr(paperext.query.openai, "AsyncOpenAI", MagicMock)
+    monkeypatch.setattr(openai, "AsyncOpenAI", MagicMock)
     monkeypatch.setattr(paperext.query.instructor, f"from_openai", AsyncOpenAI)
 
     papers = ["new_1234.12345", "new_1234.23456"]
