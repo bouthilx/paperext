@@ -63,23 +63,14 @@ def test_query(
 
     main(["--platform", platform, "--papers", "2401.14487"])
 
-    if platform == "openai":
-
-        async def create_with_completion(*_a, **_kwa):
-            magicmock = MagicMock(spec=PaperExtractions)
-            magicmock.models = []
-            magicmock.datasets = []
-            magicmock.libraries = []
-            return magicmock, MagicMock()
-
-    elif platform == "vertexai":
-
-        def create_with_completion(*_a, **_kwa):
-            magicmock = MagicMock(spec=PaperExtractions)
-            magicmock.models = []
-            magicmock.datasets = []
-            magicmock.libraries = []
-            return magicmock, MagicMock()
+    # Both backends now build AsyncInstructor clients, so the mocked
+    # create_with_completion is awaitable for every platform.
+    async def create_with_completion(*_a, **_kwa):
+        magicmock = MagicMock(spec=PaperExtractions)
+        magicmock.models = []
+        magicmock.datasets = []
+        magicmock.libraries = []
+        return magicmock, MagicMock()
 
     def AsyncOpenAI(*_a, **_kwa):
         magicmock = MagicMock()

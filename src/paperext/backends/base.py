@@ -5,10 +5,17 @@ the (instructor) client, how to normalize token usage, which errors count as
 retryable rate limits, and how to run a connectivity smoke-check. The rest of
 the codebase talks to backends only through this interface + the registry in
 ``paperext.backends``.
+
+Every backend builds an async client (``instructor.AsyncInstructor``), so the
+extraction pipeline always ``await``s a single, uniform client type.
 """
 
+from __future__ import annotations
+
 from abc import ABC, abstractmethod
-from typing import Any, Tuple
+from typing import Any
+
+import instructor
 
 from paperext.config import CFG
 
@@ -20,7 +27,7 @@ class Backend(ABC):
 
     #: Exception types the query loop treats as retryable rate-limit errors.
     #: Empty tuple -> never retried (``except ():`` catches nothing).
-    rate_limit_errors: Tuple[type, ...] = ()
+    rate_limit_errors: tuple[type[BaseException], ...] = ()
 
     @property
     def model(self) -> str:
@@ -28,17 +35,17 @@ class Backend(ABC):
         return getattr(CFG, self.name).model
 
     @abstractmethod
-    def make_client(self):
-        """Return an instructor client whose
-        ``chat.completions.create_with_completion`` yields
+    def make_client(self) -> instructor.client.AsyncInstructor:
+        """Return an async instructor client whose
+        ``chat.completions.create_with_completion`` awaits to
         ``(extractions, usage)`` for this provider."""
 
     @abstractmethod
-    def normalize_usage(self, completion) -> Any:
+    def normalize_usage(self, completion: Any) -> Any:
         """Extract a serializable token-usage record from a raw completion."""
 
     @abstractmethod
-    def smoke_check(self, model: str = None) -> Tuple[str, Any]:
+    def smoke_check(self, model: str | None = None) -> tuple[str, Any]:
         """Make one trivial completion; return ``(reply_text, usage)``.
 
         Proves auth + model access without touching the extraction pipeline.

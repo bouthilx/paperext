@@ -5,6 +5,10 @@ id; A4 (#9) renames this to ``gemini`` and A3 (#8) adds a sibling Claude
 backend.
 """
 
+from __future__ import annotations
+
+from typing import Any
+
 import instructor
 import vertexai
 from vertexai.generative_models import GenerativeModel
@@ -19,18 +23,24 @@ class VertexAIBackend(Backend):
     name = "vertexai"
     # Google rate-limit exception types are wired up with the Vertex arms in
     # A3 (#8) / A4 (#9); none retried for now.
-    rate_limit_errors = ()
+    rate_limit_errors: tuple[type[BaseException], ...] = ()
 
-    def make_client(self):
+    def make_client(self) -> instructor.client.AsyncInstructor:
         normalize_usage = self.normalize_usage
-        vertexai.init(project=CFG.vertexai.project)
-        client = instructor.from_vertexai(GenerativeModel(model_name=self.model))
+        # CFG.<section> is typed Config | Path by the config proxy; .project is
+        # only on the Config branch.
+        vertexai.init(project=CFG.vertexai.project)  # type: ignore[union-attr]
+        # use_async=True -> AsyncInstructor, so all backends share one client
+        # type and the pipeline can uniformly await create_with_completion.
+        client = instructor.from_vertexai(
+            GenerativeModel(model_name=self.model), use_async=True
+        )
         _create_with_completion = client.chat.completions.create_with_completion
 
-        def _wrap(*args, **kwargs):
+        async def _wrap(*args: Any, **kwargs: Any) -> tuple[Any, Any]:
             # Gemini does not support the "system" role: fold system content
             # into the following user turn.
-            system_messages = []
+            system_messages: list[str] = []
             for message in kwargs["messages"][:]:
                 if message["role"] == "system":
                     system_messages.append(message["content"])
@@ -41,13 +51,14 @@ class VertexAIBackend(Backend):
                         (*system_messages, message["content"])
                     )
                     system_messages = []
-            extractions, completion = _create_with_completion(*args, **kwargs)
+            extractions, completion = await _create_with_completion(*args, **kwargs)
             return extractions, normalize_usage(completion)
 
-        client.chat.completions.create_with_completion = _wrap
+        # Wrap instructor's method to normalize the (extractions, usage) return.
+        setattr(client.chat.completions, "create_with_completion", _wrap)
         return client
 
-    def normalize_usage(self, completion):
+    def normalize_usage(self, completion: Any) -> dict[str, Any]:
         # NOTE: preserves the existing usage mapping verbatim, including the
         # candidates/prompt copy-paste bug that A4 (#9) fixes -- A9 is a
         # structural move with no behavior change.
@@ -60,10 +71,13 @@ class VertexAIBackend(Backend):
         }
 
     def smoke_check(
-        self, model=None, message="Reply with the single word: ok.", client=None
-    ):
+        self,
+        model: str | None = None,
+        message: str = "Reply with the single word: ok.",
+        client: Any = None,
+    ) -> tuple[str, Any]:
         model = model or self.model
-        vertexai.init(project=CFG.vertexai.project)
+        vertexai.init(project=CFG.vertexai.project)  # type: ignore[union-attr]
         gen_model = client if client is not None else GenerativeModel(model_name=model)
         response = gen_model.generate_content(message)
         return response.text, getattr(response, "usage_metadata", None)

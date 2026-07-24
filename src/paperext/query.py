@@ -56,16 +56,15 @@ Example:
 
 
 async def extract_from_research_paper(
-    client: instructor.client.Instructor | instructor.client.AsyncInstructor,
+    client: instructor.client.AsyncInstructor,
     message: str,
-    rate_limit_errors: Tuple[type, ...] = (),
+    rate_limit_errors: Tuple[type[BaseException], ...] = (),
 ) -> Tuple[Any, Any]:
     """Extract Models, Datasets and Frameworks names from a research paper."""
     retries = [True] * 1
     while True:
         try:
-            result = client.chat.completions.create_with_completion(
-                # model="gpt-4o",
+            extractions, usage = await client.chat.completions.create_with_completion(
                 response_model=get_paper_extractions(),
                 messages=[
                     {
@@ -79,12 +78,6 @@ async def extract_from_research_paper(
                 ],
                 max_retries=1,
             )
-
-            try:
-                extractions, usage = result
-            except TypeError:
-                extractions, usage = await result
-
             return extractions, usage
         except rate_limit_errors as e:
             asyncio.sleep(60)
@@ -95,10 +88,10 @@ async def extract_from_research_paper(
 
 
 async def batch_extract_models_names(
-    client: instructor.client.Instructor | instructor.client.AsyncInstructor,
+    client: instructor.client.AsyncInstructor,
     papers_fn: List[Path],
     destination: Path = CFG.dir.queries,
-    rate_limit_errors: Tuple[type, ...] = (),
+    rate_limit_errors: Tuple[type[BaseException], ...] = (),
 ) -> List:
     destination.mkdir(parents=True, exist_ok=True)
 
@@ -160,7 +153,7 @@ async def batch_extract_models_names(
 
 
 async def ignore_exceptions(
-    client: instructor.client.Instructor | instructor.client.AsyncInstructor,
+    client: instructor.client.AsyncInstructor,
     validation_set: List[Path],
     *args,
     **kwargs,
