@@ -44,6 +44,38 @@ export PAPEREXT_CONFIG=config.ini
 > export PAPEREXT_DIR_DATA=path/to/data
 > ```
 
+### OpenAI setup
+
+The OpenAI backend runs against the OpenAI API directly (no Google Cloud
+required). Install the extra and provide credentials at runtime:
+
+```console
+pip install "paperext[openai]"
+export OPENAI_API_KEY=sk-proj-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+# Optional, if your account requires them:
+export OPENAI_ORG_ID=org-XXXXXXXXXXXX
+export OPENAI_PROJECT_ID=proj-XXXXXXXXXXXX
+```
+
+`[platform] select = openai` is the default. The model defaults to
+`[openai] model` (a GPT-5.6 tier) and can be overridden at runtime:
+
+```console
+export PAPEREXT_OPENAI_MODEL=gpt-5.6-terra
+```
+
+Results are stored per `<provider>/<model>/`, e.g.
+`data/mdl/queries/openai/gpt-5.6-sol/`.
+
+Verify connectivity with the backend smoke-check (one trivial completion, no
+pipeline — works for any backend):
+
+```console
+OPENAI_API_KEY=... backend-check --platform openai                 # uses CFG.openai.model
+OPENAI_API_KEY=... backend-check --platform openai --model gpt-5.6-terra
+# OK: platform='openai' model='gpt-5.6-sol' reply='ok' usage=CompletionUsage(...)
+```
+
 ## Usage
 
 ### download-convert
