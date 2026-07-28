@@ -53,6 +53,14 @@ def test_openai_backend_rate_limit_errors_declared():
     assert openai.RateLimitError in get_backend("openai").rate_limit_errors
 
 
+def test_openai_normalize_usage_maps_to_canonical_schema():
+    completion = MagicMock(
+        usage=MagicMock(prompt_tokens=10, completion_tokens=4, total_tokens=14)
+    )
+    usage = get_backend("openai").normalize_usage(completion)
+    assert usage == {"input_tokens": 10, "output_tokens": 4, "total_tokens": 14}
+
+
 # --- Gemini backend (Google on Vertex) ---
 
 
@@ -65,9 +73,9 @@ def test_gemini_backend_registered_and_model(cfg):
     assert backend.model == cfg.gemini.model == "models/gemini-1.5-pro"
 
 
-def test_gemini_normalize_usage_maps_distinct_counts():
+def test_gemini_normalize_usage_maps_to_canonical_schema():
     # Distinct values guard against the prior copy-paste bug that sourced the
-    # candidates/prompt counts from cached_content_token_count.
+    # input/output counts from cached_content_token_count.
     completion = MagicMock(
         usage_metadata=MagicMock(
             cached_content_token_count=1,
@@ -78,10 +86,10 @@ def test_gemini_normalize_usage_maps_distinct_counts():
     )
     usage = get_backend("gemini").normalize_usage(completion)
     assert usage == {
+        "input_tokens": 3,
+        "output_tokens": 2,
+        "total_tokens": 6,
         "cached_content_token_count": 1,
-        "candidates_token_count": 2,
-        "prompt_token_count": 3,
-        "total_token_count": 6,
     }
 
 

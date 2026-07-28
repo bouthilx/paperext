@@ -37,9 +37,13 @@ class OpenAIBackend(Backend):
         setattr(client.chat.completions, "create_with_completion", _wrap)
         return client
 
-    def normalize_usage(self, completion: Any) -> Any:
-        # openai's CompletionUsage is a pydantic model -> serializable as-is.
-        return completion.usage
+    def normalize_usage(self, completion: Any) -> dict[str, Any]:
+        usage = completion.usage
+        return {
+            "input_tokens": usage.prompt_tokens,
+            "output_tokens": usage.completion_tokens,
+            "total_tokens": usage.total_tokens,
+        }
 
     def smoke_check(
         self,

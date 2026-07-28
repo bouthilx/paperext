@@ -46,8 +46,15 @@ class Backend(ABC):
         ``(extractions, usage)`` for this provider."""
 
     @abstractmethod
-    def normalize_usage(self, completion: Any) -> Any:
-        """Extract a serializable token-usage record from a raw completion."""
+    def normalize_usage(self, completion: Any) -> dict[str, Any]:
+        """Extract a serializable token-usage record from a raw completion.
+
+        Returns a dict with the canonical, provider-agnostic keys
+        ``input_tokens`` / ``output_tokens`` / ``total_tokens`` so usage is
+        comparable across backends (cost analysis, the B1 bake-off). Backends
+        may add provider-specific keys alongside these (e.g. Gemini's
+        ``cached_content_token_count``).
+        """
 
     @abstractmethod
     def smoke_check(self, model: str | None = None) -> tuple[str, Any]:
