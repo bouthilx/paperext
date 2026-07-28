@@ -52,8 +52,8 @@ def test_bucket_does_not_read_global_selection():
     base = Path("/tmp/queries")
     assert CFG.platform.select == "openai"
     # A different provider/model resolves regardless of the active selection.
-    assert bucket(base, "vertexai", "models/gemini-1.5-pro") == (
-        base / "vertexai" / "models-gemini-1.5-pro"
+    assert bucket(base, "gemini", "models/gemini-1.5-pro") == (
+        base / "gemini" / "models-gemini-1.5-pro"
     )
 
 
@@ -69,11 +69,9 @@ def test_platform_bucket_delegates_to_bucket():
 
 def test_platform_bucket_follows_runtime_platform_switch():
     base = Path("/tmp/queries")
-    CFG.platform.select = "vertexai"
+    CFG.platform.select = "gemini"
     try:
-        assert platform_bucket(base) == base / "vertexai" / model_slug(
-            CFG.vertexai.model
-        )
+        assert platform_bucket(base) == base / "gemini" / model_slug(CFG.gemini.model)
     finally:
         CFG.platform.select = "openai"
 

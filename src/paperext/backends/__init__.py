@@ -17,7 +17,7 @@ _BACKENDS: "dict[str, Backend]" = {}
 
 # Backend modules to attempt to load. Each registers itself on import; a missing
 # SDK raises ModuleNotFoundError and the backend is simply skipped.
-_BACKEND_MODULES = ("openai", "vertexai", "claude")
+_BACKEND_MODULES = ("openai", "vertexai")
 
 
 def register(backend_cls):

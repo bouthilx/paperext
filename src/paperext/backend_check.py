@@ -4,7 +4,7 @@ Dispatches to the selected backend's ``smoke_check()`` -- one trivial completion
 proving auth + model access, without touching the extraction pipeline.
 
     OPENAI_API_KEY=... backend-check --platform openai
-    backend-check --platform vertexai --model models/gemini-1.5-pro
+    backend-check --platform gemini --model models/gemini-1.5-pro
 """
 
 import argparse
