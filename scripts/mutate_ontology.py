@@ -1,8 +1,10 @@
 """Apply one mutation to an ontology and print the result — a manual test harness
 for the D1a-2 mutation API (#42).
 
-Loads a version dir, applies a single op, runs ``check_invariants()``, then prints
-the (sub)tree with the same options as ``print_ontology_tree.py`` (``--node`` /
+Loads a version dir, applies a single op, prints the created/modified/deleted
+nodes exactly as their entries appear in ``ontology.json`` (plus any ``roots`` and
+``normalization.jsonl`` changes), runs ``check_invariants()``, then prints the
+(sub)tree with the same options as ``print_ontology_tree.py`` (``--node`` /
 ``--depth`` / ``--examples``). The edit is **in memory only** unless you pass
 ``--save DIR`` — so it never clobbers the committed ``v0``.
 
@@ -26,7 +28,9 @@ Examples:
 from __future__ import annotations
 
 import argparse
+import json
 import sys
+from collections import Counter
 
 from print_ontology_tree import find_nodes, print_tree
 
@@ -135,6 +139,61 @@ def print_result(o: Ontology, args: argparse.Namespace) -> None:
             print()
 
 
+def _nodes_dump(o: Ontology) -> dict[str, dict]:
+    return {nid: node.model_dump() for nid, node in o.doc.nodes.items()}
+
+
+def _norm_pairs(o: Ontology) -> list[tuple[str, str]]:
+    return [(r.surface, r.canonical) for r in o.norm]
+
+
+def _entry(node_id: str, dump: dict) -> str:
+    """A node rendered exactly as its entry appears in ``ontology.json``."""
+    body = json.dumps(dump, indent=2, ensure_ascii=False)
+    text = f"{json.dumps(node_id, ensure_ascii=False)}: {body}"
+    return "\n".join("  " + line for line in text.splitlines())
+
+
+def print_changes(
+    before: dict[str, dict],
+    after: dict[str, dict],
+    before_roots: list[str],
+    after_roots: list[str],
+    before_norm: list[tuple[str, str]],
+    after_norm: list[tuple[str, str]],
+) -> None:
+    created = [nid for nid in after if nid not in before]
+    modified = [nid for nid in after if nid in before and after[nid] != before[nid]]
+    deleted = [nid for nid in before if nid not in after]
+
+    print("# node changes (ontology.json):")
+    if not (created or modified or deleted):
+        print("  (none)")
+    for nid in created:
+        print("+ created")
+        print(_entry(nid, after[nid]))
+    for nid in modified:
+        print("~ modified")
+        print(_entry(nid, after[nid]))
+    for nid in deleted:
+        print("- deleted")
+        print(_entry(nid, before[nid]))
+
+    if before_roots != after_roots:
+        added = [r for r in after_roots if r not in before_roots]
+        removed = [r for r in before_roots if r not in after_roots]
+        print(f"# roots changed: +{added} -{removed}")
+
+    diff_add = list((Counter(after_norm) - Counter(before_norm)).elements())
+    diff_del = list((Counter(before_norm) - Counter(after_norm)).elements())
+    if diff_add or diff_del:
+        print("# normalization changes (normalization.jsonl):")
+        for surface, canonical in diff_add:
+            print(f'+ "{surface}" -> "{canonical}"')
+        for surface, canonical in diff_del:
+            print(f'- "{surface}" -> "{canonical}"')
+
+
 def main() -> None:
     args = build_parser().parse_args()
     o = Ontology.load(args.version_dir)
@@ -151,12 +210,26 @@ def main() -> None:
             if val is None:
                 continue
             kw[name] = resolve_ref(o, val) if name in refs else val
+
+        before_nodes, before_roots, before_norm = (
+            _nodes_dump(o),
+            list(o.doc.roots),
+            _norm_pairs(o),
+        )
         try:
             getattr(o, method_name)(*pos, **kw)
         except OntologyError as e:
             print(f"REJECTED ({type(e).__name__}): {e}", file=sys.stderr)
             raise SystemExit(1)
         print(f"# applied: {args.op} {' '.join(map(str, pos))}".rstrip())
+        print_changes(
+            before_nodes,
+            _nodes_dump(o),
+            before_roots,
+            list(o.doc.roots),
+            before_norm,
+            _norm_pairs(o),
+        )
 
     try:
         o.check_invariants()
