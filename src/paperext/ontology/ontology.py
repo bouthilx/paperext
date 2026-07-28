@@ -246,6 +246,8 @@ class Ontology:
         examples: "list[str] | None" = None,
     ) -> None:
         """Add a new node under *parent* (or as a new root when ``parent`` is None)."""
+        if not node_id.strip():
+            raise InvariantError("node id must be non-empty")
         if node_id in self.nodes:
             raise DuplicateNodeError(node_id)
         if not name.strip():
