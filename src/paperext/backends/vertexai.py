@@ -72,10 +72,12 @@ class GeminiBackend(Backend):
     def normalize_usage(self, completion: Any) -> dict[str, Any]:
         metadata = completion.usage_metadata
         return {
+            "input_tokens": metadata.prompt_token_count,
+            "output_tokens": metadata.candidates_token_count,
+            "total_tokens": metadata.total_token_count,
+            # Provider-specific: portion of the input served from cache (billed
+            # at a lower rate); kept for cost accounting.
             "cached_content_token_count": metadata.cached_content_token_count,
-            "candidates_token_count": metadata.candidates_token_count,
-            "prompt_token_count": metadata.prompt_token_count,
-            "total_token_count": metadata.total_token_count,
         }
 
     def smoke_check(
@@ -123,6 +125,7 @@ class ClaudeVertexBackend(Backend):
         return client
 
     def normalize_usage(self, completion: Any) -> dict[str, Any]:
+        # Anthropic's usage already matches the canonical schema.
         usage = completion.usage
         return {
             "input_tokens": usage.input_tokens,
