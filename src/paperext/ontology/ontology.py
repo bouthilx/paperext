@@ -4,19 +4,45 @@ Parses a versioned snapshot once and builds the in-memory indexes the D1b payloa
 needs: surface -> canonical, node -> surfaces (reverse), and node -> parents. All
 accessors are O(1)/O(depth) against those indexes.
 
-On-disk is diffable and DAG-ready; in-memory is indexed. This object is read-only;
-the mutation API that edits and re-indexes it lands in D1a-2.
+On-disk is diffable and DAG-ready; in-memory is indexed. The read/index/accessor
+half is D1a-1; the mutation API (edit + re-index + invariant enforcement) is D1a-2
+(#42) — every mutator guards its preconditions *before* touching state, so a
+rejected edit leaves the object unchanged, then calls :meth:`_reindex`.
 """
 
 import json
 from pathlib import Path
 from typing import Iterator, Union
 
-from paperext.analysis.rollup import str_normalize
+from paperext.analysis.rollup import DEFAULT_DROP_ROOTS, str_normalize
 from paperext.ontology.schema import Meta, Node, NormRow, OntologyDoc
 
 ONTOLOGY_FILE = "ontology.json"
 NORMALIZATION_FILE = "normalization.jsonl"
+
+
+class OntologyError(Exception):
+    """Base class for mutation/invariant violations (D1a-2, #42)."""
+
+
+class DuplicateNodeError(OntologyError):
+    """A node id that must be new already exists."""
+
+
+class UnknownNodeError(OntologyError):
+    """An operation referenced a node id that is not in the tree."""
+
+
+class CycleError(OntologyError):
+    """An edit would make a node its own ancestor."""
+
+
+class InvariantError(OntologyError):
+    """A structural invariant would be (or is) violated.
+
+    Covers referential integrity (dangling child/canonical), orphaned nodes,
+    the 1:1 surface rule, and empty-name / has-children preconditions.
+    """
 
 
 class Ontology:
@@ -158,3 +184,280 @@ class Ontology:
             ):
                 hits.append(node_id)
         return hits
+
+    # -- persistence ----------------------------------------------------------
+
+    def save(self, version_dir: Union[str, Path]) -> None:
+        """Write ``ontology.json`` + ``normalization.jsonl`` into *version_dir*.
+
+        Byte-compatible with :func:`paperext.ontology.migrate.write_snapshot`, so
+        a mutated tree round-trips through ``save`` -> :meth:`load`.
+        """
+        version_dir = Path(version_dir)
+        version_dir.mkdir(parents=True, exist_ok=True)
+        (version_dir / ONTOLOGY_FILE).write_text(
+            json.dumps(self.doc.model_dump(), indent=2, ensure_ascii=False) + "\n"
+        )
+        lines = [
+            json.dumps(row.model_dump(exclude_none=True), ensure_ascii=False)
+            for row in self.norm
+        ]
+        (version_dir / NORMALIZATION_FILE).write_text("\n".join(lines) + "\n")
+
+    # -- mutation helpers -----------------------------------------------------
+
+    def _require(self, *node_ids: str) -> None:
+        for nid in node_ids:
+            if nid not in self.nodes:
+                raise UnknownNodeError(nid)
+
+    def _descendants(self, node_id: str) -> "set[str]":
+        """All node ids strictly below *node_id* (DAG-safe)."""
+        seen: "set[str]" = set()
+        stack = list(self.nodes[node_id].children)
+        while stack:
+            cur = stack.pop()
+            if cur in seen:
+                continue
+            seen.add(cur)
+            stack.extend(self.nodes[cur].children)
+        return seen
+
+    def _detach(self, node_id: str) -> None:
+        """Unlink *node_id* from every parent's children list and from roots.
+
+        Edits ``doc`` in place; the caller re-indexes.
+        """
+        for parent in self._parents.get(node_id, []):
+            kids = self.nodes[parent].children
+            self.nodes[parent].children = [c for c in kids if c != node_id]
+        if node_id in self.doc.roots:
+            self.doc.roots = [r for r in self.doc.roots if r != node_id]
+
+    # -- mutation API (D1a-2, #42) --------------------------------------------
+
+    def create_node(
+        self,
+        node_id: str,
+        name: str,
+        *,
+        parent: "str | None" = None,
+        description: str = "",
+        examples: "list[str] | None" = None,
+    ) -> None:
+        """Add a new node under *parent* (or as a new root when ``parent`` is None)."""
+        if node_id in self.nodes:
+            raise DuplicateNodeError(node_id)
+        if not name.strip():
+            raise InvariantError("node name must be non-empty")
+        if parent is not None:
+            self._require(parent)
+        self.doc.nodes[node_id] = Node(
+            name=name, description=description, examples=list(examples or [])
+        )
+        if parent is None:
+            self.doc.roots.append(node_id)
+        else:
+            self.nodes[parent].children.append(node_id)
+        self._reindex()
+
+    def rename(self, node_id: str, new_name: str) -> None:
+        """Change a node's display *name* (does not touch its surfaces)."""
+        self._require(node_id)
+        if not new_name.strip():
+            raise InvariantError("node name must be non-empty")
+        self.nodes[node_id].name = new_name
+        self._reindex()
+
+    def update_description(self, node_id: str, description: str) -> None:
+        """Set a node's description (bootstrapped during D1b)."""
+        self._require(node_id)
+        self.nodes[node_id].description = description
+        self._reindex()
+
+    def add_surface(
+        self,
+        surface: str,
+        canonical: str,
+        *,
+        via: str = "curated",
+        flag: "str | None" = None,
+    ) -> None:
+        """Map *surface* to node *canonical* (normalized, strictly 1:1)."""
+        self._require(canonical)
+        norm = str_normalize(surface)
+        if not norm:
+            raise InvariantError("surface normalizes to empty")
+        owner = self._surface_to_canonical.get(norm)
+        if owner == canonical:
+            return  # idempotent
+        if owner is not None:
+            raise InvariantError(f"surface {norm!r} already maps to {owner!r} (1:1)")
+        self.norm.append(NormRow(surface=norm, canonical=canonical, via=via, flag=flag))
+        self._reindex()
+
+    def remove_surface(self, surface: str) -> None:
+        """Drop the *surface* -> canonical row."""
+        norm = str_normalize(surface)
+        kept = [r for r in self.norm if r.surface != norm]
+        if len(kept) == len(self.norm):
+            raise InvariantError(f"no surface {norm!r} to remove")
+        self.norm = kept
+        self._reindex()
+
+    def move(self, node_id: str, new_parent: str) -> None:
+        """Re-parent *node_id* under *new_parent* (single-primary)."""
+        self._require(node_id, new_parent)
+        if new_parent == node_id or new_parent in self._descendants(node_id):
+            raise CycleError(f"moving {node_id!r} under {new_parent!r} makes a cycle")
+        self._detach(node_id)
+        self.nodes[new_parent].children.append(node_id)
+        self._reindex()
+
+    def insert_above(
+        self,
+        node_id: str,
+        new_id: str,
+        name: str,
+        *,
+        description: str = "",
+        examples: "list[str] | None" = None,
+    ) -> None:
+        """Insert a new parent *new_id* between *node_id* and its current parent.
+
+        The new node takes *node_id*'s position among its parent's children (or in
+        ``roots``), preserving DFS order; *node_id* becomes its only child.
+        """
+        if new_id in self.nodes:
+            raise DuplicateNodeError(new_id)
+        self._require(node_id)
+        if not name.strip():
+            raise InvariantError("node name must be non-empty")
+        parents = list(self._parents.get(node_id, []))
+        self.doc.nodes[new_id] = Node(
+            name=name,
+            description=description,
+            examples=list(examples or []),
+            children=[node_id],
+        )
+        for parent in parents:
+            kids = self.nodes[parent].children
+            kids[kids.index(node_id)] = new_id
+        if node_id in self.doc.roots:
+            self.doc.roots[self.doc.roots.index(node_id)] = new_id
+        self._reindex()
+
+    def demote_to_variant(self, node_id: str, target_id: str) -> None:
+        """Fold leaf *node_id* into *target_id* as normalization surface(s).
+
+        This is the concept-vs-variant resolution deferred from D1a-1: a node that
+        turns out to be a mere spelling of another concept is removed, and its
+        surfaces (plus its own name, unless that name is an ambiguous surface owned
+        by a third node) re-point to *target_id*. Rejects a node that still has
+        children — reattach them first.
+        """
+        self._require(node_id, target_id)
+        if node_id == target_id:
+            raise InvariantError("cannot demote a node into itself")
+        if self.nodes[node_id].children:
+            raise InvariantError(
+                f"{node_id!r} has children; reattach them before demoting"
+            )
+        transfer = set(self._node_surfaces.get(node_id, []))
+        name_surf = str_normalize(self.name(node_id))
+        if name_surf and self._surface_to_canonical.get(name_surf) in (None, node_id):
+            transfer.add(name_surf)
+        kept = [r for r in self.norm if r.canonical != node_id]
+        owned_elsewhere = {r.surface for r in kept}
+        for surf in sorted(transfer):
+            if surf in owned_elsewhere:  # never hijack another node's surface
+                continue
+            kept.append(NormRow(surface=surf, canonical=target_id, via="demote"))
+        self.norm = kept
+        self._detach(node_id)
+        del self.doc.nodes[node_id]
+        self._reindex()
+
+    def remove_node(self, node_id: str) -> None:
+        """Delete a childless *node_id* and cascade-drop its surface rows."""
+        self._require(node_id)
+        if self.nodes[node_id].children:
+            raise InvariantError(f"{node_id!r} has children; remove or move them first")
+        self.norm = [r for r in self.norm if r.canonical != node_id]
+        self._detach(node_id)
+        del self.doc.nodes[node_id]
+        self._reindex()
+
+    def mark_ignore(self, node_id: str) -> None:
+        """Move *node_id* under the reserved ``ignore`` root (drops from roll-up).
+
+        Creates the ignore root if the dimension has none.
+        """
+        self._require(node_id)
+        drop = set(DEFAULT_DROP_ROOTS)
+        ignore_id = next(
+            (r for r in self.doc.roots if str_normalize(self.name(r)) in drop), None
+        )
+        if ignore_id is None:
+            ignore_id = str_normalize(next(iter(DEFAULT_DROP_ROOTS)))
+            self.create_node(ignore_id, next(iter(DEFAULT_DROP_ROOTS)))
+        if node_id == ignore_id:
+            raise InvariantError("cannot ignore the ignore root itself")
+        self.move(node_id, ignore_id)
+
+    # -- invariants -----------------------------------------------------------
+
+    def check_invariants(self) -> None:
+        """Raise if any structural invariant is violated; return None if clean.
+
+        Enforces: roots exist; every child edge and every normalization canonical
+        references a live node (referential integrity); surfaces are 1:1; the
+        children graph is acyclic; and every node is reachable from some root
+        (no orphans).
+        """
+        nodes = self.doc.nodes
+        for rid in self.doc.roots:
+            if rid not in nodes:
+                raise InvariantError(f"root {rid!r} is not a node")
+        for nid, node in nodes.items():
+            for cid in node.children:
+                if cid not in nodes:
+                    raise InvariantError(f"node {nid!r} has unknown child {cid!r}")
+        seen_surface: "dict[str, str]" = {}
+        for row in self.norm:
+            if row.canonical not in nodes:
+                raise InvariantError(
+                    f"surface {row.surface!r} -> unknown node {row.canonical!r}"
+                )
+            prior = seen_surface.get(row.surface)
+            if prior is not None and prior != row.canonical:
+                raise InvariantError(f"surface {row.surface!r} maps to two nodes")
+            seen_surface[row.surface] = row.canonical
+
+        WHITE, GRAY, BLACK = 0, 1, 2
+        color = {nid: WHITE for nid in nodes}
+
+        def visit(start: str) -> None:
+            stack = [(start, iter(nodes[start].children))]
+            color[start] = GRAY
+            while stack:
+                nid, kids = stack[-1]
+                advanced = False
+                for cid in kids:
+                    if color[cid] == GRAY:
+                        raise CycleError(f"cycle through {cid!r}")
+                    if color[cid] == WHITE:
+                        color[cid] = GRAY
+                        stack.append((cid, iter(nodes[cid].children)))
+                        advanced = True
+                        break
+                if not advanced:
+                    color[nid] = BLACK
+                    stack.pop()
+
+        for rid in self.doc.roots:
+            if color[rid] == WHITE:
+                visit(rid)
+        orphans = [nid for nid, c in color.items() if c != BLACK]
+        if orphans:
+            raise InvariantError(f"orphan nodes unreachable from roots: {orphans[:5]}")
