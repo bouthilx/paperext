@@ -8,9 +8,10 @@ from paperext.backends.openai import OpenAIBackend
 
 
 def test_registry_exposes_installed_backends():
-    # openai + vertexai (incl. anthropic[vertex]) extras are installed in tests.
+    # openai + the vertexai extra (Gemini + anthropic[vertex]) are installed in
+    # tests; the vertexai extra provides both the gemini and claude backends.
     assert "openai" in available()
-    assert "vertexai" in available()
+    assert "gemini" in available()
     assert "claude" in available()
 
 
@@ -52,14 +53,46 @@ def test_openai_backend_rate_limit_errors_declared():
     assert openai.RateLimitError in get_backend("openai").rate_limit_errors
 
 
+# --- Gemini backend (Google on Vertex) ---
+
+
+def test_gemini_backend_registered_and_model(cfg):
+    from paperext.backends.vertexai import GeminiBackend
+
+    backend = get_backend("gemini")
+    assert isinstance(backend, GeminiBackend)
+    assert backend.name == "gemini"
+    assert backend.model == cfg.gemini.model == "models/gemini-1.5-pro"
+
+
+def test_gemini_normalize_usage_maps_distinct_counts():
+    # Distinct values guard against the prior copy-paste bug that sourced the
+    # candidates/prompt counts from cached_content_token_count.
+    completion = MagicMock(
+        usage_metadata=MagicMock(
+            cached_content_token_count=1,
+            candidates_token_count=2,
+            prompt_token_count=3,
+            total_token_count=6,
+        )
+    )
+    usage = get_backend("gemini").normalize_usage(completion)
+    assert usage == {
+        "cached_content_token_count": 1,
+        "candidates_token_count": 2,
+        "prompt_token_count": 3,
+        "total_token_count": 6,
+    }
+
+
 # --- Claude backend (Anthropic on Vertex) ---
 
 
 def test_claude_backend_registered_and_model(cfg):
-    from paperext.backends.claude import ClaudeBackend
+    from paperext.backends.vertexai import ClaudeVertexBackend
 
     backend = get_backend("claude")
-    assert isinstance(backend, ClaudeBackend)
+    assert isinstance(backend, ClaudeVertexBackend)
     assert backend.name == "claude"
     assert backend.model == cfg.claude.model == "claude-opus-4-8"
 

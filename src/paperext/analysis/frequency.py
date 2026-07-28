@@ -504,7 +504,7 @@ def main(argv: Optional["list[str]"] = None) -> None:
     parser = argparse.ArgumentParser(
         description="Per-paper frequency analysis over stored extractions."
     )
-    parser.add_argument("--platform", default=None, help="openai | vertexai")
+    parser.add_argument("--platform", default=None, help="openai | gemini | claude")
     parser.add_argument("--model", default=None, help="restrict to one model subdir")
     parser.add_argument(
         "--cut",

@@ -39,7 +39,7 @@ def test_model_struct_from_cfg(cfg, model_struct):
     assert get_paper_extractions() is STRUCT_MODULES[model_struct].PaperExtractions
 
 
-@pytest.mark.parametrize("platform", ["openai", "vertexai"])
+@pytest.mark.parametrize("platform", ["openai", "gemini"])
 def test_query(
     platform, monkeypatch: pytest.MonkeyPatch, caplog: pytest.LogCaptureFixture
 ):
@@ -48,13 +48,17 @@ def test_query(
     * does not retry a request if the query result file exists
     * creates a query result file on success
     """
+    # The gemini backend builds its client via instructor.from_vertexai (Vertex
+    # is the platform, Gemini the model), so map the platform id to its factory.
+    instructor_factory = {"openai": "from_openai", "gemini": "from_vertexai"}[platform]
+
     if platform == "openai":
         monkeypatch.setattr(openai, "AsyncOpenAI", MagicMock)
 
-    elif platform == "vertexai":
+    elif platform == "gemini":
         monkeypatch.setattr(paperext.backends.vertexai, "GenerativeModel", MagicMock)
 
-    monkeypatch.setattr(paperext.query.instructor, f"from_{platform}", MagicMock())
+    monkeypatch.setattr(paperext.query.instructor, instructor_factory, MagicMock())
 
     monkeypatch.setattr(openai, "AsyncOpenAI", MagicMock)
     monkeypatch.setattr(paperext.query.instructor, "from_openai", MagicMock())
@@ -77,7 +81,7 @@ def test_query(
         )
         return magicmock
 
-    monkeypatch.setattr(paperext.query.instructor, f"from_{platform}", AsyncOpenAI)
+    monkeypatch.setattr(paperext.query.instructor, instructor_factory, AsyncOpenAI)
 
     main(["--platform", platform, "--papers", "new_1234.12345"])
     assert (
