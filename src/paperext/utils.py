@@ -42,9 +42,7 @@ class Paper:
         # Find existing queries and infer the paper id from them
         self._queries = sum(
             [
-                sorted(
-                    platform_bucket(CFG.dir.queries).glob(f"{link_id}_*.json")
-                )
+                sorted(platform_bucket(CFG.dir.queries).glob(f"{link_id}_*.json"))
                 for link_id in link_ids
             ],
             [],

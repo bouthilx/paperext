@@ -53,6 +53,4 @@ class OpenAIBackend(Backend):
             model=model,
             messages=[{"role": "user", "content": message}],
         )
-        return completion.choices[0].message.content, getattr(
-            completion, "usage", None
-        )
+        return completion.choices[0].message.content, getattr(completion, "usage", None)
