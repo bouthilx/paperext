@@ -30,9 +30,14 @@ class Backend(ABC):
     rate_limit_errors: tuple[type[BaseException], ...] = ()
 
     @property
+    def config(self) -> Any:
+        """This backend's config section (``CFG.<name>``)."""
+        return getattr(CFG, self.name)
+
+    @property
     def model(self) -> str:
         """Configured model for this backend (``CFG.<name>.model``)."""
-        return getattr(CFG, self.name).model
+        return self.config.model
 
     @abstractmethod
     def make_client(self) -> instructor.client.AsyncInstructor:

@@ -15,7 +15,6 @@ from vertexai.generative_models import GenerativeModel
 
 from paperext.backends import register
 from paperext.backends.base import Backend
-from paperext.config import CFG
 
 
 @register
@@ -27,9 +26,7 @@ class VertexAIBackend(Backend):
 
     def make_client(self) -> instructor.client.AsyncInstructor:
         normalize_usage = self.normalize_usage
-        # CFG.<section> is typed Config | Path by the config proxy; .project is
-        # only on the Config branch.
-        vertexai.init(project=CFG.vertexai.project)  # type: ignore[union-attr]
+        vertexai.init(project=self.config.project)
         # use_async=True -> AsyncInstructor, so all backends share one client
         # type and the pipeline can uniformly await create_with_completion.
         client = instructor.from_vertexai(
@@ -77,7 +74,7 @@ class VertexAIBackend(Backend):
         client: Any = None,
     ) -> tuple[str, Any]:
         model = model or self.model
-        vertexai.init(project=CFG.vertexai.project)  # type: ignore[union-attr]
+        vertexai.init(project=self.config.project)
         gen_model = client if client is not None else GenerativeModel(model_name=model)
         response = gen_model.generate_content(message)
         return response.text, getattr(response, "usage_metadata", None)
