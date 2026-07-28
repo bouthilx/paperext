@@ -64,9 +64,7 @@ def test_platform_bucket_nests_provider_and_model():
 
 def test_platform_bucket_delegates_to_bucket():
     base = Path("/tmp/queries")
-    assert platform_bucket(base) == bucket(
-        base, CFG.platform.select, selected_model()
-    )
+    assert platform_bucket(base) == bucket(base, CFG.platform.select, selected_model())
 
 
 def test_platform_bucket_follows_runtime_platform_switch():

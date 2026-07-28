@@ -18,7 +18,9 @@ def test_model_dump(cfg):
         (cfg.dir.queries / "openai/gpt-4o/2401.14487_00.json").read_text()
     ) == model.ExtractionResponse(
         **_model_dump(
-            json.loads((cfg.dir.queries / "openai/gpt-4o/2401.14487_00.json").read_text())
+            json.loads(
+                (cfg.dir.queries / "openai/gpt-4o/2401.14487_00.json").read_text()
+            )
         )
     )
 

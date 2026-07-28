@@ -174,9 +174,7 @@ def main(argv=None):
         start_date = options.start.date() if options.start else None
         end_date = options.end.date() if options.end else None
         papers = [
-            paper
-            for paper in papers
-            if is_peer_reviewed(paper, start_date, end_date)
+            paper for paper in papers if is_peer_reviewed(paper, start_date, end_date)
         ]
         logger.info(f"Kept {len(papers)} peer-reviewed papers")
 

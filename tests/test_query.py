@@ -52,9 +52,7 @@ def test_query(
         monkeypatch.setattr(openai, "AsyncOpenAI", MagicMock)
 
     elif platform == "vertexai":
-        monkeypatch.setattr(
-            paperext.backends.vertexai, "GenerativeModel", MagicMock
-        )
+        monkeypatch.setattr(paperext.backends.vertexai, "GenerativeModel", MagicMock)
 
     monkeypatch.setattr(paperext.query.instructor, f"from_{platform}", MagicMock())
 
