@@ -117,3 +117,28 @@ def test_rename_root_to_drop_name_drops_its_subtree(tiny):
     tiny.rename("nn", "ignore")  # top-level name now a drop root
     m = to_category_map(tiny, 1)
     assert "resnet" not in m and "cnn" not in m
+
+
+# =========================================================================== #
+# update_description
+# =========================================================================== #
+
+
+def test_update_description_unknown_node_rejected(tiny):
+    with pytest.raises(OntologyError):
+        tiny.update_description("ghost", "x")
+
+
+def test_update_description_can_clear(tiny):
+    tiny.update_description("ppo", "on-policy")
+    tiny.update_description("ppo", "")  # clearing back to empty is allowed
+    assert tiny.node("ppo").description == ""
+
+
+def test_update_description_unicode_multiline_round_trip(tiny, tmp_path):
+    desc = "Rés—net: skip connections.\nSecond line η≈0.1"
+    tiny.update_description("resnet", desc)
+    tiny.save(tmp_path)
+    reloaded = Ontology.load(tmp_path)
+    assert reloaded.node("resnet").description == desc
+    reloaded.check_invariants()
