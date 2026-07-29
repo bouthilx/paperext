@@ -2,6 +2,8 @@
 llm_paper_extract
 #################
 
+uv run python -m llm_paper_extract.stats --papers data/paperoni-2024-07-05.json
+
 **********************************
 llm_paper_extract.download_convert
 **********************************

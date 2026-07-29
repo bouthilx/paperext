@@ -161,7 +161,7 @@ def load_single_analysis(paper, folder: Path, selector: Callable):
     if paper_path is None:
         return None
 
-    paper_analysis = json.load(open(paper_path))
+    paper_analysis = json.load(open(paper_path, encoding="utf-8"))
     extraction = paper_analysis["extractions"]
 
     # TODO: Normalize some fields here.
@@ -1013,6 +1013,39 @@ def sankey(analysis, category_trees):
 
     # pprint(data)
 
+    # Mila palette: https://coolors.co/ceb3d3-f2c1d3-a9dae9-b9dbc1-f4da92-f3b692-ec9191
+    mila_palette = [
+        "#ceb3d3",
+        "#f2c1d3",
+        "#a9dae9",
+        "#b9dbc1",
+        "#f4da92",
+        "#f3b692",
+        "#ec9191",
+    ]
+    neutral_color = "#c9c9c9"
+
+    domain_colors = dict(zip(base_abstract_topics, mila_palette))
+
+    def hex_to_rgba(hex_color, alpha):
+        hex_color = hex_color.lstrip("#")
+        r, g, b = (int(hex_color[i : i + 2], 16) for i in (0, 2, 4))
+        return f"rgba({r}, {g}, {b}, {alpha})"
+
+    def node_color(label):
+        return domain_colors.get(label, neutral_color)
+
+    def link_domain_color(link):
+        source_label = nodes[link["source"]]["label"]
+        target_label = nodes[link["target"]]["label"]
+        domain_label = (
+            source_label if source_label in domain_colors else target_label
+        )
+        return domain_colors.get(domain_label, neutral_color)
+
+    node_colors = [node_color(node["label"]) for node in nodes]
+    link_colors = [hex_to_rgba(link_domain_color(link), 0.6) for link in links]
+
     fig = go.Figure(
         data=[
             go.Sankey(
@@ -1023,7 +1056,7 @@ def sankey(analysis, category_trees):
                     thickness=15,
                     line=dict(color="black", width=0.5),
                     label=[node["label"] for node in nodes],
-                    color=[],  # "blue", "red", "green", "yellow"],
+                    color=node_colors,
                     customdata=[node["customdata"] for node in nodes],
                     hovertemplate="%{label}<br /><br />%{customdata}<extra></extra>",
                 ),
@@ -1032,6 +1065,7 @@ def sankey(analysis, category_trees):
                     target=[link["target"] for link in links],
                     value=[link["value"] for link in links],
                     label=[link["label"] for link in links],
+                    color=link_colors,
                     customdata=[link["customdata"] for link in links],
                     hovertemplate="%{source.label}-%{target.label}<br /><br />%{customdata}<extra></extra>",
                 ),
@@ -1041,34 +1075,33 @@ def sankey(analysis, category_trees):
 
     fig.update_layout(
         hovermode="x",
-        title="Literature Analysis, Mila, 2023.",
-        font=dict(size=10, color="white"),
-        plot_bgcolor="black",
-        paper_bgcolor="black",
+        title="Sankey diagram of applications, domains and models of Mila papers published in 2023, Milabench",
+        font=dict(size=10, color="black"),
+        plot_bgcolor="white",
+        paper_bgcolor="white",
     )
 
-    fig.show()
+    fig.show(
+        config={
+            "toImageButtonOptions": {
+                "filename": "milabench_sankey_applications_domains_models_2023"
+            }
+        }
+    )
 
 
-def stats_of_selected_groups(analysis, category_trees, domains, models):
+def stats_of_selected_groups(analysis, category_trees, domains, models, stats_folder: Path):
+    stats_folder.mkdir(parents=True, exist_ok=True)
+
     papers_stats = get_papers_stats(
         analysis, category_trees, [("domains", "abstract_research_topics")]
     )
     print(papers_stats[papers_stats.index.isin(domains)])
-    papers_stats[papers_stats.index.isin(domains)].to_pickle("phyl_domains.pkl")
-    papers_stats[papers_stats.index.isin(domains)].reset_index().to_csv(
-        "phyl_domains.csv", index=False, sep="\t"
+    papers_stats[papers_stats.index.isin(domains)].to_pickle(
+        stats_folder / "phyl_domains.pkl"
     )
-
-    papers_stats = get_papers_stats(
-        analysis,
-        category_trees,
-        [("domains", domain) for domain in domains],
-    )
-    print(papers_stats[papers_stats.index.isin(domains)])
-    papers_stats[papers_stats.index.isin(domains)].to_pickle("phyl_domains.pkl")
     papers_stats[papers_stats.index.isin(domains)].reset_index().to_csv(
-        "phyl_domains.csv", index=False, sep="\t"
+        stats_folder / "phyl_domains.csv", index=False, sep="\t"
     )
 
     # test_something(analysis, category_trees, domains, models)
@@ -1102,17 +1135,19 @@ def stats_of_selected_groups(analysis, category_trees, domains, models):
     print(df)
     print(df[df.index.isin(submodels)])
     breakpoint()
-    papers_stats[papers_stats.index.isin(models)].to_pickle("phyl_models.pkl")
+    papers_stats[papers_stats.index.isin(models)].to_pickle(
+        stats_folder / "phyl_models.pkl"
+    )
     papers_stats[papers_stats.index.isin(models)].reset_index().to_csv(
-        "phyl_models.csv", index=False, sep="\t"
+        stats_folder / "phyl_models.csv", index=False, sep="\t"
     )
 
     papers_stats = get_papers_stats(
         papers_with_models, category_trees, [("models", "convolutional neural network")]
     )
     print(papers_stats)
-    papers_stats.to_pickle("phyl_cnn.pkl")
-    papers_stats.reset_index().to_csv("phyl_cnn.csv", index=False, sep="\t")
+    papers_stats.to_pickle(stats_folder / "phyl_cnn.pkl")
+    papers_stats.reset_index().to_csv(stats_folder / "phyl_cnn.csv", index=False, sep="\t")
 
     papers_stats = get_papers_stats(
         papers_with_models, category_trees, [("models", "Vision Transformer")]
@@ -1123,9 +1158,9 @@ def stats_of_selected_groups(analysis, category_trees, domains, models):
         papers_with_models, category_trees, [("models", "transformer")]
     )
     print(papers_stats[-20:])
-    papers_stats[-20:].to_pickle("phyl_transformers.pkl")
+    papers_stats[-20:].to_pickle(stats_folder / "phyl_transformers.pkl")
     papers_stats[-20:].reset_index().to_csv(
-        "phyl_transformers.csv", index=False, sep="\t"
+        stats_folder / "phyl_transformers.csv", index=False, sep="\t"
     )
 
     return
@@ -1301,17 +1336,23 @@ def main(argv=None):
         default=Path("data/categorized_datasets.json"),
         help="Path to categorized datasets",
     )
+    parser.add_argument(
+        "--stats-folder",
+        type=Path,
+        default=Path("data/stats"),
+        help="Folder where the phyl_*.csv/.pkl stat files are written",
+    )
     options = parser.parse_args(argv)
 
     category_trees = {
-        "domains": json.load(open(options.categorized_domains)),
-        "models": json.load(open(options.categorized_models)),
-        "datasets": json.load(open(options.categorized_datasets)),
+        "domains": json.load(open(options.categorized_domains, encoding="utf-8")),
+        "models": json.load(open(options.categorized_models, encoding="utf-8")),
+        "datasets": json.load(open(options.categorized_datasets, encoding="utf-8")),
     }
 
     papers = []
     for papers_json_path in options.papers:
-        papers.extend(json.load(open(papers_json_path)))
+        papers.extend(json.load(open(papers_json_path, encoding="utf-8")))
 
     def select_first_execution(paper_path):
         return datetime.fromtimestamp(os.path.getmtime(paper_path)) < datetime(
@@ -1531,6 +1572,7 @@ def main(argv=None):
             "multi layer perceptron",
             "diffusion model",
         ],
+        options.stats_folder,
     )
 
     breakpoint()
