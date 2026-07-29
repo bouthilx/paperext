@@ -54,3 +54,66 @@ def test_create_node_id_may_equal_a_surface_string(tiny):
     assert "softactorcritic" in tiny
     assert tiny.resolve("Soft Actor-Critic") == "sac"  # surface still resolves
     tiny.check_invariants()
+
+
+# =========================================================================== #
+# rename
+# =========================================================================== #
+
+
+def test_rename_blank_name_rejected(tiny):
+    before = tiny.doc.model_dump()
+    with pytest.raises(InvariantError):
+        tiny.rename("ppo", "   ")
+    assert tiny.doc.model_dump() == before
+
+
+def test_rename_leaves_surfaces_untouched(tiny):
+    # documented contract: rename changes the display name only. The old name's
+    # seed surface keeps resolving; the new name does NOT resolve until added.
+    assert tiny.resolve("CNN") == "cnn"
+    tiny.rename("cnn", "Convolutional Neural Network")
+    assert tiny.resolve("CNN") == "cnn"  # old surface intact
+    assert (
+        tiny.resolve("Convolutional Neural Network") is None
+    )  # new name not a surface
+    # and the caller can opt in explicitly
+    tiny.add_surface("Convolutional Neural Network", "cnn")
+    assert tiny.resolve("Convolutional Neural Network") == "cnn"
+
+
+def test_rename_changes_rollup_label_and_key(tiny):
+    from paperext.ontology import to_category_map
+
+    # at depth 2, resnet rolls up to its parent's *name*
+    assert to_category_map(tiny, 2)["resnet"] == "CNN"
+    tiny.rename("cnn", "ConvNet")
+    m = to_category_map(tiny, 2)
+    assert m["resnet"] == "ConvNet"  # label follows the rename
+    # the node's own roll-up key is its normalized name, which also moved
+    assert "convnet" in m and "cnn" not in m
+
+
+def test_rename_to_same_name_is_noop(tiny):
+    tiny.rename("ppo", "PPO")
+    assert tiny.name("ppo") == "PPO"
+    tiny.check_invariants()
+
+
+def test_rename_into_name_collision_dedups_in_rollup(tiny):
+    from paperext.ontology import to_category_map
+
+    # sac now normalizes to the same key as ppo; roll-up must not crash
+    tiny.rename("sac", "ppo")
+    tiny.check_invariants()  # names aren't invariant-constrained
+    m = to_category_map(tiny, 1)
+    assert m["ppo"] == "algorithms"  # single deduped key, both under algorithms
+
+
+def test_rename_root_to_drop_name_drops_its_subtree(tiny):
+    from paperext.ontology import to_category_map
+
+    assert "resnet" in to_category_map(tiny, 1)
+    tiny.rename("nn", "ignore")  # top-level name now a drop root
+    m = to_category_map(tiny, 1)
+    assert "resnet" not in m and "cnn" not in m
