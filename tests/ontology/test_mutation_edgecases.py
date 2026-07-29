@@ -142,3 +142,52 @@ def test_update_description_unicode_multiline_round_trip(tiny, tmp_path):
     reloaded = Ontology.load(tmp_path)
     assert reloaded.node("resnet").description == desc
     reloaded.check_invariants()
+
+
+# =========================================================================== #
+# add_surface
+# =========================================================================== #
+
+
+def test_add_surface_empty_normalization_rejected(tiny):
+    before = len(tiny.norm)
+    for bad in ("()", "  ", "--"):
+        with pytest.raises(InvariantError):
+            tiny.add_surface(bad, "ppo")
+    assert len(tiny.norm) == before
+
+
+def test_add_surface_idempotent_no_duplicate_row(tiny):
+    tiny.add_surface("PPO Clip", "ppo")
+    n = len(tiny.norm)
+    tiny.add_surface("ppo clip", "ppo")  # same normalized surface + canonical
+    assert len(tiny.norm) == n  # no duplicate appended
+    assert tiny.resolve("PPO Clip") == "ppo"
+
+
+def test_add_surface_collapses_spelling_variants(tiny):
+    tiny.add_surface("ResNet-50", "resnet")
+    tiny.add_surface("resnet 50", "resnet")  # collapses to the same key
+    assert tiny.resolve("RESNET50") == "resnet"
+    assert len([r for r in tiny.norm if r.surface == "resnet50"]) == 1
+
+
+def test_add_surface_flag_persists_and_is_omitted_when_unset(tiny, tmp_path):
+    tiny.add_surface("AdamW", "ppo", via="levenshtein", flag="review")
+    tiny.save(tmp_path)
+    reloaded = Ontology.load(tmp_path)
+    flagged = next(r for r in reloaded.norm if r.surface == "adamw")
+    assert flagged.flag == "review" and flagged.via == "levenshtein"
+    # an unset flag is dropped from the on-disk row (exclude_none)
+    line = (tmp_path / "normalization.jsonl").read_text().splitlines()
+    assert all(("flag" in ln) == (ln.count("adamw") > 0) for ln in line if ln.strip())
+
+
+def test_add_surface_ownership_boundary(tiny):
+    # a name owned by no surface row (here 'junk') can be assigned to another node
+    assert tiny.resolve("junk") is None
+    tiny.add_surface("junk", "ppo")
+    assert tiny.resolve("junk") == "ppo"
+    # but an owned surface cannot be stolen (1:1)
+    with pytest.raises(InvariantError):
+        tiny.add_surface("junk", "sac")
