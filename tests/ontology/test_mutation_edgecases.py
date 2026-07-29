@@ -191,3 +191,37 @@ def test_add_surface_ownership_boundary(tiny):
     # but an owned surface cannot be stolen (1:1)
     with pytest.raises(InvariantError):
         tiny.add_surface("junk", "sac")
+
+
+# =========================================================================== #
+# remove_surface
+# =========================================================================== #
+
+
+def test_remove_surface_normalizes_input(tiny):
+    tiny.add_surface("ResNet-50", "resnet")
+    tiny.remove_surface("resnet 50")  # different spelling, same normalized key
+    assert tiny.resolve("ResNet-50") is None
+
+
+def test_remove_seed_surface_keeps_node(tiny):
+    tiny.remove_surface("resnet")  # its own seed surface
+    assert "resnet" in tiny  # node still present
+    assert tiny.resolve("resnet") is None  # but no longer resolvable by that name
+    tiny.check_invariants()
+
+
+def test_remove_surface_clears_duplicate_rows():
+    # a hand-edited file could carry duplicate identical rows; remove drops all
+    doc = OntologyDoc(
+        meta=Meta(version="v0", dimension="test"),
+        roots=["a"],
+        nodes={"a": Node(name="A")},
+    )
+    o = Ontology(
+        doc,
+        [NormRow(surface="dup", canonical="a"), NormRow(surface="dup", canonical="a")],
+    )
+    o.remove_surface("dup")
+    assert o.resolve("dup") is None
+    assert [r for r in o.norm if r.surface == "dup"] == []
