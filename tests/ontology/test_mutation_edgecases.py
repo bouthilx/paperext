@@ -225,3 +225,46 @@ def test_remove_surface_clears_duplicate_rows():
     o.remove_surface("dup")
     assert o.resolve("dup") is None
     assert [r for r in o.norm if r.surface == "dup"] == []
+
+
+# =========================================================================== #
+# move
+# =========================================================================== #
+
+
+def test_move_to_current_parent_preserves_order(tiny):
+    # ppo is the first of rl's children; moving it to rl again must NOT reorder
+    # it to the end (roll-up DFS order is significant).
+    assert tiny.children("rl") == ["ppo", "sac"]
+    tiny.move("ppo", "rl")
+    assert tiny.children("rl") == ["ppo", "sac"]
+    tiny.check_invariants()
+
+
+def test_move_collapses_a_multiparent_node():
+    # DAG-ready format: a node may sit under two parents. move re-parents it to a
+    # single location (single-primary convention), dropping the other edge.
+    doc = OntologyDoc(
+        meta=Meta(version="v0", dimension="test"),
+        roots=["a", "b", "c"],
+        nodes={
+            "a": Node(name="A", children=["shared"]),
+            "b": Node(name="B", children=["shared"]),
+            "c": Node(name="C"),
+            "shared": Node(name="Shared"),
+        },
+    )
+    o = Ontology(doc, [])
+    assert sorted(o.parents("shared")) == ["a", "b"]
+    o.move("shared", "c")
+    assert o.parents("shared") == ["c"]
+    assert "shared" not in o.children("a") and "shared" not in o.children("b")
+    o.check_invariants()
+
+
+def test_move_changes_depth_cut_rollup(tiny):
+    from paperext.ontology import to_category_map
+
+    assert to_category_map(tiny, 2)["resnet"] == "CNN"  # nn > cnn > resnet
+    tiny.move("resnet", "rl")  # algorithms > rl > resnet
+    assert to_category_map(tiny, 2)["resnet"] == "reinforcement learning"

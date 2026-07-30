@@ -308,10 +308,16 @@ class Ontology:
         self._reindex()
 
     def move(self, node_id: str, new_parent: str) -> None:
-        """Re-parent *node_id* under *new_parent* (single-primary)."""
+        """Re-parent *node_id* under *new_parent* (single-primary).
+
+        A no-op when *new_parent* is already *node_id*'s sole parent, so a
+        redundant move never silently reorders it among its siblings.
+        """
         self._require(node_id, new_parent)
         if new_parent == node_id or new_parent in self._descendants(node_id):
             raise CycleError(f"moving {node_id!r} under {new_parent!r} makes a cycle")
+        if self._parents.get(node_id) == [new_parent] and node_id not in self.doc.roots:
+            return
         self._detach(node_id)
         self.nodes[new_parent].children.append(node_id)
         self._reindex()
