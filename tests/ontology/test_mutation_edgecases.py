@@ -308,3 +308,89 @@ def test_insert_above_multiparent_inherits_all_parents():
     assert sorted(o.parents("grp")) == ["a", "b"]
     assert o.parents("shared") == ["grp"]
     o.check_invariants()
+
+
+# =========================================================================== #
+# demote_to_variant
+# =========================================================================== #
+
+
+def test_demote_root_is_removed_from_roots(tiny):
+    tiny.create_node("solo", "Solo")  # a childless root
+    assert "solo" in tiny.root_map()
+    tiny.demote_to_variant("solo", "ppo")
+    assert "solo" not in tiny and "solo" not in tiny.roots
+    assert tiny.resolve("Solo") == "ppo"  # its name folded in as a surface
+    tiny.check_invariants()
+
+
+def test_demote_records_via_demote(tiny):
+    tiny.demote_to_variant("resnet", "cnn")
+    row = next(r for r in tiny.norm if r.surface == "resnet")
+    assert row.canonical == "cnn" and row.via == "demote"
+
+
+def test_demote_surfaceless_loser_is_plain_delete():
+    # a collision loser (surface-less) folds into nothing: no rows added
+    doc = OntologyDoc(
+        meta=Meta(version="v0", dimension="test"),
+        roots=["algorithms", "nn"],
+        nodes={
+            "algorithms": Node(name="algorithms", children=["sam"]),
+            "sam": Node(name="SAM"),
+            "nn": Node(name="neural networks", children=["sam2"]),
+            "sam2": Node(name="SAM"),  # loser, surface-less
+        },
+    )
+    o = Ontology(doc, [NormRow(surface="sam", canonical="sam")])
+    n_before = len(o.norm)
+    o.demote_to_variant("sam2", "nn")
+    assert "sam2" not in o
+    assert len(o.norm) == n_before  # nothing added; 'sam' still owned by winner
+    assert o.resolve("sam") == "sam"
+    o.check_invariants()
+
+
+def test_demote_name_owned_by_target_makes_no_duplicate():
+    doc = OntologyDoc(
+        meta=Meta(version="v0", dimension="test"),
+        roots=["t", "x"],
+        nodes={"t": Node(name="Target"), "x": Node(name="Foo")},
+    )
+    o = Ontology(doc, [NormRow(surface="foo", canonical="t")])  # target owns 'foo'
+    o.demote_to_variant("x", "t")  # x is named Foo -> normalizes to owned 'foo'
+    assert [r for r in o.norm if r.surface == "foo"] == [
+        NormRow(surface="foo", canonical="t")
+    ]
+    o.check_invariants()
+
+
+def test_demote_multiparent_leaf_drops_all_parents():
+    doc = OntologyDoc(
+        meta=Meta(version="v0", dimension="test"),
+        roots=["a", "b", "t"],
+        nodes={
+            "a": Node(name="A", children=["shared"]),
+            "b": Node(name="B", children=["shared"]),
+            "t": Node(name="T"),
+            "shared": Node(name="Shared"),
+        },
+    )
+    o = Ontology(doc, [])
+    o.demote_to_variant("shared", "t")
+    assert "shared" not in o
+    assert "shared" not in o.children("a") and "shared" not in o.children("b")
+    assert o.resolve("Shared") == "t"
+    o.check_invariants()
+
+
+def test_demote_empty_normalizing_name_not_added():
+    doc = OntologyDoc(
+        meta=Meta(version="v0", dimension="test"),
+        roots=["t", "weird"],
+        nodes={"t": Node(name="T"), "weird": Node(name="()")},
+    )
+    o = Ontology(doc, [])
+    o.demote_to_variant("weird", "t")
+    assert o.norm == []  # empty-normalizing name is not registered as a surface
+    o.check_invariants()
