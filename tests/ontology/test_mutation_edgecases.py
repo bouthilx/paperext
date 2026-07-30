@@ -394,3 +394,43 @@ def test_demote_empty_normalizing_name_not_added():
     o.demote_to_variant("weird", "t")
     assert o.norm == []  # empty-normalizing name is not registered as a surface
     o.check_invariants()
+
+
+# =========================================================================== #
+# remove_node
+# =========================================================================== #
+
+
+def test_remove_childless_root_leaves_rest_reachable(tiny):
+    tiny.create_node("solo", "Solo")  # childless root
+    tiny.remove_node("solo")
+    assert "solo" not in tiny and "solo" not in tiny.roots
+    # childless precondition means removal can never orphan a subtree
+    tiny.check_invariants()
+
+
+def test_remove_node_cascades_all_surfaces(tiny):
+    # ppo carries two surfaces; both rows must cascade away
+    assert sorted(tiny.surfaces("ppo")) == ["ppo", "proximalpolicyoptimization"]
+    tiny.remove_node("ppo")
+    assert tiny.resolve("PPO") is None
+    assert tiny.resolve("Proximal Policy Optimization") is None
+    assert [r for r in tiny.norm if r.canonical == "ppo"] == []
+    tiny.check_invariants()
+
+
+def test_remove_multiparent_node_drops_all_parents():
+    doc = OntologyDoc(
+        meta=Meta(version="v0", dimension="test"),
+        roots=["a", "b"],
+        nodes={
+            "a": Node(name="A", children=["shared"]),
+            "b": Node(name="B", children=["shared"]),
+            "shared": Node(name="Shared"),
+        },
+    )
+    o = Ontology(doc, [])
+    o.remove_node("shared")
+    assert "shared" not in o
+    assert o.children("a") == [] and o.children("b") == []
+    o.check_invariants()
