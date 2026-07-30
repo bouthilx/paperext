@@ -434,3 +434,55 @@ def test_remove_multiparent_node_drops_all_parents():
     assert "shared" not in o
     assert o.children("a") == [] and o.children("b") == []
     o.check_invariants()
+
+
+# =========================================================================== #
+# mark_ignore
+# =========================================================================== #
+
+
+def test_mark_ignore_when_ignore_id_taken_by_a_nonroot_node():
+    from paperext.ontology import to_category_map
+
+    # a nested node already owns the id 'ignore', and there is no ignore *root*
+    doc = OntologyDoc(
+        meta=Meta(version="v0", dimension="test"),
+        roots=["nn"],
+        nodes={
+            "nn": Node(name="neural networks", children=["cnn", "ignore"]),
+            "cnn": Node(name="CNN"),
+            "ignore": Node(name="ignore"),  # nested, NOT a drop root
+        },
+    )
+    o = Ontology(doc, [])
+    o.mark_ignore("cnn")  # must create an ignore *root* without clobbering the id
+    # cnn now drops from the roll-up
+    assert "cnn" not in to_category_map(o, 1)
+    # the pre-existing nested 'ignore' node is untouched
+    assert o.parents("ignore") == ["nn"] and o.name("ignore") == "ignore"
+    o.check_invariants()
+
+
+def test_mark_ignore_is_idempotent(tiny):
+    tiny.mark_ignore("cnn")
+    tiny.mark_ignore("cnn")  # already under ignore -> clean no-op (move short-circuits)
+    assert tiny.parents("cnn") == ["ignore"]
+    assert tiny.children("ignore").count("cnn") == 1
+    tiny.check_invariants()
+
+
+def test_mark_ignore_matches_ignore_root_case_insensitively():
+    doc = OntologyDoc(
+        meta=Meta(version="v0", dimension="test"),
+        roots=["nn", "Ignore"],
+        nodes={
+            "nn": Node(name="neural networks", children=["cnn"]),
+            "cnn": Node(name="CNN"),
+            "Ignore": Node(name="Ignore"),  # capitalized; normalizes to 'ignore'
+        },
+    )
+    o = Ontology(doc, [])
+    o.mark_ignore("cnn")
+    assert o.parents("cnn") == ["Ignore"]  # reused, no new root created
+    assert list(o.roots) == ["nn", "Ignore"]
+    o.check_invariants()

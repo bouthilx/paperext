@@ -407,8 +407,12 @@ class Ontology:
             (r for r in self.doc.roots if str_normalize(self.name(r)) in drop), None
         )
         if ignore_id is None:
-            ignore_id = str_normalize(next(iter(DEFAULT_DROP_ROOTS)))
-            self.create_node(ignore_id, next(iter(DEFAULT_DROP_ROOTS)))
+            ignore_name = next(iter(DEFAULT_DROP_ROOTS))
+            base = str_normalize(ignore_name) or "ignore"
+            ignore_id, n = base, 2
+            while ignore_id in self.nodes:  # id may be taken by an unrelated node
+                ignore_id, n = f"{base}__{n}", n + 1
+            self.create_node(ignore_id, ignore_name)
         if node_id == ignore_id:
             raise InvariantError("cannot ignore the ignore root itself")
         self.move(node_id, ignore_id)
