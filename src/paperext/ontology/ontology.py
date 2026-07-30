@@ -473,3 +473,13 @@ class Ontology:
         orphans = [nid for nid, c in color.items() if c != BLACK]
         if orphans:
             raise InvariantError(f"orphan nodes unreachable from roots: {orphans[:5]}")
+
+        # a root must not also be someone's child, else its subtree double-counts
+        # in the DFS roll-up. Checked after cycle detection so a genuine cycle
+        # (which also makes a root a child) still reports as a CycleError.
+        child_ids = {cid for node in nodes.values() for cid in node.children}
+        for rid in self.doc.roots:
+            if rid in child_ids:
+                raise InvariantError(
+                    f"root {rid!r} is also a child (its subtree double-counts)"
+                )

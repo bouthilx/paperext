@@ -486,3 +486,63 @@ def test_mark_ignore_matches_ignore_root_case_insensitively():
     assert o.parents("cnn") == ["Ignore"]  # reused, no new root created
     assert list(o.roots) == ["nn", "Ignore"]
     o.check_invariants()
+
+
+# =========================================================================== #
+# check_invariants
+# =========================================================================== #
+
+
+def test_check_invariants_accepts_a_legit_dag():
+    # a node reachable via two parents (no cycle) is valid, not a false cycle
+    doc = OntologyDoc(
+        meta=Meta(version="v0", dimension="test"),
+        roots=["a", "b"],
+        nodes={
+            "a": Node(name="A", children=["shared"]),
+            "b": Node(name="B", children=["shared"]),
+            "shared": Node(name="Shared"),
+        },
+    )
+    Ontology(doc, []).check_invariants()  # must not raise
+
+
+def test_check_invariants_accepts_empty_ontology():
+    doc = OntologyDoc(meta=Meta(version="v0", dimension="test"), roots=[], nodes={})
+    Ontology(doc, []).check_invariants()
+
+
+def test_check_invariants_allows_duplicate_identical_rows():
+    # redundant but not a 1:1 violation (still surface -> one canonical)
+    doc = OntologyDoc(
+        meta=Meta(version="v0", dimension="test"),
+        roots=["a"],
+        nodes={"a": Node(name="A")},
+    )
+    o = Ontology(
+        doc,
+        [NormRow(surface="x", canonical="a"), NormRow(surface="x", canonical="a")],
+    )
+    o.check_invariants()  # must not raise
+
+
+def test_check_invariants_deep_chain_no_recursion_error():
+    n = 3000
+    nodes = {f"n{i}": Node(name=f"N{i}", children=[f"n{i + 1}"]) for i in range(n)}
+    nodes[f"n{n}"] = Node(name=f"N{n}")
+    doc = OntologyDoc(
+        meta=Meta(version="v0", dimension="test"), roots=["n0"], nodes=nodes
+    )
+    Ontology(doc, []).check_invariants()  # iterative DFS: no RecursionError
+
+
+def test_check_invariants_root_that_is_also_a_child_rejected():
+    # 'x' is both a root and a child of 'a' -> its subtree is visited twice by the
+    # DFS roll-up (double-counted). This is a structural inconsistency.
+    doc = OntologyDoc(
+        meta=Meta(version="v0", dimension="test"),
+        roots=["a", "x"],
+        nodes={"a": Node(name="A", children=["x"]), "x": Node(name="X")},
+    )
+    with pytest.raises(InvariantError, match="root"):
+        Ontology(doc, []).check_invariants()
