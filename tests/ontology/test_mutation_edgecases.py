@@ -268,3 +268,43 @@ def test_move_changes_depth_cut_rollup(tiny):
     assert to_category_map(tiny, 2)["resnet"] == "CNN"  # nn > cnn > resnet
     tiny.move("resnet", "rl")  # algorithms > rl > resnet
     assert to_category_map(tiny, 2)["resnet"] == "reinforcement learning"
+
+
+# =========================================================================== #
+# insert_above
+# =========================================================================== #
+
+
+def test_insert_above_blank_name_rejected(tiny):
+    before = tiny.doc.model_dump()
+    with pytest.raises(InvariantError):
+        tiny.insert_above("resnet", "block", "  ")
+    assert tiny.doc.model_dump() == before
+    assert "block" not in tiny
+
+
+def test_insert_above_shifts_depth_cut(tiny):
+    from paperext.ontology import to_category_map
+
+    assert to_category_map(tiny, 3)["resnet"] == "ResNet"  # nn>cnn>resnet
+    tiny.insert_above("resnet", "block", "Block")  # nn>cnn>block>resnet
+    assert to_category_map(tiny, 3)["resnet"] == "Block"
+
+
+def test_insert_above_multiparent_inherits_all_parents():
+    doc = OntologyDoc(
+        meta=Meta(version="v0", dimension="test"),
+        roots=["a", "b"],
+        nodes={
+            "a": Node(name="A", children=["shared"]),
+            "b": Node(name="B", children=["shared"]),
+            "shared": Node(name="Shared"),
+        },
+    )
+    o = Ontology(doc, [])
+    o.insert_above("shared", "grp", "Group")
+    # the new grouping node takes shared's slot under *both* parents
+    assert o.children("a") == ["grp"] and o.children("b") == ["grp"]
+    assert sorted(o.parents("grp")) == ["a", "b"]
+    assert o.parents("shared") == ["grp"]
+    o.check_invariants()
