@@ -2,12 +2,28 @@ from __future__ import annotations
 
 import argparse
 import json
+import socket
 import subprocess
 import sys
+import time
+import urllib.error
 import urllib.request
 from pathlib import Path
 
 from .utils import python_module
+
+# Avoid hanging forever on unresponsive / paywalled hosts. urlretrieve() has no
+# per-call timeout parameter, so it relies on this process-wide default.
+socket.setdefaulttimeout(30)
+
+# Minimum delay between download attempts and retry/backoff settings for
+# transient network failures (unreachable network, DNS hiccups, resets,
+# timeouts). Hammering a single host (e.g. arxiv.org) with hundreds of
+# back-to-back requests triggers exactly these errors as throttling, even
+# though the host is otherwise reachable.
+REQUEST_DELAY_SECONDS = 1.0
+MAX_RETRIES = 3
+RETRY_BACKOFF_SECONDS = 5
 
 PROG = f"python3 -m {python_module(__file__)}"
 
@@ -48,16 +64,43 @@ Example:
 """
 
 
+def _is_transient(e: Exception) -> bool:
+    # HTTPError with a definitive status code (403 Forbidden, 404 Not Found, ...)
+    # won't change on retry. Everything else funneled through OSError -
+    # connection reset, DNS resolution failure, timeout, "unreachable network" -
+    # tends to be throttling/transient, especially when it appears only after
+    # many rapid requests to the same host.
+    if isinstance(e, urllib.error.HTTPError):
+        return e.code in (429, 500, 502, 503, 504)
+    return isinstance(e, OSError)
+
+
 def convert_pdf(pdf, text, pdf_link):
     pdf.parent.mkdir(parents=True, exist_ok=True)
     if not pdf.exists():
         print("Downloading from", pdf_link, "to", str(pdf), file=sys.stderr)
-        try:
-            urllib.request.urlretrieve(pdf_link, str(pdf))
-        except (urllib.error.HTTPError, ValueError) as e:
-            print(f"Failed to download {pdf_link}: {e}", file=sys.stderr)
-            pdf.unlink(missing_ok=True)
-            return None
+        for attempt in range(1, MAX_RETRIES + 1):
+            time.sleep(REQUEST_DELAY_SECONDS)
+            try:
+                urllib.request.urlretrieve(pdf_link, str(pdf))
+                break
+            except (OSError, ValueError) as e:
+                # OSError covers urllib.error.URLError/HTTPError as well as lower-level
+                # network failures (connection reset, timeout, DNS failure, SSL errors)
+                # that the original except clause didn't catch and that crashed the
+                # whole batch instead of being logged as a single paper failure.
+                if attempt < MAX_RETRIES and _is_transient(e):
+                    wait = RETRY_BACKOFF_SECONDS * attempt
+                    print(
+                        f"Transient failure downloading {pdf_link} "
+                        f"(attempt {attempt}/{MAX_RETRIES}): {e}. Retrying in {wait}s...",
+                        file=sys.stderr,
+                    )
+                    time.sleep(wait)
+                    continue
+                print(f"Failed to download {pdf_link}: {e}", file=sys.stderr)
+                pdf.unlink(missing_ok=True)
+                return None
     if not text.exists():
         # pdftotext comes from https://poppler.freedesktop.org/
         try:
