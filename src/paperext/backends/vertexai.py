@@ -38,7 +38,7 @@ class GeminiBackend(Backend):
     # verified (GCP-gated); none retried for now.
     rate_limit_errors: tuple[type[BaseException], ...] = ()
 
-    def make_client(self) -> instructor.client.AsyncInstructor:
+    def make_client(self) -> instructor.AsyncInstructor:
         normalize_usage = self.normalize_usage
         vertexai.init(project=self.config.project)
         # use_async=True -> AsyncInstructor, so all backends share one client
@@ -100,7 +100,7 @@ class ClaudeVertexBackend(Backend):
     # verified (GCP-gated); none retried for now.
     rate_limit_errors: tuple[type[BaseException], ...] = ()
 
-    def make_client(self) -> instructor.client.AsyncInstructor:
+    def make_client(self) -> instructor.AsyncInstructor:
         model = self.model
         normalize_usage = self.normalize_usage
         client = instructor.from_anthropic(

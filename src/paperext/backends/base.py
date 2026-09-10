@@ -40,7 +40,7 @@ class Backend(ABC):
         return self.config.model
 
     @abstractmethod
-    def make_client(self) -> instructor.client.AsyncInstructor:
+    def make_client(self) -> instructor.AsyncInstructor:
         """Return an async instructor client whose
         ``chat.completions.create_with_completion`` awaits to
         ``(extractions, usage)`` for this provider."""

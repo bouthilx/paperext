@@ -16,7 +16,7 @@ class OpenAIBackend(Backend):
     name = "openai"
     rate_limit_errors: tuple[type[BaseException], ...] = (openai.RateLimitError,)
 
-    def make_client(self) -> instructor.client.AsyncInstructor:
+    def make_client(self) -> instructor.AsyncInstructor:
         model = self.model
         normalize_usage = self.normalize_usage
         client = instructor.from_openai(

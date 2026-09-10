@@ -27,13 +27,13 @@ def get_system_message() -> str:
 
 
 def get_extraction_response() -> (
-    ai4hcat.model.ExtractionResponse | mdl.model.ExtractionResponse
+    type[ai4hcat.model.ExtractionResponse] | type[mdl.model.ExtractionResponse]
 ):
     return STRUCT_MODULES[CFG.platform.struct].ExtractionResponse
 
 
 def get_paper_extractions() -> (
-    ai4hcat.model.PaperExtractions | mdl.model.PaperExtractions
+    type[ai4hcat.model.PaperExtractions] | type[mdl.model.PaperExtractions]
 ):
     return STRUCT_MODULES[CFG.platform.struct].PaperExtractions
 
@@ -56,7 +56,7 @@ Example:
 
 
 async def extract_from_research_paper(
-    client: instructor.client.AsyncInstructor,
+    client: instructor.AsyncInstructor,
     message: str,
     rate_limit_errors: Tuple[type[BaseException], ...] = (),
 ) -> Tuple[Any, Any]:
@@ -88,7 +88,7 @@ async def extract_from_research_paper(
 
 
 async def batch_extract_models_names(
-    client: instructor.client.AsyncInstructor,
+    client: instructor.AsyncInstructor,
     papers_fn: List[Path],
     destination: Path = CFG.dir.queries,
     rate_limit_errors: Tuple[type[BaseException], ...] = (),
@@ -153,7 +153,7 @@ async def batch_extract_models_names(
 
 
 async def ignore_exceptions(
-    client: instructor.client.AsyncInstructor,
+    client: instructor.AsyncInstructor,
     validation_set: List[Path],
     *args,
     **kwargs,
