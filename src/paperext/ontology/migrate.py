@@ -23,7 +23,7 @@ All concept-vs-variant judgment (is ``resnet-50`` its own model or a spelling of
 import argparse
 import json
 from pathlib import Path
-from typing import Union
+from typing import Container, Union
 
 from paperext.analysis.rollup import str_normalize
 from paperext.ontology.ontology import (
@@ -41,6 +41,22 @@ LEGACY_TREES = {
 }
 
 
+def make_node_id(name: str, taken: Container[str]) -> str:
+    """A node id for *name*: its normalized slug, uniquified with ``__2``, ``__3``.
+
+    Exposed (rather than kept as a closure in :func:`build_v0`) so ids minted
+    later — by the D1b agent, via
+    :func:`paperext.categorize.apply.suggest_node_id` — are indistinguishable from
+    the ones the ``v0`` migration produced. Does not mutate *taken*.
+    """
+    base = str_normalize(name) or "node"
+    cand, n = base, 2
+    while cand in taken:
+        cand = f"{base}__{n}"
+        n += 1
+    return cand
+
+
 def build_v0(
     tree_path: Union[str, Path], dimension: str
 ) -> "tuple[OntologyDoc, list[NormRow], dict]":
@@ -56,11 +72,7 @@ def build_v0(
     used_ids: "set[str]" = set()
 
     def new_id(name: str) -> str:
-        base = str_normalize(name) or "node"
-        cand, n = base, 2
-        while cand in used_ids:
-            cand = f"{base}__{n}"
-            n += 1
+        cand = make_node_id(name, used_ids)
         used_ids.add(cand)
         return cand
 
