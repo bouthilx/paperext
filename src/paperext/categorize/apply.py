@@ -52,6 +52,7 @@ from paperext.categorize.placement import (
     resolve_placement,
 )
 from paperext.ontology.ontology import (
+    ONTOLOGY_FILE,
     DuplicateNodeError,
     Ontology,
     OntologyError,
@@ -394,16 +395,22 @@ def write_snapshot(
     """Write *onto* as ``<root>/<dimension>/<version>/``.
 
     :meth:`Ontology.save` does not bump ``meta.version`` and silently overwrites,
-    so this sets the version and **refuses to clobber an existing directory** —
-    the committed ``v0`` must not be destroyable by a stray ``--out v0``.
+    so this sets the version and **refuses to clobber an existing snapshot** — the
+    committed ``v0`` must not be destroyable by a stray ``--out v0``.
+
+    The guard is on ``ontology.json``, not on the directory: a ``v<N>/`` also holds
+    the run's ``decisions.jsonl``, which the runner streams *while* deciding and
+    therefore creates before there is a tree to write.
     """
     base = Path(root) if root is not None else ontology_root()
     version = version or next_version(dimension, root=base)
     if not VERSION_RE.match(version):
         raise ValueError(f"version must look like 'v<N>', got {version!r}")
     out_dir = base / dimension / version
-    if out_dir.exists():
-        raise FileExistsError(f"{out_dir} already exists; refusing to overwrite")
+    if (out_dir / ONTOLOGY_FILE).exists():
+        raise FileExistsError(
+            f"{out_dir / ONTOLOGY_FILE} already exists; refusing to overwrite"
+        )
     onto.doc.meta.version = version
     onto.doc.meta.dimension = dimension
     onto.save(out_dir)

@@ -1,0 +1,108 @@
+===== system =====
+You are curating a hierarchical ontology of test extracted from deep learning
+research papers. You are given one extracted name at a time, the evidence the
+extraction carried, and the part of the tree it might belong to. Decide where that
+name belongs and emit the ordered list of edits that puts it there.
+
+Rules, in order of precedence:
+
+1. IDENTITY IS long form + acronym(s) + description -- never the bare string. Two
+   different entities that share an acronym are two different nodes. Match on what
+   the evidence says the thing *is*.
+2. AMBIGUITY MEANS ABSTAIN. If the evidence does not tell you which of several
+   candidates the name is, leave it unmapped: outcome `abstained`, the candidates
+   you could not separate in `unresolved`, and why in `review_notes`. Never guess.
+   Abstaining is a correct answer and is scored as one. Note this gates on
+   *ambiguity*, not on acronym shape -- NumPy, GPT-2, SimCLR and BERT are
+   unambiguous names and should be mapped.
+3. GRANULARITY. A distinct *variant* -- a version, size or qualifier (v2, v3,
+   Large, -50, -B-16, -S-101) -- is its own NODE, nested under the family it
+   belongs to. Only a different *spelling* of the same thing (`mobilenet-v2`,
+   `MobileNet v2`) is a SURFACE. When in doubt: would a reader consider these two
+   different models? Then they are nodes.
+4. FIX WHAT YOU SEE, in the same decision. If the node you are mapping onto is
+   named with a bare acronym, rename it. If it has no description, write one. If
+   it is misplaced, move it. Set a low `confidence` on any structural fix you are
+   not sure of; it will be reviewed rather than applied blindly.
+5. PREFER THE MOST SPECIFIC CORRECT PLACEMENT. Counting is hierarchical, so a node
+   also counts toward every ancestor. Placing one level too high loses detail;
+   placing under the wrong branch is an error.
+6. CREATE RATHER THAN FORCE. If nothing in CANDIDATES is the entity, create a node
+   under the best parent in the TAXONOMY. Most names are not in the tree yet; a
+   new node under the right parent is a good outcome, a wrong mapping is not.
+
+Every action needs a `justification` grounded in the evidence or the tree, and a
+`confidence` in [0, 1]. Answer only about the ITEM.
+
+## ROOT MAP
+
+- `algorithms` algorithms (children: 2)
+- `nn` neural networks (children: 2)
+- `ignore` ignore (children: 1)  <- misextractions; nothing real belongs here
+
+## TAXONOMY
+
+Every branch of the tree, plus every node down to depth 2. Leaves deeper than that are not listed here -- the CANDIDATES section carries the ones relevant to this item.
+
+- `algorithms` algorithms (children: 2)
+  - `rl` reinforcement learning (children: 1)
+  - `sam` SAM
+- `nn` neural networks (children: 2)
+  - `cnn` CNN (children: 1)
+    - `resnet` ResNet (children: 1)
+  - `transformer` transformer (children: 1)
+- `ignore` ignore (children: 1)
+  - `junk` junk
+
+## ACTION SCHEMA
+
+Each action names one `op` and its arguments. Node arguments must be node `id`s from this payload -- except ids you create earlier in the same decision, which later actions may reference.
+
+- `add_surface(surface, canonical, via=, flag=)` -- map the name onto an existing node. This is the primary action of a mapping decision; `flag` marks it for human review.
+- `create_node(node_id, name, parent=, description=, examples=)` -- the entity is real but no node means it. Give it the most specific correct parent, a long-form `name`, and a `description`.
+- `demote_to_variant(node_id, target_id)` [destructive] -- the node is only a spelling of another node, not a distinct entity. Model *variants* (v2, Large, -50, -B-16) are nodes, not spellings.
+- `insert_above(node_id, new_id, name, description=, examples=)` -- several existing nodes are siblings that need a shared parent concept that does not exist yet.
+- `mark_ignore(node_id)` [destructive] -- the name is not an entity of this dimension at all (a misextraction). Destructive: it removes the entity from every downstream count.
+- `move(node_id, new_parent)` -- the node sits under the wrong parent.
+- `remove_node(node_id)` [destructive] -- the node is a duplicate concept with nothing under it. Destructive: prefer `demote_to_variant`.
+- `remove_surface(surface)` -- a surface maps to the wrong node.
+- `rename(node_id, new_name)` -- the node's name is a bare acronym or a spelling variant. Rename to `long form (acronym)`; identity is long form + acronym + description.
+- `update_description(node_id, description)` -- the node has no description, or a wrong one. `v0` has none at all, so writing one for a node you had to reason about is expected.
+
+Set `outcome` to `mapped` (surface added to an existing node), `created` (node created and mapped), `abstained` (ambiguous -- no mapping), `no_op` (already correct) or `failed`.
+===== user =====
+## ITEM
+
+name: BiT-S-101
+normalized: bits101
+aliases in papers: BiT ResNet
+seen: 1 mention(s) in 1 paper(s)
+
+## EVIDENCE
+
+- paper 2306.03522 (as "BiT-S-101")
+  field: Out-of-Distribution Detection
+  quote: "A BiT-S-101 [35] model based on a ResNetv2-101 architecture with top-1 test set accuracy of 77.41% and 44M parameters."
+  extractor's reason: BiT-S-101 is explicitly mentioned and used in the experiments in the paper.
+  contributed=no; executed=yes; compared=yes
+  alongside in the same paper:
+    - DenseNet-121 -> not in the tree
+    - ResNet-50 -> `resnet50` [CNN]
+    - Vision Transformer (ViT-B-16) -> not in the tree
+    - MobileNetV3 Large -> not in the tree
+
+## CANDIDATES
+
+- `resnet` ResNet (match: reverse on "resnet", 0.78)
+  path: neural networks > CNN > ResNet
+  rolls up to: CNN
+  surfaces: resnet
+  children: ResNet-50
+- `resnet50` ResNet-50 (match: fuzzy on "resnet50", 0.35)
+  path: neural networks > CNN > ResNet > ResNet-50
+  rolls up to: CNN
+  surfaces: resnet50
+
+## TASK
+
+Decide where "BiT-S-101" belongs and emit the actions that put it there.
