@@ -450,8 +450,14 @@ def render_context(ctx: Context) -> str:
     return "\n".join(lines)
 
 
-def render_payload(payload: Payload) -> str:
-    """The per-item half, as sent."""
+def render_evidence(payload: Payload, *, annotate: bool = True) -> "list[str]":
+    """The ITEM + EVIDENCE lines, shared with the #53 blind adjudicator.
+
+    With ``annotate=False`` the co-occurring entities render as bare names. The
+    adjudicator compares two placements without being told which is the legacy
+    one, and showing it where the *current* tree puts the neighbours would hand
+    the reference a free hint.
+    """
     lines = ["## ITEM", ""]
     lines.append(f"name: {payload.name}")
     lines.append(f"normalized: {payload.surface}")
@@ -480,12 +486,21 @@ def render_payload(payload: Payload) -> str:
         if ev.alongside:
             lines.append("  alongside in the same paper:")
             for co in ev.alongside:
+                if not annotate:
+                    lines.append(f"    - {co.name}")
+                    continue
                 where = (
                     f"-> `{co.node_id}` [{co.cut_category or 'no category'}]"
                     if co.node_id
                     else "-> not in the tree"
                 )
                 lines.append(f"    - {co.name} {where}")
+    return lines
+
+
+def render_payload(payload: Payload) -> str:
+    """The per-item half, as sent."""
+    lines = render_evidence(payload)
 
     lines += ["", "## CANDIDATES", ""]
     if not payload.candidates:

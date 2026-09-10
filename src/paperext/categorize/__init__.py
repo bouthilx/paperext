@@ -8,11 +8,18 @@ D1b-1 (#51) is the **deterministic half** — the action vocabulary, the
 transactional applier, and the eval scaffolding. D1b-2 (#52) adds retrieval
 (:mod:`~paperext.categorize.candidates`), the corpus fold
 (:mod:`~paperext.categorize.items`) and the payload
-(:mod:`~paperext.categorize.prompt`) — all still API-free and pure. Only
-:mod:`~paperext.categorize.agent` imports ``instructor`` and
-:mod:`paperext.backends`, and it is deliberately not re-exported here so that
-importing this package never pulls in a provider SDK. The eval harness is D1b-3
-(#53).
+(:mod:`~paperext.categorize.prompt`) — all still API-free and pure. D1b-3 (#53)
+adds the eval: :mod:`~paperext.categorize.metrics` (pure statistics),
+:mod:`~paperext.categorize.probes` (reference-free control sets),
+:mod:`~paperext.categorize.adjudicate` (blind pairwise judging) and
+:mod:`~paperext.categorize.evaluate` (the harness, the gate and
+``categorize-eval``).
+
+Only :mod:`~paperext.categorize.agent`, :mod:`~paperext.categorize.adjudicate`
+and :mod:`~paperext.categorize.evaluate` reach a provider, and none of them is
+re-exported here, so importing this package never pulls in a provider SDK.
+Neither are the D1b-3 names below: the eval modules import each other directly
+rather than growing this list further.
 
 Layers::
 
@@ -22,6 +29,7 @@ Layers::
     payload           -> [agent]      -> Decision(actions=[Action, ...])
     Decision          -> [apply]      -> mutated Ontology + DecisionRecord
     DecisionRecord    -> decisions.jsonl (append-only audit + replay input)
+    DecisionRecord    -> [evaluate]   -> ItemScore -> Report -> gate verdict
 """
 
 from paperext.categorize.ablate import (
