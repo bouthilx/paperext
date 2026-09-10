@@ -22,6 +22,7 @@ gut the surrounding context the agent legitimately needs.
 from __future__ import annotations
 
 import re
+from typing import Iterable
 
 from paperext.analysis.rollup import str_normalize
 from paperext.ontology.ontology import Ontology
@@ -87,12 +88,18 @@ def _redaction_pattern(surface: str) -> "re.Pattern[str]":
     )
 
 
+def _redaction_patterns(spellings: "Iterable[str]") -> "list[re.Pattern[str]]":
+    """One pattern per distinct spelling, in a deterministic order."""
+    return [_redaction_pattern(text) for text in sorted(set(spellings)) if text]
+
+
 def ablate(onto: Ontology, surface: str) -> Ontology:
     """Return a copy of *onto* with *surface* hidden. *onto* is not touched.
 
     Removes every node whose name is *surface* (cascading their normalization
     rows), drops any remaining row for that surface, and scrubs token-delimited
-    occurrences from the surviving descriptions and examples.
+    occurrences -- in every spelling the removed nodes carried -- from the
+    surviving descriptions and examples.
     """
     if not ablatable(onto, surface):
         raise AblationError(
@@ -105,17 +112,55 @@ def ablate(onto: Ontology, surface: str) -> Ontology:
     resolved = scratch.resolve(surface)
     if resolved is not None:
         targets.add(resolved)
+    # The scrub matches every *spelling* the removed nodes were written in, not
+    # only the query. A caller holding a normalized surface ("vitb16") would
+    # otherwise build a pattern that cannot see "ViT-B/16" in a description, since
+    # normalization has already welded the separators away.
+    spellings = {surface} | {scratch.name(nid) for nid in targets}
     for node_id in sorted(targets):
+        spellings.update(scratch.surfaces(node_id))
         scratch.remove_node(node_id)  # cascade-drops that node's surface rows
 
     if scratch.resolve(surface) is not None:  # a row not owned by a removed node
         scratch.remove_surface(surface)
 
-    pattern = _redaction_pattern(surface)
-    for node in scratch.nodes.values():
-        if node.description and pattern.search(node.description):
-            node.description = pattern.sub(REDACTED, node.description)
-        node.examples = [e for e in node.examples if not pattern.search(e)]
+    for pattern in _redaction_patterns(spellings):
+        for node in scratch.nodes.values():
+            if node.description and pattern.search(node.description):
+                node.description = pattern.sub(REDACTED, node.description)
+            node.examples = [e for e in node.examples if not pattern.search(e)]
 
     scratch.check_invariants()
     return scratch
+
+
+def residual_names(onto: Ontology, *spellings: str) -> "list[str]":
+    """Surviving node names that still contain any of *spellings* as a whole token.
+
+    Pass the raw display name as well as the normalized surface: a pattern built
+    from ``vitb16`` cannot see ``ViT-B/16``, so the two find different residue.
+
+    :func:`ablate` removes the nodes whose name **is** the surface, but ``v0``
+    deliberately keeps duplicate and near-duplicate nodes for D1b to resolve, so a
+    held-out name can survive inside a *different* node's name. Two shapes, and
+    they are not the same thing:
+
+    - a genuine duplicate of the same concept -- ``resnet-20`` left behind in
+      ``residual networks (resnet-20)``, ``variational autoencoder`` in
+      ``variational autoencoder (vae)``. The held-out answer is still on the page.
+    - a legitimately different entity that happens to contain the string --
+      ``gan`` inside ``dp-gan``, ``mpnn++`` beside its parent ``mpnn``. That is the
+      neighbourhood the eval *intends* the agent to reason from.
+
+    Telling those apart is the identity judgment the agent is being asked to make,
+    so it cannot be decided here, and scrubbing the names would destroy the second
+    case to fix the first. This reports them instead: on the sealed splits, 22 of
+    200 ``dev`` and 24 of 300 ``gate`` items leave some residue. #53 should report
+    its headline both with and without them rather than assume either answer.
+    """
+    patterns = _redaction_patterns(spellings)
+    return sorted(
+        node.name
+        for node in onto.nodes.values()
+        if any(p.search(node.name) for p in patterns)
+    )

@@ -13,6 +13,7 @@ from paperext.categorize.ablate import (
     ablatable,
     ablate,
     copy_ontology,
+    residual_names,
 )
 from paperext.categorize.apply import content_hash
 
@@ -111,3 +112,34 @@ def test_copy_ontology_shares_no_state(tiny):
     assert content_hash(copy) == content_hash(tiny)
     copy.remove_node("vit")
     assert "vit" in tiny
+
+
+def test_the_scrub_matches_every_spelling_the_removed_node_carried(tiny):
+    """A caller holding the *normalized* surface must still get a full scrub.
+
+    ``_redaction_pattern("resnet50")`` cannot see "ResNet-50" -- normalization has
+    already welded the separators away -- so `ablate` builds its patterns from the
+    removed nodes' own names too.
+    """
+    tiny.update_description("cnn", "Convolutional nets, e.g. ResNet-50 and VGG.")
+    scratch = ablate(tiny, "resnet50")
+    assert "ResNet-50" not in scratch.node("cnn").description
+    assert "VGG" in scratch.node("cnn").description
+    assert scratch.node("cnn").examples == ["1512.03385"]
+
+
+def test_residual_names_reports_a_duplicate_the_ablation_cannot_remove(tiny):
+    """``v0`` keeps duplicate concepts for D1b to resolve, so a held-out name can
+    survive inside a *different* node's name. That is reported, not scrubbed:
+    telling a duplicate from a genuinely different entity is the judgment the
+    agent is being asked to make."""
+    tiny.create_node("resnet50v2", "residual networks (ResNet-50)", parent="resnet")
+    scratch = ablate(tiny, "resnet50")
+    assert "resnet50" not in scratch.nodes
+    assert residual_names(scratch, "resnet50", "ResNet-50") == [
+        "residual networks (ResNet-50)"
+    ]
+
+
+def test_residual_names_is_empty_for_a_cleanly_hidden_name(tiny):
+    assert residual_names(ablate(tiny, "vit"), "vit", "ViT") == []

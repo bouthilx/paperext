@@ -39,12 +39,9 @@ from pydantic import BaseModel, Field
 from paperext.analysis.rollup import DEFAULT_DROP_ROOTS, Cut, str_normalize
 from paperext.categorize.ablate import ablatable, name_matches
 from paperext.categorize.apply import content_hash, ontology_root
+from paperext.categorize.candidates import anchor_ids, normalized_keys
 from paperext.categorize.placement import load_dimension_cut, to_placement
 from paperext.ontology.ontology import Ontology
-
-#: Shortest node name allowed to anchor a longer query by reverse containment.
-#: Below this it is noise ("ml" matches almost everything).
-MIN_ANCHOR_LEN = 3
 
 #: Default split sizes, sized in #53: at N=300 the gate has ~97% power to detect
 #: W=0.50 against H0: W <= 0.45; at N=100 it is ~64%, which is not worth running.
@@ -83,14 +80,6 @@ class Splits(BaseModel):
 # --------------------------------------------------------------------------- #
 
 
-def _normalized_keys(onto: Ontology) -> "dict[str, list[str]]":
-    """node id -> its normalized name plus its (already normalized) surfaces."""
-    keys: "dict[str, list[str]]" = {}
-    for node_id, node in onto.nodes.items():
-        keys[node_id] = [str_normalize(node.name), *onto.surfaces(node_id)]
-    return keys
-
-
 def anchoring(
     onto: Ontology,
     node_id: str,
@@ -105,23 +94,21 @@ def anchoring(
     removing nodes can only remove hits, and the description scrub does not touch
     the names and surfaces containment matches on. That equivalence is what keeps
     this O(1) copies instead of one deep copy per pool item.
+
+    The containment rule itself is
+    :func:`paperext.categorize.candidates.anchor_ids` — the *unranked* stages of
+    the D1b-2 generator, which is exactly what "cheap retrieval finds something"
+    should mean. It is shared rather than copied so the two cannot drift; the
+    sealed manifest pins it, and ``tests/categorize/test_sampling.py`` fails if the
+    committed splits stop reproducing.
     """
-    keys = keys if keys is not None else _normalized_keys(onto)
-    query = str_normalize(surface)
+    keys = keys if keys is not None else normalized_keys(onto)
     hidden = set(name_matches(onto, surface)) | {node_id}
     resolved = onto.resolve(surface)
     if resolved is not None:
         hidden.add(resolved)
 
-    candidates = {nid for nid in onto.search(surface) if nid not in hidden}
-    for nid, node_keys in keys.items():
-        if nid in hidden or nid in candidates:
-            continue
-        if any(
-            len(k) >= MIN_ANCHOR_LEN and k != query and k in query for k in node_keys
-        ):
-            candidates.add(nid)
-
+    candidates = anchor_ids(onto, surface, keys=keys) - hidden
     if not candidates:
         return "cold"
     lineage = set(onto.ancestry(node_id)[:-1])
@@ -145,7 +132,7 @@ def build_pool(
     manifest reproduces bit-for-bit.
     """
     drop = {str_normalize(root) for root in drop_roots}
-    keys = _normalized_keys(onto)
+    keys = normalized_keys(onto)
 
     items: "list[SplitItem]" = []
     for node_id in sorted(onto.nodes):

@@ -1,0 +1,573 @@
+===== system =====
+You are curating a hierarchical ontology of machine-learning models extracted from deep learning
+research papers. You are given one extracted name at a time, the evidence the
+extraction carried, and the part of the tree it might belong to. Decide where that
+name belongs and emit the ordered list of edits that puts it there.
+
+Rules, in order of precedence:
+
+1. IDENTITY IS long form + acronym(s) + description -- never the bare string. Two
+   different entities that share an acronym are two different nodes. Match on what
+   the evidence says the thing *is*.
+2. AMBIGUITY MEANS ABSTAIN. If the evidence does not tell you which of several
+   candidates the name is, leave it unmapped: outcome `abstained`, the candidates
+   you could not separate in `unresolved`, and why in `review_notes`. Never guess.
+   Abstaining is a correct answer and is scored as one. Note this gates on
+   *ambiguity*, not on acronym shape -- NumPy, GPT-2, SimCLR and BERT are
+   unambiguous names and should be mapped.
+3. GRANULARITY. A distinct *variant* -- a version, size or qualifier (v2, v3,
+   Large, -50, -B-16, -S-101) -- is its own NODE, nested under the family it
+   belongs to. Only a different *spelling* of the same thing (`mobilenet-v2`,
+   `MobileNet v2`) is a SURFACE. When in doubt: would a reader consider these two
+   different models? Then they are nodes.
+4. FIX WHAT YOU SEE, in the same decision. If the node you are mapping onto is
+   named with a bare acronym, rename it. If it has no description, write one. If
+   it is misplaced, move it. Set a low `confidence` on any structural fix you are
+   not sure of; it will be reviewed rather than applied blindly.
+5. PREFER THE MOST SPECIFIC CORRECT PLACEMENT. Counting is hierarchical, so a node
+   also counts toward every ancestor. Placing one level too high loses detail;
+   placing under the wrong branch is an error.
+6. CREATE RATHER THAN FORCE. If nothing in CANDIDATES is the entity, create a node
+   under the best parent in the TAXONOMY. Most names are not in the tree yet; a
+   new node under the right parent is a good outcome, a wrong mapping is not.
+
+Every action needs a `justification` grounded in the evidence or the tree, and a
+`confidence` in [0, 1]. Answer only about the ITEM.
+
+## ROOT MAP
+
+- `algorithms` algorithms (children: 4)
+- `classicml` classic_ml (children: 20)
+- `ignore` ignore (children: 114)  <- misextractions; nothing real belongs here
+- `neuralnetworks` neural networks (children: 70)
+- `others` others (children: 6)
+
+## TAXONOMY
+
+Every branch of the tree, plus every node down to depth 2. Leaves deeper than that are not listed here -- the CANDIDATES section carries the ones relevant to this item.
+
+- `algorithms` algorithms (children: 4)
+  - `federatedlearning` federated learning (children: 1)
+  - `optimizer` optimizer (children: 50)
+    - `clippedsgd` clipped-sgd (children: 2)
+      - `clippedsgda` clipped-sgda (children: 1)
+    - `clippedsstm` clipped-sstm (children: 1)
+    - `magneticmirrordescent` magnetic mirror descent (children: 1)
+    - `semiunsupervisedcalibrationthroughprioradaptation` semi unsupervised calibration through prior adaptation (children: 1)
+    - `simclr` simclr (children: 1)
+    - `stochasticacceleratedgradientextragradientageg` stochastic accelerated gradient-extragradient (ag-eg) (children: 1)
+      - `acceleratedgradientoptimisticgradientagogdescentascent` acceleratedgradient-optimisticgradient (ag-og) descent ascent (children: 1)
+  - `otheralgorithms` other algorithms (children: 110)
+    - `antcolonyoptimization` ant colony optimization (children: 1)
+    - `blip` blip (children: 5)
+    - `clippedseg` clipped-seg (children: 1)
+    - `cola` cola (children: 1)
+    - `crossattention` cross attention (children: 1)
+    - `extragradientmethodeg` extragradient method (eg) (children: 1)
+    - `formalmathematicsstatementcurriculumlearning` formal mathematics statement curriculum learning (children: 1)
+    - `laplaciananomalydetectionlad` laplacian anomaly detection (lad) (children: 1)
+    - `learnedplanner` learned planner (children: 2)
+    - `listenablemapsforaudioclassifiers` listenable maps for audio classifiers (children: 1)
+    - `lola` lola (children: 3)
+      - `higherorderlola` higher-order lola (children: 1)
+      - `metavaluelearning` meta-value learning (children: 1)
+    - `maml` maml (children: 1)
+    - `minimumvarianceunbiasedmechanism` minimum variance unbiased mechanism (children: 1)
+    - `moco` moco (children: 1)
+    - `multiheadroutingmhr` multi-head routing (mhr) (children: 1)
+    - `multivariateopensettimeseriesanomalydetector` multivariate open-set time-series anomaly detector (children: 1)
+    - `neighborawarecalibration` neighbor aware calibration (children: 1)
+    - `optimisticgradientmethod` optimistic gradient method (children: 1)
+    - `papa` papa (children: 1)
+      - `papaall` papa-all (children: 1)
+    - `proximalpointppmethod` proximal point (pp) method (children: 1)
+    - `retrievalaugmenteddiffusionmodel` retrieval-augmented diffusion model (children: 2)
+      - `differentiallyprivateretrievalaugmenteddiffusionmodel` differentially private retrieval-augmented diffusion model (children: 1)
+    - `seamlessneuralsurfacemaps` seamless neural surface maps (children: 1)
+    - `sgrand` sgrand (children: 1)
+    - `spatiallyvaryinglabelsmoothing` spatially varying label smoothing (children: 1)
+    - `topologicalvalueiteration` topological value iteration (children: 1)
+      - `extratopologicalvalueiteration` extra-topological value iteration (children: 1)
+        - `extraintratopologicalvalueiteration` extra-intra-topological value iteration (children: 1)
+    - `vanillaconformalpredictionvanillacp` vanilla conformal prediction (vanilla cp) (children: 1)
+    - `windowedscatteringtransform` windowed scattering transform (children: 1)
+  - `reinforcementlearning` reinforcement learning (children: 112)
+    - `actorcritic` actor-critic (children: 5)
+      - `softactorcritic` soft actor-critic (children: 1)
+    - `alphacode` alphacode (children: 1)
+    - `alphazero` alphazero (children: 3)
+    - `conditionalpolicy` conditional policy (children: 1)
+    - `deepreinforcementlearning` deep reinforcement learning (children: 1)
+    - `dreamerv2` dreamerv2 (children: 1)
+    - `independentppo` independent ppo (children: 1)
+      - `independentppoippo` independent ppo (ippo) (children: 2)
+        - `multiagentppo` multi-agent ppo (children: 1)
+    - `inversedynamicsmodel` inverse dynamics model (children: 2)
+    - `metapolicy` meta policy (children: 2)
+    - `mirrordescentalgorithm` mirror descent algorithm (children: 1)
+    - `multiagentreinforcementlearning` multi agent reinforcement learning (children: 1)
+      - `conformalactionmodelinginmultiagentreinforcementlearning` conformal action modeling in multi agent reinforcement learning (children: 1)
+    - `multitaskselftraining` multi-task self-training (children: 1)
+    - `nashmd` nash-md (children: 2)
+    - `qlearning` q-learning (children: 10)
+      - `deepqlearning` deep q-learning (children: 1)
+    - `riscresetfreerlwithintelligentlyswitchingcontroller` risc (reset free rl with intelligently switching controller) (children: 1)
+    - `temporaldifferencetdlearning` temporal difference (td) learning (children: 3)
+    - `twindelayedddpg` twin-delayed ddpg (children: 1)
+- `classicml` classic_ml (children: 20)
+  - `adaboost` adaboost
+  - `bayesclassifier` bayes classifier
+  - `bayesianhierarchicalmodel` bayesian hierarchical model
+  - `canonicalcorrelationanalysiscca` canonical correlation analysis (cca)
+  - `conditionalrandomfieldcrf` conditional random field (crf)
+  - `crfbasedmodel` crfbased model
+  - `criticsmc` criticsmc (children: 1)
+  - `decisiontree` decision tree (children: 2)
+  - `gaussianprocessesgp` gaussian processes (gp)
+  - `hiddenmarkovmodelshmms` hidden markov models (hmms)
+  - `lassoregression` lasso regression (children: 1)
+  - `lineardiscriminantanalysisclassifier` linear discriminant analysis classifier
+  - `logisticregression` logistic regression
+  - `lssa` lssa
+  - `partialleastsquarescorrelationplsc` partial least squares correlation (plsc)
+  - `partialleastsquaresregressionplsr` partial least squares regression (plsr)
+  - `randomforest` random forest (children: 2)
+  - `sampleboostingalgorithmsamba` sample boosting algorithm (samba)
+  - `supportvectormachine` support vector machine (children: 2)
+    - `svm` svm (children: 1)
+  - `xgboost` xgboost
+- `ignore` ignore (children: 114)
+  - `node` 
+  - `18ftrack` [18f]track
+  - `adamlangevinmontecarlodeepqnetwork` adam langevin monte carlo deep q-network
+  - `antagonisticai` antagonistic ai
+  - `astrophot` astrophot
+  - `balancedmodel` balanced-model
+  - `ballandstickmodel` ball-and-stick model
+  - `bamquery` bamquery
+  - `barracuda` barracuda
+  - `baselinemodel` baseline-model
+  - `boost` boost (children: 1)
+  - `catch` catch
+  - `cervicalintraepithelialneoplasia` cervical intraepithelial neoplasia (children: 1)
+  - `cifar10smallonnx` cifar10 small.onnx
+  - `cigale` cigale
+  - `clean` clean
+  - `clofinetm` clofinetm
+  - `conceptfusion` conceptfusion
+  - `conceptgraphs` conceptgraphs
+  - `controlbarrierfunction` control barrier function (children: 1)
+  - `convdrawnetwork` convdrawnetwork
+  - `coopcbm` coop-cbm
+  - `coreml` core ml
+  - `covid19propagationmodel` covid-19 propagation model
+  - `craw1` craw1
+  - `dcms` dcms
+  - `deepjanus` deepjanus
+  - `deeppatch` deeppatch
+  - `deepshap` deepshap
+  - `deepsolar` deepsolar
+  - `denoisingdiffusionmodel` denoising diffusion model (children: 1)
+  - `differentiablegroupnormalization` differentiable group normalization (children: 1)
+  - `differentiableindirection` differentiable indirection
+  - `directionalinterface` directional interface
+  - `distributedgaussseidel` distributed gauss-seidel
+  - `distributedgraduatednonconvexity` distributed graduated non-convexity (children: 1)
+  - `distributionalevidence` distributional evidence
+  - `docml` docml
+  - `dvgcrn` dvgcrn
+  - `eloscore` elo score
+  - `ertrl` ertrl
+  - `faspr` faspr
+  - `fedavg` fedavg
+  - `fedncm` fedncm
+  - `functionalregularizationfr` functional regularization (fr)
+  - `gatedrecursivecell` gated recursive cell
+  - `gdn` gdn
+  - `genneg` gen-neg
+  - `generalizedgomorymixedintegerinequalities` generalized gomory mixed-integer inequalities
+  - `globes` globes
+  - `gptf` gpt-f
+  - `gptneo` gpt-neo
+  - `graduatednonconvexity` graduated non-convexity
+  - `growthfunctiongfmodel` growth function (gf) model
+  - `hamper` hamper
+  - `itracker` itracker
+  - `jean` jean
+  - `kerasrl` keras-rl
+  - `largelanguagemodels` large language models
+  - `lightfm` lightfm
+  - `macr` macr
+  - `mars` mars
+  - `medaladr` medal-adr
+  - `minerva` minerva
+  - `moleculenet` moleculenet
+  - `moleculestm` moleculestm
+  - `multivariatetimeseriesanomalydetectionviagraphattentionnetwork` multivariate time-series anomaly detection via graph attention network
+  - `naive` naive (children: 1)
+  - `naturalprover` naturalprover
+  - `ncad` ncad
+  - `neutrinoabsorption` neutrino absorption
+  - `npsneuralproductionsystems` nps (neural production systems)
+  - `onnx` onnx
+  - `parti` parti
+  - `policyπθ` policy πθ
+  - `prospector` prospector
+  - `protseed` protseed
+  - `pytorch` pytorch
+  - `quantumdecoherence` quantum decoherence
+  - `raptor` raptor
+  - `redress` redress
+  - `retreever` retreever
+  - `rosettapacker` rosettapacker
+  - `scrutinai` scrutinai
+  - `scwrl` scwrl
+  - `slowslam` slow-slam
+  - `sort` sort
+  - `sourceonly` source only
+  - `spinalcordtoolbox` spinal cord toolbox
+  - `stablebaselines` stable baselines
+  - `structtrans` structtrans
+  - `structurediscoveryfrominterventionssdi` structure discovery from interventions (sdi)
+  - `supervised` supervised
+  - `tdnn&ctc` tdnn&ctc
+  - `tensorflow` tensorflow
+  - `tensorforce` tensorforce
+  - `tflite` tf lite
+  - `tfserving` tf serving
+  - `thoc` thoc
+  - `thor` thor
+  - `trakem2` trakem2
+  - `unityeyesmodel` unityeyes model
+  - `usad` usad
+  - `variousaimodelsandsystems` various ai models and systems
+  - `vectorquantizationvq` vector quantization (vq) (children: 1)
+  - `virtualevidence` virtual evidence
+  - `virtualrodent` virtual rodent
+  - `wavepacketdecoherence` wave packet decoherence
+  - `wideneuralnetworks` wide neural networks
+  - `workloadpredictionmodelusingeeg` workload prediction model using eeg
+  - `xquad` xquad
+  - `zerosum` zerosum
+  - `zonation5` zonation 5
+  - `ν3decay` ν3 decay
+- `neuralnetworks` neural networks (children: 70)
+  - `abnet` abnet
+  - `atlasnet` atlasnet
+  - `attentionnetwork` attention network (children: 11)
+    - `rammil` ram-mil (children: 1)
+    - `slotattention` slot attention (children: 1)
+  - `autoencoder` autoencoder (children: 12)
+    - `gokunets` goku-nets (children: 1)
+    - `maskedautoencoders` masked autoencoders (children: 2)
+      - `mae` mae (children: 1)
+    - `variationalautoencodervae` variational autoencoder (vae) (children: 11)
+      - `variationalgraphautoencoder` variational graph autoencoder (children: 1)
+  - `bayesiannetwork` bayesian network (children: 5)
+    - `bayesianneuralnetworkbnn` bayesian neural network (bnn) (children: 1)
+  - `boltzmannmachine` boltzmann machine
+  - `canonicalizationnetworkcn` canonicalization network (cn) (children: 1)
+  - `chemproprdkit` chemprop-rdkit
+  - `complex` complex
+  - `contrastivepredictivecodingcpc` contrastive predictive coding (cpc)
+  - `convolutionalneuralnetwork` convolutional neural network (children: 59)
+    - `augmentedcnn` augmented cnn (children: 2)
+    - `cnn` cnn (children: 1)
+    - `cnn14` cnn14 (children: 1)
+    - `convlstm` convlstm (children: 1)
+    - `convnext` convnext (children: 1)
+    - `deepqnetworkdqn` deep q-network (dqn) (children: 4)
+      - `deepqnetwork` deep q network (children: 1)
+    - `densenet` densenet (children: 3)
+      - `densenet161` densenet-161 (children: 1)
+    - `drq` drq (children: 2)
+    - `efficientnet` efficientnet (children: 1)
+    - `fasterrcnn` faster r-cnn (children: 1)
+    - `fullyconvolutionalonestage` fully convolutional one-stage (children: 2)
+    - `gcnns` g-cnns (children: 1)
+    - `hubert` hubert (children: 1)
+    - `hyena` hyena (children: 2)
+    - `inception88` inception-88 (children: 1)
+    - `mobilenet` mobilenet (children: 1)
+    - `muzero` muzero (children: 1)
+    - `resnet` resnet (children: 14)
+      - `resnet50` resnet-50 (children: 1)
+    - `schnet` schnet (children: 1)
+    - `unet` u-net (children: 8)
+      - `munet` mu-net (children: 1)
+    - `verydeepconvolutionalnetworks` very deep convolutional networks (children: 6)
+  - `coxmodel` cox model
+  - `danns` danns
+  - `deepcensoredlearning` deep censored learning
+  - `deeplandscapeforecasting` deep landscape forecasting
+  - `deepneuralnetworks` deep neural networks (children: 5)
+    - `deeplearningrecommendationmodel` deep learning recommendation model (children: 2)
+    - `neuralbeecolonyoptimization` neural bee colony optimization (children: 1)
+  - `deepreinforcementlearning__2` deep reinforcement learning
+  - `diffusionmodel` diffusion model (children: 31)
+    - `denoisingdiffusionprobabilitymodels` denoising diffusion probability models (children: 1)
+    - `langevindiffusions` langevin diffusions (children: 1)
+    - `latentdiffusiongoalconditioning` latent diffusion goal conditioning (children: 1)
+    - `latentguideddiffusion` latent-guided diffusion (children: 1)
+    - `scorebasedmodels` score-based models (children: 1)
+    - `stablediffusion` stable diffusion (children: 3)
+    - `texttoimagemodel` text-to-image model (children: 1)
+      - `dalle` dall-e (children: 1)
+  - `dyrep` dyrep
+  - `equivariantmeshneuralnetworkemnn` equivariant mesh neural network (emnn)
+  - `euclidnet` euclidnet
+  - `fomonet` fomo-net
+  - `gapmtnn` gapmtnn
+  - `generativeadversarialnetwork` generative adversarial network (children: 19)
+    - `energybasedgans` energy-based gans (children: 1)
+    - `slicingadversarialnetwork` slicing adversarial network (children: 1)
+  - `generativeflownetworks` generative flow networks (children: 40)
+    - `forwardlookinggenerativeflownetworks` forward-looking generative flow networks (children: 1)
+    - `generativeaugmentedflownetworksgaflownet` generative augmented flow networks (gaflownet) (children: 1)
+    - `generativeflownetwork` generative flow network (children: 1)
+    - `stochasticgflownets` stochastic gflownets (children: 1)
+  - `generativequerynetwork` generative query network (children: 1)
+  - `graphneuralnetwork` graph neural network (children: 67)
+    - `dimenet` dimenet (children: 1)
+    - `gatedgcn` gatedgcn (children: 1)
+    - `gcn` gcn (children: 1)
+    - `gearnet` gearnet (children: 2)
+    - `geossl` geossl (children: 1)
+    - `gnn` gnn (children: 2)
+    - `gps` gps (children: 2)
+      - `gps++` gps++ (children: 1)
+    - `graphattentionnetworks` graph attention networks (children: 2)
+    - `graphconvolutionalnetworksgcn` graph convolutional networks (gcn) (children: 4)
+    - `graphisomorphismnetwork` graph isomorphism network (children: 4)
+    - `graphrecurrentattentionnetwork` graph recurrent attention network (children: 2)
+    - `graphspringnetwork` graph spring network (children: 1)
+    - `graphtext` graphtext (children: 1)
+    - `loam` loam (children: 2)
+    - `sam__2` sam (children: 2)
+    - `slam` slam (children: 1)
+  - `hierarchicalpredictivecodingmodel` hierarchical predictive coding model
+  - `hierarchicaltemporalmemory` hierarchical temporal memory (children: 1)
+  - `maxent` maxent
+  - `mixturedensitynetworkmdn` mixture density network (mdn)
+  - `modelagnosticmetalearning` model agnostic meta learning (children: 1)
+  - `msn` msn
+  - `multilayerperceptron` multi layer perceptron (children: 20)
+    - `doc2vec` doc2vec (children: 1)
+      - `dev2vec:apis` dev2vec:apis (children: 3)
+    - `feedforwardneuralnetworkfnn` feedforward neural network (fnn) (children: 1)
+    - `fullyconnectedrelunetworks` fully-connected relu networks (children: 1)
+    - `mnistfc256x4` mnistfc 256x4 (children: 1)
+    - `twolayerneuralnetwork` two-layer neural network (children: 2)
+  - `multimodal` multi-modal (children: 3)
+  - `neuralabstractreasoner` neural abstract reasoner (children: 1)
+  - `neuralmodulenetwork` neural module network (children: 1)
+  - `neuralnetwork` neural network (children: 6)
+  - `neuralordinarydifferentialequationnode` neural ordinary differential equation (node) (children: 1)
+    - `neuralode` neural ode (children: 2)
+  - `neuralprocesses` neural processes (children: 3)
+  - `neuralprogressivemeshes` neural progressive meshes (children: 1)
+  - `neuralradiancefields` neural radiance fields
+  - `neuralsubdivision` neural subdivision (children: 1)
+  - `neuralsurfacemaps` neural surface maps
+  - `neuralsym` neuralsym
+  - `normalizingflow` normalizing flow (children: 11)
+  - `pathoptimization` path optimization (children: 6)
+  - `pbgnet` pbgnet
+  - `pmsn` pmsn
+  - `pointnet` pointnet (children: 1)
+  - `productofexperts` product-of-experts (children: 1)
+  - `protovaluenetworkspvn` proto-value networks (pvn)
+  - `prototypicalnetworks` prototypical networks (children: 1)
+  - `realnvp` realnvp
+  - `recurrentneuralnetwork` recurrent neural network (children: 16)
+    - `conditionalvariationalrecurrentneuralnetwork` conditional variational recurrent neural network (children: 1)
+    - `gatedrecurrentneuralnetwork` gated recurrent neural network (children: 1)
+      - `gatedrecurrentunit` gated recurrent unit (children: 2)
+    - `itra` itra (children: 2)
+    - `longshorttermmemory` long short term memory (children: 5)
+      - `bidirectionallstmbilstm` bidirectional lstm (bilstm) (children: 1)
+      - `orderedneurons` ordered neurons (children: 2)
+    - `odernns` ode-rnns (children: 1)
+      - `latentode` latent-ode (children: 1)
+  - `rlspinn` rl-spinn
+  - `rrnet` rrnet
+  - `satnet` satnet (children: 1)
+  - `semil` sem-il
+  - `semanticsegmentation` semantic segmentation (children: 3)
+  - `sparseneuralnetwork` sparse neural network (children: 2)
+  - `sparsetensorneuralnetworks` sparse tensor neural networks (children: 2)
+  - `speechrecognition` speech recognition (children: 3)
+    - `universalspeechmodel` universal speech model (children: 1)
+  - `spherenet` spherenet
+  - `structuredstatespaces` structured state spaces (children: 1)
+    - `s4structuredstatespacesequencemodel` s4 (structured state space sequence model) (children: 1)
+  - `tankbind` tankbind
+  - `temporalkoopmannetworks` temporal koopman networks
+  - `tetwild` tetwild
+  - `timeseriesclassification` time-series classification (children: 1)
+  - `transformer` transformer (children: 131)
+    - `bert` bert (children: 22)
+      - `albert` albert (children: 1)
+      - `debert` debert (children: 1)
+      - `hubert__2` hubert (children: 1)
+      - `roberta` roberta (children: 5)
+    - `bigg` big-g (children: 1)
+    - `blockstatetransformer` block-state transformer (children: 1)
+    - `bloom` bloom (children: 1)
+    - `claude` claude (children: 2)
+    - `clip` clip (children: 2)
+    - `contriever+atlas` contriever + atlas (children: 1)
+    - `decisiontransformer` decision transformer (children: 7)
+      - `hyperdecisiontransformer` hyper-decision transformer (children: 1)
+      - `multigamedecisiontransformer` multi-game decision transformer (children: 1)
+    - `dinov2` dinov2 (children: 1)
+    - `dnctransformer` dnc-transformer (children: 2)
+    - `edgeaugmentedgraphtransformer` edge-augmented graph transformer (children: 1)
+    - `esm2` esm-2 (children: 1)
+    - `flant5` flan-t5 (children: 1)
+    - `gatedtransformerxl` gated transformer-xl (children: 1)
+    - `gemini` gemini (children: 7)
+      - `gemini10` gemini 1.0 (children: 2)
+      - `gemini15` gemini 1.5 (children: 1)
+    - `generativepretrainedtransformer` generative pre-trained transformer (children: 21)
+      - `contrastivecaptioner` contrastive captioner (children: 1)
+      - `conversationalfinetuning` conversational fine-tuning (children: 1)
+      - `gpt2` gpt-2 (children: 4)
+        - `gpt4` gpt-4 (children: 3)
+      - `gpt3` gpt-3 (children: 2)
+      - `gpt35` gpt-3.5 (children: 2)
+      - `star` star (children: 1)
+      - `writefull` writefull (children: 1)
+    - `graphormer` graphormer (children: 2)
+    - `inflection` inflection (children: 1)
+    - `llama` llama (children: 7)
+    - `mpnn` mpnn (children: 1)
+    - `opt` opt (children: 1)
+      - `opt13b` opt-1.3b (children: 1)
+    - `palm` palm (children: 1)
+    - `postlayernormtransformer` post-layer norm transformer (children: 1)
+    - `poyo1` poyo-1 (children: 1)
+    - `prelayernormtransformer` pre-layer norm transformer (children: 1)
+    - `slate` slate (children: 1)
+    - `starcoder` starcoder (children: 1)
+    - `structureawaretransformer` structure-aware transformer (children: 1)
+    - `t5` t5 (children: 4)
+      - `t5base` t5-base (children: 2)
+        - `mt5base` mt5-base (children: 2)
+    - `tactis` tactis (children: 1)
+    - `transformerneuralprocessestnps` transformer neural processes (tnps) (children: 1)
+    - `universaltransformerut` universal transformer (ut) (children: 1)
+    - `vicuna__2` vicuna (children: 1)
+    - `visiontransformer` vision transformer (children: 30)
+      - `bit` bit (children: 1)
+      - `clipvitl` clip vit-l (children: 1)
+      - `crossvivit` crossvivit (children: 1)
+      - `deitbase` deit-base (children: 1)
+      - `dino` dino (children: 2)
+      - `dinovit` dino-vit (children: 1)
+      - `maskedsiamesenetworksmsn` masked siamese networks (msn) (children: 1)
+      - `vitb` vit-b (children: 4)
+      - `vitl` vit-l (children: 1)
+      - `vits` vit-s (children: 1)
+    - `wav2vec20` wav2vec 2.0 (children: 2)
+      - `wav2vec20xlsr` wav2vec 2.0/xlsr (children: 1)
+    - `xlmr` xlm-r (children: 1)
+- `others` others (children: 6)
+  - `a*net` a*net
+  - `dynesty` dynesty
+  - `eprop` e-prop
+  - `lave__2` lave
+  - `mixup` mixup (children: 1)
+  - `rotate` rotate
+
+## ACTION SCHEMA
+
+Each action names one `op` and its arguments. Node arguments must be node `id`s from this payload -- except ids you create earlier in the same decision, which later actions may reference.
+
+- `add_surface(surface, canonical, via=, flag=)` -- map the name onto an existing node. This is the primary action of a mapping decision; `flag` marks it for human review.
+- `create_node(node_id, name, parent=, description=, examples=)` -- the entity is real but no node means it. Give it the most specific correct parent, a long-form `name`, and a `description`.
+- `demote_to_variant(node_id, target_id)` [destructive] -- the node is only a spelling of another node, not a distinct entity. Model *variants* (v2, Large, -50, -B-16) are nodes, not spellings.
+- `insert_above(node_id, new_id, name, description=, examples=)` -- several existing nodes are siblings that need a shared parent concept that does not exist yet.
+- `mark_ignore(node_id)` [destructive] -- the name is not an entity of this dimension at all (a misextraction). Destructive: it removes the entity from every downstream count.
+- `move(node_id, new_parent)` -- the node sits under the wrong parent.
+- `remove_node(node_id)` [destructive] -- the node is a duplicate concept with nothing under it. Destructive: prefer `demote_to_variant`.
+- `remove_surface(surface)` -- a surface maps to the wrong node.
+- `rename(node_id, new_name)` -- the node's name is a bare acronym or a spelling variant. Rename to `long form (acronym)`; identity is long form + acronym + description.
+- `update_description(node_id, description)` -- the node has no description, or a wrong one. `v0` has none at all, so writing one for a node you had to reason about is expected.
+
+Set `outcome` to `mapped` (surface added to an existing node), `created` (node created and mapped), `abstained` (ambiguous -- no mapping), `no_op` (already correct) or `failed`.
+===== user =====
+## ITEM
+
+name: BiT-S-101
+normalized: bits101
+aliases in papers: BiT ResNet
+seen: 1 mention(s) in 1 paper(s)
+
+## EVIDENCE
+
+- paper 2306.03522 (as "BiT-S-101")
+  field: Out-of-Distribution Detection
+  quote: "A BiT-S-101 [35] model based on a ResNetv2-101 architecture with top-1 test set accuracy of 77.41% and 44M parameters."
+  extractor's reason: BiT-S-101 is explicitly mentioned and used in the experiments in the paper.
+  contributed=no; executed=yes; compared=yes
+  alongside in the same paper:
+    - DenseNet-121 -> `densenet121` [convolutional neural network]
+    - ResNet-50 -> `resnet50` [convolutional neural network]
+    - Vision Transformer (ViT-B-16) -> not in the tree
+    - MobileNetV3 Large -> not in the tree
+
+## CANDIDATES
+
+- `resnet` resnet (match: reverse on "resnet", 0.78)
+  path: neural networks > convolutional neural network > resnet
+  rolls up to: convolutional neural network
+  surfaces: resnet
+  children: 200-layer resnetv2, drn-22-d, injective resnet, residual networks (he et al., 2016), residual networks (resnet-20), resnet-10, resnet-101, resnet-18 (+6 more)
+- `bit` bit (match: reverse on "bit", 0.70)
+  path: neural networks > transformer > vision transformer > bit
+  rolls up to: transformer
+  surfaces: bit
+  children: bit (jft300m)
+- `sne` sne (match: reverse on "sne", 0.67)
+  path: algorithms > other algorithms > sne
+  rolls up to: Other
+  surfaces: sne
+- `resnet9` resnet9 (match: fuzzy on "resnet9", 0.38)
+  path: neural networks > convolutional neural network > resnet > resnet9
+  rolls up to: convolutional neural network
+  surfaces: resnet9
+- `resnets` resnets (match: fuzzy on "resnets", 0.38)
+  path: neural networks > convolutional neural network > resnet > resnets
+  rolls up to: convolutional neural network
+  surfaces: resnets
+- `mobilenet` mobilenet (match: fuzzy on "mobilenet", 0.33)
+  path: neural networks > convolutional neural network > mobilenet
+  rolls up to: convolutional neural network
+  surfaces: mobilenet
+  children: mobilenetv2
+- `transunet` transunet (match: fuzzy on "transunet", 0.33)
+  path: neural networks > convolutional neural network > u-net > transunet
+  rolls up to: convolutional neural network
+  surfaces: transunet
+- `dimenet` dimenet (match: fuzzy on "dimenet", 0.31)
+  path: neural networks > graph neural network > dimenet
+  rolls up to: graph neural network
+  surfaces: dimenet
+  children: dimenet++
+- `tsne` t-sne (match: fuzzy on "tsne", 0.31)
+  path: algorithms > other algorithms > t-sne
+  rolls up to: Other
+  surfaces: tsne
+- `bigtransferbit` big-transfer (bit) (match: fuzzy on "bigtransferbit", 0.30)
+  path: neural networks > convolutional neural network > big-transfer (bit)
+  rolls up to: convolutional neural network
+  surfaces: bigtransferbit
+- `mobilenetv2` mobilenetv2 (match: fuzzy on "mobilenetv2", 0.30)
+  path: neural networks > convolutional neural network > mobilenet > mobilenetv2
+  rolls up to: convolutional neural network
+  surfaces: mobilenetv2
+
+## TASK
+
+Decide where "BiT-S-101" belongs and emit the actions that put it there.
