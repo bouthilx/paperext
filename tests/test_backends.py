@@ -13,6 +13,7 @@ def test_registry_exposes_installed_backends():
     assert "openai" in available()
     assert "gemini" in available()
     assert "claude" in available()
+    assert "anthropic" in available()
 
 
 def test_get_backend_returns_singleton_instance():
@@ -159,3 +160,76 @@ def test_claude_smoke_check_uses_model_and_max_tokens():
     _, kwargs = client.messages.create.call_args
     assert kwargs["model"] == "claude-haiku-4-5"
     assert kwargs["max_tokens"] == 16
+
+
+def test_anthropic_backend_registered_and_model(cfg):
+    from paperext.backends.anthropic import AnthropicBackend
+
+    backend = get_backend("anthropic")
+    assert isinstance(backend, AnthropicBackend)
+    assert backend.name == "anthropic"
+    assert backend.model == cfg.anthropic.model == "claude-opus-5"
+
+
+def test_anthropic_backend_rate_limit_errors_declared():
+    import anthropic
+
+    assert get_backend("anthropic").rate_limit_errors == (anthropic.RateLimitError,)
+
+
+def test_anthropic_make_client_uses_the_direct_sdk_and_injects_max_tokens(monkeypatch):
+    """Same request handling as the Vertex path, different client constructor."""
+    import asyncio
+
+    import anthropic
+    import instructor
+
+    captured: dict = {}
+    constructed: dict = {}
+
+    async def _cwc(*_a, **kwargs):
+        captured.update(kwargs)
+        return MagicMock(), MagicMock(usage=MagicMock(input_tokens=1, output_tokens=2))
+
+    def _from_anthropic(client, *a, **k):
+        constructed["client"] = client
+        c = MagicMock()
+        c.chat.completions.create_with_completion.side_effect = _cwc
+        return c
+
+    sentinel = MagicMock(name="AsyncAnthropic")
+    monkeypatch.setattr(anthropic, "AsyncAnthropic", lambda **k: sentinel)
+    monkeypatch.setattr(instructor, "from_anthropic", _from_anthropic)
+
+    client = get_backend("anthropic").make_client()
+    _, usage = asyncio.run(
+        client.chat.completions.create_with_completion(
+            response_model=object, messages=[{"role": "user", "content": "x"}]
+        )
+    )
+
+    assert constructed["client"] is sentinel
+    assert captured["max_tokens"] == 16384
+    assert captured["model"] == "claude-opus-5"
+    assert usage == {"input_tokens": 1, "output_tokens": 2, "total_tokens": 3}
+
+
+def test_anthropic_smoke_check_uses_model_and_max_tokens():
+    client = MagicMock()
+    client.messages.create.return_value = MagicMock(
+        content=[MagicMock(text="ok")],
+        usage=MagicMock(input_tokens=1, output_tokens=1),
+    )
+    reply, _ = get_backend("anthropic").smoke_check(
+        model="claude-haiku-4-5", client=client
+    )
+    assert reply == "ok"
+    _, kwargs = client.messages.create.call_args
+    assert kwargs["model"] == "claude-haiku-4-5"
+    assert kwargs["max_tokens"] == 16
+
+
+def test_vertex_claude_shares_the_anthropic_request_handling():
+    from paperext.backends.anthropic import AnthropicBase
+
+    assert isinstance(get_backend("claude"), AnthropicBase)
