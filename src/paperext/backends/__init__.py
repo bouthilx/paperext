@@ -7,11 +7,18 @@ available exactly when its dependencies are -- the same SDK-guard the old
 """
 
 import logging
+import os
 from importlib import import_module
 
 from paperext.backends.base import Backend
 
 logger = logging.getLogger(__name__)
+
+# On Linux the Vertex SDK's protobuf otherwise fails with
+# ``ImportError: cannot import name '_message' from 'google.protobuf.pyext'``.
+# Must be set before the SDK is imported below; ``setdefault`` so an explicit
+# choice in the environment wins. (Previously injected by the hatch env.)
+os.environ.setdefault("PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION", "upb")
 
 _BACKENDS: "dict[str, Backend]" = {}
 

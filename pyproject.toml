@@ -61,69 +61,17 @@ evaluate = "paperext.evaluate:main"
 [tool.hatch.version]
 path = "src/paperext/__about__.py"
 
-[tool.hatch.envs.default]
-python = "3.10"
-installer = "uv"
-
-[tool.hatch.envs.default.env-vars]
-PAPEREXT_CFG = "{env:PAPEREXT_CFG:{root:real}/config.mdl.ini}"
-# linux seams to require the following to avoid
-# ImportError: cannot import name '_message' from 'google.protobuf.pyext'
-PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION = "upb"
-
-[tool.hatch.envs.openai]
-extra-dependencies = [
-  "paperext[openai]",
-]
-
-[tool.hatch.envs.vertexai]
-extra-dependencies = [
-  "paperext[vertexai]",
-]
-
-[tool.hatch.envs.paperoni]
-detached = true
-dependencies = [
-  "paperoni @ git+https://github.com/mila-iqia/paperoni@deploy-2024-12-06",
-]
-
-[tool.hatch.envs.tests]
-extra-dependencies = [
-  "paperext[openai]",
-  "paperext[vertexai]",
+# Dev tooling. `uv sync` installs the `dev` group by default; add
+# `--all-extras` to get both provider SDKs the test suite imports.
+# (The paperoni CLI pins pydantic<2 and cannot share this environment; see
+# `download_convert.PAPERONI_SPEC` -- it runs through `uvx` in isolation.)
+[dependency-groups]
+dev = [
   "pytest",
   "pytest-regressions",
-]
-[tool.hatch.envs.tests.scripts]
-tests = "pytest tests {args}"
-
-[tool.hatch.envs.docs]
-[tool.hatch.envs.docs.scripts]
-print-help = [
-  "download-convert --help",
-  "query --help",
-  "parse-validation-errors --help",
-  "merge-papers --help",
-  "perf-analysis --help",
-]
-
-[tool.hatch.envs.types]
-extra-dependencies = [
   "mypy>=1.0.0",
-]
-[tool.hatch.envs.types.scripts]
-check = "mypy --install-types --non-interactive {args:src/paperext tests}"
-
-[tool.hatch.envs.lint]
-detached = true
-dependencies = [
   "black~=26.5",
   "isort~=8.0",
-]
-[tool.hatch.envs.lint.scripts]
-lint = [
-  "python3 -m black {args} .",
-  "python3 -m isort --profile black {args} .",
 ]
 
 [tool.coverage.run]

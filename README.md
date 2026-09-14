@@ -14,16 +14,19 @@
 
 ## Installation
 
+With [uv](https://docs.astral.sh/uv/) (recommended -- `uv.lock` pins the
+resolution):
+
+```console
+uv sync --extra openai        # or --extra vertexai, or --all-extras
+uv run [command]
+```
+
+Or with pip:
+
 ```console
 pip install -e ".[openai]"
 pip install -e ".[vertexai]"
-```
-
-This project is also compatible with [Hatch](https://hatch.pypa.io/latest/)
-
-```console
-hatch run openai:[command]
-hatch run vertexai:[command]
 ```
 
 ## Configuration

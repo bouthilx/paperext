@@ -15,6 +15,10 @@ from paperext import CFG
 from paperext.log import logger
 from paperext.utils import Paper
 
+#: The paperoni CLI used to fetch PDFs, pinned to the deployment the corpus
+#: was built with.
+PAPERONI_SPEC = "paperoni @ git+https://github.com/mila-iqia/paperoni@deploy-2024-12-06"
+
 PROG = f"{Path(__file__).stem.replace('_', '-')}"
 
 DESCRIPTION = """
@@ -84,11 +88,15 @@ def paperoni_download(paper_data: dict, cache_dir: Path):
         ) as _f:
             yaml.dump(config, _f)
 
+            # paperoni pins pydantic<2 and so cannot share an environment with
+            # paperext; `uvx` runs it in an isolated one, as the detached hatch
+            # env used to.
             subprocess.run(
                 [
-                    "hatch",
-                    "run",
-                    "paperoni:paperoni",
+                    "uvx",
+                    "--from",
+                    PAPERONI_SPEC,
+                    "paperoni",
                     "download",
                     "--config",
                     _f.name,

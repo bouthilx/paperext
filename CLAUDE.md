@@ -4,6 +4,13 @@ Guidance for Claude Code and contributors working in this repository.
 
 ## Development guidelines
 
+### Environment
+
+The project uses [uv](https://docs.astral.sh/uv/). `uv sync --all-extras`
+installs the package, both provider SDKs and the `dev` tooling group; every
+command below runs through `uv run`. `PAPEREXT_CFG` defaults to
+`config.mdl.ini` when unset.
+
 ### Type annotations (required for new code)
 
 New code **must** be typed. Annotate every function/method signature you add or
@@ -20,7 +27,7 @@ Existing untyped code can stay as-is, but don't add new untyped functions.
 Check types before committing:
 
 ```console
-hatch run types:check
+uv run mypy src/paperext tests
 ```
 
 ### Formatting
@@ -28,11 +35,11 @@ hatch run types:check
 Format with black + isort (isort uses the black profile):
 
 ```console
-hatch run lint:lint
+uv run black . && uv run isort --profile black .
 ```
 
 ### Tests
 
 ```console
-hatch run tests:tests
+uv run pytest tests
 ```
