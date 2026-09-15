@@ -43,7 +43,13 @@ from pydantic import BaseModel, Field
 
 from paperext.analysis.rollup import str_normalize
 from paperext.categorize.ablate import ablatable, copy_ontology, name_matches
-from paperext.categorize.actions import OPS, AddSurface, CreateNode, Outcome
+from paperext.categorize.actions import (
+    OPS,
+    AddSurface,
+    CreateNode,
+    Outcome,
+    StrictSchemaModel,
+)
 from paperext.categorize.apply import DecisionRecord
 from paperext.categorize.candidates import is_acronym_shaped
 from paperext.categorize.items import Item, Mention
@@ -472,7 +478,7 @@ class CanaryProbe(BaseModel):
     expected: "list[str]"
 
 
-class CanaryAnswer(BaseModel):
+class CanaryAnswer(StrictSchemaModel):
     """What the pinned model says it remembers -- reason before value, as usual."""
 
     reason: str = Field(default="", description="How you know, in one sentence")
