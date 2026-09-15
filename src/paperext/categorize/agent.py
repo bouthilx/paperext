@@ -193,6 +193,7 @@ async def decide_item(
     cut: Any,
     provenance: Provenance,
     limit: int = DEFAULT_LIMIT,
+    max_mentions: "int | None" = DEFAULT_MAX_MENTIONS,
     keys: "dict[str, list[str]] | None" = None,
     apply: bool = True,
     max_repairs: int = DEFAULT_MAX_REPAIRS,
@@ -205,7 +206,9 @@ async def decide_item(
     returned record carries the **last** attempt -- what the run actually did --
     with the whole call's token usage in ``provenance.params['usage']``.
     """
-    payload = build_payload(onto, item, cut=cut, limit=limit, keys=keys)
+    payload = build_payload(
+        onto, item, cut=cut, limit=limit, max_mentions=max_mentions, keys=keys
+    )
     provenance = provenance.model_copy(
         update={"payload_hash": payload_hash(ctx, payload)}
     )
@@ -254,6 +257,7 @@ async def run(
     apply: bool = True,
     concurrency: int = DEFAULT_CONCURRENCY,
     limit: int = DEFAULT_LIMIT,
+    max_mentions: "int | None" = DEFAULT_MAX_MENTIONS,
     skeleton_depth: int = DEFAULT_SKELETON_DEPTH,
     max_repairs: int = DEFAULT_MAX_REPAIRS,
     rate_limit_errors: "tuple[type[BaseException], ...]" = (),
@@ -297,7 +301,11 @@ async def run(
             base_version=ctx.base_version,
             base_content_hash=ctx.base_content_hash,
             model=model,
-            params={"candidate_limit": limit, "skeleton_depth": skeleton_depth},
+            params={
+                "candidate_limit": limit,
+                "max_mentions": max_mentions,
+                "skeleton_depth": skeleton_depth,
+            },
         )
 
         async def one(offset: int, item: Item) -> DecisionRecord:
@@ -315,6 +323,7 @@ async def run(
                         update={"seq": start + offset, "ablated": not apply}
                     ),
                     limit=limit,
+                    max_mentions=max_mentions,
                     keys=keys,
                     apply=False,
                     max_repairs=max_repairs,
@@ -328,7 +337,14 @@ async def run(
         verdict = "apply"
         for item, record in zip(chunk, chunk_records):
             if reviewer is not None:
-                payload = build_payload(onto, item, cut=cut, limit=limit, keys=keys)
+                payload = build_payload(
+                    onto,
+                    item,
+                    cut=cut,
+                    limit=limit,
+                    max_mentions=max_mentions,
+                    keys=keys,
+                )
                 verdict = reviewer(item, payload, record, onto)
                 if verdict == "retry":
                     break  # same item again, against the same tree
@@ -392,7 +408,12 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--concurrency", type=int, default=DEFAULT_CONCURRENCY)
     parser.add_argument("--candidates", type=int, default=DEFAULT_LIMIT)
     parser.add_argument("--skeleton-depth", type=int, default=DEFAULT_SKELETON_DEPTH)
-    parser.add_argument("--max-mentions", type=int, default=DEFAULT_MAX_MENTIONS)
+    parser.add_argument(
+        "--max-mentions",
+        type=int,
+        default=DEFAULT_MAX_MENTIONS,
+        help="how many mentions (best first) the model is shown per item",
+    )
     parser.add_argument("--max-repairs", type=int, default=DEFAULT_MAX_REPAIRS)
     parser.add_argument("--run-id", default=None)
     parser.add_argument(
@@ -450,11 +471,7 @@ def main(argv: "Sequence[str] | None" = None) -> int:
     onto = Ontology.load(root / args.dim / args.base)
     cut = load_dimension_cut(args.dim)
 
-    items = (
-        read_items(args.items)
-        if args.items
-        else build_items(args.dim, max_mentions=args.max_mentions)
-    )
+    items = read_items(args.items) if args.items else build_items(args.dim)
     selected = _select(items, onto, args)
     if not selected:
         print("no items selected", file=sys.stderr)
@@ -470,7 +487,12 @@ def main(argv: "Sequence[str] | None" = None) -> int:
         print(render_context(ctx))
         for item in selected:
             payload = build_payload(
-                onto, item, cut=cut, limit=args.candidates, keys=keys
+                onto,
+                item,
+                cut=cut,
+                limit=args.candidates,
+                max_mentions=args.max_mentions,
+                keys=keys,
             )
             print(f"\n{'=' * 24} USER: {item.name} {'=' * 24}\n")
             print(render_payload(payload))
@@ -497,7 +519,7 @@ def main(argv: "Sequence[str] | None" = None) -> int:
             if args.review
             else decisions_path.with_name("review.jsonl")
         )
-        reviewer = interactive(ReviewLog(review_path))
+        reviewer = interactive(ReviewLog(review_path), seen=args.max_mentions)
         print(f"# interactive: verdicts -> {review_path}", file=sys.stderr)
 
     with DecisionLog(decisions_path) as log:
@@ -513,6 +535,7 @@ def main(argv: "Sequence[str] | None" = None) -> int:
                 apply=not args.no_apply,
                 concurrency=args.concurrency,
                 limit=args.candidates,
+                max_mentions=args.max_mentions,
                 skeleton_depth=args.skeleton_depth,
                 max_repairs=args.max_repairs,
                 rate_limit_errors=get_backend(platform).rate_limit_errors,

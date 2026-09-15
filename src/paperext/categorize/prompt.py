@@ -44,7 +44,7 @@ from paperext.categorize.candidates import (
     normalized_keys,
     skeleton_ids,
 )
-from paperext.categorize.items import Item, Mention
+from paperext.categorize.items import DEFAULT_MAX_MENTIONS, Item, Mention
 from paperext.categorize.placement import (
     load_dimension_cut,
     normalize_cut,
@@ -332,6 +332,7 @@ def build_payload(
     *,
     cut: "Cut | None" = None,
     limit: int = DEFAULT_LIMIT,
+    max_mentions: "int | None" = DEFAULT_MAX_MENTIONS,
     keys: "dict[str, list[str]] | None" = None,
     candidates: "Sequence[Candidate] | None" = None,
 ) -> Payload:
@@ -358,7 +359,12 @@ def build_payload(
         aliases=item.aliases,
         n_mentions=item.n_mentions,
         n_papers=item.n_papers,
-        evidence=[_evidence(onto, item, m, normalized) for m in item.mentions],
+        # Items carry every mention, best first; the agent sees the top few. The
+        # reviewer sees them all, which is how "the agent ignored the evidence"
+        # and "the agent never had it" stay distinguishable.
+        evidence=[
+            _evidence(onto, item, m, normalized) for m in item.mentions[:max_mentions]
+        ],
         candidates=[_candidate_view(onto, c, normalized) for c in found],
         n_candidates_found=len(ranked),
     )

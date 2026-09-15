@@ -16,15 +16,20 @@ keystrokes.
 
 from __future__ import annotations
 
+import glob
+import io
 import json
 from pathlib import Path
-from typing import Any, Callable, Union
+from typing import Any, Callable, Iterable, Union
 
 from pydantic import BaseModel
+from rich.console import Console
+from rich.table import Table
+from rich.text import Text
 
 from paperext.categorize.apply import DecisionRecord
-from paperext.categorize.items import Item
-from paperext.categorize.prompt import Payload, render_evidence, render_payload
+from paperext.categorize.items import DEFAULT_MAX_MENTIONS, Item, Mention
+from paperext.categorize.prompt import Payload, render_payload
 from paperext.ontology.ontology import Ontology
 
 #: What the reviewer can say about a decision. ``apply`` and ``skip`` are about
@@ -34,12 +39,23 @@ COMMANDS = {
     "s": "skip",
     "w": "wrong",
     "u": "unsure",
+    "e": "evidence",
     "p": "payload",
     "r": "retry",
     "q": "quit",
 }
 
-HELP = "[a]pply  [s]kip  [w]rong  [u]nsure  [p]ayload  [r]etry  [q]uit"
+HELP = (
+    "[a]pply  [s]kip  [w]rong  [u]nsure  [e]vidence (e N: one paper)  "
+    "[p]ayload  [r]etry  [q]uit"
+)
+
+#: Column caps for the evidence table. Quote and rationale wrap; everything else
+#: is clipped, so a row's height is set by the quote alone.
+PAPER_WIDTH = 46
+ALONGSIDE_WIDTH = 24
+QUOTE_CHARS = 200
+RATIONALE_CHARS = 110
 
 RULE = "-" * 78
 
@@ -55,6 +71,154 @@ class Review(BaseModel):
     note: str = ""
     outcome: str
     agent_path: str = ""
+
+
+def role_glyphs(mention: Mention) -> str:
+    """``CEK`` for contributed / executed / compared; ``·`` where false or unknown."""
+    return "".join(
+        glyph if flag else "·"
+        for flag, glyph in (
+            (mention.is_contributed, "C"),
+            (mention.is_executed, "E"),
+            (mention.is_compared, "K"),
+        )
+    )
+
+
+def _clip(text: str, limit: int) -> str:
+    return text if len(text) <= limit else text[: limit - 1] + "\u2026"
+
+
+def render_mentions_table(
+    item: Item,
+    *,
+    seen: "int | None" = DEFAULT_MAX_MENTIONS,
+    width: "int | None" = None,
+) -> str:
+    """Every paper that mentions *item*, best evidence first.
+
+    The first *seen* rows are what the agent was actually given (``\u25b8``);
+    the rest are dimmed. That split is the point of the table: it separates
+    "the agent ignored good evidence" from "the harness never showed it", which
+    are different failures with different fixes.
+    """
+    shown = len(item.mentions) if seen is None else seen
+    table = Table(
+        title=(
+            f"{item.name}  \u2014  {item.n_mentions} mention(s) in {item.n_papers} "
+            f"paper(s)  (\u25b8 = shown to the agent)"
+        ),
+        title_justify="left",
+        expand=True,
+        show_lines=True,
+        pad_edge=False,
+    )
+    table.add_column("#", width=2, no_wrap=True)
+    table.add_column("paper", width=PAPER_WIDTH, no_wrap=True, overflow="ellipsis")
+    table.add_column("role", width=4, no_wrap=True)
+    table.add_column("quote", ratio=5)
+    table.add_column("rationale", ratio=2)
+    table.add_column(
+        "alongside", width=ALONGSIDE_WIDTH, no_wrap=True, overflow="ellipsis"
+    )
+    for index, mention in enumerate(item.mentions, start=1):
+        given = index <= shown
+        paper = Text(no_wrap=True, overflow="ellipsis")
+        paper.append(
+            ("\u25b8 " if given else "  ") + mention.paper,
+            style="bold" if given else "dim",
+        )
+        if mention.research_field:
+            paper.append("  " + mention.research_field, style="dim")
+        paper.append("\n" + (mention.title or "(no title)"))
+        if mention.referenced_paper:
+            paper.append("\n\u21b3 " + mention.referenced_paper, style="italic")
+        others = mention.co_occurring
+        alongside = ", ".join(others[:3]) + (
+            f" +{len(others) - 3}" if len(others) > 3 else ""
+        )
+        table.add_row(
+            str(index),
+            paper,
+            role_glyphs(mention),
+            _clip(mention.quote, QUOTE_CHARS) or "\u2014",
+            _clip(mention.justification, RATIONALE_CHARS) or "\u2014",
+            alongside or "\u2014",
+            style=None if given else "dim",
+        )
+    console = Console(file=io.StringIO(), width=width, force_terminal=False)
+    console.print(table)
+    return console.file.getvalue()  # type: ignore[attr-defined]
+
+
+def render_mention(
+    mention: Mention, index: int, *, abstract: str = "", links: "Iterable[str]" = ()
+) -> str:
+    """One paper in full: nothing clipped, plus the abstract when we have it."""
+    lines = [f"[{index}] {mention.paper}  {mention.title or '(no title)'}"]
+    if mention.research_field:
+        lines.append(f"    field: {mention.research_field}")
+    if mention.referenced_paper:
+        lines.append(f"    reference, as extracted: {mention.referenced_paper}")
+    lines.append(
+        f"    role: {role_glyphs(mention)}  (C contributed, E executed, K compared)"
+    )
+    if mention.execution_mode:
+        lines.append(f"    execution: {mention.execution_mode}")
+    if mention.aliases:
+        lines.append(f"    aliases: {', '.join(mention.aliases)}")
+    lines += ["", "    quote:", _indent(mention.quote or "(none)", "      ")]
+    lines += [
+        "",
+        "    extractor's reason:",
+        _indent(mention.justification or "(none)", "      "),
+    ]
+    if mention.co_occurring:
+        lines += ["", "    alongside: " + ", ".join(mention.co_occurring)]
+    for link in links:
+        lines.append(f"    {link}")
+    if abstract:
+        lines += ["", "    abstract:", _indent(abstract, "      ")]
+    return "\n".join(lines)
+
+
+class PaperIndex:
+    """Titles, abstracts and links from the paperoni dumps, keyed by every id.
+
+    A query record's paper id is whatever the corpus used -- an arXiv id or an
+    OpenReview id -- while the dump keys papers by its own hash; the dump's
+    ``links`` carry both, so the index is built from those.
+    """
+
+    def __init__(self, paths: "Iterable[Union[str, Path]]" = ()) -> None:
+        self._by_id: "dict[str, dict[str, Any]]" = {}
+        for path in paths:
+            for paper in json.loads(Path(path).read_text(encoding="utf-8")):
+                for link in paper.get("links", []):
+                    if link.get("type", "").endswith(".abstract"):
+                        self._by_id.setdefault(str(link.get("link", "")), paper)
+
+    @classmethod
+    def default(cls, data_dir: "Union[str, Path]" = "data") -> "PaperIndex":
+        return cls(sorted(glob.glob(str(Path(data_dir) / "paperoni-*.json"))))
+
+    def abstract(self, paper_id: str) -> str:
+        return str(self._by_id.get(paper_id, {}).get("abstract", "") or "")
+
+    def links(self, paper_id: str) -> "list[str]":
+        paper = self._by_id.get(paper_id)
+        if paper is None:
+            return []
+        out = []
+        for link in paper.get("links", []):
+            kind, value = link.get("type", ""), str(link.get("link", ""))
+            if kind == "arxiv.abstract":
+                out.append(f"https://arxiv.org/abs/{value}")
+            elif kind == "openreview.abstract":
+                out.append(f"https://openreview.net/forum?id={value}")
+            elif kind.startswith("html") or kind.startswith("pdf"):
+                out.append(value)
+        return out[:3]
 
 
 def render_candidates(payload: Payload) -> str:
@@ -166,9 +330,23 @@ def interactive(
     *,
     read: "Callable[[str], str]" = input,
     write: "Callable[[str], None]" = print,
-    show_evidence: bool = True,
+    seen: "int | None" = DEFAULT_MAX_MENTIONS,
+    papers: "PaperIndex | None" = None,
+    width: "int | None" = None,
 ) -> Reviewer:
-    """A :data:`Reviewer` that talks to a terminal (or to the test feeding it)."""
+    """A :data:`Reviewer` that talks to a terminal (or to the test feeding it).
+
+    *seen* is how many mentions the agent was given, so the evidence table can
+    mark them; *papers* supplies abstracts for ``e N``, loaded lazily from the
+    paperoni dumps if not given.
+    """
+    index = papers
+
+    def paper_index() -> PaperIndex:
+        nonlocal index
+        if index is None:
+            index = PaperIndex.default()
+        return index
 
     def review(
         item: Item, payload: Payload, record: DecisionRecord, onto: Ontology
@@ -176,11 +354,10 @@ def interactive(
         write(
             f"\n{RULE}\n{record.provenance.seq + 1}. {item.name}  ({item.surface})\n{RULE}"
         )
-        if show_evidence:
-            write("\n".join(render_evidence(payload)))
-            write("\n## CANDIDATES\n")
-            write(render_candidates(payload))
-        write(f"\n## DECISION\n")
+        write(render_mentions_table(item, seen=seen, width=width))
+        write("## CANDIDATES\n")
+        write(render_candidates(payload))
+        write("\n## DECISION\n")
         write(render_decision(record, onto))
 
         while True:
@@ -188,6 +365,21 @@ def interactive(
             command = COMMANDS.get(answer[:1] if answer else "")
             if command is None:
                 write(HELP)
+                continue
+            if command == "evidence":
+                rest = answer[1:].strip()
+                if rest.isdigit() and 1 <= int(rest) <= len(item.mentions):
+                    mention = item.mentions[int(rest) - 1]
+                    write(
+                        render_mention(
+                            mention,
+                            int(rest),
+                            abstract=paper_index().abstract(mention.paper),
+                            links=paper_index().links(mention.paper),
+                        )
+                    )
+                else:
+                    write(render_mentions_table(item, seen=seen, width=width))
                 continue
             if command == "payload":
                 write(f"\n{render_payload(payload)}\n")

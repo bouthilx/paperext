@@ -220,3 +220,129 @@ def test_interactive_forces_a_sequential_run(tiny, tiny_cut):
     finally:
         agent.decide_item = original
     assert seen == [None, "resnet"]
+
+
+# --------------------------------------------------------------------------- #
+# Evidence table
+# --------------------------------------------------------------------------- #
+
+
+def rich_item(n_papers=5):
+    from paperext.categorize.items import Item, Mention
+
+    mentions = [
+        Mention(
+            paper=f"2401.0000{i}",
+            spelling="DINO",
+            quote=f"quote number {i} " + "word " * (30 - i),
+            justification=f"reason {i}",
+            is_executed=i % 2 == 0,
+            is_compared=True,
+            research_field="Computer Vision",
+            title=f"Paper title {i} about self-supervised learning",
+            referenced_paper="Emerging Properties in Self-Supervised Vision Transformers",
+            co_occurring=["SimCLR", "BYOL", "MoCo", "SwAV", "VICReg"],
+        )
+        for i in range(n_papers)
+    ]
+    return Item(
+        dimension="test",
+        surface="dino",
+        name="DINO",
+        spellings=["DINO"],
+        n_mentions=n_papers,
+        n_papers=n_papers,
+        mentions=mentions,
+    )
+
+
+def test_mentions_table_marks_what_the_agent_saw_and_shows_all():
+    text = review.render_mentions_table(rich_item(5), seen=3, width=160)
+    assert text.count("▸ 2401") == 3  # rows 1-3 were given to the agent
+    for i in range(5):
+        assert f"2401.0000{i}" in text  # every paper is listed regardless
+    assert "Emerging Properties" in text
+    assert "SimCLR, BYOL, MoCo +2" in text
+    assert "·EK" in text and "··K" in text
+
+
+def test_mentions_table_uses_the_given_width():
+    narrow = review.render_mentions_table(rich_item(2), width=100)
+    wide = review.render_mentions_table(rich_item(2), width=200)
+    assert max(len(line) for line in narrow.splitlines()) <= 100
+    assert max(len(line) for line in wide.splitlines()) <= 200
+    assert wide.count("\n") < narrow.count("\n")  # wider -> fewer wrapped lines
+
+
+def test_render_mention_shows_everything_unclipped():
+    item = rich_item(1)
+    text = review.render_mention(
+        item.mentions[0],
+        1,
+        abstract="An abstract.",
+        links=["https://arxiv.org/abs/2401.00000"],
+    )
+    assert item.mentions[0].quote.strip() in text
+    assert "reference, as extracted: Emerging Properties" in text
+    assert "abstract:" in text and "An abstract." in text
+    assert "https://arxiv.org/abs/2401.00000" in text
+    assert "SimCLR, BYOL, MoCo, SwAV, VICReg" in text
+
+
+def test_paper_index_resolves_arxiv_and_openreview_ids(tmp_path):
+    import json
+
+    dump = tmp_path / "paperoni-test.json"
+    dump.write_text(
+        json.dumps(
+            [
+                {
+                    "paper_id": "hash1",
+                    "title": "T",
+                    "abstract": "The abstract.",
+                    "links": [
+                        {"type": "arxiv.abstract", "link": "2304.13850"},
+                        {"type": "openreview.abstract", "link": "lkBygTc0SI"},
+                        {"type": "pdf.official", "link": "https://x/paper.pdf"},
+                    ],
+                }
+            ]
+        )
+    )
+    index = review.PaperIndex([dump])
+    assert index.abstract("2304.13850") == "The abstract."
+    assert index.abstract("lkBygTc0SI") == "The abstract."
+    assert index.abstract("nope") == ""
+    assert index.links("2304.13850") == [
+        "https://arxiv.org/abs/2304.13850",
+        "https://openreview.net/forum?id=lkBygTc0SI",
+        "https://x/paper.pdf",
+    ]
+    assert index.links("nope") == []
+
+
+def test_e_shows_the_table_and_e_n_one_paper(tiny, tiny_cut, tmp_path):
+    shown = []
+    read = keystrokes("e", "e 1", "e 9", "s", "", "s", "")
+    reviewer = review.interactive(
+        None,
+        read=read,
+        write=shown.append,
+        seen=3,
+        papers=review.PaperIndex([]),
+        width=160,
+    )
+    client = stub_client(mapping("resnet101", "resnet"), mapping("vitl", "vit"))
+    asyncio.run(
+        agent.run(
+            client,
+            tiny,
+            [item("ResNet-101", "resnet101"), item("ViT-L", "vitl")],
+            dimension="test",
+            cut=tiny_cut,
+            reviewer=reviewer,
+        )
+    )
+    joined = "\n".join(shown)
+    assert "[1] 0000.0" in joined  # `e 1` rendered the paper in full
+    assert joined.count("mention(s) in") >= 3  # default table + `e` + `e 9` fallback
