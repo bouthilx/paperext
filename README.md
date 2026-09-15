@@ -76,6 +76,28 @@ OPENAI_API_KEY=... backend-check --platform openai --model gpt-5.6-terra
 # OK: platform='openai' model='gpt-5.6-sol' reply='ok' usage=CompletionUsage(...)
 ```
 
+### Local OpenAI-compatible server
+
+The `local` backend talks to any self-hosted model behind an OpenAI-compatible
+`/v1/chat/completions` endpoint (vLLM, SGLang, llama.cpp, ...). It only needs
+the `openai` extra. Point it at the server and the model id as served:
+
+```console
+export PAPEREXT_PLATFORM_SELECT=local
+export PAPEREXT_LOCAL_BASE_URL=http://host:8000/v1
+export PAPEREXT_LOCAL_MODEL=<served model id>
+backend-check --platform local
+```
+
+`[local] api_key` is a dummy (the SDK refuses an empty key; local servers
+ignore it unless started with `--api-key`). `[local] mode` selects how the
+structured output is requested: `tools` (one forced tool call -- the server
+must parse tool calls, e.g. vLLM `--enable-auto-tool-choice --tool-call-parser
+...`) or `json_schema` (`response_format` structured outputs, the fallback when
+the tool-call parser is unreliable). Results are stored under
+`local/<model>/`; token counts come from the local tokenizer and are not
+comparable with the cloud backends'.
+
 ## Usage
 
 ### download-convert
