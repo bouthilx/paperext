@@ -1,4 +1,5 @@
 import logging
+import os
 from pathlib import Path
 
 import pytest
@@ -120,3 +121,22 @@ def test_config_logging_level(monkeypatch):
     with pytest.raises(ValueError):
         monkeypatch.setenv("PAPEREXT_LOGGING_LEVEL", "NOT A LEVEL")
         Config.apply_global_config(Config(str(CONFIG_FILE)))
+
+
+def test_blank_env_entries_do_not_clobber_the_environment(monkeypatch):
+    """`OPENAI_API_KEY =` in the ini must leave a shell-provided key alone."""
+    monkeypatch.setenv("OPENAI_API_KEY", "from-the-shell")
+    config = Config(str(CONFIG_FILE))
+    assert config.env.openai_api_key == ""  # the ini entry really is blank
+
+    Config.apply_global_config(config)
+    assert os.environ["OPENAI_API_KEY"] == "from-the-shell"
+
+
+def test_filled_env_entries_are_exported(monkeypatch):
+    monkeypatch.setenv("OPENAI_API_KEY", "from-the-shell")
+    config = Config(str(CONFIG_FILE))
+    config.env.openai_api_key = "from-the-ini"
+
+    Config.apply_global_config(config)
+    assert os.environ["OPENAI_API_KEY"] == "from-the-ini"

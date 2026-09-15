@@ -149,7 +149,10 @@ class Config:
             pass
 
         for varenv, val in config._config["env"].items():
-            os.environ[varenv.upper()] = val
+            # A blank entry is a placeholder, not a value: exporting it would
+            # clobber a credential the shell already provided with "".
+            if val:
+                os.environ[varenv.upper()] = val
 
     @contextmanager
     @staticmethod
