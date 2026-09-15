@@ -95,7 +95,7 @@ def test_openai_make_client_uses_the_responses_api(monkeypatch):
     monkeypatch.setattr(openai, "AsyncOpenAI", lambda **k: MagicMock())
     monkeypatch.setattr(instructor, "from_openai", _from_openai)
     get_backend("openai").make_client()
-    assert captured["mode"] is instructor.Mode.RESPONSES_TOOLS
+    assert captured["mode"] is instructor.Mode.RESPONSES_TOOLS_WITH_INBUILT_TOOLS
 
 
 # --- Gemini backend (Google on Vertex) ---
@@ -269,3 +269,51 @@ def test_vertex_claude_shares_the_anthropic_request_handling():
     from paperext.backends.anthropic import AnthropicBase
 
     assert isinstance(get_backend("claude"), AnthropicBase)
+
+
+def test_openai_parses_a_function_call_that_follows_a_reasoning_item(monkeypatch):
+    """gpt-5.x puts a ResponseReasoningItem before the tool call; instructor 1.8's
+    plain RESPONSES_TOOLS reads output[0] and dies on it."""
+    import asyncio
+    import json
+
+    from openai.types.responses import ResponseFunctionToolCall, ResponseReasoningItem
+    from pydantic import BaseModel
+
+    class Answer(BaseModel):
+        word: str
+
+    monkeypatch.setenv("OPENAI_API_KEY", "sk-test")
+    client = get_backend("openai").make_client()
+
+    class FakeResponse:
+        output = [
+            ResponseReasoningItem(id="rs_1", type="reasoning", summary=[]),
+            ResponseFunctionToolCall(
+                id="fc_1",
+                type="function_call",
+                call_id="c1",
+                name="Answer",
+                arguments=json.dumps({"word": "ok"}),
+            ),
+        ]
+        usage = MagicMock(
+            spec=["input_tokens", "output_tokens", "total_tokens"],
+            input_tokens=1,
+            output_tokens=2,
+            total_tokens=3,
+        )
+
+    async def fake_create(**kwargs):
+        return FakeResponse()
+
+    client.client.responses.create = fake_create
+    answer, usage = asyncio.run(
+        client.chat.completions.create_with_completion(
+            response_model=Answer,
+            max_retries=0,
+            messages=[{"role": "user", "content": "x"}],
+        )
+    )
+    assert answer.word == "ok"
+    assert usage["total_tokens"] == 3

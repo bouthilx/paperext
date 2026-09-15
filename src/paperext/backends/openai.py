@@ -24,10 +24,14 @@ class OpenAIBackend(Backend):
         # switched off, and switching it off is not an option for a judgment
         # task. instructor maps the same create_with_completion(messages=...)
         # call onto client.responses.create(input=messages), so callers do not
-        # change.
+        # change. The _WITH_INBUILT_TOOLS variant sends the identical request
+        # when no other tools are given, but *scans* the output for the function
+        # call instead of assuming it is output[0] -- a reasoning model emits a
+        # ResponseReasoningItem first, and plain RESPONSES_TOOLS (instructor
+        # 1.8) trips over it.
         client = instructor.from_openai(
             openai.AsyncOpenAI(),
-            mode=instructor.Mode.RESPONSES_TOOLS,
+            mode=instructor.Mode.RESPONSES_TOOLS_WITH_INBUILT_TOOLS,
         )
         _create_with_completion = client.chat.completions.create_with_completion
 
