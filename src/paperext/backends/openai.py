@@ -19,11 +19,15 @@ class OpenAIBackend(Backend):
     def make_client(self) -> instructor.AsyncInstructor:
         model = self.model
         normalize_usage = self.normalize_usage
+        # The Responses API, not chat completions: reasoning models (gpt-5.x)
+        # refuse function tools on /v1/chat/completions unless reasoning is
+        # switched off, and switching it off is not an option for a judgment
+        # task. instructor maps the same create_with_completion(messages=...)
+        # call onto client.responses.create(input=messages), so callers do not
+        # change.
         client = instructor.from_openai(
-            # TODO: update to use the new feature Mode.TOOLS_STRICT
-            # https://openai.com/index/introducing-structured-outputs-in-the-api/
             openai.AsyncOpenAI(),
-            mode=instructor.Mode.TOOLS_STRICT,
+            mode=instructor.Mode.RESPONSES_TOOLS,
         )
         _create_with_completion = client.chat.completions.create_with_completion
 
@@ -39,6 +43,14 @@ class OpenAIBackend(Backend):
 
     def normalize_usage(self, completion: Any) -> dict[str, Any]:
         usage = completion.usage
+        # Responses objects already use the canonical names; chat completions
+        # (the smoke check) still report prompt_/completion_tokens.
+        if hasattr(usage, "input_tokens"):
+            return {
+                "input_tokens": usage.input_tokens,
+                "output_tokens": usage.output_tokens,
+                "total_tokens": usage.total_tokens,
+            }
         return {
             "input_tokens": usage.prompt_tokens,
             "output_tokens": usage.completion_tokens,

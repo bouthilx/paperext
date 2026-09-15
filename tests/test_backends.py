@@ -56,10 +56,46 @@ def test_openai_backend_rate_limit_errors_declared():
 
 def test_openai_normalize_usage_maps_to_canonical_schema():
     completion = MagicMock(
-        usage=MagicMock(prompt_tokens=10, completion_tokens=4, total_tokens=14)
+        usage=MagicMock(
+            spec=["prompt_tokens", "completion_tokens", "total_tokens"],
+            prompt_tokens=10,
+            completion_tokens=4,
+            total_tokens=14,
+        )
     )
     usage = get_backend("openai").normalize_usage(completion)
     assert usage == {"input_tokens": 10, "output_tokens": 4, "total_tokens": 14}
+
+
+def test_openai_normalize_usage_accepts_a_responses_object():
+    """The agent path goes through /v1/responses, whose usage is already canonical."""
+    response = MagicMock(
+        usage=MagicMock(
+            spec=["input_tokens", "output_tokens", "total_tokens"],
+            input_tokens=10,
+            output_tokens=4,
+            total_tokens=14,
+        )
+    )
+    usage = get_backend("openai").normalize_usage(response)
+    assert usage == {"input_tokens": 10, "output_tokens": 4, "total_tokens": 14}
+
+
+def test_openai_make_client_uses_the_responses_api(monkeypatch):
+    """Reasoning models refuse function tools on chat completions."""
+    import instructor
+    import openai
+
+    captured: dict = {}
+
+    def _from_openai(client, mode=None, **k):
+        captured["mode"] = mode
+        return MagicMock()
+
+    monkeypatch.setattr(openai, "AsyncOpenAI", lambda **k: MagicMock())
+    monkeypatch.setattr(instructor, "from_openai", _from_openai)
+    get_backend("openai").make_client()
+    assert captured["mode"] is instructor.Mode.RESPONSES_TOOLS
 
 
 # --- Gemini backend (Google on Vertex) ---
