@@ -83,7 +83,7 @@ from paperext.categorize.prompt import (
     build_payload,
     render_evidence,
 )
-from paperext.categorize.sampling import SplitItem, Splits
+from paperext.categorize.sampling import SplitItem, Splits, stratum_of
 from paperext.ontology.ontology import Ontology
 
 logger = logging.getLogger(__name__)
@@ -120,6 +120,37 @@ class EvalItem(BaseModel):
     @property
     def surface(self) -> str:
         return self.split_item.surface
+
+
+def stratified_subset(
+    items: "Sequence[SplitItem]", n: int, *, seed: int = 42
+) -> "list[SplitItem]":
+    """*n* items spread across the strata in proportion, in manifest order.
+
+    The manifest is grouped by stratum, so taking its head hands you one
+    stratum -- the first 20 dev items are all ``cold`` / ``Other``, which is the
+    slice where the reference is weakest and every agreement number is
+    degenerate. A subset has to be drawn, not sliced.
+    """
+    if n >= len(items):
+        return list(items)
+    import random as _random
+
+    rng = _random.Random(seed)
+    groups: "dict[str, list[SplitItem]]" = {}
+    for item in items:
+        groups.setdefault(stratum_of(item), []).append(item)
+    # largest-remainder allocation, then a seeded draw inside each stratum
+    exact = {key: n * len(group) / len(items) for key, group in groups.items()}
+    alloc = {key: int(value) for key, value in exact.items()}
+    short = n - sum(alloc.values())
+    for key in sorted(groups, key=lambda k: (-(exact[k] - alloc[k]), k))[:short]:
+        alloc[key] += 1
+    chosen: "set[str]" = set()
+    for key in sorted(groups):
+        picked = rng.sample(groups[key], min(alloc[key], len(groups[key])))
+        chosen.update(item.node_id for item in picked)
+    return [item for item in items if item.node_id in chosen]
 
 
 def bare_item(split_item: SplitItem, dimension: str) -> Item:
@@ -675,6 +706,7 @@ class Report(BaseModel):
     harmlessness: "dict[str, Any]" = Field(default_factory=dict)
     consistency: "dict[str, Any]" = Field(default_factory=dict)
     probe_results: "dict[str, Any]" = Field(default_factory=dict)
+    adjudication: "dict[str, Any]" = Field(default_factory=dict)
     replay: "dict[str, Any]" = Field(default_factory=dict)
     canary: "dict[str, Any]" = Field(default_factory=dict)
     gate: "list[GateClause]" = Field(default_factory=list)
@@ -927,6 +959,13 @@ def evaluate_gate(
         ),
     )
 
+    add(
+        "1c. judge order-swap consistency",
+        report.adjudication.get("order_swap_consistency", float("nan")),
+        0.80,
+        note="below this the judge reads position, not content, and W is void",
+    )
+
     canary = bool(report.canary.get("fired"))
     levenshtein = report.agreement.get("levenshtein_baseline", {})
     baseline = levenshtein.get("rate", float("nan"))
@@ -1075,6 +1114,7 @@ def render_report(report: Report) -> str:
             ]
 
     for title, block in (
+        ("Judge guardrails", report.adjudication),
         ("Hierarchy-aware agreement", report.hierarchical),
         ("Agreement with the legacy tree", report.agreement),
         ("Distributional shape", report.distribution),
@@ -1509,7 +1549,7 @@ async def _run(args: argparse.Namespace) -> Report:
     splits = _load_splits(args)
     split_items: "list[SplitItem]" = list(getattr(splits, args.split))
     if args.limit_items:
-        split_items = split_items[: args.limit_items]
+        split_items = stratified_subset(split_items, args.limit_items, seed=args.seed)
 
     corpus_items = _load_corpus(args)
     corpus = {item.surface: item for item in corpus_items}
@@ -1595,7 +1635,7 @@ async def _run(args: argparse.Namespace) -> Report:
         cache = VerdictCache(
             args.verdicts or (Path(args.out) / VERDICTS_FILE if args.out else None)
         )
-        verdicts = await _judge(pairs, cache, args)
+        verdicts, adjudication = await _judge(pairs, cache, args)
         apply_verdicts(scores, pairs, verdicts, index)
         report = build_report(
             onto,
@@ -1611,6 +1651,7 @@ async def _run(args: argparse.Namespace) -> Report:
         )
         add_levenshtein_baseline(report, onto, eval_items, scores, cut=cut)
         add_consistency(report, repeats_scores)
+        report.adjudication = adjudication
 
     if args.probes:
         reserve = [item.surface for item in splits.reserve]
@@ -1670,12 +1711,19 @@ async def _run(args: argparse.Namespace) -> Report:
 
 async def _judge(
     pairs: "Sequence[Pair]", cache: VerdictCache, args: argparse.Namespace
-) -> "list[Verdict]":
-    """Adjudicate with a different-vendor judge, checking the order-swap guardrail."""
+) -> "tuple[list[Verdict], dict[str, Any]]":
+    """Adjudicate with a different-vendor judge and measure its guardrails.
+
+    Returns the verdicts and the ``adjudication`` block of the report: which
+    judge, how many pairs, the pro-agent rate, and order-swap consistency on a
+    seeded subsample. Without that block a W number cannot be read -- a judge
+    that decides on position rather than content produces one just as readily.
+    """
     from paperext.categorize.adjudicate import (
         judge_settings,
         llm_judge,
         order_swap_consistency,
+        pro_agent_rate,
     )
     from paperext.categorize.agent import make_client
 
@@ -1684,12 +1732,19 @@ async def _judge(
     verdicts = await adjudicate(
         pairs, judge, cache=cache, concurrency=args.concurrency, judge_name=model
     )
+    summary: "dict[str, Any]" = {
+        "judge": f"{platform}/{model}",
+        "n_pairs": len(pairs),
+        "pro_agent_rate": pro_agent_rate(pairs, verdicts),
+        "swap_check_n": 0,
+        "order_swap_consistency": float("nan"),
+    }
 
     import random as _random
 
     rng = _random.Random(args.seed)
     sample = (
-        pairs
+        list(pairs)
         if len(pairs) <= 20
         else [pairs[i] for i in sorted(rng.sample(range(len(pairs)), 20))]
     )
@@ -1698,11 +1753,11 @@ async def _judge(
             [swap(pair) for pair in sample], judge, concurrency=args.concurrency
         )
         first = [next(v for v in verdicts if v.key == p.key) for p in sample]
-        consistency = order_swap_consistency(sample, first, mirrored)
-        logger.info(
-            "judge order-swap consistency: %.2f (n=%d)", consistency, len(sample)
+        summary["swap_check_n"] = len(sample)
+        summary["order_swap_consistency"] = order_swap_consistency(
+            sample, first, mirrored
         )
-    return verdicts
+    return verdicts, summary
 
 
 def _write(out: Path, report: Report, scores: "Sequence[ItemScore]") -> None:
