@@ -348,6 +348,12 @@ class StrictSchemaModel(BaseModel):
 class Decision(StrictSchemaModel):
     """One extracted name, one ordered list of edits."""
 
+    reasoning: str = Field(
+        default="",
+        description="Your analysis, before anything else: what the evidence says "
+        "this entity is, which candidates you considered, and why you chose or "
+        "rejected each. A reviewer reads this to follow the decision.",
+    )
     surface: str = Field(description="The extracted name this decision is about")
     review_notes: list[str] = Field(
         default_factory=list,

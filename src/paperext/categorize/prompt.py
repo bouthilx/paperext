@@ -407,6 +407,8 @@ def render_action_schema() -> str:
         lines.append(f"- `{op}({', '.join(args)})`{marker} -- {OP_GUIDANCE[op]}")
     lines.append("")
     lines.append(
+        "Write your analysis in `reasoning` first -- what the evidence says the "
+        "entity is, and why each candidate fits or does not -- then the actions. "
         "Set `outcome` to `mapped` (surface added to an existing node), `created` "
         "(node created and mapped), `abstained` (ambiguous -- no mapping), `no_op` "
         "(already correct) or `failed`."

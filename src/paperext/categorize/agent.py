@@ -78,6 +78,7 @@ from paperext.categorize.prompt import (
     render_context,
     render_payload,
 )
+from paperext.categorize.review import Reviewer
 from paperext.log import logger
 from paperext.ontology.ontology import Ontology
 
@@ -257,6 +258,7 @@ async def run(
     max_repairs: int = DEFAULT_MAX_REPAIRS,
     rate_limit_errors: "tuple[type[BaseException], ...]" = (),
     log: "DecisionLog | None" = None,
+    reviewer: "Reviewer | None" = None,
 ) -> "list[DecisionRecord]":
     """Decide every item in *items*, mutating *onto* in place when *apply*.
 
@@ -264,13 +266,22 @@ async def run(
     then applied in item order. The shared prompt prefix is identical within a
     chunk -- and across chunks until a decision changes the tree -- which is what
     makes provider prompt caching pay here.
+
+    With a *reviewer* the run is strictly sequential and nothing is applied until
+    the reviewer says ``apply``; ``retry`` asks the model again, ``quit`` returns
+    what has been decided so far.
     """
     run_id = run_id or uuid.uuid4().hex[:12]
     records: "list[DecisionRecord]" = []
+    if reviewer is not None:
+        concurrency = 1
     semaphore = asyncio.Semaphore(max(1, concurrency))
-    chunk_size = max(1, concurrency) if apply else len(items) or 1
+    chunk_size = (
+        max(1, concurrency) if apply or reviewer is not None else len(items) or 1
+    )
 
-    for start in range(0, len(items), chunk_size):
+    start = 0
+    while start < len(items):
         chunk = items[start : start + chunk_size]
         ctx = build_context(
             onto,
@@ -314,13 +325,35 @@ async def run(
             *(one(i, item) for i, item in enumerate(chunk))
         )
 
-        for record in chunk_records:
-            if apply:
+        verdict = "apply"
+        for item, record in zip(chunk, chunk_records):
+            if reviewer is not None:
+                payload = build_payload(onto, item, cut=cut, limit=limit, keys=keys)
+                verdict = reviewer(item, payload, record, onto)
+                if verdict == "retry":
+                    break  # same item again, against the same tree
+                if verdict == "quit":
+                    return records
+                record = record.model_copy(
+                    update={
+                        "provenance": record.provenance.model_copy(
+                            update={
+                                "params": {
+                                    **record.provenance.params,
+                                    "review": verdict,
+                                }
+                            }
+                        )
+                    }
+                )
+            if apply and verdict == "apply":
                 result = apply_decision(onto, record.decision, cut=cut)
                 record = record.model_copy(update={"result": result})
             records.append(record)
             if log is not None:
                 log.write(record)
+        if verdict != "retry":
+            start += chunk_size
 
     return records
 
@@ -380,6 +413,18 @@ def build_parser() -> argparse.ArgumentParser:
         "--dump-payload",
         action="store_true",
         help="print the payload for each item and exit without calling a model",
+    )
+    parser.add_argument(
+        "--interactive",
+        action="store_true",
+        help="one item at a time: show evidence, candidates and the decision, "
+        "then wait -- nothing is applied without [a]pply",
+    )
+    parser.add_argument(
+        "--review",
+        default=None,
+        metavar="JSONL",
+        help="where --interactive records your verdicts (default: next to --decisions)",
     )
     return parser
 
@@ -443,6 +488,18 @@ def main(argv: "Sequence[str] | None" = None) -> int:
         Path(args.decisions) if args.decisions else out_dir / DECISIONS_FILE
     )
 
+    reviewer: "Reviewer | None" = None
+    if args.interactive:
+        from paperext.categorize.review import ReviewLog, interactive
+
+        review_path = (
+            Path(args.review)
+            if args.review
+            else decisions_path.with_name("review.jsonl")
+        )
+        reviewer = interactive(ReviewLog(review_path))
+        print(f"# interactive: verdicts -> {review_path}", file=sys.stderr)
+
     with DecisionLog(decisions_path) as log:
         records = asyncio.run(
             run(
@@ -460,6 +517,7 @@ def main(argv: "Sequence[str] | None" = None) -> int:
                 max_repairs=args.max_repairs,
                 rate_limit_errors=get_backend(platform).rate_limit_errors,
                 log=log,
+                reviewer=reviewer,
             )
         )
 
