@@ -41,7 +41,7 @@ import asyncio
 import sys
 import uuid
 from pathlib import Path
-from typing import Any, Sequence
+from typing import Any, Callable, Sequence
 
 import instructor
 
@@ -69,6 +69,7 @@ from paperext.categorize.items import (
     read_items,
 )
 from paperext.categorize.placement import load_dimension_cut
+from paperext.categorize.progress import track
 from paperext.categorize.prompt import (
     Context,
     build_context,
@@ -263,6 +264,7 @@ async def run(
     rate_limit_errors: "tuple[type[BaseException], ...]" = (),
     log: "DecisionLog | None" = None,
     reviewer: "Reviewer | None" = None,
+    on_record: "Callable[[DecisionRecord], None] | None" = None,
 ) -> "list[DecisionRecord]":
     """Decide every item in *items*, mutating *onto* in place when *apply*.
 
@@ -368,6 +370,8 @@ async def run(
             records.append(record)
             if log is not None:
                 log.write(record)
+            if on_record is not None:
+                on_record(record)
         if verdict != "retry":
             start += chunk_size
 
@@ -519,10 +523,21 @@ def main(argv: "Sequence[str] | None" = None) -> int:
             if args.review
             else decisions_path.with_name("review.jsonl")
         )
-        reviewer = interactive(ReviewLog(review_path), seen=args.max_mentions)
+        reviewer = interactive(
+            ReviewLog(review_path), seen=args.max_mentions, total=len(selected)
+        )
         print(f"# interactive: verdicts -> {review_path}", file=sys.stderr)
 
-    with DecisionLog(decisions_path) as log:
+    # A live bar and input() cannot share the terminal; the reviewer prints its
+    # own pace line per item instead.
+    with (
+        DecisionLog(decisions_path) as log,
+        track(
+            len(selected),
+            f"categorize {args.dim}",
+            enabled=False if args.interactive else None,
+        ) as advance,
+    ):
         records = asyncio.run(
             run(
                 client,
@@ -541,6 +556,7 @@ def main(argv: "Sequence[str] | None" = None) -> int:
                 rate_limit_errors=get_backend(platform).rate_limit_errors,
                 log=log,
                 reviewer=reviewer,
+                on_record=lambda _record: advance(),
             )
         )
 

@@ -76,6 +76,7 @@ from paperext.categorize.candidates import DEFAULT_LIMIT, normalized_keys
 from paperext.categorize.items import Item, build_items, read_items
 from paperext.categorize.metrics import HierScore
 from paperext.categorize.placement import Placement, load_dimension_cut, to_placement
+from paperext.categorize.progress import track
 from paperext.categorize.prompt import (
     DEFAULT_SKELETON_DEPTH,
     Context,
@@ -310,6 +311,7 @@ async def leave_one_out(
     skeleton_depth: int = DEFAULT_SKELETON_DEPTH,
     ablated: bool = True,
     log: "DecisionLog | None" = None,
+    on_record: "Callable[[DecisionRecord], None] | None" = None,
 ) -> "list[DecisionRecord]":
     """Decide every item against its own ablated copy. *onto* is never mutated.
 
@@ -330,6 +332,7 @@ async def leave_one_out(
         skeleton_depth=skeleton_depth,
         ablated=ablated,
         log=log,
+        on_record=on_record,
     )
 
 
@@ -344,6 +347,7 @@ async def decide_all(
     skeleton_depth: int = DEFAULT_SKELETON_DEPTH,
     ablated: bool = True,
     log: "DecisionLog | None" = None,
+    on_record: "Callable[[DecisionRecord], None] | None" = None,
 ) -> "list[DecisionRecord]":
     """Decide a list of ``(tree, item)`` pairs -- the shared engine of every probe.
 
@@ -372,7 +376,10 @@ async def decide_all(
             params={"skeleton_depth": skeleton_depth, "eval": True},
         )
         async with semaphore:
-            return await decider(scratch, ctx, item, provenance)
+            record = await decider(scratch, ctx, item, provenance)
+        if on_record is not None:
+            on_record(record)
+        return record
 
     records = list(
         await asyncio.gather(
@@ -1587,21 +1594,24 @@ async def _run(args: argparse.Namespace) -> Report:
 
     run_id = uuid.uuid4().hex[:12]
     log = DecisionLog(Path(args.out) / DECISIONS_FILE) if args.out else None
+    repeats = max(1, args.k)
     try:
-        repeats_records = [
-            await leave_one_out(
-                onto,
-                eval_items,
-                decider,
-                dimension=args.dim,
-                cut=cut,
-                run_id=f"{run_id}-{index}",
-                model=model,
-                concurrency=args.concurrency,
-                log=log if index == 0 else None,
-            )
-            for index in range(max(1, args.k))
-        ]
+        with track(len(eval_items) * repeats, f"leave-one-out x{repeats}") as advance:
+            repeats_records = [
+                await leave_one_out(
+                    onto,
+                    eval_items,
+                    decider,
+                    dimension=args.dim,
+                    cut=cut,
+                    run_id=f"{run_id}-{index}",
+                    model=model,
+                    concurrency=args.concurrency,
+                    log=log if index == 0 else None,
+                    on_record=lambda _record: advance(),
+                )
+                for index in range(repeats)
+            ]
     finally:
         if log is not None:
             log.close()

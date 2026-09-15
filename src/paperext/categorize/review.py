@@ -29,6 +29,7 @@ from rich.text import Text
 
 from paperext.categorize.apply import DecisionRecord
 from paperext.categorize.items import DEFAULT_MAX_MENTIONS, Item, Mention
+from paperext.categorize.progress import Pace
 from paperext.categorize.prompt import Payload, render_payload
 from paperext.ontology.ontology import Ontology
 
@@ -333,6 +334,7 @@ def interactive(
     seen: "int | None" = DEFAULT_MAX_MENTIONS,
     papers: "PaperIndex | None" = None,
     width: "int | None" = None,
+    total: "int | None" = None,
 ) -> Reviewer:
     """A :data:`Reviewer` that talks to a terminal (or to the test feeding it).
 
@@ -341,6 +343,7 @@ def interactive(
     paperoni dumps if not given.
     """
     index = papers
+    pace = Pace(total) if total else None
 
     def paper_index() -> PaperIndex:
         nonlocal index
@@ -351,9 +354,10 @@ def interactive(
     def review(
         item: Item, payload: Payload, record: DecisionRecord, onto: Ontology
     ) -> str:
-        write(
-            f"\n{RULE}\n{record.provenance.seq + 1}. {item.name}  ({item.surface})\n{RULE}"
-        )
+        header = f"{record.provenance.seq + 1}. {item.name}  ({item.surface})"
+        if pace is not None:
+            header += "   " + pace.line(record.provenance.seq)
+        write(f"\n{RULE}\n{header}\n{RULE}")
         write(render_mentions_table(item, seen=seen, width=width))
         write("## CANDIDATES\n")
         write(render_candidates(payload))
