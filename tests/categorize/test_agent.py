@@ -1,7 +1,6 @@
 """The agent loop, driven entirely by a stub client -- no network (WS-D D1b-2, #52)."""
 
 import asyncio
-import json
 from pathlib import Path
 from unittest.mock import MagicMock
 
