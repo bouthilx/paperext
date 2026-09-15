@@ -38,7 +38,6 @@ from __future__ import annotations
 
 import argparse
 import asyncio
-import json
 import sys
 import uuid
 from pathlib import Path
@@ -76,6 +75,8 @@ from paperext.categorize.prompt import (
     build_messages,
     build_payload,
     payload_hash,
+    render_context,
+    render_payload,
 )
 from paperext.log import logger
 from paperext.ontology.ontology import Ontology
@@ -417,13 +418,17 @@ def main(argv: "Sequence[str] | None" = None) -> int:
     if args.dump_payload:
         ctx = build_context(onto, args.dim, skeleton_depth=args.skeleton_depth)
         keys = normalized_keys(onto)
+        # As the model sees it: the shared system message once, then one user
+        # message per item. JSON would escape every newline in ~30k chars of
+        # prose, which is unreadable for the human this flag exists for.
+        print(f"{'=' * 24} SYSTEM (shared by every item) {'=' * 24}\n")
+        print(render_context(ctx))
         for item in selected:
             payload = build_payload(
                 onto, item, cut=cut, limit=args.candidates, keys=keys
             )
-            print(
-                json.dumps(build_messages(ctx, payload), indent=2, ensure_ascii=False)
-            )
+            print(f"\n{'=' * 24} USER: {item.name} {'=' * 24}\n")
+            print(render_payload(payload))
         return 0
 
     platform, model = categorize_settings()

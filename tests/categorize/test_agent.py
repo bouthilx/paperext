@@ -345,9 +345,11 @@ def test_dump_payload_makes_no_calls(onto_root, tmp_path, capsys, monkeypatch):
         )
         == 0
     )
-    messages = json.loads(capsys.readouterr().out)
-    assert [m["role"] for m in messages] == ["system", "user"]
-    assert "## TAXONOMY" in messages[0]["content"]
+    out = capsys.readouterr().out
+    # rendered as the model sees it, not JSON-escaped: system once, then the item
+    assert out.index("SYSTEM (shared by every item)") < out.index("## TAXONOMY")
+    assert out.index("## TAXONOMY") < out.index("USER: ResNet-101")
+    assert "## EVIDENCE" in out and "\\n" not in out
 
 
 def test_a_run_yields_a_loadable_snapshot_with_invariants_intact(
