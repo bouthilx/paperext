@@ -1,227 +1,360 @@
+from __future__ import annotations
+
 import argparse
+import asyncio
+import collections
 import hashlib
 import json
 import os
+import shutil
 import subprocess
-import sys
-import tempfile
-import urllib.request
-from multiprocessing.pool import ThreadPool
+from collections.abc import Callable, Iterable
+from dataclasses import asdict, dataclass, field
+from datetime import datetime
 from pathlib import Path
-
-import yaml
+from typing import Any
 
 from paperext import CFG
+from paperext.dashboard import Dashboard
 from paperext.log import logger
+from paperext.paperoni.report import NON_PEER_REVIEWED_VENUES, venue_name
 from paperext.utils import Paper
 
-#: The paperoni CLI used to fetch PDFs, pinned to the deployment the corpus
-#: was built with.
-PAPERONI_SPEC = "paperoni @ git+https://github.com/mila-iqia/paperoni@deploy-2024-12-06"
+# Config's attribute access is typed as `Config | Path`; the sections used here
+# are known, so read them through an untyped alias rather than casting each use.
+_CFG: Any = CFG
 
 PROG = f"{Path(__file__).stem.replace('_', '-')}"
 
 DESCRIPTION = """
-Utility to download and convert a list of papers' pdfs -> "txts.
+Utility to download and convert a list of papers' pdfs -> txts.
+
+PDFs are located and downloaded by paperoni's fulltext resolver (arxiv,
+openreview, mlr, direct pdf links, and DOIs through CrossRef / OpenAlex /
+publisher APIs), configured by the yaml file at $PAPERONI_CONFIG. Converted
+texts land in <cache-dir>/fulltext/<paper_id>/fulltext.txt.
 
 stdout will contain the list of files successfully converted separated by '\\n'.
+A per-paper JSON report (refs tried, source, error) is written next to the
+logs so download drop-out can be quantified.
 """
 
 EPILOG = f"""
 Example:
-  $ PAPEREXT_LOGGING_LEVEL=INFO {PROG} --paperoni paperoni-2024-07-04.json
+  $ PAPEREXT_LOGGING_LEVEL=INFO {PROG} --paperoni data/paperoni-2026-01-01-2026-12-31-PR_2026-09-16.json
     [DEBUG]
-    data/cache/arxiv/1901.07186.txt
-    data/cache/arxiv/1906.05433.txt
+    data/cache/fulltext/69a5fd5448887d403d0a4e4b/fulltext.txt
     ...
-    data/cache/html/874f823e6462acbbb07cc57d32e09217.txt
-    data/cache/html/8a46fcbc0c34ea85102920cba7039290.txt
-    ...
-    data/cache/openreview/0k_DN90uWF.txt
-    data/cache/openreview/2Q8TZWAHv4.txt
-    ...
-    data/cache/pdf/80c62591b54231aa42e4418fe3d45e8f.txt
-    data/cache/pdf/81709b4783324a59fd2632ee694e9071.txt
-    ...
-    Successfully downloaded and converted 587 out of 867 papers
-    arxiv:455/455
-    html:3/3
-    openreview:52/52
-    pdf:77/145
-  $ PAPEREXT_LOGGING_LEVEL=INFO {PROG} --paperoni paperoni-2024-07-04.json > data/query_set.txt
-    [DEBUG]
-    Successfully downloaded and converted 587 out of 867 papers
-    arxiv:455/455
-    html:3/3
-    openreview:52/52
-    pdf:77/145
+    Successfully downloaded and converted 23 out of 45 papers
+    arxiv:20/20
+    doi.crossref:1/1
+    doi.openalex:2/2
+    no-fulltext:0/22
+  $ {PROG} --paperoni papers.json > data/query_set.txt
 """
 
+#: Ref types paperoni's fulltext locator resolves, in the order they are tried
+#: for a paper: cheapest and most reliable first. `get_pdf` stops at the first
+#: ref that yields a PDF.
+REF_TYPES = ("arxiv", "openreview", "mlr", "pdf", "doi")
 
-def paperoni_download(paper_data: dict, cache_dir: Path):
-    paper = Paper(paper_data)
 
-    if paper.pdfs:
-        return paper_data["paper_id"], paper.get_link_id_pdf(), ["EXISTING"]
+@dataclass
+class Outcome:
+    """What happened to one paper."""
 
-    for filename in [CFG.env.paperoni_config, os.environ["PAPERONI_CONFIG"]]:
-        config_filename = Path(filename).resolve()
-        config = yaml.safe_load(config_filename.read_text())
-        assert (
-            "fulltext" in config["paperoni"]["paths"]
-        ), "The paperoni configuration file internal structure seams to have changed or is invalid"
-        config["paperoni"]["paths"]["fulltext"] = str(cache_dir / "fulltext")
-        break
+    paper_id: str
+    title: str
+    venue: str = "unknown"
+    refs: list[str] = field(default_factory=list)
+    text: Path | None = None
+    #: "existing" (already converted) or the resolver that produced the PDF's
+    #: URL (arxiv, openreview, doi.crossref, doi.openalex, ...)
+    source: str | None = None
+    error: str | None = None
 
-    else:
-        raise FileNotFoundError(
-            "paperoni config not found. Cannot download using paperoni"
-        )
+    @property
+    def link_type(self) -> str:
+        # Bucket for the per-resolver tally logged at the end.
+        return self.source or ("no-refs" if not self.refs else "no-fulltext")
 
-    try:
-        # Use a temporary yaml config file with a modified fulltext path
-        with tempfile.NamedTemporaryFile(
-            "w+",
-            prefix=f"{config_filename.stem}_",
-            suffix=".yaml",
-            dir=str(config_filename.parent),
-        ) as _f:
-            yaml.dump(config, _f)
+    @property
+    def link_bucket(self) -> str:
+        """The best link type the paper had *before* downloading, or "existing"."""
+        if self.source == "existing":
+            return "existing"
+        return self.refs[0].split(":", 1)[0] if self.refs else "no-refs"
 
-            # paperoni pins pydantic<2 and so cannot share an environment with
-            # paperext; `uvx` runs it in an isolated one, as the detached hatch
-            # env used to.
-            subprocess.run(
-                [
-                    "uvx",
-                    "--from",
-                    PAPERONI_SPEC,
-                    "paperoni",
-                    "download",
-                    "--config",
-                    _f.name,
-                    "--title",
-                    paper_data["title"],
-                ],
-                stdout=sys.stderr.fileno(),
-                check=True,
-            )
 
-        paper = Paper(paper_data)
+def venue_of(paper_data: dict[str, Any]) -> str:
+    """The venue to count the paper under.
 
-        if not paper.pdfs:
-            raise FileNotFoundError(f"Could not find converted file")
+    `paperoni-report` stamps `venue` (the peer-reviewed release inside the
+    corpus window). Older lists lack it: fall back to the latest peer-reviewed
+    release, whose date is either a string or the old `{"text": ...}` form.
+    """
+    if paper_data.get("venue"):
+        return str(paper_data["venue"])
 
-        link_types = ["_PAPERONI"]
+    def released(release: dict[str, Any]) -> str:
+        raw = (release.get("venue") or {}).get("date")
+        return str(raw.get("text", "") if isinstance(raw, dict) else raw or "")
 
-    except (FileNotFoundError, subprocess.CalledProcessError) as e:
+    candidates = [
+        release
+        for release in paper_data.get("releases") or []
+        if (release.get("venue") or {}).get("type") not in NON_PEER_REVIEWED_VENUES
+        and (release.get("venue") or {}).get("type") is not None
+    ]
+    if not candidates:
+        return "unknown"
+    return venue_name(max(candidates, key=released).get("venue"))
+
+
+def refs_for(links: Iterable[dict[str, Any]]) -> list[str]:
+    """Turn paperoni `links` into fulltext refs (`type:id`), ordered by REF_TYPES.
+
+    Handles both link shapes seen in the wild: bare ids (`arxiv.pdf` +
+    `2307.00134`, old reports) and full URLs (`arxiv` +
+    `https://arxiv.org/abs/2307.00134`, the current API with `expand_links`).
+    Abstract-only types (dblp, semantic_scholar, pubmed, ...) are dropped: the
+    locator cannot turn them into a PDF.
+    """
+    from paperoni.utils import url_to_id
+
+    refs: dict[str, None] = {}
+    for link in links:
+        base = link["type"].split(".")[0]
+        target = link["link"]
+        if target.startswith("http"):
+            typed = url_to_id(target)
+            if typed is None and base == "pdf":
+                # A direct PDF URL that no extractor recognises (jmlr, ...).
+                typed = ("pdf", target)
+        else:
+            typed = (base, target)
+        if typed and typed[0] in REF_TYPES:
+            refs[f"{typed[0]}:{typed[1]}"] = None
+
+    return sorted(refs, key=lambda ref: REF_TYPES.index(ref.split(":", 1)[0]))
+
+
+def pdf_to_text(pdf: Path, text: Path) -> Path | None:
+    """Convert `pdf` to `text` with pdftotext; None (and no partial file) on failure."""
+    if text.exists():
+        return text
+
+    # pdftotext comes from https://poppler.freedesktop.org/
+    cmd = ["pdftotext", str(pdf), str(text)]
+    # Redirect stderr to stdout to then redirect the combined stdout and
+    # stderr to stderr
+    p = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
+    logger.info(p.stdout)
+
+    if p.returncode:
         logger.error(
-            f"Failed to download or convert using paperoni {paper_data['paper_id']}:{paper_data['title']}: {e}",
-            exc_info=True,
+            f"Failed to convert {pdf} to {text}: {cmd} returned {p.returncode}"
         )
-        link_types = sorted(set([l["type"].split(".")[0] for l in paper_data["links"]]))
-
-    return paper_data["paper_id"], paper.get_link_id_pdf(), link_types
-
-
-def convert_pdf(pdf, text, pdf_link):
-    pdf.parent.mkdir(parents=True, exist_ok=True)
-
-    if not pdf.exists():
-        logger.info(f"Downloading from {pdf_link} to {pdf}")
-
-        try:
-            urllib.request.urlretrieve(pdf_link, str(pdf))
-
-        except (urllib.error.HTTPError, ValueError) as e:
-            logger.error(f"Failed to download {pdf_link}: {e}", exc_info=True)
-            pdf.unlink(missing_ok=True)
-            return None
-
-    if not text.exists():
-        # pdftotext comes from https://poppler.freedesktop.org/
-        try:
-            cmd = ["pdftotext", str(pdf), str(text)]
-            # Redirect stderr to stdout to then redirect the combined stdout and
-            # stderr to stderr
-            p = subprocess.run(
-                cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True
-            )
-            logger.info(p.stdout)
-
-            if p.returncode:
-                raise subprocess.CalledProcessError(
-                    p.returncode, cmd, p.stdout, p.stderr
-                )
-
-        except subprocess.CalledProcessError as e:
-            logger.error(f"Failed to convert {pdf} to {text}: {e}", exc_info=True)
-            pdf.unlink(missing_ok=True)
-            text.unlink(missing_ok=True)
-            return None
+        text.unlink(missing_ok=True)
+        return None
 
     return text
 
 
-def download_and_convert_paper(
-    paper_id: str, links: list, cache_dir: Path, check_only=False
-):
-    text = None
-    link_types = []
-
-    while links:
-        l: dict = links.pop(0)
-        link_type = l["type"].split(".")[0]
-
-        for _if, pdf, pdf_link in (
-            # Favor arxiv links if available
-            # If the link is an arxiv link, the arxiv id is in the `link` field.
-            # The arxiv id can be used to build an url and download the pdf file.
-            (
-                l["type"].lower().startswith("arxiv"),
-                cache_dir / f"arxiv/{l['link']}.pdf",
-                f"https://arxiv.org/pdf/{l['link']}",
-            ),
-            # If `url` is available, use it to download the pdf. The `link`
-            # field should contain the id for the pdf file.
-            (
-                "url" in l,
-                cache_dir / link_type / f"{l['link']}.pdf",
-                l.get("url", None),
-            ),
-            # If none of the above worked, try to download the pdf from the `link`
-            (True, cache_dir / link_type / f"{paper_id}.pdf", l["link"]),
-        ):
-            if not _if:
-                continue
-
-            text = pdf.with_suffix(".txt")
-            link_types.append(link_type)
-
-            if text.exists():
-                logger.info(f"Found existing {text}")
-                links[:] = []
-                break
-
-            if check_only:
-                continue
-
-            if convert_pdf(pdf, text, pdf_link) is not None:
-                links[:] = []
-                break
-
-            logger.warning("retrying...")
-
-        else:
-            text = None
-
-    if text is not None:
-        link_types = link_types[-1:]
-
-    return text, sorted(set(link_types))
+def _describe(exc: BaseException) -> str:
+    """One-line description of a (possibly grouped) download failure."""
+    if isinstance(exc, BaseExceptionGroup):
+        return "; ".join(_describe(e) for e in exc.exceptions) or str(exc)
+    return f"{type(exc).__name__}: {exc}"[:300]
 
 
-def main(argv=None):
+async def fetch_pdf(refs: list[str], pdf_file: Path) -> tuple[Path, str]:
+    """Locate + download the first available PDF for `refs` into `pdf_file`.
+
+    Returns the file and where it came from. Raises when no ref yields a PDF.
+    """
+    from paperoni.fulltext.pdf import CachePolicies, get_pdf
+
+    # The resolver keeps its own cache (data_path/pdf/<url hash>/); a repeat run
+    # is served from it without touching the network.
+    pdf = await get_pdf(refs, cache_policy=CachePolicies.USE)
+    source = pdf.source.info
+
+    pdf_file.parent.mkdir(parents=True, exist_ok=True)
+    if not pdf_file.exists():
+        try:
+            pdf_file.hardlink_to(pdf.pdf_path)
+        except OSError:
+            shutil.copyfile(pdf.pdf_path, pdf_file)
+
+    return pdf_file, source
+
+
+async def download_paper(
+    paper_data: dict[str, Any], cache_dir: Path, semaphore: asyncio.Semaphore
+) -> Outcome:
+    outcome = Outcome(
+        paper_id=paper_data["paper_id"],
+        title=paper_data["title"],
+        venue=venue_of(paper_data),
+    )
+    paper = Paper(paper_data)
+
+    if paper.pdfs:
+        outcome.text = paper.get_link_id_pdf()
+        outcome.source = "existing"
+        return outcome
+
+    outcome.refs = refs_for(paper_data["links"])
+    if not outcome.refs:
+        outcome.error = "no locatable links"
+        logger.warning(f"{outcome.paper_id}:{outcome.title}: {outcome.error}")
+        return outcome
+
+    # Paperoni records land in fulltext/<paper_id>/ (utils.Paper's
+    # PAPER_ID_FULLTEXT_TEMPLATE); the --arxiv convenience keeps the historical
+    # arxiv/<id>.txt layout that `query --arxiv` reads.
+    pdf_file = cache_dir / paper_data.get(
+        "_pdf", f"fulltext/{outcome.paper_id}/fulltext.pdf"
+    )
+
+    async with semaphore:
+        try:
+            pdf_file, outcome.source = await fetch_pdf(outcome.refs, pdf_file)
+        except Exception as e:
+            outcome.error = _describe(e)
+            logger.error(
+                f"Failed to download {outcome.paper_id}:{outcome.title} "
+                f"from {outcome.refs}: {outcome.error}"
+            )
+            return outcome
+
+    # pdftotext is CPU-bound and blocking; keep it off the event loop.
+    outcome.text = await asyncio.to_thread(
+        pdf_to_text, pdf_file, pdf_file.with_suffix(".txt")
+    )
+    if outcome.text is None:
+        outcome.error = "pdftotext failed"
+
+    return outcome
+
+
+async def download_all(
+    papers: list[dict[str, Any]],
+    cache_dir: Path,
+    concurrency: int,
+    advance: Callable[[Outcome], None] = lambda outcome: None,
+) -> list[Outcome]:
+    """Download `papers` with at most `concurrency` in flight; `advance` is
+    called with each outcome as it finishes (dashboard hook)."""
+    semaphore = asyncio.Semaphore(concurrency)
+
+    async def one(paper: dict[str, Any]) -> Outcome:
+        outcome = await download_paper(paper, cache_dir, semaphore)
+        advance(outcome)
+        return outcome
+
+    return list(await asyncio.gather(*(one(paper) for paper in papers)))
+
+
+def paperoni_config_file() -> Path:
+    """The paperoni yaml config, from $PAPERONI_CONFIG (set by [env]) or the
+    conventional location under the paperoni directory."""
+    raw = os.environ.get("PAPERONI_CONFIG") or _CFG.env.paperoni_config
+    path = Path(raw) if raw else _CFG.dir.paperoni / "config.yaml"
+    if not path.is_absolute():
+        path = _CFG.dir.root / path
+    return path.resolve()
+
+
+def run(
+    papers: list[dict[str, Any]], cache_dir: Path, concurrency: int
+) -> list[Outcome]:
+    """Download + convert `papers` under the paperoni config; synchronous entry."""
+    try:
+        import gifnoc
+    except ImportError as e:  # pragma: no cover - environment problem
+        raise SystemExit(
+            f"{PROG} needs paperoni: install the `fulltext` extra "
+            "(uv sync --extra fulltext)"
+        ) from e
+
+    config_file = paperoni_config_file()
+    if not config_file.exists():
+        raise SystemExit(
+            f"paperoni config not found at {config_file}; copy "
+            f"{_CFG.dir.paperoni / 'config.example.yaml'} there and fill it in"
+        )
+
+    # The dashboard (logs / stats / progress) draws on stderr when it is a
+    # terminal, and in every case moves paperoni's stdout progress prints off
+    # stdout so `download-convert ... > query_set.txt` stays a file list.
+    with (
+        gifnoc.use(str(config_file)),
+        Dashboard(len(papers), "download-convert", key="venue") as dashboard,
+    ):
+        return asyncio.run(
+            download_all(
+                papers,
+                cache_dir,
+                concurrency,
+                lambda outcome: dashboard.advance(
+                    outcome.venue, outcome.text is not None
+                ),
+            )
+        )
+
+
+def synthetic_papers(
+    arxiv_ids: Iterable[str], urls: Iterable[str]
+) -> list[dict[str, Any]]:
+    """Paper records for the --arxiv / --url conveniences."""
+    papers = [
+        {
+            "paper_id": arxiv_id,
+            "title": f"arxiv:{arxiv_id}",
+            "links": [{"type": "arxiv.pdf", "link": arxiv_id}],
+            "_pdf": f"arxiv/{arxiv_id}.pdf",
+        }
+        for arxiv_id in arxiv_ids
+    ]
+    for url in urls:
+        papers.append(
+            {
+                "paper_id": hashlib.sha256(url.encode()).hexdigest(),
+                "title": url,
+                "links": [{"type": "pdf", "link": url}],
+            }
+        )
+    return papers
+
+
+def write_report(outcomes: list[Outcome], report: Path) -> None:
+    report.parent.mkdir(parents=True, exist_ok=True)
+    records = []
+    for o in outcomes:
+        record = asdict(o)
+        record["text"] = str(o.text) if o.text else None
+        records.append(record)
+    report.write_text(json.dumps(records, indent=2))
+
+
+def log_summary(
+    outcomes: list[Outcome], write: Callable[[str], None] = logger.info
+) -> None:
+    completed = [o for o in outcomes if o.text]
+    write(
+        f"Successfully downloaded and converted {len(completed)} out of "
+        f"{len(outcomes)} papers"
+    )
+    by_type: dict[str, list[bool]] = collections.defaultdict(list)
+    for o in outcomes:
+        by_type[o.link_type].append(o.text is not None)
+    for t in sorted(by_type):
+        write(f"{t}:{sum(by_type[t])}/{len(by_type[t])}")
+
+
+def main(argv: list[str] | None = None) -> None:
     parser = argparse.ArgumentParser(
         prog=PROG,
         description=DESCRIPTION,
@@ -246,81 +379,47 @@ def main(argv=None):
         metavar="STR",
         nargs="+",
         default=tuple(),
-        help="List of urls to download and convert pdfs -> txts",
+        help="List of pdf urls to download and convert pdfs -> txts",
     )
     parser.add_argument(
         "--cache-dir",
         metavar="DIR",
         type=Path,
-        default=CFG.dir.cache,
+        default=_CFG.dir.cache,
         help="Directory to store downloaded and converted pdfs -> txts",
+    )
+    parser.add_argument(
+        "--concurrency",
+        metavar="N",
+        type=int,
+        default=8,
+        help="Papers downloaded in parallel (default 8; requests to one host are "
+        "further capped by the paperoni config's fetch.simultaneous)",
+    )
+    parser.add_argument(
+        "--report",
+        metavar="JSON",
+        type=Path,
+        default=None,
+        help="Per-paper outcome report (default: <log dir>/download-convert_<timestamp>.json)",
     )
     options = parser.parse_args(argv)
 
     options.cache_dir.mkdir(parents=True, exist_ok=True)
 
-    completed = []
-    failed = []
+    papers = json.loads(options.paperoni.read_text()) if options.paperoni else []
+    papers += synthetic_papers(options.arxiv, options.url)
 
-    with ThreadPool(processes=8) as pool:
-        papers = json.loads(options.paperoni.read_text() if options.paperoni else "{}")
-        for paper_id, text_file, link_types in pool.starmap(
-            paperoni_download,
-            ((paper, options.cache_dir) for paper in papers),
-        ):
-            if text_file:
-                completed.append((paper_id, text_file, link_types))
-            else:
-                failed.append((paper_id, text_file, link_types))
+    outcomes = run(papers, options.cache_dir, options.concurrency)
 
-    urls = [
-        (
-            f"https://arxiv.org/pdf/{arxiv_id}",
-            options.cache_dir / f"arxiv/{arxiv_id}.pdf",
-            "arxiv",
-        )
-        for arxiv_id in options.arxiv
-    ]
-
-    for url, pdf_file, link_type in urls + [
-        (url, None, "rawurl") for url in options.url
-    ]:
-        match link_type:
-            case "arxiv":
-                pass
-            case "rawurl":
-                domain = (
-                    # Remove scheme ending with "//"
-                    "//".join(url.split("//")[-1:])
-                    # Keep only the host
-                    .split("/")[0]
-                )
-                hash_object = hashlib.sha256()
-                hash_object.update(url.encode())
-                pdf_file = (
-                    options.cache_dir
-                    / f"{link_type}_{domain}/{hash_object.hexdigest()}.pdf"
-                )
-
-        text_file = convert_pdf(pdf_file, pdf_file.with_suffix(".txt"), url)
-
-        if text_file is not None:
-            completed.append((url, text_file, [link_type]))
-
-        else:
-            failed.append((url, text_file, [link_type]))
-
-    print(*sorted(str(text_file) for _, text_file, _ in completed), sep="\n")
-
-    logger.info(
-        f"Successfully downloaded and converted {len(completed)} out of "
-        f"{len(completed) + len(failed)} papers"
+    report = options.report or (
+        _CFG.dir.log / f"download-convert_{datetime.now():%Y%m%d_%H%M%S}.json"
     )
-    for t in sorted(
-        set(sum([l for _, _, l in completed] + [l for _, _, l in failed], []))
-    ):
-        c, f = (sum(t in l for _, _, l in completed), sum(t in l for _, _, l in failed))
-        logger.info(f"{t}:{c}/{c+f}")
+    write_report(outcomes, report)
+
+    print(*sorted(str(o.text) for o in outcomes if o.text), sep="\n")
+    log_summary(outcomes)
+    logger.info(f"Report: {report}")
 
 
 if __name__ == "__main__":

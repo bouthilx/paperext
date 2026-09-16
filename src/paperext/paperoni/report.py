@@ -1,4 +1,5 @@
 import argparse
+import html
 import json
 import urllib.error
 import urllib.parse
@@ -106,8 +107,9 @@ def _venue_date(venue: dict):
     return None
 
 
-def is_peer_reviewed(paper: dict, start=None, end=None) -> bool:
-    """Whether `paper` has a peer-reviewed release dated within [start, end].
+def peer_reviewed_venue(paper: dict, start=None, end=None) -> dict | None:
+    """The venue of `paper`'s first peer-reviewed release dated within
+    [start, end], or None.
 
     `start`/`end` are `date` objects (or None for an open bound). A release
     counts when its venue type is peer-reviewed (not preprint/unknown) and its
@@ -122,15 +124,32 @@ def is_peer_reviewed(paper: dict, start=None, end=None) -> bool:
         if released is None:
             continue
         if (start is None or released >= start) and (end is None or released <= end):
-            return True
-    return False
+            return venue
+    return None
 
 
-def normalize(paper: dict) -> dict:
+def is_peer_reviewed(paper: dict, start=None, end=None) -> bool:
+    """Whether `paper` has a peer-reviewed release dated within [start, end]."""
+    return peer_reviewed_venue(paper, start, end) is not None
+
+
+def venue_name(venue: dict | None) -> str:
+    if not venue:
+        return "unknown"
+    # Names arrive HTML-escaped ("Physics in Medicine &amp; Biology").
+    return html.unescape(venue.get("name") or venue.get("short_name") or "unknown")
+
+
+def normalize(paper: dict, venue: dict | None = None) -> dict:
     # Downstream consumers (utils.Paper, download_convert, query) key on
     # `paper_id`. The new API exposes the canonical id as `id`; map it across so
-    # the rest of the pipeline keeps working unchanged.
-    return {**paper, "paper_id": paper["id"]}
+    # the rest of the pipeline keeps working unchanged. `venue` is the release
+    # that put the paper in this window's corpus -- the per-venue statistics
+    # downstream (download-convert's dashboard) key on it.
+    record = {**paper, "paper_id": paper["id"]}
+    if venue is not None:
+        record["venue"] = venue_name(venue)
+    return record
 
 
 def main(argv=None):
@@ -170,15 +189,17 @@ def main(argv=None):
     papers = fetch_valid_papers(start, end)
     logger.info(f"Fetched {len(papers)} validated papers")
 
+    start_date = options.start.date() if options.start else None
+    end_date = options.end.date() if options.end else None
+    venues = {
+        paper["id"]: peer_reviewed_venue(paper, start_date, end_date)
+        for paper in papers
+    }
     if not options.all_valid:
-        start_date = options.start.date() if options.start else None
-        end_date = options.end.date() if options.end else None
-        papers = [
-            paper for paper in papers if is_peer_reviewed(paper, start_date, end_date)
-        ]
+        papers = [paper for paper in papers if venues[paper["id"]] is not None]
         logger.info(f"Kept {len(papers)} peer-reviewed papers")
 
-    papers = [normalize(paper) for paper in papers]
+    papers = [normalize(paper, venues[paper["id"]]) for paper in papers]
     output.write_text(json.dumps(papers, indent=2))
 
     # Check that the output is a valid JSON

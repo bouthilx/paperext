@@ -15,8 +15,10 @@ def test_track_counts_to_total_when_enabled(capsys):
     with progress.track(2, "x", enabled=True) as advance:
         advance()
         advance()
-    # rich writes the bar to stdout by default; the run must not raise
-    assert "2/2" in capsys.readouterr().out
+    # The bar goes to stderr so callers keep stdout for their own output
+    captured = capsys.readouterr()
+    assert "2/2" in captured.err
+    assert captured.out == ""
 
 
 def test_pace_reports_position_and_an_eta_after_the_first_item():

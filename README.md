@@ -111,51 +111,56 @@ comparable with the cloud backends'.
 
 ### download-convert
 
-`pdftotext` from https://poppler.freedesktop.org/ is required to run this
-utility.
+Locates and downloads each paper's PDF with paperoni's fulltext resolver
+(arxiv, openreview, mlr, direct pdf links, and DOIs through CrossRef, OpenAlex
+and publisher APIs), then converts it with `pdftotext` (from
+https://poppler.freedesktop.org/) into `<cache>/fulltext/<paper_id>/fulltext.txt`.
+
+Requirements:
+
+- the `fulltext` extra (`uv sync --extra fulltext`);
+- a paperoni config at `paperoni/config.yaml` (gitignored; `[env]
+  PAPERONI_CONFIG` in `config.mdl.ini` points there). Start from
+  [paperoni/config.example.yaml](./paperoni/config.example.yaml): set `mailto`,
+  and add `api_keys` (Elsevier / Wiley TDM, ScraperAPI) and the OpenReview
+  credentials if you have them -- without them, paywalled DOIs, Cloudflare-fronted
+  publishers and OpenReview-only papers are reported as failures.
 
 ```console
-usage: download-convert [-h] [--cache-dir DIR] JSON
-
-Utility to download and convert a list of papers' pdfs -> "txts.
-
-stdout will contain the list of files successfully converted separated by '\n'.
-
-positional arguments:
-  JSON             Paperoni json output of papers to download and convert pdfs -> txts
+usage: download-convert [-h] [--paperoni JSON] [--arxiv STR [STR ...]]
+                        [--url STR [STR ...]] [--cache-dir DIR]
+                        [--concurrency N] [--report JSON]
 
 options:
-  -h, --help       show this help message and exit
-  --cache-dir DIR  Directory to store downloaded and converted pdfs -> txts
+  --paperoni JSON   Paperoni json output of papers to download and convert pdfs -> txts
+  --arxiv STR ...   List of arXiv ids use to download and convert pdfs -> txts
+  --url STR ...     List of pdf urls to download and convert pdfs -> txts
+  --cache-dir DIR   Directory to store downloaded and converted pdfs -> txts
+  --concurrency N   Papers downloaded in parallel (default 8; requests to one host
+                    are further capped by the paperoni config's fetch.simultaneous)
+  --report JSON     Per-paper outcome report (default: logs/download-convert_<timestamp>.json)
 
 Example:
-  $ PAPEREXT_LOGGING_LEVEL=INFO download-convert --paperoni paperoni-2024-07-04.json
-    [DEBUG]
-    data/cache/arxiv/1901.07186.txt
-    data/cache/arxiv/1906.05433.txt
+  $ PAPEREXT_LOGGING_LEVEL=INFO download-convert --paperoni data/paperoni-2026-01-01-2026-12-31-PR_2026-09-16.json > data/query_set.txt
     ...
-    data/cache/html/874f823e6462acbbb07cc57d32e09217.txt
-    data/cache/html/8a46fcbc0c34ea85102920cba7039290.txt
-    ...
-    data/cache/openreview/0k_DN90uWF.txt
-    data/cache/openreview/2Q8TZWAHv4.txt
-    ...
-    data/cache/pdf/80c62591b54231aa42e4418fe3d45e8f.txt
-    data/cache/pdf/81709b4783324a59fd2632ee694e9071.txt
-    ...
-    Successfully downloaded and converted 587 out of 867 papers
-    arxiv:455/455
-    html:3/3
-    openreview:52/52
-    pdf:77/145
-  $ PAPEREXT_LOGGING_LEVEL=INFO download-convert --paperoni paperoni-2024-07-04.json > data/query_set.txt
-    [DEBUG]
-    Successfully downloaded and converted 587 out of 867 papers
-    arxiv:455/455
-    html:3/3
-    openreview:52/52
-    pdf:77/145
+    Successfully downloaded and converted 23 out of 45 papers
+    arxiv:20/20
+    doi.crossref:1/1
+    doi.openalex:2/2
+    no-fulltext:0/22
 ```
+
+When stderr is a terminal, a live dashboard is shown: the tail of the logs
+(including paperoni's download progress), a table of hits / misses / total per
+venue (largest first, folded to what fits), and a progress bar with elapsed
+time and ETA; the complete venue table is left on screen when it exits. The
+venue is the one `paperoni-report` selected the paper on (its peer-reviewed
+release inside the window, stamped as `venue` in the JSON).
+stdout lists the converted text files; the report records, per paper, the refs
+tried, which resolver produced the PDF (`source`) and the error otherwise, so
+download drop-out can be quantified per publisher. Re-runs are cheap: papers
+with an existing text are skipped, and paperoni keeps its own PDF cache under
+`data_path` (see the config).
 
 ### query
 

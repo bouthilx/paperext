@@ -17,6 +17,7 @@ import time
 from contextlib import contextmanager
 from typing import Callable, Iterator
 
+from rich.console import Console
 from rich.progress import (
     BarColumn,
     MofNCompleteColumn,
@@ -45,6 +46,9 @@ def track(
         TextColumn("ETA"),
         TimeRemainingColumn(),
         transient=False,
+        # stderr, as documented: callers such as download-convert use stdout
+        # for their actual output.
+        console=Console(stderr=True),
     )
     task = progress.add_task(description, total=total)
     with progress:
