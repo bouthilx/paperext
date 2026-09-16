@@ -11,11 +11,18 @@ from paperext.categorize.actions import (
     Outcome,
 )
 from paperext.categorize.placement import (
+    load_dimension_cut,
     placement_for_new,
     resolve_placement,
     to_placement,
 )
 from paperext.ontology.ontology import UnknownNodeError
+from paperext.ontology.rollup import (
+    NodeCut,
+    UnresolvedCutError,
+    resolve_cut,
+    to_category_map,
+)
 
 
 def test_existing_node(tiny, tiny_cut):
@@ -168,3 +175,55 @@ def test_a_surface_for_another_name_does_not_count_as_the_placement(tiny, tiny_c
         actions=[_mapping("some other alias", "vit")],
     )
     assert resolve_placement(tiny, decision, tiny_cut) is None
+
+
+# --------------------------------------------------------------------------- #
+# id-keyed cuts (#62): renaming a cut node relabels its category, never empties it
+# --------------------------------------------------------------------------- #
+
+
+def test_cut_survives_renaming_a_cut_node(tiny, tiny_cut):
+    cut = resolve_cut(tiny, tiny_cut)
+    assert isinstance(cut, NodeCut) and cut.ids == {"cnn", "transformer"}
+
+    tiny.rename("cnn", "Convolutional Neural Network (CNN)")
+    placement = to_placement(tiny, "resnet50", cut)
+    assert placement.cut_category == "Convolutional Neural Network (CNN)"
+    assert to_placement(tiny, "vit", cut).cut_category == "transformer"
+    # the label follows the name, so the map is the same partition, relabelled
+    m = to_category_map(tiny, cut)
+    assert m["resnet"] == m["resnet50"] == "Convolutional Neural Network (CNN)"
+    assert m["ppo"] == "Other"
+
+
+def test_name_cut_against_a_renamed_tree_fails_loudly(tiny, tiny_cut):
+    """The old failure mode: a stale name path silently sent a branch to Other."""
+    tiny.rename("cnn", "Convolutional Neural Network (CNN)")
+    with pytest.raises(UnresolvedCutError, match="neuralnetworks.cnn"):
+        to_placement(tiny, "resnet50", tiny_cut)
+
+
+def test_new_node_rolls_up_to_its_nearest_cut_ancestor(tiny, tiny_cut):
+    """A node that does not exist yet has no id, so it cannot be a cut node."""
+    assert placement_for_new(tiny, "cnn", "BiT", tiny_cut).cut_category == "CNN"
+    assert placement_for_new(tiny, "nn", "BiT", tiny_cut).cut_category == "Other"
+    # ... even when it is named exactly like a cut entry
+    assert placement_for_new(tiny, "nn", "CNN", tiny_cut).cut_category == "Other"
+
+
+def test_resolve_cut_passes_depths_and_resolved_cuts_through(tiny, tiny_cut):
+    assert resolve_cut(tiny, 2) == 2
+    cut = resolve_cut(tiny, tiny_cut)
+    assert resolve_cut(tiny, cut) is cut
+    with pytest.raises(TypeError):
+        resolve_cut(tiny, True)
+    with pytest.raises(ValueError):
+        resolve_cut(tiny, 0)
+
+
+def test_dimension_cut_is_resolved_against_the_frozen_base():
+    """The milabench file is spelled in ``v0`` names; ids are what a run keeps."""
+    cut = load_dimension_cut("models")
+    assert isinstance(cut, NodeCut)
+    assert "convolutionalneuralnetwork" in cut.ids and "transformer" in cut.ids
+    assert load_dimension_cut("test") == 2

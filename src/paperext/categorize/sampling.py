@@ -36,12 +36,13 @@ from typing import Union
 
 from pydantic import BaseModel, Field
 
-from paperext.analysis.rollup import DEFAULT_DROP_ROOTS, Cut, str_normalize
+from paperext.analysis.rollup import DEFAULT_DROP_ROOTS, str_normalize
 from paperext.categorize.ablate import ablatable, name_matches
 from paperext.categorize.apply import content_hash, ontology_root
 from paperext.categorize.candidates import anchor_ids, normalized_keys
 from paperext.categorize.placement import load_dimension_cut, to_placement
 from paperext.ontology.ontology import Ontology
+from paperext.ontology.rollup import AnyCut
 
 #: Default split sizes, sized in #53: at N=300 the gate has ~97% power to detect
 #: W=0.50 against H0: W <= 0.45; at N=100 it is ~64%, which is not worth running.
@@ -122,7 +123,7 @@ def anchoring(
 
 def build_pool(
     onto: Ontology,
-    cut: Cut,
+    cut: AnyCut,
     *,
     drop_roots: "tuple[str, ...]" = DEFAULT_DROP_ROOTS,
 ) -> "list[SplitItem]":
@@ -212,7 +213,7 @@ def _largest_remainder(
 def draw_splits(
     onto: Ontology,
     dimension: str,
-    cut: Cut,
+    cut: AnyCut,
     *,
     base_version: str = "v0",
     seed: int = DEFAULT_SEED,
@@ -305,7 +306,7 @@ def main(argv: "list[str] | None" = None) -> int:
     splits = draw_splits(
         onto,
         args.dim,
-        load_dimension_cut(args.dim),
+        load_dimension_cut(args.dim, root=root),
         base_version=args.base,
         seed=args.seed,
         sizes={"dev": args.dev, "gate": args.gate},

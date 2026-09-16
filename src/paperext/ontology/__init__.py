@@ -24,7 +24,12 @@ from paperext.ontology.ontology import (
     OntologyError,
     UnknownNodeError,
 )
-from paperext.ontology.rollup import to_category_map
+from paperext.ontology.rollup import (
+    NodeCut,
+    UnresolvedCutError,
+    resolve_cut,
+    to_category_map,
+)
 from paperext.ontology.schema import Meta, Node, NormRow, OntologyDoc
 
 __all__ = [
@@ -34,6 +39,9 @@ __all__ = [
     "Meta",
     "NormRow",
     "to_category_map",
+    "NodeCut",
+    "resolve_cut",
+    "UnresolvedCutError",
     "OntologyError",
     "DuplicateNodeError",
     "UnknownNodeError",

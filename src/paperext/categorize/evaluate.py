@@ -51,7 +51,7 @@ from typing import Any, Awaitable, Callable, Iterable, Sequence, Union
 from pydantic import BaseModel, Field
 from rapidfuzz import fuzz
 
-from paperext.analysis.rollup import Cut, str_normalize
+from paperext.analysis.rollup import str_normalize
 from paperext.categorize import metrics, probes
 from paperext.categorize.ablate import ablate, residual_names
 from paperext.categorize.actions import Decision, Outcome, Provenance
@@ -86,6 +86,7 @@ from paperext.categorize.prompt import (
 )
 from paperext.categorize.sampling import SplitItem, Splits, stratum_of
 from paperext.ontology.ontology import Ontology
+from paperext.ontology.rollup import AnyCut
 
 logger = logging.getLogger(__name__)
 
@@ -180,7 +181,7 @@ def build_eval_items(
     corpus_items: "Sequence[Item]",
     *,
     dimension: str,
-    cut: Cut,
+    cut: AnyCut,
     with_residue: bool = True,
 ) -> "list[EvalItem]":
     """Join split items to their corpus evidence and their reference placement."""
@@ -216,7 +217,7 @@ Decider = Callable[[Ontology, Context, Item, Provenance], "Awaitable[DecisionRec
 def agent_decider(
     client: Any,
     *,
-    cut: Cut,
+    cut: AnyCut,
     limit: int = DEFAULT_LIMIT,
     max_repairs: int = 2,
     rate_limit_errors: "tuple[type[BaseException], ...]" = (),
@@ -249,7 +250,7 @@ def agent_decider(
 
 
 def replay_decider(
-    source: "Union[str, Path, Iterable[DecisionRecord]]", *, cut: Cut
+    source: "Union[str, Path, Iterable[DecisionRecord]]", *, cut: AnyCut
 ) -> Decider:
     """A stub decider replaying recorded decisions, keyed by surface.
 
@@ -304,7 +305,7 @@ async def leave_one_out(
     decider: Decider,
     *,
     dimension: str,
-    cut: Cut,
+    cut: AnyCut,
     run_id: "str | None" = None,
     model: "str | None" = None,
     concurrency: int = 4,
@@ -485,7 +486,7 @@ def majority_baseline(reference: "Sequence[str | None]") -> "list[str | None]":
 
 
 def levenshtein_baseline(
-    onto: Ontology, eval_items: "Sequence[EvalItem]", *, cut: Cut
+    onto: Ontology, eval_items: "Sequence[EvalItem]", *, cut: AnyCut
 ) -> "list[str | None]":
     """Nearest node name by edit distance, scored at the cut.
 
@@ -525,7 +526,7 @@ def sequential_replay(
     onto: Ontology,
     records: "Sequence[DecisionRecord]",
     *,
-    cut: Cut,
+    cut: AnyCut,
     surfaces: "Sequence[str]" = (),
 ) -> "dict[str, Any]":
     """Apply the leave-one-out decisions to **one** accumulating tree, in order.
@@ -615,7 +616,7 @@ def build_pairs(
     scores: "Sequence[ItemScore]",
     *,
     onto: Ontology,
-    cut: Cut,
+    cut: AnyCut,
     seed: int = 42,
 ) -> "tuple[list[Pair], dict[str, int]]":
     """Blind pairs for the disagreements, plus the index of each pair's item.
@@ -734,7 +735,7 @@ def build_report(
     *,
     dimension: str,
     split: str,
-    cut: Cut,
+    cut: AnyCut,
     seed: int = 42,
     coverage_target: float = DEFAULT_COVERAGE,
     run_id: str = "",
@@ -844,7 +845,7 @@ def add_levenshtein_baseline(
     eval_items: "Sequence[EvalItem]",
     scores: "Sequence[ItemScore]",
     *,
-    cut: Cut,
+    cut: AnyCut,
 ) -> None:
     """Score the Levenshtein placer on the same answered items and file it."""
     answered = [
@@ -1206,7 +1207,7 @@ def _hide(onto: Ontology, surface: str) -> Ontology:
     return ablate(onto, surface) if ablatable(onto, surface) else onto
 
 
-def _candidate_ids(onto: Ontology, item: Item, *, cut: Cut) -> "set[str]":
+def _candidate_ids(onto: Ontology, item: Item, *, cut: AnyCut) -> "set[str]":
     """The node ids the agent was actually shown for *item*."""
     return {view.id for view in build_payload(onto, item, cut=cut).candidates}
 
@@ -1218,7 +1219,7 @@ async def run_noop_probe(
     decider: Decider,
     *,
     dimension: str,
-    cut: Cut,
+    cut: AnyCut,
     n: int = 100,
     seed: int = 42,
     concurrency: int = 4,
@@ -1259,7 +1260,7 @@ async def run_policy_probe(
     decider: Decider,
     *,
     dimension: str,
-    cut: Cut,
+    cut: AnyCut,
     limit: "int | None" = 60,
     seed: int = 42,
     concurrency: int = 4,
@@ -1552,7 +1553,7 @@ async def _run(args: argparse.Namespace) -> Report:
 
     root = Path(args.root) if args.root else Path(ontology_root())
     onto = Ontology.load(root / args.dim / args.base)
-    cut = load_dimension_cut(args.dim)
+    cut = load_dimension_cut(args.dim, root=root)
     splits = _load_splits(args)
     split_items: "list[SplitItem]" = list(getattr(splits, args.split))
     if args.limit_items:

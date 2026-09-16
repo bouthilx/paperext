@@ -175,3 +175,33 @@ def test_cli_end_to_end(tiny, tiny_cut, tmp_path, capsys):
     out = capsys.readouterr().out
     assert "1 decision(s): 1 created; 1 applied" in out
     assert "reviewer: 1 apply" in out
+
+
+def test_renaming_a_cut_node_relabels_its_row_instead_of_emptying_it(tiny, tiny_cut):
+    """#62 as the report shows it: one row, same counts, new label."""
+    from paperext.ontology.rollup import resolve_cut
+
+    cut = resolve_cut(tiny, tiny_cut)
+    rename = Rename(
+        node_id="cnn",
+        new_name="Convolutional Neural Network (CNN)",
+        justification="bare acronym",
+        confidence=0.8,
+    )
+    records = [
+        record(
+            tiny, cut, created("resnet101", "resnet101", "ResNet-101", "resnet", rename)
+        ),
+        # placed after the rename: the recorded label is already the new name
+        record(tiny, cut, created("bit", "bit", "BiT", "cnn"), 1),
+    ]
+    replay = report.Replay(tiny, records, cut=cut)
+    table = report.cut_table(replay)
+    rows = {
+        str(cells[0]).split("  ")[0]: [str(c) for c in cells[1:]]
+        for cells in zip(*(col._cells for col in table.columns))
+    }
+    assert "CNN" not in rows  # no orphaned row under the old label
+    label = "Convolutional Neural Network (CNN)"
+    assert rows[label] == ["2", "3", "5", "+2"]
+    assert "(was: CNN)" in str(table.columns[0]._cells[list(rows).index(label)])

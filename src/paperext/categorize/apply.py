@@ -37,7 +37,6 @@ from typing import Any, Iterator, Union
 
 from pydantic import BaseModel, Field
 
-from paperext.analysis.rollup import Cut
 from paperext.categorize.actions import (
     OPS,
     Action,
@@ -58,6 +57,7 @@ from paperext.ontology.ontology import (
     OntologyError,
     UnknownNodeError,
 )
+from paperext.ontology.rollup import AnyCut
 from paperext.ontology.schema import NormRow, OntologyDoc
 
 #: ``v<N>`` snapshot directory names.
@@ -218,7 +218,7 @@ def apply_decision(
     onto: Ontology,
     decision: Decision,
     *,
-    cut: Cut,
+    cut: AnyCut,
     dry_run: bool = False,
 ) -> ApplyResult:
     """Apply *decision* to *onto* atomically.
@@ -458,7 +458,7 @@ def main(argv: "list[str] | None" = None) -> int:
     root = Path(args.root) if args.root else ontology_root()
     base_dir = root / args.dim / args.base
     onto = Ontology.load(base_dir)
-    cut = load_dimension_cut(args.dim)
+    cut = load_dimension_cut(args.dim, root=root)
     base_hash = content_hash(onto)
 
     decisions = _load_decisions(Path(args.infile))
