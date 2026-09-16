@@ -17,6 +17,7 @@ from pathlib import Path
 from typing import Any
 
 from paperext import CFG
+from paperext.categorize.progress import track
 from paperext.log import logger
 from paperext.utils import Paper
 
@@ -203,14 +204,22 @@ async def download_paper(
 
 
 async def download_all(
-    papers: list[dict[str, Any]], cache_dir: Path, concurrency: int
+    papers: list[dict[str, Any]],
+    cache_dir: Path,
+    concurrency: int,
+    advance: Callable[[], None] = lambda: None,
 ) -> list[Outcome]:
+    """Download `papers` with at most `concurrency` in flight; `advance()` is
+    called as each one finishes (progress bar hook)."""
     semaphore = asyncio.Semaphore(concurrency)
-    return list(
-        await asyncio.gather(
-            *(download_paper(paper, cache_dir, semaphore) for paper in papers)
-        )
-    )
+
+    async def one(paper: dict[str, Any]) -> Outcome:
+        try:
+            return await download_paper(paper, cache_dir, semaphore)
+        finally:
+            advance()
+
+    return list(await asyncio.gather(*(one(paper) for paper in papers)))
 
 
 def paperoni_config_file() -> Path:
@@ -243,9 +252,14 @@ def run(
         )
 
     # paperoni prints its download progress to stdout; keep stdout for the
-    # list of converted files (`download-convert ... > query_set.txt`).
-    with gifnoc.use(str(config_file)), contextlib.redirect_stdout(sys.stderr):
-        return asyncio.run(download_all(papers, cache_dir, concurrency))
+    # list of converted files (`download-convert ... > query_set.txt`). The
+    # progress bar draws on stderr (and only when it is a terminal).
+    with (
+        gifnoc.use(str(config_file)),
+        contextlib.redirect_stdout(sys.stderr),
+        track(len(papers), "download-convert") as advance,
+    ):
+        return asyncio.run(download_all(papers, cache_dir, concurrency, advance))
 
 
 def synthetic_papers(
@@ -335,9 +349,9 @@ def main(argv: list[str] | None = None) -> None:
         "--concurrency",
         metavar="N",
         type=int,
-        default=4,
-        help="Papers downloaded in parallel (per-host limits come from the "
-        "paperoni config's fetch.simultaneous)",
+        default=8,
+        help="Papers downloaded in parallel (default 8; requests to one host are "
+        "further capped by the paperoni config's fetch.simultaneous)",
     )
     parser.add_argument(
         "--report",

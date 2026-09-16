@@ -136,8 +136,8 @@ options:
   --arxiv STR ...   List of arXiv ids use to download and convert pdfs -> txts
   --url STR ...     List of pdf urls to download and convert pdfs -> txts
   --cache-dir DIR   Directory to store downloaded and converted pdfs -> txts
-  --concurrency N   Papers downloaded in parallel (default 4; per-host limits come
-                    from the paperoni config's fetch.simultaneous)
+  --concurrency N   Papers downloaded in parallel (default 8; requests to one host
+                    are further capped by the paperoni config's fetch.simultaneous)
   --report JSON     Per-paper outcome report (default: logs/download-convert_<timestamp>.json)
 
 Example:
@@ -150,6 +150,7 @@ Example:
     no-fulltext:0/22
 ```
 
+A progress bar (count, elapsed, ETA) is drawn on stderr when it is a terminal.
 stdout lists the converted text files; the report records, per paper, the refs
 tried, which resolver produced the PDF (`source`) and the error otherwise, so
 download drop-out can be quantified per publisher. Re-runs are cheap: papers

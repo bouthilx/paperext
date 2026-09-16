@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import asyncio
+import time
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
@@ -154,6 +155,46 @@ def test_download_all(cfg: Config, fake_resolver, tmp_path: Path):
         "arxiv:2605.14117",
         "doi:10.1109/tpwrd.1",
     ]
+
+
+def test_download_all_is_concurrent_and_reports_progress(
+    cfg: Config, fake_resolver, tmp_path, monkeypatch
+):
+    import paperoni.fulltext.pdf
+
+    real_get_pdf = paperoni.fulltext.pdf.get_pdf
+    in_flight = 0
+    peak = 0
+
+    async def slow_get_pdf(refs, cache_policy=None):
+        nonlocal in_flight, peak
+        in_flight += 1
+        peak = max(peak, in_flight)
+        await asyncio.sleep(0.05)
+        in_flight -= 1
+        return await real_get_pdf(refs, cache_policy)
+
+    monkeypatch.setattr(paperoni.fulltext.pdf, "get_pdf", slow_get_pdf)
+    papers = [
+        _paper(f"p{i}", [{"type": "arxiv.pdf", "link": f"1234.{i:05d}"}])
+        for i in range(8)
+    ]
+    ticks = 0
+
+    def advance():
+        nonlocal ticks
+        ticks += 1
+
+    started = time.monotonic()
+    outcomes = asyncio.run(
+        dc.download_all(papers, tmp_path, concurrency=4, advance=advance)
+    )
+    elapsed = time.monotonic() - started
+
+    assert all(o.text for o in outcomes)
+    assert peak == 4  # bounded by --concurrency, and actually parallel
+    assert elapsed < 8 * 0.05  # faster than sequential
+    assert ticks == 8  # one advance per finished paper
 
 
 def test_download_existing_is_not_refetched(cfg: Config, fake_resolver, tmp_path):
