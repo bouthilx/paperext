@@ -152,8 +152,10 @@ Example:
 
 When stderr is a terminal, a live dashboard is shown: the tail of the logs
 (including paperoni's download progress), a table of hits / misses / total per
-link type (`arxiv`, `openreview`, `doi`, ..., `existing`), and a progress bar
-with elapsed time and ETA; the final table is left on screen when it exits.
+venue (largest first, folded to what fits), and a progress bar with elapsed
+time and ETA; the complete venue table is left on screen when it exits. The
+venue is the one `paperoni-report` selected the paper on (its peer-reviewed
+release inside the window, stamped as `venue` in the JSON).
 stdout lists the converted text files; the report records, per paper, the refs
 tried, which resolver produced the PDF (`source`) and the error otherwise, so
 download drop-out can be quantified per publisher. Re-runs are cheap: papers

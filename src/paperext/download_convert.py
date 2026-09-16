@@ -17,6 +17,7 @@ from typing import Any
 from paperext import CFG
 from paperext.dashboard import Dashboard
 from paperext.log import logger
+from paperext.paperoni.report import NON_PEER_REVIEWED_VENUES, venue_name
 from paperext.utils import Paper
 
 # Config's attribute access is typed as `Config | Path`; the sections used here
@@ -64,6 +65,7 @@ class Outcome:
 
     paper_id: str
     title: str
+    venue: str = "unknown"
     refs: list[str] = field(default_factory=list)
     text: Path | None = None
     #: "existing" (already converted) or the resolver that produced the PDF's
@@ -77,12 +79,36 @@ class Outcome:
         return self.source or ("no-refs" if not self.refs else "no-fulltext")
 
     @property
-    def bucket(self) -> str:
-        """Dashboard row: the best link type the paper had *before* downloading
-        (so hits + misses per row is meaningful), or "existing"."""
+    def link_bucket(self) -> str:
+        """The best link type the paper had *before* downloading, or "existing"."""
         if self.source == "existing":
             return "existing"
         return self.refs[0].split(":", 1)[0] if self.refs else "no-refs"
+
+
+def venue_of(paper_data: dict[str, Any]) -> str:
+    """The venue to count the paper under.
+
+    `paperoni-report` stamps `venue` (the peer-reviewed release inside the
+    corpus window). Older lists lack it: fall back to the latest peer-reviewed
+    release, whose date is either a string or the old `{"text": ...}` form.
+    """
+    if paper_data.get("venue"):
+        return str(paper_data["venue"])
+
+    def released(release: dict[str, Any]) -> str:
+        raw = (release.get("venue") or {}).get("date")
+        return str(raw.get("text", "") if isinstance(raw, dict) else raw or "")
+
+    candidates = [
+        release
+        for release in paper_data.get("releases") or []
+        if (release.get("venue") or {}).get("type") not in NON_PEER_REVIEWED_VENUES
+        and (release.get("venue") or {}).get("type") is not None
+    ]
+    if not candidates:
+        return "unknown"
+    return venue_name(max(candidates, key=released).get("venue"))
 
 
 def refs_for(links: Iterable[dict[str, Any]]) -> list[str]:
@@ -167,7 +193,11 @@ async def fetch_pdf(refs: list[str], pdf_file: Path) -> tuple[Path, str]:
 async def download_paper(
     paper_data: dict[str, Any], cache_dir: Path, semaphore: asyncio.Semaphore
 ) -> Outcome:
-    outcome = Outcome(paper_id=paper_data["paper_id"], title=paper_data["title"])
+    outcome = Outcome(
+        paper_id=paper_data["paper_id"],
+        title=paper_data["title"],
+        venue=venue_of(paper_data),
+    )
     paper = Paper(paper_data)
 
     if paper.pdfs:
@@ -261,7 +291,7 @@ def run(
     # stdout so `download-convert ... > query_set.txt` stays a file list.
     with (
         gifnoc.use(str(config_file)),
-        Dashboard(len(papers), "download-convert") as dashboard,
+        Dashboard(len(papers), "download-convert", key="venue") as dashboard,
     ):
         return asyncio.run(
             download_all(
@@ -269,7 +299,7 @@ def run(
                 cache_dir,
                 concurrency,
                 lambda outcome: dashboard.advance(
-                    outcome.bucket, outcome.text is not None
+                    outcome.venue, outcome.text is not None
                 ),
             )
         )

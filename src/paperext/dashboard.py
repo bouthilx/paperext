@@ -5,8 +5,10 @@ Three stacked panels on the alternate screen, redrawn a few times a second:
 - **logs** -- the tail of everything written while the run is going: our own
   logger, paperoni's ``print`` progress (stdout) and its root-logger messages.
   It takes whatever height the other two panels leave.
-- **stats** -- one row per bucket (see :meth:`Dashboard.advance`) with hits,
-  misses and total, plus a total row; sized to its rows.
+- **stats** -- one row per key (a venue, say) with hits, misses and total,
+  largest first, plus a total row. The panel is sized to its rows, capped so
+  the logs keep a few lines; past the cap the rest is folded into one
+  "... N more" row. The complete table is printed when the run ends.
 - **progress** -- count, elapsed and ETA.
 
 When stderr is not a terminal (piped, ``nohup``) nothing is drawn: logs go to
@@ -77,13 +79,14 @@ class _LogTail:
 
 
 class Stats:
-    """Hits / misses per bucket, in first-seen order."""
+    """Hits / misses per key (e.g. venue)."""
 
-    def __init__(self) -> None:
+    def __init__(self, key: str = "value") -> None:
+        self.key = key
         self.counts: dict[str, list[int]] = {}
 
-    def add(self, bucket: str, hit: bool) -> None:
-        self.counts.setdefault(bucket, [0, 0])[0 if hit else 1] += 1
+    def add(self, key: str, hit: bool) -> None:
+        self.counts.setdefault(key, [0, 0])[0 if hit else 1] += 1
 
     @property
     def hits(self) -> int:
@@ -93,14 +96,43 @@ class Stats:
     def misses(self) -> int:
         return sum(m for _, m in self.counts.values())
 
-    def table(self, title: str | None = None) -> Table:
+    def sorted(self) -> list[tuple[str, int, int]]:
+        """(key, hits, misses), most papers first, then by name."""
+        return sorted(
+            ((k, h, m) for k, (h, m) in self.counts.items()),
+            key=lambda row: (-(row[1] + row[2]), row[0]),
+        )
+
+    def rows(self, limit: int | None = None) -> int:
+        """Body rows of :meth:`table` for `limit`, the total row included."""
+        shown = len(self.counts)
+        if limit is not None and shown > limit:
+            shown = limit + 1  # the "... N more" row
+        return shown + 1
+
+    def table(self, limit: int | None = None, title: str | None = None) -> Table:
+        """The table; with `limit`, only the `limit` largest keys and one row
+        folding the rest."""
         table = Table(title=title, expand=True, pad_edge=False)
-        table.add_column("value", ratio=1)
+        table.add_column(self.key, ratio=1)
         table.add_column("hits", justify="right", style="green")
         table.add_column("misses", justify="right", style="red")
         table.add_column("total", justify="right")
-        for bucket, (hits, misses) in self.counts.items():
-            table.add_row(bucket, str(hits), str(misses), str(hits + misses))
+        rows = self.sorted()
+        rest: list[tuple[str, int, int]] = []
+        if limit is not None and len(rows) > limit:
+            rows, rest = rows[:limit], rows[limit:]
+        for key, hits, misses in rows:
+            table.add_row(key, str(hits), str(misses), str(hits + misses))
+        if rest:
+            hits, misses = sum(r[1] for r in rest), sum(r[2] for r in rest)
+            table.add_row(
+                f"... {len(rest)} more",
+                str(hits),
+                str(misses),
+                str(hits + misses),
+                style="dim",
+            )
         table.add_section()
         table.add_row(
             "total",
@@ -111,21 +143,25 @@ class Stats:
         )
         return table
 
-    @property
-    def rows(self) -> int:
-        return len(self.counts) + 1
-
 
 class Dashboard:
-    """``with Dashboard(n, "title") as dash:`` then ``dash.advance(bucket, hit)``."""
+    """``with Dashboard(n, "title", key="venue") as dash:`` then
+    ``dash.advance(venue, hit)`` per finished item."""
 
     REFRESH_PER_SECOND = 4
+    #: Lines the logs panel keeps at least; the stats panel folds rows beyond.
+    MIN_LOG_LINES = 8
+    #: Stats panel chrome: panel borders, table box, header, header rule,
+    #: section rule.
+    STATS_CHROME = 7
+    PROGRESS_HEIGHT = 3
 
     def __init__(
         self,
         total: int,
         description: str,
         *,
+        key: str = "value",
         enabled: bool | None = None,
         console: Console | None = None,
         log_lines: int = 500,
@@ -135,7 +171,7 @@ class Dashboard:
         self.enabled = enabled and total > 0
         self.total = total
         self.description = description
-        self.stats = Stats()
+        self.stats = Stats(key)
         # Bound to the real stderr now, before it is redirected into the buffer.
         self.console = console or Console(file=sys.stderr)
         self._buffer = _LineBuffer(log_lines)
@@ -208,14 +244,14 @@ class Dashboard:
             self._live = None
         self._stack.close()
         if self.enabled:
-            # The alternate screen is gone; leave the final numbers behind.
+            # The alternate screen is gone; leave the complete table behind.
             self.console.print(self.stats.table(title=self.description))
 
     # -- updates -----------------------------------------------------------
 
-    def advance(self, bucket: str, hit: bool) -> None:
-        """Record one finished item under `bucket` and move the bar."""
-        self.stats.add(bucket, hit)
+    def advance(self, key: str, hit: bool) -> None:
+        """Record one finished item under `key` and move the bar."""
+        self.stats.add(key, hit)
         if self._progress is not None:
             self._progress.advance(self._task)
             self._refresh_stats()
@@ -226,11 +262,18 @@ class Dashboard:
     def _refresh_stats(self) -> None:
         if self._layout is None:
             return
+        # Rows the terminal can show while leaving the logs their minimum.
+        available = (
+            self.console.size.height
+            - self.PROGRESS_HEIGHT
+            - (self.MIN_LOG_LINES + 2)
+            - self.STATS_CHROME
+            - 1  # total row
+        )
+        limit = max(1, available - 1)  # keep room for the "... more" row
         stats = self._layout["stats"]
-        stats.update(Panel(self.stats.table(), title="stats"))
-        # panel borders (2) + table box top/bottom (2) + header (1)
-        # + header rule (1) + rows + section rule (1)
-        stats.size = self.stats.rows + 7
+        stats.update(Panel(self.stats.table(limit), title="stats"))
+        stats.size = self.stats.rows(limit) + self.STATS_CHROME
 
     @property
     def log_lines(self) -> list[str]:

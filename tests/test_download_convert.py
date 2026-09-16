@@ -65,6 +65,42 @@ def test_refs_for_nothing_locatable():
     assert dc.refs_for([{"type": "pubmed.abstract", "link": "39426036"}]) == []
 
 
+def test_venue_of():
+    # paperoni-report's stamp wins
+    assert dc.venue_of({"venue": "ICLR", "releases": []}) == "ICLR"
+    # otherwise the latest peer-reviewed release; preprints never count
+    releases = [
+        {"venue": {"type": "preprint", "name": "ArXiv", "date": "2026-05-01"}},
+        {"venue": {"type": "conference", "name": "ICML", "date": "2024-07-01"}},
+        {"venue": {"type": "journal", "name": "TMLR", "date": "2025-01"}},
+    ]
+    assert dc.venue_of({"releases": releases}) == "TMLR"
+    # old reports carry dates as {"text": ...}
+    old = [
+        {
+            "venue": {
+                "type": "journal",
+                "name": "Neural Networks",
+                "date": {"text": "2025"},
+            }
+        },
+        {
+            "venue": {
+                "type": "preprint",
+                "name": "ArXiv",
+                "date": {"text": "2023-06-30"},
+            }
+        },
+    ]
+    assert dc.venue_of({"releases": old}) == "Neural Networks"
+    assert (
+        dc.venue_of({"releases": [{"venue": {"type": "journal", "short_name": "NN"}}]})
+        == "NN"
+    )
+    assert dc.venue_of({"releases": []}) == "unknown"
+    assert dc.venue_of({}) == "unknown"
+
+
 def test_describe_exception_group():
     group = ExceptionGroup(
         "No fulltext found", [ValueError("bad"), RuntimeError("worse")]
@@ -149,7 +185,7 @@ def test_download_all(cfg: Config, fake_resolver, tmp_path: Path):
 
     assert by_id["none"].error == "no locatable links"
     assert by_id["none"].link_type == "no-refs"
-    assert [by_id[k].bucket for k in ("new1", "ieee", "none", "old1")] == [
+    assert [by_id[k].link_bucket for k in ("new1", "ieee", "none", "old1")] == [
         "arxiv",
         "doi",
         "no-refs",
@@ -188,7 +224,7 @@ def test_download_all_is_concurrent_and_reports_progress(
     ticks: list[str] = []
 
     def advance(outcome: dc.Outcome) -> None:
-        ticks.append(outcome.bucket)
+        ticks.append(outcome.venue)
 
     started = time.monotonic()
     outcomes = asyncio.run(
@@ -199,7 +235,7 @@ def test_download_all_is_concurrent_and_reports_progress(
     assert all(o.text for o in outcomes)
     assert peak == 4  # bounded by --concurrency, and actually parallel
     assert elapsed < 8 * 0.05  # faster than sequential
-    assert ticks == ["arxiv"] * 8  # one advance per finished paper, with its bucket
+    assert ticks == ["unknown"] * 8  # one advance per finished paper, with its venue
 
 
 def test_download_existing_is_not_refetched(cfg: Config, fake_resolver, tmp_path):
@@ -261,13 +297,16 @@ def test_run_keeps_stdout_clean(
 
 def test_write_report_and_summary(tmp_path: Path):
     outcomes = [
-        dc.Outcome("a", "A", refs=["arxiv:1"], text=Path("x.txt"), source="arxiv"),
-        dc.Outcome("b", "B", refs=["doi:1"], error="boom"),
+        dc.Outcome(
+            "a", "A", "ICLR", refs=["arxiv:1"], text=Path("x.txt"), source="arxiv"
+        ),
+        dc.Outcome("b", "B", "JPS", refs=["doi:1"], error="boom"),
         dc.Outcome("c", "C", refs=[], error="no locatable links"),
     ]
     report = tmp_path / "r" / "report.json"
     dc.write_report(outcomes, report)
     assert '"text": "x.txt"' in report.read_text()
+    assert '"venue": "ICLR"' in report.read_text()
 
     lines: list[str] = []
     dc.log_summary(outcomes, lines.append)
