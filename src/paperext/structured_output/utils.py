@@ -44,6 +44,11 @@ def _refs_category_map(categories_refs_file: Path, categories_selections_file: P
     # Store filtered categories to check if we add the same category multiple
     # times
     filtered_categories = {}
+    # These are facts about the checked-in legacy files, identical on every
+    # process start; one summary line at INFO, the detail at DEBUG, or every CLI
+    # opens with two thousand lines of them.
+    duplicates = 0
+    unresolved = 0
 
     for ref in list_refs(categories_refs):
         category_name = ref.split(".")[-1]
@@ -52,7 +57,8 @@ def _refs_category_map(categories_refs_file: Path, categories_selections_file: P
         filtered_categories[category_name].append(ref)
 
         if len(filtered_categories[category_name]) > 1:
-            logger.warning(
+            duplicates += 1
+            logger.debug(
                 f"Category {category_name} present multiple times "
                 f"{sorted(filtered_categories[category_name])}"
             )
@@ -63,11 +69,19 @@ def _refs_category_map(categories_refs_file: Path, categories_selections_file: P
                 break
 
         else:
-            logger.warning(
+            unresolved += 1
+            logger.debug(
                 f"Category reference {ref} not found in categories selection "
                 f"{categories_selections_file}. Defaulting to 'ignore'"
             )
             yield (category_name, "ignore")
+
+    if duplicates or unresolved:
+        logger.info(
+            f"{categories_refs_file.name}: {duplicates} duplicate category name(s), "
+            f"{unresolved} reference(s) outside {categories_selections_file.name} "
+            f"mapped to 'ignore' (details at DEBUG)"
+        )
 
 
 # TODO: refactor _domains_category_map() and _models_category_map() to reduce
@@ -84,7 +98,7 @@ def _domains_category_map():
             yield domain, category
 
         else:
-            logger.warning(
+            logger.debug(
                 f"Skipping ({domain}: {category}) mapping. Existing map is ({domain}: {_map[domain]})"
             )
 
@@ -101,7 +115,7 @@ def _models_category_map():
             yield model, category
 
         else:
-            logger.warning(
+            logger.debug(
                 f"Skipping ({model}: {category}) mapping. Existing map is ({model}: {_map[model]})"
             )
 

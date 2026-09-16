@@ -39,6 +39,12 @@ from enum import Enum
 from typing import Annotated, Any, Literal, Union, get_args
 
 from pydantic import BaseModel, Field
+from pydantic.json_schema import (
+    DEFAULT_REF_TEMPLATE,
+    GenerateJsonSchema,
+    JsonSchemaMode,
+    JsonSchemaValue,
+)
 
 
 @dataclass(frozen=True)
@@ -291,9 +297,63 @@ class Outcome(str, Enum):
     FAILED = "failed"
 
 
-class Decision(BaseModel):
+class StrictJsonSchema(GenerateJsonSchema):
+    """JSON schema in the subset OpenAI's strict structured outputs accept.
+
+    Pydantic renders a discriminated union as ``oneOf`` plus a ``discriminator``
+    block, and OpenAI rejects both (``'oneOf' is not permitted``). ``anyOf`` is
+    accepted and, with disjoint ``op`` literals, means the same thing. ``default``
+    goes too: strict mode marks every property required, so a default is noise
+    on the wire. Validation is unaffected -- the discriminator still drives
+    :meth:`Decision.model_validate`; only the *rendered* schema changes.
+    """
+
+    def tagged_union_schema(self, schema: Any) -> JsonSchemaValue:
+        rendered = super().tagged_union_schema(schema)
+        if "oneOf" in rendered:
+            rendered["anyOf"] = rendered.pop("oneOf")
+        rendered.pop("discriminator", None)
+        return rendered
+
+    def default_schema(self, schema: Any) -> JsonSchemaValue:
+        rendered = super().default_schema(schema)
+        rendered.pop("default", None)
+        return rendered
+
+
+class StrictSchemaModel(BaseModel):
+    """Base for every model handed to a provider as a response schema.
+
+    Only the rendered schema differs from :class:`pydantic.BaseModel`;
+    ``instructor`` calls :meth:`model_json_schema` and gets the strict-compatible
+    form.
+    """
+
+    @classmethod
+    def model_json_schema(  # type: ignore[override]
+        cls,
+        by_alias: bool = True,
+        ref_template: str = DEFAULT_REF_TEMPLATE,
+        schema_generator: "type[GenerateJsonSchema]" = StrictJsonSchema,
+        mode: JsonSchemaMode = "validation",
+    ) -> "dict[str, Any]":
+        return super().model_json_schema(
+            by_alias=by_alias,
+            ref_template=ref_template,
+            schema_generator=schema_generator,
+            mode=mode,
+        )
+
+
+class Decision(StrictSchemaModel):
     """One extracted name, one ordered list of edits."""
 
+    reasoning: str = Field(
+        default="",
+        description="Your analysis, before anything else: what the evidence says "
+        "this entity is, which candidates you considered, and why you chose or "
+        "rejected each. A reviewer reads this to follow the decision.",
+    )
     surface: str = Field(description="The extracted name this decision is about")
     review_notes: list[str] = Field(
         default_factory=list,

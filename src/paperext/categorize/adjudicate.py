@@ -48,6 +48,7 @@ from typing import Any, Awaitable, Callable, Literal, Sequence, Union
 import instructor
 from pydantic import BaseModel, Field
 
+from paperext.categorize.actions import StrictSchemaModel
 from paperext.categorize.placement import Placement
 
 logger = logging.getLogger(__name__)
@@ -93,7 +94,7 @@ class Pair(BaseModel):
     agent_option: Literal["A", "B"]
 
 
-class JudgeChoice(BaseModel):
+class JudgeChoice(StrictSchemaModel):
     """The judge's structured answer -- reason before value, per the repo idiom."""
 
     reason: str = Field(description="Why, in one or two sentences")

@@ -70,6 +70,11 @@ class Mention(BaseModel):
     execution_mode: "str | None" = None
     role: "str | None" = None
     research_field: str = ""
+    #: The paper's title and the paper the extractor says this entity comes from
+    #: (``referenced_paper_title``). Reviewer context; the agent payload does not
+    #: render them, so the golden prompts are unaffected.
+    title: str = ""
+    referenced_paper: str = ""
     #: Raw names of the other same-dimension entities in this paper. Annotated
     #: with their current category at payload time -- against the *injected*
     #: ontology, never a cached map. See :mod:`paperext.categorize.prompt`.
@@ -127,6 +132,7 @@ def _mention(
     paper: str,
     spelling: str,
     research_field: str,
+    title: str = "",
     co_occurring: "list[str]",
 ) -> Mention:
     mode = _explained(entry, "execution_mode")
@@ -149,6 +155,8 @@ def _mention(
         execution_mode=mode,
         role=getattr(role, "value", role),
         research_field=research_field,
+        title=title,
+        referenced_paper=(_explained(entry, "referenced_paper_title") or "").strip(),
         co_occurring=co_occurring,
     )
 
@@ -175,6 +183,7 @@ def iter_mentions(
     the agent the answer it is being asked for.
     """
     research_field = _primary_field(extractions)
+    title = (_explained(extractions, "title") or "").strip()
 
     entries = []
     for entry in _entries(extractions, dimension):
@@ -197,12 +206,15 @@ def iter_mentions(
             paper=paper,
             spelling=raw,
             research_field=research_field,
+            title=title,
             co_occurring=others[:max_co_occurring],
         )
 
 
-def _rank_mentions(mentions: "list[Mention]", limit: int) -> "list[Mention]":
-    """Keep the *limit* most informative mentions, deterministically.
+def _rank_mentions(
+    mentions: "list[Mention]", limit: "int | None" = None
+) -> "list[Mention]":
+    """The most informative mentions first, deterministically; *limit* keeps the top.
 
     Longer quotes carry more of the sentence the name appeared in, and a mention
     whose paper actually ran the model is better evidence than one that cites it,
@@ -217,7 +229,7 @@ def _rank_mentions(mentions: "list[Mention]", limit: int) -> "list[Mention]":
             -len(m.quote),
             m.paper,
         ),
-    )[:limit]
+    )[: limit if limit is not None else len(mentions)]
 
 
 def build_items(
@@ -227,7 +239,7 @@ def build_items(
     model: "str | None" = None,
     queries_dir: "Union[str, Path, None]" = None,
     files: "Iterable[Union[str, Path]] | None" = None,
-    max_mentions: int = DEFAULT_MAX_MENTIONS,
+    max_mentions: "int | None" = None,
     max_co_occurring: int = DEFAULT_MAX_CO_OCCURRING,
 ) -> "list[Item]":
     """Fold the stored extractions into one :class:`Item` per distinct name.
@@ -337,7 +349,12 @@ def main(argv: "Sequence[str] | None" = None) -> int:
         "--model", default=None, help="model subdirectory to restrict to"
     )
     parser.add_argument("--queries-dir", default=None)
-    parser.add_argument("--max-mentions", type=int, default=DEFAULT_MAX_MENTIONS)
+    parser.add_argument(
+        "--max-mentions",
+        type=int,
+        default=None,
+        help="cap the mentions kept per item (default: all, best first)",
+    )
     parser.add_argument("--out", default=None, metavar="JSONL")
     parser.add_argument("--top", type=int, default=20, help="rows to print")
     args = parser.parse_args(argv)

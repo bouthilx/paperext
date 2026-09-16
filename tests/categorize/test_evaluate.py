@@ -588,3 +588,70 @@ def test_cli_runs_the_whole_harness_against_a_recording(
     assert (out / evaluate.REPORT_MD).read_text().startswith("# Categorization eval")
     assert len((out / evaluate.SCORES_FILE).read_text().strip().splitlines()) == 2
     assert (out / evaluate.DECISIONS_FILE).exists()
+
+
+# --------------------------------------------------------------------------- #
+# Subsetting
+# --------------------------------------------------------------------------- #
+
+
+def _manifest():
+    """A grouped manifest, as the sealed one is: 8 cold/Other, then 4 parent/CNN."""
+    from paperext.categorize.sampling import SplitItem
+
+    return [
+        SplitItem(
+            node_id=f"c{i}",
+            surface=f"c{i}",
+            name=f"c{i}",
+            anchoring="cold",
+            cut_category="Other",
+        )
+        for i in range(8)
+    ] + [
+        SplitItem(
+            node_id=f"p{i}",
+            surface=f"p{i}",
+            name=f"p{i}",
+            anchoring="parent",
+            cut_category="CNN",
+        )
+        for i in range(4)
+    ]
+
+
+def test_limit_items_draws_across_strata_instead_of_slicing_the_head():
+    from paperext.categorize.sampling import stratum_of
+
+    subset = evaluate.stratified_subset(_manifest(), 6, seed=1)
+    strata = {stratum_of(item) for item in subset}
+    assert len(subset) == 6
+    assert strata == {"cold|Other", "parent|CNN"}
+    # proportional: 8:4 -> 4:2
+    assert sum(item.anchoring == "cold" for item in subset) == 4
+
+
+def test_stratified_subset_is_seeded_and_keeps_manifest_order():
+    first = evaluate.stratified_subset(_manifest(), 6, seed=3)
+    assert first == evaluate.stratified_subset(_manifest(), 6, seed=3)
+    assert first != evaluate.stratified_subset(_manifest(), 6, seed=4)
+    ids = [item.node_id for item in first]
+    assert ids == [item.node_id for item in _manifest() if item.node_id in ids]
+
+
+def test_stratified_subset_returns_everything_when_n_is_large():
+    assert evaluate.stratified_subset(_manifest(), 50) == _manifest()
+
+
+def test_judge_guardrail_is_a_gate_clause(tiny, tiny_cut, split_items):
+    report = build(
+        tiny,
+        tiny_cut,
+        split_items,
+        [recorded("resnet50", "r50", "ResNet-50", "resnet")],
+    )
+    clause = [c for c in report.gate if c.name.startswith("1c")][0]
+    assert not clause.passed  # never adjudicated -> not measured -> fails
+    report.adjudication = {"order_swap_consistency": 0.9}
+    clause = [c for c in evaluate.evaluate_gate(report) if c.name.startswith("1c")][0]
+    assert clause.passed

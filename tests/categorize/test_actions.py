@@ -186,3 +186,58 @@ def test_decision_round_trips_through_json():
     reloaded = Decision.model_validate_json(decision.model_dump_json())
     assert reloaded == decision
     assert isinstance(reloaded.actions[0], CreateNode)
+
+
+# --------------------------------------------------------------------------- #
+# Provider-facing schema
+# --------------------------------------------------------------------------- #
+
+
+def _keywords(node, acc=None):
+    acc = set() if acc is None else acc
+    if isinstance(node, dict):
+        for key, value in node.items():
+            acc.add(key)
+            _keywords(value, acc)
+    elif isinstance(node, list):
+        for value in node:
+            _keywords(value, acc)
+    return acc
+
+
+@pytest.mark.parametrize("model_name", ["Decision", "JudgeChoice", "CanaryAnswer"])
+def test_provider_schemas_stay_inside_the_openai_strict_subset(model_name):
+    """OpenAI strict mode rejects `oneOf` and `discriminator`; pydantic emits both
+    for a discriminated union. The renderer must map them away for every model
+    that is ever passed as a `response_model`."""
+    from openai import pydantic_function_tool
+
+    from paperext.categorize import actions, adjudicate, probes
+
+    model = {
+        "Decision": actions.Decision,
+        "JudgeChoice": adjudicate.JudgeChoice,
+        "CanaryAnswer": probes.CanaryAnswer,
+    }[model_name]
+    schema = pydantic_function_tool(model)["function"]["parameters"]
+    assert not (
+        {"oneOf", "discriminator", "mapping", "propertyName", "default"}
+        & _keywords(schema)
+    )
+
+
+def test_strict_schema_keeps_the_action_union_and_its_validation():
+    schema = Decision.model_json_schema()
+    variants = schema["properties"]["actions"]["items"]["anyOf"]
+    assert len(variants) == len(OPS)
+    # validation still discriminates on `op`: a bad op is a pydantic error, not
+    # a fall-through to the first variant
+    with pytest.raises(ValidationError):
+        Decision.model_validate(
+            {
+                "surface": "x",
+                "outcome": "mapped",
+                "confidence": 0.5,
+                "actions": [{"op": "nope", "justification": "j", "confidence": 0.9}],
+            }
+        )

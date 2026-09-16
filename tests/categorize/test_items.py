@@ -88,7 +88,7 @@ def test_mention_ranking_prefers_grounded_executed_and_is_tie_broken_by_paper():
     assert _rank_mentions([quiet, short, long_], 1) == [long_]
 
 
-def test_max_mentions_bounds_the_payload():
+def test_max_mentions_caps_the_mentions_kept():
     items = build_items("models", files=[BIT_PAPER], max_mentions=1)
     assert all(len(i.mentions) <= 1 for i in items)
 
@@ -113,3 +113,26 @@ def test_unknown_dimension_is_rejected():
 def test_items_round_trip_through_jsonl(tmp_path, bit_items):
     path = write_items(bit_items, tmp_path / "items.jsonl")
     assert read_items(path) == bit_items
+
+
+def test_mentions_carry_the_paper_title_and_the_extracted_reference():
+    items = {i.surface: i for i in build_items("models", files=[BIT_PAPER])}
+    mention = items["bits101"].mentions[0]
+    assert mention.title  # the record's own title
+    assert isinstance(mention.referenced_paper, str)
+
+
+def test_items_keep_every_mention_and_the_payload_takes_the_top():
+    from paperext.categorize.apply import ontology_root
+    from paperext.categorize.prompt import build_payload
+    from paperext.ontology import Ontology
+
+    items = {i.surface: i for i in build_items("models", files=[BIT_PAPER])}
+    item = items["bits101"]
+    assert len(item.mentions) == item.n_mentions
+    onto = Ontology.load(ontology_root() / "models" / "v0")
+    assert len(build_payload(onto, item, cut=2, max_mentions=1).evidence) == 1
+    assert (
+        len(build_payload(onto, item, cut=2, max_mentions=None).evidence)
+        == item.n_mentions
+    )

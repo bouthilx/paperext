@@ -38,11 +38,10 @@ from __future__ import annotations
 
 import argparse
 import asyncio
-import json
 import sys
 import uuid
 from pathlib import Path
-from typing import Any, Sequence
+from typing import Any, Callable, Sequence
 
 import instructor
 
@@ -70,13 +69,17 @@ from paperext.categorize.items import (
     read_items,
 )
 from paperext.categorize.placement import load_dimension_cut
+from paperext.categorize.progress import track
 from paperext.categorize.prompt import (
     Context,
     build_context,
     build_messages,
     build_payload,
     payload_hash,
+    render_context,
+    render_payload,
 )
+from paperext.categorize.review import Reviewer
 from paperext.log import logger
 from paperext.ontology.ontology import Ontology
 
@@ -191,6 +194,7 @@ async def decide_item(
     cut: Any,
     provenance: Provenance,
     limit: int = DEFAULT_LIMIT,
+    max_mentions: "int | None" = DEFAULT_MAX_MENTIONS,
     keys: "dict[str, list[str]] | None" = None,
     apply: bool = True,
     max_repairs: int = DEFAULT_MAX_REPAIRS,
@@ -203,7 +207,9 @@ async def decide_item(
     returned record carries the **last** attempt -- what the run actually did --
     with the whole call's token usage in ``provenance.params['usage']``.
     """
-    payload = build_payload(onto, item, cut=cut, limit=limit, keys=keys)
+    payload = build_payload(
+        onto, item, cut=cut, limit=limit, max_mentions=max_mentions, keys=keys
+    )
     provenance = provenance.model_copy(
         update={"payload_hash": payload_hash(ctx, payload)}
     )
@@ -252,10 +258,13 @@ async def run(
     apply: bool = True,
     concurrency: int = DEFAULT_CONCURRENCY,
     limit: int = DEFAULT_LIMIT,
+    max_mentions: "int | None" = DEFAULT_MAX_MENTIONS,
     skeleton_depth: int = DEFAULT_SKELETON_DEPTH,
     max_repairs: int = DEFAULT_MAX_REPAIRS,
     rate_limit_errors: "tuple[type[BaseException], ...]" = (),
     log: "DecisionLog | None" = None,
+    reviewer: "Reviewer | None" = None,
+    on_record: "Callable[[DecisionRecord], None] | None" = None,
 ) -> "list[DecisionRecord]":
     """Decide every item in *items*, mutating *onto* in place when *apply*.
 
@@ -263,13 +272,22 @@ async def run(
     then applied in item order. The shared prompt prefix is identical within a
     chunk -- and across chunks until a decision changes the tree -- which is what
     makes provider prompt caching pay here.
+
+    With a *reviewer* the run is strictly sequential and nothing is applied until
+    the reviewer says ``apply``; ``retry`` asks the model again, ``quit`` returns
+    what has been decided so far.
     """
     run_id = run_id or uuid.uuid4().hex[:12]
     records: "list[DecisionRecord]" = []
+    if reviewer is not None:
+        concurrency = 1
     semaphore = asyncio.Semaphore(max(1, concurrency))
-    chunk_size = max(1, concurrency) if apply else len(items) or 1
+    chunk_size = (
+        max(1, concurrency) if apply or reviewer is not None else len(items) or 1
+    )
 
-    for start in range(0, len(items), chunk_size):
+    start = 0
+    while start < len(items):
         chunk = items[start : start + chunk_size]
         ctx = build_context(
             onto,
@@ -285,7 +303,11 @@ async def run(
             base_version=ctx.base_version,
             base_content_hash=ctx.base_content_hash,
             model=model,
-            params={"candidate_limit": limit, "skeleton_depth": skeleton_depth},
+            params={
+                "candidate_limit": limit,
+                "max_mentions": max_mentions,
+                "skeleton_depth": skeleton_depth,
+            },
         )
 
         async def one(offset: int, item: Item) -> DecisionRecord:
@@ -303,6 +325,7 @@ async def run(
                         update={"seq": start + offset, "ablated": not apply}
                     ),
                     limit=limit,
+                    max_mentions=max_mentions,
                     keys=keys,
                     apply=False,
                     max_repairs=max_repairs,
@@ -313,13 +336,44 @@ async def run(
             *(one(i, item) for i, item in enumerate(chunk))
         )
 
-        for record in chunk_records:
-            if apply:
+        verdict = "apply"
+        for item, record in zip(chunk, chunk_records):
+            if reviewer is not None:
+                payload = build_payload(
+                    onto,
+                    item,
+                    cut=cut,
+                    limit=limit,
+                    max_mentions=max_mentions,
+                    keys=keys,
+                )
+                verdict = reviewer(item, payload, record, onto)
+                if verdict == "retry":
+                    break  # same item again, against the same tree
+                if verdict == "quit":
+                    return records
+                record = record.model_copy(
+                    update={
+                        "provenance": record.provenance.model_copy(
+                            update={
+                                "params": {
+                                    **record.provenance.params,
+                                    "review": verdict,
+                                }
+                            }
+                        )
+                    }
+                )
+            if apply and verdict == "apply":
                 result = apply_decision(onto, record.decision, cut=cut)
                 record = record.model_copy(update={"result": result})
             records.append(record)
             if log is not None:
                 log.write(record)
+            if on_record is not None:
+                on_record(record)
+        if verdict != "retry":
+            start += chunk_size
 
     return records
 
@@ -358,7 +412,12 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--concurrency", type=int, default=DEFAULT_CONCURRENCY)
     parser.add_argument("--candidates", type=int, default=DEFAULT_LIMIT)
     parser.add_argument("--skeleton-depth", type=int, default=DEFAULT_SKELETON_DEPTH)
-    parser.add_argument("--max-mentions", type=int, default=DEFAULT_MAX_MENTIONS)
+    parser.add_argument(
+        "--max-mentions",
+        type=int,
+        default=DEFAULT_MAX_MENTIONS,
+        help="how many mentions (best first) the model is shown per item",
+    )
     parser.add_argument("--max-repairs", type=int, default=DEFAULT_MAX_REPAIRS)
     parser.add_argument("--run-id", default=None)
     parser.add_argument(
@@ -379,6 +438,18 @@ def build_parser() -> argparse.ArgumentParser:
         "--dump-payload",
         action="store_true",
         help="print the payload for each item and exit without calling a model",
+    )
+    parser.add_argument(
+        "--interactive",
+        action="store_true",
+        help="one item at a time: show evidence, candidates and the decision, "
+        "then wait -- nothing is applied without [a]pply",
+    )
+    parser.add_argument(
+        "--review",
+        default=None,
+        metavar="JSONL",
+        help="where --interactive records your verdicts (default: next to --decisions)",
     )
     return parser
 
@@ -404,11 +475,7 @@ def main(argv: "Sequence[str] | None" = None) -> int:
     onto = Ontology.load(root / args.dim / args.base)
     cut = load_dimension_cut(args.dim)
 
-    items = (
-        read_items(args.items)
-        if args.items
-        else build_items(args.dim, max_mentions=args.max_mentions)
-    )
+    items = read_items(args.items) if args.items else build_items(args.dim)
     selected = _select(items, onto, args)
     if not selected:
         print("no items selected", file=sys.stderr)
@@ -417,13 +484,22 @@ def main(argv: "Sequence[str] | None" = None) -> int:
     if args.dump_payload:
         ctx = build_context(onto, args.dim, skeleton_depth=args.skeleton_depth)
         keys = normalized_keys(onto)
+        # As the model sees it: the shared system message once, then one user
+        # message per item. JSON would escape every newline in ~30k chars of
+        # prose, which is unreadable for the human this flag exists for.
+        print(f"{'=' * 24} SYSTEM (shared by every item) {'=' * 24}\n")
+        print(render_context(ctx))
         for item in selected:
             payload = build_payload(
-                onto, item, cut=cut, limit=args.candidates, keys=keys
+                onto,
+                item,
+                cut=cut,
+                limit=args.candidates,
+                max_mentions=args.max_mentions,
+                keys=keys,
             )
-            print(
-                json.dumps(build_messages(ctx, payload), indent=2, ensure_ascii=False)
-            )
+            print(f"\n{'=' * 24} USER: {item.name} {'=' * 24}\n")
+            print(render_payload(payload))
         return 0
 
     platform, model = categorize_settings()
@@ -438,7 +514,30 @@ def main(argv: "Sequence[str] | None" = None) -> int:
         Path(args.decisions) if args.decisions else out_dir / DECISIONS_FILE
     )
 
-    with DecisionLog(decisions_path) as log:
+    reviewer: "Reviewer | None" = None
+    if args.interactive:
+        from paperext.categorize.review import ReviewLog, interactive
+
+        review_path = (
+            Path(args.review)
+            if args.review
+            else decisions_path.with_name("review.jsonl")
+        )
+        reviewer = interactive(
+            ReviewLog(review_path), seen=args.max_mentions, total=len(selected)
+        )
+        print(f"# interactive: verdicts -> {review_path}", file=sys.stderr)
+
+    # A live bar and input() cannot share the terminal; the reviewer prints its
+    # own pace line per item instead.
+    with (
+        DecisionLog(decisions_path) as log,
+        track(
+            len(selected),
+            f"categorize {args.dim}",
+            enabled=False if args.interactive else None,
+        ) as advance,
+    ):
         records = asyncio.run(
             run(
                 client,
@@ -451,10 +550,13 @@ def main(argv: "Sequence[str] | None" = None) -> int:
                 apply=not args.no_apply,
                 concurrency=args.concurrency,
                 limit=args.candidates,
+                max_mentions=args.max_mentions,
                 skeleton_depth=args.skeleton_depth,
                 max_repairs=args.max_repairs,
                 rate_limit_errors=get_backend(platform).rate_limit_errors,
                 log=log,
+                reviewer=reviewer,
+                on_record=lambda _record: advance(),
             )
         )
 
