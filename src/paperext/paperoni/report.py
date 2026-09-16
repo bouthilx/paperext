@@ -101,7 +101,7 @@ def _venue_date(venue: dict):
     for fmt in ("%Y-%m-%d", "%Y-%m", "%Y"):
         try:
             return datetime.strptime(raw, fmt).date()
-        except (TypeError, ValueError):
+        except TypeError, ValueError:
             continue
     return None
 

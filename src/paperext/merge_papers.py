@@ -128,7 +128,7 @@ def _model_dump(paper_id, paper, model: BaseModel):
                 end += 1
             try:
                 quote = yaml.safe_load("\n".join(lines[i:end]))["quote"]
-            except (yaml.parser.ParserError, yaml.scanner.ScannerError):
+            except yaml.parser.ParserError, yaml.scanner.ScannerError:
                 logger.error("\n".join([model_dump_yaml] + lines[i:end]), exc_info=True)
                 raise
             if not list(_find_in_paper(quote, paper)):

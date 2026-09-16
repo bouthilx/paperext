@@ -17,7 +17,7 @@ New code **must** be typed. Annotate every function/method signature you add or
 substantially edit — parameters **and** return type — plus public class
 attributes. Prefer precise types over `Any` where practical.
 
-The project targets **Python >= 3.10**, so use built-in generics and unions:
+The project targets **Python >= 3.14**, so use built-in generics and unions:
 `list[str]`, `dict[str, Any]`, `tuple[int, ...]`, `str | None` — not
 `typing.List` / `Optional`. Add `from __future__ import annotations` to new
 modules so annotations stay cheap and forward references just work.

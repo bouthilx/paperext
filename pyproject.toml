@@ -7,7 +7,7 @@ name = "paperext"
 dynamic = ["version"]
 description = ''
 readme = "README.md"
-requires-python = ">=3.10"
+requires-python = ">=3.14"
 license = "MIT"
 keywords = []
 authors = [
@@ -16,9 +16,7 @@ authors = [
 classifiers = [
   "Development Status :: 4 - Beta",
   "Programming Language :: Python",
-  "Programming Language :: Python :: 3.10",
-  "Programming Language :: Python :: 3.11",
-  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.14",
   "Programming Language :: Python :: Implementation :: CPython",
   "Programming Language :: Python :: Implementation :: PyPy",
 ]
@@ -44,6 +42,12 @@ vertexai = [
   "instructor[vertexai]",
   "anthropic[vertex]",
 ]
+# Paperoni's fulltext locator/downloader (arxiv, openreview, mlr, DOI via
+# CrossRef/OpenAlex/publisher APIs), used by download-convert. Pinned to a
+# commit: paperoni main moves fast and requires Python >= 3.14.
+fulltext = [
+  "paperoni @ git+https://github.com/mila-iqia/paperoni@6f3f642f40c03f527d37fd7114aa335aca2a8a76",
+]
 
 [project.urls]
 Documentation = "https://github.com/satyaog/paperext#readme"
@@ -66,6 +70,10 @@ evaluate = "paperext.evaluate:main"
 [tool.hatch.version]
 path = "src/paperext/__about__.py"
 
+# The `fulltext` extra pins paperoni to a git commit.
+[tool.hatch.metadata]
+allow-direct-references = true
+
 # Dev tooling. `uv sync` installs the `dev` group by default; add
 # `--all-extras` to get both provider SDKs the test suite imports.
 # (The paperoni CLI pins pydantic<2 and cannot share this environment; see
@@ -78,6 +86,9 @@ dev = [
   "black~=26.5",
   "isort~=8.0",
 ]
+
+[tool.black]
+target-version = ["py314"]
 
 [tool.coverage.run]
 source_pkgs = ["paperext", "tests"]
