@@ -1,0 +1,61 @@
+# Paperoni configuration used by `download-convert` to locate and download
+# PDFs (paperoni.fulltext). Copy to config.yaml (gitignored) next to this file
+# -- that is where [env] PAPERONI_CONFIG in config.mdl.ini points -- and fill
+# in the keys you have. Relative paths are resolved from this file.
+#
+# Only the fulltext-relevant part of paperoni's config/basic.yaml is here; the
+# discovery/collection/server sections are not needed to download PDFs.
+paperoni:
+  # Downloaded PDFs (data_path/pdf/<url hash>/fulltext.pdf + meta.yaml). This
+  # is paperoni's own cache; download-convert hardlinks from it into
+  # ${dir:cache}/fulltext/<paper_id>/.
+  data_path: ../data/cache/paperoni
+  # Request caches (CrossRef / OpenAlex lookups, ScraperAPI responses).
+  cache_path: ../data/cache/paperoni/requests
+  # Sent to OpenAlex/CrossRef "polite pools" -- put a real address here.
+  mailto: _@mila.quebec
+  # Elsevier/ScienceDirect and Wiley TDM tokens turn paywalled DOIs into
+  # PDFs; scraperapi gets through Cloudflare on the publishers that block
+  # plain clients (Elsevier journals, Springer, ...). All optional; keep `{}`
+  # when none are set (an empty mapping does not parse).
+  api_keys: {}
+  #   elsevier: _
+  #   wiley: _
+  #   scraperapi: _
+  fetch:
+    $class: RulesFetcher
+    # Concurrent requests per host pattern ("*" = default).
+    simultaneous:
+      "*": 3
+    rules:
+      "^https://export.arxiv.org/": standard
+      "^https://api.crossref.org/": cached
+      "^https://api.openalex.org/": cached
+      "^https://api.semanticscholar.org/": cached
+      ".*": sequence
+    fetchers:
+      standard:
+        $class: HTTPXFetcher
+        user_agent: chrome
+      cached:
+        $class: CachedFetcher
+        cache_path: ${paperoni.cache_path}/requests-cache.sql
+        expire_after: 6d
+        user_agent: chrome
+      # Try a plain client first, then a Cloudflare-aware one; add the
+      # ScraperAPI stage once `api_keys.scraperapi` is set:
+      #   - $class: ScraperAPIFetcher
+      #     cache_path: ${paperoni.cache_path}/scraper-cache.sql
+      #     expire_after: 100d
+      #     api_key: ${paperoni.api_keys.scraperapi}
+      sequence:
+        $class: SequenceFetcher
+        fetchers:
+        - $class: HTTPXFetcher
+          user_agent: chrome
+        - $class: CloudFlareFetcher
+          user_agent: chrome
+  # OpenReview PDFs need an API login (the locator calls the OpenReview client).
+  # discovery:
+  #   openreview:
+  #     api_key_file: ${paperoni.cache_path}/openreview-token-secrets.txt
