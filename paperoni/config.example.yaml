@@ -56,9 +56,15 @@ paperoni:
         - $class: CloudFlareFetcher
           user_agent: chrome
   # OpenReview rejects anonymous clients ("Challenge verification required"),
-  # so its PDFs need an API token in this file. Keep the entry even while the
-  # file does not exist: without the section, every OpenReview lookup logs a
-  # login traceback; with it, a missing file is a quiet miss.
+  # so its PDFs need a login: any OpenReview account's username/password.
+  # paperoni caches the resulting token in api_key_file, ENCRYPTED with the
+  # passphrase in the SERIEUX_PASSWORD environment variable -- export it (any
+  # value, but always the same one) for every run, or the login is silently
+  # discarded and OpenReview papers fail with 403. Keep the api_key_file entry
+  # even without credentials: without the section, every OpenReview lookup
+  # logs a login traceback; with it, a missing file is a quiet miss.
   discovery:
     openreview:
+      # username: you@example.com
+      # password: _
       api_key_file: ${paperoni.cache_path}/openreview-token-secrets.txt

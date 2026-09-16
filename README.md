@@ -125,6 +125,9 @@ Requirements:
   and add `api_keys` (Elsevier / Wiley TDM, ScraperAPI) and the OpenReview
   credentials if you have them -- without them, paywalled DOIs, Cloudflare-fronted
   publishers and OpenReview-only papers are reported as failures.
+- with OpenReview credentials, `SERIEUX_PASSWORD` exported in the environment
+  (any passphrase, always the same one): paperoni encrypts its cached
+  OpenReview token with it, and without it the login is discarded.
 
 ```console
 usage: download-convert [-h] [--paperoni JSON] [--arxiv STR [STR ...]]
