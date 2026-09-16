@@ -55,7 +55,10 @@ paperoni:
           user_agent: chrome
         - $class: CloudFlareFetcher
           user_agent: chrome
-  # OpenReview PDFs need an API login (the locator calls the OpenReview client).
-  # discovery:
-  #   openreview:
-  #     api_key_file: ${paperoni.cache_path}/openreview-token-secrets.txt
+  # OpenReview rejects anonymous clients ("Challenge verification required"),
+  # so its PDFs need an API token in this file. Keep the entry even while the
+  # file does not exist: without the section, every OpenReview lookup logs a
+  # login traceback; with it, a missing file is a quiet miss.
+  discovery:
+    openreview:
+      api_key_file: ${paperoni.cache_path}/openreview-token-secrets.txt

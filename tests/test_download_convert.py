@@ -186,6 +186,33 @@ def test_synthetic_papers_keep_arxiv_layout(cfg: Config, fake_resolver, tmp_path
     assert outcomes[1].text.name == "fulltext.txt"
 
 
+def test_run_keeps_stdout_clean(
+    cfg: Config, fake_resolver, tmp_path, monkeypatch, capsys
+):
+    # paperoni prints download progress; it must not leak into the file list.
+    import paperoni.fulltext.pdf
+
+    real_get_pdf = paperoni.fulltext.pdf.get_pdf
+
+    async def noisy_get_pdf(refs, cache_policy=None):
+        print("Downloading https://example/pdf")
+        return await real_get_pdf(refs, cache_policy)
+
+    monkeypatch.setattr(paperoni.fulltext.pdf, "get_pdf", noisy_get_pdf)
+    config = tmp_path / "paperoni.yaml"
+    config.write_text(
+        f"paperoni:\n  data_path: {tmp_path / 'store'}\n  cache_path: {tmp_path / 'req'}\n"
+    )
+    monkeypatch.setenv("PAPERONI_CONFIG", str(config))
+
+    paper = _paper("p", [{"type": "arxiv.pdf", "link": "1234.00002"}])
+    (outcome,) = dc.run([paper], tmp_path / "cache", concurrency=1)
+    assert outcome.text is not None
+    captured = capsys.readouterr()
+    assert captured.out == ""
+    assert "Downloading https://example/pdf" in captured.err
+
+
 def test_write_report_and_summary(tmp_path: Path):
     outcomes = [
         dc.Outcome("a", "A", refs=["arxiv:1"], text=Path("x.txt"), source="arxiv"),

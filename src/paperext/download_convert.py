@@ -3,11 +3,13 @@ from __future__ import annotations
 import argparse
 import asyncio
 import collections
+import contextlib
 import hashlib
 import json
 import os
 import shutil
 import subprocess
+import sys
 from collections.abc import Callable, Iterable
 from dataclasses import asdict, dataclass, field
 from datetime import datetime
@@ -240,7 +242,9 @@ def run(
             f"{_CFG.dir.paperoni / 'config.example.yaml'} there and fill it in"
         )
 
-    with gifnoc.use(str(config_file)):
+    # paperoni prints its download progress to stdout; keep stdout for the
+    # list of converted files (`download-convert ... > query_set.txt`).
+    with gifnoc.use(str(config_file)), contextlib.redirect_stdout(sys.stderr):
         return asyncio.run(download_all(papers, cache_dir, concurrency))
 
 
