@@ -355,7 +355,13 @@ def build_parser() -> argparse.ArgumentParser:
         "--review", default=None, help="review.jsonl from --interactive"
     )
     parser.add_argument("--dim", default=None, help="default: from the records")
-    parser.add_argument("--base", default=None, help="default: from the records")
+    parser.add_argument(
+        "--base",
+        default=None,
+        help="the version the decisions were taken AGAINST -- the tree before the "
+        "run, which the records already name. Not the version the run wrote: "
+        "replaying onto that fails with 'already exists' / 'unknown node'.",
+    )
     parser.add_argument("--root", default=None, help="ontology root (default: config)")
     parser.add_argument("--width", type=int, default=None)
     return parser
@@ -370,6 +376,13 @@ def main(argv: "Sequence[str] | None" = None) -> int:
     first = records[0].provenance
     dimension = args.dim or first.dimension
     base_version = args.base or first.base_version
+    if args.base and args.base != first.base_version:
+        print(
+            f"warning: --base {args.base} but the records were taken against "
+            f"{first.base_version}; expect 'already exists' / 'unknown node' on "
+            "replay",
+            file=sys.stderr,
+        )
     root = Path(args.root) if args.root else ontology_root()
     base = Ontology.load(root / dimension / base_version)
     cut = load_dimension_cut(dimension)
