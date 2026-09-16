@@ -25,15 +25,18 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
 
+    - name: Set up uv
+      uses: astral-sh/setup-uv@v6
+
     - name: Install dependencies
       run: |
-        python3 -m pip install --upgrade pip
-        python3 -m pip install hatch
+        uv sync --all-extras --locked
 
     - name: Lint
       run: |
-        hatch run lint:lint --check
+        uv run black --check .
+        uv run isort --profile black --check .
 
     - name: Test with pytest
       run: |
-        hatch run tests:tests
+        uv run pytest tests
