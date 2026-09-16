@@ -16,29 +16,38 @@ Two entry points, one roll-up:
   level deeper than the parent and rolls up to a different category.
 
 The roll-up itself reuses :mod:`paperext.ontology.rollup`'s helpers rather than
-reimplementing them, for the same anti-drift reason.
+reimplementing them, for the same anti-drift reason. Cuts match on node ids
+(#62): a run against ``v<N>`` must use the cut resolved against the version the
+cut file was written for — :func:`load_dimension_cut` does that — not one
+re-resolved by name against a tree the agent has already renamed nodes in.
 """
 
 from __future__ import annotations
 
 from pathlib import Path
-from typing import TYPE_CHECKING, Any, Iterable, Union
+from typing import TYPE_CHECKING, Any, Iterable
 
 from pydantic import BaseModel, Field
 
-from paperext.analysis.rollup import DEFAULT_DROP_ROOTS, Cut, str_normalize
+from paperext.analysis.rollup import DEFAULT_DROP_ROOTS, str_normalize
 from paperext.ontology.ontology import Ontology, UnknownNodeError
 from paperext.ontology.rollup import (
+    AnyCut,
+    NodeCut,
+    ResolvedCut,
     _category_at_depth,
     _category_at_nodes,
-    _norm_dotpath,
+    resolve_cut,
 )
 
 if TYPE_CHECKING:  # pragma: no cover - import cycle: actions -> ontology -> here
     from paperext.categorize.actions import Decision
 
-#: A cut normalized once: either a depth, or a set of normalized dot-paths.
-NormalizedCut = Union[int, "set[str]"]
+#: The version the committed cut files are spelled against. ``v0`` is the frozen
+#: import of the legacy trees (its content hash is pinned in the eval manifest);
+#: ids are never reassigned after it, so a cut resolved here holds for every
+#: ``v<N>`` derived from it.
+CUT_BASE = "v0"
 
 
 class Placement(BaseModel):
@@ -60,26 +69,18 @@ class Placement(BaseModel):
     cut_category: str | None = None
 
 
-def normalize_cut(cut: Cut) -> NormalizedCut:
-    """Validate *cut* and normalize it once, mirroring :func:`to_category_map`."""
-    if isinstance(cut, bool):  # bool is an int subclass; reject explicitly
-        raise TypeError("cut must be an int depth or an iterable of dot-paths")
-    if isinstance(cut, int):
-        if cut < 1:
-            raise ValueError(f"depth cut must be >= 1, got {cut}")
-        return cut
-    if isinstance(cut, str):
-        cut = [cut]
-    return {_norm_dotpath(entry) for entry in cut}
-
-
-def load_dimension_cut(dimension: str) -> Cut:
+def load_dimension_cut(
+    dimension: str, *, root: Path | None = None, base: str = CUT_BASE
+) -> ResolvedCut:
     """The cut a dimension reports at: its milabench file, else depth 2.
 
-    Same resolution as ``analysis/frequency.py:_default_dimensions`` — models and
-    research fields have committed milabench cut files, datasets do not.
+    Same file resolution as ``analysis/frequency.py:_default_dimensions`` — models
+    and research fields have committed milabench cut files, datasets do not. The
+    file's name paths are resolved to node ids against ``<root>/<dimension>/<base>``
+    once, so the result is valid for any version derived from *base*.
     """
     from paperext.analysis.rollup import load_cut
+    from paperext.categorize.apply import ontology_root
     from paperext.config import CFG
 
     cfg: Any = CFG  # the config proxy resolves attributes dynamically
@@ -88,9 +89,10 @@ def load_dimension_cut(dimension: str) -> Cut:
         "domains": Path(cfg.dir.evaluation_dom_cat) / str(cfg.evaluation.dom_cat),
     }
     path = files.get(dimension)
-    if path is not None and path.exists():
-        return load_cut(path)
-    return 2
+    if path is None or not path.exists():
+        return 2
+    root = root if root is not None else ontology_root()
+    return resolve_cut(Ontology.load(root / dimension / base), load_cut(path))
 
 
 def _build(
@@ -99,31 +101,33 @@ def _build(
     node_id: str | None,
     name: str,
     ancestors: "list[str]",
-    cut: NormalizedCut,
+    cut: ResolvedCut,
     drop_roots: Iterable[str],
 ) -> Placement:
     """Assemble a placement from the ancestor ids of its *parent* chain.
 
     *ancestors* is the root-to-parent id chain; *name* is the placed node's own
-    display name, appended to form the path the roll-up sees.
+    display name, appended to form the path the roll-up sees. A node that does not
+    exist yet has no id and so cannot itself be a cut node: it rolls up to the
+    nearest cut node among its ancestors.
     """
     ancestor_names = [onto.name(nid) for nid in ancestors]
     raw_path = tuple(ancestor_names) + (name,)
-    norm_path = tuple(str_normalize(part) for part in raw_path)
+    id_path = list(ancestors) + ([node_id] if node_id is not None else [])
 
     drop = {str_normalize(root) for root in drop_roots}
-    if norm_path and norm_path[0] in drop:
+    if raw_path and str_normalize(raw_path[0]) in drop:
         category = None
-    elif isinstance(cut, int):
-        category = _category_at_depth(raw_path, cut)
+    elif isinstance(cut, NodeCut):
+        category = _category_at_nodes(onto, id_path, cut)
     else:
-        category = _category_at_nodes(norm_path, raw_path, cut)
+        category = _category_at_depth(raw_path, cut)
 
     return Placement(
         node_id=node_id,
         name=name,
         parent_id=ancestors[-1] if ancestors else None,
-        ancestor_path=list(ancestors) + ([node_id] if node_id is not None else []),
+        ancestor_path=id_path,
         ancestor_names=list(raw_path),
         depth=len(raw_path),
         branch=ancestor_names[0] if ancestor_names else name,
@@ -134,7 +138,7 @@ def _build(
 def to_placement(
     onto: Ontology,
     node_id: str,
-    cut: Cut,
+    cut: AnyCut,
     *,
     drop_roots: Iterable[str] = DEFAULT_DROP_ROOTS,
 ) -> Placement:
@@ -147,7 +151,7 @@ def to_placement(
         node_id=node_id,
         name=onto.name(node_id),
         ancestors=ancestry[:-1],
-        cut=normalize_cut(cut),
+        cut=resolve_cut(onto, cut),
         drop_roots=drop_roots,
     )
 
@@ -156,7 +160,7 @@ def placement_for_new(
     onto: Ontology,
     parent_id: str | None,
     name: str,
-    cut: Cut,
+    cut: AnyCut,
     *,
     drop_roots: Iterable[str] = DEFAULT_DROP_ROOTS,
 ) -> Placement:
@@ -169,7 +173,7 @@ def placement_for_new(
         node_id=None,
         name=name,
         ancestors=ancestors,
-        cut=normalize_cut(cut),
+        cut=resolve_cut(onto, cut),
         drop_roots=drop_roots,
     )
 
@@ -177,7 +181,7 @@ def placement_for_new(
 def resolve_placement(
     onto: Ontology,
     decision: "Decision",
-    cut: Cut,
+    cut: AnyCut,
     *,
     drop_roots: Iterable[str] = DEFAULT_DROP_ROOTS,
 ) -> Placement | None:

@@ -473,7 +473,7 @@ def main(argv: "Sequence[str] | None" = None) -> int:
 
     root = Path(args.root) if args.root else ontology_root()
     onto = Ontology.load(root / args.dim / args.base)
-    cut = load_dimension_cut(args.dim)
+    cut = load_dimension_cut(args.dim, root=root)
 
     items = read_items(args.items) if args.items else build_items(args.dim)
     selected = _select(items, onto, args)

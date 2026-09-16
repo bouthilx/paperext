@@ -37,7 +37,6 @@ from rich.console import Console
 from rich.table import Table
 from rich.tree import Tree
 
-from paperext.analysis.rollup import Cut
 from paperext.categorize.ablate import copy_ontology
 from paperext.categorize.actions import Outcome
 from paperext.categorize.apply import (
@@ -49,9 +48,10 @@ from paperext.categorize.apply import (
     ontology_root,
     read_decisions,
 )
-from paperext.categorize.placement import load_dimension_cut, to_placement
+from paperext.categorize.placement import Placement, load_dimension_cut, to_placement
 from paperext.categorize.review import Review, read_reviews
 from paperext.ontology.ontology import Ontology
+from paperext.ontology.rollup import OTHER, AnyCut, NodeCut, cut_node_of, resolve_cut
 
 PROG = "categorize-report"
 
@@ -84,7 +84,7 @@ class Replay:
         base: Ontology,
         records: "Sequence[DecisionRecord]",
         *,
-        cut: Cut,
+        cut: AnyCut,
         reviews: "Sequence[Review]" = (),
     ) -> None:
         self.base = base
@@ -275,15 +275,43 @@ def tree_diff(replay: Replay) -> Tree:
     return root
 
 
+def _category_key(placement: Placement, cut: AnyCut) -> str:
+    """What a row of the cut table groups on.
+
+    Under a node cut that is the cut node's **id**, so a run that renames a cut
+    node (#62) shows one relabelled row rather than a ``-119`` and a ``+119``; the
+    fallbacks and depth-cut categories have no id and group on their label.
+    """
+    if placement.cut_category is None:
+        return "(ignore)"
+    if isinstance(cut, NodeCut):
+        return cut_node_of(placement.ancestor_path, cut) or OTHER
+    return placement.cut_category
+
+
 def cut_table(replay: Replay) -> Table:
     """Where this run's names landed at the cut, and node counts before/after."""
+    cut = resolve_cut(replay.base, replay.cut)
 
     def count_nodes(onto: Ontology) -> "dict[str, int]":
         counts: "dict[str, int]" = {}
         for node_id in onto.nodes:
-            key = to_placement(onto, node_id, replay.cut).cut_category or "(ignore)"
+            key = _category_key(to_placement(onto, node_id, cut), cut)
             counts[key] = counts.get(key, 0) + 1
         return counts
+
+    def name_of(key: str, onto: Ontology, fallback: Ontology) -> str:
+        # a cut node id, or a label ("Other", "(ignore)", a depth-cut category)
+        return (
+            onto.name(key)
+            if key in onto
+            else fallback.name(key) if key in fallback else key
+        )
+
+    def label(key: str) -> str:
+        now = name_of(key, replay.after, replay.base)
+        was = name_of(key, replay.base, replay.after)
+        return f"{now}  [dim](was: {was})[/]" if was != now else now
 
     before, after = count_nodes(replay.base), count_nodes(replay.after)
     landed: "dict[str, int]" = {}
@@ -291,7 +319,7 @@ def cut_table(replay: Replay) -> Table:
         placement = record.result.placement
         if placement is None:
             continue
-        key = placement.cut_category or "(ignore)"
+        key = _category_key(placement, cut)
         landed[key] = landed.get(key, 0) + 1
 
     table = Table(title="at the cut", title_justify="left", pad_edge=False)
@@ -301,12 +329,13 @@ def cut_table(replay: Replay) -> Table:
     table.add_column("nodes after", justify="right")
     table.add_column("delta", justify="right")
     keys = sorted(
-        set(before) | set(after) | set(landed), key=lambda k: (-landed.get(k, 0), k)
+        set(before) | set(after) | set(landed),
+        key=lambda k: (-landed.get(k, 0), name_of(k, replay.after, replay.base)),
     )
     for key in keys:
         delta = after.get(key, 0) - before.get(key, 0)
         table.add_row(
-            key,
+            label(key),
             str(landed.get(key, 0)) if landed.get(key) else "",
             str(before.get(key, 0)),
             str(after.get(key, 0)),
@@ -385,7 +414,7 @@ def main(argv: "Sequence[str] | None" = None) -> int:
         )
     root = Path(args.root) if args.root else ontology_root()
     base = Ontology.load(root / dimension / base_version)
-    cut = load_dimension_cut(dimension)
+    cut = load_dimension_cut(dimension, root=root)
     reviews: "list[Review]" = []
     review_path = (
         Path(args.review)

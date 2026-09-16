@@ -16,7 +16,9 @@ from paperext.ontology import Ontology
 
 @pytest.fixture
 def workspace(tiny, tmp_path):
-    write_snapshot(tiny, "models", "v0", root=tmp_path)
+    # dimension "test" has no committed cut file (depth 2); the milabench "models"
+    # cut would fail to resolve against the tiny tree by design (#62)
+    write_snapshot(tiny, "test", "v0", root=tmp_path)
     decisions = tmp_path / "decisions.jsonl"
     decisions.write_text(
         "\n".join(
@@ -46,7 +48,7 @@ def workspace(tiny, tmp_path):
 def _argv(root, decisions, *extra):
     return [
         "--dim",
-        "models",
+        "test",
         "--base",
         "v0",
         "--in",
@@ -61,7 +63,7 @@ def test_apply_writes_the_next_version_and_its_audit_log(workspace, capsys):
     root, decisions = workspace
     assert main(_argv(root, decisions)) == 0
 
-    out = root / "models" / "v1"
+    out = root / "test" / "v1"
     onto = Ontology.load(out)
     onto.check_invariants()
     assert onto.doc.meta.version == "v1"
@@ -77,10 +79,10 @@ def test_apply_writes_the_next_version_and_its_audit_log(workspace, capsys):
 
 def test_dry_run_writes_nothing(workspace):
     root, decisions = workspace
-    before = content_hash(Ontology.load(root / "models" / "v0"))
+    before = content_hash(Ontology.load(root / "test" / "v0"))
     assert main(_argv(root, decisions, "--dry-run")) == 0
-    assert not (root / "models" / "v1").exists()
-    assert content_hash(Ontology.load(root / "models" / "v0")) == before
+    assert not (root / "test" / "v1").exists()
+    assert content_hash(Ontology.load(root / "test" / "v0")) == before
 
 
 def test_a_rejected_decision_is_reported_and_sets_the_exit_code(workspace, capsys):
@@ -105,7 +107,7 @@ def test_a_rejected_decision_is_reported_and_sets_the_exit_code(workspace, capsy
     assert main(_argv(root, decisions)) == 1
     assert "FAIL" in capsys.readouterr().out
     # the two good decisions still landed
-    assert Ontology.load(root / "models" / "v1").resolve("vision transformer") == "vit"
+    assert Ontology.load(root / "test" / "v1").resolve("vision transformer") == "vit"
 
 
 def test_the_cli_refuses_to_overwrite_the_base(workspace):
@@ -118,12 +120,10 @@ def test_records_can_be_replayed_back_through_the_cli(workspace, tmp_path):
     """``decisions.jsonl`` is accepted as input, not just as output."""
     root, decisions = workspace
     main(_argv(root, decisions))
-    log = root / "models" / "v1" / DECISIONS_FILE
-    expected = content_hash(Ontology.load(root / "models" / "v1"))
+    log = root / "test" / "v1" / DECISIONS_FILE
+    expected = content_hash(Ontology.load(root / "test" / "v1"))
 
     replay_root = tmp_path / "replay"
-    write_snapshot(
-        Ontology.load(root / "models" / "v0"), "models", "v0", root=replay_root
-    )
+    write_snapshot(Ontology.load(root / "test" / "v0"), "test", "v0", root=replay_root)
     assert main(_argv(replay_root, log)) == 0
-    assert content_hash(Ontology.load(replay_root / "models" / "v1")) == expected
+    assert content_hash(Ontology.load(replay_root / "test" / "v1")) == expected

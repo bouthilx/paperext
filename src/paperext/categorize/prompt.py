@@ -34,7 +34,7 @@ from typing import Any, Iterable, Sequence
 
 from pydantic import BaseModel, Field
 
-from paperext.analysis.rollup import Cut, str_normalize
+from paperext.analysis.rollup import str_normalize
 from paperext.categorize.actions import OPS
 from paperext.categorize.candidates import (
     DEFAULT_LIMIT,
@@ -47,10 +47,10 @@ from paperext.categorize.candidates import (
 from paperext.categorize.items import DEFAULT_MAX_MENTIONS, Item, Mention
 from paperext.categorize.placement import (
     load_dimension_cut,
-    normalize_cut,
     to_placement,
 )
 from paperext.ontology.ontology import Ontology
+from paperext.ontology.rollup import AnyCut, resolve_cut
 
 #: Longest quote rendered per mention. Extraction quotes are single sentences, but
 #: a runaway one must not be able to dominate a payload.
@@ -330,7 +330,7 @@ def build_payload(
     onto: Ontology,
     item: Item,
     *,
-    cut: "Cut | None" = None,
+    cut: "AnyCut | None" = None,
     limit: int = DEFAULT_LIMIT,
     max_mentions: "int | None" = DEFAULT_MAX_MENTIONS,
     keys: "dict[str, list[str]] | None" = None,
@@ -343,7 +343,7 @@ def build_payload(
     item's name and aliases.
     """
     cut = load_dimension_cut(item.dimension) if cut is None else cut
-    normalized = normalize_cut(cut)
+    normalized = resolve_cut(onto, cut)
     ranked = (
         generate(onto, item.name, aliases=item.aliases, limit=None, keys=keys)
         if candidates is None
