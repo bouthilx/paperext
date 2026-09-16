@@ -5,6 +5,7 @@ proving auth + model access, without touching the extraction pipeline.
 
     OPENAI_API_KEY=... backend-check --platform openai
     backend-check --platform gemini --model models/gemini-1.5-pro
+    PAPEREXT_LOCAL_BASE_URL=http://host:8000/v1 backend-check --platform local
 """
 
 import argparse

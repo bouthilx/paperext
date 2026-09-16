@@ -148,9 +148,10 @@ class Config:
         except KeyError:
             pass
 
+        # Empty [env] entries are placeholders for values provided at runtime
+        # (tracked config files must not hold credentials); leave them alone
+        # so a variable exported in the shell is not clobbered.
         for varenv, val in config._config["env"].items():
-            # A blank entry is a placeholder, not a value: exporting it would
-            # clobber a credential the shell already provided with "".
             if val:
                 os.environ[varenv.upper()] = val
 

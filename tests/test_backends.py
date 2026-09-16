@@ -317,3 +317,142 @@ def test_openai_parses_a_function_call_that_follows_a_reasoning_item(monkeypatch
     )
     assert answer.word == "ok"
     assert usage["total_tokens"] == 3
+
+
+# --- Local backend (OpenAI-compatible server, e.g. vLLM) ---
+
+
+@pytest.fixture
+def local_key(monkeypatch):
+    """Provide the bearer token the way deployments do: in the environment."""
+    monkeypatch.setenv("LOCAL_API_KEY", "local")
+
+
+def test_local_backend_registered_and_config(cfg, local_key):
+    from paperext.backends.local import LocalBackend
+
+    backend = get_backend("local")
+    assert "local" in available()
+    assert isinstance(backend, LocalBackend)
+    assert backend.name == "local"
+    assert backend.model == cfg.local.model == "qwen-test"
+    assert backend.base_url == "http://localhost:8000/v1"
+    assert backend.api_key == "local"
+
+
+@pytest.mark.parametrize("value", [None, ""])
+def test_local_api_key_missing_raises_clear_error(monkeypatch, value):
+    # Like the other API backends, the key lives in the environment, never in
+    # the tracked config file. Empty counts as unset (the SDK rejects it too).
+    if value is None:
+        monkeypatch.delenv("LOCAL_API_KEY", raising=False)
+    else:
+        monkeypatch.setenv("LOCAL_API_KEY", value)
+    with pytest.raises(ValueError, match="LOCAL_API_KEY is not set"):
+        get_backend("local").api_key
+
+
+def test_local_backend_never_retries_rate_limits():
+    assert get_backend("local").rate_limit_errors == ()
+
+
+def test_local_normalize_usage_maps_to_canonical_schema():
+    completion = MagicMock(
+        usage=MagicMock(prompt_tokens=10, completion_tokens=4, total_tokens=14)
+    )
+    usage = get_backend("local").normalize_usage(completion)
+    assert usage == {"input_tokens": 10, "output_tokens": 4, "total_tokens": 14}
+
+
+@pytest.mark.parametrize(
+    "mode, expected",
+    [("tools", "TOOLS"), ("json_schema", "JSON_SCHEMA")],
+)
+def test_local_make_client_targets_base_url_with_configured_mode(
+    cfg, local_key, monkeypatch, mode, expected
+):
+    import asyncio
+
+    import instructor
+    import openai
+
+    cfg.local.mode = mode
+    captured: dict = {}
+
+    async def _cwc(*_a, **kwargs):
+        captured.update(kwargs)
+        return MagicMock(), MagicMock(
+            usage=MagicMock(prompt_tokens=1, completion_tokens=2, total_tokens=3)
+        )
+
+    def _from_openai(client, *a, **k):
+        captured["sdk_client"] = client
+        captured["mode"] = k["mode"]
+        c = MagicMock()
+        c.chat.completions.create_with_completion.side_effect = _cwc
+        return c
+
+    def _async_openai(**k):
+        captured["sdk_kwargs"] = k
+        return "sdk-client"
+
+    monkeypatch.setattr(openai, "AsyncOpenAI", _async_openai)
+    monkeypatch.setattr(instructor, "from_openai", _from_openai)
+
+    client = get_backend("local").make_client()
+    _, usage = asyncio.run(
+        client.chat.completions.create_with_completion(
+            response_model=object, messages=[{"role": "user", "content": "x"}]
+        )
+    )
+
+    assert captured["sdk_kwargs"] == {
+        "base_url": "http://localhost:8000/v1",
+        "api_key": "local",
+    }
+    assert captured["sdk_client"] == "sdk-client"
+    assert captured["mode"] is getattr(instructor.Mode, expected)
+    assert captured["model"] == "qwen-test"
+    assert usage == {"input_tokens": 1, "output_tokens": 2, "total_tokens": 3}
+
+
+def test_local_unknown_mode_raises_clear_error(cfg):
+    cfg.local.mode = "grammar"
+    with pytest.raises(ValueError, match="json_schema.*tools.*'grammar'"):
+        get_backend("local").mode
+
+
+def test_local_smoke_check_uses_model_and_returns_reply(cfg):
+    client = MagicMock()
+    client.chat.completions.create.return_value = MagicMock(
+        choices=[MagicMock(message=MagicMock(content="ok"))],
+        usage={"total_tokens": 4},
+    )
+
+    reply, usage = get_backend("local").smoke_check(client=client)
+
+    assert reply == "ok"
+    assert usage["total_tokens"] == 4
+    _, kwargs = client.chat.completions.create.call_args
+    assert kwargs["model"] == "qwen-test"
+
+
+def test_local_smoke_check_default_client_targets_base_url(cfg, local_key, monkeypatch):
+    import openai
+
+    captured: dict = {}
+
+    def _openai(**k):
+        captured.update(k)
+        c = MagicMock()
+        c.chat.completions.create.return_value = MagicMock(
+            choices=[MagicMock(message=MagicMock(content="ok"))]
+        )
+        return c
+
+    monkeypatch.setattr(openai, "OpenAI", _openai)
+
+    reply, _ = get_backend("local").smoke_check()
+
+    assert reply == "ok"
+    assert captured == {"base_url": "http://localhost:8000/v1", "api_key": "local"}
