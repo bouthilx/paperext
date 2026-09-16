@@ -149,6 +149,12 @@ def test_download_all(cfg: Config, fake_resolver, tmp_path: Path):
 
     assert by_id["none"].error == "no locatable links"
     assert by_id["none"].link_type == "no-refs"
+    assert [by_id[k].bucket for k in ("new1", "ieee", "none", "old1")] == [
+        "arxiv",
+        "doi",
+        "no-refs",
+        "arxiv",
+    ]
     # The resolver is not consulted for papers without refs
     assert sorted(c[0] for c in fake_resolver) == [
         "arxiv:2307.00134",
@@ -179,11 +185,10 @@ def test_download_all_is_concurrent_and_reports_progress(
         _paper(f"p{i}", [{"type": "arxiv.pdf", "link": f"1234.{i:05d}"}])
         for i in range(8)
     ]
-    ticks = 0
+    ticks: list[str] = []
 
-    def advance():
-        nonlocal ticks
-        ticks += 1
+    def advance(outcome: dc.Outcome) -> None:
+        ticks.append(outcome.bucket)
 
     started = time.monotonic()
     outcomes = asyncio.run(
@@ -194,7 +199,7 @@ def test_download_all_is_concurrent_and_reports_progress(
     assert all(o.text for o in outcomes)
     assert peak == 4  # bounded by --concurrency, and actually parallel
     assert elapsed < 8 * 0.05  # faster than sequential
-    assert ticks == 8  # one advance per finished paper
+    assert ticks == ["arxiv"] * 8  # one advance per finished paper, with its bucket
 
 
 def test_download_existing_is_not_refetched(cfg: Config, fake_resolver, tmp_path):

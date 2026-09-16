@@ -3,13 +3,11 @@ from __future__ import annotations
 import argparse
 import asyncio
 import collections
-import contextlib
 import hashlib
 import json
 import os
 import shutil
 import subprocess
-import sys
 from collections.abc import Callable, Iterable
 from dataclasses import asdict, dataclass, field
 from datetime import datetime
@@ -17,7 +15,7 @@ from pathlib import Path
 from typing import Any
 
 from paperext import CFG
-from paperext.categorize.progress import track
+from paperext.dashboard import Dashboard
 from paperext.log import logger
 from paperext.utils import Paper
 
@@ -75,8 +73,16 @@ class Outcome:
 
     @property
     def link_type(self) -> str:
-        # Bucket for the per-type tally logged at the end.
+        # Bucket for the per-resolver tally logged at the end.
         return self.source or ("no-refs" if not self.refs else "no-fulltext")
+
+    @property
+    def bucket(self) -> str:
+        """Dashboard row: the best link type the paper had *before* downloading
+        (so hits + misses per row is meaningful), or "existing"."""
+        if self.source == "existing":
+            return "existing"
+        return self.refs[0].split(":", 1)[0] if self.refs else "no-refs"
 
 
 def refs_for(links: Iterable[dict[str, Any]]) -> list[str]:
@@ -207,17 +213,16 @@ async def download_all(
     papers: list[dict[str, Any]],
     cache_dir: Path,
     concurrency: int,
-    advance: Callable[[], None] = lambda: None,
+    advance: Callable[[Outcome], None] = lambda outcome: None,
 ) -> list[Outcome]:
-    """Download `papers` with at most `concurrency` in flight; `advance()` is
-    called as each one finishes (progress bar hook)."""
+    """Download `papers` with at most `concurrency` in flight; `advance` is
+    called with each outcome as it finishes (dashboard hook)."""
     semaphore = asyncio.Semaphore(concurrency)
 
     async def one(paper: dict[str, Any]) -> Outcome:
-        try:
-            return await download_paper(paper, cache_dir, semaphore)
-        finally:
-            advance()
+        outcome = await download_paper(paper, cache_dir, semaphore)
+        advance(outcome)
+        return outcome
 
     return list(await asyncio.gather(*(one(paper) for paper in papers)))
 
@@ -251,15 +256,23 @@ def run(
             f"{_CFG.dir.paperoni / 'config.example.yaml'} there and fill it in"
         )
 
-    # paperoni prints its download progress to stdout; keep stdout for the
-    # list of converted files (`download-convert ... > query_set.txt`). The
-    # progress bar draws on stderr (and only when it is a terminal).
+    # The dashboard (logs / stats / progress) draws on stderr when it is a
+    # terminal, and in every case moves paperoni's stdout progress prints off
+    # stdout so `download-convert ... > query_set.txt` stays a file list.
     with (
         gifnoc.use(str(config_file)),
-        contextlib.redirect_stdout(sys.stderr),
-        track(len(papers), "download-convert") as advance,
+        Dashboard(len(papers), "download-convert") as dashboard,
     ):
-        return asyncio.run(download_all(papers, cache_dir, concurrency, advance))
+        return asyncio.run(
+            download_all(
+                papers,
+                cache_dir,
+                concurrency,
+                lambda outcome: dashboard.advance(
+                    outcome.bucket, outcome.text is not None
+                ),
+            )
+        )
 
 
 def synthetic_papers(
