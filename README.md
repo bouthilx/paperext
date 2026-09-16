@@ -84,13 +84,14 @@ the `openai` extra. Point it at the server and the model id as served:
 
 ```console
 export PAPEREXT_PLATFORM_SELECT=local
-export PAPEREXT_LOCAL_BASE_URL=http://host:8000/v1
+export PAPEREXT_LOCAL_BASE_URL=http://host:8888/v1
 export PAPEREXT_LOCAL_MODEL=<served model id>
+export LOCAL_API_KEY=...          # bearer token; any non-empty value if unchecked
 backend-check --platform local
 ```
 
-`[local] api_key` is a dummy (the SDK refuses an empty key; local servers
-ignore it unless started with `--api-key`). `[local] mode` selects how the
+Like `OPENAI_API_KEY`, `LOCAL_API_KEY` is listed under `[env]` and provided at
+runtime, never in the tracked config file. `[local] mode` selects how the
 structured output is requested: `tools` (one forced tool call -- the server
 must parse tool calls, e.g. vLLM `--enable-auto-tool-choice --tool-call-parser
 ...`) or `json_schema` (`response_format` structured outputs, the fallback when

@@ -1,4 +1,5 @@
 import logging
+import os
 from pathlib import Path
 
 import pytest
@@ -88,6 +89,23 @@ def test_config_env_vars(monkeypatch, caplog):
         "PAPEREXT_SECTION_NOOPT" in rec.message
         for rec in filter(lambda r: r.levelname == "WARNING", caplog.records)
     )
+
+
+def test_config_env_section_exports_only_set_values(monkeypatch):
+    """Empty [env] placeholders must not clobber shell-exported variables."""
+    monkeypatch.setenv("OPENAI_API_KEY", "from-shell")
+    monkeypatch.delenv("LOCAL_API_KEY", raising=False)
+    monkeypatch.setenv("PAPEREXT_ENV_OPENAI_ORG_ID", "org-from-paperext")
+
+    config = Config(str(CONFIG_FILE))
+    Config.apply_global_config(config)
+
+    # tests/config.ini: OPENAI_API_KEY = (empty) -> shell value survives
+    assert os.environ["OPENAI_API_KEY"] == "from-shell"
+    # empty and not exported in the shell -> stays unset
+    assert "LOCAL_API_KEY" not in os.environ
+    # non-empty (here via PAPEREXT_ENV_*) -> exported
+    assert os.environ["OPENAI_ORG_ID"] == "org-from-paperext"
 
 
 def test_config_dir_section_resolve():

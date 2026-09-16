@@ -164,7 +164,13 @@ def test_claude_smoke_check_uses_model_and_max_tokens():
 # --- Local backend (OpenAI-compatible server, e.g. vLLM) ---
 
 
-def test_local_backend_registered_and_config(cfg):
+@pytest.fixture
+def local_key(monkeypatch):
+    """Provide the bearer token the way deployments do: in the environment."""
+    monkeypatch.setenv("LOCAL_API_KEY", "local")
+
+
+def test_local_backend_registered_and_config(cfg, local_key):
     from paperext.backends.local import LocalBackend
 
     backend = get_backend("local")
@@ -174,6 +180,18 @@ def test_local_backend_registered_and_config(cfg):
     assert backend.model == cfg.local.model == "qwen-test"
     assert backend.base_url == "http://localhost:8000/v1"
     assert backend.api_key == "local"
+
+
+@pytest.mark.parametrize("value", [None, ""])
+def test_local_api_key_missing_raises_clear_error(monkeypatch, value):
+    # Like the other API backends, the key lives in the environment, never in
+    # the tracked config file. Empty counts as unset (the SDK rejects it too).
+    if value is None:
+        monkeypatch.delenv("LOCAL_API_KEY", raising=False)
+    else:
+        monkeypatch.setenv("LOCAL_API_KEY", value)
+    with pytest.raises(ValueError, match="LOCAL_API_KEY is not set"):
+        get_backend("local").api_key
 
 
 def test_local_backend_never_retries_rate_limits():
@@ -193,7 +211,7 @@ def test_local_normalize_usage_maps_to_canonical_schema():
     [("tools", "TOOLS"), ("json_schema", "JSON_SCHEMA")],
 )
 def test_local_make_client_targets_base_url_with_configured_mode(
-    cfg, monkeypatch, mode, expected
+    cfg, local_key, monkeypatch, mode, expected
 ):
     import asyncio
 
@@ -261,7 +279,7 @@ def test_local_smoke_check_uses_model_and_returns_reply(cfg):
     assert kwargs["model"] == "qwen-test"
 
 
-def test_local_smoke_check_default_client_targets_base_url(cfg, monkeypatch):
+def test_local_smoke_check_default_client_targets_base_url(cfg, local_key, monkeypatch):
     import openai
 
     captured: dict = {}

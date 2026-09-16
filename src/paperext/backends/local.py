@@ -11,8 +11,9 @@ Config section ``[local]``:
 
 * ``base_url`` -- server root including ``/v1``, e.g. ``http://host:8000/v1``.
 * ``model`` -- model id as served (``vllm serve <model> --served-model-name``).
-* ``api_key`` -- any non-empty string; the SDK refuses an empty key, and most
-  local servers ignore it (vLLM checks it only when started with ``--api-key``).
+* ``LOCAL_API_KEY`` (environment, listed under ``[env]`` like
+  ``OPENAI_API_KEY``) -- bearer token for the server / proxy. Required: the
+  SDK refuses an empty key. Servers that don't check it accept any value.
 * ``mode`` -- how instructor extracts the structured output:
   ``tools`` (default) sends the pydantic schema as a single forced tool call;
   ``json_schema`` sends it as ``response_format`` (structured outputs), the
@@ -21,6 +22,7 @@ Config section ``[local]``:
 
 from __future__ import annotations
 
+import os
 from typing import Any
 
 import instructor
@@ -28,6 +30,9 @@ import openai
 
 from paperext.backends import register
 from paperext.backends.base import Backend
+
+#: Environment variable holding the server's bearer token.
+API_KEY_ENV = "LOCAL_API_KEY"
 
 #: Config ``mode`` value -> instructor mode.
 MODES: dict[str, instructor.Mode] = {
@@ -49,7 +54,14 @@ class LocalBackend(Backend):
 
     @property
     def api_key(self) -> str:
-        return self.config.api_key
+        """Bearer token from ``$LOCAL_API_KEY``; empty/unset is an error."""
+        key = os.environ.get(API_KEY_ENV, "")
+        if not key:
+            raise ValueError(
+                f"{API_KEY_ENV} is not set; export it (or PAPEREXT_ENV_{API_KEY_ENV})"
+                f" -- any non-empty value if the server does not check it"
+            )
+        return key
 
     @property
     def mode(self) -> instructor.Mode:
