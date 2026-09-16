@@ -14,13 +14,18 @@
 
 ## Installation
 
+Requires Python >= 3.14 (`uv` installs it on demand; see `.python-version`).
+
 With [uv](https://docs.astral.sh/uv/) (recommended -- `uv.lock` pins the
 resolution):
 
 ```console
-uv sync --extra openai        # or --extra vertexai, or --all-extras
+uv sync --extra openai        # or --extra vertexai, --extra fulltext, or --all-extras
 uv run [command]
 ```
+
+The `fulltext` extra pulls in [paperoni](https://github.com/mila-iqia/paperoni)
+for PDF location/download (`download-convert`).
 
 Or with pip:
 
