@@ -415,9 +415,12 @@ def render_action_schema() -> str:
     lines.append(
         "Write your analysis in `reasoning` first -- what the evidence says the "
         "entity is, and why each candidate fits or does not -- then the actions. "
-        "Set `outcome` to `mapped` (surface added to an existing node), `created` "
-        "(node created and mapped), `abstained` (ambiguous -- no mapping), `no_op` "
-        "(already correct) or `failed`."
+        "Set `outcome` to `mapped` (you add the surface to an existing node), "
+        "`created` (you create the node and add the surface to it), `no_op` (the "
+        "surface already resolves to the right node -- even if you also fix that "
+        "node) or `abstained` (ambiguous -- no mapping). The outcome must match "
+        "your actions: `mapped` and `created` require an `add_surface` for this "
+        "surface; `no_op` and `abstained` forbid one."
     )
     return "\n".join(lines)
 

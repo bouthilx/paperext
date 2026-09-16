@@ -51,9 +51,14 @@ def _mapping(surface, canonical, **kwargs):
     )
 
 
-def _decide(*actions, surface="x", outcome=Outcome.MAPPED):
+def _decide(*actions, surface="x", outcome=None):
+    # outcome follows the actions unless a test pins it (#67)
+    decision = Decision.model_construct(surface=surface, actions=list(actions))
     return Decision(
-        surface=surface, outcome=outcome, confidence=0.9, actions=list(actions)
+        surface=surface,
+        outcome=outcome or decision.implied_outcome() or Outcome.NO_OP,
+        confidence=0.9,
+        actions=list(actions),
     )
 
 
@@ -121,7 +126,8 @@ def test_an_empty_decision_is_a_clean_no_op(tiny, tiny_cut):
         tiny, _decide(surface="ppo", outcome=Outcome.NO_OP), cut=tiny_cut
     )
     assert result.ok and result.diff.is_empty()
-    assert result.placement is None
+    # `ppo` is already mapped: a no-op still records where it sits (#67)
+    assert result.placement is not None and result.placement.node_id == "ppo"
     assert content_hash(tiny) == before
 
 

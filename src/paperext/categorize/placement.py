@@ -192,16 +192,16 @@ def resolve_placement(
     target is a node the same decision creates, the placement is computed from the
     ``create_node`` that creates it (which does not exist in *onto* yet).
 
-    ``None`` when the decision maps nothing — an abstention, a no-op, a failure, or
-    a decision made purely of in-flight fixes.
+    When no action maps the surface but *onto* already resolves it (a ``no_op`` on
+    an already-mapped name, #67), the placement is where it already sits. ``None``
+    only when the surface is mapped nowhere — an abstention, a failure, or a
+    decision made purely of in-flight fixes on an unmapped name.
     """
-    from paperext.categorize.actions import AddSurface, CreateNode, InsertAbove
+    from paperext.categorize.actions import CreateNode, InsertAbove
 
-    want = str_normalize(decision.surface)
-    target: str | None = None
-    for action in decision.actions:
-        if isinstance(action, AddSurface) and str_normalize(action.surface) == want:
-            target = action.canonical
+    target = decision.mapping_target()
+    if target is None:
+        target = onto.resolve(decision.surface)
     if target is None:
         return None
 

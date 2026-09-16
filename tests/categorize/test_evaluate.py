@@ -498,7 +498,7 @@ def test_mark_ignore_is_detected_from_either_signal(tiny, tiny_cut):
     marked = DecisionRecord(
         decision=Decision(
             surface="junk",
-            outcome=Outcome.MAPPED,
+            outcome=Outcome.NO_OP,
             confidence=0.9,
             actions=[MarkIgnore(node_id="junk", justification="j", confidence=0.9)],
         ),
@@ -509,7 +509,7 @@ def test_mark_ignore_is_detected_from_either_signal(tiny, tiny_cut):
     )
     assert evaluate.marked_ignore(marked)
     placed = DecisionRecord(
-        decision=Decision(surface="junk", outcome=Outcome.CREATED, confidence=0.9),
+        decision=Decision(surface="junk", outcome=Outcome.NO_OP, confidence=0.9),
         result=ApplyResult(ok=True, placement=to_placement(tiny, "junk", tiny_cut)),
         provenance=Provenance(
             run_id="r", seq=0, dimension="test", base_version="v0", base_content_hash=""
