@@ -18,16 +18,23 @@ SEARCH_ENDPOINT = "/api/v1/search"
 PAGE_SIZE = 200
 # `flags=valid` is the new equivalent of the old `validation=validated` filter.
 VALID_FLAG = "valid"
-# Venue types that do NOT count as peer-reviewed. A paper is counted for a year
-# when at least one of its releases *in that year* is in any other venue type.
-# This reproduces the old `peer-reviewed=True` server-side filter, which the new
-# API no longer exposes as a parameter.
+# A release counts as a publication when paperoni's own review classification
+# says so: `peer_review_status` is "peer-reviewed" or "workshop" (workshops are
+# peer-reviewed venues in this field, and a workshop version is a publication
+# in its own right -- the conference version that may follow is a different
+# paper-year), and the release was not withdrawn. This replaces the earlier
+# venue-type rule, which let preprint servers typed as journals (arXiv.org,
+# bioRxiv, medRxiv) and withdrawn submissions through.
 #
 # The check is window-specific on purpose: the same paper may be published
 # several times across years (workshop, then conference, then journal), and each
 # is a separate publication that should be counted in its own year. So a paper is
-# kept for a [start, end] window only if it has a peer-reviewed release *dated in
-# that window*, and it is counted at most once per window (de-dup by id).
+# kept for a [start, end] window only if it has such a release *dated in that
+# window*, and it is counted at most once per window (de-dup by id).
+PUBLICATION_REVIEW_STATUSES = {"peer-reviewed", "workshop"}
+WITHDRAWN = "withdrawn"
+# Venue types paperoni uses for preprint servers; kept for consumers that only
+# have the venue (download-convert's fallback venue choice for old reports).
 NON_PEER_REVIEWED_VENUES = {"preprint", "unknown"}
 
 
@@ -107,19 +114,26 @@ def _venue_date(venue: dict):
     return None
 
 
+def is_publication(release: dict) -> bool:
+    """Whether a paperoni release is a (peer-reviewed or workshop) publication."""
+    return (
+        release.get("peer_review_status") in PUBLICATION_REVIEW_STATUSES
+        and release.get("status") != WITHDRAWN
+    )
+
+
 def peer_reviewed_venue(paper: dict, start=None, end=None) -> dict | None:
-    """The venue of `paper`'s first peer-reviewed release dated within
+    """The venue of `paper`'s first publication release dated within
     [start, end], or None.
 
     `start`/`end` are `date` objects (or None for an open bound). A release
-    counts when its venue type is peer-reviewed (not preprint/unknown) and its
-    date falls inside the window.
+    counts when :func:`is_publication` holds and its venue date falls inside
+    the window.
     """
     for release in paper.get("releases") or []:
-        venue = release.get("venue") or {}
-        venue_type = venue.get("type")
-        if venue_type is None or venue_type in NON_PEER_REVIEWED_VENUES:
+        if not is_publication(release):
             continue
+        venue = release.get("venue") or {}
         released = _venue_date(venue)
         if released is None:
             continue

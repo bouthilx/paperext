@@ -238,6 +238,18 @@ def test_download_all_is_concurrent_and_reports_progress(
     assert ticks == ["unknown"] * 8  # one advance per finished paper, with its venue
 
 
+def test_download_all_delay_paces_starts(cfg: Config, fake_resolver, tmp_path):
+    papers = [
+        _paper(f"p{i}", [{"type": "arxiv.pdf", "link": f"1234.{i:05d}"}])
+        for i in range(4)
+    ]
+    started = time.monotonic()
+    outcomes = asyncio.run(dc.download_all(papers, tmp_path, concurrency=4, delay=0.05))
+    elapsed = time.monotonic() - started
+    assert all(o.text for o in outcomes)
+    assert elapsed >= 3 * 0.05  # starts are at least `delay` apart
+
+
 def test_download_existing_is_not_refetched(cfg: Config, fake_resolver, tmp_path):
     # tests/data/cache/arxiv/2304.07193.txt exists: utils.Paper finds it and no
     # download happens.

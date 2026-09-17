@@ -24,9 +24,13 @@ paperoni:
   #   scraperapi: _
   fetch:
     $class: RulesFetcher
-    # Concurrent requests per host pattern ("*" = default).
+    # Concurrent requests per hostname ("*" = default). OpenReview rate-limits
+    # per account and the fetcher does not back off on 429: keep it serial.
     simultaneous:
       "*": 3
+      api2.openreview.net: 1
+      api.openreview.net: 1
+      openreview.net: 1
     rules:
       "^https://export.arxiv.org/": standard
       "^https://api.crossref.org/": cached

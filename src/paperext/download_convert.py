@@ -14,7 +14,7 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any
 
-from paperext import CFG
+from paperext import CFG, fulltext
 from paperext.dashboard import Dashboard
 from paperext.log import logger
 from paperext.paperoni.report import NON_PEER_REVIEWED_VENUES, venue_name
@@ -244,13 +244,32 @@ async def download_all(
     cache_dir: Path,
     concurrency: int,
     advance: Callable[[Outcome], None] = lambda outcome: None,
+    delay: float = 0.0,
 ) -> list[Outcome]:
     """Download `papers` with at most `concurrency` in flight; `advance` is
-    called with each outcome as it finishes (dashboard hook)."""
+    called with each outcome as it finishes (dashboard hook).
+
+    `delay` is the minimum number of seconds between two papers *starting* a
+    download -- pacing for hosts with an hourly quota (OpenReview: 140/h on
+    the attachment endpoint, so `--concurrency 1 --delay 27` stays under it
+    without ever triggering the 429 retry cascade).
+    """
     semaphore = asyncio.Semaphore(concurrency)
+    pace = asyncio.Lock()
+    last_start = -delay
+
+    async def paced(paper: dict[str, Any]) -> Outcome:
+        nonlocal last_start
+        if delay:
+            async with pace:
+                wait = last_start + delay - asyncio.get_running_loop().time()
+                if wait > 0:
+                    await asyncio.sleep(wait)
+                last_start = asyncio.get_running_loop().time()
+        return await download_paper(paper, cache_dir, semaphore)
 
     async def one(paper: dict[str, Any]) -> Outcome:
-        outcome = await download_paper(paper, cache_dir, semaphore)
+        outcome = await paced(paper)
         advance(outcome)
         return outcome
 
@@ -268,7 +287,7 @@ def paperoni_config_file() -> Path:
 
 
 def run(
-    papers: list[dict[str, Any]], cache_dir: Path, concurrency: int
+    papers: list[dict[str, Any]], cache_dir: Path, concurrency: int, delay: float = 0.0
 ) -> list[Outcome]:
     """Download + convert `papers` under the paperoni config; synchronous entry."""
     try:
@@ -289,6 +308,7 @@ def run(
     # The dashboard (logs / stats / progress) draws on stderr when it is a
     # terminal, and in every case moves paperoni's stdout progress prints off
     # stdout so `download-convert ... > query_set.txt` stays a file list.
+    fulltext.install()
     with (
         gifnoc.use(str(config_file)),
         Dashboard(len(papers), "download-convert", key="venue") as dashboard,
@@ -301,6 +321,7 @@ def run(
                 lambda outcome: dashboard.advance(
                     outcome.venue, outcome.text is not None
                 ),
+                delay,
             )
         )
 
@@ -397,6 +418,15 @@ def main(argv: list[str] | None = None) -> None:
         "further capped by the paperoni config's fetch.simultaneous)",
     )
     parser.add_argument(
+        "--delay",
+        metavar="SECONDS",
+        type=float,
+        default=0.0,
+        help="Minimum seconds between two papers starting to download (pacing "
+        "for hourly quotas; OpenReview allows ~140 PDFs/hour: --concurrency 1 "
+        "--delay 27)",
+    )
+    parser.add_argument(
         "--report",
         metavar="JSON",
         type=Path,
@@ -410,7 +440,7 @@ def main(argv: list[str] | None = None) -> None:
     papers = json.loads(options.paperoni.read_text()) if options.paperoni else []
     papers += synthetic_papers(options.arxiv, options.url)
 
-    outcomes = run(papers, options.cache_dir, options.concurrency)
+    outcomes = run(papers, options.cache_dir, options.concurrency, options.delay)
 
     report = options.report or (
         _CFG.dir.log / f"download-convert_{datetime.now():%Y%m%d_%H%M%S}.json"
