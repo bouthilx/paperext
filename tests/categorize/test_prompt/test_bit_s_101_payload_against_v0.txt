@@ -484,7 +484,7 @@ Every branch of the tree, plus every node down to depth 2. Leaves deeper than th
 
 Each action names one `op` and its arguments. Node arguments must be node `id`s from this payload -- except ids you create earlier in the same decision, which later actions may reference.
 
-- `add_surface(surface, canonical, via=, flag=)` -- map the name onto an existing node. This is the primary action of a mapping decision; `flag` marks it for human review.
+- `add_surface(surface, canonical, via=, flag=)` -- map the name onto an existing node. This is the primary action of a mapping decision; `flag` marks it for human review. Surfaces are stored and compared *normalized* (lowercase, punctuation stripped): `ResNet-50` and `resnet50` are the same surface. If the candidate already lists the normalized form shown under `normalized:`, do not add it -- that is a `no_op`.
 - `create_node(node_id, name, parent=, description=, examples=)` -- the entity is real but no node means it. Give it the most specific correct parent, a long-form `name`, and a `description`.
 - `demote_to_variant(node_id, target_id)` [destructive] -- the node is only a spelling of another node, not a distinct entity. Model *variants* (v2, Large, -50, -B-16) are nodes, not spellings.
 - `insert_above(node_id, new_id, name, description=, examples=)` -- several existing nodes are siblings that need a shared parent concept that does not exist yet.

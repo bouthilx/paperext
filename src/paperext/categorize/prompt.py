@@ -63,7 +63,11 @@ MAX_QUOTE_CHARS = 400
 OP_GUIDANCE: "dict[str, str]" = {
     "add_surface": (
         "map the name onto an existing node. This is the primary action of a "
-        "mapping decision; `flag` marks it for human review."
+        "mapping decision; `flag` marks it for human review. Surfaces are stored "
+        "and compared *normalized* (lowercase, punctuation stripped): `ResNet-50` "
+        "and `resnet50` are the same surface. If the candidate already lists the "
+        "normalized form shown under `normalized:`, do not add it -- that is a "
+        "`no_op`."
     ),
     "create_node": (
         "the entity is real but no node means it. Give it the most specific "
