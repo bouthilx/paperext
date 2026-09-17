@@ -1,14 +1,17 @@
 """Placement: the one shared definition of "where did this name end up" (#51)."""
 
 import pytest
+from pydantic import ValidationError
 
 from paperext.categorize.actions import (
     AddSurface,
     CreateNode,
     Decision,
+    DemoteToVariant,
     InsertAbove,
     Move,
     Outcome,
+    Rename,
 )
 from paperext.categorize.placement import (
     load_dimension_cut,
@@ -145,12 +148,12 @@ def test_insert_above_creates_the_target_too(tiny, tiny_cut):
 
 
 def test_no_placement_when_nothing_is_mapped(tiny, tiny_cut):
-    """Abstentions, no-ops and pure in-flight fixes all place nothing."""
+    """Abstentions, no-ops and pure fixes on an *unmapped* name place nothing."""
     for decision in (
-        Decision(surface="sam", outcome=Outcome.ABSTAINED, confidence=0.2),
-        Decision(surface="ppo", outcome=Outcome.NO_OP, confidence=0.9),
+        Decision(surface="sam2", outcome=Outcome.ABSTAINED, confidence=0.2),
+        Decision(surface="BiT", outcome=Outcome.NO_OP, confidence=0.9),
         Decision(
-            surface="ppo",
+            surface="BiT",
             outcome=Outcome.NO_OP,
             confidence=0.9,
             actions=[
@@ -166,15 +169,94 @@ def test_no_placement_when_nothing_is_mapped(tiny, tiny_cut):
         assert resolve_placement(tiny, decision, tiny_cut) is None
 
 
+def test_an_already_mapped_name_is_placed_where_it_sits(tiny, tiny_cut):
+    """A ``no_op`` on a name the tree already has is a placement, not a blank (#67).
+
+    The 9-of-10 case from the first run over already-mapped items: the model adds
+    no duplicate surface, and the report still has to say where the name lives.
+    """
+    for decision in (
+        Decision(surface="ppo", outcome=Outcome.NO_OP, confidence=0.9),
+        Decision(
+            surface="ppo",
+            outcome=Outcome.NO_OP,
+            confidence=0.9,
+            actions=[
+                Rename(
+                    node_id="ppo", new_name="PPO!", justification="j", confidence=0.9
+                )
+            ],
+        ),
+    ):
+        placement = resolve_placement(tiny, decision, tiny_cut)
+        assert placement is not None and placement.node_id == "ppo"
+        assert placement.cut_category == "Other"
+    # ablated in the eval: the surface no longer resolves, so nothing is placed
+    tiny.remove_surface("ppo")
+    assert (
+        resolve_placement(
+            tiny,
+            Decision(surface="ppo", outcome=Outcome.NO_OP, confidence=0.9),
+            tiny_cut,
+        )
+        is None
+    )
+
+
 def test_a_surface_for_another_name_does_not_count_as_the_placement(tiny, tiny_cut):
     """Only the ``add_surface`` naming *this* decision's surface fixes the target."""
     decision = Decision(
         surface="BiT-S-101",
-        outcome=Outcome.MAPPED,
+        outcome=Outcome.NO_OP,
         confidence=0.6,
         actions=[_mapping("some other alias", "vit")],
     )
     assert resolve_placement(tiny, decision, tiny_cut) is None
+
+
+def test_outcome_must_match_the_actions(tiny):
+    """#67: the outcome is a claim about the actions, and the model gets told which."""
+    with pytest.raises(ValidationError, match="the outcome is 'no_op'"):
+        Decision(surface="ppo", outcome=Outcome.MAPPED, confidence=0.9)
+    with pytest.raises(ValidationError, match="make it 'created'"):
+        Decision(
+            surface="bit",
+            outcome=Outcome.MAPPED,
+            confidence=0.9,
+            actions=[
+                CreateNode(
+                    node_id="bit",
+                    name="BiT",
+                    parent="cnn",
+                    justification="j",
+                    confidence=0.9,
+                ),
+                _mapping("bit", "bit"),
+            ],
+        )
+    with pytest.raises(ValidationError, match="that is 'mapped'"):
+        Decision(
+            surface="bit",
+            outcome=Outcome.NO_OP,
+            confidence=0.9,
+            actions=[_mapping("bit", "vit")],
+        )
+    # a demote of the node the surface *is* maps it, without an add_surface
+    Decision(
+        surface="resnet50",
+        outcome=Outcome.MAPPED,
+        confidence=0.9,
+        actions=[
+            DemoteToVariant(
+                node_id="resnet50",
+                target_id="resnet",
+                justification="j",
+                confidence=0.9,
+            )
+        ],
+    )
+    # the runner's own label is not second-guessed
+    Decision(surface="x", outcome=Outcome.FAILED, confidence=0.0)
 
 
 # --------------------------------------------------------------------------- #

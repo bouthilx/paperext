@@ -38,7 +38,7 @@ from dataclasses import dataclass, field
 from enum import Enum
 from typing import Annotated, Any, Literal, Union, get_args
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, ValidationInfo, model_validator
 from pydantic.json_schema import (
     DEFAULT_REF_TEMPLATE,
     GenerateJsonSchema,
@@ -372,6 +372,72 @@ class Decision(StrictSchemaModel):
     actions: list[Action] = Field(
         default_factory=list, description="Edits to apply, in order"
     )
+
+    def mapping_target(self) -> str | None:
+        """The node id this decision's own surface ends up pointing at, if any.
+
+        The last ``add_surface`` naming the surface wins; a ``demote_to_variant``
+        of the node the surface *is* maps it too (the fold transfers the name).
+        ``None`` when no action maps the surface.
+        """
+        from paperext.analysis.rollup import str_normalize
+
+        want = str_normalize(self.surface)
+        target: str | None = None
+        for action in self.actions:
+            if isinstance(action, AddSurface) and str_normalize(action.surface) == want:
+                target = action.canonical
+            elif isinstance(action, DemoteToVariant) and action.node_id == want:
+                target = action.target_id
+        return target
+
+    def implied_outcome(self) -> Outcome | None:
+        """What the actions say happened to the surface: ``mapped``, ``created``,
+        or ``None`` when nothing maps it (a no-op, an abstention, or pure fixes)."""
+        target = self.mapping_target()
+        if target is None:
+            return None
+        created = {
+            a.node_id if isinstance(a, CreateNode) else a.new_id
+            for a in self.actions
+            if isinstance(a, (CreateNode, InsertAbove))
+        }
+        return Outcome.CREATED if target in created else Outcome.MAPPED
+
+    @model_validator(mode="after")
+    def _outcome_matches_actions(self, info: ValidationInfo) -> "Decision":
+        """``outcome`` is a claim about the actions; hold it to them (#67).
+
+        Left unchecked, a model that finds the surface already mapped says
+        ``mapped`` with no ``add_surface`` -- true in spirit, but then nothing
+        records where the name sits. ``instructor`` retries on this error, so the
+        message says which outcome the actions do support. ``failed`` is the
+        runner's own label and is not checked, and neither is a decision read
+        back from disk (``context={"recorded": True}``): the log says what the
+        run did, including runs from before this check.
+        """
+        if self.outcome == Outcome.FAILED or (info.context or {}).get("recorded"):
+            return self
+        implied = self.implied_outcome()
+        if self.outcome in (Outcome.MAPPED, Outcome.CREATED):
+            if implied is None:
+                raise ValueError(
+                    f"outcome '{self.outcome.value}' but no action maps the surface "
+                    f"{self.surface!r} (add_surface naming it; for 'created', "
+                    "pointing at a node this decision creates). If it already "
+                    "resolves to the right node, the outcome is 'no_op'"
+                )
+            if implied != self.outcome:
+                raise ValueError(
+                    f"outcome '{self.outcome.value}' but the actions make it "
+                    f"'{implied.value}': the surface points at {self.mapping_target()!r}"
+                )
+        elif implied is not None:
+            raise ValueError(
+                f"outcome '{self.outcome.value}' but an action maps the surface to "
+                f"{self.mapping_target()!r}; that is '{implied.value}'"
+            )
+        return self
 
 
 class ActionStatus(str, Enum):

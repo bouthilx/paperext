@@ -342,13 +342,18 @@ class DecisionLog:
         self.close()
 
 
+#: Validation context for decisions read back from a log: what a run did is a
+#: fact, so the outcome/actions consistency check (#67) does not apply.
+RECORDED: "dict[str, bool]" = {"recorded": True}
+
+
 def read_decisions(path: Union[str, Path]) -> Iterator[DecisionRecord]:
     """Stream ``decisions.jsonl`` back in, one record per line."""
     with Path(path).open(encoding="utf-8") as fh:
         for line in fh:
             line = line.strip()
             if line:
-                yield DecisionRecord.model_validate_json(line)
+                yield DecisionRecord.model_validate_json(line, context=RECORDED)
 
 
 # --------------------------------------------------------------------------- #
@@ -432,7 +437,7 @@ def _load_decisions(path: Path) -> "list[Decision]":
         payload = json.loads(line)
         if "decision" in payload:  # a DecisionRecord (replay)
             payload = payload["decision"]
-        decisions.append(Decision.model_validate(payload))
+        decisions.append(Decision.model_validate(payload, context=RECORDED))
     return decisions
 
 

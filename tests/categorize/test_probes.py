@@ -31,10 +31,12 @@ def record(decision, *, placement=None, ok=True):
     )
 
 
-def decision(*actions, outcome=Outcome.MAPPED, surface="x", **kwargs):
+def decision(*actions, outcome=None, surface="x", **kwargs):
+    # outcome follows the actions unless a test pins it (#67)
+    draft = Decision.model_construct(surface=surface, actions=list(actions))
     return Decision(
         surface=surface,
-        outcome=outcome,
+        outcome=outcome or draft.implied_outcome() or Outcome.NO_OP,
         confidence=0.9,
         actions=list(actions),
         **kwargs,
@@ -286,7 +288,7 @@ def test_youden_j_is_zero_for_always_abstain():
 
 def test_youden_j_is_one_for_a_discriminating_agent():
     abstains = [record(decision(outcome=Outcome.ABSTAINED, unresolved=["a", "b"]))] * 5
-    resolves = [record(decision(outcome=Outcome.MAPPED))] * 5
+    resolves = [record(decision(outcome=Outcome.NO_OP))] * 5
     assert probes.score_ambiguity(abstains, resolves)["youden_j"] == 1.0
 
 

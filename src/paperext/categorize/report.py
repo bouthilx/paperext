@@ -94,13 +94,22 @@ class Replay:
         self.after = copy_ontology(base)
         self.replayed: "list[bool]" = []
         self.failures: "dict[int, str]" = {}
+        #: Per record: the placement as computed *now* against the replayed tree
+        #: when the replay applied, else the recorded one. Same answer for a
+        #: faithful replay; the fresh one also fills in what an older runner left
+        #: blank (a no-op on an already-mapped name, #67).
+        self.placements: "list[Placement | None]" = []
         before = _snapshot(self.after)
         for index, record in enumerate(self.records):
             if not self._was_applied(record):
                 self.replayed.append(False)
+                self.placements.append(record.result.placement)
                 continue
             result = apply_decision(self.after, record.decision, cut=cut)
             self.replayed.append(result.ok)
+            self.placements.append(
+                result.placement if result.ok else record.result.placement
+            )
             if not result.ok:
                 self.failures[index] = result.error or "rejected"
         self.diff: DecisionDiff = diff_snapshots(before, _snapshot(self.after))
@@ -186,7 +195,7 @@ def decisions_table(replay: Replay) -> Table:
         table.add_column("review", ratio=3)  # the human's words: wrap, never clip
 
     for index, record in enumerate(replay.records, start=1):
-        decision, placement = record.decision, record.result.placement
+        decision, placement = record.decision, replay.placements[index - 1]
         landed = " > ".join(placement.ancestor_names) if placement else ""
         if decision.outcome is Outcome.ABSTAINED:
             landed = "abstained: " + "; ".join(decision.review_notes) or "abstained"
@@ -221,11 +230,8 @@ def fixes_lines(replay: Replay) -> "list[str]":
         fixes = _structural(record)
         if not fixes:
             continue
-        name = (
-            record.result.placement.name
-            if record.result.placement
-            else record.decision.surface
-        )
+        placement = replay.placements[index - 1]
+        name = placement.name if placement else record.decision.surface
         for fix in fixes:
             action = next(a for a in record.decision.actions if fix.startswith(a.op))
             lines.append(f"#{index} {name}: {fix}")
@@ -315,8 +321,7 @@ def cut_table(replay: Replay) -> Table:
 
     before, after = count_nodes(replay.base), count_nodes(replay.after)
     landed: "dict[str, int]" = {}
-    for record in replay.records:
-        placement = record.result.placement
+    for placement in replay.placements:
         if placement is None:
             continue
         key = _category_key(placement, cut)
