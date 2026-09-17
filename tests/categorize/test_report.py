@@ -205,3 +205,34 @@ def test_renaming_a_cut_node_relabels_its_row_instead_of_emptying_it(tiny, tiny_
     label = "Convolutional Neural Network (CNN)"
     assert rows[label] == ["2", "3", "5", "+2"]
     assert "(was: CNN)" in str(table.columns[0]._cells[list(rows).index(label)])
+
+
+def test_renaming_a_cut_node_is_called_out_as_a_label_change(tiny, tiny_cut):
+    """#68: a cut node's name is an E1 category label; the report says so."""
+    cut_rename = Rename(
+        node_id="cnn",
+        new_name="Convolutional Neural Network (CNN)",
+        evidence="Convolutional Neural Network",
+        justification="bare acronym",
+        confidence=0.9,
+    )
+    leaf_rename = Rename(
+        node_id="vit",
+        new_name="Vision Transformer (ViT)",
+        evidence="Vision Transformer",
+        justification="bare acronym",
+        confidence=0.9,
+    )
+    records = [
+        record(tiny, tiny_cut, created("bit", "bit", "BiT", "cnn", cut_rename), 0),
+        record(tiny, tiny_cut, created("vitl", "vitl", "ViT-L", "vit", leaf_rename), 1),
+    ]
+    replay = report.Replay(tiny, records, cut=tiny_cut)
+    lines = report.cut_label_lines(replay)
+    assert len(lines) == 1 and lines[0].startswith("#1 'CNN' -> 'Convolutional")
+    text = report.render(replay, width=140)
+    assert "cut labels renamed" in text
+    assert "from: 'Convolutional Neural Network'" in text  # evidence shown per fix
+    # a depth cut: labels are the nodes at or above the depth
+    assert report.cut_label_lines(report.Replay(tiny, records, cut=2)) == lines
+    assert report.cut_label_lines(report.Replay(tiny, records, cut=1)) == []

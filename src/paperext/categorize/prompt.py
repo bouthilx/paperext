@@ -30,12 +30,14 @@ A global cache would produce numbers that look fine and mean nothing;
 from __future__ import annotations
 
 import hashlib
+import re
+import unicodedata
 from typing import Any, Iterable, Sequence
 
 from pydantic import BaseModel, Field
 
 from paperext.analysis.rollup import str_normalize
-from paperext.categorize.actions import OPS
+from paperext.categorize.actions import OPS, Decision
 from paperext.categorize.candidates import (
     DEFAULT_LIMIT,
     DEFAULT_SKELETON_DEPTH,
@@ -78,8 +80,10 @@ OP_GUIDANCE: "dict[str, str]" = {
         "that does not exist yet."
     ),
     "rename": (
-        "the node's name is a bare acronym or a spelling variant. Rename to "
-        "`long form (acronym)`; identity is long form + acronym + description."
+        "the node's name is a bare acronym whose long form the evidence spells "
+        "out, or a casing/hyphenation slip. `evidence` is the payload text the new "
+        "name is copied from; a rename whose `evidence` is not in the payload, or "
+        "whose long form is not in `evidence`, is rejected."
     ),
     "update_description": (
         "the node has no description, or a wrong one. `v0` has none at all, so "
@@ -127,9 +131,13 @@ Rules, in order of precedence:
    belongs to. Only a different *spelling* of the same thing (`mobilenet-v2`,
    `MobileNet v2`) is a SURFACE. When in doubt: would a reader consider these two
    different models? Then they are nodes.
-4. FIX WHAT YOU SEE, in the same decision. If the node you are mapping onto is
-   named with a bare acronym, rename it. If it has no description, write one. If
-   it is misplaced, move it. Set a low `confidence` on any structural fix you are
+4. FIX WHAT YOU SEE, in the same decision. If the node has no description, write
+   one. If it is misplaced, move it. If its name is a bare acronym or initialism
+   (`bert`, `clip`, `lstm`) AND the evidence spells out the long form, rename it
+   to `long form (ACRONYM)` and quote that spelling in `evidence`. Never expand
+   from memory, never from a paper title, and never expand a conventional model
+   name -- `ResNet-50`, `GPT-4`, `U-Net`, `ChatGPT` are already the identity; at
+   most fix their casing. Set a low `confidence` on any structural fix you are
    not sure of; it will be reviewed rather than applied blindly.
 5. PREFER THE MOST SPECIFIC CORRECT PLACEMENT. Counting is hierarchical, so a node
    also counts toward every ancestor. Placing one level too high loses detail;
@@ -412,7 +420,11 @@ def render_action_schema() -> str:
     lines.append("")
     for op in sorted(OPS):
         spec = OPS[op]
-        args = list(spec.positional) + [f"{name}=" for name in spec.optional]
+        args = (
+            list(spec.positional)
+            + [f"{name}=" for name in spec.optional]
+            + list(spec.checked)
+        )
         marker = " [destructive]" if spec.dangerous else ""
         lines.append(f"- `{op}({', '.join(args)})`{marker} -- {OP_GUIDANCE[op]}")
     lines.append("")
@@ -564,6 +576,56 @@ def render_payload(payload: Payload) -> str:
         "there.",
     ]
     return "\n".join(lines)
+
+
+def _squash(text: str) -> str:
+    """Alphanumerics only, NFKC-folded and lowercased: containment that survives
+    hyphens vs. en-dashes, spacing and case, which is all a copied quote varies in."""
+    return "".join(
+        ch for ch in unicodedata.normalize("NFKC", text).lower() if ch.isalnum()
+    )
+
+
+def long_form(name: str) -> str:
+    """``Bidirectional Encoder ... (BERT)`` -> ``Bidirectional Encoder ...``."""
+    return re.sub(r"\s*\([^()]*\)\s*$", "", name).strip()
+
+
+def unattested_rename(
+    decision: Decision, payload_text: str
+) -> "tuple[int, str] | None":
+    """The first ``rename`` the payload does not support, as ``(index, error)``.
+
+    Rule 4 (#68): an expansion must be copied from the evidence, not recalled.
+    Mechanically: the rename's ``evidence`` must occur in the rendered payload, and
+    the new name's long form must occur in that evidence. ``None`` when every
+    rename is attested.
+    """
+    from paperext.categorize.actions import Rename
+
+    haystack = _squash(payload_text)
+    for index, action in enumerate(decision.actions):
+        if not isinstance(action, Rename):
+            continue
+        evidence = _squash(action.evidence)
+        if not evidence:
+            return index, (
+                f"rename({action.node_id!r}) has no `evidence`: quote the text in "
+                "the item's evidence the new name is copied from, or drop the rename"
+            )
+        if evidence not in haystack:
+            return index, (
+                f"rename({action.node_id!r}): `evidence` {action.evidence!r} does "
+                "not appear in the item's evidence; a long form must be copied from "
+                "a quote, abstract or alias shown above, never recalled"
+            )
+        if _squash(long_form(action.new_name)) not in evidence:
+            return index, (
+                f"rename({action.node_id!r}): the long form of {action.new_name!r} "
+                f"is not in `evidence` {action.evidence!r}; copy the spelling the "
+                "evidence uses, or drop the rename"
+            )
+    return None
 
 
 def build_messages(ctx: Context, payload: Payload) -> "list[dict[str, str]]":

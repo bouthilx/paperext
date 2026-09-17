@@ -322,3 +322,92 @@ def test_bit_s_101_payload_against_tiny(tiny, tiny_cut, bit, file_regression):
         f"===== {m['role']} =====\n{m['content']}" for m in build_messages(ctx, payload)
     )
     file_regression.check(rendered, extension=".txt")
+
+
+# --------------------------------------------------------------------------- #
+# Rule 4 renames must be copied from the evidence (#68)
+# --------------------------------------------------------------------------- #
+
+PAYLOAD_TEXT = (
+    "quote: We fine-tune BERT (Bidirectional Encoder Representations from "
+    "Transformers) and a ResNet-50 backbone; CLIP (Contrastive Language–Image "
+    "Pre-training) provides the text encoder."
+)
+
+
+def _rename(node_id, new_name, evidence=""):
+    from paperext.categorize.actions import Decision, Outcome, Rename
+
+    return Decision(
+        surface="x",
+        outcome=Outcome.NO_OP,
+        confidence=0.9,
+        actions=[
+            Rename(
+                node_id=node_id,
+                new_name=new_name,
+                evidence=evidence,
+                justification="j",
+                confidence=0.9,
+            )
+        ],
+    )
+
+
+def test_long_form_strips_the_trailing_acronym():
+    from paperext.categorize.prompt import long_form
+
+    assert long_form("Bidirectional Encoder (BERT)") == "Bidirectional Encoder"
+    assert long_form("U-Net") == "U-Net"
+    assert long_form("Generative Pre-trained Transformer 4 (GPT-4)") == (
+        "Generative Pre-trained Transformer 4"
+    )
+
+
+def test_attested_renames_pass():
+    from paperext.categorize.prompt import unattested_rename
+
+    ok = _rename(
+        "bert",
+        "Bidirectional Encoder Representations from Transformers (BERT)",
+        evidence="Bidirectional Encoder Representations from Transformers",
+    )
+    assert unattested_rename(ok, PAYLOAD_TEXT) is None
+    # hyphen vs en-dash, spacing and case do not matter: the quote was copied
+    dash = _rename(
+        "clip",
+        "Contrastive Language-Image Pre-Training (CLIP)",
+        evidence="contrastive language - image pre-training",
+    )
+    assert unattested_rename(dash, PAYLOAD_TEXT) is None
+    # a casing fix is a rename whose long form is the conventional name itself
+    casing = _rename("resnet50", "ResNet-50", evidence="ResNet-50")
+    assert unattested_rename(casing, PAYLOAD_TEXT) is None
+
+
+def test_unattested_renames_are_named_with_the_reason():
+    from paperext.categorize.prompt import unattested_rename
+
+    # the v3/v5 failure: an expansion from memory
+    recalled = _rename(
+        "resnet50", "Residual Network 50-layer (ResNet-50)", evidence="ResNet-50"
+    )
+    index, error = unattested_rename(recalled, PAYLOAD_TEXT)
+    assert index == 0 and "long form" in error and "ResNet-50" in error
+    # evidence that was never in the payload
+    invented = _rename(
+        "chatgpt",
+        "Chat Generative Pre-trained Transformer (ChatGPT)",
+        evidence="Chat Generative Pre-trained Transformer",
+    )
+    _, error = unattested_rename(invented, PAYLOAD_TEXT)
+    assert "does not appear" in error
+    # no evidence at all
+    _, error = unattested_rename(_rename("bert", "BERT (BERT)"), PAYLOAD_TEXT)
+    assert "no `evidence`" in error
+
+
+def test_the_schema_tells_the_model_about_evidence(tiny):
+    text = render_context(build_context(tiny, "test"))
+    assert "`rename(node_id, new_name, evidence)`" in text
+    assert "never from a paper title" in text

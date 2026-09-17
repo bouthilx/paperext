@@ -424,3 +424,92 @@ def test_selecting_only_unmapped_names(onto_root, tmp_path, monkeypatch):
         ]
     )
     assert len(client.calls) == 1  # "resnet" already resolves
+
+
+# -- rule 4: a rename must be copied from the evidence (#68) ------------------ #
+
+
+def _renaming(surface: str, canonical: str, new_name: str, evidence: str) -> Decision:
+    from paperext.categorize.actions import Rename
+
+    decision = mapping(surface, canonical)
+    return decision.model_copy(
+        update={
+            "actions": [
+                Rename(
+                    node_id=canonical,
+                    new_name=new_name,
+                    evidence=evidence,
+                    justification="bare acronym",
+                    confidence=0.9,
+                ),
+                *decision.actions,
+            ]
+        }
+    )
+
+
+def test_a_rename_not_in_the_evidence_is_rejected_and_repaired(
+    tiny, tiny_cut, provenance
+):
+    recalled = _renaming(
+        "resnet101", "resnet", "Residual Network (ResNet)", evidence="Residual Network"
+    )
+    client = stub_client(recalled, mapping("resnet101", "resnet"))
+    record = asyncio.run(
+        agent.decide_item(
+            client,
+            tiny,
+            build_context(tiny, "test"),
+            item("ResNet-101", "resnet101"),  # the quote says "We use ResNet-101."
+            cut=tiny_cut,
+            provenance=provenance,
+        )
+    )
+    assert record.result.ok
+    assert record.provenance.params["repairs"] == 1
+    assert tiny.name("resnet") == "ResNet"  # the recalled expansion never landed
+    last = client.calls[-1][-1]["content"]
+    assert "does not appear in the item's evidence" in last
+    assert "never recalled" in last
+
+
+def test_a_rename_copied_from_the_quote_is_applied(tiny, tiny_cut, provenance):
+    attested = _renaming("resnet101", "resnet", "ResNet-101", evidence="ResNet-101")
+    client = stub_client(attested)
+    record = asyncio.run(
+        agent.decide_item(
+            client,
+            tiny,
+            build_context(tiny, "test"),
+            item("ResNet-101", "resnet101"),
+            cut=tiny_cut,
+            provenance=provenance,
+        )
+    )
+    assert record.result.ok and record.provenance.params["repairs"] == 0
+    assert tiny.name("resnet") == "ResNet-101"
+
+
+def test_an_unattested_rename_that_never_repairs_is_recorded_as_such(
+    tiny, tiny_cut, provenance
+):
+    recalled = _renaming("resnet101", "resnet", "Residual Network (ResNet)", "")
+    client = stub_client(recalled)
+    record = asyncio.run(
+        agent.decide_item(
+            client,
+            tiny,
+            build_context(tiny, "test"),
+            item("ResNet-101", "resnet101"),
+            cut=tiny_cut,
+            provenance=provenance,
+            max_repairs=1,
+        )
+    )
+    assert not record.result.ok
+    assert record.result.error_type == "UnattestedRename"
+    assert record.result.failed_index == 0
+    assert record.result.actions[0].status is ActionStatus.REJECTED
+    assert record.result.actions[1].status is ActionStatus.SKIPPED
+    assert tiny.resolve("resnet101") is None  # nothing was applied

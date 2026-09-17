@@ -20,9 +20,13 @@ Rules, in order of precedence:
    belongs to. Only a different *spelling* of the same thing (`mobilenet-v2`,
    `MobileNet v2`) is a SURFACE. When in doubt: would a reader consider these two
    different models? Then they are nodes.
-4. FIX WHAT YOU SEE, in the same decision. If the node you are mapping onto is
-   named with a bare acronym, rename it. If it has no description, write one. If
-   it is misplaced, move it. Set a low `confidence` on any structural fix you are
+4. FIX WHAT YOU SEE, in the same decision. If the node has no description, write
+   one. If it is misplaced, move it. If its name is a bare acronym or initialism
+   (`bert`, `clip`, `lstm`) AND the evidence spells out the long form, rename it
+   to `long form (ACRONYM)` and quote that spelling in `evidence`. Never expand
+   from memory, never from a paper title, and never expand a conventional model
+   name -- `ResNet-50`, `GPT-4`, `U-Net`, `ChatGPT` are already the identity; at
+   most fix their casing. Set a low `confidence` on any structural fix you are
    not sure of; it will be reviewed rather than applied blindly.
 5. PREFER THE MOST SPECIFIC CORRECT PLACEMENT. Counting is hierarchical, so a node
    also counts toward every ancestor. Placing one level too high loses detail;
@@ -492,7 +496,7 @@ Each action names one `op` and its arguments. Node arguments must be node `id`s 
 - `move(node_id, new_parent)` -- the node sits under the wrong parent.
 - `remove_node(node_id)` [destructive] -- the node is a duplicate concept with nothing under it. Destructive: prefer `demote_to_variant`.
 - `remove_surface(surface)` -- a surface maps to the wrong node.
-- `rename(node_id, new_name)` -- the node's name is a bare acronym or a spelling variant. Rename to `long form (acronym)`; identity is long form + acronym + description.
+- `rename(node_id, new_name, evidence)` -- the node's name is a bare acronym whose long form the evidence spells out, or a casing/hyphenation slip. `evidence` is the payload text the new name is copied from; a rename whose `evidence` is not in the payload, or whose long form is not in `evidence`, is rejected.
 - `update_description(node_id, description)` -- the node has no description, or a wrong one. `v0` has none at all, so writing one for a node you had to reason about is expected.
 
 Write your analysis in `reasoning` first -- what the evidence says the entity is, and why each candidate fits or does not -- then the actions. Set `outcome` to `mapped` (you add the surface to an existing node), `created` (you create the node and add the surface to it), `no_op` (the surface already resolves to the right node -- even if you also fix that node) or `abstained` (ambiguous -- no mapping). The outcome must match your actions: `mapped` and `created` require an `add_surface` for this surface; `no_op` and `abstained` forbid one.

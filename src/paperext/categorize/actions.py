@@ -52,16 +52,19 @@ class OpSpec:
     """How one op maps onto an :class:`~paperext.ontology.Ontology` method.
 
     ``positional`` and ``optional`` name the action fields to pass through, in
-    order; ``noderefs`` are the arguments that must name an **existing** node and
-    ``creates`` the ones that must **not** (a fresh id). ``dangerous`` marks the
-    ops that can remove a node from the tree — #53's no-op control asserts none of
-    these fire outside the candidate set.
+    order; ``checked`` are fields the runner verifies but the method does not take
+    (rendered in the schema so the model fills them). ``noderefs`` are the
+    arguments that must name an **existing** node and ``creates`` the ones that
+    must **not** (a fresh id). ``dangerous`` marks the ops that can remove a node
+    from the tree — #53's no-op control asserts none of these fire outside the
+    candidate set.
     """
 
     op: str
     method: str
     positional: tuple[str, ...] = ()
     optional: tuple[str, ...] = ()
+    checked: tuple[str, ...] = ()
     noderefs: frozenset[str] = field(default_factory=frozenset)
     creates: frozenset[str] = field(default_factory=frozenset)
     dangerous: bool = False
@@ -84,6 +87,7 @@ OPS: dict[str, OpSpec] = {
             op="rename",
             method="rename",
             positional=("node_id", "new_name"),
+            checked=("evidence",),
             noderefs=frozenset({"node_id"}),
         ),
         OpSpec(
@@ -175,11 +179,22 @@ class CreateNode(_ActionBase):
 
 
 class Rename(_ActionBase):
-    """Change a node's display name (does not touch its surfaces)."""
+    """Change a node's display name (does not touch its surfaces).
+
+    ``evidence`` is what makes a rename checkable (#68): the runner rejects a
+    rename whose evidence is not in the payload, or whose new long form is not in
+    the evidence, so an expansion cannot come from memory. Defaults to empty only
+    so logs from before the field load; the model must fill it.
+    """
 
     op: Literal["rename"] = "rename"
     node_id: str
     new_name: str
+    evidence: str = Field(
+        default="",
+        description="The exact text in the item's evidence (a quote, abstract or "
+        "alias shown above) that the new name is copied from",
+    )
 
 
 class UpdateDescription(_ActionBase):

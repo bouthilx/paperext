@@ -38,7 +38,7 @@ from rich.table import Table
 from rich.tree import Tree
 
 from paperext.categorize.ablate import copy_ontology
-from paperext.categorize.actions import Outcome
+from paperext.categorize.actions import Outcome, Rename
 from paperext.categorize.apply import (
     DecisionDiff,
     DecisionRecord,
@@ -51,7 +51,14 @@ from paperext.categorize.apply import (
 from paperext.categorize.placement import Placement, load_dimension_cut, to_placement
 from paperext.categorize.review import Review, read_reviews
 from paperext.ontology.ontology import Ontology
-from paperext.ontology.rollup import OTHER, AnyCut, NodeCut, cut_node_of, resolve_cut
+from paperext.ontology.rollup import (
+    OTHER,
+    AnyCut,
+    NodeCut,
+    ResolvedCut,
+    cut_node_of,
+    resolve_cut,
+)
 
 PROG = "categorize-report"
 
@@ -89,7 +96,9 @@ class Replay:
     ) -> None:
         self.base = base
         self.records = list(records)
-        self.cut = cut
+        # resolved once against the base: a name cut re-resolved against the
+        # replayed tree would break the moment a decision renames a cut node
+        self.cut: ResolvedCut = resolve_cut(base, cut)
         self.reviews = {(r.run_id, r.seq): r for r in reviews}
         self.after = copy_ontology(base)
         self.replayed: "list[bool]" = []
@@ -105,7 +114,7 @@ class Replay:
                 self.replayed.append(False)
                 self.placements.append(record.result.placement)
                 continue
-            result = apply_decision(self.after, record.decision, cut=cut)
+            result = apply_decision(self.after, record.decision, cut=self.cut)
             self.replayed.append(result.ok)
             self.placements.append(
                 result.placement if result.ok else record.result.placement
@@ -140,7 +149,14 @@ def _structural(record: DecisionRecord) -> "list[str]":
             key: value
             for key, value in action.model_dump().items()
             if key
-            not in {"op", "justification", "confidence", "description", "examples"}
+            not in {
+                "op",
+                "justification",
+                "confidence",
+                "description",
+                "examples",
+                "evidence",
+            }
         }
         out.append(f"{action.op}({', '.join(f'{k}={v!r}' for k, v in args.items())})")
     return out
@@ -238,6 +254,12 @@ def fixes_lines(replay: Replay) -> "list[str]":
             lines.append(
                 f"      because: {action.justification}  [{action.confidence:.2f}]"
             )
+            if isinstance(action, Rename):
+                lines.append(
+                    f"      from: {action.evidence!r}"
+                    if action.evidence
+                    else "      from: (no evidence -- pre-#68 record)"
+                )
     return lines or ["(none)"]
 
 
@@ -293,6 +315,29 @@ def _category_key(placement: Placement, cut: AnyCut) -> str:
     if isinstance(cut, NodeCut):
         return cut_node_of(placement.ancestor_path, cut) or OTHER
     return placement.cut_category
+
+
+def cut_label_lines(replay: Replay) -> "list[str]":
+    """Renames of cut nodes: each one is a category label in the E1 tables (#68)."""
+    cut = resolve_cut(replay.base, replay.cut)
+    lines: "list[str]" = []
+    for index, record in enumerate(replay.records, start=1):
+        if not replay.replayed[index - 1]:
+            continue
+        for action in record.decision.actions:
+            if not isinstance(action, Rename) or action.node_id not in replay.base:
+                continue
+            is_label = (
+                action.node_id in cut.ids
+                if isinstance(cut, NodeCut)
+                else to_placement(replay.base, action.node_id, cut).depth <= cut
+            )
+            if is_label:
+                lines.append(
+                    f"#{index} {replay.base.name(action.node_id)!r} -> "
+                    f"{action.new_name!r}  [dim]{action.node_id}[/]"
+                )
+    return lines
 
 
 def cut_table(replay: Replay) -> Table:
@@ -364,6 +409,12 @@ def render(replay: Replay, *, width: "int | None" = None) -> str:
     console.print()
     console.print(tree_diff(replay))
     console.print()
+    labels = cut_label_lines(replay)
+    if labels:
+        console.print("[bold]cut labels renamed[/]  (these are E1 category labels)")
+        for line in labels:
+            console.print("  " + line, highlight=False)
+        console.print()
     console.print(cut_table(replay))
     if replay.diff.surfaces_added:
         console.print()
