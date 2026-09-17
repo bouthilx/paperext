@@ -86,7 +86,7 @@ from paperext.categorize.prompt import (
 )
 from paperext.categorize.sampling import SplitItem, Splits, stratum_of
 from paperext.ontology.ontology import Ontology
-from paperext.ontology.rollup import AnyCut
+from paperext.ontology.rollup import AnyCut, resolve_cut
 
 logger = logging.getLogger(__name__)
 
@@ -543,6 +543,7 @@ def sequential_replay(
     """
     from paperext.categorize.ablate import copy_ontology
 
+    cut = resolve_cut(onto, cut)  # once, before any decision can rename a cut node
     scratch = copy_ontology(onto)
     for surface in surfaces:
         # every held-out name is hidden *first*, so the pass re-maps them all

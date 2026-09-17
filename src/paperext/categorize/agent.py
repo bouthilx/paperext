@@ -45,7 +45,12 @@ from typing import Any, Callable, Sequence
 
 import instructor
 
-from paperext.categorize.actions import Decision, Provenance
+from paperext.categorize.actions import (
+    ActionStatus,
+    AppliedAction,
+    Decision,
+    Provenance,
+)
 from paperext.categorize.apply import (
     DECISIONS_FILE,
     ApplyResult,
@@ -78,10 +83,12 @@ from paperext.categorize.prompt import (
     payload_hash,
     render_context,
     render_payload,
+    unattested_rename,
 )
 from paperext.categorize.review import Reviewer
 from paperext.log import logger
 from paperext.ontology.ontology import Ontology
+from paperext.ontology.rollup import resolve_cut
 
 PROG = "categorize"
 
@@ -214,6 +221,7 @@ async def decide_item(
         update={"payload_hash": payload_hash(ctx, payload)}
     )
     messages = build_messages(ctx, payload)
+    payload_text = render_payload(payload)  # what a rename's `evidence` must quote
     usage_total: "dict[str, Any]" = {}
 
     for attempt in range(max_repairs + 1):
@@ -221,7 +229,31 @@ async def decide_item(
             client, messages, rate_limit_errors=rate_limit_errors
         )
         _accumulate(usage_total, usage)
-        result = apply_decision(onto, decision, cut=cut, dry_run=not apply)
+        unattested = unattested_rename(decision, payload_text)
+        if unattested is not None:  # policy rejection, same repair path (#68)
+            index, error = unattested
+            result = ApplyResult(
+                ok=False,
+                dry_run=not apply,
+                error=error,
+                error_type="UnattestedRename",
+                failed_index=index,
+                actions=[
+                    AppliedAction(
+                        index=i,
+                        op=a.op,
+                        status=(
+                            ActionStatus.REJECTED
+                            if i == index
+                            else ActionStatus.SKIPPED
+                        ),
+                        error=error if i == index else None,
+                    )
+                    for i, a in enumerate(decision.actions)
+                ],
+            )
+        else:
+            result = apply_decision(onto, decision, cut=cut, dry_run=not apply)
 
         if result.ok or attempt == max_repairs:
             params = dict(provenance.params)
@@ -278,6 +310,7 @@ async def run(
     what has been decided so far.
     """
     run_id = run_id or uuid.uuid4().hex[:12]
+    cut = resolve_cut(onto, cut)  # once, before any decision can rename a cut node
     records: "list[DecisionRecord]" = []
     if reviewer is not None:
         concurrency = 1
