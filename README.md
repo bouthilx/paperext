@@ -168,6 +168,54 @@ download drop-out can be quantified per publisher. Re-runs are cheap: papers
 with an existing text are skipped, and paperoni keeps its own PDF cache under
 `data_path` (see the config).
 
+### paperoni-enrich
+
+Stamps, in place, what the extraction tiers below the fulltext need (#72):
+an `abstract` for papers whose record has none, and an OpenAlex research
+classification for every paper.
+
+```console
+usage: paperoni-enrich [-h] [--output JSON] [--cache-dir DIR] [--mailto EMAIL]
+                       [--refresh] [--report JSON] JSON
+
+positional arguments:
+  JSON             paperoni-report output to enrich
+
+options:
+  --output JSON    Where to write the enriched list (default: in place)
+  --cache-dir DIR  Responses are cached under DIR/enrich (default: the config's cache)
+  --mailto EMAIL   Contact for OpenAlex's polite pool (default: the paperoni config's mailto)
+  --refresh        Ignore cached responses and query the services again
+  --report JSON    Per-paper report (keys tried, OpenAlex id, topic, abstract source)
+
+Example:
+  $ PAPEREXT_LOGGING_LEVEL=INFO paperoni-enrich data/paperoni-2026-01-01-2026-02-01-PR_2026-09-16.json --report logs/enrich-2026.json
+    ...
+    Abstracts: 22/45 before, 42/45 after (openalex:20)
+    OpenAlex topics: 42/45
+```
+
+Each paper is looked up on OpenAlex by publisher DOI, OpenAlex id
+(`openalex` links, `info.discovered_by.openalex`) or arXiv id, in that order,
+and gets:
+
+- `openalex`: `{id, domain, field, subfield, topic, is_oa, keywords, concepts}`
+  from the work's `primary_topic` (OpenAlex's hierarchy, e.g. *Health Sciences
+  > Medicine > Oncology > ...*), `open_access` and keyword / concept lists.
+  When the first work found has no topic yet (a freshly indexed publisher
+  version), the paper's other handles -- typically its preprint -- fill it in.
+- `abstract` when missing, rebuilt from OpenAlex's `abstract_inverted_index`,
+  else from Semantic Scholar, else from the arXiv API; `abstract_source` says
+  which (`paperoni` for abstracts the record already had).
+
+Every response (200 or 404) is cached under `<cache>/enrich/<service>/`, so a
+rerun is offline, an interrupted run resumes, and a paper that already has
+both an abstract and a topic is not looked up again. Requests are paced per
+service (OpenAlex 0.1 s, Semantic Scholar and arXiv 3 s); a service that keeps
+answering 429 is skipped for a minute rather than stalling the run. The same
+dashboard as `download-convert` shows progress (hit = the paper has an
+abstract), and the run ends with the coverage summary above.
+
 ### query
 
 An OpenAI API Key is required to run this utility:
