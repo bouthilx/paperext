@@ -141,6 +141,9 @@ options:
   --cache-dir DIR   Directory to store downloaded and converted pdfs -> txts
   --concurrency N   Papers downloaded in parallel (default 8; requests to one host
                     are further capped by the paperoni config's fetch.simultaneous)
+  --delay SECONDS   Minimum seconds between two papers starting to download (pacing
+                    for hourly quotas; OpenReview allows ~140 PDFs/hour:
+                    --concurrency 1 --delay 27)
   --report JSON     Per-paper outcome report (default: logs/download-convert_<timestamp>.json)
 
 Example:
