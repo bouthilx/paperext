@@ -1003,19 +1003,23 @@ def evaluate_gate(
             ),
         )
         add("2b. Cohen kappa", report.agreement.get("cohen_kappa", float("nan")), 0.55)
+        # Re-registered on #44 (2026-09-17) *before* any gate run: the original
+        # 0.60 was already cleared by the free Levenshtein baseline (0.653 on dev),
+        # so a string matcher passed it. Same shape as 2a: beat the baseline by
+        # a margin, never less than the original bar.
+        macro_floor = (
+            max(0.60, baseline_macro + 0.10)
+            if baseline_macro == baseline_macro
+            else 0.60
+        )
         add(
             "2c. macro-recall (non-Other)",
             report.agreement.get("macro_recall", float("nan")),
-            0.60,
-            # The 0.60 threshold is the pre-registered one, kept as written. It is
-            # printed next to the Levenshtein baseline because on dev that free
-            # baseline already scores 0.653: a clause a string matcher passes is
-            # not discriminating, and this is what makes that visible instead of
-            # quietly reassuring.
+            macro_floor,
             note=(
-                f"levenshtein baseline scores {baseline_macro:.3f} here"
+                f"floor = max(0.60, levenshtein {baseline_macro:.3f} + 0.10)"
                 if baseline_macro == baseline_macro
-                else ""
+                else "floor = 0.60 (baseline not measured)"
             ),
         )
         add("2d. Spearman rho", report.distribution.get("spearman", float("nan")), 0.90)
