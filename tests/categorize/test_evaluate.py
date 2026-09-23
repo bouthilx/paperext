@@ -662,6 +662,37 @@ def test_judge_guardrail_is_a_gate_clause(tiny, tiny_cut, split_items):
     assert clause.passed
 
 
+def test_macro_recall_floor_tracks_the_levenshtein_baseline(
+    tiny, tiny_cut, split_items
+):
+    """Clause 2c re-registered on #44 before the gate run: a string matcher must
+    not be able to pass it, so the floor rides 0.10 above the free baseline."""
+    report = build(
+        tiny,
+        tiny_cut,
+        split_items,
+        [recorded("resnet50", "r50", "ResNet-50", "resnet")],
+    )
+    report.agreement = {
+        "macro_recall": 0.70,
+        "levenshtein_baseline": {"macro_recall": 0.653},
+    }
+    clause = [c for c in evaluate.evaluate_gate(report) if c.name.startswith("2c")][0]
+    assert clause.threshold == pytest.approx(0.753) and not clause.passed
+    assert "0.653 + 0.10" in clause.note
+    # a weak baseline never lowers the bar below the original 0.60
+    report.agreement = {
+        "macro_recall": 0.61,
+        "levenshtein_baseline": {"macro_recall": 0.30},
+    }
+    clause = [c for c in evaluate.evaluate_gate(report) if c.name.startswith("2c")][0]
+    assert clause.threshold == 0.60 and clause.passed
+    # no baseline measured: the original bar, said so
+    report.agreement = {"macro_recall": 0.61}
+    clause = [c for c in evaluate.evaluate_gate(report) if c.name.startswith("2c")][0]
+    assert clause.threshold == 0.60 and "not measured" in clause.note
+
+
 # --------------------------------------------------------------------------- #
 # Resuming a run that died half-way
 # --------------------------------------------------------------------------- #
