@@ -60,6 +60,16 @@ STRUCTURED_OUTPUTS = "json_schema"
 #: Beta flag the ``output_config`` schema enforcement is behind.
 STRUCTURED_OUTPUTS_BETA = "structured-outputs-2025-11-13"
 
+#: Server-side refusal fallbacks. Opus 5.5 runs broader safety classifiers than
+#: Opus 5 and declines some papers outright -- observed on a biology paper:
+#: `stop_reason: refusal`, `category='bio'`. Pulling model and dataset names out
+#: of a published paper is what the fallback is for: the API re-runs the request
+#: on another model inside the same call, billed at that model's rates, instead
+#: of handing back nothing. "default" lets the API route by refusal category
+#: rather than us pinning a model list.
+FALLBACKS_BETA = "server-side-fallback-2026-07-01"
+FALLBACKS = "default"
+
 MODES = tuple(INSTRUCTOR_MODES) + (STRUCTURED_OUTPUTS,)
 
 #: Default when the config section has no ``mode`` (every existing config).
@@ -113,7 +123,8 @@ def structured_outputs_client(client: Any) -> Any:
         response = await client.beta.messages.create(
             model=model,
             max_tokens=max_tokens,
-            betas=[STRUCTURED_OUTPUTS_BETA],
+            betas=[STRUCTURED_OUTPUTS_BETA, FALLBACKS_BETA],
+            fallbacks=FALLBACKS,
             output_config={
                 "format": {
                     "type": "json_schema",
@@ -131,6 +142,7 @@ def structured_outputs_client(client: Any) -> Any:
                 "(paperext.backends.anthropic.DEFAULT_MAX_TOKENS)"
             )
         if response.stop_reason == "refusal":
+            # every model in the fallback chain declined
             raise ValueError(
                 f"model refused: {getattr(response, 'stop_details', None)}"
             )

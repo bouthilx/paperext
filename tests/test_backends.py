@@ -285,6 +285,8 @@ def test_structured_outputs_client_sends_a_closed_schema_and_parses_the_reply():
     from pydantic import BaseModel
 
     from paperext.backends.anthropic import (
+        FALLBACKS,
+        FALLBACKS_BETA,
         STRUCTURED_OUTPUTS_BETA,
         structured_outputs_client,
     )
@@ -322,7 +324,10 @@ def test_structured_outputs_client_sends_a_closed_schema_and_parses_the_reply():
     assert captured["messages"] == [{"role": "user", "content": "hi"}]
     assert captured["max_tokens"] == 99
     assert "max_retries" not in captured
-    assert captured["betas"] == [STRUCTURED_OUTPUTS_BETA]
+    # a refused paper is re-run on another model rather than lost: Opus 5.5
+    # declines some biology papers outright (category 'bio')
+    assert captured["betas"] == [STRUCTURED_OUTPUTS_BETA, FALLBACKS_BETA]
+    assert captured["fallbacks"] == FALLBACKS
     schema = captured["output_config"]["format"]["schema"]
     assert captured["output_config"]["format"]["type"] == "json_schema"
     assert schema["additionalProperties"] is False
