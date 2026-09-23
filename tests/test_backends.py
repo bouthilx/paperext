@@ -240,6 +240,150 @@ def test_anthropic_backend_mode_selects_instructor_mode(cfg, monkeypatch, cloud_
         backend.mode
 
 
+def test_strict_schema_closes_every_object():
+    """Structured outputs 400 unless each object is closed and fully required."""
+    from paperext.backends.anthropic import strict_schema
+
+    schema = strict_schema(
+        {
+            "type": "object",
+            "properties": {
+                "a": {"type": "string"},
+                "b": {"$ref": "#/$defs/Inner"},
+                "c": {"type": "array", "items": {"$ref": "#/$defs/Inner"}},
+            },
+            "required": ["a"],
+            "$defs": {
+                "Inner": {
+                    "type": "object",
+                    "properties": {"x": {"type": "integer"}},
+                }
+            },
+        }
+    )
+
+    assert schema["additionalProperties"] is False
+    assert schema["required"] == ["a", "b", "c"]  # every property, not just "a"
+    inner = schema["$defs"]["Inner"]
+    assert inner["additionalProperties"] is False and inner["required"] == ["x"]
+    # non-objects are untouched
+    assert schema["properties"]["a"] == {"type": "string"}
+
+
+def _structured_response(text="{}", stop_reason="end_turn", **extra):
+    return MagicMock(
+        content=[MagicMock(type="text", text=text)],
+        usage=MagicMock(input_tokens=1, output_tokens=2),
+        stop_reason=stop_reason,
+        **extra,
+    )
+
+
+def test_structured_outputs_client_sends_a_closed_schema_and_parses_the_reply():
+    import asyncio
+
+    from pydantic import BaseModel
+
+    from paperext.backends.anthropic import (
+        STRUCTURED_OUTPUTS_BETA,
+        structured_outputs_client,
+    )
+
+    class Answer(BaseModel):
+        value: str
+
+    captured: dict = {}
+
+    async def create(**kwargs):
+        captured.update(kwargs)
+        return _structured_response('{"value": "ok"}')
+
+    sdk = MagicMock()
+    sdk.beta.messages.create = create
+
+    client = structured_outputs_client(sdk)
+    parsed, raw = asyncio.run(
+        client.chat.completions.create_with_completion(
+            response_model=Answer,
+            model="claude-opus-5-5",
+            max_tokens=99,
+            max_retries=2,  # instructor's; meaningless on this path
+            messages=[
+                {"role": "system", "content": "sys"},
+                {"role": "user", "content": "hi"},
+            ],
+        )
+    )
+
+    assert parsed == Answer(value="ok")
+    assert raw.usage.input_tokens == 1
+    # the system prompt is lifted out of the messages, as Claude wants it
+    assert captured["system"] == "sys"
+    assert captured["messages"] == [{"role": "user", "content": "hi"}]
+    assert captured["max_tokens"] == 99
+    assert "max_retries" not in captured
+    assert captured["betas"] == [STRUCTURED_OUTPUTS_BETA]
+    schema = captured["output_config"]["format"]["schema"]
+    assert captured["output_config"]["format"]["type"] == "json_schema"
+    assert schema["additionalProperties"] is False
+
+
+def test_structured_outputs_client_explains_a_useless_response():
+    import asyncio
+
+    from pydantic import BaseModel
+
+    from paperext.backends.anthropic import structured_outputs_client
+
+    class Answer(BaseModel):
+        value: str
+
+    def client_returning(response):
+        sdk = MagicMock()
+
+        async def create(**kwargs):
+            return response
+
+        sdk.beta.messages.create = create
+        return structured_outputs_client(sdk)
+
+    def call(response):
+        client = client_returning(response)
+        return asyncio.run(
+            client.chat.completions.create_with_completion(
+                response_model=Answer,
+                model="m",
+                messages=[{"role": "user", "content": "hi"}],
+            )
+        )
+
+    with pytest.raises(ValueError, match="truncated at max_tokens"):
+        call(_structured_response(stop_reason="max_tokens"))
+
+    with pytest.raises(ValueError, match="refused"):
+        call(_structured_response(stop_reason="refusal"))
+
+    thinking_only = MagicMock(
+        content=[MagicMock(type="thinking", thinking="hmm")], stop_reason="end_turn"
+    )
+    with pytest.raises(ValueError, match="no text block"):
+        call(thinking_only)
+
+
+def test_anthropic_json_schema_mode_builds_the_structured_outputs_client(
+    cfg, monkeypatch, cloud_keys
+):
+    import anthropic
+
+    monkeypatch.setattr(anthropic, "AsyncAnthropic", lambda **k: MagicMock())
+    backend = get_backend("anthropic")
+
+    cfg.anthropic.mode = "json_schema"
+    assert backend.mode is None  # not an instructor mode: we drive this one
+    client = backend.build_client()
+    assert hasattr(client.chat.completions, "create_with_completion")
+
+
 def test_anthropic_backend_mode_defaults_without_the_option(cfg, monkeypatch):
     # Configs written before the option existed keep the previous behaviour.
     import instructor

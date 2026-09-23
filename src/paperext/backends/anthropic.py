@@ -18,6 +18,7 @@ so the request wrapping, usage normalization and smoke check live here in
 
 from __future__ import annotations
 
+from types import SimpleNamespace
 from typing import Any
 
 import anthropic
@@ -42,22 +43,111 @@ DEFAULT_MAX_TOKENS = 32768
 # clients below set one: a long extraction is slow, not hung.
 REQUEST_TIMEOUT = 60 * 60
 
-#: Config ``mode`` value -> instructor mode.
-#:
-#: No ``json_schema`` entry: instructor's Anthropic structured-outputs handler
-#: probes for a ``Messages.create(output_format=...)`` parameter, which the SDK
-#: renamed to ``output_config`` (anthropic 1.6.0). The probe fails, the handler
-#: silently falls back to prompt instructions, and its parser then demands a
-#: text block the model never produced -- "No text content found in structured
-#: output response". Native structured outputs need a direct SDK call, not
-#: instructor, until it catches up.
-MODES: dict[str, instructor.Mode] = {
+#: Config ``mode`` value -> instructor mode, for the modes instructor drives.
+INSTRUCTOR_MODES: dict[str, instructor.Mode] = {
     "tools": instructor.Mode.ANTHROPIC_TOOLS,
     "json": instructor.Mode.ANTHROPIC_JSON,
 }
 
+#: The mode this module drives itself, through the SDK. instructor cannot: its
+#: Anthropic structured-outputs handler probes for a
+#: ``Messages.create(output_format=...)`` parameter the SDK renamed to
+#: ``output_config`` (anthropic 1.6.0), so the probe fails, the handler falls
+#: back to prompt instructions without saying so, and its parser then demands a
+#: text block that never arrives.
+STRUCTURED_OUTPUTS = "json_schema"
+
+#: Beta flag the ``output_config`` schema enforcement is behind.
+STRUCTURED_OUTPUTS_BETA = "structured-outputs-2025-11-13"
+
+MODES = tuple(INSTRUCTOR_MODES) + (STRUCTURED_OUTPUTS,)
+
 #: Default when the config section has no ``mode`` (every existing config).
 DEFAULT_MODE = "tools"
+
+
+def strict_schema(node: Any) -> Any:
+    """A pydantic JSON schema closed the way structured outputs require.
+
+    Every object must set ``additionalProperties: false`` and list all of its
+    properties as required, or the API answers 400.
+    """
+    if isinstance(node, list):
+        return [strict_schema(child) for child in node]
+    if not isinstance(node, dict):
+        return node
+    node = {key: strict_schema(value) for key, value in node.items()}
+    if node.get("type") == "object" or "properties" in node:
+        node["additionalProperties"] = False
+        if node.get("properties"):
+            node["required"] = list(node["properties"])
+    return node
+
+
+def structured_outputs_client(client: Any) -> Any:
+    """An instructor-shaped client that uses the API's own schema enforcement.
+
+    Exposes the one method the pipeline calls --
+    ``chat.completions.create_with_completion`` -- so
+    :meth:`Backend.instrument` wraps it like any instructor client. The schema
+    goes in ``output_config`` and the API enforces it, so the reply is JSON,
+    not prose with JSON in it. Models that reject forced tool use (Opus 5.5,
+    the Fable line) need this path.
+    """
+
+    async def create_with_completion(
+        *,
+        response_model: Any,
+        messages: list[dict[str, Any]],
+        model: str,
+        max_tokens: int = DEFAULT_MAX_TOKENS,
+        **kwargs: Any,
+    ) -> tuple[Any, Any]:
+        # Claude takes the system prompt top-level, not as a message.
+        system = "\n\n".join(
+            str(m["content"]) for m in messages if m["role"] == "system"
+        )
+        conversation = [m for m in messages if m["role"] != "system"]
+        kwargs.pop("max_retries", None)  # instructor's, meaningless here
+
+        response = await client.beta.messages.create(
+            model=model,
+            max_tokens=max_tokens,
+            betas=[STRUCTURED_OUTPUTS_BETA],
+            output_config={
+                "format": {
+                    "type": "json_schema",
+                    "schema": strict_schema(response_model.model_json_schema()),
+                }
+            },
+            **({"system": system} if system else {}),
+            messages=conversation,
+            **kwargs,
+        )
+
+        if response.stop_reason == "max_tokens":
+            raise ValueError(
+                f"output truncated at max_tokens={max_tokens}; raise it "
+                "(paperext.backends.anthropic.DEFAULT_MAX_TOKENS)"
+            )
+        if response.stop_reason == "refusal":
+            raise ValueError(
+                f"model refused: {getattr(response, 'stop_details', None)}"
+            )
+        text = next(
+            (b.text for b in response.content if getattr(b, "type", None) == "text"),
+            None,
+        )
+        if text is None:
+            blocks = [getattr(b, "type", "?") for b in response.content]
+            raise ValueError(f"no text block in the response (blocks: {blocks})")
+        return response_model.model_validate_json(text), response
+
+    return SimpleNamespace(
+        chat=SimpleNamespace(
+            completions=SimpleNamespace(create_with_completion=create_with_completion)
+        )
+    )
 
 
 class AnthropicBase(Backend):
@@ -77,21 +167,28 @@ class AnthropicBase(Backend):
     request_defaults = {"max_tokens": DEFAULT_MAX_TOKENS}
 
     @property
-    def mode(self) -> instructor.Mode:
-        """instructor mode selected by ``mode`` in this backend's section."""
+    def mode_name(self) -> str:
+        """``mode`` from this backend's config section, validated."""
         try:  # Config raises KeyError for a missing option, so no getattr default
             raw = self.config.mode or DEFAULT_MODE
         except KeyError:
             raw = DEFAULT_MODE
-        try:
-            return MODES[raw]
-        except KeyError:
+        if raw not in MODES:
             raise ValueError(
                 f"[{self.name}] mode must be one of {sorted(MODES)}, got {raw!r}"
-            ) from None
+            )
+        return str(raw)
+
+    @property
+    def mode(self) -> instructor.Mode | None:
+        """The instructor mode, or None when this module drives the request."""
+        return INSTRUCTOR_MODES.get(self.mode_name)
 
     def build_client(self) -> instructor.AsyncInstructor:
-        return instructor.from_anthropic(self.async_client(), mode=self.mode)
+        mode = self.mode
+        if mode is None:  # STRUCTURED_OUTPUTS: driven here, not by instructor
+            return structured_outputs_client(self.async_client())
+        return instructor.from_anthropic(self.async_client(), mode=mode)
 
     def normalize_usage(self, completion: Any) -> dict[str, Any]:
         # Anthropic's usage already matches the canonical schema.
