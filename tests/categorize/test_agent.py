@@ -513,3 +513,78 @@ def test_an_unattested_rename_that_never_repairs_is_recorded_as_such(
     assert record.result.actions[0].status is ActionStatus.REJECTED
     assert record.result.actions[1].status is ActionStatus.SKIPPED
     assert tiny.resolve("resnet101") is None  # nothing was applied
+
+
+# -- an item the model cannot answer validly does not kill the run ----------- #
+
+
+def _retry_exception(cause: BaseException) -> Exception:
+    from instructor.core.exceptions import InstructorRetryException
+
+    error = InstructorRetryException(
+        "3 attempts failed", n_attempts=3, total_usage={"input_tokens": 300}
+    )
+    error.__cause__ = cause
+    return error
+
+
+def _validation_error() -> Exception:
+    from pydantic import ValidationError
+
+    try:
+        Decision(surface="mhr", outcome=Outcome.MAPPED, confidence=0.9)
+    except ValidationError as error:
+        return error
+    raise AssertionError("expected the #67 validator to reject this")
+
+
+def test_an_unsatisfiable_schema_is_recorded_as_failed_not_raised(
+    tiny, tiny_cut, provenance
+):
+    """The MHR deadlock: the model would not yield, and the run died with it.
+
+    Outcome.FAILED is defined as "could not be parsed or validated" and gate
+    clause 3a counts it, so it belongs in the report -- not in a traceback that
+    discards every item already paid for.
+    """
+    client = stub_client()
+    client.chat.completions.create_with_completion.side_effect = _retry_exception(
+        _validation_error()
+    )
+    record = asyncio.run(
+        agent.decide_item(
+            client,
+            tiny,
+            build_context(tiny, "test"),
+            item("MHR", "mhr"),
+            cut=tiny_cut,
+            provenance=provenance,
+        )
+    )
+    assert record.decision.outcome is Outcome.FAILED
+    assert not record.result.ok and record.result.error_type == "ValidationError"
+    assert "no valid decision after" in record.decision.review_notes[0]
+    # what the failed attempts cost is still accounted for
+    assert record.provenance.params["usage"] == {"input_tokens": 300}
+
+
+def test_an_api_failure_still_stops_the_run(tiny, tiny_cut, provenance):
+    """Auth and quota are the operator's problem: recording 200 'failed' items
+    and producing a report would be worse than stopping."""
+    from instructor.core.exceptions import InstructorRetryException
+
+    client = stub_client()
+    client.chat.completions.create_with_completion.side_effect = _retry_exception(
+        RuntimeError("Error code: 429 - insufficient_quota")
+    )
+    with pytest.raises(InstructorRetryException):
+        asyncio.run(
+            agent.decide_item(
+                client,
+                tiny,
+                build_context(tiny, "test"),
+                item("MHR", "mhr"),
+                cut=tiny_cut,
+                provenance=provenance,
+            )
+        )

@@ -389,11 +389,15 @@ class Decision(StrictSchemaModel):
     )
 
     def mapping_target(self) -> str | None:
-        """The node id this decision's own surface ends up pointing at, if any.
+        """The node id this decision *maps* its own surface to, if it maps it.
 
-        The last ``add_surface`` naming the surface wins; a ``demote_to_variant``
-        of the node the surface *is* maps it too (the fold transfers the name).
-        ``None`` when no action maps the surface.
+        The last ``add_surface`` naming the surface wins. Only ``add_surface``:
+        an in-flight fix that happens to move the surface -- folding a duplicate
+        node away with ``demote_to_variant`` -- is cleanup of the tree, not a
+        decision about where this name belongs, and the name was already mapped
+        before it. Counting a fold as a mapping made a correct duplicate-merge
+        unrepresentable: the model said ``no_op`` (true: the surface already
+        resolved), the validator demanded ``mapped``, and neither could yield.
         """
         from paperext.analysis.rollup import str_normalize
 
@@ -402,8 +406,6 @@ class Decision(StrictSchemaModel):
         for action in self.actions:
             if isinstance(action, AddSurface) and str_normalize(action.surface) == want:
                 target = action.canonical
-            elif isinstance(action, DemoteToVariant) and action.node_id == want:
-                target = action.target_id
         return target
 
     def implied_outcome(self) -> Outcome | None:
