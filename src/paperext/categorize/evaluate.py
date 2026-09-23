@@ -1434,8 +1434,14 @@ async def run_ambiguity_probe(
         plain_cases.append((base, item))
         home = probes.branch_of(onto, node_id) if node_id else None
         foreign = rng.choice([b for b in branches if b != home]) if branches else None
-        parents = [p for p in (home, foreign) if p is not None]
-        if len(parents) < 2:
+        # the parents are looked up in *onto* but used in *base*: when the item's
+        # own node sits at depth 2 its branch is itself, and hiding the surface
+        # ablated it (`dyrep`, `sort` in v0 -- 2 of the 40 picked). Injecting
+        # under a node that is no longer there raised UnknownNodeError and took
+        # the run with it; the pair cannot be built, so the item keeps only its
+        # plain arms.
+        parents = [p for p in (home, foreign) if p is not None and p in base]
+        if len(set(parents)) < 2:
             continue
         scratch = probes.inject_homonym(
             base,

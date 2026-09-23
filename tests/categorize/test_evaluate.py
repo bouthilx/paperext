@@ -883,3 +883,41 @@ def test_a_recording_todays_rules_reject_is_re_asked_not_replayed(tiny, tiny_cut
     )
     assert decider.stale == 1
     assert [key[1] for key in decider.recorded] == ["cafe"]
+
+
+def test_an_item_that_is_its_own_branch_drops_the_homonym_pair(tiny, monkeypatch):
+    """`dyrep` and `sort` in v0: a depth-2 node is its own branch, and hiding the
+    surface ablates it, so the "home" parent to inject under is gone.
+
+    Injecting under it raised UnknownNodeError out of the probe and killed the
+    whole eval run; the pair is simply not buildable, so the item keeps only its
+    plain arms.
+    """
+    tiny.add_surface("sam", "sam")  # `sam` sits at depth 2, directly under a root
+    asked: "list[str]" = []
+
+    async def decider(onto, ctx, item, provenance):
+        asked.append(item.surface)
+        return recorded(item.surface, "x", "X", "nn")
+
+    items = [
+        Item(
+            dimension="test",
+            surface=surface,
+            name=name,
+            spellings=[name],
+            n_mentions=1,
+            n_papers=1,
+            mentions=[Mention(paper="p1", spelling=name, quote=f"we use {name}")],
+        )
+        for surface, name in (("sam", "SAM"), ("resnet50", "ResNet-50"))
+    ]
+    monkeypatch.setattr(evaluate.probes, "acronym_items", lambda *a, **k: items)
+
+    result = asyncio.run(
+        evaluate.run_ambiguity_probe(tiny, items, decider, dimension="test")
+    )
+
+    assert result  # the probe ran instead of dying
+    # both items get the two plain arms; only resnet50 also gets a homonym case
+    assert asked.count("sam") == 2 and asked.count("resnet50") == 3
