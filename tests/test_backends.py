@@ -210,6 +210,45 @@ def test_anthropic_backend_registered_and_model(cfg):
     assert backend.model == cfg.anthropic.model == "claude-opus-5"
 
 
+def test_anthropic_backend_mode_selects_instructor_mode(cfg, monkeypatch, cloud_keys):
+    """`[anthropic] mode` picks the instructor mode; Opus 5.5 and the Fable
+    models reject the forced tool call instructor sends by default."""
+    import anthropic
+    import instructor
+
+    captured: dict = {}
+
+    def _from_anthropic(client, *a, mode=None, **k):
+        captured["mode"] = mode
+        return MagicMock()
+
+    monkeypatch.setattr(anthropic, "AsyncAnthropic", lambda **k: MagicMock())
+    monkeypatch.setattr(instructor, "from_anthropic", _from_anthropic)
+
+    backend = get_backend("anthropic")
+    assert backend.mode is instructor.Mode.ANTHROPIC_TOOLS  # tests/config.ini
+    backend.make_client()
+    assert captured["mode"] is instructor.Mode.ANTHROPIC_TOOLS
+
+    cfg.anthropic.mode = "json"
+    assert backend.mode is instructor.Mode.ANTHROPIC_JSON
+    backend.make_client()
+    assert captured["mode"] is instructor.Mode.ANTHROPIC_JSON
+
+    cfg.anthropic.mode = "forced"
+    with pytest.raises(ValueError, match=r"\[anthropic\] mode must be one of"):
+        backend.mode
+
+
+def test_anthropic_backend_mode_defaults_without_the_option(cfg, monkeypatch):
+    # Configs written before the option existed keep the previous behaviour.
+    import instructor
+
+    backend = get_backend("anthropic")
+    monkeypatch.delitem(cfg.anthropic._config, "mode")
+    assert backend.mode is instructor.Mode.ANTHROPIC_TOOLS
+
+
 def test_anthropic_backend_rate_limit_errors_declared():
     import anthropic
 

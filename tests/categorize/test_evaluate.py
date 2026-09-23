@@ -15,7 +15,12 @@ from paperext.categorize.actions import (
     Outcome,
     Provenance,
 )
-from paperext.categorize.apply import ApplyResult, DecisionRecord
+from paperext.categorize.apply import (
+    ApplyResult,
+    DecisionLog,
+    DecisionRecord,
+    read_decisions,
+)
 from paperext.categorize.items import Item, Mention
 from paperext.categorize.sampling import SplitItem, Splits
 
@@ -655,3 +660,157 @@ def test_judge_guardrail_is_a_gate_clause(tiny, tiny_cut, split_items):
     report.adjudication = {"order_swap_consistency": 0.9}
     clause = [c for c in evaluate.evaluate_gate(report) if c.name.startswith("1c")][0]
     assert clause.passed
+
+
+def test_macro_recall_floor_tracks_the_levenshtein_baseline(
+    tiny, tiny_cut, split_items
+):
+    """Clause 2c re-registered on #44 before the gate run: a string matcher must
+    not be able to pass it, so the floor rides 0.10 above the free baseline."""
+    report = build(
+        tiny,
+        tiny_cut,
+        split_items,
+        [recorded("resnet50", "r50", "ResNet-50", "resnet")],
+    )
+    report.agreement = {
+        "macro_recall": 0.70,
+        "levenshtein_baseline": {"macro_recall": 0.653},
+    }
+    clause = [c for c in evaluate.evaluate_gate(report) if c.name.startswith("2c")][0]
+    assert clause.threshold == pytest.approx(0.753) and not clause.passed
+    assert "0.653 + 0.10" in clause.note
+    # a weak baseline never lowers the bar below the original 0.60
+    report.agreement = {
+        "macro_recall": 0.61,
+        "levenshtein_baseline": {"macro_recall": 0.30},
+    }
+    clause = [c for c in evaluate.evaluate_gate(report) if c.name.startswith("2c")][0]
+    assert clause.threshold == 0.60 and clause.passed
+    # no baseline measured: the original bar, said so
+    report.agreement = {"macro_recall": 0.61}
+    clause = [c for c in evaluate.evaluate_gate(report) if c.name.startswith("2c")][0]
+    assert clause.threshold == 0.60 and "not measured" in clause.note
+
+
+# --------------------------------------------------------------------------- #
+# Resuming a run that died half-way
+# --------------------------------------------------------------------------- #
+
+
+def _counting_live(decisions, tiny_cut):
+    """A live decider that answers from *decisions* and counts what it was asked."""
+    inner = evaluate.replay_decider(decisions, cut=tiny_cut)
+    calls = []
+
+    async def live(onto, ctx, item, provenance):
+        calls.append(item.surface)
+        record = await inner(onto, ctx, item, provenance)
+        params = {**record.provenance.params, "usage": {"input_tokens": 100}}
+        return record.model_copy(
+            update={
+                "provenance": record.provenance.model_copy(update={"params": params})
+            }
+        )
+
+    return live, calls
+
+
+def test_a_resumed_run_replays_what_was_recorded_and_calls_only_the_rest(
+    tmp_path, tiny, tiny_cut, split_items
+):
+    decisions = [
+        recorded("resnet50", "r50", "ResNet-50", "resnet"),
+        recorded("vit", "v", "ViT", "transformer"),
+    ]
+    built = evaluate.build_eval_items(
+        tiny, split_items, [], dimension="test", cut=tiny_cut
+    )
+    log_path = tmp_path / "decisions.jsonl"
+
+    # first attempt: everything is live, and lands in the log as it happens
+    live, calls = _counting_live(decisions, tiny_cut)
+    with DecisionLog(log_path) as log:
+        first = evaluate.ResumableDecider(live, cut=tiny_cut, log=log)
+        records = asyncio.run(
+            evaluate.leave_one_out(
+                tiny, built, first.decider(), dimension="test", cut=tiny_cut
+            )
+        )
+    assert (first.called, first.replayed) == (2, 0) and sorted(calls) == [
+        "resnet50",
+        "vit",
+    ]
+    assert all(r.provenance.params["repeat"] == 0 for r in records)
+
+    # second attempt over the same items: nothing is called, usage is carried
+    live, calls = _counting_live(decisions, tiny_cut)
+    second = evaluate.ResumableDecider(
+        live, cut=tiny_cut, recorded=list(read_decisions(log_path))
+    )
+    again = asyncio.run(
+        evaluate.leave_one_out(
+            tiny, built, second.decider(), dimension="test", cut=tiny_cut
+        )
+    )
+    assert (second.called, second.replayed) == (0, 2) and calls == []
+    assert [r.decision for r in again] == [r.decision for r in records]
+    assert all(r.provenance.params["usage"] == {"input_tokens": 100} for r in again)
+
+    # a different payload (another repeat, or another tree) is not a hit
+    third = evaluate.ResumableDecider(
+        live, cut=tiny_cut, recorded=list(read_decisions(log_path))
+    )
+    asyncio.run(
+        evaluate.leave_one_out(
+            tiny, built, third.decider(repeat=1), dimension="test", cut=tiny_cut
+        )
+    )
+    assert (third.called, third.replayed) == (2, 0)
+
+
+def test_the_cli_refuses_to_append_to_a_run_without_resume(
+    tmp_path, tiny, tiny_cut, split_items, corpus
+):
+    root = tmp_path / "ontology"
+    tiny.save(root / "test" / "v0")
+    splits = Splits(
+        seed=42,
+        dimension="test",
+        base_version="v0",
+        base_content_hash="",
+        pool_size=2,
+        dev=split_items,
+        gate=[],
+        reserve=[],
+    )
+    splits_path = tmp_path / "splits.json"
+    splits_path.write_text(splits.model_dump_json())
+    items_path = tmp_path / "items.jsonl"
+    items_path.write_text("\n".join(item.model_dump_json() for item in corpus) + "\n")
+    decisions_path = tmp_path / "recorded.jsonl"
+    decisions_path.write_text(
+        recorded("resnet50", "r50", "ResNet-50", "resnet").model_dump_json() + "\n"
+    )
+    out = tmp_path / "out"
+    argv = [
+        "--dim",
+        "test",
+        "--root",
+        str(root),
+        "--splits",
+        str(splits_path),
+        "--items",
+        str(items_path),
+        "--replay",
+        str(decisions_path),
+        "--out",
+        str(out),
+    ]
+    evaluate.main(argv)
+    n = len((out / evaluate.DECISIONS_FILE).read_text().splitlines())
+    with pytest.raises(SystemExit, match="--resume"):
+        evaluate.main(argv)
+    evaluate.main(argv + ["--resume"])
+    # resumed: the recorded decisions were replayed, so the log did not grow
+    assert len((out / evaluate.DECISIONS_FILE).read_text().splitlines()) == n
