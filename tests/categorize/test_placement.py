@@ -241,20 +241,22 @@ def test_outcome_must_match_the_actions(tiny):
             confidence=0.9,
             actions=[_mapping("bit", "vit")],
         )
-    # a demote of the node the surface *is* maps it, without an add_surface
-    Decision(
-        surface="resnet50",
-        outcome=Outcome.MAPPED,
-        confidence=0.9,
-        actions=[
-            DemoteToVariant(
-                node_id="resnet50",
-                target_id="resnet",
-                justification="j",
-                confidence=0.9,
-            )
-        ],
-    )
+    # folding a duplicate away is an in-flight fix, not a mapping: the surface
+    # already resolved, so the honest outcome is no_op. (The MHR case that
+    # deadlocked a live run: the model would not say 'mapped', and was right.)
+    fold = [
+        DemoteToVariant(
+            node_id="resnet50",
+            target_id="resnet",
+            justification="j",
+            confidence=0.9,
+        )
+    ]
+    Decision(surface="resnet50", outcome=Outcome.NO_OP, confidence=0.9, actions=fold)
+    with pytest.raises(ValidationError, match="the outcome is 'no_op'"):
+        Decision(
+            surface="resnet50", outcome=Outcome.MAPPED, confidence=0.9, actions=fold
+        )
     # the runner's own label is not second-guessed
     Decision(surface="x", outcome=Outcome.FAILED, confidence=0.0)
 

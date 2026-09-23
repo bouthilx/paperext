@@ -44,11 +44,14 @@ from pathlib import Path
 from typing import Any, Callable, Sequence
 
 import instructor
+from instructor.core.exceptions import InstructorRetryException
+from pydantic import ValidationError
 
 from paperext.categorize.actions import (
     ActionStatus,
     AppliedAction,
     Decision,
+    Outcome,
     Provenance,
 )
 from paperext.categorize.apply import (
@@ -112,6 +115,57 @@ corrected decision. Every node id you reference must appear there, or be created
 by an earlier action in the same decision. If you cannot place this name safely, \
 abstain.\
 """
+
+
+def _is_validation_failure(error: "InstructorRetryException") -> bool:
+    """Did the model fail to satisfy the schema, as opposed to the API failing?"""
+    cause: "BaseException | None" = error.__cause__
+    while cause is not None:
+        if isinstance(cause, ValidationError):
+            return True
+        cause = cause.__cause__
+    return False
+
+
+def _unvalidatable(
+    item: Item,
+    provenance: Provenance,
+    error: "InstructorRetryException",
+    usage: "dict[str, Any]",
+    attempt: int,
+) -> DecisionRecord:
+    """Record an item the model could not answer validly, and move on.
+
+    ``Outcome.FAILED`` is defined as "the response could not be parsed or
+    validated", and gate clause 3a (schema valid) is the measure of how often
+    this happens -- so it belongs in the report. Aborting the run instead threw
+    away every item already paid for, which is how a single stubborn item cost
+    a 200-item probe pass.
+    """
+    reason = str(getattr(error, "__cause__", None) or error).strip().splitlines()
+    note = reason[1].strip() if len(reason) > 1 else (reason[0] if reason else "")
+    logger.warning(
+        "%r: no valid decision after %d attempt(s): %s", item.name, attempt + 1, note
+    )
+    _accumulate(usage, dict(getattr(error, "total_usage", None) or {}))
+    return DecisionRecord(
+        decision=Decision(
+            surface=item.surface,
+            outcome=Outcome.FAILED,
+            confidence=0.0,
+            review_notes=[f"no valid decision after {attempt + 1} attempt(s): {note}"],
+        ),
+        result=ApplyResult(ok=False, error=note, error_type="ValidationError"),
+        provenance=provenance.model_copy(
+            update={
+                "params": {
+                    **provenance.params,
+                    **({"usage": usage} if usage else {}),
+                    "repairs": attempt,
+                }
+            }
+        ),
+    )
 
 
 def categorize_settings() -> "tuple[str, str]":
@@ -225,9 +279,14 @@ async def decide_item(
     usage_total: "dict[str, Any]" = {}
 
     for attempt in range(max_repairs + 1):
-        decision, usage = await decide(
-            client, messages, rate_limit_errors=rate_limit_errors
-        )
+        try:
+            decision, usage = await decide(
+                client, messages, rate_limit_errors=rate_limit_errors
+            )
+        except InstructorRetryException as retry_error:
+            if not _is_validation_failure(retry_error):
+                raise  # auth, quota, transport: the operator's problem, not the item's
+            return _unvalidatable(item, provenance, retry_error, usage_total, attempt)
         _accumulate(usage_total, usage)
         unattested = unattested_rename(decision, payload_text)
         if unattested is not None:  # policy rejection, same repair path (#68)
