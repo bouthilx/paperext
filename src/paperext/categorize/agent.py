@@ -47,6 +47,7 @@ import instructor
 from instructor.core.exceptions import InstructorRetryException
 from pydantic import ValidationError
 
+from paperext.backends.base import caused_by, retry_after
 from paperext.categorize.actions import (
     ActionStatus,
     AppliedAction,
@@ -101,8 +102,15 @@ DEFAULT_CONCURRENCY = 4
 #: Extra turns granted to fix a decision the applier rejected.
 DEFAULT_MAX_REPAIRS = 2
 
-#: Seconds to back off on a provider rate-limit error.
-RATE_LIMIT_BACKOFF = 60.0
+#: Seconds to back off on a provider rate-limit error when it gives no hint.
+#: Doubled per attempt, capped; a TPM ceiling clears in seconds, not minutes.
+RATE_LIMIT_BACKOFF = 5.0
+RATE_LIMIT_BACKOFF_MAX = 60.0
+
+#: How many times a rate-limited call is retried before the error is raised.
+#: A whole eval is one long burst against a per-minute ceiling, so one retry
+#: (the old value) only moved the failure a few items along.
+RATE_LIMIT_RETRIES = 6
 
 _REPAIR_TEMPLATE = """\
 Your previous decision could not be applied. The applier rejected action \
@@ -206,13 +214,17 @@ async def decide(
 
     ``instructor`` handles schema-violation retries internally; this adds only the
     provider rate-limit back-off, which is genuinely ``await``ed.
+
+    The rate-limit error is looked for in the **cause chain**, not caught by
+    type: instructor re-raises a 429 wrapped in its own exception, so matching
+    the backend's declared type alone never fired.
     """
-    retries = 1
     # The provider message TypedDicts are structurally what `build_messages`
     # produces; the annotation is a union of per-role TypedDicts a plain
     # dict[str, str] cannot satisfy nominally.
     payload: Any = messages
-    while True:
+    backoff = RATE_LIMIT_BACKOFF
+    for attempt in range(RATE_LIMIT_RETRIES + 1):
         try:
             decision, usage = await client.chat.completions.create_with_completion(
                 response_model=Decision,
@@ -220,12 +232,20 @@ async def decide(
                 max_retries=2,
             )
             return decision, dict(usage or {})
-        except rate_limit_errors:
-            if not retries:
+        except Exception as error:
+            limited = caused_by(error, rate_limit_errors)
+            if limited is None or attempt == RATE_LIMIT_RETRIES:
                 raise
-            retries -= 1
-            logger.warning("rate limited; backing off %ss", RATE_LIMIT_BACKOFF)
-            await asyncio.sleep(RATE_LIMIT_BACKOFF)
+            wait = retry_after(limited, backoff)
+            logger.warning(
+                "rate limited (attempt %d/%d); waiting %.1fs",
+                attempt + 1,
+                RATE_LIMIT_RETRIES,
+                wait,
+            )
+            await asyncio.sleep(wait)
+            backoff = min(backoff * 2, RATE_LIMIT_BACKOFF_MAX)
+    raise AssertionError("unreachable")  # pragma: no cover
 
 
 def _accumulate(total: "dict[str, Any]", usage: "dict[str, Any]") -> None:
