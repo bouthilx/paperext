@@ -11,7 +11,20 @@ from paperext.utils import str_normalize
 
 logging.basicConfig(level=logging.DEBUG)
 
+# The first two sentences state what the work is: a bibliometric survey of the
+# computational artifacts a research institute's published papers used, run to
+# size AI compute needs. Without them, models with strict safety classifiers
+# refuse papers on the strength of their subject matter alone -- Opus 5.5
+# declined a biology paper outright (`stop_reason: refusal`, `category='bio'`),
+# and the corpus is full of clinical and biomedical work. Nothing here asks for
+# the papers' scientific content: the output is names of software and data.
 SYSTEM_MESSAGE = (
+    "You are cataloguing the computational artifacts used by published research "
+    "papers, for a bibliometric survey that sizes a research institute's AI "
+    "compute needs. The papers come from every field -- medicine, biology, "
+    "chemistry, the social sciences -- and their subject matter is not what is "
+    "being catalogued: you report only the names of the software and data a "
+    "paper used, never its scientific content, findings or methods.\n\n"
     "Your role is to extract Deep Learning Models, Datasets and Deep Learning "
     "Libraries from a given research paper. For each Model, also report its "
     "execution mode following the precedence train > finetune > inference > "
