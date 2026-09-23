@@ -44,18 +44,16 @@ REQUEST_TIMEOUT = 60 * 60
 
 #: Config ``mode`` value -> instructor mode.
 #:
-#: ``json_schema`` is the one to reach for on a model that rejects forced tool
-#: use: the schema is enforced by the API (``output_format``, beta
-#: ``structured-outputs-2025-11-13``), so nothing has to be parsed back out of
-#: prose. ``json`` asks for JSON in the prompt instead, and instructor then
-#: extracts it with a *strict* decoder -- which rejects the raw control
-#: characters our ``quote`` fields carry straight from the paper, leaving the
-#: model's fenced reply to fail validation at column 1. Keep ``json`` for a
-#: server that supports neither.
+#: No ``json_schema`` entry: instructor's Anthropic structured-outputs handler
+#: probes for a ``Messages.create(output_format=...)`` parameter, which the SDK
+#: renamed to ``output_config`` (anthropic 1.6.0). The probe fails, the handler
+#: silently falls back to prompt instructions, and its parser then demands a
+#: text block the model never produced -- "No text content found in structured
+#: output response". Native structured outputs need a direct SDK call, not
+#: instructor, until it catches up.
 MODES: dict[str, instructor.Mode] = {
     "tools": instructor.Mode.ANTHROPIC_TOOLS,
     "json": instructor.Mode.ANTHROPIC_JSON,
-    "json_schema": instructor.Mode.JSON_SCHEMA,
 }
 
 #: Default when the config section has no ``mode`` (every existing config).

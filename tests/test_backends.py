@@ -235,11 +235,6 @@ def test_anthropic_backend_mode_selects_instructor_mode(cfg, monkeypatch, cloud_
     backend.make_client()
     assert captured["mode"] is instructor.Mode.ANTHROPIC_JSON
 
-    cfg.anthropic.mode = "json_schema"
-    assert backend.mode is instructor.Mode.JSON_SCHEMA
-    backend.make_client()
-    assert captured["mode"] is instructor.Mode.JSON_SCHEMA
-
     cfg.anthropic.mode = "forced"
     with pytest.raises(ValueError, match=r"\[anthropic\] mode must be one of"):
         backend.mode
