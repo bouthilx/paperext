@@ -29,6 +29,43 @@ import instructor
 from paperext.config import CFG
 
 
+def caused_by(
+    error: BaseException, types: "tuple[type[BaseException], ...]"
+) -> "BaseException | None":
+    """The first exception in *error*'s cause chain that is one of *types*.
+
+    Provider errors arrive **wrapped**: instructor re-raises a 429 as its own
+    ``InstructorRetryException``, so ``except backend.rate_limit_errors`` never
+    fires on the type the backend declared. Every rate-limit handler in this
+    codebase was dead for that reason.
+    """
+    if not types:
+        return None
+    seen: "set[int]" = set()
+    current: "BaseException | None" = error
+    while current is not None and id(current) not in seen:
+        seen.add(id(current))
+        if isinstance(current, types):
+            return current
+        current = current.__cause__ or current.__context__
+    return None
+
+
+def retry_after(error: BaseException, default: float) -> float:
+    """Seconds the provider asked us to wait, else *default*.
+
+    A token-per-minute ceiling clears in seconds ("try again in 1.496s"), so
+    honouring the hint is the difference between finishing a run and sleeping a
+    minute per item.
+    """
+    response = getattr(error, "response", None)
+    headers = getattr(response, "headers", None) or {}
+    try:
+        return max(0.0, float(headers.get("retry-after", "")))
+    except TypeError, ValueError:
+        return default
+
+
 class BackendError(RuntimeError):
     """A backend problem, phrased so the backend that had it is identifiable."""
 

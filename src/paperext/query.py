@@ -12,6 +12,12 @@ import pydantic_core
 
 from paperext import CFG
 from paperext.backends import available, get_backend
+from paperext.backends.base import caused_by, retry_after
+from paperext.categorize.agent import (
+    RATE_LIMIT_BACKOFF,
+    RATE_LIMIT_BACKOFF_MAX,
+    RATE_LIMIT_RETRIES,
+)
 from paperext.log import logger
 from paperext.paths import platform_bucket
 from paperext.structured_output import STRUCT_MODULES, ai4hcat, mdl
@@ -61,8 +67,8 @@ async def extract_from_research_paper(
     rate_limit_errors: Tuple[type[BaseException], ...] = (),
 ) -> Tuple[Any, Any]:
     """Extract Models, Datasets and Frameworks names from a research paper."""
-    retries = [True] * 1
-    while True:
+    backoff = RATE_LIMIT_BACKOFF
+    for attempt in range(RATE_LIMIT_RETRIES + 1):
         try:
             extractions, usage = await client.chat.completions.create_with_completion(
                 response_model=get_paper_extractions(),
@@ -79,12 +85,20 @@ async def extract_from_research_paper(
                 max_retries=1,
             )
             return extractions, usage
-        except rate_limit_errors as e:
-            asyncio.sleep(60)
-            if retries:
-                retries.pop()
-                continue
-            raise e
+        except Exception as error:
+            # the 429 arrives wrapped by instructor, and the old `asyncio.sleep`
+            # here was never awaited: this handler waited for nothing and caught
+            # nothing
+            limited = caused_by(error, rate_limit_errors)
+            if limited is None or attempt == RATE_LIMIT_RETRIES:
+                raise
+            wait = retry_after(limited, backoff)
+            logger.warning(
+                "rate limited (attempt %d); waiting %.1fs", attempt + 1, wait
+            )
+            await asyncio.sleep(wait)
+            backoff = min(backoff * 2, RATE_LIMIT_BACKOFF_MAX)
+    raise AssertionError("unreachable")  # pragma: no cover
 
 
 async def batch_extract_models_names(
