@@ -589,3 +589,97 @@ def test_an_api_failure_still_stops_the_run(tiny, tiny_cut, provenance):
                 provenance=provenance,
             )
         )
+
+
+# -- rate limits: the provider's error arrives wrapped ----------------------- #
+
+
+def _wrapped_rate_limit(retry_after: "str | None" = None) -> Exception:
+    """A 429 as it actually reaches us: inside instructor's own exception."""
+    import openai
+    from instructor.core.exceptions import InstructorRetryException
+
+    headers = {"retry-after": retry_after} if retry_after else {}
+    inner = openai.RateLimitError(
+        "Rate limit reached on tokens per min (TPM)",
+        response=MagicMock(status_code=429, headers=headers),
+        body=None,
+    )
+    outer = InstructorRetryException("429", n_attempts=1, total_usage=None)
+    outer.__cause__ = inner
+    return outer
+
+
+def test_a_wrapped_rate_limit_is_retried_not_raised(monkeypatch):
+    """`except backend.rate_limit_errors` never fired: instructor wraps the 429."""
+    import openai
+
+    slept: "list[float]" = []
+
+    async def _sleep(seconds):
+        slept.append(seconds)
+
+    monkeypatch.setattr(agent.asyncio, "sleep", _sleep)
+    client = stub_client(mapping("resnet101", "resnet"))
+    calls = {"n": 0}
+    answer = client.chat.completions.create_with_completion.side_effect
+
+    async def limited_twice(*args, **kwargs):
+        calls["n"] += 1
+        if calls["n"] <= 2:
+            raise _wrapped_rate_limit("1.5")
+        return await answer(*args, **kwargs)
+
+    client.chat.completions.create_with_completion.side_effect = limited_twice
+    decision, _ = asyncio.run(
+        agent.decide(
+            client,
+            [{"role": "user", "content": "x"}],
+            rate_limit_errors=(openai.RateLimitError,),
+        )
+    )
+    assert decision.surface == "resnet101" and calls["n"] == 3
+    assert slept == [1.5, 1.5]  # the provider's own hint, not a flat minute
+
+
+def test_a_rate_limit_that_never_clears_is_raised(monkeypatch):
+    import openai
+    from instructor.core.exceptions import InstructorRetryException
+
+    async def _sleep(_seconds):
+        return None
+
+    monkeypatch.setattr(agent.asyncio, "sleep", _sleep)
+    monkeypatch.setattr(agent, "RATE_LIMIT_RETRIES", 2)
+    client = stub_client()
+    client.chat.completions.create_with_completion.side_effect = lambda *a, **k: (
+        _ for _ in ()
+    ).throw(_wrapped_rate_limit())
+    with pytest.raises(InstructorRetryException):
+        asyncio.run(
+            agent.decide(
+                client,
+                [{"role": "user", "content": "x"}],
+                rate_limit_errors=(openai.RateLimitError,),
+            )
+        )
+
+
+def test_an_unrelated_wrapped_error_is_not_mistaken_for_a_rate_limit(monkeypatch):
+    import openai
+    from instructor.core.exceptions import InstructorRetryException
+
+    outer = InstructorRetryException("boom", n_attempts=1, total_usage=None)
+    outer.__cause__ = ValueError("not a rate limit")
+    client = stub_client()
+    client.chat.completions.create_with_completion.side_effect = lambda *a, **k: (
+        _ for _ in ()
+    ).throw(outer)
+    with pytest.raises(InstructorRetryException):
+        asyncio.run(
+            agent.decide(
+                client,
+                [{"role": "user", "content": "x"}],
+                rate_limit_errors=(openai.RateLimitError,),
+            )
+        )

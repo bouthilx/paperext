@@ -21,7 +21,7 @@ import vertexai
 from vertexai.generative_models import GenerativeModel
 
 from paperext.backends import register
-from paperext.backends.anthropic import AnthropicBase
+from paperext.backends.anthropic import REQUEST_TIMEOUT, AnthropicBase
 from paperext.backends.base import Backend
 
 
@@ -88,10 +88,14 @@ class ClaudeVertexBackend(AnthropicBase):
 
     def async_client(self) -> Any:
         return anthropic.AsyncAnthropicVertex(
-            project_id=self.config.project, region=self.config.location
+            project_id=self.config.project,
+            region=self.config.location,
+            timeout=REQUEST_TIMEOUT,
         )
 
     def sync_client(self) -> Any:
         return anthropic.AnthropicVertex(
-            project_id=self.config.project, region=self.config.location
+            project_id=self.config.project,
+            region=self.config.location,
+            timeout=REQUEST_TIMEOUT,
         )
