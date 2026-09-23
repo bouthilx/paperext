@@ -27,10 +27,20 @@ from paperext.backends import register
 from paperext.backends.base import Backend
 
 # Anthropic requires max_tokens on every request; the extract loop does not set
-# one, so the backend injects a default. Comfortably above the largest output
-# seen in the 2024 corpus (~7.2k tokens); billing is per actual output token, so
-# a generous ceiling only guards against truncation.
-DEFAULT_MAX_TOKENS = 16384
+# one, so the backend injects a default. The 2024 corpus's largest extraction was
+# ~7.2k tokens, but thinking tokens count toward this ceiling on the models that
+# think by default (Opus 5 and later), and 16k truncated the longest papers --
+# `IncompleteOutputException` on 8 of 40 papers in the tier comparison, every one
+# of them a fulltext call. Billing is per actual output token, so a generous
+# ceiling only guards against truncation.
+DEFAULT_MAX_TOKENS = 32768
+
+# The SDK refuses a non-streaming request whose `max_tokens` implies more than
+# its 10-minute default timeout -- `_calculate_nonstreaming_timeout` estimates
+# 1h * max_tokens / 128k, so anything above ~21.3k raises -- *unless* the client
+# carries an explicit timeout. The extraction path does not stream, so the
+# clients below set one: a long extraction is slow, not hung.
+REQUEST_TIMEOUT = 60 * 60
 
 #: Config ``mode`` value -> instructor mode.
 MODES: dict[str, instructor.Mode] = {
@@ -99,7 +109,13 @@ class AnthropicBase(Backend):
             max_tokens=16,
             messages=[{"role": "user", "content": message}],
         )
-        return response.content[0].text, getattr(response, "usage", None)
+        # Models that think by default (Opus 5 and later) put a thinking block
+        # first, so the reply is the first *text* block, not `content[0]`.
+        text = next(
+            (b.text for b in response.content if getattr(b, "type", None) == "text"),
+            "",
+        )
+        return text, getattr(response, "usage", None)
 
 
 @register
@@ -109,7 +125,9 @@ class AnthropicBackend(AnthropicBase):
     api_key_env = "ANTHROPIC_API_KEY"
 
     def async_client(self) -> Any:
-        return anthropic.AsyncAnthropic()  # ANTHROPIC_API_KEY from the environment
+        return anthropic.AsyncAnthropic(
+            timeout=REQUEST_TIMEOUT
+        )  # ANTHROPIC_API_KEY from the environment
 
     def sync_client(self) -> Any:
-        return anthropic.Anthropic()
+        return anthropic.Anthropic(timeout=REQUEST_TIMEOUT)

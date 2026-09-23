@@ -179,7 +179,7 @@ def test_claude_make_client_injects_max_tokens(monkeypatch):
     )
 
     # Anthropic requires max_tokens; the backend injects a default.
-    assert captured["max_tokens"] == 16384
+    assert captured["max_tokens"] == 32768
     assert captured["model"] == "claude-opus-4-8"
     assert usage == {"input_tokens": 1, "output_tokens": 2, "total_tokens": 3}
 
@@ -187,7 +187,7 @@ def test_claude_make_client_injects_max_tokens(monkeypatch):
 def test_claude_smoke_check_uses_model_and_max_tokens():
     client = MagicMock()
     client.messages.create.return_value = MagicMock(
-        content=[MagicMock(text="ok")],
+        content=[MagicMock(type="text", text="ok")],
         usage=MagicMock(input_tokens=1, output_tokens=1),
     )
 
@@ -249,6 +249,58 @@ def test_anthropic_backend_mode_defaults_without_the_option(cfg, monkeypatch):
     assert backend.mode is instructor.Mode.ANTHROPIC_TOOLS
 
 
+def test_anthropic_smoke_check_skips_a_thinking_block():
+    """Models that think by default (Opus 5 and later) put a thinking block
+    first, so the reply is the first *text* block."""
+    client = MagicMock()
+    client.messages.create.return_value = MagicMock(
+        content=[
+            MagicMock(type="thinking", thinking="hmm"),
+            MagicMock(type="text", text="ok"),
+        ],
+        usage=MagicMock(input_tokens=1, output_tokens=1),
+    )
+
+    reply, _ = get_backend("anthropic").smoke_check(client=client)
+
+    assert reply == "ok"
+
+
+def test_anthropic_smoke_check_without_any_text_block():
+    client = MagicMock()
+    client.messages.create.return_value = MagicMock(
+        content=[MagicMock(type="thinking", thinking="hmm")], usage=None
+    )
+
+    assert get_backend("anthropic").smoke_check(client=client)[0] == ""
+
+
+def test_anthropic_clients_set_an_explicit_timeout(monkeypatch):
+    """Without one the SDK refuses the request: its non-streaming guard
+    estimates 1h * max_tokens / 128k against its 10-minute default, and
+    DEFAULT_MAX_TOKENS is over that line."""
+    import anthropic
+
+    from paperext.backends.anthropic import DEFAULT_MAX_TOKENS, REQUEST_TIMEOUT
+
+    captured: dict = {}
+    monkeypatch.setattr(
+        anthropic, "AsyncAnthropic", lambda **k: captured.update(k) or MagicMock()
+    )
+    monkeypatch.setattr(
+        anthropic, "Anthropic", lambda **k: captured.update(k) or MagicMock()
+    )
+
+    backend = get_backend("anthropic")
+    backend.async_client()
+    assert captured["timeout"] == REQUEST_TIMEOUT
+    captured.clear()
+    backend.sync_client()
+    assert captured["timeout"] == REQUEST_TIMEOUT
+
+    assert 60 * 60 * DEFAULT_MAX_TOKENS / 128_000 > 60 * 10  # the SDK's own rule
+
+
 def test_anthropic_backend_rate_limit_errors_declared():
     import anthropic
 
@@ -289,7 +341,7 @@ def test_anthropic_make_client_uses_the_direct_sdk_and_injects_max_tokens(
     )
 
     assert constructed["client"] is sentinel
-    assert captured["max_tokens"] == 16384
+    assert captured["max_tokens"] == 32768
     assert captured["model"] == "claude-opus-5"
     assert usage == {"input_tokens": 1, "output_tokens": 2, "total_tokens": 3}
 
@@ -297,7 +349,7 @@ def test_anthropic_make_client_uses_the_direct_sdk_and_injects_max_tokens(
 def test_anthropic_smoke_check_uses_model_and_max_tokens():
     client = MagicMock()
     client.messages.create.return_value = MagicMock(
-        content=[MagicMock(text="ok")],
+        content=[MagicMock(type="text", text="ok")],
         usage=MagicMock(input_tokens=1, output_tokens=1),
     )
     reply, _ = get_backend("anthropic").smoke_check(
