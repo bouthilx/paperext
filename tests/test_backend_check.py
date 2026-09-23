@@ -13,6 +13,8 @@ def _fake_completion(reply="ok"):
 
 
 def _mock_openai(monkeypatch, completion=None, raises=None):
+    # the backend checks its credential before building a client (#80)
+    monkeypatch.setenv("OPENAI_API_KEY", "test")
     client = MagicMock()
     if raises is not None:
         client.chat.completions.create.side_effect = raises

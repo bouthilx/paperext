@@ -1,5 +1,8 @@
+import asyncio
 from unittest.mock import MagicMock
 
+import instructor
+import openai
 import pytest
 
 from paperext.backends import available, get_backend
@@ -81,7 +84,7 @@ def test_openai_normalize_usage_accepts_a_responses_object():
     assert usage == {"input_tokens": 10, "output_tokens": 4, "total_tokens": 14}
 
 
-def test_openai_make_client_uses_the_responses_api(monkeypatch):
+def test_openai_make_client_uses_the_responses_api(monkeypatch, cloud_keys):
     """Reasoning models refuse function tools on chat completions."""
     import instructor
     import openai
@@ -213,7 +216,9 @@ def test_anthropic_backend_rate_limit_errors_declared():
     assert get_backend("anthropic").rate_limit_errors == (anthropic.RateLimitError,)
 
 
-def test_anthropic_make_client_uses_the_direct_sdk_and_injects_max_tokens(monkeypatch):
+def test_anthropic_make_client_uses_the_direct_sdk_and_injects_max_tokens(
+    monkeypatch, cloud_keys
+):
     """Same request handling as the Vertex path, different client constructor."""
     import asyncio
 
@@ -326,6 +331,13 @@ def test_openai_parses_a_function_call_that_follows_a_reasoning_item(monkeypatch
 def local_key(monkeypatch):
     """Provide the bearer token the way deployments do: in the environment."""
     monkeypatch.setenv("LOCAL_API_KEY", "local")
+
+
+@pytest.fixture
+def cloud_keys(monkeypatch):
+    """Credentials for the hosted backends, which check before building a client."""
+    monkeypatch.setenv("OPENAI_API_KEY", "test")
+    monkeypatch.setenv("ANTHROPIC_API_KEY", "test")
 
 
 def test_local_backend_registered_and_config(cfg, local_key):
@@ -456,3 +468,48 @@ def test_local_smoke_check_default_client_targets_base_url(cfg, local_key, monke
 
     assert reply == "ok"
     assert captured == {"base_url": "http://localhost:8000/v1", "api_key": "local"}
+
+
+# --------------------------------------------------------------------------- #
+# Errors name the backend that had them (#80)
+# --------------------------------------------------------------------------- #
+
+
+def test_a_missing_credential_names_the_backend_and_the_variable(monkeypatch):
+    """The SDKs raise before naming the provider; a two-client run needs the name."""
+    from paperext.backends.base import BackendAuthError
+
+    monkeypatch.delenv("ANTHROPIC_API_KEY", raising=False)
+    with pytest.raises(BackendAuthError) as caught:
+        get_backend("anthropic").make_client(label="judge")
+    message = str(caught.value)
+    assert "anthropic/" in message and "(judge)" in message
+    assert "$ANTHROPIC_API_KEY" in message
+    # and the check happens before any request is attempted
+    monkeypatch.delenv("OPENAI_API_KEY", raising=False)
+    with pytest.raises(BackendAuthError, match=r"\$OPENAI_API_KEY"):
+        get_backend("openai").smoke_check()
+
+
+def test_a_provider_error_is_tagged_with_the_backend_and_model(monkeypatch, cloud_keys):
+    """add_note, not a wrapper: the retry loops match on the SDK's own types."""
+    boom = openai.RateLimitError(
+        "no credits", response=MagicMock(status_code=429, headers={}), body=None
+    )
+
+    def _from_openai(*_a, **_k):
+        client = MagicMock()
+
+        async def _create(*_args, **_kwargs):
+            raise boom
+
+        client.chat.completions.create_with_completion = _create
+        return client
+
+    monkeypatch.setattr(instructor, "from_openai", _from_openai)
+    client = get_backend("openai").make_client(label="agent")
+
+    with pytest.raises(openai.RateLimitError) as caught:  # type unchanged
+        asyncio.run(client.chat.completions.create_with_completion(messages=[]))
+    note = "\n".join(getattr(caught.value, "__notes__", []))
+    assert "openai/" in note and "(agent)" in note and "$OPENAI_API_KEY" in note
