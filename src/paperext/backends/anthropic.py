@@ -27,10 +27,13 @@ from paperext.backends import register
 from paperext.backends.base import Backend
 
 # Anthropic requires max_tokens on every request; the extract loop does not set
-# one, so the backend injects a default. Comfortably above the largest output
-# seen in the 2024 corpus (~7.2k tokens); billing is per actual output token, so
-# a generous ceiling only guards against truncation.
-DEFAULT_MAX_TOKENS = 16384
+# one, so the backend injects a default. The 2024 corpus's largest extraction was
+# ~7.2k tokens, but thinking tokens count toward this ceiling on the models that
+# think by default (Opus 5 and later), and 16k truncated the longest papers'
+# extractions -- `IncompleteOutputException`, 8 of 40 papers in the tier pilot.
+# Billing is per actual output token, so a generous ceiling only guards against
+# truncation.
+DEFAULT_MAX_TOKENS = 32768
 
 #: Config ``mode`` value -> instructor mode.
 MODES: dict[str, instructor.Mode] = {

@@ -176,7 +176,7 @@ def test_claude_make_client_injects_max_tokens(monkeypatch):
     )
 
     # Anthropic requires max_tokens; the backend injects a default.
-    assert captured["max_tokens"] == 16384
+    assert captured["max_tokens"] == 32768
     assert captured["model"] == "claude-opus-4-8"
     assert usage == {"input_tokens": 1, "output_tokens": 2, "total_tokens": 3}
 
@@ -284,7 +284,7 @@ def test_anthropic_make_client_uses_the_direct_sdk_and_injects_max_tokens(monkey
     )
 
     assert constructed["client"] is sentinel
-    assert captured["max_tokens"] == 16384
+    assert captured["max_tokens"] == 32768
     assert captured["model"] == "claude-opus-5"
     assert usage == {"input_tokens": 1, "output_tokens": 2, "total_tokens": 3}
 
