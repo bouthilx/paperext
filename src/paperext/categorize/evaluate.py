@@ -82,6 +82,7 @@ from paperext.categorize.prompt import (
     Context,
     build_context,
     build_payload,
+    payload_hash,
     render_evidence,
 )
 from paperext.categorize.sampling import SplitItem, Splits, stratum_of
@@ -212,6 +213,82 @@ def build_eval_items(
 #: What the harness needs from "the agent": a decision for one item, taken against
 #: the tree it is handed. Injectable so the acceptance tests replay a recording.
 Decider = Callable[[Ontology, Context, Item, Provenance], "Awaitable[DecisionRecord]"]
+
+
+PROBES_FILE = "probes.jsonl"
+
+
+class ResumableDecider:
+    """Replay what a previous attempt recorded; call *live* for the rest; log it.
+
+    A run that dies half-way (a 429 with an empty balance, a laptop lid) must
+    not cost the finished half again. Recordings are keyed by
+    ``(repeat, payload_hash)`` -- a decision is reused only when what would be
+    sent now is byte-identical to what was sent then, which also makes the
+    probes safe: the same surface asked against a plain tree and against an
+    injected homonym hashes differently. Self-consistency repeats deliberately
+    resend one payload, hence the repeat index in the key.
+
+    Live records are written to *log* as they complete, not at the end.
+    """
+
+    def __init__(
+        self,
+        live: Decider,
+        *,
+        cut: AnyCut,
+        recorded: "Iterable[DecisionRecord]" = (),
+        log: "DecisionLog | None" = None,
+        limit: int = DEFAULT_LIMIT,
+    ) -> None:
+        self.live = live
+        self.cut = cut
+        self.log = log
+        self.limit = limit
+        self.recorded: "dict[tuple[int, str], DecisionRecord]" = {
+            (int(r.provenance.params.get("repeat", 0)), r.provenance.payload_hash): r
+            for r in recorded
+            if r.provenance.payload_hash
+        }
+        self.replayed = 0
+        self.called = 0
+
+    def decider(self, *, repeat: int = 0) -> Decider:
+        async def decide(
+            onto: Ontology, ctx: Context, item: Item, provenance: Provenance
+        ) -> DecisionRecord:
+            payload = build_payload(onto, item, cut=self.cut, limit=self.limit)
+            digest = payload_hash(ctx, payload)
+            provenance = provenance.model_copy(
+                update={
+                    "payload_hash": digest,
+                    "params": {**provenance.params, "repeat": repeat},
+                }
+            )
+            hit = self.recorded.get((repeat, digest))
+            if hit is not None:
+                self.replayed += 1
+                # re-applied, not trusted: placements and failures are recomputed
+                result = apply_decision(onto, hit.decision, cut=self.cut, dry_run=True)
+                carried = {
+                    key: hit.provenance.params[key]
+                    for key in ("usage", "repairs")
+                    if key in hit.provenance.params
+                }
+                return DecisionRecord(
+                    decision=hit.decision,
+                    result=result,
+                    provenance=provenance.model_copy(
+                        update={"params": {**provenance.params, **carried}}
+                    ),
+                )
+            self.called += 1
+            record = await self.live(onto, ctx, item, provenance)
+            if self.log is not None:
+                self.log.write(record)
+            return record
+
+        return decide
 
 
 def agent_decider(
@@ -378,19 +455,17 @@ async def decide_all(
         )
         async with semaphore:
             record = await decider(scratch, ctx, item, provenance)
+        if log is not None:  # as it lands, so a crash keeps what was paid for
+            log.write(record)
         if on_record is not None:
             on_record(record)
         return record
 
-    records = list(
+    return list(
         await asyncio.gather(
             *(one(seq, scratch, item) for seq, (scratch, item) in enumerate(cases))
         )
     )
-    if log is not None:
-        for record in records:
-            log.write(record)
-    return records
 
 
 # --------------------------------------------------------------------------- #
@@ -1454,14 +1529,20 @@ async def run_ignore_probe(
 async def run_canary(
     client: Any,
     *,
-    path: "Union[str, Path]" = "data/categorized_models.json",
+    path: "Union[str, Path, None]" = None,
     threshold: float = 0.5,
 ) -> "dict[str, Any]":
     """Ask the pinned model to recall the published reference file's structure.
 
     Run this **first**. It costs five minutes and it decides whether the
-    report-facing agreement floor means anything at all.
+    report-facing agreement floor means anything at all. *path* defaults to the
+    configured data directory's ``categorized_models.json``, not the cwd's.
     """
+    if path is None:
+        from paperext.config import CFG
+
+        cfg: Any = CFG  # the config proxy resolves attributes dynamically
+        path = Path(cfg.dir.data) / "categorized_models.json"
     questions = probes.canary_probes(path)
     scores: "list[float]" = []
     answers: "list[dict[str, Any]]" = []
@@ -1518,6 +1599,13 @@ def build_parser() -> argparse.ArgumentParser:
         help="score a recorded decisions.jsonl instead of calling the model",
     )
     parser.add_argument("--out", default=None, help="directory for the report")
+    parser.add_argument(
+        "--resume",
+        action="store_true",
+        help="continue the run recorded under --out: decisions and probe answers "
+        "already there are replayed (matched on what was sent), only the rest is "
+        "called, and the verdict cache is reused",
+    )
     parser.add_argument("--verdicts", default=None, help="verdict cache jsonl")
     parser.add_argument(
         "--adjudicate",
@@ -1599,28 +1687,49 @@ async def _run(args: argparse.Namespace) -> Report:
         return report
 
     run_id = uuid.uuid4().hex[:12]
-    log = DecisionLog(Path(args.out) / DECISIONS_FILE) if args.out else None
-    repeats = max(1, args.k)
-    try:
-        with track(len(eval_items) * repeats, f"leave-one-out x{repeats}") as advance:
-            repeats_records = [
-                await leave_one_out(
-                    onto,
-                    eval_items,
-                    decider,
-                    dimension=args.dim,
-                    cut=cut,
-                    run_id=f"{run_id}-{index}",
-                    model=model,
-                    concurrency=args.concurrency,
-                    log=log if index == 0 else None,
-                    on_record=lambda _record: advance(),
+    out = Path(args.out) if args.out else None
+    logs: "list[DecisionLog]" = []
+
+    def resumable(name: str) -> ResumableDecider:
+        """Decider over ``<out>/<name>``: replays it under ``--resume``, appends to it."""
+        path = out / name if out is not None else None
+        recorded: "list[DecisionRecord]" = []
+        if path is not None and path.exists():
+            if not args.resume:
+                raise SystemExit(
+                    f"{path} exists: pass --resume to continue that run, or a new --out"
                 )
-                for index in range(repeats)
-            ]
-    finally:
+            recorded = list(read_decisions(path))
+        log = DecisionLog(path) if path is not None else None
         if log is not None:
-            log.close()
+            logs.append(log)
+        return ResumableDecider(decider, cut=cut, recorded=recorded, log=log)
+
+    # a --replay run goes through the same wrapper: its decisions land in --out too
+    loo, probe = resumable(DECISIONS_FILE), resumable(PROBES_FILE)
+    repeats = max(1, args.k)
+    with track(len(eval_items) * repeats, f"leave-one-out x{repeats}") as advance:
+        repeats_records = [
+            await leave_one_out(
+                onto,
+                eval_items,
+                loo.decider(repeat=index),
+                dimension=args.dim,
+                cut=cut,
+                run_id=f"{run_id}-{index}",
+                model=model,
+                concurrency=args.concurrency,
+                on_record=lambda _record: advance(),
+            )
+            for index in range(repeats)
+        ]
+    if loo.replayed:
+        logger.info(
+            "leave-one-out: %d decision(s) replayed from %s, %d called",
+            loo.replayed,
+            out / DECISIONS_FILE if out else "?",
+            loo.called,
+        )
 
     repeats_scores = [score_items(eval_items, run) for run in repeats_records]
     scores = repeats_scores[0]
@@ -1671,12 +1780,13 @@ async def _run(args: argparse.Namespace) -> Report:
 
     if args.probes:
         reserve = [item.surface for item in splits.reserve]
+        probe_decider = probe.decider()
         report.probe_results = {
             "noop": await run_noop_probe(
                 onto,
                 reserve,
                 corpus,
-                decider,
+                probe_decider,
                 dimension=args.dim,
                 cut=cut,
                 seed=args.seed,
@@ -1685,7 +1795,7 @@ async def _run(args: argparse.Namespace) -> Report:
             "policy": await run_policy_probe(
                 onto,
                 corpus_items,
-                decider,
+                probe_decider,
                 dimension=args.dim,
                 cut=cut,
                 seed=args.seed,
@@ -1694,7 +1804,7 @@ async def _run(args: argparse.Namespace) -> Report:
             "ambiguity": await run_ambiguity_probe(
                 onto,
                 corpus_items,
-                decider,
+                probe_decider,
                 dimension=args.dim,
                 seed=args.seed,
                 concurrency=args.concurrency,
@@ -1703,7 +1813,7 @@ async def _run(args: argparse.Namespace) -> Report:
                 onto,
                 reserve,
                 corpus,
-                decider,
+                probe_decider,
                 dimension=args.dim,
                 seed=args.seed,
                 concurrency=args.concurrency,
@@ -1720,6 +1830,12 @@ async def _run(args: argparse.Namespace) -> Report:
 
     report.gate = evaluate_gate(report, coverage_target=args.coverage)
 
+    for log in logs:  # every record was flushed on write; this only releases handles
+        log.close()
+    if probe.replayed or probe.called:
+        logger.info(
+            "probes: %d decision(s) replayed, %d called", probe.replayed, probe.called
+        )
     if args.out:
         _write(Path(args.out), report, scores)
     return report
