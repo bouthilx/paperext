@@ -32,36 +32,28 @@ class GeminiBackend(Backend):
     # verified (GCP-gated); none retried for now.
     rate_limit_errors: tuple[type[BaseException], ...] = ()
 
-    def make_client(self) -> instructor.AsyncInstructor:
-        normalize_usage = self.normalize_usage
+    #: The model is bound to the ``GenerativeModel``, not named per request.
+    names_model_per_request = False
+
+    def build_client(self) -> instructor.AsyncInstructor:
         vertexai.init(project=self.config.project)
         # use_async=True -> AsyncInstructor, so all backends share one client
         # type and the pipeline can uniformly await create_with_completion.
-        client = instructor.from_vertexai(
+        return instructor.from_vertexai(
             GenerativeModel(model_name=self.model), use_async=True
         )
-        _create_with_completion = client.chat.completions.create_with_completion
 
-        async def _wrap(*args: Any, **kwargs: Any) -> tuple[Any, Any]:
-            # Gemini does not support the "system" role: fold system content
-            # into the following user turn.
-            system_messages: list[str] = []
-            for message in kwargs["messages"][:]:
-                if message["role"] == "system":
-                    system_messages.append(message["content"])
-                    kwargs["messages"].remove(message)
-                    continue
-                if system_messages:
-                    message["content"] = "\n".join(
-                        (*system_messages, message["content"])
-                    )
-                    system_messages = []
-            extractions, completion = await _create_with_completion(*args, **kwargs)
-            return extractions, normalize_usage(completion)
-
-        # Wrap instructor's method to normalize the (extractions, usage) return.
-        setattr(client.chat.completions, "create_with_completion", _wrap)
-        return client
+    def prepare_request(self, kwargs: "dict[str, Any]") -> None:
+        """Gemini has no "system" role: fold system content into the next user turn."""
+        system_messages: list[str] = []
+        for message in kwargs["messages"][:]:
+            if message["role"] == "system":
+                system_messages.append(message["content"])
+                kwargs["messages"].remove(message)
+                continue
+            if system_messages:
+                message["content"] = "\n".join((*system_messages, message["content"]))
+                system_messages = []
 
     def normalize_usage(self, completion: Any) -> dict[str, Any]:
         metadata = completion.usage_metadata

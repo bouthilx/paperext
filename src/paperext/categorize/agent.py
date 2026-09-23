@@ -176,18 +176,24 @@ def categorize_settings() -> "tuple[str, str]":
     return str(cfg.categorize.platform), str(cfg.categorize.model)
 
 
-def make_client(platform: str, model: str) -> instructor.AsyncInstructor:
+def make_client(
+    platform: str, model: str, label: str = ""
+) -> instructor.AsyncInstructor:
     """An async instructor client pinned to *model* on *platform*.
 
     See the module docstring: the override is scoped to the ``make_client`` call,
     and the returned client keeps *model* because the backend closes over it.
+
+    *label* is this client's role (``"agent"``, ``"judge"``). A run holds two
+    clients on two vendors, so every error the client raises names which one it
+    was -- otherwise a bare SDK error is a guessing game.
     """
     from paperext.backends import get_backend
     from paperext.config import Config
 
     with Config.push() as cfg:
         setattr(getattr(cfg, platform), "model", model)
-        return get_backend(platform).make_client()
+        return get_backend(platform).make_client(label=label)
 
 
 async def decide(
@@ -597,7 +603,7 @@ def main(argv: "Sequence[str] | None" = None) -> int:
     platform, model = categorize_settings()
     platform = args.platform or platform
     model = args.model or model
-    client = make_client(platform, model)
+    client = make_client(platform, model, label="agent")
 
     from paperext.backends import get_backend
 

@@ -1670,7 +1670,7 @@ async def _run(args: argparse.Namespace) -> Report:
             default_platform, default_model = categorize_settings()
             platform = platform or default_platform
             model = model or default_model
-        client = make_client(platform, model)
+        client = make_client(platform, model, label="agent")
         decider = agent_decider(client, cut=cut)
 
     if args.canary:
@@ -1860,7 +1860,7 @@ async def _judge(
     from paperext.categorize.agent import make_client
 
     platform, model = judge_settings()
-    judge = llm_judge(make_client(platform, model))
+    judge = llm_judge(make_client(platform, model, label="judge"))
     verdicts = await adjudicate(
         pairs, judge, cache=cache, concurrency=args.concurrency, judge_name=model
     )

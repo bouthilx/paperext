@@ -15,10 +15,9 @@ from paperext.backends.base import Backend
 class OpenAIBackend(Backend):
     name = "openai"
     rate_limit_errors: tuple[type[BaseException], ...] = (openai.RateLimitError,)
+    api_key_env = "OPENAI_API_KEY"
 
-    def make_client(self) -> instructor.AsyncInstructor:
-        model = self.model
-        normalize_usage = self.normalize_usage
+    def build_client(self) -> instructor.AsyncInstructor:
         # The Responses API, not chat completions: reasoning models (gpt-5.x)
         # refuse function tools on /v1/chat/completions unless reasoning is
         # switched off, and switching it off is not an option for a judgment
@@ -29,21 +28,10 @@ class OpenAIBackend(Backend):
         # call instead of assuming it is output[0] -- a reasoning model emits a
         # ResponseReasoningItem first, and plain RESPONSES_TOOLS (instructor
         # 1.8) trips over it.
-        client = instructor.from_openai(
+        return instructor.from_openai(
             openai.AsyncOpenAI(),
             mode=instructor.Mode.RESPONSES_TOOLS_WITH_INBUILT_TOOLS,
         )
-        _create_with_completion = client.chat.completions.create_with_completion
-
-        async def _wrap(*args: Any, **kwargs: Any) -> tuple[Any, Any]:
-            extractions, completion = await _create_with_completion(
-                model=model, *args, **kwargs
-            )
-            return extractions, normalize_usage(completion)
-
-        # Wrap instructor's method to normalize the (extractions, usage) return.
-        setattr(client.chat.completions, "create_with_completion", _wrap)
-        return client
 
     def normalize_usage(self, completion: Any) -> dict[str, Any]:
         usage = completion.usage
@@ -68,7 +56,9 @@ class OpenAIBackend(Backend):
         client: Any = None,
     ) -> tuple[str, Any]:
         model = model or self.model
-        client = client if client is not None else openai.OpenAI()
+        if client is None:
+            self.check_credentials()
+            client = openai.OpenAI()
         completion = client.chat.completions.create(
             model=model,
             messages=[{"role": "user", "content": message}],

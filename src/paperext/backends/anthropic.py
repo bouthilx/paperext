@@ -53,6 +53,11 @@ class AnthropicBase(Backend):
     def sync_client(self) -> Any:
         raise NotImplementedError
 
+    # Anthropic requires max_tokens on every request; the extract loop sets none.
+    # Claude uses the native "system" role (instructor maps a system message to
+    # the top-level system param), so no message folding is needed.
+    request_defaults = {"max_tokens": DEFAULT_MAX_TOKENS}
+
     @property
     def mode(self) -> instructor.Mode:
         """instructor mode selected by ``mode`` in this backend's section."""
@@ -67,24 +72,8 @@ class AnthropicBase(Backend):
                 f"[{self.name}] mode must be one of {sorted(MODES)}, got {raw!r}"
             ) from None
 
-    def make_client(self) -> instructor.AsyncInstructor:
-        model = self.model
-        normalize_usage = self.normalize_usage
-        client = instructor.from_anthropic(self.async_client(), mode=self.mode)
-        _create_with_completion = client.chat.completions.create_with_completion
-
-        async def _wrap(*args: Any, **kwargs: Any) -> tuple[Any, Any]:
-            # Claude uses the native "system" role (instructor maps a system
-            # message to the top-level system param) -- no folding needed.
-            kwargs.setdefault("max_tokens", DEFAULT_MAX_TOKENS)
-            extractions, completion = await _create_with_completion(
-                model=model, *args, **kwargs
-            )
-            return extractions, normalize_usage(completion)
-
-        # Wrap instructor's method to normalize the (extractions, usage) return.
-        setattr(client.chat.completions, "create_with_completion", _wrap)
-        return client
+    def build_client(self) -> instructor.AsyncInstructor:
+        return instructor.from_anthropic(self.async_client(), mode=self.mode)
 
     def normalize_usage(self, completion: Any) -> dict[str, Any]:
         # Anthropic's usage already matches the canonical schema.
@@ -102,7 +91,9 @@ class AnthropicBase(Backend):
         client: Any = None,
     ) -> tuple[str, Any]:
         model = model or self.model
-        client = client if client is not None else self.sync_client()
+        if client is None:
+            self.check_credentials()
+            client = self.sync_client()
         response = client.messages.create(
             model=model,
             max_tokens=16,
@@ -115,6 +106,7 @@ class AnthropicBase(Backend):
 class AnthropicBackend(AnthropicBase):
     name = "anthropic"
     rate_limit_errors: tuple[type[BaseException], ...] = (anthropic.RateLimitError,)
+    api_key_env = "ANTHROPIC_API_KEY"
 
     def async_client(self) -> Any:
         return anthropic.AsyncAnthropic()  # ANTHROPIC_API_KEY from the environment

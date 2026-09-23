@@ -44,6 +44,7 @@ MODES: dict[str, instructor.Mode] = {
 @register
 class LocalBackend(Backend):
     name = "local"
+    api_key_env = API_KEY_ENV
     #: Local servers apply no quota; an HTTP 429 there means the server is
     #: saturated, which retrying with more concurrency would not help.
     rate_limit_errors: tuple[type[BaseException], ...] = ()
@@ -74,24 +75,11 @@ class LocalBackend(Backend):
                 f"[local] mode must be one of {sorted(MODES)}, got {raw!r}"
             ) from None
 
-    def make_client(self) -> instructor.AsyncInstructor:
-        model = self.model
-        normalize_usage = self.normalize_usage
-        client = instructor.from_openai(
+    def build_client(self) -> instructor.AsyncInstructor:
+        return instructor.from_openai(
             openai.AsyncOpenAI(base_url=self.base_url, api_key=self.api_key),
             mode=self.mode,
         )
-        _create_with_completion = client.chat.completions.create_with_completion
-
-        async def _wrap(*args: Any, **kwargs: Any) -> tuple[Any, Any]:
-            extractions, completion = await _create_with_completion(
-                model=model, *args, **kwargs
-            )
-            return extractions, normalize_usage(completion)
-
-        # Wrap instructor's method to normalize the (extractions, usage) return.
-        setattr(client.chat.completions, "create_with_completion", _wrap)
-        return client
 
     def normalize_usage(self, completion: Any) -> dict[str, Any]:
         """Map chat-completions usage to the canonical keys.

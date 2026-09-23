@@ -19,6 +19,9 @@ from paperext.structured_output.mdl.model import PaperExtractions
 @pytest.fixture(autouse=True)
 def set_cfg(cfg, monkeypatch):
     monkeypatch.setattr(paperext.query, "CFG", cfg)
+    # backends check their credential before building a client (#80)
+    monkeypatch.setenv("OPENAI_API_KEY", "test")
+    monkeypatch.setenv("ANTHROPIC_API_KEY", "test")
 
 
 @pytest.fixture(scope="function", autouse=True)

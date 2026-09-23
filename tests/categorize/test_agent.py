@@ -103,16 +103,17 @@ def test_the_client_is_pinned_without_disturbing_the_global_config(cfg, monkeypa
 
             return CFG.openai.model
 
-        def make_client(self):
-            seen["model"] = self.model
+        def make_client(self, label=""):
+            seen["model"], seen["label"] = self.model, label
             return MagicMock()
 
     monkeypatch.setattr(
         "paperext.backends.get_backend", lambda name: FakeBackend(), raising=False
     )
     before = cfg.openai.model
-    agent.make_client("openai", "pinned-categorizer")
+    agent.make_client("openai", "pinned-categorizer", label="agent")
     assert seen["model"] == "pinned-categorizer"
+    assert seen["label"] == "agent"  # errors from this client say which one it is
     assert Config.get_global_config().openai.model == before
 
 
