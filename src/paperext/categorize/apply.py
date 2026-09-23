@@ -179,6 +179,19 @@ class DecisionRecord(BaseModel):
     decision: Decision
     result: ApplyResult
 
+    @classmethod
+    def recorded(cls, **fields: Any) -> "DecisionRecord":
+        """Rebuild a record around a decision that came out of a log.
+
+        What a run did is a fact, and a rule added since -- the #67
+        outcome/actions check, narrowed in #82 -- must not make an old log
+        unreadable. Plain construction revalidates the nested decision, so
+        replaying one through it raises; this is the same escape hatch
+        :func:`read_decisions` uses, at the one other place a logged decision
+        is rebuilt into a record.
+        """
+        return cls.model_validate(fields, context=RECORDED)
+
 
 def _check_refs(onto: Ontology, action: Action) -> None:
     """Uniform reference errors, driven by the :data:`OPS` table.

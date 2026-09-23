@@ -48,7 +48,7 @@ import uuid
 from pathlib import Path
 from typing import Any, Awaitable, Callable, Iterable, Sequence, Union
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, ValidationError
 from rapidfuzz import fuzz
 
 from paperext.analysis.rollup import str_normalize
@@ -218,6 +218,15 @@ Decider = Callable[[Ontology, Context, Item, Provenance], "Awaitable[DecisionRec
 PROBES_FILE = "probes.jsonl"
 
 
+def _valid_today(decision: Decision) -> bool:
+    """Would the current schema accept this decision if a model emitted it now?"""
+    try:
+        Decision.model_validate(decision.model_dump())
+    except ValidationError:
+        return False
+    return True
+
+
 class ResumableDecider:
     """Replay what a previous attempt recorded; call *live* for the rest; log it.
 
@@ -245,11 +254,27 @@ class ResumableDecider:
         self.cut = cut
         self.log = log
         self.limit = limit
-        self.recorded: "dict[tuple[int, str], DecisionRecord]" = {
-            (int(r.provenance.params.get("repeat", 0)), r.provenance.payload_hash): r
-            for r in recorded
-            if r.provenance.payload_hash
-        }
+        self.recorded: "dict[tuple[int, str], DecisionRecord]" = {}
+        self.stale = 0
+        for record in recorded:
+            if not record.provenance.payload_hash:
+                continue
+            if not _valid_today(record.decision):
+                # recorded under rules that have since changed: replaying it
+                # would score an answer the agent is no longer allowed to give,
+                # so the item is re-asked instead
+                self.stale += 1
+                continue
+            key = (
+                int(record.provenance.params.get("repeat", 0)),
+                record.provenance.payload_hash,
+            )
+            self.recorded[key] = record
+        if self.stale:
+            logger.info(
+                "%d recorded decision(s) predate a schema change and will be re-asked",
+                self.stale,
+            )
         self.replayed = 0
         self.called = 0
 
@@ -275,7 +300,7 @@ class ResumableDecider:
                     for key in ("usage", "repairs")
                     if key in hit.provenance.params
                 }
-                return DecisionRecord(
+                return DecisionRecord.recorded(
                     decision=hit.decision,
                     result=result,
                     provenance=provenance.model_copy(
@@ -360,7 +385,7 @@ def replay_decider(
         from paperext.categorize.prompt import payload_hash
 
         result = apply_decision(onto, decision, cut=cut, dry_run=True)
-        return DecisionRecord(
+        return DecisionRecord.recorded(
             decision=decision,
             result=result,
             provenance=provenance.model_copy(
