@@ -814,3 +814,72 @@ def test_the_cli_refuses_to_append_to_a_run_without_resume(
     evaluate.main(argv + ["--resume"])
     # resumed: the recorded decisions were replayed, so the log did not grow
     assert len((out / evaluate.DECISIONS_FILE).read_text().splitlines()) == n
+
+
+def _fold(surface: str, node_id: str, target: str) -> DecisionRecord:
+    """A decision recorded when a fold still counted as mapping the surface.
+
+    Written by a pre-#82 run: today the same actions must say ``no_op``.
+    """
+    from paperext.categorize.actions import DemoteToVariant
+
+    decision = Decision.model_construct(
+        surface=surface,
+        outcome=Outcome.MAPPED,
+        confidence=0.9,
+        reasoning="",
+        review_notes=[],
+        unresolved=[],
+        actions=[
+            DemoteToVariant(
+                node_id=node_id, target_id=target, justification="j", confidence=0.9
+            )
+        ],
+    )
+    return DecisionRecord.recorded(
+        decision=decision,
+        result=ApplyResult(ok=True),
+        provenance=Provenance(
+            run_id="r",
+            seq=0,
+            dimension="test",
+            base_version="v0",
+            base_content_hash="",
+            payload_hash="deadbeef",
+        ),
+    )
+
+
+def test_a_log_survives_a_schema_change_that_postdates_it(tmp_path):
+    """What a run did is a fact; a rule added since must not make it unreadable."""
+    path = tmp_path / "decisions.jsonl"
+    with DecisionLog(path) as log:
+        log.write(_fold("erm", "empiricalriskminimization", "erm"))
+    (record,) = list(read_decisions(path))  # reading is the escape hatch (#69)
+    assert record.decision.outcome is Outcome.MAPPED
+    # and rebuilding a record around it does not re-litigate the decision
+    assert (
+        DecisionRecord.recorded(
+            decision=record.decision,
+            result=ApplyResult(ok=False),
+            provenance=record.provenance,
+        ).decision.outcome
+        is Outcome.MAPPED
+    )
+
+
+def test_a_recording_todays_rules_reject_is_re_asked_not_replayed(tiny, tiny_cut):
+    """Replaying it would score an answer the agent may no longer give."""
+    stale = _fold("erm", "empiricalriskminimization", "erm")
+    fresh = recorded("resnet50", "r50", "ResNet-50", "resnet").model_copy(
+        update={
+            "provenance": stale.provenance.model_copy(
+                update={"payload_hash": "cafe", "seq": 1}
+            )
+        }
+    )
+    decider = evaluate.ResumableDecider(
+        lambda *a: None, cut=tiny_cut, recorded=[stale, fresh]
+    )
+    assert decider.stale == 1
+    assert [key[1] for key in decider.recorded] == ["cafe"]
