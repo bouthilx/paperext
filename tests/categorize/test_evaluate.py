@@ -971,3 +971,43 @@ def test_probe_records_say_which_probe_asked(tiny, tiny_cut):
         )
     )
     assert records[0].provenance.params["probe"] == "noop"
+
+
+def test_the_ignore_pool_honours_an_audit(tiny, tmp_path):
+    """6b's reference is v0's ignore root, and that root is not trustworthy:
+    it mixes libraries and non-ML entities with real models nobody categorised."""
+    tiny.add_surface("junk", "junk")
+    tiny.create_node("llm", "large language models", parent="ignore")
+    tiny.add_surface("llm", "llm")
+    assert len(evaluate.ignore_pool(tiny)) == 2  # unaudited: both count as junk
+
+    audit = tmp_path / evaluate.IGNORE_AUDIT_FILE
+    audit.write_text(
+        "# comment\n\njunk\tgeneric\tjunk\t0\t\nllm\tentity\tlarge language models\t2\t\n"
+    )
+    verdicts = evaluate.read_ignore_audit(audit)
+    assert verdicts == {"junk": "generic", "llm": "entity"}
+    assert [n for _, n in evaluate.ignore_pool(tiny, audit=verdicts)] == ["junk"]
+
+    # a row still awaiting review is never scored against the agent either
+    audit.write_text("junk\treview\tjunk\t0\t\n")
+    assert evaluate.ignore_pool(tiny, audit=evaluate.read_ignore_audit(audit)) == []
+    # and no audit file at all leaves the old behaviour untouched
+    assert evaluate.read_ignore_audit(tmp_path / "nope.tsv") == {}
+
+
+def test_the_committed_ignore_audit_covers_every_node_it_should():
+    """A node added to the ignore root without a verdict must not silently
+    become a probe positive again."""
+    from paperext.ontology import Ontology
+
+    onto = Ontology.load("data/ontology/models/v0")
+    audit = evaluate.read_ignore_audit(
+        "data/ontology/eval/models/" + evaluate.IGNORE_AUDIT_FILE
+    )
+    assert set(audit) == set(onto.children("ignore"))
+    assert set(audit.values()) <= evaluate.JUNK_VERDICTS | {"entity", "review"}
+    # the audit must actually shrink the pool, or it is not doing anything
+    assert len(evaluate.ignore_pool(onto, audit=audit)) < len(
+        evaluate.ignore_pool(onto)
+    )

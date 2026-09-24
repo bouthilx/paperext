@@ -1514,13 +1514,47 @@ async def run_ambiguity_probe(
     return probes.score_ambiguity(should_abstain, should_resolve, stripped_only)
 
 
-def ignore_pool(onto: Ontology, *, root: str = "ignore") -> "list[tuple[str, str]]":
+#: Verdicts in an ignore audit that mean "correctly ignored".
+JUNK_VERDICTS = frozenset({"software", "not-ml", "generic"})
+
+#: Audit of a dimension's ignore root, beside the split manifest.
+IGNORE_AUDIT_FILE = "ignore_audit.tsv"
+
+
+def read_ignore_audit(path: "Union[str, Path]") -> "dict[str, str]":
+    """``{node_id: verdict}`` from an audit TSV; ``{}`` when there is none."""
+    file = Path(path)
+    if not file.is_file():
+        return {}
+    verdicts: "dict[str, str]" = {}
+    for line in file.read_text(encoding="utf-8").splitlines():
+        if not line.strip() or line.startswith("#"):
+            continue
+        node_id, verdict, *_ = line.split("\t")
+        verdicts[node_id.strip()] = verdict.strip()
+    return verdicts
+
+
+def ignore_pool(
+    onto: Ontology,
+    *,
+    root: str = "ignore",
+    audit: "dict[str, str] | None" = None,
+) -> "list[tuple[str, str]]":
     """``(surface, name)`` for every ablatable leaf under the dropped root.
 
-    The legacy tree already decided these are not entities worth counting, and
-    that judgment is far less arguable than a placement -- which is why
-    ``mark_ignore`` gets its own gate clause: a false ignore silently removes a
-    real entity from every downstream count.
+    ``mark_ignore`` gets its own gate clause because a false ignore silently
+    removes a real entity from every downstream count. That clause needs a
+    trustworthy reference, and the raw root is not one: the first full dev run
+    kept 37 of 60 sampled positives, placing `large language models` under
+    `transformer` and `Gen-neG` under `diffusion model`. The root mixes genuine
+    junk -- libraries, tools, non-ML entities -- with real models nobody ever
+    categorised, so recall against it was measuring agreement with a label that
+    is wrong about a third of the time.
+
+    With an *audit* only the rows judged junk are positives, and anything still
+    marked ``review`` is left out -- an unreviewed row can never be scored
+    against the agent. Without one the whole root is used, as before.
     """
     from paperext.categorize.ablate import ablatable as _ablatable
 
@@ -1533,6 +1567,8 @@ def ignore_pool(onto: Ontology, *, root: str = "ignore") -> "list[tuple[str, str
         children = onto.children(node_id)
         stack.extend(children)
         if children:
+            continue
+        if audit and audit.get(node_id) not in JUNK_VERDICTS:
             continue
         surfaces = onto.surfaces(node_id)
         name = onto.name(node_id)
@@ -1561,12 +1597,13 @@ async def run_ignore_probe(
     n: int = 60,
     seed: int = 42,
     concurrency: int = 4,
+    audit: "dict[str, str] | None" = None,
 ) -> "dict[str, Any]":
-    """Precision and recall of ``mark_ignore`` against the legacy ignore root."""
+    """Precision and recall of ``mark_ignore`` against the audited ignore root."""
     import random as _random
 
     rng = _random.Random(seed)
-    pool = ignore_pool(onto)
+    pool = ignore_pool(onto, audit=audit or {})
     if not pool:
         return {}
     positives = pool if len(pool) <= n else sorted(rng.sample(pool, n))
@@ -1895,6 +1932,11 @@ async def _run(args: argparse.Namespace) -> Report:
                 dimension=args.dim,
                 seed=args.seed,
                 concurrency=args.concurrency,
+                audit=read_ignore_audit(
+                    Path(args.splits).parent / IGNORE_AUDIT_FILE
+                    if args.splits
+                    else root / "eval" / args.dim / IGNORE_AUDIT_FILE
+                ),
             ),
         }
 
