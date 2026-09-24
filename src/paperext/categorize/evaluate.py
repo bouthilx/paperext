@@ -1378,7 +1378,7 @@ async def run_policy_probe(
     *,
     dimension: str,
     cut: AnyCut,
-    limit: "int | None" = 60,
+    limit: "int | None" = None,
     seed: int = 42,
     concurrency: int = 4,
 ) -> "dict[str, Any]":
@@ -1390,6 +1390,10 @@ async def run_policy_probe(
     real dev run that was 45 of 60 surface cases, and it dragged the arm from
     0.82 (evidence) to 0.38 overall: the clause was measuring whether the agent
     guesses, and marking the right answer wrong.
+
+    *limit* caps generation, so it is now unset: filtering to grounded cases
+    takes 227 candidates down to 56, and capping at 60 first left only 35 --
+    thin for a clause whose threshold is 0.90, where four misses fail it.
     """
     corpus = {item.surface: item for item in corpus_items}
     grounded = [
