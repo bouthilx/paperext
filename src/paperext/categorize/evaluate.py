@@ -217,6 +217,9 @@ Decider = Callable[[Ontology, Context, Item, Provenance], "Awaitable[DecisionRec
 
 PROBES_FILE = "probes.jsonl"
 
+#: Most pairs re-judged with A and B swapped, for the order-blindness check.
+SWAP_CHECK_MAX = 200
+
 
 def _valid_today(decision: Decision) -> bool:
     """Would the current schema accept this decision if a model emitted it now?"""
@@ -449,6 +452,7 @@ async def decide_all(
     concurrency: int = 4,
     skeleton_depth: int = DEFAULT_SKELETON_DEPTH,
     ablated: bool = True,
+    probe: str = "",
     log: "DecisionLog | None" = None,
     on_record: "Callable[[DecisionRecord], None] | None" = None,
 ) -> "list[DecisionRecord]":
@@ -476,7 +480,14 @@ async def decide_all(
             base_content_hash=ctx.base_content_hash,
             model=model,
             ablated=ablated,
-            params={"skeleton_depth": skeleton_depth, "eval": True},
+            params={
+                "skeleton_depth": skeleton_depth,
+                "eval": True,
+                # which probe asked: without it a probe's answers cannot be told
+                # apart in the log, so a failing clause can only be diagnosed by
+                # paying to run it again
+                **({"probe": probe} if probe else {}),
+            },
         )
         async with semaphore:
             record = await decider(scratch, ctx, item, provenance)
@@ -1343,6 +1354,7 @@ async def run_noop_probe(
         decider,
         dimension=dimension,
         concurrency=concurrency,
+        probe="noop",
         ablated=False,
     )
     noops = [probes.is_noop(record) for record in records]
@@ -1370,11 +1382,24 @@ async def run_policy_probe(
     seed: int = 42,
     concurrency: int = 4,
 ) -> "dict[str, Any]":
-    """Alias pairs whose answer the locked granularity policy already fixes."""
-    cases = probes.policy_cases(onto, corpus_items, limit=limit, seed=seed)
+    """Alias pairs whose answer the locked granularity policy already fixes.
+
+    Only cases whose surface carries corpus evidence are asked. Without it the
+    agent sees a bare string, and POLICY rule 2 requires it to abstain rather
+    than guess -- which this probe then scored as a policy miss. On the first
+    real dev run that was 45 of 60 surface cases, and it dragged the arm from
+    0.82 (evidence) to 0.38 overall: the clause was measuring whether the agent
+    guesses, and marking the right answer wrong.
+    """
+    corpus = {item.surface: item for item in corpus_items}
+    grounded = [
+        case
+        for case in probes.policy_cases(onto, corpus_items, limit=limit, seed=seed)
+        if getattr(corpus.get(str_normalize(case.surface)), "mentions", None)
+    ]
+    cases = grounded
     if not cases:
         return {}
-    corpus = {item.surface: item for item in corpus_items}
     trees_items: "list[tuple[Ontology, Item]]" = []
     for case in cases:
         trees_items.append(
@@ -1384,7 +1409,11 @@ async def run_policy_probe(
             )
         )
     records = await decide_all(
-        trees_items, decider, dimension=dimension, concurrency=concurrency
+        trees_items,
+        decider,
+        dimension=dimension,
+        concurrency=concurrency,
+        probe="policy",
     )
     return probes.score_policy(cases, records)
 
@@ -1457,11 +1486,25 @@ async def run_ambiguity_probe(
 
     should_abstain, should_resolve, stripped_only = await asyncio.gather(
         decide_all(
-            homonym_cases, decider, dimension=dimension, concurrency=concurrency
+            homonym_cases,
+            decider,
+            dimension=dimension,
+            concurrency=concurrency,
+            probe="ambiguity:homonym",
         ),
-        decide_all(plain_cases, decider, dimension=dimension, concurrency=concurrency),
         decide_all(
-            stripped_cases, decider, dimension=dimension, concurrency=concurrency
+            plain_cases,
+            decider,
+            dimension=dimension,
+            concurrency=concurrency,
+            probe="ambiguity:plain",
+        ),
+        decide_all(
+            stripped_cases,
+            decider,
+            dimension=dimension,
+            concurrency=concurrency,
+            probe="ambiguity:stripped",
         ),
     )
     return probes.score_ambiguity(should_abstain, should_resolve, stripped_only)
@@ -1538,7 +1581,7 @@ async def run_ignore_probe(
         for surface in chosen_negatives
     ]
     records = await decide_all(
-        cases, decider, dimension=dimension, concurrency=concurrency
+        cases, decider, dimension=dimension, concurrency=concurrency, probe="ignore"
     )
     flags = [marked_ignore(record) for record in records]
     true_positive = sum(flags[: len(positives)])
@@ -1906,10 +1949,14 @@ async def _judge(
     import random as _random
 
     rng = _random.Random(args.seed)
+    # Every pair, up to a cap. At 20 the check could not decide: 15/20 = 0.750
+    # has a 95% CI of [0.51, 0.91], and the 0.80 threshold sits inside it, so the
+    # clause that *voids the primary metric* was a coin flip. Judge calls are the
+    # cheap half of a run (evidence and two placements, no taxonomy skeleton).
     sample = (
         list(pairs)
-        if len(pairs) <= 20
-        else [pairs[i] for i in sorted(rng.sample(range(len(pairs)), 20))]
+        if len(pairs) <= SWAP_CHECK_MAX
+        else [pairs[i] for i in sorted(rng.sample(range(len(pairs)), SWAP_CHECK_MAX))]
     )
     if sample:
         mirrored = await adjudicate(

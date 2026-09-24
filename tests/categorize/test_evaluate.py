@@ -6,7 +6,7 @@ import math
 
 import pytest
 
-from paperext.categorize import adjudicate, evaluate, metrics
+from paperext.categorize import adjudicate, evaluate, metrics, probes
 from paperext.categorize.actions import (
     AddSurface,
     CreateNode,
@@ -921,3 +921,53 @@ def test_an_item_that_is_its_own_branch_drops_the_homonym_pair(tiny, monkeypatch
     assert result  # the probe ran instead of dying
     # both items get the two plain arms; only resnet50 also gets a homonym case
     assert asked.count("sam") == 2 and asked.count("resnet50") == 3
+
+
+# --------------------------------------------------------------------------- #
+# What the first full dev run turned up in the harness itself
+# --------------------------------------------------------------------------- #
+
+
+def test_policy_cases_without_evidence_are_not_asked(tiny, tiny_cut, corpus):
+    """Rule 2 makes abstention correct on a bare string, and the probe scored it
+    as a policy miss -- 45 of 60 surface cases on the first real run."""
+    asked: "list[str]" = []
+
+    async def decider(onto, ctx, item, provenance):
+        asked.append(item.surface)
+        return recorded(item.surface, "x", "X", "nn")
+
+    bare = Item(dimension="test", surface="zzz", name="ZZZ", spellings=["ZZZ"])
+    assert not bare.mentions
+    cases = [
+        probes.ProbeCase(kind="surface", surface="resnet50", expect="surface"),
+        probes.ProbeCase(kind="surface", surface="zzz", expect="surface"),
+    ]
+    monkey = list(corpus) + [bare]
+    with pytest.MonkeyPatch.context() as mp:
+        mp.setattr(evaluate.probes, "policy_cases", lambda *a, **k: cases)
+        asyncio.run(
+            evaluate.run_policy_probe(
+                tiny, monkey, decider, dimension="test", cut=tiny_cut
+            )
+        )
+    assert asked == ["resnet50"]  # the evidence-free case is not put to the agent
+
+
+def test_probe_records_say_which_probe_asked(tiny, tiny_cut):
+    """Without the label a failing clause cannot be diagnosed from the log."""
+
+    async def decider(onto, ctx, item, provenance):
+        return recorded(item.surface, "x", "X", "nn").model_copy(
+            update={"provenance": provenance}
+        )
+
+    records = asyncio.run(
+        evaluate.decide_all(
+            [(tiny, Item(dimension="test", surface="a", name="A", spellings=["A"]))],
+            decider,
+            dimension="test",
+            probe="noop",
+        )
+    )
+    assert records[0].provenance.params["probe"] == "noop"
