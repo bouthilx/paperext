@@ -217,6 +217,9 @@ Decider = Callable[[Ontology, Context, Item, Provenance], "Awaitable[DecisionRec
 
 PROBES_FILE = "probes.jsonl"
 
+#: Most pairs re-judged with A and B swapped, for the order-blindness check.
+SWAP_CHECK_MAX = 200
+
 
 def _valid_today(decision: Decision) -> bool:
     """Would the current schema accept this decision if a model emitted it now?"""
@@ -449,6 +452,7 @@ async def decide_all(
     concurrency: int = 4,
     skeleton_depth: int = DEFAULT_SKELETON_DEPTH,
     ablated: bool = True,
+    probe: str = "",
     log: "DecisionLog | None" = None,
     on_record: "Callable[[DecisionRecord], None] | None" = None,
 ) -> "list[DecisionRecord]":
@@ -476,7 +480,14 @@ async def decide_all(
             base_content_hash=ctx.base_content_hash,
             model=model,
             ablated=ablated,
-            params={"skeleton_depth": skeleton_depth, "eval": True},
+            params={
+                "skeleton_depth": skeleton_depth,
+                "eval": True,
+                # which probe asked: without it a probe's answers cannot be told
+                # apart in the log, so a failing clause can only be diagnosed by
+                # paying to run it again
+                **({"probe": probe} if probe else {}),
+            },
         )
         async with semaphore:
             record = await decider(scratch, ctx, item, provenance)
@@ -1343,6 +1354,7 @@ async def run_noop_probe(
         decider,
         dimension=dimension,
         concurrency=concurrency,
+        probe="noop",
         ablated=False,
     )
     noops = [probes.is_noop(record) for record in records]
@@ -1366,15 +1378,32 @@ async def run_policy_probe(
     *,
     dimension: str,
     cut: AnyCut,
-    limit: "int | None" = 60,
+    limit: "int | None" = None,
     seed: int = 42,
     concurrency: int = 4,
 ) -> "dict[str, Any]":
-    """Alias pairs whose answer the locked granularity policy already fixes."""
-    cases = probes.policy_cases(onto, corpus_items, limit=limit, seed=seed)
+    """Alias pairs whose answer the locked granularity policy already fixes.
+
+    Only cases whose surface carries corpus evidence are asked. Without it the
+    agent sees a bare string, and POLICY rule 2 requires it to abstain rather
+    than guess -- which this probe then scored as a policy miss. On the first
+    real dev run that was 45 of 60 surface cases, and it dragged the arm from
+    0.82 (evidence) to 0.38 overall: the clause was measuring whether the agent
+    guesses, and marking the right answer wrong.
+
+    *limit* caps generation, so it is now unset: filtering to grounded cases
+    takes 227 candidates down to 56, and capping at 60 first left only 35 --
+    thin for a clause whose threshold is 0.90, where four misses fail it.
+    """
+    corpus = {item.surface: item for item in corpus_items}
+    grounded = [
+        case
+        for case in probes.policy_cases(onto, corpus_items, limit=limit, seed=seed)
+        if getattr(corpus.get(str_normalize(case.surface)), "mentions", None)
+    ]
+    cases = grounded
     if not cases:
         return {}
-    corpus = {item.surface: item for item in corpus_items}
     trees_items: "list[tuple[Ontology, Item]]" = []
     for case in cases:
         trees_items.append(
@@ -1384,7 +1413,11 @@ async def run_policy_probe(
             )
         )
     records = await decide_all(
-        trees_items, decider, dimension=dimension, concurrency=concurrency
+        trees_items,
+        decider,
+        dimension=dimension,
+        concurrency=concurrency,
+        probe="policy",
     )
     return probes.score_policy(cases, records)
 
@@ -1457,23 +1490,71 @@ async def run_ambiguity_probe(
 
     should_abstain, should_resolve, stripped_only = await asyncio.gather(
         decide_all(
-            homonym_cases, decider, dimension=dimension, concurrency=concurrency
+            homonym_cases,
+            decider,
+            dimension=dimension,
+            concurrency=concurrency,
+            probe="ambiguity:homonym",
         ),
-        decide_all(plain_cases, decider, dimension=dimension, concurrency=concurrency),
         decide_all(
-            stripped_cases, decider, dimension=dimension, concurrency=concurrency
+            plain_cases,
+            decider,
+            dimension=dimension,
+            concurrency=concurrency,
+            probe="ambiguity:plain",
+        ),
+        decide_all(
+            stripped_cases,
+            decider,
+            dimension=dimension,
+            concurrency=concurrency,
+            probe="ambiguity:stripped",
         ),
     )
     return probes.score_ambiguity(should_abstain, should_resolve, stripped_only)
 
 
-def ignore_pool(onto: Ontology, *, root: str = "ignore") -> "list[tuple[str, str]]":
+#: Verdicts in an ignore audit that mean "correctly ignored".
+JUNK_VERDICTS = frozenset({"software", "not-ml", "generic"})
+
+#: Audit of a dimension's ignore root, beside the split manifest.
+IGNORE_AUDIT_FILE = "ignore_audit.tsv"
+
+
+def read_ignore_audit(path: "Union[str, Path]") -> "dict[str, str]":
+    """``{node_id: verdict}`` from an audit TSV; ``{}`` when there is none."""
+    file = Path(path)
+    if not file.is_file():
+        return {}
+    verdicts: "dict[str, str]" = {}
+    for line in file.read_text(encoding="utf-8").splitlines():
+        if not line.strip() or line.startswith("#"):
+            continue
+        node_id, verdict, *_ = line.split("\t")
+        verdicts[node_id.strip()] = verdict.strip()
+    return verdicts
+
+
+def ignore_pool(
+    onto: Ontology,
+    *,
+    root: str = "ignore",
+    audit: "dict[str, str] | None" = None,
+) -> "list[tuple[str, str]]":
     """``(surface, name)`` for every ablatable leaf under the dropped root.
 
-    The legacy tree already decided these are not entities worth counting, and
-    that judgment is far less arguable than a placement -- which is why
-    ``mark_ignore`` gets its own gate clause: a false ignore silently removes a
-    real entity from every downstream count.
+    ``mark_ignore`` gets its own gate clause because a false ignore silently
+    removes a real entity from every downstream count. That clause needs a
+    trustworthy reference, and the raw root is not one: the first full dev run
+    kept 37 of 60 sampled positives, placing `large language models` under
+    `transformer` and `Gen-neG` under `diffusion model`. The root mixes genuine
+    junk -- libraries, tools, non-ML entities -- with real models nobody ever
+    categorised, so recall against it was measuring agreement with a label that
+    is wrong about a third of the time.
+
+    With an *audit* only the rows judged junk are positives, and anything still
+    marked ``review`` is left out -- an unreviewed row can never be scored
+    against the agent. Without one the whole root is used, as before.
     """
     from paperext.categorize.ablate import ablatable as _ablatable
 
@@ -1486,6 +1567,8 @@ def ignore_pool(onto: Ontology, *, root: str = "ignore") -> "list[tuple[str, str
         children = onto.children(node_id)
         stack.extend(children)
         if children:
+            continue
+        if audit and audit.get(node_id) not in JUNK_VERDICTS:
             continue
         surfaces = onto.surfaces(node_id)
         name = onto.name(node_id)
@@ -1514,12 +1597,13 @@ async def run_ignore_probe(
     n: int = 60,
     seed: int = 42,
     concurrency: int = 4,
+    audit: "dict[str, str] | None" = None,
 ) -> "dict[str, Any]":
-    """Precision and recall of ``mark_ignore`` against the legacy ignore root."""
+    """Precision and recall of ``mark_ignore`` against the audited ignore root."""
     import random as _random
 
     rng = _random.Random(seed)
-    pool = ignore_pool(onto)
+    pool = ignore_pool(onto, audit=audit or {})
     if not pool:
         return {}
     positives = pool if len(pool) <= n else sorted(rng.sample(pool, n))
@@ -1538,7 +1622,7 @@ async def run_ignore_probe(
         for surface in chosen_negatives
     ]
     records = await decide_all(
-        cases, decider, dimension=dimension, concurrency=concurrency
+        cases, decider, dimension=dimension, concurrency=concurrency, probe="ignore"
     )
     flags = [marked_ignore(record) for record in records]
     true_positive = sum(flags[: len(positives)])
@@ -1848,6 +1932,11 @@ async def _run(args: argparse.Namespace) -> Report:
                 dimension=args.dim,
                 seed=args.seed,
                 concurrency=args.concurrency,
+                audit=read_ignore_audit(
+                    Path(args.splits).parent / IGNORE_AUDIT_FILE
+                    if args.splits
+                    else root / "eval" / args.dim / IGNORE_AUDIT_FILE
+                ),
             ),
         }
 
@@ -1906,10 +1995,14 @@ async def _judge(
     import random as _random
 
     rng = _random.Random(args.seed)
+    # Every pair, up to a cap. At 20 the check could not decide: 15/20 = 0.750
+    # has a 95% CI of [0.51, 0.91], and the 0.80 threshold sits inside it, so the
+    # clause that *voids the primary metric* was a coin flip. Judge calls are the
+    # cheap half of a run (evidence and two placements, no taxonomy skeleton).
     sample = (
         list(pairs)
-        if len(pairs) <= 20
-        else [pairs[i] for i in sorted(rng.sample(range(len(pairs)), 20))]
+        if len(pairs) <= SWAP_CHECK_MAX
+        else [pairs[i] for i in sorted(rng.sample(range(len(pairs)), SWAP_CHECK_MAX))]
     )
     if sample:
         mirrored = await adjudicate(

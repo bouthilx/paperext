@@ -6,7 +6,7 @@ import math
 
 import pytest
 
-from paperext.categorize import adjudicate, evaluate, metrics
+from paperext.categorize import adjudicate, evaluate, metrics, probes
 from paperext.categorize.actions import (
     AddSurface,
     CreateNode,
@@ -921,3 +921,93 @@ def test_an_item_that_is_its_own_branch_drops_the_homonym_pair(tiny, monkeypatch
     assert result  # the probe ran instead of dying
     # both items get the two plain arms; only resnet50 also gets a homonym case
     assert asked.count("sam") == 2 and asked.count("resnet50") == 3
+
+
+# --------------------------------------------------------------------------- #
+# What the first full dev run turned up in the harness itself
+# --------------------------------------------------------------------------- #
+
+
+def test_policy_cases_without_evidence_are_not_asked(tiny, tiny_cut, corpus):
+    """Rule 2 makes abstention correct on a bare string, and the probe scored it
+    as a policy miss -- 45 of 60 surface cases on the first real run."""
+    asked: "list[str]" = []
+
+    async def decider(onto, ctx, item, provenance):
+        asked.append(item.surface)
+        return recorded(item.surface, "x", "X", "nn")
+
+    bare = Item(dimension="test", surface="zzz", name="ZZZ", spellings=["ZZZ"])
+    assert not bare.mentions
+    cases = [
+        probes.ProbeCase(kind="surface", surface="resnet50", expect="surface"),
+        probes.ProbeCase(kind="surface", surface="zzz", expect="surface"),
+    ]
+    monkey = list(corpus) + [bare]
+    with pytest.MonkeyPatch.context() as mp:
+        mp.setattr(evaluate.probes, "policy_cases", lambda *a, **k: cases)
+        asyncio.run(
+            evaluate.run_policy_probe(
+                tiny, monkey, decider, dimension="test", cut=tiny_cut
+            )
+        )
+    assert asked == ["resnet50"]  # the evidence-free case is not put to the agent
+
+
+def test_probe_records_say_which_probe_asked(tiny, tiny_cut):
+    """Without the label a failing clause cannot be diagnosed from the log."""
+
+    async def decider(onto, ctx, item, provenance):
+        return recorded(item.surface, "x", "X", "nn").model_copy(
+            update={"provenance": provenance}
+        )
+
+    records = asyncio.run(
+        evaluate.decide_all(
+            [(tiny, Item(dimension="test", surface="a", name="A", spellings=["A"]))],
+            decider,
+            dimension="test",
+            probe="noop",
+        )
+    )
+    assert records[0].provenance.params["probe"] == "noop"
+
+
+def test_the_ignore_pool_honours_an_audit(tiny, tmp_path):
+    """6b's reference is v0's ignore root, and that root is not trustworthy:
+    it mixes libraries and non-ML entities with real models nobody categorised."""
+    tiny.add_surface("junk", "junk")
+    tiny.create_node("llm", "large language models", parent="ignore")
+    tiny.add_surface("llm", "llm")
+    assert len(evaluate.ignore_pool(tiny)) == 2  # unaudited: both count as junk
+
+    audit = tmp_path / evaluate.IGNORE_AUDIT_FILE
+    audit.write_text(
+        "# comment\n\njunk\tgeneric\tjunk\t0\t\nllm\tentity\tlarge language models\t2\t\n"
+    )
+    verdicts = evaluate.read_ignore_audit(audit)
+    assert verdicts == {"junk": "generic", "llm": "entity"}
+    assert [n for _, n in evaluate.ignore_pool(tiny, audit=verdicts)] == ["junk"]
+
+    # a row still awaiting review is never scored against the agent either
+    audit.write_text("junk\treview\tjunk\t0\t\n")
+    assert evaluate.ignore_pool(tiny, audit=evaluate.read_ignore_audit(audit)) == []
+    # and no audit file at all leaves the old behaviour untouched
+    assert evaluate.read_ignore_audit(tmp_path / "nope.tsv") == {}
+
+
+def test_the_committed_ignore_audit_covers_every_node_it_should():
+    """A node added to the ignore root without a verdict must not silently
+    become a probe positive again."""
+    from paperext.ontology import Ontology
+
+    onto = Ontology.load("data/ontology/models/v0")
+    audit = evaluate.read_ignore_audit(
+        "data/ontology/eval/models/" + evaluate.IGNORE_AUDIT_FILE
+    )
+    assert set(audit) == set(onto.children("ignore"))
+    assert set(audit.values()) <= evaluate.JUNK_VERDICTS | {"entity", "review"}
+    # the audit must actually shrink the pool, or it is not doing anything
+    assert len(evaluate.ignore_pool(onto, audit=audit)) < len(
+        evaluate.ignore_pool(onto)
+    )
