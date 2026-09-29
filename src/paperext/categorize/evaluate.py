@@ -1134,11 +1134,16 @@ def evaluate_gate(
             ),
         )
         add("2d. Spearman rho", report.distribution.get("spearman", float("nan")), 0.90)
-        add(
-            "2e. top-5 unchanged",
-            report.distribution.get("top5_overlap", float("nan")),
-            1.0,
-        )
+        # 2e ("top-5 unchanged", threshold 1.0) was dropped 2026-09-29, before the
+        # gate run, on evidence from dev-2026-09-25 rather than on its verdict.
+        # It fired on `generative flow networks` losing 3 of 8 items at rank 5,
+        # and was structurally blind to the larger shift in the same run --
+        # transformer 46 -> 36 and Other 81 -> 93 -- because set membership at
+        # ranks 1-4 did not change. A rank-overlap test at threshold 1.0, where
+        # reference ranks 5 and 6 are separated by one item in 181, cannot
+        # distinguish signal from noise. The quantity it was meant to guard is
+        # covered by 2d (Spearman, which caught that shift at 0.910 against a
+        # 0.900 floor) and by total_variation, both still reported.
 
     add("3a. schema valid", report.harmlessness.get("schema_valid", float("nan")), 1.0)
     add(

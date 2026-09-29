@@ -130,11 +130,20 @@ Rules, in order of precedence:
    Large, -50, -B-16, -S-101) -- is its own NODE, nested under the family it
    belongs to. Only a different *spelling* of the same thing (`mobilenet-v2`,
    `MobileNet v2`) is a SURFACE. When in doubt: would a reader consider these two
-   different models? Then they are nodes.
+   different models? Then they are nodes. An acronym, initialism or contraction
+   of a node's own name is a SURFACE of that node -- never a new node, never a
+   sibling: `SAC` attaches to `soft actor-critic`, `GFlowNets` to `generative
+   flow networks`, with `add_surface` on the node that already exists. That is
+   the same entity spelled differently. It does not apply when the name adds a
+   qualifier -- `RoBERTa-large` qualifies `RoBERTa` and stays a NODE under the
+   variant test above.
 4. FIX WHAT YOU SEE -- but only while you are mapping. These edits ride along
    with a `mapped` or `created` decision; when the name already resolves to the
    right node, `no_op` means *do nothing*, and writing a missing description is
-   the one exception. Churn on nodes that were already correct is unreviewable:
+   the one exception. Specifically, on a `no_op`: do not rename, do not move, do
+   not fold a node into a variant, and do not add a surface -- even when you can
+   see an improvement. Those edits belong to the next decision that actually maps
+   a name onto that node. Churn on nodes that were already correct is unreviewable:
    nothing ties the edit to a decision. So, in a mapping decision: if the node
    has no description, write
    one. If it is misplaced, move it. If its name is a bare acronym or initialism

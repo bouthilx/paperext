@@ -337,6 +337,19 @@ decides, not the ward); `Remote-sensing imagery` -> `Multispectral & radar`;
 `Environmental`/`Financial time series` delete into `Sampled quantity series`;
 `EHR` -> `Longitudinal administrative records`.
 
+### Documented gap: geospatial & mobility data (owner, 2026-09-29)
+
+Two independent derivations reported geospatial vector data as having no level-1
+home. Measured, the residue is far smaller than either implied, and most of it
+is not a modality problem at all: `Vehicle Routing Problem` (x3) is
+combinatorial optimization (Method); `Traffic Signal Control` 2, `Urban
+Planning` 1 and `Satellite Communication` (x2) are Sector; `Traffic Scene
+Generation` 1 is Task + Sector. The genuinely modality-flavoured residue is
+**`Trajectory Prediction` 1 and `Spatial Navigation` 1 -- two singletons**.
+
+That does not justify a level-1 branch. Recorded as a **known gap**, to be
+revisited at the 2023-2026 re-extraction, which will say whether it is real.
+
 ### The property test
 
 **A modifier that can be true of a node's siblings is a property, not a
