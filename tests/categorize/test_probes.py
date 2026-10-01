@@ -215,6 +215,49 @@ def test_policy_scoring_rejects_a_new_node_where_a_surface_was_required():
     assert scored["per_kind"]["surface"]["rate"] == 0.5
 
 
+def test_a_duplicate_of_the_base_node_is_accepted(tiny):
+    """v0 holds one concept twice, so which copy an alias lands on is arbitrary.
+
+    The real case: `gflownet` and `gflownets` are both nodes, as are `generative
+    flow network` and `generative flow networks` -- four nodes for one thing. The
+    agent attached `GFlowNet` to one and `GFlowNets` to the other, and the probe
+    scored whichever it did not expect as a policy miss. That measures the
+    reference tree, not the agent. 25 such pairs exist in v0.
+    """
+    case = probes.ProbeCase(
+        kind="surface",
+        surface="vits",
+        expect="surface",
+        base="vit",
+        base_id="vit",
+        equivalent_ids=["vit_plural"],
+    )
+    on_twin = decision(
+        AddSurface(
+            surface="vits", canonical="vit_plural", justification="j", confidence=0.9
+        ),
+        surface="vits",
+    )
+    scored = probes.score_policy([case], [record(on_twin)])
+    assert scored["conformance"] == 1.0
+
+
+def test_a_policy_miss_says_what_it_wanted():
+    """A failing clause must be diagnosable from the report, not from the source."""
+    case = probes.ProbeCase(
+        kind="surface", surface="vits", expect="surface", base="vit", base_id="vit"
+    )
+    wrong = decision(
+        AddSurface(
+            surface="vits", canonical="transformer", justification="j", confidence=0.9
+        ),
+        surface="vits",
+    )
+    scored = probes.score_policy([case], [record(wrong)])
+    assert "attached to transformer" in scored["misses"][0]
+    assert "wanted vit" in scored["misses"][0]
+
+
 def test_abstaining_conforms_to_nothing():
     case = probes.ProbeCase(
         kind="surface", surface="vits", expect="surface", base="vit", base_id="vit"

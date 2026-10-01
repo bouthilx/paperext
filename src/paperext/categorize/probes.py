@@ -85,6 +85,16 @@ class ProbeCase(BaseModel):
         default="", description="Policy pairs: the form that must receive"
     )
     base_id: str = Field(default="", description="Node the base form resolves to")
+    equivalent_ids: "list[str]" = Field(
+        default_factory=list,
+        description=(
+            "Nodes indistinguishable from base_id for scoring: v0 holds 25 "
+            "singular/plural duplicate pairs (`gflownet`/`gflownets`, "
+            "`cnn`/`cnns`, `generative flow network`/`... networks`), so which "
+            "copy an alias attaches to is arbitrary. Penalising the agent for "
+            "an arbitrary choice measures the reference, not the agent."
+        ),
+    )
     note: str = ""
 
 
@@ -231,6 +241,25 @@ def _child_case(onto: Ontology, short: str, long: str) -> "ProbeCase | None":
     )
 
 
+def _plural_twins(onto: Ontology, node_id: str) -> "list[str]":
+    """Ids whose name is the singular/plural twin of *node_id*'s own name.
+
+    These are duplicates in the reference tree, not alternatives: `gflownet` and
+    `gflownets` are one concept held twice. An alias may land on either, and the
+    choice is arbitrary because the tree made it arbitrary.
+    """
+    name = str_normalize(onto.name(node_id))
+    if not name:
+        return []
+    twins = {name + "s", name[:-1] if name.endswith("s") else ""} - {"", name}
+    found = []
+    for twin in sorted(twins):
+        other = onto.resolve(twin)
+        if other is not None and other != node_id:
+            found.append(other)
+    return found
+
+
 def _surface_case(
     onto: Ontology,
     item: Item,
@@ -255,6 +284,7 @@ def _surface_case(
             expect="surface",
             base=candidate,
             base_id=base_id,
+            equivalent_ids=_plural_twins(onto, base_id),
             note=f"{item.name!r} declares {alias_norm!r} and {candidate!r} to be one thing",
         )
     return None
@@ -278,8 +308,18 @@ def score_policy(
         ok = _policy_ok(case, record)
         per_kind.setdefault(case.kind, []).append(ok)
         if not ok:
+            got = next(
+                (
+                    action.canonical
+                    for action in record.decision.actions
+                    if isinstance(action, AddSurface)
+                    and str_normalize(action.surface) == str_normalize(case.surface)
+                ),
+                None,
+            )
             misses.append(
-                f"{case.surface} ({case.kind}, got {record.decision.outcome.value})"
+                f"{case.surface} ({case.kind}, outcome {record.decision.outcome.value}, "
+                f"attached to {got or 'nothing'}, wanted {case.base_id or '?'})"
             )
     flat = [ok for hits in per_kind.values() for ok in hits]
     return {
@@ -309,8 +349,10 @@ def _policy_ok(case: ProbeCase, record: DecisionRecord) -> bool:
         if isinstance(action, CreateNode)
     }
     if case.expect == "surface":
-        # same node as the base form, and nothing new invented for it
-        return target == case.base_id and target not in created
+        # the base form's node -- or a duplicate of it that the reference holds
+        # twice -- and nothing new invented for it
+        accepted = {case.base_id, *case.equivalent_ids}
+        return target in accepted and target not in created
     new = created.get(target)
     return new is not None and new.parent == case.base_id
 
