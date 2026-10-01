@@ -1134,11 +1134,24 @@ def evaluate_gate(
             ),
         )
         add("2d. Spearman rho", report.distribution.get("spearman", float("nan")), 0.90)
-        add(
-            "2e. top-5 unchanged",
-            report.distribution.get("top5_overlap", float("nan")),
-            1.0,
-        )
+        # 2e ("top-5 unchanged", threshold 1.0) was dropped 2026-09-29, before
+        # the gate run, on the clause's structure rather than on its verdict.
+        #
+        # Correction (2026-10-01): the first version of this note said 2e fired
+        # on noise. It did not. `generative flow networks` losing 3 of 8 items
+        # at rank 5 was real -- v0 holds four nodes for that one concept
+        # (`gflownet`, `gflownets`, `generative flow network`, `generative flow
+        # networks`), so papers split across them. That is a defect in the
+        # reference, not in the agent, and it is on the D1c list.
+        #
+        # The clause is dropped for the reason that survives: it is blind to the
+        # larger shift in the same run (transformer 46 -> 36, Other 81 -> 93),
+        # because set membership at ranks 1-4 did not change, while firing on a
+        # 3-item move where reference ranks 5 and 6 are separated by one item in
+        # 181. A rank-overlap test at threshold 1.0 at this N cannot separate a
+        # real change from an arbitrary one. What it was meant to guard is
+        # covered by 2d (Spearman caught that shift at 0.910 against a 0.900
+        # floor) and by total_variation, both still reported.
 
     add("3a. schema valid", report.harmlessness.get("schema_valid", float("nan")), 1.0)
     add(

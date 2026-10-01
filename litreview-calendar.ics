@@ -1,0 +1,336 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//paperext//litreview-refresh schedule//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:Lit-review Refresh (WS-A..E)
+X-WR-CALDESC:Timed solo schedule (~80%, 10:00-16:00 w/ 12-13 break). Data-generation (A+B+C+D) before Aug 1; analysis (E1-E4) in the second week of September. Background extraction (C1/C2) shows only active work time, not run time. A1 (#6) done.
+X-WR-TIMEZONE:America/Toronto
+BEGIN:VTIMEZONE
+TZID:America/Toronto
+BEGIN:DAYLIGHT
+TZOFFSETFROM:-0500
+TZOFFSETTO:-0400
+TZNAME:EDT
+DTSTART:19700308T020000
+RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=2SU
+END:DAYLIGHT
+BEGIN:STANDARD
+TZOFFSETFROM:-0400
+TZOFFSETTO:-0500
+TZNAME:EST
+DTSTART:19701101T020000
+RRULE:FREQ=YEARLY;BYMONTH=11;BYDAY=1SU
+END:STANDARD
+END:VTIMEZONE
+BEGIN:VEVENT
+UID:litreview-a2-0716am@paperext
+DTSTAMP:20260715T120000Z
+DTSTART;TZID=America/Toronto:20260716T100000
+DTEND;TZID=America/Toronto:20260716T120000
+SUMMARY:A2 · Set up VertexAI (GCP credits) [#7]
+DESCRIPTION:Configure GCP project/auth for VertexAI (Mila free credits) via config.mdl.ini -> CFG.vertexai. LLM host for the whole phase. Blocks: A3, B1.\nhttps://github.com/bouthilx/paperext/issues/7
+END:VEVENT
+BEGIN:VEVENT
+UID:litreview-a2-0716pm@paperext
+DTSTAMP:20260715T120000Z
+DTSTART;TZID=America/Toronto:20260716T130000
+DTEND;TZID=America/Toronto:20260716T160000
+SUMMARY:A2 · Set up VertexAI (GCP credits) [#7]
+DESCRIPTION:Configure GCP project/auth for VertexAI (Mila free credits) via config.mdl.ini -> CFG.vertexai. Blocks: A3, B1.\nhttps://github.com/bouthilx/paperext/issues/7
+END:VEVENT
+BEGIN:VEVENT
+UID:litreview-a5-0717am@paperext
+DTSTAMP:20260715T120000Z
+DTSTART;TZID=America/Toronto:20260717T100000
+DTEND;TZID=America/Toronto:20260717T120000
+SUMMARY:A5 · Build model_v4.py [#10]
+DESCRIPTION:Copy v3 -> v4; point model.py proxy at it. Reorder Explained to reason-first (quote->justification->value). Add RefModel.execution_mode (train/finetune/inference/unknown) + parameter_count. Delete dead DatasetSubset + stale caracteristics refs. Update extraction prompt. Blocks: A6, B1.\nhttps://github.com/bouthilx/paperext/issues/10
+END:VEVENT
+BEGIN:VEVENT
+UID:litreview-a5-0717pm@paperext
+DTSTAMP:20260715T120000Z
+DTSTART;TZID=America/Toronto:20260717T130000
+DTEND;TZID=America/Toronto:20260717T160000
+SUMMARY:A5 · Build model_v4.py [#10]
+DESCRIPTION:v4 schema build (continued). Blocks: A6, B1.\nhttps://github.com/bouthilx/paperext/issues/10
+END:VEVENT
+BEGIN:VEVENT
+UID:litreview-a3-0720am@paperext
+DTSTAMP:20260715T120000Z
+DTSTART;TZID=America/Toronto:20260720T100000
+DTEND;TZID=America/Toronto:20260720T120000
+SUMMARY:A3 · Claude-via-VertexAI client path [#8]
+DESCRIPTION:Add instructor.from_anthropic(AnthropicVertex(...)) alongside the Gemini path in query.py. Keep instructor/JSON tool-use for both (no XML). Blocked by A2 (#7). Blocks B1.\nhttps://github.com/bouthilx/paperext/issues/8
+END:VEVENT
+BEGIN:VEVENT
+UID:litreview-a3-0720pm@paperext
+DTSTAMP:20260715T120000Z
+DTSTART;TZID=America/Toronto:20260720T130000
+DTEND;TZID=America/Toronto:20260720T160000
+SUMMARY:A3 · Claude-via-VertexAI client path [#8]
+DESCRIPTION:Claude client path (continued). Blocked by A2 (#7). Blocks B1.\nhttps://github.com/bouthilx/paperext/issues/8
+END:VEVENT
+BEGIN:VEVENT
+UID:litreview-a4-0721am@paperext
+DTSTAMP:20260715T120000Z
+DTSTART;TZID=America/Toronto:20260721T100000
+DTEND;TZID=America/Toronto:20260721T120000
+SUMMARY:A4 · Clean up vertexai wrapper in query.py [#9]
+DESCRIPTION:Tidy vertexai wrapper hacks (system-role rewriting, non-serializable usage_metadata). instructor stays. Blocked by A3 (#8).\nhttps://github.com/bouthilx/paperext/issues/9
+END:VEVENT
+BEGIN:VEVENT
+UID:litreview-a6-0721pm@paperext
+DTSTAMP:20260715T120000Z
+DTSTART;TZID=America/Toronto:20260721T130000
+DTEND;TZID=America/Toronto:20260721T160000
+SUMMARY:A6 · v3→v4 converter + stage C1/C2 pull [#11 #13 #14]
+DESCRIPTION:A6 (#11): add v3->v4 converter in convert.py (default new fields to unknown) for the E3 cross-check.\nTHEN kick off the backend-independent paperoni pull + download-convert for C1/C2 in the background (the key acceleration) so query extraction can launch the instant B1 lands.\nhttps://github.com/bouthilx/paperext/issues/11
+END:VEVENT
+BEGIN:VEVENT
+UID:litreview-b1-0722am@paperext
+DTSTAMP:20260715T120000Z
+DTSTART;TZID=America/Toronto:20260722T100000
+DTEND;TZID=America/Toronto:20260722T120000
+SUMMARY:B1 · Bake-off — run both arms [#12]
+DESCRIPTION:Claude-via-Vertex vs Gemini-via-Vertex on the reused 2024 validation set (validated.txt / data/mdl/merged/*.yaml). Blocked by A2 (#7), A3 (#8), A5 (#10).\nhttps://github.com/bouthilx/paperext/issues/12
+END:VEVENT
+BEGIN:VEVENT
+UID:litreview-b1-0722pm@paperext
+DTSTAMP:20260715T120000Z
+DTSTART;TZID=America/Toronto:20260722T130000
+DTEND;TZID=America/Toronto:20260722T160000
+SUMMARY:B1 · Bake-off — run both arms [#12]
+DESCRIPTION:Run both backend arms over the validation set.\nhttps://github.com/bouthilx/paperext/issues/12
+END:VEVENT
+BEGIN:VEVENT
+UID:litreview-b1-0723am@paperext
+DTSTAMP:20260715T120000Z
+DTSTART;TZID=America/Toronto:20260723T100000
+DTEND;TZID=America/Toronto:20260723T120000
+SUMMARY:B1 · Evaluate + pick backend [#12]
+DESCRIPTION:Run evaluate.py for both; compare precision/recall per dimension + token cost. Pick the backend; record decision + numbers (resolves PLAN §4).\nhttps://github.com/bouthilx/paperext/issues/12
+END:VEVENT
+BEGIN:VEVENT
+UID:litreview-c1c2-launch-0723pm@paperext
+DTSTAMP:20260715T120000Z
+DTSTART;TZID=America/Toronto:20260723T130000
+DTEND;TZID=America/Toronto:20260723T160000
+SUMMARY:C1/C2 · Launch query extraction (background) [#13 #14]
+DESCRIPTION:Active launch work only — kick off query extraction against the pre-staged download-converted corpus on the chosen backend, for both the fresh 2023-2026 corpus (C1) and the re-extracted 2024 corpus (C2). Then it runs unattended (incl. weekend) — not blocked on this calendar.\nhttps://github.com/bouthilx/paperext/issues/13
+END:VEVENT
+BEGIN:VEVENT
+UID:litreview-c1c2-monitor-0724am@paperext
+DTSTAMP:20260715T120000Z
+DTSTART;TZID=America/Toronto:20260724T100000
+DTEND;TZID=America/Toronto:20260724T120000
+SUMMARY:C1/C2 · Monitor extraction + credit burn [#13 #14]
+DESCRIPTION:Check-in on the background jobs: progress, error rate, GCP credit burn. Restart/adjust if needed.\nhttps://github.com/bouthilx/paperext/issues/13
+END:VEVENT
+BEGIN:VEVENT
+UID:litreview-d1-0724pm@paperext
+DTSTAMP:20260715T120000Z
+DTSTART;TZID=America/Toronto:20260724T130000
+DTEND;TZID=America/Toronto:20260724T160000
+SUMMARY:D1 · Refresh category mappings [#15]
+DESCRIPTION:Refresh name->category mappings (categorized_models/datasets/domains.json) for the 2023-2026 vocabulary using the fresh C1 pull; reconcile with milabench tags in data/mdl/evaluation/. Blocks E1.\nhttps://github.com/bouthilx/paperext/issues/15
+END:VEVENT
+BEGIN:VEVENT
+UID:litreview-d1-0727am@paperext
+DTSTAMP:20260715T120000Z
+DTSTART;TZID=America/Toronto:20260727T100000
+DTEND;TZID=America/Toronto:20260727T120000
+SUMMARY:D1 · Refresh category mappings [#15]
+DESCRIPTION:Category refresh (continued).\nhttps://github.com/bouthilx/paperext/issues/15
+END:VEVENT
+BEGIN:VEVENT
+UID:litreview-d1-0727pm@paperext
+DTSTAMP:20260715T120000Z
+DTSTART;TZID=America/Toronto:20260727T130000
+DTEND;TZID=America/Toronto:20260727T160000
+SUMMARY:D1 · Refresh category mappings [#15]
+DESCRIPTION:Category refresh (continued).\nhttps://github.com/bouthilx/paperext/issues/15
+END:VEVENT
+BEGIN:VEVENT
+UID:litreview-d1-0728am@paperext
+DTSTAMP:20260715T120000Z
+DTSTART;TZID=America/Toronto:20260728T100000
+DTEND;TZID=America/Toronto:20260728T120000
+SUMMARY:D1 · Refresh category mappings [#15]
+DESCRIPTION:Category refresh (continued) + reconcile milabench tags.\nhttps://github.com/bouthilx/paperext/issues/15
+END:VEVENT
+BEGIN:VEVENT
+UID:litreview-c1c2-monitor-0728pm@paperext
+DTSTAMP:20260715T120000Z
+DTSTART;TZID=America/Toronto:20260728T130000
+DTEND;TZID=America/Toronto:20260728T160000
+SUMMARY:C1/C2 · Monitor extraction + credit burn [#13 #14]
+DESCRIPTION:Mid-run check-in: progress, failures, credit burn.\nhttps://github.com/bouthilx/paperext/issues/13
+END:VEVENT
+BEGIN:VEVENT
+UID:litreview-c1c2-sanity-0729am@paperext
+DTSTAMP:20260715T120000Z
+DTSTART;TZID=America/Toronto:20260729T100000
+DTEND;TZID=America/Toronto:20260729T120000
+SUMMARY:C1/C2 · Coverage sanity-check + drop-out [#13 #14]
+DESCRIPTION:As extraction completes: sanity-check coverage vs the paper list; log gaps; quantify C2 re-download drop-out vs original paper count.\nhttps://github.com/bouthilx/paperext/issues/13
+END:VEVENT
+BEGIN:VEVENT
+UID:litreview-d1-0729pm@paperext
+DTSTAMP:20260715T120000Z
+DTSTART;TZID=America/Toronto:20260729T130000
+DTEND;TZID=America/Toronto:20260729T160000
+SUMMARY:D1 · Finish categories + buffer [#15]
+DESCRIPTION:Wrap up the category refresh; buffer for slippage.\nhttps://github.com/bouthilx/paperext/issues/15
+END:VEVENT
+BEGIN:VEVENT
+UID:litreview-signoff-0730am@paperext
+DTSTAMP:20260715T120000Z
+DTSTART;TZID=America/Toronto:20260730T100000
+DTEND;TZID=America/Toronto:20260730T120000
+SUMMARY:✅ Data-gen sign-off [#13 #14 #15]
+DESCRIPTION:Before August: confirm C1/C2 extractions complete and validate as v4, coverage gaps logged, drop-out quantified, categories refreshed. All data on disk so September analysis can start clean.
+END:VEVENT
+BEGIN:VEVENT
+UID:litreview-signoff-0730pm@paperext
+DTSTAMP:20260715T120000Z
+DTSTART;TZID=America/Toronto:20260730T130000
+DTEND;TZID=America/Toronto:20260730T160000
+SUMMARY:✅ Data-gen sign-off [#13 #14 #15]
+DESCRIPTION:Verification continued; resolve any last gaps.
+END:VEVENT
+BEGIN:VEVENT
+UID:litreview-signoff-0731am@paperext
+DTSTAMP:20260715T120000Z
+DTSTART;TZID=America/Toronto:20260731T100000
+DTEND;TZID=America/Toronto:20260731T120000
+SUMMARY:✅ Data-gen wrap before August [#13 #14]
+DESCRIPTION:Final wrap: confirm all data + extractions on disk, note total GCP credit burn, stop any lingering background jobs. Ready for September analysis.
+END:VEVENT
+BEGIN:VEVENT
+UID:litreview-e1-0908am@paperext
+DTSTAMP:20260715T120000Z
+DTSTART;TZID=America/Toronto:20260908T100000
+DTEND;TZID=America/Toronto:20260908T120000
+STATUS:TENTATIVE
+SUMMARY:[Sept] E1 · Clean analysis module [#16]
+DESCRIPTION:Second week of September (out all August; first week back = other work). New module, inspired by NOT built on stats_spaghetti.py. Per-paper frequency counts for the four dimensions using refreshed categories; raw per-paper frequency ranking. Include secondary workload-characterization view (is_executed + execution_mode + role). Blocked by C1 (#13), D1 (#15).\nhttps://github.com/bouthilx/paperext/issues/16
+END:VEVENT
+BEGIN:VEVENT
+UID:litreview-e1-0908pm@paperext
+DTSTAMP:20260715T120000Z
+DTSTART;TZID=America/Toronto:20260908T130000
+DTEND;TZID=America/Toronto:20260908T160000
+STATUS:TENTATIVE
+SUMMARY:[Sept] E1 · Clean analysis module [#16]
+DESCRIPTION:Analysis module (continued).\nhttps://github.com/bouthilx/paperext/issues/16
+END:VEVENT
+BEGIN:VEVENT
+UID:litreview-e1-0909am@paperext
+DTSTAMP:20260715T120000Z
+DTSTART;TZID=America/Toronto:20260909T100000
+DTEND;TZID=America/Toronto:20260909T120000
+STATUS:TENTATIVE
+SUMMARY:[Sept] E1 · Clean analysis module [#16]
+DESCRIPTION:Analysis module (continued).\nhttps://github.com/bouthilx/paperext/issues/16
+END:VEVENT
+BEGIN:VEVENT
+UID:litreview-e1-0909pm@paperext
+DTSTAMP:20260715T120000Z
+DTSTART;TZID=America/Toronto:20260909T130000
+DTEND;TZID=America/Toronto:20260909T160000
+STATUS:TENTATIVE
+SUMMARY:[Sept] E1 · Clean analysis module [#16]
+DESCRIPTION:Analysis module (continued).\nhttps://github.com/bouthilx/paperext/issues/16
+END:VEVENT
+BEGIN:VEVENT
+UID:litreview-e2-0910am@paperext
+DTSTAMP:20260715T120000Z
+DTSTART;TZID=America/Toronto:20260910T100000
+DTEND;TZID=America/Toronto:20260910T120000
+STATUS:TENTATIVE
+SUMMARY:[Sept] E2 · Time-trend analysis 2023–2026 [#17]
+DESCRIPTION:Per-year breakdowns of the four dimensions across 2023-2026. Blocked by E1 (#16).\nhttps://github.com/bouthilx/paperext/issues/17
+END:VEVENT
+BEGIN:VEVENT
+UID:litreview-e2-0910pm@paperext
+DTSTAMP:20260715T120000Z
+DTSTART;TZID=America/Toronto:20260910T130000
+DTEND;TZID=America/Toronto:20260910T160000
+STATUS:TENTATIVE
+SUMMARY:[Sept] E2 · Time-trend analysis 2023–2026 [#17]
+DESCRIPTION:Time-trend analysis (continued).\nhttps://github.com/bouthilx/paperext/issues/17
+END:VEVENT
+BEGIN:VEVENT
+UID:litreview-e3-0914am@paperext
+DTSTAMP:20260715T120000Z
+DTSTART;TZID=America/Toronto:20260914T100000
+DTEND;TZID=America/Toronto:20260914T120000
+STATUS:TENTATIVE
+SUMMARY:[Sept] E3 · 2024 comparison [#18]
+DESCRIPTION:Distribution shift: new corpus vs re-extracted 2024 corpus (both final pipeline); stored 2024 openai extractions (v3->v4) as directional cross-check. Blocked by C1 (#13), C2 (#14), A6 (#11).\nhttps://github.com/bouthilx/paperext/issues/18
+END:VEVENT
+BEGIN:VEVENT
+UID:litreview-e3-0914pm@paperext
+DTSTAMP:20260715T120000Z
+DTSTART;TZID=America/Toronto:20260914T130000
+DTEND;TZID=America/Toronto:20260914T160000
+STATUS:TENTATIVE
+SUMMARY:[Sept] E3 · 2024 comparison [#18]
+DESCRIPTION:2024 comparison (continued).\nhttps://github.com/bouthilx/paperext/issues/18
+END:VEVENT
+BEGIN:VEVENT
+UID:litreview-e3-0915am@paperext
+DTSTAMP:20260715T120000Z
+DTSTART;TZID=America/Toronto:20260915T100000
+DTEND;TZID=America/Toronto:20260915T120000
+STATUS:TENTATIVE
+SUMMARY:[Sept] E3 · 2024 comparison [#18]
+DESCRIPTION:2024 comparison (continued).\nhttps://github.com/bouthilx/paperext/issues/18
+END:VEVENT
+BEGIN:VEVENT
+UID:litreview-e3-0915pm@paperext
+DTSTAMP:20260715T120000Z
+DTSTART;TZID=America/Toronto:20260915T130000
+DTEND;TZID=America/Toronto:20260915T160000
+STATUS:TENTATIVE
+SUMMARY:[Sept] E3 · 2024 comparison [#18]
+DESCRIPTION:2024 comparison (continued).\nhttps://github.com/bouthilx/paperext/issues/18
+END:VEVENT
+BEGIN:VEVENT
+UID:litreview-e4-0916am@paperext
+DTSTAMP:20260715T120000Z
+DTSTART;TZID=America/Toronto:20260916T100000
+DTEND;TZID=America/Toronto:20260916T120000
+STATUS:TENTATIVE
+SUMMARY:[Sept] E4 · Report tables/figures + write-up [#19]
+DESCRIPTION:Produce report tables/figures for the four dimensions and write up findings feeding workload selection. Blocked by E1 (#16), E2 (#17), E3 (#18).\nhttps://github.com/bouthilx/paperext/issues/19
+END:VEVENT
+BEGIN:VEVENT
+UID:litreview-e4-0916pm@paperext
+DTSTAMP:20260715T120000Z
+DTSTART;TZID=America/Toronto:20260916T130000
+DTEND;TZID=America/Toronto:20260916T160000
+STATUS:TENTATIVE
+SUMMARY:[Sept] E4 · Report tables/figures + write-up [#19]
+DESCRIPTION:Report + write-up (continued).\nhttps://github.com/bouthilx/paperext/issues/19
+END:VEVENT
+BEGIN:VEVENT
+UID:litreview-e4-0917am@paperext
+DTSTAMP:20260715T120000Z
+DTSTART;TZID=America/Toronto:20260917T100000
+DTEND;TZID=America/Toronto:20260917T120000
+STATUS:TENTATIVE
+SUMMARY:[Sept] E4 · Report tables/figures + write-up [#19]
+DESCRIPTION:Report + write-up (continued).\nhttps://github.com/bouthilx/paperext/issues/19
+END:VEVENT
+BEGIN:VEVENT
+UID:litreview-e4-0917pm@paperext
+DTSTAMP:20260715T120000Z
+DTSTART;TZID=America/Toronto:20260917T130000
+DTEND;TZID=America/Toronto:20260917T160000
+STATUS:TENTATIVE
+SUMMARY:[Sept] E4 · Report tables/figures + write-up [#19]
+DESCRIPTION:Report + write-up + final wrap.\nhttps://github.com/bouthilx/paperext/issues/19
+END:VEVENT
+END:VCALENDAR

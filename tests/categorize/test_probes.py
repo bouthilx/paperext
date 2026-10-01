@@ -215,6 +215,47 @@ def test_policy_scoring_rejects_a_new_node_where_a_surface_was_required():
     assert scored["per_kind"]["surface"]["rate"] == 0.5
 
 
+def test_a_case_whose_base_has_a_duplicate_is_not_built(tiny):
+    """v0 holds one concept twice, so "the base node" is arbitrary -- untestable.
+
+    `soft actor-critic`, `sac` and `soft actor-critic (sac)` are three nodes for
+    one thing; v0 has 62 such relationships plus 25 singular/plural pairs. The
+    agent picks a defensible copy, the probe wanted another, and the clause
+    measures the reference tree rather than the agent. Such cases are skipped,
+    not scored leniently: a lenient score would let a wrong answer pass too.
+    """
+    tiny.create_node(node_id="vits", name="ViTs", parent="transformer")
+    cases = probes.policy_cases(
+        tiny,
+        [
+            Item(
+                dimension="test",
+                surface="vit",
+                name="ViT",
+                aliases=["ViTs"],
+                mentions=[Mention(paper="p", spelling="ViTs", quote="a vision transformer")],
+            )
+        ],
+    )
+    assert not [case for case in cases if case.surface == "vits"]
+
+
+def test_a_policy_miss_says_what_it_wanted():
+    """A failing clause must be diagnosable from the report, not from the source."""
+    case = probes.ProbeCase(
+        kind="surface", surface="vits", expect="surface", base="vit", base_id="vit"
+    )
+    wrong = decision(
+        AddSurface(
+            surface="vits", canonical="transformer", justification="j", confidence=0.9
+        ),
+        surface="vits",
+    )
+    scored = probes.score_policy([case], [record(wrong)])
+    assert "attached to transformer" in scored["misses"][0]
+    assert "wanted vit" in scored["misses"][0]
+
+
 def test_abstaining_conforms_to_nothing():
     case = probes.ProbeCase(
         kind="surface", surface="vits", expect="surface", base="vit", base_id="vit"
