@@ -215,31 +215,29 @@ def test_policy_scoring_rejects_a_new_node_where_a_surface_was_required():
     assert scored["per_kind"]["surface"]["rate"] == 0.5
 
 
-def test_a_duplicate_of_the_base_node_is_accepted(tiny):
-    """v0 holds one concept twice, so which copy an alias lands on is arbitrary.
+def test_a_case_whose_base_has_a_duplicate_is_not_built(tiny):
+    """v0 holds one concept twice, so "the base node" is arbitrary -- untestable.
 
-    The real case: `gflownet` and `gflownets` are both nodes, as are `generative
-    flow network` and `generative flow networks` -- four nodes for one thing. The
-    agent attached `GFlowNet` to one and `GFlowNets` to the other, and the probe
-    scored whichever it did not expect as a policy miss. That measures the
-    reference tree, not the agent. 25 such pairs exist in v0.
+    `soft actor-critic`, `sac` and `soft actor-critic (sac)` are three nodes for
+    one thing; v0 has 62 such relationships plus 25 singular/plural pairs. The
+    agent picks a defensible copy, the probe wanted another, and the clause
+    measures the reference tree rather than the agent. Such cases are skipped,
+    not scored leniently: a lenient score would let a wrong answer pass too.
     """
-    case = probes.ProbeCase(
-        kind="surface",
-        surface="vits",
-        expect="surface",
-        base="vit",
-        base_id="vit",
-        equivalent_ids=["vit_plural"],
+    tiny.create_node(node_id="vits", name="ViTs", parent="transformer")
+    cases = probes.policy_cases(
+        tiny,
+        [
+            Item(
+                dimension="test",
+                surface="vit",
+                name="ViT",
+                aliases=["ViTs"],
+                mentions=[Mention(paper="p", spelling="ViTs", quote="a vision transformer")],
+            )
+        ],
     )
-    on_twin = decision(
-        AddSurface(
-            surface="vits", canonical="vit_plural", justification="j", confidence=0.9
-        ),
-        surface="vits",
-    )
-    scored = probes.score_policy([case], [record(on_twin)])
-    assert scored["conformance"] == 1.0
+    assert not [case for case in cases if case.surface == "vits"]
 
 
 def test_a_policy_miss_says_what_it_wanted():

@@ -85,16 +85,6 @@ class ProbeCase(BaseModel):
         default="", description="Policy pairs: the form that must receive"
     )
     base_id: str = Field(default="", description="Node the base form resolves to")
-    equivalent_ids: "list[str]" = Field(
-        default_factory=list,
-        description=(
-            "Nodes indistinguishable from base_id for scoring: v0 holds 25 "
-            "singular/plural duplicate pairs (`gflownet`/`gflownets`, "
-            "`cnn`/`cnns`, `generative flow network`/`... networks`), so which "
-            "copy an alias attaches to is arbitrary. Penalising the agent for "
-            "an arbitrary choice measures the reference, not the agent."
-        ),
-    )
     note: str = ""
 
 
@@ -170,8 +160,28 @@ def _declared_forms(item: Item) -> "set[str]":
 
 
 def _ambiguous(onto: Ontology, surface: str) -> bool:
-    """Whether *surface* names more than one node -- a real collision, not a variant."""
-    return len(name_matches(onto, surface)) > 1
+    """Whether *surface* names more than one node -- a real collision, not a variant.
+
+    An exact-name count is not enough. v0 names three nodes for IQL -- `iql`,
+    `implicit q learning (iql)` and `independent q-learning (iql)` -- so only one
+    is *named* `iql` and the collision is invisible to `name_matches`. The agent
+    correctly abstained on it (rule 2: two legitimate expansions, the quote
+    separates neither) and the probe scored that as a policy miss, twice. An
+    acronym parenthesised in more than one node name is ambiguous.
+    """
+    if len(name_matches(onto, surface)) > 1:
+        return True
+    want = str_normalize(surface)
+    if not want:
+        return False
+    carriers = set()
+    for node_id, _, _ in onto.iter_nodes():
+        match = PAREN.match(onto.name(node_id))
+        if match and str_normalize(match.group(2)) == want:
+            carriers.add(node_id)
+            if len(carriers) > 1:
+                return True
+    return False
 
 
 def policy_cases(
@@ -241,23 +251,44 @@ def _child_case(onto: Ontology, short: str, long: str) -> "ProbeCase | None":
     )
 
 
-def _plural_twins(onto: Ontology, node_id: str) -> "list[str]":
-    """Ids whose name is the singular/plural twin of *node_id*'s own name.
+def _duplicate_nodes(onto: Ontology, node_id: str) -> "list[str]":
+    """Other ids holding the same concept as *node_id* under a different spelling.
 
-    These are duplicates in the reference tree, not alternatives: `gflownet` and
-    `gflownets` are one concept held twice. An alias may land on either, and the
-    choice is arbitrary because the tree made it arbitrary.
+    v0 holds one concept two or three times, in three shapes: singular/plural
+    (`gflownet`/`gflownets`, 25 pairs), and long form against acronym against
+    both-at-once (`soft actor-critic` / `sac` / `soft actor-critic (sac)`, 62
+    relationships over 1418 nodes).
+
+    Where these exist, "the node the base form resolves to" is arbitrary, so a
+    policy case built on it is untestable: the agent picks one defensible copy
+    and the probe wanted another. Its own justifications say so -- on `MLP` it
+    noted that `multilayerperceptronmlp` "differs from the parent only by
+    acronym inclusion and grammatical number" -- and that was scored a miss.
     """
     name = str_normalize(onto.name(node_id))
     if not name:
         return []
-    twins = {name + "s", name[:-1] if name.endswith("s") else ""} - {"", name}
+    spellings = {name + "s", name[:-1] if name.endswith("s") else ""}
+    match = PAREN.match(onto.name(node_id))
+    if match and is_acronym_shaped(match.group(2)):
+        # only an acronym makes `long form (X)` another spelling of the same
+        # thing. `transformer (6-layer)` and `llama (7b, 13b, 30b)` are variants.
+        spellings |= {str_normalize(match.group(1)), str_normalize(match.group(2))}
     found = []
-    for twin in sorted(twins):
-        other = onto.resolve(twin)
-        if other is not None and other != node_id:
-            found.append(other)
-    return found
+    for other_id, _, _ in onto.iter_nodes():
+        if other_id == node_id:
+            continue
+        other = str_normalize(onto.name(other_id))
+        other_match = PAREN.match(onto.name(other_id))
+        forms = {other}
+        if other_match and is_acronym_shaped(other_match.group(2)):
+            forms |= {
+                str_normalize(other_match.group(1)),
+                str_normalize(other_match.group(2)),
+            }
+        if forms & (spellings | {name}) - {""}:
+            found.append(other_id)
+    return sorted(found)
 
 
 def _surface_case(
@@ -276,6 +307,9 @@ def _surface_case(
             continue
         if _ambiguous(onto, alias_norm):
             return None
+        if _duplicate_nodes(onto, base_id):
+            # untestable: the tree holds this concept more than once
+            return None
         if onto.resolve(alias_norm) is not None and not ablatable(onto, alias_norm):
             return None
         return ProbeCase(
@@ -284,7 +318,6 @@ def _surface_case(
             expect="surface",
             base=candidate,
             base_id=base_id,
-            equivalent_ids=_plural_twins(onto, base_id),
             note=f"{item.name!r} declares {alias_norm!r} and {candidate!r} to be one thing",
         )
     return None
@@ -349,10 +382,9 @@ def _policy_ok(case: ProbeCase, record: DecisionRecord) -> bool:
         if isinstance(action, CreateNode)
     }
     if case.expect == "surface":
-        # the base form's node -- or a duplicate of it that the reference holds
-        # twice -- and nothing new invented for it
-        accepted = {case.base_id, *case.equivalent_ids}
-        return target in accepted and target not in created
+        # same node as the base form, and nothing new invented for it. Cases
+        # whose base has duplicates never reach here -- they are not built.
+        return target == case.base_id and target not in created
     new = created.get(target)
     return new is not None and new.parent == case.base_id
 

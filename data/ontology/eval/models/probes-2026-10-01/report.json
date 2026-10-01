@@ -1,0 +1,243 @@
+{
+  "dimension": "models",
+  "split": "dev",
+  "base_version": "v0",
+  "base_content_hash": "568c0990c2fa42404960b25a6f6063cb7ea4c249c150f3cad0f4b2322cf646e7",
+  "run_id": "7152967ed544",
+  "model": "gpt-5.6-sol",
+  "n_items": 1,
+  "n_decided": 0,
+  "n_abstained": 1,
+  "n_failed": 0,
+  "n_no_evidence": 1,
+  "n_residue": 0,
+  "coverage": 0.0,
+  "win": null,
+  "win_excluding_residue": null,
+  "win_by_stratum": {},
+  "w_at_coverage": null,
+  "coverage_curve": [],
+  "hierarchical": {},
+  "distribution": {
+    "agent_shares": {},
+    "reference_shares": {},
+    "spearman": null,
+    "top5_overlap": null,
+    "total_variation": 0.0
+  },
+  "agreement": {
+    "n": 0,
+    "rate": null,
+    "cohen_kappa": null,
+    "macro_recall": null,
+    "majority_baseline": {
+      "rate": null,
+      "macro_recall": null
+    }
+  },
+  "harmlessness": {
+    "schema_valid": 1.0,
+    "apply_success": 1.0,
+    "errors": []
+  },
+  "consistency": {},
+  "probe_results": {
+    "noop": {
+      "n": 100,
+      "noop_rate": 1.0,
+      "destructive": 0,
+      "destructive_examples": []
+    },
+    "policy": {
+      "n": 56,
+      "conformance": 0.7857142857142857,
+      "per_kind": {
+        "child": {
+          "n": 20,
+          "rate": 0.95
+        },
+        "surface": {
+          "n": 36,
+          "rate": 0.6944444444444444
+        }
+      },
+      "misses": [
+        "vgg13 (child, outcome created, attached to vgg13, wanted vgg)",
+        "gflownets (surface, outcome mapped, attached to generativeflownetworks, wanted gflownet)",
+        "mlp (surface, outcome mapped, attached to multilayerperceptron, wanted multilayerperceptronmlp)",
+        "iql (surface, outcome abstained, attached to nothing, wanted implicitqlearningiql)",
+        "graphconvolutionalnetwork (surface, outcome mapped, attached to graphconvolutionalnetworksgcn, wanted gcn)",
+        "iql (surface, outcome abstained, attached to nothing, wanted independentqlearningiql)",
+        "dqn (surface, outcome mapped, attached to deepqnetworkdqn, wanted deepqlearning)",
+        "gflownet (surface, outcome mapped, attached to generativeflownetwork, wanted generativeflownetworkgflownet)",
+        "gflownet (surface, outcome mapped, attached to generativeflownetwork, wanted generativeflownetworksgflownet)",
+        "gflownets (surface, outcome mapped, attached to generativeflownetworks, wanted gflownetsgenerativeflownetworks)",
+        "gpt (surface, outcome mapped, attached to generativepretrainedtransformer, wanted gptgpt2)",
+        "rnn (surface, outcome mapped, attached to recurrentneuralnetwork, wanted recurrentneuralnetworksrnn)"
+      ]
+    },
+    "ambiguity": {
+      "n_should_abstain": 38,
+      "n_should_resolve": 40,
+      "recall_abstain": 0.9473684210526315,
+      "false_abstain": 0.0,
+      "youden_j": 0.9473684210526314,
+      "abstain_no_grounding_only": 0.65
+    },
+    "ignore": {
+      "n_positive": 45,
+      "n_negative": 60,
+      "precision": 1.0,
+      "recall": 0.6444444444444445
+    }
+  },
+  "adjudication": {},
+  "replay": {},
+  "canary": {},
+  "gate": [
+    {
+      "name": "1. LB95(W)",
+      "value": null,
+      "threshold": 0.45,
+      "comparison": ">=",
+      "passed": false,
+      "note": "(not measured)"
+    },
+    {
+      "name": "1b. W@coverage=0.85",
+      "value": null,
+      "threshold": 0.45,
+      "comparison": ">=",
+      "passed": false,
+      "note": "the agent never reaches that coverage (not measured)"
+    },
+    {
+      "name": "1c. judge order-swap consistency",
+      "value": null,
+      "threshold": 0.8,
+      "comparison": ">=",
+      "passed": false,
+      "note": "below this the judge reads position, not content, and W is void (not measured)"
+    },
+    {
+      "name": "2a. cut agreement",
+      "value": null,
+      "threshold": 0.7,
+      "comparison": ">=",
+      "passed": false,
+      "note": "no levenshtein baseline computed (not measured)"
+    },
+    {
+      "name": "2b. Cohen kappa",
+      "value": null,
+      "threshold": 0.55,
+      "comparison": ">=",
+      "passed": false,
+      "note": "(not measured)"
+    },
+    {
+      "name": "2c. macro-recall (non-Other)",
+      "value": null,
+      "threshold": 0.6,
+      "comparison": ">=",
+      "passed": false,
+      "note": "floor = 0.60 (baseline not measured) (not measured)"
+    },
+    {
+      "name": "2d. Spearman rho",
+      "value": null,
+      "threshold": 0.9,
+      "comparison": ">=",
+      "passed": false,
+      "note": "(not measured)"
+    },
+    {
+      "name": "3a. schema valid",
+      "value": 1.0,
+      "threshold": 1.0,
+      "comparison": ">=",
+      "passed": true,
+      "note": ""
+    },
+    {
+      "name": "3b. apply success",
+      "value": 1.0,
+      "threshold": 0.99,
+      "comparison": ">=",
+      "passed": true,
+      "note": ""
+    },
+    {
+      "name": "3c. no-op control",
+      "value": 1.0,
+      "threshold": 0.95,
+      "comparison": ">=",
+      "passed": true,
+      "note": ""
+    },
+    {
+      "name": "3d. destructive ops outside candidates",
+      "value": 0.0,
+      "threshold": 0.0,
+      "comparison": "<=",
+      "passed": true,
+      "note": ""
+    },
+    {
+      "name": "4a. triple agreement",
+      "value": null,
+      "threshold": 0.75,
+      "comparison": ">=",
+      "passed": false,
+      "note": "(not measured)"
+    },
+    {
+      "name": "4b. self-consistency > legacy agreement",
+      "value": null,
+      "threshold": 1.0,
+      "comparison": ">=",
+      "passed": false,
+      "note": "(not measured)"
+    },
+    {
+      "name": "5a. Youden J",
+      "value": 0.9473684210526314,
+      "threshold": 0.7,
+      "comparison": ">=",
+      "passed": true,
+      "note": ""
+    },
+    {
+      "name": "5b. coverage",
+      "value": 0.0,
+      "threshold": 0.85,
+      "comparison": ">=",
+      "passed": false,
+      "note": ""
+    },
+    {
+      "name": "5c. policy conformance",
+      "value": 0.7857142857142857,
+      "threshold": 0.9,
+      "comparison": ">=",
+      "passed": false,
+      "note": ""
+    },
+    {
+      "name": "6a. mark_ignore precision",
+      "value": 1.0,
+      "threshold": 0.8,
+      "comparison": ">=",
+      "passed": true,
+      "note": ""
+    },
+    {
+      "name": "6b. mark_ignore recall",
+      "value": 0.6444444444444445,
+      "threshold": 0.6,
+      "comparison": ">=",
+      "passed": true,
+      "note": ""
+    }
+  ]
+}
