@@ -53,6 +53,11 @@ A run carries: `models[]`, `algorithms[]`, `datasets[]`, `execution_mode`,
 `epochs`, `parameter_count`, `accelerator_type`/`_model`/`_count`, `precision`,
 `parallelism` (set-valued), `duration`, `utilisation`, `repetitions`.
 
+**A run's participants are constrained by its `execution_mode`** (owner,
+2026-10-02): an `inference` run has a model and **no algorithm**; `train` and
+`finetune` runs have both. `algorithms[]` holds *learning* algorithms only, so
+this is a checkable invariant rather than a convention.
+
 **(Model, Algorithm) pairs are why runs exist.** A paper testing three optimisers
 on three models is nine runs over a 3x3 grid of two independent entity types —
 not nine models. The algorithm is a *participant*, not a property of the model.
@@ -136,12 +141,46 @@ on weights -> algorithm. `PPO` is an update rule; the policy network it updates
 is the model. `parameter_count` being a model-side field is this test made
 operational.
 
-**The fuzzy band is real**: `GFlowNet` (flow network has parameters; flow
-matching is a procedure), `Diffusion model` (denoiser has parameters; the
-diffusion procedure does not), `XGBoost` (a library, an algorithm *and* a model
-family). Handle as in domains: **the same term maps into both types**, because it
-answers two different questions. Never force one arbitrary choice — that is
-exactly the duplicate-node failure that corrupted three eval clauses.
+**The admission rule** (owner, 2026-10-02). A term enters the **models**
+ontology only if it names a **separable learned object** — parameters that could
+be described and run independently of the procedure that produced them. If there
+is no such object (nonparametric), or the object cannot be separated from the
+procedure, the term is an **algorithm only**, and a run then references an
+algorithm with **no model**.
+
+| term | model | algorithm |
+|---|---|---|
+| logistic regression | linear model, logit link | the fitting procedure |
+| random forest | decision-tree ensemble | bagging + random subspace |
+| XGBoost | gradient-boosted tree ensemble | the boosting procedure (+ a library) |
+| k-NN, kernel density | *none* | algorithm only |
+| PPO / SAC / DQN | the policy and value networks | the update rule |
+| diffusion model | the denoiser (usually a U-Net) | the denoising procedure |
+| GFlowNet | the flow network | the training objective (TB/DB/FM) |
+| SimCLR / BYOL / DINO | the encoder the paper names | the SSL objective |
+
+Thin on logistic regression, and accepted as such: a linear model is a real
+compute profile, which is what the dimension is for.
+
+**`algorithms[]` holds strictly *learning* algorithms** (owner, 2026-10-02).
+An inference-only run has a **model and no algorithm**; a train or finetune run
+has both. This makes `execution_mode` and the run's participants mutually
+checkable, and it keeps inference-time procedures (beam search, sampling
+schedules, planning at test time) out of the entity list. Declare MCTS a
+boundary case: training-time target generation is a learning algorithm,
+test-time planning is not.
+
+**SimCLR, worked through.** Its architecture *is* separable — a standard encoder
+plus a 2-layer MLP projection head discarded after pretraining, a shape MoCo,
+SwAV and BYOL reuse. So it is an algorithm, and the model is the backbone.
+Measured caveat: of 33 legacy-2024 papers naming an SSL method, only 8 (24%)
+also had a backbone extracted — but **that corpus was annotated under a schema
+with no algorithm slot**, so "SimCLR" was a complete answer and the extractor
+stopped there (owner's reading, 2026-10-02). In the fulltext cache, 25 of 38
+SSL-method papers (66%) name a concrete backbone in the text; that is an upper
+bound, since a grep hit may be a related-work mention. The gap is the schema,
+not the papers. The (model, algorithm) pair requirement should close most of it,
+and the remainder are legitimate algorithm-only runs.
 
 Scale: `algorithms` holds 273 of 1409 nodes in v0 (RL 112, other algorithms 110,
 optimizer 50, federated 1). **`other algorithms` is a type confusion, not a junk
@@ -156,8 +195,10 @@ model. No restructuring *within* one tree fixes that.
   (model x execution mode x parallelism x scale). The same model trained vs used
   for inference, or on one GPU vs tensor-parallel, is a different workload.
 - **Does not carry scale.** `MLP` spans orders of magnitude; `parameter_count`
-  lives on the run. Variance of that value within a node then becomes a
-  *measurable* criterion for whether the node is at the right granularity.
+  lives on the run. **Scale variance is *not* a granularity criterion** (owner,
+  2026-10-02, overruling an earlier proposal of mine): an architecture may be
+  perfectly well defined *and* scalable across several orders of magnitude — a
+  Transformer is one architecture from 100M to 1T parameters.
 - **Genealogy is a separate, optional relation.** `derives-from` is a DAG;
   `is-a-kind-of` is what aggregates and is closer to a tree. Multi-parent
   kind-membership usually signals a fused second characteristic — ViT is *a
@@ -173,6 +214,39 @@ there is no head to describe by hand.
 The hierarchy therefore earns its keep by **tail-collapse**: it turns ~2342
 entities into ~50-150 described groups. Attributes attach to those groups, and a
 property attaches at **the highest node where it holds for every descendant**.
+
+## B.3b What the hierarchy is for: aggregation at several levels
+
+**Settled 2026-10-02, after a rejected proposal of mine.** I proposed that only
+families be nodes and that artifacts (`llama2-7b`, `roberta`) be attached as
+*surfaces* — spellings resolving to a family node — to cap the tree at ~100–150
+nodes. **Rejected by the owner, correctly.** The analyses this dimension exists
+to serve ask *what proportion of models were Transformers*, and also *what
+proportion were BERT*, and also *what the BERT variants were*. Those are three
+different cuts, and they require three real levels. Squashing artifacts into
+surfaces of a family node makes every cut below Transformer impossible.
+
+So: **artifacts are nodes.** `Transformer › Encoder-only › BERT › RoBERTa` is
+the shape, and the cut may sit at any of those depths. The brief's tail-collapse
+argument (B.3) survives only as a statement about *singletons*, not about
+recurring artifacts.
+
+### Depth of the designed tree (owner, 2026-10-02)
+
+Two readings were put to the owner:
+
+- **(a)** design the upper and family levels; the second pass grows the rest.
+- **(b)** also design every recurring variant up front.
+
+**Decision: mostly (a), then assess.** Derive the upper/family levels first,
+then identify the few leaves whose breadth warrants a second, deeper designed
+pass — **the BERT family is the named example**: it is wide enough that
+on-the-fly categorization would reinvent the missing middle, which is precisely
+how v0 ended up with 95 flat leaves under `transformer`.
+
+The risk (a) carries is exactly that: the family level must be specified tightly
+enough that the second pass is never asked to invent an intermediate level. Any
+node the agent can foresee needing one is a candidate for the deeper pass.
 
 ## B.4 Procedure
 
@@ -203,9 +277,24 @@ fails the audit: a neural network *is* an algorithm, so those are not siblings;
 residual. Four characteristics that overlap rather than partition.
 
 Also: 66 duplicate clusters over 143 nodes (`deep q-network (dqn)` /
-`deep q networks (dqn)` / `deep q-networks (dqn)` / `dqn`); `neural networks >
-transformer` has 131 children that are artifacts, not sub-architectures; the cut
-names 8 of 25 categories, which is most of the 43% `Other`. Full list in #95.
+`deep q networks (dqn)` / `deep q-networks (dqn)` / `dqn`); the cut names 8 of 25
+categories, which is most of the 43% `Other`. Full list in #95.
+
+**Correction, 2026-10-02.** An earlier version of this file, and #95, said
+`transformer`'s 131 children "are artifacts, not sub-architectures". Measured:
+false. `bert` is a proper family with 22 children (`roberta`, `distilbert`,
+`codebert`, `albert`, `tinybert`, `protbert`…), and 36 of the 131 have children.
+The real defect is **asymmetry and a missing middle**: `bert` sits as a sibling
+of 95 one-off leaves, `llama` gets no family grouping at all, and between
+`transformer` and those leaves there is no encoder-only / decoder-only /
+encoder-decoder level. You can aggregate at Transformer or at a single artifact,
+with nothing in between — which is the capability the dimension exists for. The
+task is therefore **principled upper levels plus consistent intermediate family
+levels**, not pruning the tree.
+
+**v0 is not a reference for a good hierarchy** (owner, 2026-10-02). The corpus
+may be consulted for *what needs to be covered*; v0's shape informs nothing.
+B.4 step 2 (forbid reading `models/v0`) stands on this.
 
 ## B.6 The comparison step (owner's plan, 2026-10-01)
 
@@ -228,10 +317,39 @@ and documents the relationship with no runtime dependency.
 
 - Are **libraries** a third participant in a run? `DeepSpeed`/`FSDP` are part of
   the configuration and already extracted, but library-based inference of
-  parallelism is too imprecise to replace an explicit field.
+  parallelism is too imprecise to replace an explicit field. Note `libraries[]`
+  is a contaminated source: `adam` (23 papers), `adamw` (8) and `bert` (8) were
+  extracted into it, with quotes that leave no doubt — *"The networks are trained
+  using the Adam optimizer"*, *"We use BERT as the encoder"*. The extractor
+  treats anything tool-shaped as a library. On the #94 list.
 - Does the **datasets** dimension need a tree at all (A.4), or axis values plus
   attributes?
 - **Repair or restructure `models/v0`**, and before or after the gate. The gate
   has not run, so changing v0 is at its cheapest now; afterwards the same change
   costs the gate.
-- Whether to gate on a **16-case surface arm** in clause 5c (PR #90).
+- Whether to gate on a **16-case surface arm** in clause 5c (PR #90, merged).
+- Which leaves earn the **deeper designed pass** of B.3b. Assessed after (a)
+  lands; BERT is the one already named.
+
+---
+
+# Decisions log
+
+**2026-10-01** — entity model (Part A): star schema, runs as the fact table,
+shared layer is vocabulary not hierarchy.
+
+**2026-10-02** — five decisions, all the owner's, three of them overruling me:
+
+1. **Scale variance is not a granularity criterion** (B.2). An architecture can
+   be well defined and scalable across orders of magnitude.
+2. **Artifacts are nodes, not surfaces** (B.3b). Multi-level aggregation is the
+   purpose of the dimension; my capping proposal would have destroyed it.
+3. **Admission rule for `models`**: a separable learned object, else
+   algorithm-only, and a run may carry an algorithm with no model (B.1).
+4. **`algorithms[]` is strictly learning algorithms**; inference-only runs have
+   a model and no algorithm (B.1).
+5. **Designed depth is (a), then assess** which leaves need more (B.3b).
+
+Also corrected on 2026-10-02: the "131 transformer children are artifacts"
+claim was false (B.5); the 24% SSL-backbone figure measures the *old* schema and
+is not evidence of an extraction defect (B.1).
