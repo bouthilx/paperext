@@ -194,11 +194,17 @@ model. No restructuring *within* one tree fixes that.
 - **Does not carry compute patterns.** Compute is a property of a *run*
   (model x execution mode x parallelism x scale). The same model trained vs used
   for inference, or on one GPU vs tensor-parallel, is a different workload.
-- **Does not carry scale.** `MLP` spans orders of magnitude; `parameter_count`
-  lives on the run. **Scale variance is *not* a granularity criterion** (owner,
-  2026-10-02, overruling an earlier proposal of mine): an architecture may be
-  perfectly well defined *and* scalable across several orders of magnitude — a
-  Transformer is one architecture from 100M to 1T parameters.
+- **Never *divides by* scale.** No `Large models` / `Small models` node exists
+  anywhere, and **scale variance is not a granularity criterion** (owner,
+  2026-10-02): an architecture may be perfectly well defined *and* scalable
+  across several orders of magnitude — a Transformer is one architecture from
+  100M to 1T parameters.
+  But **separately named size variants ARE nodes** (owner, 2026-10-02,
+  overruling a second proposal of mine to collapse them): `llama2-7b` sits under
+  `LLaMA 2`. Run statistics aggregate upward to recover the size distribution,
+  while the reverse is impossible — and larger variants are often trained
+  differently from smaller ones (parallelism, precision, hardware), a
+  correlation collapsing would destroy.
 - **Genealogy IS the backbone** (owner, 2026-10-02 — this bullet previously
   said the opposite). An earlier version held that `derives-from` is a DAG while
   `is-a-kind-of` aggregates and is closer to a tree, so genealogy should be a
@@ -371,10 +377,16 @@ shared layer is vocabulary not hierarchy.
    `dict[str, set[str]]`.
 9. **Composition recipes are out of scope** — ideal for compute estimation, but
    judged unrealistic to extract. We classify names.
-10. **Size variants are spellings, not nodes** (`llama2-7b` → `LLaMA 2`);
-   variants differing in architecture, training data or training objective are
-   nodes. Flagged for the owner: this makes `ResNet-18`/`ResNet-50` spellings of
-   `ResNet`.
+10. **Every separately named release is a node, size variants included**
+   (`llama2-7b` under `LLaMA 2`, `ResNet-18` and `ResNet-50` under `ResNet`).
+   I proposed collapsing them; overruled for the same reason as decision 2 —
+   aggregation can always go up, never down, and large variants are often
+   trained differently from small ones. A name is a spelling **only** when it
+   denotes the same release under a different string.
+11. **Only a design pass may create grouping nodes; the second pass may only
+   attach under descent** (R7). This is what closes v0's missing middle: 95 flat
+   leaves under `transformer` exist because categorization was left to invent
+   structure it had no mandate to invent.
 
 Also corrected on 2026-10-02: the "131 transformer children are artifacts"
 claim was false (B.5); the 24% SSL-backbone figure measures the *old* schema and

@@ -130,30 +130,36 @@ because "inspired by" would make the DAG complete and meaningless.
 
 ### R3 — When a name is a spelling, not a node
 
-Three cases collapse into an existing node:
+> **A name is a spelling only when it denotes the *same release* under a
+> different string.** Nothing else collapses.
 
 1. **Orthographic variants** — `resnet-50` / `resnet50` / `ResNet 50`.
 2. **Acronym and long form** — `vision transformer (vit)` / `vit`.
-3. **Size variants of one release** — `llama2-7b` / `llama2-13b` / `llama2-70b`
-   are spellings of `LLaMA 2`.
+3. **Pluralisation** — `gflownet` / `gflownets`.
 
-The rule that separates case 3 from a real child:
-
-> **A variant that differs from its parent only in size is a spelling.
-> A variant that differs in architecture, training data, or training objective
-> is a node.**
+**Every separately named release is a node**, and *what* distinguishes it from
+its parent — size, training data, training objective, architecture — is recorded
+in `notes` but **does not gate node admission**.
 
 | name | verdict | why |
 |---|---|---|
-| ResNet-18 / ResNet-50 / ResNet-101 | spellings of `ResNet` | depth is size; `runs[].parameter_count` carries it |
-| LLaMA-2-7B / -70B | spellings of `LLaMA 2` | size only |
-| DistilBERT | **node** | distillation is a different training objective |
-| CodeBERT | **node** | different training data |
-| Vicuna | **node** | instruction-finetuned on different data |
-| GPT-3 → GPT-4 | **node** | a different architecture generation, not a size setting |
+| `resnet50` vs `resnet-50` | spelling | the same release |
+| `resnet-18` vs `resnet-50` | **two nodes** under `ResNet` | different releases |
+| `llama2-7b` / `-13b` / `-70b` | **three nodes** under `LLaMA 2` | different releases |
+| `distilbert` | node under `bert` | different training objective |
+| `codebert` | node under `bert` | different training data |
 
-Nothing is lost by case 3: scale lives on the run, where the brief has always
-put it, and where compute estimation reads it.
+**Why size variants are nodes** (owner, 2026-10-02, overruling a proposal of
+mine to collapse them): run statistics can always be aggregated upward to the
+`LLaMA 2` level to recover the size distribution, but the reverse is impossible.
+Larger variants are often trained *differently* from smaller ones — different
+parallelism, precision, hardware — and collapsing the variants makes that
+correlation unrecoverable. The cut can sit at `LLaMA 2` whenever you want it to.
+
+This does **not** reintroduce scale as a dividing characteristic. The tree never
+divides a sibling set *by* size — there is no `Large models` / `Small models`
+node anywhere. It admits named releases, and their sizes become legible as a
+consequence.
 
 ### R4 — When an intermediate node is legitimate
 
@@ -197,6 +203,24 @@ traced; far fewer means distinct founding ideas have been fused. This is a
 smell test, not a target, and it is **never** a reason to merge or split a root
 you otherwise believe in — balancing by count is forbidden.
 
+### R7 — Which pass may create which kind of node
+
+This rule exists to close v0's exact failure mode: 95 flat leaves under
+`transformer` with no encoder-only / decoder-only level, because categorization
+was left to invent structure it had no mandate to invent.
+
+> **Only a design pass may create a grouping node (R4).
+> The second pass may only attach nodes under descent (R1).**
+
+So categorization may add `LLaMA 3` under `LLaMA`, or `llama2-7b` under
+`LLaMA 2`. It may **not** create `Decoder-only`, or any other node whose job is
+to group siblings. When the second pass finds itself wanting a grouping node,
+it **flags the family for a design pass** instead of inventing one.
+
+Consequence for you: wherever you can foresee a family needing intermediate
+structure, build it now or name it in `SELF_AUDIT.md`. A family you leave flat
+will *stay* flat.
+
 ### 4.7 Worked end to end
 
 Fifteen real names from the corpus, classified with the rule that decides each.
@@ -207,11 +231,11 @@ Match this pattern; where your case does not match it, write the boundary row.
 | `transformer` | root | R6 |
 | `bert` | node under `Encoder-only` | R1, parent via R4 |
 | `roberta` | node under `bert` | R1 — "a robustly optimized BERT pretraining" |
-| `distilbert` | node under `bert` | R1 + R3 — distillation is a training objective, so a node, not a size variant |
+| `distilbert` | node under `bert` | R1 + R3 — a separately named release |
 | `codebert` | node under `bert` | R1 + R3 — different training data |
-| `resnet-50` | **spelling** of `resnet` | R3 case 3 — depth is size |
+| `resnet-50` | **node** under `resnet` | R3 — a separately named release |
 | `resnet` | node under `Convolutional network` | R1 — "a CNN with residual connections" |
-| `llama2-7b` | **spelling** of `llama 2` | R3 case 3 |
+| `llama2-7b` | **node** under `llama 2` | R3 — a separately named release |
 | `vicuna` | node under `llama` | R1 + R3 — instruction-tuned on different data |
 | `vision transformer (vit)` | node under `transformer`; `vit` is its acronym spelling | R1 + R3 case 2 |
 | `conformer` | node, parents `transformer` **and** `convolutional network` | R5 hybrid |
