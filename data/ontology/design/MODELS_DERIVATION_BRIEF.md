@@ -1,5 +1,11 @@
 # Models hierarchy — derivation brief
 
+> **SUPERSEDED IN PART, 2026-10-02.** Section 3 ("The backbone is lineage")
+> described a single tree. The models dimension is now **faceted**: four axes,
+> each hierarchical. Read **`MODELS_AXES.md` first** — it defines the axes and
+> what moved out of lineage. Sections 1, 2, 4 (R1–R7), 5, 6, 7 and 8 of this
+> file still stand, and now govern **the lineage axis only**.
+
 Task brief handed to the design agent. Authority for every rule here is
 `MODELS_BRIEF.md` (the entity model and the settled decisions) and `PROCESS.md`
 (the method, reused from the domains design). Read this file as the *task*;

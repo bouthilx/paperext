@@ -68,32 +68,50 @@ Kernel expansion
 
 ## Axis 2 — Macro topology  *(single-valued)*
 
-**Characteristic: the shape of the computation as a whole — what feeds what.**
+**Characteristic: how many components the model has and how they are arranged.**
+Nothing else. Everything that turned out to be an objective went to algorithms,
+and everything that turned out to be a constraint on the function class went to
+attributes.
 
 ```
 Single stack
 ├── Bidirectional encoder stack     (BERT)
 └── Causal decoder stack            (GPT, LLaMA)
-Encoder–decoder                     (T5, BART, U-Net)
-Reconstruction
-├── Autoencoder
-├── Variational autoencoder
-└── Masked autoencoder              (MAE, BEiT, SatMAE)
-Invertible
-├── Coupling flow
-├── Autoregressive flow
-└── Continuous-time flow
+Encoder–decoder                     (T5, BART, U-Net, AE, VAE, MAE)
 Multi-tower
 └── Two-tower / dual encoder        (CLIP)
-Implicit field                      (NeRF, SIREN, DeepSDF)
 Ensemble
 ```
 
 **`Encoder-only` / `Decoder-only` / `Encoder-decoder` lives here, not in
 lineage.** Both derivation runs built it inside the Transformer subtree; it is a
 topology distinction that would otherwise be re-encoded under every family it
-applies to. **`Normalizing flow` is topology** (owner), because invertibility is
-a structural demand on the whole model, like a bottleneck.
+applies to.
+
+### Three things that look like topology and are not
+
+**`Autoencoder` is not a topology value** (owner, 2026-10-02). An autoencoder is
+an encoder and a decoder — so is T5, so is U-Net. The topology is identical; what
+differs is **what the target is**, which is the training objective, which the
+backbone test puts on the algorithm side. The bottleneck does not rescue the
+distinction: U-Net has one, denoising autoencoders do not require one, and MAE's
+encoder and decoder are deliberately asymmetric.
+*Consequence*: "proportion of papers using autoencoders" is a cut in the
+**algorithms** dimension, with reconstruction, masked reconstruction,
+variational inference and adversarial training.
+*Residue*: a VAE's encoder emits (μ, σ) rather than z, which is a real
+difference in the network. That is the attribute `Latent treatment`.
+
+**`Invertible` is not a topology value** (owner, 2026-10-02). Invertibility is a
+constraint on the function class, which is what equivariance is, and equivariance
+is an attribute. A normalizing flow is a single stack with `Invertibility:
+invertible`. The coupling / autoregressive / continuous-time split is **lineage**
+substructure under a `Normalizing flow` family, not a topology one.
+
+**`Implicit field` is not a topology value.** NeRF and SIREN are single stacks —
+coordinate in, value out. What is distinctive is what they *represent*, not their
+shape, so `Coordinate MLP (implicit neural representation)` is a **lineage**
+family under the feedforward root, where run A had it.
 
 ## Axis 3 — Attributes  *(multi-valued)*
 
@@ -117,6 +135,12 @@ Routing
 └── Conditional / mixture-of-experts
 Memory
 └── External memory
+Latent treatment
+├── Deterministic                   (the default)
+└── Stochastic                      (VAE: the encoder emits μ, σ)
+Invertibility
+├── Non-invertible                  (the default)
+└── Invertible                      (normalizing flows)
 ```
 
 ## Axis 4 — Lineage  *(a tree)*
