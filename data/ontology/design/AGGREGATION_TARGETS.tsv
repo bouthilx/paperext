@@ -1,0 +1,39 @@
+# Candidate aggregation targets: the buckets the report should be able to
+# state a proportion for. Owner's method (2026-10-02): list what we want to
+# aggregate to FIRST, then see what structure holds between them.
+#
+# corpus_* columns are shown for SIZING ONLY and must not select targets --
+# a strategically important bucket may be near-empty (cf. Frugal AI in domains).
+# Counts come from crude regexes over name strings, so they are rough and
+# deliberately overlap (a name matches several rows).
+#
+target	axis	corpus_names	corpus_mentions	contributed	note
+Transformer	lineage	242	568	44	the whole attention lineage
+  Encoder-only Transformer	lineage	37	114	2	BERT and kin
+  Decoder-only Transformer	lineage	78	229	9	autoregressive LLMs
+  Encoder-decoder Transformer	lineage	17	47	1	seq2seq transformers
+  Vision Transformer	lineage	31	61	4	attention on patches
+Convolutional network	lineage	104	242	15	the convolution lineage
+  ResNet family	lineage	23	105	0	residual convnets
+  U-Net family	lineage	23	44	5	encoder-decoder convnet
+  Detection convnet	lineage	11	16	0	object detectors
+Recurrent network	lineage	55	71	12	the recurrence lineage
+Graph neural network	lineage	39	75	16	the message-passing lineage
+Multilayer perceptron	lineage	14	23	3	dense stacks
+State-space model	lineage	4	4	1	structured recurrence
+Neural operator	lineage	2	2	1	function-space maps
+Tree ensemble	lineage	16	32	1	forests and boosting
+Linear model	lineage	16	25	4	linear predictors
+Kernel machine	lineage	15	18	1	kernel methods
+Probabilistic graphical model	lineage	3	3	1	factor graphs
+Factorization / embedding model	lineage	12	19	1	learned low-rank tables
+Spiking neuron	substrate	0	0	0	ORTHOGONAL: a spiking CNN exists
+Decision split	substrate	15	29	1	non-neural substrate
+Kernel	substrate	17	20	1	non-neural substrate
+Autoencoder	topology	21	28	7	ORTHOGONAL: conv AND transformer autoencoders exist
+Two-tower / dual encoder	topology	12	42	5	ORTHOGONAL: paired encoders
+Implicit neural representation	topology	1	1	0	ORTHOGONAL: a coordinate-indexed field
+Equivariant	attribute	6	6	2	ORTHOGONAL: GNN, Transformer, MLP all have equivariant forms
+Bayesian weights	attribute	4	5	1	ORTHOGONAL: any lineage can be Bayesian
+Mixture of experts	attribute	4	4	0	ORTHOGONAL: conditional computation
+Pretrained / foundation model	attribute	4	4	1	ORTHOGONAL: a provenance property
