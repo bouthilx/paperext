@@ -107,7 +107,11 @@ with the reading you chose and the reading you rejected.
 
 > **A is a child of B when A cannot be described without naming B.**
 
-The introducing paper or the community defines A as a modification of B.
+Operationally: **the introducing paper's own framing** — its title, abstract or
+method section defines A relative to B. If you have to reconstruct the
+relationship yourself from architectural similarity, it is not an R1 edge; it is
+R2 influence. When the framing is genuinely ambiguous, that is a
+`BOUNDARY_CASES.tsv` row, not a judgement call to make silently.
 
 | case | edge | why |
 |---|---|---|
@@ -186,6 +190,42 @@ lineage backbone, not a defect to engineer away. Say so in `RATIONALE.md`.
 The principle-of-division machinery from `PROCESS.md` still governs **within** a
 family — how BERT's children are grouped is a division question — but it does
 **not** govern the root set.
+
+**Sanity bound on the root set: expect roughly 8 to 15.** Far more than that
+means releases have been promoted to roots because their lineage was not
+traced; far fewer means distinct founding ideas have been fused. This is a
+smell test, not a target, and it is **never** a reason to merge or split a root
+you otherwise believe in — balancing by count is forbidden.
+
+### 4.7 Worked end to end
+
+Fifteen real names from the corpus, classified with the rule that decides each.
+Match this pattern; where your case does not match it, write the boundary row.
+
+| name | verdict | rule |
+|---|---|---|
+| `transformer` | root | R6 |
+| `bert` | node under `Encoder-only` | R1, parent via R4 |
+| `roberta` | node under `bert` | R1 — "a robustly optimized BERT pretraining" |
+| `distilbert` | node under `bert` | R1 + R3 — distillation is a training objective, so a node, not a size variant |
+| `codebert` | node under `bert` | R1 + R3 — different training data |
+| `resnet-50` | **spelling** of `resnet` | R3 case 3 — depth is size |
+| `resnet` | node under `Convolutional network` | R1 — "a CNN with residual connections" |
+| `llama2-7b` | **spelling** of `llama 2` | R3 case 3 |
+| `vicuna` | node under `llama` | R1 + R3 — instruction-tuned on different data |
+| `vision transformer (vit)` | node under `transformer`; `vit` is its acronym spelling | R1 + R3 case 2 |
+| `conformer` | node, parents `transformer` **and** `convolutional network` | R5 hybrid |
+| `clip` | node, parents = its image and text encoders | R5 composite |
+| `u-net` | node under `Convolutional network` | R1 |
+| `neural networks` | **not a node** — uninformative generic | §2; quarantine as the domains design did with `machine learning` |
+| `dovesei` | not your problem | §8 — one-paper tail, grown by the second pass |
+
+**On the last two rows.** Bare generics (`neural networks`, `deep neural
+networks`, `transformers` as a plural mass noun) are quarantined, reported as a
+line, and excluded from family shares — the same treatment `machine learning`
+and `deep learning` got in the domains design. And you are deriving the upper
+and family levels only: a name appearing in one paper is placed later, by
+categorization, against the structure you build.
 
 ---
 
