@@ -62,9 +62,14 @@ Recurrence
 Message passing
 ├── Spectral graph convolution
 └── Spatial message passing
+Set aggregation                     (Deep Sets, PointNet)
 Tree traversal
 Kernel expansion
 ```
+
+`Set aggregation` was added 2026-10-02 — the axis had no value for a
+permutation-invariant pooling stack. It is distinct from message passing, which
+requires edges.
 
 ## Axis 2 — Macro topology  *(single-valued)*
 
@@ -78,8 +83,7 @@ Single stack
 ├── Bidirectional encoder stack     (BERT)
 └── Causal decoder stack            (GPT, LLaMA)
 Encoder–decoder                     (T5, BART, U-Net, AE, VAE, MAE)
-Multi-tower
-└── Two-tower / dual encoder        (CLIP)
+Multi-tower / dual encoder          (CLIP, DPR, Siamese)
 Ensemble
 ```
 

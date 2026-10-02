@@ -1,0 +1,25 @@
+# Models axis: CONNECTIVITY -- MULTI-VALUED.
+# Characteristic: how learned units are wired to one another.
+# Multi-valued because hybrids are real: Conformer is {convolution,
+# self-attention}. This is what replaces most multi-parent lineage edges (R5).
+# A lineage node PINS values here; a generic description ("a CNN") sets only this.
+node_id	name	parent_id	depth	characteristic	positive_test	negative_test	examples	notes
+dense	Dense		1	every unit is wired to every unit of the adjacent group	the layer applies a full weight matrix with no structural sparsity	the wiring is constrained by locality, position, a graph, or time	MLP layers; projection heads	
+fully-connected	Fully connected	dense	2	an unconstrained dense weight matrix	the layer is a plain matmul plus nonlinearity	the matrix is constrained to a low-rank or factorized form	MLP; feedforward block of a Transformer	
+factorized	Factorized / low-rank	dense	2	the dense map is constrained to a product of smaller factors	the weights are stored and applied as a product of lower-rank terms	the matrix is unconstrained	matrix factorization; LoRA-shaped adapters	Lineage families like matrix factorization pin this.
+convolution	Convolution		1	units share weights across positions of a regular grid	the same kernel is applied at every position	weights are position-specific, or the domain is an irregular graph	CNNs; TCNs; WaveNet	
+standard-convolution	Standard convolution	convolution	2	a dense kernel over all input channels	one kernel mixes space and channels together	space and channels are mixed in separate stages, or the kernel is spaced out	LeNet; VGG; ResNet blocks	
+depthwise-separable	Depthwise-separable convolution	convolution	2	spatial mixing and channel mixing are separate stages	a depthwise step is followed by a pointwise step	one kernel does both at once	MobileNet; Xception; ConvNeXt blocks	
+dilated-convolution	Dilated convolution	convolution	2	the kernel samples positions at a stride greater than one	receptive field grows without extra parameters or pooling	the kernel reads contiguous positions	WaveNet; dilated TCN	
+attention	Attention		1	the wiring weights are computed from the content of the inputs	which units talk is decided per example by a similarity score	the wiring is fixed by position, grid or graph before seeing the input	Transformer blocks	
+self-attention	Self-attention	attention	2	queries, keys and values all come from one sequence	the layer relates a sequence to itself	queries come from one stream and keys from another	BERT; GPT; ViT	
+cross-attention	Cross-attention	attention	2	queries come from one stream, keys and values from another	the layer relates two distinct streams	both sides are the same stream	T5 decoder; Perceiver; DETR	
+recurrence	Recurrence		1	units are wired to their own state at the previous step	the computation carries a state along a sequence and reuses one set of weights	the sequence is processed in parallel with no carried state	RNNs; state-space models	
+gated-recurrence	Gated recurrence	recurrence	2	learned gates control what the state keeps and forgets	multiplicative gates mediate the state update	the state update is linear and time-invariant	LSTM; GRU	
+state-space-recurrence	State-space recurrence	recurrence	2	the state update is a linear dynamical system	the recurrence is linear, so it can also be run as a convolution or scan	gates make the update input-dependent and nonlinear	S4; Mamba; RSSM	Lineage root `State-space model` pins this.
+message-passing	Message passing		1	units are wired by the edges of an irregular graph	each unit aggregates from its graph neighbours	the neighbourhood is a regular grid, or all units are neighbours	GNNs	
+spectral-graph-convolution	Spectral graph convolution	message-passing	2	aggregation is defined through the graph Laplacian spectrum	the operator is a polynomial of the Laplacian	aggregation is defined directly on neighbours in the spatial domain	ChebNet; GCN	
+spatial-message-passing	Spatial message passing	message-passing	2	aggregation is defined directly over neighbours	messages are computed per edge and pooled per node	the operator is defined in the spectral domain	GAT; GraphSAGE; GIN; MPNN	
+set-aggregation	Set aggregation		1	all units are pooled into one with no ordering or adjacency	a permutation-invariant pool reduces a set to a fixed-size vector	the inputs carry an order, a grid position, or edges	Deep Sets; PointNet	Added 2026-10-02: the axis had no value for a pooling stack. Distinct from message passing, which needs edges.
+tree-traversal	Tree traversal		1	the computation routes an input down learned branch tests	the output is decided by a path of threshold comparisons	the output is a weighted combination of all units	CART; random forest members	Non-neural.
+kernel-expansion	Kernel expansion		1	the input is compared against stored reference points	prediction is a weighted sum of kernel evaluations against training data	the model holds a fixed parameter vector independent of the data	SVM; Gaussian process; RBF network	Non-neural.

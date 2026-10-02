@@ -1,0 +1,12 @@
+# Models axis: TOPOLOGY -- SINGLE-VALUED.
+# Characteristic: how many components the model has and how they are arranged.
+# NOTHING ELSE. Everything that proved to be an objective went to algorithms;
+# everything that proved to be a function-class constraint went to attributes.
+# See MODELS_AXES.md "Three things that look like topology and are not".
+node_id	name	parent_id	depth	characteristic	positive_test	negative_test	examples	notes
+single-stack	Single stack		1	one component maps input to output in one pass	there is one body of parameters and one direction of flow	there is a second component consuming the first's output, or a parallel tower	most classifiers; GPT; BERT; NeRF	
+bidirectional-encoder	Bidirectional encoder stack	single-stack	2	every position may attend to every other	the representation at a position depends on both sides of it	positions may only depend on what precedes them	BERT; RoBERTa; ViT	This level was built inside the Transformer LINEAGE subtree by both derivation runs. It is topology: it applies to any family.
+causal-decoder	Causal decoder stack	single-stack	2	a position may depend only on what precedes it	the model can generate one step at a time from its own output	positions see the whole input at once	GPT; LLaMA; PixelCNN	
+encoder-decoder	Encoder–decoder		1	a second component consumes a representation built by the first	two bodies of parameters, with a latent or memory between them	one body of parameters, or two parallel towers over different inputs	T5; BART; U-Net; autoencoders; VAE; MAE	Autoencoders live here. An autoencoder IS an encoder and a decoder -- what makes it an autoencoder is the reconstruction TARGET, which is an objective and belongs to algorithms (owner, 2026-10-02).
+multi-tower	Multi-tower / dual encoder		1	parallel components encode different inputs and are combined only at the end	two or more bodies of parameters run side by side, joined by a comparison in a shared space	one component feeds the next in sequence	CLIP; DPR; Siamese networks	Collapsed with its sole child on 2026-10-02: a parent with one child is a rename of that child (R4). Re-split if a non-dual multi-tower family appears.
+ensemble	Ensemble		1	many independent models are combined at prediction time	members are trained separately and their outputs are pooled	the components are jointly trained parts of one forward pass	random forest; deep ensembles	
