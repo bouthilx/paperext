@@ -51,29 +51,151 @@ shape. Do not attach recurring artifacts as mere spellings of a family node;
 that is the capping proposal the owner rejected on 2026-10-02, because it makes
 every cut below Transformer impossible.
 
-## 3. What the tree must not carry
+## 3. The backbone is lineage
 
-- **Not compute patterns.** Compute is a property of a run
-  (model × execution mode × parallelism × scale).
-- **Not scale.** `MLP` spans orders of magnitude and that is fine.
-  **Scale variance is not evidence of bad granularity** — an architecture may be
-  well defined *and* scalable across orders of magnitude. A Transformer is one
-  architecture from 100M to 1T parameters.
-- **Not genealogy as the backbone.** `derives-from` is a DAG; `is-a-kind-of` is
-  what aggregates. If a node seems to need two parents, suspect a fused second
-  characteristic — ViT is *a transformer* (kind) applied to *images* (modality,
-  which is a different dimension's business).
-- **Not another dimension's characteristic.** Modality, task and research topic
-  each have their own ontology. Importing one here is the error that produced
-  v0's unprincipled roots.
+**Settled with the owner, 2026-10-02**, after three candidate level-1
+characteristics were rejected.
 
-## 4. Method
+Rejected, and why — the three failures are one failure. Each divides a model by
+something that is not a property of the model:
 
-Follow `PROCESS.md` §2 in full. The rules that bind hardest:
+| rejected candidate | it is actually a property of |
+|---|---|
+| computational primitive | a **layer**. Models mix primitives layer by layer; representing one by a single primitive is not useful. |
+| data structure consumed | the **application**. The same Transformer runs on text sequences or image patches. |
+| function learned | the **use**. The same architecture discriminates in BERT and generates in GPT. |
+
+What is invariant to a model under modality, task and layer-mix is **what it was
+built from**. So the hierarchy is **architectural lineage**: parent → child means
+*the child was derived from the parent*.
+
+```
+Transformer
+├── Encoder-only ──── BERT ──── RoBERTa, DistilBERT, CodeBERT, ALBERT…
+├── Decoder-only ──── GPT ───── GPT-2, GPT-3, GPT-4
+│                 └── LLaMA ─── LLaMA 2, Vicuna, Alpaca
+└── Encoder-decoder ─ T5, BART
+```
+
+**Composition recipes were considered and are out of scope.** Describing each
+model by the primitives it composes would be ideal for compute estimation, but
+the owner judged it unrealistic to extract. **We classify names.**
+
+### 3.1 It is a DAG, and that is fine
+
+A model may have more than one parent. Aggregation in this project is already
+**non-exclusive** — locked in E1 (#16): a paper maps to a *set* of
+categories-at-cut, bucket count is the number of papers whose set contains the
+bucket, and columns overlap by design. So "proportion of papers using a CNN" and
+"proportion using a Transformer" may both count a Conformer paper, exactly as a
+paper already counts under several research domains.
+
+Do not invent a primary lineage, and do not drop an edge to keep a tree.
+
+*(Known code consequence, not the agent's problem: `analysis/rollup.py` returns
+`dict[str, str]`, one category per name, and will need `dict[str, set[str]]`.)*
+
+---
+
+## 4. The lineage rules
+
+These are the rules that make the derivation checkable. Apply them literally.
+Where a case resists them, do not improvise — put it in `BOUNDARY_CASES.tsv`
+with the reading you chose and the reading you rejected.
+
+### R1 — What makes an edge
+
+> **A is a child of B when A cannot be described without naming B.**
+
+The introducing paper or the community defines A as a modification of B.
+
+| case | edge | why |
+|---|---|---|
+| RoBERTa → BERT | ✓ | "BERT with improved pretraining" |
+| ViT → Transformer | ✓ | "a Transformer applied to image patches" |
+| ResNet → convolutional network | ✓ | "a CNN with residual connections" |
+| GPT-2 → GPT | ✓ | the same architecture, next generation |
+| BERT → GPT | ✗ | siblings; neither is defined from the other |
+
+### R2 — What is never an edge
+
+Influence, citation, shared authors, shared modality, shared task, shared
+primitive, or appearing in the same benchmark table. **Two models that both use
+attention are unrelated** unless one was built from the other. This rule exists
+because "inspired by" would make the DAG complete and meaningless.
+
+### R3 — When a name is a spelling, not a node
+
+Three cases collapse into an existing node:
+
+1. **Orthographic variants** — `resnet-50` / `resnet50` / `ResNet 50`.
+2. **Acronym and long form** — `vision transformer (vit)` / `vit`.
+3. **Size variants of one release** — `llama2-7b` / `llama2-13b` / `llama2-70b`
+   are spellings of `LLaMA 2`.
+
+The rule that separates case 3 from a real child:
+
+> **A variant that differs from its parent only in size is a spelling.
+> A variant that differs in architecture, training data, or training objective
+> is a node.**
+
+| name | verdict | why |
+|---|---|---|
+| ResNet-18 / ResNet-50 / ResNet-101 | spellings of `ResNet` | depth is size; `runs[].parameter_count` carries it |
+| LLaMA-2-7B / -70B | spellings of `LLaMA 2` | size only |
+| DistilBERT | **node** | distillation is a different training objective |
+| CodeBERT | **node** | different training data |
+| Vicuna | **node** | instruction-finetuned on different data |
+| GPT-3 → GPT-4 | **node** | a different architecture generation, not a size setting |
+
+Nothing is lost by case 3: scale lives on the run, where the brief has always
+put it, and where compute estimation reads it.
+
+### R4 — When an intermediate node is legitimate
+
+Admit a node N between P and its children when **all three** hold:
+
+1. **The field names the distinction.** You are not inventing a layer.
+2. **N has at least two substantive children.** One child means N is a rename
+   of that child.
+3. **N is definable without listing its children.**
+
+`Encoder-only` / `Decoder-only` / `Encoder-decoder` under Transformer passes all
+three. An intermediate invented only to reduce a large branching factor fails
+rule 1 — **that is balancing by size, which is forbidden** here as it is in the
+domains design.
+
+### R5 — Second parents
+
+Add a second edge under R1's test applied again: the model cannot be described
+without naming that parent either. Two shapes, both legal, distinguished in
+`notes`:
+
+- **Hybrid** — one block mixes what two lineages contributed. `Conformer` →
+  {Transformer, convolutional network}.
+- **Composite** — two named sub-models combined. `CLIP` → {its image encoder,
+  its text encoder}.
+
+### R6 — Lineage roots
+
+A root is an architecture **whose defining idea is not a modification of another
+architecture in this tree**. Expect roots to be historically contingent rather
+than a clean partition of a characteristic — that is a declared property of a
+lineage backbone, not a defect to engineer away. Say so in `RATIONALE.md`.
+
+The principle-of-division machinery from `PROCESS.md` still governs **within** a
+family — how BERT's children are grouped is a division question — but it does
+**not** govern the root set.
+
+---
+
+## 5. Method
+
+Follow `PROCESS.md` §2. The rules that bind hardest:
 
 1. **One principle of division per sibling set**, stated as the node's
-   `characteristic`. Not one per level — different parents may divide by
-   different characteristics and the tree is still coherent.
+   `characteristic`, **wherever a sibling set is produced by division rather
+   than by descent** (see R6).
 2. **A child sibling set must refine its parent's characteristic**, never import
    another aspect's.
 3. **Two-phase protocol.** Phase 1: draft from the field's own structure with
@@ -86,9 +208,9 @@ Follow `PROCESS.md` §2 in full. The rules that bind hardest:
 5. **A property attaches at the highest node where it holds for all descendants.**
 6. **External classifications supply vocabulary and breadth, never arbitration.**
    ACM CCS `Computing methodologies`, arXiv categories and Papers With Code are
-   fair input for breadth and blind spots. None of them is a referee.
+   fair input. None of them is a referee.
 
-## 5. Forbidden inputs
+## 6. Forbidden inputs
 
 Reading any of these invalidates the derivation:
 
@@ -102,23 +224,29 @@ Reading any of these invalidates the derivation:
 - `proposed_categories.csv`, `categorized_models.json`, and anything under
   `data/ontology/design/run{1,2,3}/` or `axes/superseded/`.
 
-## 6. Deliverables
+## 7. Deliverables
 
 In `data/ontology/design/models_tree/`:
 
 1. `DRAFT_PHASE1.md` — the corpus-free draft, frozen and timestamped **before**
    any data file is opened.
-2. `nodes.tsv` — columns `node_id, name, parent_id, depth, characteristic,
-   positive_test, negative_test, examples, notes`. Same shape as the domains
-   axes. **No count columns**: they leak into any later phase-1 work.
-3. `RATIONALE.md` — the principle of division at every branch, every change
+2. `nodes.tsv` — columns `node_id, name, parents, depth, relation,
+   characteristic, positive_test, negative_test, examples, notes`.
+   `parents` is **pipe-separated** — a node may have more than one (R5).
+   `relation` is `descent` or `division`, naming which rule produced the node's
+   place (R1 or R4). `depth` is the **shortest** path to a root.
+   **No count columns**: they leak into any later phase-1 work.
+3. `SPELLINGS.tsv` — columns `spelling, node_id, case`, where `case` is
+   `orthographic`, `acronym` or `size` (R3). Every name you collapse goes here,
+   so the decision is reviewable rather than invisible.
+4. `RATIONALE.md` — the principle of division at every branch, every change
    between phase 1 and phase 2 with its reason, and the boundary cases you
    declare (same shape as `BOUNDARY_CASES.tsv`).
-4. `SELF_AUDIT.md` — run the granularity audit on your own output, and name the
+5. `SELF_AUDIT.md` — run the granularity audit on your own output, and name the
    sibling sets you are **not** confident in. Under-confidence declared is worth
    more than confidence asserted.
 
-## 7. Depth
+## 8. Depth
 
 Design the **upper and family levels** — roughly depth 3 to 4. The second pass
 grows the rest from the corpus.

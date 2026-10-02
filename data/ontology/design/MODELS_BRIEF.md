@@ -199,10 +199,16 @@ model. No restructuring *within* one tree fixes that.
   2026-10-02, overruling an earlier proposal of mine): an architecture may be
   perfectly well defined *and* scalable across several orders of magnitude — a
   Transformer is one architecture from 100M to 1T parameters.
-- **Genealogy is a separate, optional relation.** `derives-from` is a DAG;
-  `is-a-kind-of` is what aggregates and is closer to a tree. Multi-parent
-  kind-membership usually signals a fused second characteristic — ViT is *a
-  transformer* (kind) on *images* (modality).
+- **Genealogy IS the backbone** (owner, 2026-10-02 — this bullet previously
+  said the opposite). An earlier version held that `derives-from` is a DAG while
+  `is-a-kind-of` aggregates and is closer to a tree, so genealogy should be a
+  separate optional relation. Superseded: for models the two largely coincide —
+  RoBERTa *is a* BERT because it was *built as* one — and the three candidate
+  dividing characteristics (computational primitive, data structure consumed,
+  function learned) were all rejected because each is a property of a layer, an
+  application or a use, never of the model. **Multi-parent is legal**, because
+  the project's counting is non-exclusive already (E1, #16). Rules in
+  `MODELS_DERIVATION_BRIEF.md` §4.
 
 ## B.3 Attributes attach to families, not entities
 
@@ -349,6 +355,26 @@ shared layer is vocabulary not hierarchy.
 4. **`algorithms[]` is strictly learning algorithms**; inference-only runs have
    a model and no algorithm (B.1).
 5. **Designed depth is (a), then assess** which leaves need more (B.3b).
+
+**2026-10-02, second round** — the backbone:
+
+6. **Three candidate level-1 characteristics rejected** — computational
+   primitive, data structure consumed, function learned. One objection, not
+   three: each is a property of a layer, an application or a use, not of the
+   model, which is invariant under all three.
+7. **The backbone is architectural lineage.** Parent → child means the child was
+   derived from the parent.
+8. **Multi-parent is legal and a DAG is fine.** Aggregation here is already
+   non-exclusive (E1 #16: paper → *set* of categories, columns overlap), so no
+   primary lineage is designated and no edge is dropped to force a tree.
+   Code consequence: `analysis/rollup.py` returns `dict[str, str]` and needs
+   `dict[str, set[str]]`.
+9. **Composition recipes are out of scope** — ideal for compute estimation, but
+   judged unrealistic to extract. We classify names.
+10. **Size variants are spellings, not nodes** (`llama2-7b` → `LLaMA 2`);
+   variants differing in architecture, training data or training objective are
+   nodes. Flagged for the owner: this makes `ResNet-18`/`ResNet-50` spellings of
+   `ResNet`.
 
 Also corrected on 2026-10-02: the "131 transformer children are artifacts"
 claim was false (B.5); the 24% SSL-backbone figure measures the *old* schema and
