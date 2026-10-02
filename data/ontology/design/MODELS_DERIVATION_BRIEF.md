@@ -46,6 +46,23 @@ re-litigate:
 | GFlowNet | the flow network | the training objective |
 | SimCLR / BYOL / DINO | the encoder the paper names | the SSL objective |
 
+### 2.1 The backbone test (owner, 2026-10-02)
+
+> **If a paradigm leaves the network topology unchanged and alters only the
+> training objective or the sampling procedure, it is an algorithm.
+> The model is the backbone the paper names.**
+
+| paradigm | backbone in practice | verdict |
+|---|---|---|
+| **GFlowNet** | usually a Transformer | **algorithm**; the model is the Transformer variant |
+| **diffusion** | a U-Net or a DiT | **algorithm**; the model is the denoiser |
+| SimCLR / BYOL / DINO | a ResNet or a ViT | algorithm; the model is the encoder |
+| PPO / SAC / DQN | the policy and value networks | algorithm |
+
+Consequence to state plainly: **"proportion of papers doing GFlowNet work" is a
+cut in the *algorithms* hierarchy, not this one.** That is its correct home, and
+it raises the priority of the algorithms derivation.
+
 **Artifacts are nodes.** `Transformer › … › BERT › RoBERTa` is the intended
 shape. Do not attach recurring artifacts as mere spellings of a family node;
 that is the capping proposal the owner rejected on 2026-10-02, because it makes
@@ -197,11 +214,24 @@ The principle-of-division machinery from `PROCESS.md` still governs **within** a
 family — how BERT's children are grouped is a division question — but it does
 **not** govern the root set.
 
-**Sanity bound on the root set: expect roughly 8 to 15.** Far more than that
-means releases have been promoted to roots because their lineage was not
-traced; far fewer means distinct founding ideas have been fused. This is a
-smell test, not a target, and it is **never** a reason to merge or split a root
-you otherwise believe in — balancing by count is forbidden.
+**No bound on the number of roots, and no rebalancing** (owner, 2026-10-02).
+An earlier version of this brief suggested 8–15 roots as a smell test. It is
+withdrawn: it pushed one derivation to decline structurally sound merges and the
+other to apologise for having 20 roots. Neither distortion was worth the
+heuristic.
+
+> **Never shape the structure to balance mentions across siblings.**
+
+If a grouping node would hold 90% of the corpus, that is a **finding to report**,
+not a defect to engineer away — and the analysis will cut at whatever level suits
+its focus. The share of papers using neural networks is exactly the kind of
+quantity this survey exists to measure, so it must be **visible in the
+structure**, not dissolved by refusing the node that makes it countable.
+
+Corollary: many of the roots two independent runs agreed on *are* neural
+networks, and they do differ sharply from `Kernel machine` or `Decision tree`.
+Upper grouping levels over them are justified **on structure**, and their size
+is not an argument against them.
 
 ### R7 — Which pass may create which kind of node
 

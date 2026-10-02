@@ -388,6 +388,23 @@ shared layer is vocabulary not hierarchy.
    leaves under `transformer` exist because categorization was left to invent
    structure it had no mandate to invent.
 
+**2026-10-02, third round** — after two derivation runs came back:
+
+12. **GFlowNet and diffusion are algorithm-side**, confirmed by the owner from
+   the literature: GFlowNet papers typically use a **Transformer backbone**, so
+   the model is the Transformer variant and GFlowNet is the learning algorithm.
+   Both runs independently refused a `Diffusion model` node and run B refused a
+   GFlowNet node; run B was right. The **backbone test** now states this.
+   *Consequence*: the "proportion of GFlowNet work" cut lives in the
+   **algorithms** hierarchy, which raises that derivation's priority.
+13. **`large language model` stays quarantined** — owner agreed. Cheap anyway:
+   the bare generic is 1 name, 3 mentions, 0 contributed.
+14. **No root-count bound, and never rebalance** (owner). The 8–15 smell test is
+   withdrawn — it made one run decline sound merges and the other apologise for
+   20 roots. **90% of papers under one node is a finding to report, not a defect
+   to engineer away**; the analysis cuts at whatever level suits its focus.
+   Upper grouping levels over the neural roots are justified on structure.
+
 Also corrected on 2026-10-02: the "131 transformer children are artifacts"
 claim was false (B.5); the 24% SSL-backbone figure measures the *old* schema and
 is not evidence of an extraction defect (B.1).
