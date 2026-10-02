@@ -301,8 +301,10 @@ In `data/ontology/design/models_tree/`:
    place (R1 or R4). `depth` is the **shortest** path to a root.
    **No count columns**: they leak into any later phase-1 work.
 3. `SPELLINGS.tsv` — columns `spelling, node_id, case`, where `case` is
-   `orthographic`, `acronym` or `size` (R3). Every name you collapse goes here,
-   so the decision is reviewable rather than invisible.
+   `orthographic`, `acronym`, `plural` or `synonym` (R3). Every name you
+   collapse goes here, so the decision is reviewable rather than invisible.
+   **`size` is not a case** — size variants are nodes, not spellings. `synonym`
+   covers a different name for the same node, which grouping nodes attract.
 4. `RATIONALE.md` — the principle of division at every branch, every change
    between phase 1 and phase 2 with its reason, and the boundary cases you
    declare (same shape as `BOUNDARY_CASES.tsv`).
