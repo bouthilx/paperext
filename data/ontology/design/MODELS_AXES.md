@@ -273,6 +273,43 @@ Note what the three outcomes mean: a named network becomes a node, an unnamed
 one is described by the axes, and a genuine absence is recorded as an absence.
 Only the last would have been a loss, and it is not one.
 
+## Weight variants get no node — and the decision is recorded
+
+**Owner, 2026-10-06.** *If released models have the same architecture and differ
+only in weight values because of the training procedure, they get no separate
+model entry.* So `RoBERTa`, `BioBERT`, `CodeBERT`, `ELECTRA`, `MAE`, `DINOv2`,
+`HuBERT`, `Vicuna` and `Alpaca` stop being lineage nodes: each is its parent's
+architecture with different weights. **15 nodes removed, 282 remain.**
+
+Kept, because the architecture really does change: **ALBERT** (parameter sharing,
+factorized embeddings), **DeBERTa** (disentangled attention), **DistilBERT /
+TinyBERT / MobileBERT** (fewer layers — size *is* architecture), **WavLM** (gated
+relative position bias), **Longformer** (sparse attention), **Swin**, **SAM**,
+**LLaVA**, **Llama 2/3**, **DeiT** (the distillation token is architectural).
+
+**They are recorded, not deleted** (owner's refinement). Each becomes a row in
+`lineage/SPELLINGS.tsv` with `kind = weight-variant`, so the decision is made
+once and never re-litigated — the next person to meet `roberta` sees that it was
+considered and where it maps.
+
+**`weight-variant` is NOT a spelling, and the `kind` column exists to keep them
+apart.** R3 defines a surface as *the same release under a different string*;
+RoBERTa is a genuinely different checkpoint. Conflating them would make
+`roberta` indistinguishable from `bert` in the data. With the distinction kept:
+a consumer asking *"what proportion of papers used RoBERTa"* reads the
+**surface**, and one asking for architecture counts **rolls up to the node**.
+Both questions survive, which is the point.
+
+26 weight-variant rows so far — the 15 collapsed nodes plus 11 SSL names that
+never became nodes (`simclr`, `byol`, `moco`, `swav`, `simsiam`, `barlow twins`,
+`vicreg`, `dino`, `v-jepa`, `videomae`, `data2vec`), each recorded against the
+backbone it trains.
+
+*Still open for #94*: a `runs[].checkpoint` field. The surface row says which
+architecture a checkpoint has; the run should say which checkpoint was executed,
+since that is what fixes parameter count and whether the paper trained or
+fine-tuned.
+
 ## Coverage, restated
 
 **The ontology covers the field, not the corpus.** A concept with no corpus

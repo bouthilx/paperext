@@ -20,46 +20,84 @@
 #
 # No fuzzy matching anywhere: token-set matching once paired `gpt-j` with
 # `GPT-4` after stopword removal collapsed both to a single token.
-spelling	node_id	corpus_papers	priority
-transformers	transformer	6	2
-convolutional neural network (cnn)	cnn	5	3
-recurrent neural networks	rnn	5	3
-convolutional neural networks (cnns)	cnn	4	3
-recurrent neural network	rnn	4	3
-vision transformers	vit	4	2
-canonical correlation analysis (cca)	cca	3	3
-convolutional neural networks	cnn	3	3
-variational autoencoders (vaes)	vae	3	3
-vit (vision transformer)	vit	3	3
-decision trees	decision_tree	2	2
-graph neural network (gnn)	gnn	2	3
-multilayer perceptron	mlp	2	1
-random forests	random_forest	2	2
-recurrent neural network (rnn)	rnn	2	3
-support vector machine (svm)	svm	2	3
-variational autoencoder (vae)	vae	2	3
-cnn (convolutional neural network)	cnn	1	3
-conditional random field (crf)	crf	1	3
-convolutional neural network	cnn	1	3
-feed-forward neural network	mlp	1	3
-feed-forward neural networks	mlp	1	3
-fourier neural operator (fno)	fno	1	3
-fourier neural operators	fno	1	2
-graph neural networks (gnn)	gnn	1	3
-graph neural networks (gnns)	gnn	1	3
-hidden markov models (hmms)	hmm	1	3
-hopfield networks	hopfield	1	2
-independent component analysis (ica)	ica	1	3
-multi-layer perceptrons	mlp	1	2
-neuralodes	neural_ode	1	2
-nonnegative matrix factorization (nmf)	nmf	1	3
-normalizing flows	normalizing_flow	1	2
-physics-informed neural networks	pinn	1	2
-recurrent neural networks (rnn)	rnn	1	3
-recurrent neural networks (rnns)	rnn	1	3
-resnets	resnet	1	2
-state space model (ssm)	ssm	1	3
-support vector machines	svm	1	2
-support vector machines (svm)	svm	1	3
-support vector regression (svr)	svr	1	3
-variational autoencoders	vae	1	2
+#
+# `kind` distinguishes two different things that both resolve to one node:
+#   same-release  -- another STRING for the same thing (orthographic, acronym,
+#                    plural, synonym, task-word). R3.
+#   weight-variant -- a DIFFERENT released checkpoint with the SAME architecture,
+#                    deliberately mapped to its architecture node (owner,
+#                    2026-10-06: models differing only in weight values because
+#                    of the training procedure get no separate node). The row
+#                    exists so the decision is recorded once and not revisited.
+#                    A consumer wanting `proportion of papers using RoBERTa`
+#                    reads the SURFACE; one wanting architecture counts rolls up
+#                    to the node. Do NOT treat these as spellings.
+spelling	node_id	corpus_papers	priority	kind	reason
+transformers	transformer	6	2	same-release	
+convolutional neural network (cnn)	cnn	5	3	same-release	
+recurrent neural networks	rnn	5	3	same-release	
+convolutional neural networks (cnns)	cnn	4	3	same-release	
+recurrent neural network	rnn	4	3	same-release	
+vision transformers	vit	4	2	same-release	
+canonical correlation analysis (cca)	cca	3	3	same-release	
+convolutional neural networks	cnn	3	3	same-release	
+variational autoencoders (vaes)	vae	3	3	same-release	
+vit (vision transformer)	vit	3	3	same-release	
+decision trees	decision_tree	2	2	same-release	
+graph neural network (gnn)	gnn	2	3	same-release	
+multilayer perceptron	mlp	2	1	same-release	
+random forests	random_forest	2	2	same-release	
+recurrent neural network (rnn)	rnn	2	3	same-release	
+support vector machine (svm)	svm	2	3	same-release	
+variational autoencoder (vae)	vae	2	3	same-release	
+cnn (convolutional neural network)	cnn	1	3	same-release	
+conditional random field (crf)	crf	1	3	same-release	
+convolutional neural network	cnn	1	3	same-release	
+feed-forward neural network	mlp	1	3	same-release	
+feed-forward neural networks	mlp	1	3	same-release	
+fourier neural operator (fno)	fno	1	3	same-release	
+fourier neural operators	fno	1	2	same-release	
+graph neural networks (gnn)	gnn	1	3	same-release	
+graph neural networks (gnns)	gnn	1	3	same-release	
+hidden markov models (hmms)	hmm	1	3	same-release	
+hopfield networks	hopfield	1	2	same-release	
+independent component analysis (ica)	ica	1	3	same-release	
+multi-layer perceptrons	mlp	1	2	same-release	
+neuralodes	neural_ode	1	2	same-release	
+nonnegative matrix factorization (nmf)	nmf	1	3	same-release	
+normalizing flows	normalizing_flow	1	2	same-release	
+physics-informed neural networks	pinn	1	2	same-release	
+recurrent neural networks (rnn)	rnn	1	3	same-release	
+recurrent neural networks (rnns)	rnn	1	3	same-release	
+resnets	resnet	1	2	same-release	
+state space model (ssm)	ssm	1	3	same-release	
+support vector machines	svm	1	2	same-release	
+support vector machines (svm)	svm	1	3	same-release	
+support vector regression (svr)	svr	1	3	same-release	
+variational autoencoders	vae	1	2	same-release	
+roberta	bert		0	weight-variant	more pretraining data, dynamic masking, no NSP -- architecturally identical to BERT
+xlm_r	bert		0	weight-variant	RoBERTa trained on multilingual CommonCrawl; architecture unchanged
+biobert	bert		0	weight-variant	BERT pretrained further on PubMed
+scibert	bert		0	weight-variant	BERT pretrained on a scientific corpus
+clinicalbert	bert		0	weight-variant	BERT pretrained on clinical notes
+codebert	bert		0	weight-variant	BERT pretrained on code
+protbert	bert		0	weight-variant	BERT pretrained on protein sequences
+mbert	bert		0	weight-variant	BERT pretrained on 104 languages
+electra	bert		0	weight-variant	replaced-token-detection objective; only the BERT-shaped discriminator ships
+sentence_bert	bert		0	weight-variant	siamese fine-tuning plus mean pooling; the encoder is unchanged BERT
+mae	vit		0	weight-variant	masked-autoencoding pretraining; the released artifact is a plain ViT encoder, the decoder is discarded
+dinov2	vit		0	weight-variant	self-distillation pretraining on a plain ViT
+hubert	wav2vec2		0	weight-variant	masked cluster-prediction target on the unchanged wav2vec 2.0 encoder
+vicuna	llama		0	weight-variant	LLaMA instruction-tuned on ShareGPT conversations
+alpaca	llama		0	weight-variant	LLaMA instruction-tuned on self-instruct data
+dino	vit		0	weight-variant	self-distillation pretraining on a plain ViT
+v-jepa	vit		0	weight-variant	feature-prediction pretraining on a plain ViT
+videomae	vit		0	weight-variant	masked-autoencoding pretraining for video on a ViT
+data2vec	wav2vec2		0	weight-variant	self-distillation target on the unchanged wav2vec 2.0 encoder
+simclr	resnet		0	weight-variant	contrastive pretraining; the encoder is an unchanged ResNet
+byol	resnet		0	weight-variant	self-distillation pretraining; the encoder is an unchanged ResNet
+moco	resnet		0	weight-variant	momentum-contrast pretraining; encoder unchanged
+swav	resnet		0	weight-variant	swapped-assignment pretraining; encoder unchanged
+simsiam	resnet		0	weight-variant	stop-gradient joint-embedding pretraining; encoder unchanged
+barlow twins	resnet		0	weight-variant	redundancy-reduction pretraining; encoder unchanged
+vicreg	resnet		0	weight-variant	variance-invariance-covariance pretraining; encoder unchanged
