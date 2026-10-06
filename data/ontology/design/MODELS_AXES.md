@@ -334,6 +334,33 @@ after the agents wrote them: `starcoder` (fine-tuned from StarCoderBase),
 Gemini), `satmae`. Three more were retargeted because the collapse had removed
 their parent.
 
+## A network whose output drives a procedure is still a model
+
+**Owner, 2026-10-06**, settling the learned-optimizer question. `LAgg-A` and
+`LOpt-A` are **models** — typically a meta-learning contribution — and the
+**algorithm** is the procedure that uses them to optimize. The paper's own words
+settle it: *"we propose and evaluate two **architectures** for the learned
+optimization of local SGD."*
+
+It generalises, and it closes a gap no earlier rule covered:
+
+> A network whose **output drives a procedure** is still a model. The procedure
+> that consumes its output is the algorithm.
+
+Covers learned optimizers (output = parameter updates), hypernetworks like
+`GHN-3` (output = another model's weights), and learned samplers like DynGFN's.
+Note this is the generator side; the **`Parameter source`** attribute is the
+*target* side — a model whose weights were emitted by another network.
+
+## Non-ML models are out of scope
+
+**Owner, 2026-10-06.** `species distribution models` (an ecological niche model
+realised as GLMs or MaxEnt) and `sample-based expected utility` (a cognitive
+process model of human decision making) are correctly extracted and simply not
+what this survey studies. `ROUTING.tsv` records them as **`out-of-scope`**,
+which is deliberately **not** `misextraction` — the extractor did its job, the
+scope excludes them.
+
 ## Coverage, restated
 
 **The ontology covers the field, not the corpus.** A concept with no corpus

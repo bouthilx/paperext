@@ -8,6 +8,9 @@
 #   quarantine    -- uninformative generic the design excludes
 #   misextraction -- a library, dataset, metric or tool that was never a model
 #   unsure        -- undecided; the question is in `why`. Kept unresolved on
+#   out-of-scope  -- a model from another field (ecology, cognitive science). Correctly
+#                    extracted, but not a machine-learning architecture, and the research
+#                    focus is ML (owner, 2026-10-06). Not a misextraction.
 #                    purpose: a recorded question beats a confident wrong answer.
 name	verdict	target	why
 adaptive-	algorithm		`Adaptive-eta`, a learning-rate adaptation module -- squarely optimization, algorithm-side. The trailing character was lost in extraction (see notes).
@@ -130,7 +133,7 @@ cnn-lstm	generic		The quote describes a combination, not a named release: "combi
 meta-model	generic		Names a role -- a network whose input is another network's parameters -- not an architecture. The quote pins nothing on any axis. Borderline with quarantine; see notes.
 multi-headed bayesian deep learning probabilistic model	generic		A generic description, not a named design. It pins Bayesian weights; `multi-headed` (one trunk, several output heads) has no axis value -- see notes.
 siamese network	generic		Names a shape, not a release: two identical towers over two inputs compared at the end. The weight tying between towers -- the thing that makes it Siamese -- has no axis value (see notes).
-species distribution models (sdms)	generic		A task-defined class (predicting a species' niche), realised as GLMs, MaxEnt or random forests. It pins nothing on any model axis; what it names belongs to the task/domain dimension. See notes.
+species distribution models (sdms)	out-of-scope		A statistical niche model from ecology, realised as GLMs/MaxEnt/random forests. Not an ML architecture contribution.
 two-layer neural network	generic		A generic description. Depth and width are paper facts, not axis values; the name alone pins only a dense feedforward net.
 autogpt	misextraction		An open-source agent framework that calls a language model; it is software, not a learned model. If agent scaffolding is wanted as a concept it is algorithm-side, not models[].
 axondeepseg	misextraction		The quote itself calls it a framework that "a convolutional neural network integrated in" -- software tooling. The model is the unnamed CNN inside it.
@@ -150,10 +153,8 @@ coop-cbm	unsure		A named design (cooperative Concept Bottleneck Model), but its 
 dpr + fid	unsure		Same defect as `contriever + flan-t5`: a two-model pipeline string (DPR retriever + Fusion-in-Decoder reader), neither of which is a node yet. Needs splitting, not a verdict.
 film	unsure		Feature-wise Linear Modulation is a conditioning layer, not a model and not a training procedure. L-06 states conditioning schemes are not lineage, but nothing in the design says where they go, and no
 jei-dnn	unsure		Jointly-learned Exit and Inference for a Dynamic Neural Network. It adds learned exit gates to an arbitrary backbone, which is `Conditional / mixture-of-experts` on the routing attribute -- a model-si
-lagg-a	unsure		A learned optimizer. Is a parameterised optimizer a model (the authors call LAgg-A an architecture, and it is a small network with its own wiring) or part of the training procedure, i.e. algorithm-sid
-lopt-a	unsure		Same question as LAgg-A: the worker-invariant learned optimizer from the same paper. Model-side or algorithm-side is undecided by the current rules.
 midjourney	unsure		BOUNDARY_CASES L-24 already defers this one by name: no vendor architecture statement exists, so a parent would be a guess. Left for a design pass, not resolved here.
 raft	unsure		Ambiguous referent and the quote does not disambiguate: optical-flow RAFT (Recurrent All-Pairs Field Transforms -- a lineage node, CNN encoder plus a GRU update operator over a correlation volume) ver
 retreever	unsure		A flexible architecture for token-efficient inference built on tree-structured retrieval, but the quote says neither what the architecture is nor what it derives from. Needs the paper.
-sample-based expected utility (sbeu)	unsure		A cognitive process model of human decision making (sampling-based utility estimation), not a machine-learning architecture and not a training procedure for one. Neither the lineage root set nor the b
+sample-based expected utility (sbeu)	out-of-scope		A cognitive process model of human decision making. Not a machine-learning model.
 toxbuster	unsure		A named released toxicity classifier for game chat, but neither the name nor the quote states its backbone (reported elsewhere as a fine-tuned BERT/RoBERTa). R1 needs the paper's own framing, so I wil
