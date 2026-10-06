@@ -27,6 +27,24 @@ topology back into lineage, duplicating it under every family it applies to.
 **A lineage node pins values on the other three.** `BERT` ⇒ self-attention ·
 bidirectional encoder stack · rate-based. That is what naming a design buys.
 
+### Resolution: how to read a model's axis values
+
+A lineage node **pins only what differs from its parent**, so a model's
+effective values are never read off its own row. The rules differ per axis and
+are implemented once in `axes_models/resolve.py`:
+
+- **topology** — single-valued. The **nearest ancestor that pins it wins.**
+- **connectivity** — multi-valued. **Union** up the ancestor chain. A parent's
+  coarse value and a child's refinement may both appear (`Convolution` +
+  `Standard convolution`); the child refines, it does not replace.
+- **attributes** — multi-valued **across** families, single-valued **within**
+  one. Union across families, nearest-pin-wins within a family.
+
+That last rule is not cosmetic. Without it VQ-VAE resolves to `Deterministic`
+**and** `Stochastic` **and** `Quantized` at once, inheriting one latent value
+from VAE and another from the family default. Found 2026-10-06 by inspecting
+worked examples, which is the only pass that would have found it.
+
 ### Two naming modes, both first-class
 
 - **Named design** — `LLaMA`, `BERT`, `ResNet-50`. Resolves to a lineage node,
