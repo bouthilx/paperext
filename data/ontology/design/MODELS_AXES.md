@@ -157,6 +157,10 @@ Routing
 └── Conditional / mixture-of-experts
 Memory
 └── External memory
+Shortcut connections
+├── No shortcut                     (the default: VGG, plain MLPs)
+├── Additive residual               (ResNet, Transformer blocks)
+└── Concatenative skip              (DenseNet, U-Net)
 Latent treatment
 ├── Deterministic                   (the default)
 └── Stochastic                      (VAE: the encoder emits μ, σ)
@@ -182,6 +186,34 @@ network`, `Recurrent network`, `Graph neural network`, `Multilayer perceptron`,
 `Kernel machine`, `Probabilistic graphical model`.
 
 ---
+
+## On `Single stack` holding 57% of nodes
+
+Raised by the owner 2026-10-06: ResNet, SVM, HMM and Gaussian process all
+resolve to `Single stack`, which looks wrong for four such different models.
+
+It is correct, and it is worth stating why. **Topology asks only how many
+components a model has and how they are arranged** — nothing else. All four
+have one. What separates them lives on `connectivity`, which does so cleanly:
+ResNet is convolution, SVM and GP are kernel expansion, HMM is a factor graph
+over a state-space recurrence. SVM and GP then separate on an attribute,
+`Bayesian / distributional`, which is the actual difference between them.
+
+Measured distribution over the 297 lineage nodes:
+
+| value | nodes | |
+|---|---|---|
+| Single stack | 168 | 57% |
+| Causal decoder stack | 43 | 14% |
+| Encoder–decoder | 33 | 11% |
+| Bidirectional encoder stack | 33 | 11% |
+| Ensemble | 10 | 3% |
+| Multi-tower / dual encoder | 7 | 2% |
+
+So topology is **low-information for the majority and sharply discriminating
+for 43%**. That is a property to know, not a defect to fix — an axis earns its
+keep by the distinctions it makes, not by spreading entities evenly, and
+engineering an even spread is the rebalancing this design forbids.
 
 ## Coverage, restated
 
