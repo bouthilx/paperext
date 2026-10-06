@@ -1,0 +1,30 @@
+# B.6 comparison: the domains `Method > Model design` subtree against the models
+# dimension. Declared, checkable, and carrying NO runtime dependency -- the two
+# ontologies stay independently loadable (MODELS_BRIEF A.4).
+#
+# `models_axis` is where the domains concept lands in the models dimension.
+# The result that matters is in the `models_axis` column: almost nothing lands
+# on LINEAGE, because domains holds research TOPICS and the lineage axis holds
+# INSTANCES.
+#
+# relation:
+#   same-concept   the two name the same thing at the same grain
+#   coarser        the domains node is coarser; models splits it
+#   algorithm-side the domains node is a method, so the models dimension routes
+#                  it to algorithms rather than holding it
+#   no-counterpart nothing in the models dimension corresponds
+domains_node	models_axis	models_value	relation	note
+model-design	--	--	no-counterpart	A research-topic umbrella. The models dimension has no node for "papers about model design".
+neural-architectures	--	--	no-counterpart	Same: a topic, not a property of any model.
+convolutional-networks	connectivity	convolution	same-concept	Also the lineage root `cnn`, but the domains node means "papers researching convnets", not "papers using one".
+recurrent-networks	connectivity	recurrence	same-concept	Also the lineage root `rnn`.
+attention-architectures	connectivity	attention	same-concept	Also the lineage root `transformer`.
+equivariant-architectures	attributes	symmetry	coarser	models splits it into permutation / Euclidean equivariance / Euclidean invariance / translation.
+conditional-computation	attributes	routing	same-concept	dense vs conditional (mixture-of-experts).
+memory-augmented-architectures	attributes	memory	coarser	models splits it into differentiable memory / frozen datastore / learned retriever.
+implicit-depth-architectures	lineage	neural_ode	same-concept	The ONLY domains node that corresponds to a lineage node rather than an axis value.
+generative-models	--	--	algorithm-side	Diffusion, adversarial and reconstruction objectives are algorithms under the backbone test. What survives model-side is topology=encoder-decoder plus attributes (stochastic / quantized latent, invertibility).
+symbolic-models	connectivity	symbolic-evaluation	same-concept	Splits into tree traversal and rule set evaluation.
+kernel-methods	connectivity	kernel-expansion	same-concept	Also the lineage root `kernel_machine`.
+ensemble-methods	topology	ensemble	same-concept	The one domains concept that lands on the topology axis.
+model-efficiency	--	--	algorithm-side	Distillation, quantization and pruning are training/compression procedures. The model-side residue is attributes: attention sparsity and routing.
