@@ -196,12 +196,42 @@ def audit(dim: Dimension) -> int:
     return 1 if out else 0
 
 
+def root_of(dim: Dimension, nid: str) -> str:
+    """The lineage family a node ultimately sits under, following first parents."""
+    cur, seen = nid, {nid}
+    while True:
+        ps = cells(dim.lineage[cur]["parents"])
+        if not ps or ps[0] in seen:
+            return cur
+        seen.add(ps[0])
+        cur = ps[0]
+
+
+def homeless(dim: Dimension) -> int:
+    """Group nodes that resolve to nothing, by family. This is the design finding:
+    a region with no value on an axis is a gap in the axis, not in the node."""
+    for axis in AXES:
+        groups: dict[str, list[str]] = {}
+        for nid in dim.lineage:
+            vals, _ = dim.effective(nid, axis)
+            if not vals:
+                groups.setdefault(root_of(dim, nid), []).append(nid)
+        total = sum(len(v) for v in groups.values())
+        print(f"\n{axis} — {total} homeless nodes in {len(groups)} families")
+        for fam, members in sorted(groups.items(), key=lambda kv: -len(kv[1])):
+            print(f"  {len(members):4}  {fam:20} {dim.lineage[fam]['name'][:46]}")
+    return 0
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--audit", action="store_true", help="report defects and exit nonzero if any")
+    ap.add_argument("--homeless", action="store_true", help="group nodes resolving to no value, by family")
     ap.add_argument("--node", help="print one node's resolved axes")
     args = ap.parse_args()
     dim = Dimension.load()
+    if args.homeless:
+        return homeless(dim)
     if args.node:
         for axis in AXES:
             vals, notes = dim.effective(args.node, axis)

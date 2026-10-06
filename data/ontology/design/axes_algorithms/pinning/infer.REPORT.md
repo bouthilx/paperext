@@ -271,7 +271,8 @@ expansion: `S.src.ext.demo` is true only of its first stage.
 
 ## 6. `L.tta` versus `R.adapt` — the role axis is double-counting lineage
 
-**In this region `R.adapt` and the lineage family `L.tta` are co-extensive.**
+**In this region `R.adapt` and the lineage family `L.tta` are co-extensive** — 20
+nodes, all of them `L.tta` descendants.
 Every node I pinned `R.adapt` on is a descendant of `L.tta`, and every
 descendant of `L.tta` has it. No other role value behaves this way: `R.out.decode`
 spans `L.dec` and `L.score`, `R.fit.obj` spans fifteen families, `R.search.hp`
@@ -347,8 +348,9 @@ architecture (see §7), which weakens even that.
    diffusion solvers and guidance; `R.out.search` holds sample-and-select, tree
    search, refinement loops and planning; `R.out.context`, `R.out.calib`,
    `R.out.agg`, `R.out.predict` and `R.out.explain` each hold a clean family. The
-   widened scope is justified: 169 of my 503 nodes resolve to an `R.out.*` value
-   and none of them had to be forced. The two leaks are (i) **selecting among
+   widened scope is justified: 202 of my 503 nodes resolve to an `R.out.*` value
+   (`R.fit.*` 273, `R.search.*` 76, `R.rewrite.*` 52, `R.data.*` 47, `R.adapt` 20,
+   `R.exp.*` 13, `R.eval` 7) and none of them had to be forced. The two leaks are (i) **selecting among
    complete candidates falls between `R.out.decode` (whose negative test
    excludes it), `R.out.search` and `R.out.agg`** — reranking/MBR/best-of-n/
    quality-estimation reranking all land here and I had to pin two values and a
