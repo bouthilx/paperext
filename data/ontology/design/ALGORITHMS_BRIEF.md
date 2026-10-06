@@ -8,7 +8,9 @@ domains design was run).
 Issue **#96**. Siblings: **#95** models · **#91** domains · **#93** datasets ·
 **#94** extraction (runs, schema v5).
 
-**Read this file first when resuming.** It is the handover.
+**Read this file first when resuming.** It is the handover. Phase 1 is done —
+`axes_algorithms/SYNTHESIS.md` carries what the two runs agreed on, what they
+overturned in B.2, and the owner rulings that followed.
 
 ---
 
@@ -145,8 +147,14 @@ transformer autoencoder exist).
 
 The models axis-admission test has a sharper, mechanical form here:
 
-> **Two algorithms that run together in a single training run cannot be
-> siblings.** Siblings are alternatives for the same slot.
+> **Siblings are mutually substitutable** — swap one for the other and the rest
+> of the run still makes sense.
+
+*Revised after phase 1.* It first read "two algorithms that run together cannot
+be siblings", which is over-strong: people stack RandAugment, Mixup and CutMix,
+and those are siblings. Co-occurrence is only *evidence* of non-siblinghood, and
+only when the two are not substitutable. Mixup ↔ CutMix substitutes;
+PPO ↔ Adam does not.
 
 `PPO` is not a sibling of `Adam`. PPO fixes the objective (clipped surrogate) and
 the experience source (on-policy rollouts), then delegates the parameter step to
@@ -171,12 +179,13 @@ from contrast. An RL tree or an SSL tree misfiles both.
 
 | axis | what it is | cardinality |
 |---|---|---|
-| **lineage** | descent — `REINFORCE → A2C → PPO`; `DQN → Rainbow → {C51, QR-DQN, IQN}`; `SGD → clipped-SGD → clipped-SSTM`. The aggregation surface. | parent set |
-| **signal** | where the training target comes from: label, reward, reconstruction, agreement, score/denoising, likelihood, equilibrium, causal contrast | many, unions |
+| **lineage** | descent — `REINFORCE → A2C → PPO`; `DQN → Rainbow → {C51, QR-DQN, IQN}`. A **forest with no imposed top layer**, and *not* the backbone: both phase-1 runs demoted it, because most of this vocabulary (CutMix, EM, IPW, k-fold CV) descends from nothing. | parent set |
+| **signal** | split in phase 1 into **source** (where the target comes from) × **form** (how prediction and target are compared). SimCLR and BYOL agree on source and differ on form; supervised and autoregressive agree on form and differ on source. Does **not** union up the chain — DDPM → DDIM falsifies that. | per-node, pinned |
 | **role** | which slot of the pipeline it fills: data preparation · experience generation · objective/estimator · parameter update rule · parameter subset · coordination · configuration search · compression · **output generation/decoding** · **test-time search** · **test-time adaptation** | many, unions |
 | **attributes** | on/off-policy · model-based/free · value/policy · online/offline · centralised/decentralised · federated | per-family, as in models |
 
-Four axes again — flagged rather than hidden. But only **lineage** is ported, for
+Four axes again — flagged rather than hidden. Phase 1 kept the *set* and
+rebuilt three of the four; see `axes_algorithms/SYNTHESIS.md` §2. But only **lineage** is ported, for
 a stated reason: the aggregation need is identical. `role` and `signal` are new
 and come from this vocabulary; connectivity and topology have no analogue here.
 The axis *values* above are a starting hypothesis for phase 1, not a fixed list.
