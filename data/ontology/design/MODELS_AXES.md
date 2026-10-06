@@ -310,6 +310,30 @@ architecture a checkpoint has; the run should say which checkpoint was executed,
 since that is what fixes parameter count and whether the paper trained or
 fine-tuned.
 
+## State after the placement pass (2026-10-06)
+
+| | |
+|---|---|
+| lineage nodes | **356** |
+| spellings | **96** — 64 `same-release`, 32 `weight-variant` |
+| connectivity · topology · attributes | 24 · 7 · 39 in 10 families |
+| `resolve.py --audit` | clean |
+
+`ROUTING.tsv` holds the **147 names that belong elsewhere**: 114 `algorithm`,
+16 `unsure`, 8 `generic`, 6 `misextraction`, 3 `quarantine`.
+
+**The 114 algorithm rows are the handover to the algorithms derivation** — its
+vocabulary, already identified and sized, rather than a list to rediscover.
+
+**The 16 `unsure` rows are kept unresolved on purpose.** Both agents were told a
+recorded question beats a confident wrong answer, and these are the questions.
+
+Six placement rows were reclassified as `weight-variant` by the owner's rule
+after the agents wrote them: `starcoder` (fine-tuned from StarCoderBase),
+`instructblip`, `pubmedbert`, `afroxlm-r`, `google bard` (a served release of
+Gemini), `satmae`. Three more were retargeted because the collapse had removed
+their parent.
+
 ## Coverage, restated
 
 **The ontology covers the field, not the corpus.** A concept with no corpus

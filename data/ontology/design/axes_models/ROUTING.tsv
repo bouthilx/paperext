@@ -1,0 +1,159 @@
+# Corpus names that belong to another dimension, are excluded, or are unresolved.
+# Written 2026-10-06 from the two placement passes. This file is the handover to
+# the ALGORITHMS derivation: `algorithm` rows are its vocabulary, already sized.
+#
+# verdict:
+#   algorithm     -- a learning algorithm; belongs to the algorithms dimension
+#   generic       -- a generic description; pins axis values, no lineage node
+#   quarantine    -- uninformative generic the design excludes
+#   misextraction -- a library, dataset, metric or tool that was never a model
+#   unsure        -- undecided; the question is in `why`. Kept unresolved on
+#                    purpose: a recorded question beats a confident wrong answer.
+name	verdict	target	why
+adaptive-	algorithm		`Adaptive-eta`, a learning-rate adaptation module -- squarely optimization, algorithm-side. The trailing character was lost in extraction (see notes).
+advantage actor critic (a2c)	algorithm		Actor-critic RL update rule.
+alphazero	algorithm		Self-play plus MCTS training procedure over an unchanged residual convnet.
+ar	algorithm		The quote frames the named items as "PDA algorithms"; AR is Adversarial Reweighting for partial domain adaptation -- a reweighting/training procedure. See notes: the two-letter string is also a plausi
+barlowtwins	algorithm		SSL redundancy-reduction objective; the quote describes it purely as a loss. The model is the ResNet encoder.
+bcd-nets	algorithm		Bayesian Causal Discovery by variational inference over DAGs. The named object is an inference scheme for a posterior over graph structures, not a separable architecture. Same reading as `dibs`.
+best response shaping (brs)	algorithm		An opponent-shaping training approach for multi-agent RL; it changes who the agent trains against, not the network.
+bmg	algorithm		Bootstrapped Meta-Gradients: a meta-gradient training procedure; the agent architecture is unchanged.
+byz-vr-marina	algorithm		A Byzantine-tolerant distributed optimisation method with variance reduction and compression. An optimiser, not a learned object.
+c51	algorithm		Categorical/distributional Q-learning; a change of the learning target, not the network.
+clipped-seg	algorithm		Clipped stochastic extragradient: an optimiser. The quote gives the full name.
+clipped-sgd	algorithm		An optimizer (gradient clipping + SGD). Optimizers are algorithm-side; one landing in models[] is the mirror of adam landing in libraries[].
+clipped-sgda	algorithm		Clipped stochastic gradient descent-ascent: an optimiser.
+clipped-sstm	algorithm		Clipped Stochastic Similar Triangles Method -- an accelerated optimizer.
+conditionally optimistic exploration (coe)	algorithm		An exploration procedure for RL; leaves the network unchanged.
+conservative q-learning (cql)	algorithm		Offline RL objective (a Q-value regulariser); leaves the network unchanged.
+contrastive retrospection (conspec)	algorithm		Self-described: `a new RL algorithm ... can be added to any existing RL algorithm`. That is the backbone test's definition of algorithm-side.
+criticsmc	algorithm		Self-described: `a new algorithm for planning as inference` built from sequential Monte Carlo plus learned heuristic factors -- a sampling procedure.
+crystal-gfn	algorithm		A GFlowNet for crystal structures; GFlowNet is settled algorithm-side. What is new is the state/action space and reward, not a network design.
+dag-gflownet	algorithm		A GFlowNet over DAG structures; GFlowNet is settled algorithm-side.
+deep deterministic policy gradient (ddpg)	algorithm		Off-policy actor-critic update rule.
+deep q networks (dqn)	algorithm		DQN; settled algorithm-side. Long-form spelling of the same algorithm, but with no lineage node to alias to, the verdict is the algorithm verdict.
+deep q-learning	algorithm		Same referent as DQN -- the quote glosses it "Deep Q-Learning (DQN)". Algorithm either way.
+deep q-network	algorithm		DQN again, singular/hyphenated. Algorithm-side.
+deep q-network (dqn)	algorithm		Brief 2 fixed point: PPO/SAC/DQN are algorithms; the model is the Q-network.
+denoising diffusion probabilistic models	algorithm		Diffusion is settled algorithm-side; DDPM is the canonical formulation. The network it trains is a U-Net.
+der	algorithm		Data-Efficient Rainbow: a hyperparameter and algorithmic variant of Rainbow, as the quote spells out.
+deup	algorithm		Direct Epistemic Uncertainty Prediction: a framework that fits a secondary error predictor. The secondary predictor is an unconstrained backbone; what is named is the estimation procedure.
+dibs	algorithm		Differentiable Bayesian Structure learning: a variational inference procedure over graph structures.
+diffpret	algorithm		`pre-train a protein encoder by sequence-structure joint diffusion modeling` -- an objective over an unchanged encoder. Diffusion is settled algorithm-side.
+diffusion ensembles for capturing uncertainty (decu)	algorithm		A framework for estimating epistemic uncertainty in diffusion models by ensembling; both ingredients are algorithm-side. Residue: the ensembling is topology=ensemble on whatever backbone is used.
+diffusion probabilistic models (dpms)	algorithm		Diffusion is settled algorithm-side; the model is the denoiser, a U-Net or a DiT.
+dqn	algorithm		Value-learning algorithm; settled algorithm-side. The network it trains is a plain CNN or MLP.
+dr-learner	algorithm		A doubly-robust meta-estimator for treatment effects. It wraps arbitrary base learners; the contribution is the estimating equation.
+dreamerv2	algorithm		World-model RL agent. Its network is the RSSM, which is already the lineage node `rssm`; DreamerV2 contributes the imagination-based learning procedure. See notes.
+drq	algorithm		Data-regularized Q: image augmentation plus Q-learning; the network is unchanged.
+drq()	algorithm		DrQ(epsilon): data-regularised Q-learning, an RL algorithm. The string has lost its epsilon, but the quote identifies it unambiguously.
+dyna-mpc	algorithm		The quote calls it a hybrid planner. Planning is a sampling procedure over an unchanged world model.
+dyngfn	algorithm		A GFlowNet variant for cyclic causal structures; GFlowNet is settled algorithm-side. The paper calls it an architecture, and its hypernetwork sampler is architectural -- flagged in notes.
+emc	algorithm		Episodic Multi-agent RL with Curiosity-driven exploration: an exploration/training method, listed in the quote beside QMIX and MAVEN as a baseline.
+erm	algorithm		Empirical risk minimisation is a training principle, not a model; the quote uses it to mean "trained with plain cross-entropy and no fairness constraint".
+fedavg	algorithm		Settled algorithm-side: federated averaging is an aggregation/optimisation procedure.
+generative adversarial networks (gans)	algorithm		The merge took `GAN` apart as a lineage root (lineage/nodes.tsv header): adversarial training is an objective. Named GAN architectures (DCGAN, StyleGAN, CycleGAN, SRGAN) stay as nodes. Not quarantine 
+generative flow networks	algorithm		Long form of GFlowNet; settled algorithm-side, so it resolves to the algorithm, not to an alias.
+generative flow networks (gflownets)	algorithm		Same referent as `gflownet`; settled algorithm-side.
+geossl-ddm	algorithm		Self-described `SE(3)-invariant denoising distance matching pretraining algorithm` -- an objective over an unchanged molecular encoder.
+gflownet	algorithm		Settled algorithm-side (brief 2.1): a training objective over a flow network. The model is whatever backbone the paper names.
+gflownets	algorithm		GFlowNet is settled algorithm-side: a training procedure for a sequential sampler; the sampler is an arbitrary backbone.
+gflowout	algorithm		A GFlowNet-trained posterior over dropout masks: a regularisation/training method over an unchanged backbone.
+glem	algorithm		An EM training framework alternating between a language model and a GNN. Both backbones are unchanged, which is the backbone test.
+gradient descent	algorithm		An optimizer. Belongs to the deferred algorithms dimension; it is not a model under any reading.
+graphcg	algorithm		Self-described `model-agnostic and task-agnostic` unsupervised method for discovering steerable factors -- model-agnostic is the backbone test passing out loud.
+graphically structured diffusion model (gsdm)	algorithm		Diffusion is settled algorithm-side. Its architectural content is an attention mask derived from problem structure, which is attributes=sparse-attention on a Transformer backbone, not a new lineage.
+hausdorff factorized support (hfs)	algorithm		A regulariser on the support of the learned representation (a disentanglement criterion); it changes the objective, not the network.
+impala	algorithm		Distributed actor-learner RL algorithm (V-trace off-policy correction).
+implicit q learning (iql)	algorithm		Offline RL update rule.
+independent proximal policy optimization (ippo)	algorithm		A multi-agent training scheme over PPO; algorithm-side.
+independent q-learning (iql)	algorithm		A MARL training scheme in which each agent learns its own Q-function. Note the acronym collision: two different algorithms in this worklist are both called IQL.
+iqn	algorithm		Implicit Quantile Networks: a distributional RL update rule.
+jumbot	algorithm		Unbalanced mini-batch optimal transport for domain adaptation; the quote itself calls the set it belongs to `PDA algorithms`.
+k-nearest neighbors	algorithm		Brief 2 fixed point: k-NN has no separable learned object. Algorithm only.
+lambdarank	algorithm		A learning-to-rank gradient/loss; the quote itself says "LambdaRank Loss".
+learning with opponent-learning awareness (lola)	algorithm		A multi-agent learning rule that differentiates through the opponent's update.
+local search gflownets (ls-gfn)	algorithm		A GFlowNet training procedure that adds local search in object space; explicitly a training-effectiveness change.
+lora	algorithm		Settled algorithm-side (parameter-efficient fine-tuning). The connectivity axis's `Factorized / low-rank` names LoRA-shaped adapters, but the name denotes the tuning procedure, not a released model.
+mali (manifold alignment with label information)	algorithm		A manifold-alignment procedure. Like t-SNE and PHATE it emits coordinates for the given points rather than a separable learned object, which is the k-NN / kernel-density case in brief 2.
+maml	algorithm		Model-Agnostic Meta-Learning -- model-agnostic by name; a training procedure over any backbone.
+maven	algorithm		Multi-Agent Variational Exploration: a MARL exploration algorithm.
+meshdiffusion	algorithm		Diffusion applied to 3D meshes via deformable tetrahedral grids. Diffusion is settled algorithm-side; the denoiser is a 3D U-Net.
+meta-value learning	algorithm		A meta-learning procedure built on a surrogate meta-value function; the networks are unchanged.
+mixup	algorithm		Data augmentation; the quote says so in as many words.
+mixupe	algorithm		A data-augmentation/regularization scheme (an improvement of Mixup); nothing in the network changes.
+mpot	algorithm		m-POT: partial-optimal-transport domain adaptation. The quote groups it with the other "PDA algorithms".
+mudiff	algorithm		A diffusion generative model that co-generates 2D graph and 3D geometry; diffusion is settled algorithm-side. Its MUformer denoiser is a Transformer/GNN hybrid that could be a node if the owner wants 
+muzero	algorithm		Model-based RL agent: learned dynamics plus MCTS planning. The contribution is the training and search procedure; the networks are plain residual convnets. Same reading as AlphaZero.
+orbgrand	algorithm		Ordered Reliability Bits GRAND is a channel-decoding search procedure with no learned parameters at all, so it cannot be a model here. Flagged in notes -- the algorithms dimension may not want it eith
+pada	algorithm		Partial Adversarial Domain Adaptation; the quote groups it with `PDA algorithms`. A training scheme, not an architecture.
+papa	algorithm		PopulAtion Parameter Averaging -- a weight-averaging training method; the models averaged keep their architecture.
+phate	algorithm		A diffusion-based dimensionality-reduction procedure; no separable learned object. Same reading as t-SNE.
+planet	algorithm		The Deep Planning Network agent: an RSSM latent dynamics model plus online MPC planning. `rssm` is already the node for the network; PlaNet contributes the planner. See notes, with DreamerV2.
+polytropon (poly)	algorithm		A parameter-efficient fine-tuning method: an inventory of adapters plus a learned routing function. Adapters/LoRA are settled algorithm-side. Residue worth recording: the routing makes attributes=cond
+ppo	algorithm		Same referent as `proximal policy optimization (ppo)`; algorithm either way, so no alias row is needed.
+prototype-sample relation distillation (prd)	algorithm		Distillation is settled algorithm-side; the quote describes a joint representation/prototype learning objective.
+prototypical networks	algorithm		Episodic metric learning: a conv backbone plus a nearest-class-mean decision rule. The backbone is unchanged. Borderline -- it changes the prediction rule, not only the objective, so it is flagged in 
+proximal learning with opponent-learning awareness (pola)	algorithm		A proximal variant of LOLA: a multi-agent learning rule.
+proximal policy optimization	algorithm		PPO; settled algorithm-side.
+proximal policy optimization (ppo)	algorithm		Brief 2 fixed point: PPO is an update rule; the model is the policy/value network.
+qmix	algorithm		MARL value factorisation; the same bucket as DQN among the brief's fixed points. Caveat in notes: QMIX does specify a monotonic mixing network, so it is less purely objective-side than PPO.
+qr-dqn	algorithm		Quantile-regression distributional Q-learning; a change of learning target.
+quantile temporal-difference learning (qtd)	algorithm		A distributional RL update rule; the quote calls it an algorithm.
+r-learner	algorithm		A causal meta-learner: a Neyman-orthogonal estimation strategy that composes arbitrary base models. Model-agnostic, so algorithm-side. See notes on the S/T/X/R-learner family.
+r-u-sure	algorithm		A decode-time procedure that builds uncertainty-aware suggestions from samples of an unchanged code language model.
+rainbow	algorithm		Rainbow combines seven DQN improvements, all of them changes to the RL update rather than to the network.
+rainproof	algorithm		An OOD-detection framework computed from an existing model's output distribution; it adds no learned object.
+reinforce	algorithm		The episodic policy-gradient estimator; the quote uses it as the optimization procedure.
+s-learner	algorithm		A causal meta-learner (single regression on features plus treatment). Model-agnostic estimation strategy, algorithm-side.
+sac	algorithm		Soft Actor-Critic again, acronym-only. No lineage node exists to alias to, so the verdict is the algorithm verdict.
+safn	algorithm		Stepwise Adaptive Feature Norm: a domain-adaptation training method. The quote groups it with the "PDA algorithms".
+sf-gen	algorithm		Successor features used to decouple LLM dynamics from task-specific rewards: a control/decoding procedure over an unchanged language model.
+siamdiff	algorithm		`Siamese Diffusion Trajectory Prediction`, a pretraining method that enhances DiffPreT; an objective over an unchanged protein encoder.
+simclrv2	algorithm		SimCLR is settled algorithm-side; v2 changes the objective recipe, the projection head and the encoder size, not the model class.
+slowmo	algorithm		Slow momentum: a distributed optimisation method, as the quote describes.
+soft actor-critic	algorithm		Brief 2 fixed point.
+soft actor-critic (sac)	algorithm		Maximum-entropy off-policy RL algorithm; the actor and critic are generic MLPs.
+soft q-learning (sql)	algorithm		Maximum-entropy RL objective; algorithm-side.
+spr	algorithm		Self-Predictive Representations: an auxiliary self-supervised objective bolted onto a Rainbow/DER agent, leaving the network unchanged.
+stacx	algorithm		A self-tuning actor-critic variant of IMPALA driven by meta-gradients; a training procedure over an unchanged agent network.
+swift-dyngfn	algorithm		A scalability-oriented DynGFN variant; inherits the GFlowNet verdict.
+t-learner	algorithm		A causal meta-learner (two outcome models, one per treatment arm). Model-agnostic, algorithm-side.
+t-sne	algorithm		A nonparametric embedding procedure: it returns coordinates for the given points and no separable learned object (brief 2, the k-NN / kernel-density case).
+td3	algorithm		Twin Delayed DDPG: an off-policy RL update rule.
+thinker	algorithm		Self-described `the Thinker algorithm`: it wraps the environment in a learned world model and lets the agent plan in it; the agent network is unchanged.
+transfer entropy bottleneck (teb)	algorithm		An information-bottleneck training objective on directed information transfer; what is learned is a model whose architecture the method does not fix.
+x-learner	algorithm		A causal meta-learner that builds on the T-learner's nuisance models; model-agnostic, algorithm-side.
+autoencoder	generic		MODELS_AXES is explicit: `Autoencoder` is neither a lineage node nor a topology value. The name pins encoder-decoder topology and a deterministic latent; the reconstruction target is the algorithms-di
+bayesian neural network (bnn)	generic		BOUNDARY_CASES L-20 deleted this from lineage: it is attributes=bayesian-weights on whatever lineage the paper names. The connectivity comes from the paper, not from the name. SPELLINGS.tsv header cal
+cnn-lstm	generic		The quote describes a combination, not a named release: "combines Convolutional Neural Network (CNN) and Long Short-Term Memory (LSTM)". Pins the two connectivity values the name states; depth, widths
+meta-model	generic		Names a role -- a network whose input is another network's parameters -- not an architecture. The quote pins nothing on any axis. Borderline with quarantine; see notes.
+multi-headed bayesian deep learning probabilistic model	generic		A generic description, not a named design. It pins Bayesian weights; `multi-headed` (one trunk, several output heads) has no axis value -- see notes.
+siamese network	generic		Names a shape, not a release: two identical towers over two inputs compared at the end. The weight tying between towers -- the thing that makes it Siamese -- has no axis value (see notes).
+species distribution models (sdms)	generic		A task-defined class (predicting a species' niche), realised as GLMs, MaxEnt or random forests. It pins nothing on any model axis; what it names belongs to the task/domain dimension. See notes.
+two-layer neural network	generic		A generic description. Depth and width are paper facts, not axis values; the name alone pins only a dense feedforward net.
+autogpt	misextraction		An open-source agent framework that calls a language model; it is software, not a learned model. If agent scaffolding is wanted as a concept it is algorithm-side, not models[].
+axondeepseg	misextraction		The quote itself calls it a framework that "a convolutional neural network integrated in" -- software tooling. The model is the unnamed CNN inside it.
+egs_brachy graphical user interface (eb_gui)	misextraction		A graphical user interface for a Monte Carlo dose engine. Software, not a model -- the name says so.
+pytorch	misextraction		A library. Known case; belongs in libraries[], never in models[].
+rapidbrachymctps	misextraction		RapidBrachyMCTPS is Monte Carlo brachytherapy treatment-planning software, not a learned model. Same class of defect as `pytorch`.
+rapidbrachytg43	misextraction		A module of a brachytherapy treatment-planning system -- software, and not machine learning at all.
+deep neural networks	quarantine		Bare generic named in brief 4.7 alongside `neural networks`: uninformative, excluded from family shares, reported as a line.
+large language models	quarantine		A field-wide mass noun, excluded by the design exactly as `neural networks` is.
+neural networks	quarantine		Uninformative generic, quarantined exactly as the brief's 4.7 row and as `machine learning` was in the domains design.
+-model	unsure		The string is a mangled `delta-model` -- the quote names "the delta-model, a tractable approximation to the distributional successor measure" and extraction dropped the leading Greek letter. As writte
+aicom-mp	unsure		A named application system (a monkeypox image detector). Neither the name nor the quote states an architecture, so any R1 parent would be a guess. Is it a model release at all, or a deployed system?
+charlm	unsure		Either Kim et al. 2016's character-aware LSTM language model (a named design, a node under `lstm`) or the LEAF benchmark's stacked-LSTM character LM used as a generic federated baseline. The quote fit
+contriever + atlas	unsure		The string joins two systems with a plus (the Contriever retriever and the Atlas reader); it is a pipeline, not one name. It should be split before placement, and neither component exists as a node ye
+contriever + flan-t5	unsure		Not one name: a retriever-plus-reader pipeline string. It should be split into Contriever (a BERT-family dense retriever, no node yet) and Flan-T5 (already a node). The verdict set has no value for a 
+coop-cbm	unsure		A named design (cooperative Concept Bottleneck Model), but its R1 parent is `Concept bottleneck model`, which does not exist in lineage. R7 forbids me creating that grouping/family node, so this is fl
+dpr + fid	unsure		Same defect as `contriever + flan-t5`: a two-model pipeline string (DPR retriever + Fusion-in-Decoder reader), neither of which is a node yet. Needs splitting, not a verdict.
+film	unsure		Feature-wise Linear Modulation is a conditioning layer, not a model and not a training procedure. L-06 states conditioning schemes are not lineage, but nothing in the design says where they go, and no
+jei-dnn	unsure		Jointly-learned Exit and Inference for a Dynamic Neural Network. It adds learned exit gates to an arbitrary backbone, which is `Conditional / mixture-of-experts` on the routing attribute -- a model-si
+lagg-a	unsure		A learned optimizer. Is a parameterised optimizer a model (the authors call LAgg-A an architecture, and it is a small network with its own wiring) or part of the training procedure, i.e. algorithm-sid
+lopt-a	unsure		Same question as LAgg-A: the worker-invariant learned optimizer from the same paper. Model-side or algorithm-side is undecided by the current rules.
+midjourney	unsure		BOUNDARY_CASES L-24 already defers this one by name: no vendor architecture statement exists, so a parent would be a guess. Left for a design pass, not resolved here.
+raft	unsure		Ambiguous referent and the quote does not disambiguate: optical-flow RAFT (Recurrent All-Pairs Field Transforms -- a lineage node, CNN encoder plus a GRU update operator over a correlation volume) ver
+retreever	unsure		A flexible architecture for token-efficient inference built on tree-structured retrieval, but the quote says neither what the architecture is nor what it derives from. Needs the paper.
+sample-based expected utility (sbeu)	unsure		A cognitive process model of human decision making (sampling-based utility estimation), not a machine-learning architecture and not a training procedure for one. Neither the lineage root set nor the b
+toxbuster	unsure		A named released toxicity classifier for game chat, but neither the name nor the quote states its backbone (reported elsewhere as a fine-tuned BERT/RoBERTa). R1 needs the paper's own framing, so I wil
