@@ -180,7 +180,7 @@ from contrast. An RL tree or an SSL tree misfiles both.
 | axis | what it is | cardinality |
 |---|---|---|
 | **lineage** | descent — `REINFORCE → A2C → PPO`; `DQN → Rainbow → {C51, QR-DQN, IQN}`. A **forest with no imposed top layer**, and *not* the backbone: both phase-1 runs demoted it, because most of this vocabulary (CutMix, EM, IPW, k-fold CV) descends from nothing. | parent set |
-| **signal** | split in phase 1 into **source** (where the target comes from) × **form** (how prediction and target are compared). SimCLR and BYOL agree on source and differ on form; supervised and autoregressive agree on form and differ on source. Does **not** union up the chain — DDPM → DDIM falsifies that. | per-node, pinned |
+| **signal** | split in phase 1 into **source** (where the target comes from) × **form** (how prediction and target are compared). MoCo and BYOL agree on source and differ on form; supervised and autoregressive agree on form and differ on source. (The pinning pass corrected this: *SimCLR*/BYOL differ on both facets, because BYOL's target comes from the EMA copy.) Does **not** union up the chain — DDPM → DDIM falsifies that, and on **every** axis, not just this one: a descendant that changes role inherits nothing. | per-node, pinned |
 | **role** | which slot of the pipeline it fills: data preparation · experience generation · objective/estimator · parameter update rule · parameter subset · coordination · configuration search · compression · **output generation/decoding** · **test-time search** · **test-time adaptation** | many, unions |
 | **attributes** | on/off-policy · model-based/free · value/policy · online/offline · centralised/decentralised · federated | per-family, as in models |
 

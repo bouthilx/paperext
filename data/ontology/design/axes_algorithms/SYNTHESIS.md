@@ -58,11 +58,25 @@ proportion named a data-preparation procedure".
 
 ### Signal splits into source × form (A)
 
-Orthogonal by the axis test, symmetrically: SimCLR and BYOL agree on source (two
-augmented views) and differ only on form; supervised classification and
+Orthogonal by the axis test, symmetrically: **MoCo and BYOL** agree on source and
+differ only on form (`contrast` vs `agree`); supervised classification and
 autoregressive pretraining agree on form and differ only on source. A flat list
 makes one of those pairs look identical. It also dissolves B's worry that `OBJ`
 was absorbing the dimension.
+
+*Corrected during the pinning pass.* This first read "SimCLR and BYOL", which is
+wrong: BYOL's target comes from the EMA copy, so it needs `S.src.self.own` too
+and the pair differs on **both** facets. MoCo also carries a momentum encoder, so
+MoCo/BYOL is the pair that isolates form. The split survives -- its motivating
+example did not.
+
+The pinning pass also found *why*: `S.src.self`'s stated characteristic is "which
+part of the input is the target", which `mask`/`next`/`view`/`corrupt`/`ident`
+answer and **`self.own` does not** -- that one answers *who computed the target*,
+which is what `S.src.ext.model` answers on the other branch. It is a principle-of-
+division violation inside the axis, and it shows up as redundancy: `self.own` is
+the second-most-used source in the generative region and co-occurs with a real
+part-of-input value on 23 of its 31 nodes.
 
 ### Signal does not union up the chain
 
