@@ -184,6 +184,30 @@ divides a sibling set *by* size — there is no `Large models` / `Small models`
 node anywhere. It admits named releases, and their sizes become legible as a
 consequence.
 
+### R3b — Composite strings name several models (owner, 2026-10-06)
+
+A name like `contriever + flan-t5` or `dpr + fid` denotes **two models used
+together**. If their execution can be considered separately, they are registered
+**separately** in the ontology and the **run points at both**.
+
+So a composite surface resolves to **two or more node ids**, not one. The 1:1
+surface map must allow it, and the second pass splits the string rather than
+parenting it somewhere. Treat an unsplittable composite as an extraction defect,
+not an ontology problem.
+
+### R3c — Design name plus task word (owner, 2026-10-06)
+
+A fourth alias shape beyond R3's three: `random forest classifier` →
+`random_forest`, `BERT classifier` → `bert`. Admitted, but **only for a closed
+list of task words**:
+
+> `classifier · regressor · predictor · model · method`
+
+**Architectural role words are forbidden**, because they carry axis information
+rather than describing use: `transformer encoder` and `transformer decoder` are
+two different **topology** values, not two spellings of `transformer`. Never
+strip `encoder`, `decoder`, `head`, `backbone`, `tower`.
+
 ### R4 — When an intermediate node is legitimate
 
 Admit a node N between P and its children when **all three** hold:
