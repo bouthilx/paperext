@@ -1,0 +1,260 @@
+node_id	name	parents	relation	kind	expands_to	signal	role	attributes	characteristic	positive_test	negative_test	examples	notes
+L.tok	Subword vocabulary induction			method					criterion by which the next vocabulary item is chosen	fits a finite token vocabulary to a corpus before any model is trained	a fixed hand-written vocabulary or a whitespace split with no induction step	BPE, WordPiece, Unigram LM	tokenizer choice is reported as a method, not a library setting
+L.tok.bpe	Byte-pair-encoding merges	L.tok	divides	method						merges the most frequent adjacent pair, iteratively, to a target vocabulary size	likelihood-driven vocabulary pruning	BPE, byte-level BPE, SentencePiece-BPE	
+L.tok.wp	Likelihood-gain merges	L.tok	divides	method						merges the pair that most increases corpus likelihood under a unigram model	pure frequency counting	WordPiece	
+L.tok.uni	Vocabulary pruning from a superset	L.tok	divides	method						starts from a large candidate set and removes items that cost least likelihood	bottom-up merging	Unigram LM, SentencePiece-Unigram	
+L.tok.byte	Tokenizer-free byte or character units	L.tok	divides	method						uses raw bytes or characters, so no vocabulary is induced from data	any corpus-fitted vocabulary	ByT5 scheme, CANINE scheme, character-level LM input	boundary: arguably the absence of an algorithm
+L.aug	Input-space data augmentation			method					what is transformed and how the transform is chosen	replaces or perturbs a training example with a transformed version, leaving the label rule intact	transformations applied at test time only; architectural noise layers	RandAugment, CutMix, SpecAugment	
+L.aug.geom	Geometric and photometric transforms	L.aug	divides	method						applies a fixed hand-specified image transform family with sampled parameters	transforms whose parameters are themselves learned or searched	random resized crop, horizontal flip, rotation, color jitter	named weakly; include only when the paper names the recipe
+L.aug.erase	Occlusion and erasing	L.aug	divides	method						deletes a contiguous region of the input and does not replace it with other data	mixing two examples together	Cutout, Random Erasing, GridMask, token dropout	
+L.aug.mix	Example mixing	L.aug	divides	method						builds a training example by combining two or more examples and their labels	single-example perturbation	mixup, CutMix, Manifold Mixup, FMix, Mosaic, AugMix	label is mixed too, which also touches the objective
+L.aug.policy	Searched augmentation policies	L.aug; L.hpo	divides	method						selects which augmentations to apply by searching over policies against a validation signal	a fixed augmentation list chosen by hand	AutoAugment, Fast AutoAugment, RandAugment, TrivialAugment, PBA	sits on two axes at once by construction
+L.aug.text	Text-space augmentation	L.aug	divides	method						perturbs tokens or re-generates text while preserving the label	prompt engineering at inference	EDA, back-translation, synonym substitution, round-trip translation	
+L.aug.adv	Adversarial example generation	L.aug; L.robust	divides	method						constructs an input perturbation that maximises the model's loss under a norm budget	random noise with no maximisation step	FGSM, PGD, C&W, AutoAttack	same procedure serves as attack and as training-data source
+L.resamp	Class-imbalance resampling			method					whether examples are added, removed or synthesised	changes the class frequencies seen by the learner, without changing the loss definition	a reweighted loss, which is an objective change	SMOTE, ADASYN, Tomek links, NearMiss, random oversampling	
+L.curate	Dataset curation and selection			method					what score decides whether an example is kept, ordered or weighted	selects, deduplicates, weights or orders the training examples before or during fitting	generating new examples; transforming individual examples	SemDeDup, DoReMi, curriculum learning	
+L.curate.dedup	Near-duplicate removal	L.curate	divides	method						removes examples that are near-identical to another under a similarity threshold	removing examples for being low-quality rather than redundant	MinHash/LSH dedup, SemDeDup, exact-substring dedup	
+L.curate.filter	Quality and contamination filtering	L.curate	divides	method						drops examples scored below a threshold by a classifier, perplexity model or rule	dropping examples to balance classes	quality classifier filtering, perplexity filtering, decontamination	
+L.curate.mix	Domain mixture weighting	L.curate	divides	method						chooses sampling proportions across labelled data sources	choosing which single corpus to use	DoReMi, DoGE, hand-tuned domain weights	
+L.curate.order	Curriculum ordering	L.curate	divides	method						changes the order or schedule in which examples are presented, not which are present	changing the set of examples	curriculum learning, self-paced learning, anti-curriculum, sequence-length warmup	
+L.curate.active	Active and coreset selection	L.curate	divides	method						repeatedly selects which unlabelled points to label or keep, using the current model	a one-shot random subsample	uncertainty sampling, BALD, core-set selection, GraNd, EL2N	
+L.curate.distill	Dataset distillation	L.curate	divides	method						optimises a small synthetic dataset so that training on it reproduces training on the full set	compressing the model rather than the data	dataset distillation, gradient matching, distribution matching	
+L.prep	Classical feature preprocessing			method					what statistic of the training data the transform is fitted to	fits a fixed transform to the training split and applies it to every split	a transform with no fitted parameters	z-scoring, ZCA whitening, target encoding	
+L.prep.scale	Location-scale and whitening transforms	L.prep	divides	method						removes mean and rescales or decorrelates using first and second moments	rank-based transforms	standardisation, min-max scaling, PCA whitening, ZCA whitening	
+L.prep.rank	Rank and quantile transforms	L.prep	divides	method						maps values through their empirical rank or quantile	moment-based rescaling	quantile normalisation, rank-gauss, Box-Cox, Yeo-Johnson	
+L.prep.disc	Discretisation and encoding	L.prep	divides	method						converts a continuous or categorical column into a new coded representation	continuous rescaling	equal-width/equal-frequency binning, MDLP, one-hot, target/mean encoding	
+L.prep.impute	Missing-data imputation	L.prep	divides	method						fills missing entries with values estimated from observed data	dropping incomplete rows	mean/median imputation, MICE, kNN imputation, matrix-completion imputation	
+L.prep.select	Feature selection	L.prep; L.lin.pen	divides	method						removes input variables before or during fitting based on a relevance score	projecting features into a new space	mutual-information filtering, recursive feature elimination, lasso selection, Boruta	
+L.synth	Synthetic training-data generation			method					what produces the synthetic example	creates new training examples from a model, a simulator or a rule, rather than transforming real ones	perturbing an existing real example	Self-Instruct, domain randomisation, Evol-Instruct	
+L.synth.model	Model-generated corpora	L.synth	divides	method						a generative model emits the training examples, optionally filtered	a human or simulator emits them	Self-Instruct, Alpaca-style generation, Evol-Instruct, synthetic textbooks	overlaps distillation when the generator is a stronger model
+L.synth.sim	Simulation and domain randomisation	L.synth	divides	method						a simulator with randomised parameters emits examples to cross a reality gap	data collected in the target domain	domain randomisation, procedural scene generation, sim-to-real pipelines	
+L.synth.cf	Counterfactual example construction	L.synth; L.causal	divides	method						constructs an example differing in one causal factor while holding others fixed	arbitrary perturbation with no factor held fixed	counterfactual data augmentation, CAD, minimal-pair generation	
+L.explore	Exploration rules			method					what quantity drives the deviation from the greedy action	decides which action to take for the purpose of gathering data, separately from the update rule	a rule that defines the learning target rather than action selection	epsilon-greedy, UCB1, RND	the single most under-named slot in RL papers
+L.explore.rand	Undirected stochastic exploration	L.explore	divides	method						perturbs the greedy action with noise that does not depend on uncertainty	noise scaled by a learned or counted uncertainty	epsilon-greedy, Boltzmann/softmax, OU noise, parameter-space noise, NoisyNets	
+L.explore.opt	Optimism under uncertainty	L.explore	divides	method						adds a confidence bonus to value estimates and acts greedily on the inflated value	sampling from a posterior instead of inflating	UCB1, UCB-V, LinUCB, optimistic initialisation, RLSVI	
+L.explore.post	Posterior sampling	L.explore	divides	method						samples a hypothesis from a posterior and acts greedily with respect to it	adding a deterministic bonus	Thompson sampling, bootstrapped DQN, posterior sampling for RL	
+L.explore.intr	Intrinsic-motivation bonuses	L.explore	divides	method						adds a learned novelty or prediction-error term into the reward the agent optimises	a bonus used only for action selection and never entering the return	RND, ICM, pseudo-counts, Disagreement, NGU, empowerment	also alters the objective, so it carries two roles
+L.explore.div	Diversity-driven and archive-based search	L.explore	divides	method						maintains an archive of behaviours and explicitly selects for behavioural novelty	selecting for return only	Go-Explore, novelty search, MAP-Elites, DIAYN, DADS	
+L.replay	Experience storage and relabelling			method					what decides which past transition is reused and with what target	stores past interaction and re-serves it to the learner, possibly with a changed target	generating fresh interaction	uniform replay, PER, HER	
+L.replay.unif	Uniform experience replay	L.replay	divides	method						samples stored transitions uniformly at random	sampling with a priority or a changed goal	experience replay, replay ratio schedules	
+L.replay.prio	Priority-weighted replay	L.replay	divides	method						samples stored transitions in proportion to a learning-progress score	uniform sampling	PER, ERE, LAP, topological replay	
+L.replay.relabel	Goal and reward relabelling	L.replay	divides	method						rewrites the goal or reward of a stored transition so a failure becomes a success	reusing a transition with its original reward	HER, hindsight relabelling, GCSL relabelling	
+L.selfplay	Opponent and task generation			method					what determines the opponent or task distribution	generates the training distribution by playing against or generating versions of the system itself	a fixed opponent or fixed task set	self-play, PSRO, PLR	
+L.selfplay.naive	Self-play against current or past selves	L.selfplay	divides	method						plays the learner against copies of itself drawn from its own training history	playing against a fixed scripted opponent	naive self-play, fictitious self-play, self-play with opponent pools	
+L.selfplay.popul	Population and league training	L.selfplay	divides	method						maintains a population with explicit exploiter or niche roles and matchmaking	a single-copy self-play loop	PSRO, double oracle, AlphaStar league, NFSP	
+L.selfplay.curr	Automatic environment curricula	L.selfplay	divides	method						generates or selects environments or goals to match the agent's current competence	a fixed environment distribution	POET, PLR, ADR, ALP-GMM, asymmetric self-play	
+L.il	Imitation learning			method					what replaces the reward signal	fits a policy from expert demonstrations with no environment reward	learning from an environment reward signal	behaviour cloning, DAgger, GAIL	
+L.il.bc	Behaviour cloning	L.il	divides	method						fits actions to states by supervised regression or classification on demonstrations	inferring a reward function first	behaviour cloning, DAgger, DART, ACT, diffusion policy training	
+L.il.irl	Inverse reinforcement learning	L.il	divides	method						infers a reward function that rationalises the demonstrations, then plans or learns on it	directly copying actions	MaxEnt IRL, guided cost learning, AIRL, Bayesian IRL	
+L.il.adv	Adversarial imitation	L.il; L.gan	divides	method						trains a discriminator to separate agent from expert transitions and uses it as reward	matching actions pointwise	GAIL, DAC, AIRL, f-GAIL	
+L.marl.game	Equilibrium-computing methods	L.marl; L.selfplay.popul	divides	method						computes an approximate equilibrium rather than a best response to fixed others	optimising against a frozen opponent	fictitious play, CFR, Deep CFR, NFSP, Nash-Q, regret matching	
+L.bandit.stoch	Stochastic and contextual bandits	L.bandit; L.explore.opt	divides	method						assumes i.i.d. rewards per arm, possibly conditioned on a context vector	an adversarial reward sequence	UCB1, LinUCB, LinTS, Thompson sampling, KL-UCB	
+L.reg.consist	Consistency regularisation	L.reg; L.semi	divides	method						penalises disagreement between the model's outputs on two perturbed versions of one input	penalising disagreement with an external label	Pi-model, temporal ensembling, Mean Teacher, VAT, UDA, R-Drop	
+L.semi	Semi-supervised learning			method					how an unlabelled example is given a target	uses labelled and unlabelled data in one fitting procedure	pretraining on unlabelled data then finetuning separately	FixMatch, Noisy Student, label propagation	
+L.semi.self	Self-training and pseudo-labelling	L.semi	divides	method						labels unlabelled data with the current model and retrains on confident predictions	deriving the target from a transformation rather than a prediction	self-training, pseudo-labelling, Noisy Student, FixMatch, FlexMatch, SoftMatch	FixMatch is multi-parent with consistency
+L.semi.mix	Interpolation-based semi-supervision	L.semi; L.aug.mix	divides	method						mixes labelled and unlabelled examples and their guessed labels	training on each example separately	MixMatch, ReMixMatch, ICT	
+L.semi.graph	Graph-based label propagation	L.semi; L.graphalg	divides	method						spreads labels across a similarity graph built over labelled and unlabelled points	assigning labels by a parametric model's prediction	label propagation, label spreading, harmonic functions	
+L.semi.weak	Weak supervision and label aggregation	L.semi	divides	method						combines noisy labelling rules or annotators into probabilistic labels	using a single trusted label source	Snorkel/data programming, Dawid-Skene, MACE, majority-vote aggregation	
+L.semi.cotrain	Multi-view co-training	L.semi	divides	method						two or more learners on different views label data for one another	a single learner labelling its own data	co-training, tri-training, democratic co-learning	
+L.robust.adv	Adversarial training	L.robust; L.aug.adv	divides	method						solves an inner maximisation over input perturbations inside each training step	perturbing inputs without maximising the loss	PGD adversarial training, TRADES, MART, FastAT, free adversarial training	
+L.cont.replay	Rehearsal	L.cont; L.replay	divides	method						stores or regenerates earlier examples and mixes them into current training	constraining parameters without any stored data	experience replay, GEM, A-GEM, DER, iCaRL, generative replay	
+L.optdisc.submod	Greedy submodular selection	L.optdisc; L.curate.active	divides	method						selects a set greedily under a submodular objective with an approximation guarantee	selecting by independent per-item score	facility location coresets, greedy maximum coverage, k-center greedy	
+M.a-gem	A-GEM	L.cont.replay	instantiates	method									
+M.act	ACT	L.il.bc	instantiates	method									
+M.adasyn	ADASYN	L.resamp	instantiates	method									
+M.adr	ADR	L.selfplay.curr	instantiates	method									
+M.airl	AIRL	L.il.irl; L.il.adv	instantiates	method									
+M.alp-gmm	ALP-GMM	L.selfplay.curr	instantiates	method									
+M.alpaca-style-generation	Alpaca-style generation	L.synth.model	instantiates	method									
+M.alphastar-league	AlphaStar league	L.selfplay.popul	instantiates	method									
+M.augmix	AugMix	L.aug.mix	instantiates	method									
+M.autoattack	AutoAttack	L.aug.adv	instantiates	method									
+M.autoaugment	AutoAugment	L.aug.policy	instantiates	method									
+M.bald	BALD	L.curate.active	instantiates	method									
+M.bpe	BPE	L.tok.bpe	instantiates	method									
+M.bayesian-irl	Bayesian IRL	L.il.irl	instantiates	method									
+M.boltzmann-softmax	Boltzmann/softmax	L.explore.rand	instantiates	method									
+M.boruta	Boruta	L.prep.select	instantiates	method									
+M.box-cox	Box-Cox	L.prep.rank	instantiates	method									
+M.byt5-scheme	ByT5 scheme	L.tok.byte	instantiates	method									
+M.c-w	C&W	L.aug.adv	instantiates	method									
+M.cad	CAD	L.synth.cf	instantiates	method									
+M.canine-scheme	CANINE scheme	L.tok.byte	instantiates	method									
+M.cfr	CFR	L.marl.game	instantiates	method									
+M.cutmix	CutMix	L.aug.mix	instantiates	method									
+M.cutout	Cutout	L.aug.erase	instantiates	method									
+M.dac	DAC	L.il.adv	instantiates	method									
+M.dads	DADS	L.explore.div	instantiates	method									
+M.dart	DART	L.il.bc	instantiates	method									
+M.dagger	DAgger	L.il.bc	instantiates	method									
+M.der	DER	L.cont.replay	instantiates	method									
+M.diayn	DIAYN	L.explore.div	instantiates	method									
+M.dawid-skene	Dawid-Skene	L.semi.weak	instantiates	method									
+M.deep-cfr	Deep CFR	L.marl.game	instantiates	method									
+M.disagreement	Disagreement	L.explore.intr	instantiates	method									
+M.doge	DoGE	L.curate.mix	instantiates	method									
+M.doremi	DoReMi	L.curate.mix	instantiates	method									
+M.eda	EDA	L.aug.text	instantiates	method									
+M.el2n	EL2N	L.curate.active	instantiates	method									
+M.ere	ERE	L.replay.prio	instantiates	method									
+M.evol-instruct	Evol-Instruct	L.synth.model	instantiates	method									
+M.fgsm	FGSM	L.aug.adv	instantiates	method									
+M.fmix	FMix	L.aug.mix	instantiates	method									
+M.fast-autoaugment	Fast AutoAugment	L.aug.policy	instantiates	method									
+M.fastat	FastAT	L.robust.adv	instantiates	method									
+M.fixmatch	FixMatch	L.semi.self	instantiates	method									
+M.flexmatch	FlexMatch	L.semi.self	instantiates	method									
+M.gail	GAIL	L.il.adv	instantiates	method									
+M.gcsl-relabelling	GCSL relabelling	L.replay.relabel	instantiates	method									
+M.gem	GEM	L.cont.replay	instantiates	method									
+M.go-explore	Go-Explore	L.explore.div	instantiates	method									
+M.grand	GraNd	L.curate.active	instantiates	method									
+M.gridmask	GridMask	L.aug.erase	instantiates	method									
+M.her	HER	L.replay.relabel	instantiates	method									
+M.icm	ICM	L.explore.intr	instantiates	method									
+M.ict	ICT	L.semi.mix	instantiates	method									
+M.kl-ucb	KL-UCB	L.bandit.stoch	instantiates	method									
+M.lap	LAP	L.replay.prio	instantiates	method									
+M.lints	LinTS	L.bandit.stoch	instantiates	method									
+M.linucb	LinUCB	L.bandit.stoch	instantiates	method									
+M.mace	MACE	L.semi.weak	instantiates	method									
+M.map-elites	MAP-Elites	L.explore.div	instantiates	method									
+M.mart	MART	L.robust.adv	instantiates	method									
+M.mdlp	MDLP	L.prep.disc	instantiates	method									
+M.mice	MICE	L.prep.impute	instantiates	method									
+M.manifold-mixup	Manifold Mixup	L.aug.mix	instantiates	method									
+M.maxent-irl	MaxEnt IRL	L.il.irl	instantiates	method									
+M.mean-teacher	Mean Teacher	L.ssl.selfdist; L.reg.consist	instantiates	method									
+M.minhash-lsh-dedup	MinHash/LSH dedup	L.curate.dedup	instantiates	method									
+M.mixmatch	MixMatch	L.semi.mix	instantiates	method									
+M.mosaic	Mosaic	L.aug.mix	instantiates	method									
+M.nfsp	NFSP	L.marl.game	instantiates	method									
+M.ngu	NGU	L.explore.intr	instantiates	method									
+M.nash-q	Nash-Q	L.marl.game	instantiates	method									
+M.nearmiss	NearMiss	L.resamp	instantiates	method									
+M.noisy-student	Noisy Student	L.semi.self	instantiates	method									
+M.noisynets	NoisyNets	L.explore.rand	instantiates	method									
+M.ou-noise	OU noise	L.explore.rand	instantiates	method									
+M.pba	PBA	L.aug.policy	instantiates	method									
+M.pca-whitening	PCA whitening	L.prep.scale	instantiates	method									
+M.per	PER	L.replay.prio	instantiates	method									
+M.pgd	PGD	L.aug.adv	instantiates	method									
+M.pgd-adversarial-training	PGD adversarial training	L.robust.adv	instantiates	method									
+M.plr	PLR	L.selfplay.curr	instantiates	method									
+M.poet	POET	L.selfplay.curr	instantiates	method									
+M.psro	PSRO	L.selfplay.popul	instantiates	method									
+M.pi-model	Pi-model	L.reg.consist	instantiates	method									
+M.r-drop	R-Drop	L.reg.consist	instantiates	method									
+M.rlsvi	RLSVI	L.explore.opt	instantiates	method									
+M.rnd	RND	L.explore.intr	instantiates	method									
+M.randaugment	RandAugment	L.aug.policy	instantiates	method									
+M.random-erasing	Random Erasing	L.aug.erase	instantiates	method									
+M.remixmatch	ReMixMatch	L.semi.mix	instantiates	method									
+M.smote	SMOTE	L.resamp	instantiates	method									
+M.self-instruct	Self-Instruct	L.synth.model	instantiates	method									
+M.semdedup	SemDeDup	L.curate.dedup	instantiates	method									
+M.sentencepiece-bpe	SentencePiece-BPE	L.tok.bpe	instantiates	method									
+M.sentencepiece-unigram	SentencePiece-Unigram	L.tok.uni	instantiates	method									
+M.snorkel-data-programming	Snorkel/data programming	L.semi.weak	instantiates	method									
+M.softmatch	SoftMatch	L.semi.self	instantiates	method									
+M.specaugment	SpecAugment	L.aug	instantiates	method									
+M.trades	TRADES	L.robust.adv	instantiates	method									
+M.thompson-sampling	Thompson sampling	L.explore.post; L.bandit.stoch	instantiates	method									
+M.tomek-links	Tomek links	L.resamp	instantiates	method									
+M.trivialaugment	TrivialAugment	L.aug.policy	instantiates	method									
+M.ucb-v	UCB-V	L.explore.opt	instantiates	method									
+M.ucb1	UCB1	L.bandit.stoch	instantiates	method									
+M.uda	UDA	L.reg.consist	instantiates	method									
+M.unigram-lm	Unigram LM	L.tok.uni	instantiates	method									
+M.vat	VAT	L.reg.consist	instantiates	method									
+M.wordpiece	WordPiece	L.tok.wp	instantiates	method									
+M.yeo-johnson	Yeo-Johnson	L.prep.rank	instantiates	method									
+M.zca-whitening	ZCA whitening	L.prep.scale	instantiates	method									
+M.anti-curriculum	anti-curriculum	L.curate.order	instantiates	method									
+M.asymmetric-self-play	asymmetric self-play	L.selfplay.curr	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.back-translation	back-translation	L.aug.text	instantiates	method									
+M.behaviour-cloning	behaviour cloning	L.il.bc	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.bootstrapped-dqn	bootstrapped DQN	L.explore.post	instantiates	method									
+M.byte-level-bpe	byte-level BPE	L.tok.bpe	instantiates	method									
+M.character-level-lm-input	character-level LM input	L.tok.byte	instantiates	method									
+M.co-training	co-training	L.semi.cotrain	instantiates	method									
+M.color-jitter	color jitter	L.aug.geom	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.core-set-selection	core-set selection	L.curate.active	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.counterfactual-data-augmentation	counterfactual data augmentation	L.synth.cf	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.curriculum-learning	curriculum learning	L.curate.order	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.dataset-distillation	dataset distillation	L.curate.distill	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.decontamination	decontamination	L.curate.filter	instantiates	method									
+M.democratic-co-learning	democratic co-learning	L.semi.cotrain	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.diffusion-policy-training	diffusion policy training	L.il.bc	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.distribution-matching	distribution matching	L.curate.distill	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.domain-randomisation	domain randomisation	L.synth.sim	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.double-oracle	double oracle	L.selfplay.popul	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.empowerment	empowerment	L.explore.intr	instantiates	method									
+M.epsilon-greedy	epsilon-greedy	L.explore.rand	instantiates	method									
+M.equal-width-equal-frequency-binning	equal-width/equal-frequency binning	L.prep.disc	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.exact-substring-dedup	exact-substring dedup	L.curate.dedup	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.experience-replay	experience replay	L.replay.unif; L.cont.replay	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.f-gail	f-GAIL	L.il.adv	instantiates	method									
+M.facility-location-coresets	facility location coresets	L.optdisc.submod	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.fictitious-play	fictitious play	L.marl.game	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.fictitious-self-play	fictitious self-play	L.selfplay.naive	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.free-adversarial-training	free adversarial training	L.robust.adv	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.generative-replay	generative replay	L.cont.replay	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.gradient-matching	gradient matching	L.curate.distill	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.greedy-maximum-coverage	greedy maximum coverage	L.optdisc.submod	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.guided-cost-learning	guided cost learning	L.il.irl	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.hand-tuned-domain-weights	hand-tuned domain weights	L.curate.mix	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.harmonic-functions	harmonic functions	L.semi.graph	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.hindsight-relabelling	hindsight relabelling	L.replay.relabel	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.horizontal-flip	horizontal flip	L.aug.geom	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.icarl	iCaRL	L.cont.replay	instantiates	method									
+M.k-center-greedy	k-center greedy	L.optdisc.submod	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.knn-imputation	kNN imputation	L.prep.impute	instantiates	method									
+M.label-propagation	label propagation	L.semi.graph	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.label-spreading	label spreading	L.semi.graph	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.lasso-selection	lasso selection	L.prep.select	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.majority-vote-aggregation	majority-vote aggregation	L.semi.weak	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.matrix-completion-imputation	matrix-completion imputation	L.prep.impute	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.mean-median-imputation	mean/median imputation	L.prep.impute	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.min-max-scaling	min-max scaling	L.prep.scale	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.minimal-pair-generation	minimal-pair generation	L.synth.cf	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.mixup	mixup	L.aug.mix	instantiates	method									
+M.mutual-information-filtering	mutual-information filtering	L.prep.select	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.naive-self-play	naive self-play	L.selfplay.naive	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.novelty-search	novelty search	L.explore.div	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.one-hot	one-hot	L.prep.disc	instantiates	method									
+M.optimistic-initialisation	optimistic initialisation	L.explore.opt	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.parameter-space-noise	parameter-space noise	L.explore.rand	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.perplexity-filtering	perplexity filtering	L.curate.filter	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.posterior-sampling-for-rl	posterior sampling for RL	L.explore.post	instantiates	method									
+M.procedural-scene-generation	procedural scene generation	L.synth.sim	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.pseudo-counts	pseudo-counts	L.explore.intr	instantiates	method									
+M.pseudo-labelling	pseudo-labelling	L.semi.self	instantiates	method									
+M.quality-classifier-filtering	quality classifier filtering	L.curate.filter	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.quantile-normalisation	quantile normalisation	L.prep.rank	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.random-oversampling	random oversampling	L.resamp	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.random-resized-crop	random resized crop	L.aug.geom	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.rank-gauss	rank-gauss	L.prep.rank	instantiates	method									
+M.recursive-feature-elimination	recursive feature elimination	L.prep.select	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.regret-matching	regret matching	L.marl.game	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.replay-ratio-schedules	replay ratio schedules	L.replay.unif	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.rotation	rotation	L.aug.geom	instantiates	method									
+M.round-trip-translation	round-trip translation	L.aug.text	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.self-paced-learning	self-paced learning	L.curate.order	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.self-play	self-play	L.selfplay	instantiates	method									
+M.self-play-with-opponent-pools	self-play with opponent pools	L.selfplay.naive	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.self-training	self-training	L.semi.self	instantiates	method									
+M.sequence-length-warmup	sequence-length warmup	L.curate.order	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.sim-to-real-pipelines	sim-to-real pipelines	L.synth.sim	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.standardisation	standardisation	L.prep.scale	instantiates	method									
+M.synonym-substitution	synonym substitution	L.aug.text	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.synthetic-textbooks	synthetic textbooks	L.synth.model	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.target-encoding	target encoding	L.prep	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.target-mean-encoding	target/mean encoding	L.prep.disc	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.temporal-ensembling	temporal ensembling	L.reg.consist	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.token-dropout	token dropout	L.aug.erase	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.topological-replay	topological replay	L.replay.prio	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.tri-training	tri-training	L.semi.cotrain	instantiates	method									
+M.uncertainty-sampling	uncertainty sampling	L.curate.active	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.uniform-replay	uniform replay	L.replay	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.z-scoring	z-scoring	L.prep	instantiates	method									

@@ -1,0 +1,309 @@
+node_id	name	parents	relation	kind	expands_to	signal	role	attributes	characteristic	positive_test	negative_test	examples	notes
+L.pg.trust	Trust-region and clipped policy updates	L.pg.ac; L.precond.trust	derives-from	method						bounds the size of the policy change per update by a divergence or ratio constraint	an unconstrained gradient step on the policy	natural policy gradient, TRPO, PPO, PPO-clip, V-MPO	
+L.pg.trust.grpo	Group-relative policy optimisation	L.pg.trust	derives-from	method						replaces the learned critic with a baseline computed across a sampled group of completions	using a learned value network as the baseline	GRPO, RLOO, DAPO, Dr.GRPO	the dominant recent RL-for-reasoning branch
+L.sgd	Stochastic first-order descent			method						steps the parameters along a stochastic gradient with a scalar step size	a per-coordinate or matrix-preconditioned step	Robbins-Monro, SGD, heavy-ball momentum, Nesterov acceleration, averaged SGD	
+L.sgd.sign	Sign-based and normalised updates	L.sgd	derives-from	method						uses only the sign or the normalised direction of the gradient	a magnitude-proportional step	signSGD, Lion, normalised SGD, LARS layer-wise normalisation	
+L.adapt	Per-coordinate adaptive step sizes	L.sgd	derives-from	method						scales each coordinate's step by an accumulated statistic of its own gradients	a single global step size for all coordinates	AdaGrad, RMSProp, Adadelta, Adam, AdamW, AMSGrad, NAdam, RAdam, AdaBelief, Adafactor, LAMB, Sophia	the single most frequent algorithm in the field
+L.precond	Matrix-preconditioned optimisation			method					how the curvature matrix is approximated	multiplies the gradient by an approximation of an inverse curvature matrix	scaling coordinates independently	L-BFGS, K-FAC, Shampoo, Muon	
+L.precond.quasi	Quasi-Newton methods	L.precond	divides	method						builds the inverse-Hessian approximation from successive gradient differences	computing curvature from the model's Fisher or Gauss-Newton structure	Newton's method, BFGS, L-BFGS, DFP, SR1	
+L.precond.ng	Natural-gradient and Kronecker preconditioners	L.precond	divides	method						preconditions with the Fisher information or a Kronecker-factored surrogate of it	secant-condition updates	natural gradient, K-FAC, Shampoo, SOAP, Muon, PSGD	
+L.precond.cg	Matrix-free curvature methods	L.precond	divides	method						solves the Newton system with Hessian-vector products instead of forming the matrix	forming or factoring a curvature matrix explicitly	conjugate gradient, Hessian-free optimisation, Gauss-Newton, Levenberg-Marquardt	
+L.precond.trust	Trust-region control	L.precond	divides	method						restricts each step to a region where the local model is trusted	a fixed step size with no region constraint	trust-region Newton, TRPO's KL region, Cauchy-point methods	TRPO inherits from here and from policy gradients
+L.vr	Variance-reduced stochastic gradients			method						corrects the stochastic gradient with a stored snapshot to shrink its variance	plain minibatch sampling	SAG, SVRG, SAGA, SARAH, SPIDER	strong theory, thin practical uptake in deep learning
+L.prox	Proximal and splitting methods			method					how the non-smooth part of the objective is handled	handles a non-smooth term with a proximal operator or by splitting the problem	taking a subgradient step on the non-smooth term	proximal gradient, ISTA, FISTA, ADMM, coordinate descent, Frank-Wolfe, mirror descent	the main vehicle for sparse classical estimators
+L.sched	Step-size and update schedules			method					what the schedule is a function of	changes the step size or other optimiser hyperparameter over the course of training	changing the direction of the update	cosine annealing, SGDR, one-cycle, warmup	
+L.sched.time	Time-indexed schedules	L.sched	divides	method						the step size is a fixed function of the iteration or epoch index	a schedule reacting to observed loss	step decay, exponential decay, polynomial decay, cosine annealing, SGDR, linear warmup, WSD	
+L.sched.state	Feedback-driven schedules	L.sched	divides	method						the step size changes in response to a measured training statistic	a schedule computable in advance	ReduceLROnPlateau, adaptive gradient clipping, loss-based restarts	
+L.sched.scale	Scaling-rule hyperparameter transfer	L.sched; L.hpo.transfer	divides	method						sets step sizes by a width or compute scaling law transferred from a smaller model	tuning the step size on the target model directly	muP, muTransfer, linear batch-size scaling rule, square-root scaling	
+L.gradproc	Gradient post-processing			method					what the gradient is modified to satisfy	modifies the gradient between backward pass and update step	modifying the loss, or the update rule's state	gradient clipping, gradient accumulation, PCGrad, DP-SGD clipping	
+L.gradproc.clip	Norm and value clipping	L.gradproc	divides	method						rescales or truncates the gradient when it exceeds a threshold	adding noise or projecting onto another gradient	global-norm clipping, value clipping, adaptive gradient clipping, per-sample clipping	
+L.gradproc.conflict	Multi-objective gradient surgery	L.gradproc; L.mtl	divides	method						alters per-task gradients to remove mutual interference before summing	weighting task losses as scalars	PCGrad, CAGrad, GradDrop, GradNorm	
+L.gradproc.priv	Privacy-noised gradients	L.gradproc; L.priv	divides	method						clips per-example gradients and adds calibrated noise to meet a privacy budget	clipping without a noise mechanism or accountant	DP-SGD, DP-Adam, DP-FTRL	
+L.wavg	Weight averaging and merging			method					over what the parameters are averaged	produces a parameter vector by combining several parameter vectors	combining predictions rather than parameters	Polyak averaging, EMA, SWA	
+L.wavg.traj	Averaging along one trajectory	L.wavg	divides	method						averages iterates produced by a single training run	averaging independently trained models	Polyak-Ruppert averaging, EMA of weights, SWA, LAWA, checkpoint averaging	
+L.wavg.merge	Merging independently trained models	L.wavg	divides	method						combines parameters of separately finetuned models into one	averaging checkpoints from one run	model soups, task arithmetic, TIES-merging, DARE, SLERP merge, Fisher merging	role is parameter rewriting, not fitting
+L.init	Parameter initialisation schemes			method					what statistic the initialisation is designed to preserve	sets the initial parameter distribution by an explicit named rule	a learned or pretrained initialisation	LeCun init, Xavier/Glorot, He init, orthogonal init, LSUV, Fixup, muP init	boundary with architecture; see Tensions
+L.derivfree	Derivative-free optimisation			method					how new candidate points are proposed	searches parameter or configuration space using only function evaluations	using analytic or automatic gradients	CMA-ES, genetic algorithms, Nelder-Mead, simulated annealing	
+L.derivfree.es	Evolution strategies	L.derivfree	divides	method						samples a population from a distribution and updates that distribution's parameters	recombining discrete genotypes	NES, CMA-ES, sep-CMA-ES, OpenAI-ES, Augmented Random Search	
+L.derivfree.ga	Genetic and evolutionary programming	L.derivfree	divides	method						uses crossover and mutation over structured individuals with selection	updating a parametric search distribution	genetic algorithms, NEAT, regularised evolution, genetic programming	
+L.derivfree.local	Direct local search	L.derivfree	divides	method						moves a simplex or pattern of points by comparison of function values	maintaining a population or a probabilistic model	Nelder-Mead, pattern search, Powell's method, coordinate search	
+L.derivfree.anneal	Annealed stochastic search	L.derivfree; L.mcmc.temper	divides	method						accepts worsening moves with a temperature-controlled probability	greedy acceptance only	simulated annealing, parallel tempering, basin hopping	
+L.reg	Explicit regularisation			method					what the penalty or perturbation is applied to	adds a term or perturbation whose purpose is to constrain the solution, not to fit the data	a term that encodes the task target	weight decay, dropout, label smoothing, SAM	
+L.reg.weight	Parameter-norm penalties	L.reg	divides	method						penalises a norm or spectral property of the parameters	perturbing activations or inputs	L2/weight decay, decoupled weight decay, L1, max-norm, spectral norm, orthogonality penalties	
+L.reg.act	Stochastic activation regularisation	L.reg	divides	method						randomly removes or perturbs units or paths during training only	a deterministic penalty term	dropout, DropConnect, stochastic depth, DropBlock, DropPath, LayerDrop	partly a layer, partly a procedure
+L.reg.target	Target smoothing	L.reg	divides	method						softens or perturbs the training target rather than the model	perturbing the input	label smoothing, confidence penalty, mixup labels, temperature-softened targets	
+L.reg.consist	Consistency regularisation	L.reg; L.semi	divides	method						penalises disagreement between the model's outputs on two perturbed versions of one input	penalising disagreement with an external label	Pi-model, temporal ensembling, Mean Teacher, VAT, UDA, R-Drop	
+L.reg.geom	Loss-geometry regularisation	L.reg	divides	method						explicitly seeks flat minima or bounds a derivative of the loss surface	penalising parameter magnitude	SAM, ASAM, GSAM, gradient penalty, Jacobian/Hessian penalties	
+L.stop	Stopping and checkpoint selection			method					what signal triggers the stop	decides when training ends or which checkpoint is kept	deciding how large a step to take	early stopping, patience rules, best-checkpoint selection, validation-plateau stopping	
+L.cont.proj	Gradient projection	L.cont; L.gradproc	divides	method						projects updates onto directions that do not disturb earlier-task outputs	penalising parameter movement isotropically	orthogonal gradient descent, GPM, Adam-NSCL	
+L.dpar	Data-parallel training			method					how and when workers exchange their updates	replicates the model across workers that process different data and combine gradients	splitting the model itself across devices	synchronous all-reduce SGD, Hogwild!, local SGD	
+L.dpar.sync	Synchronous gradient aggregation	L.dpar	divides	method						every worker's gradient is combined before any worker steps	workers step on stale or partial information	synchronous SGD, ring all-reduce, large-batch recipes with LARS/LAMB	
+L.dpar.async	Asynchronous and stale updates	L.dpar	divides	method						workers apply updates without waiting, tolerating staleness	a global barrier per step	Hogwild!, Downpour SGD, ASGD, stale-synchronous parallel	
+L.dpar.local	Infrequent communication	L.dpar	divides	method						workers take several local steps before any averaging	averaging after every single step	local SGD, post-local SGD, EASGD, DiLoCo, FedAvg-style local steps	shares its idea with federated averaging
+L.dpar.comp	Communicated-update compression	L.dpar	divides	method						quantises, sparsifies or low-rank-projects the tensor that is communicated	changing the communication schedule only	1-bit SGD, QSGD, Deep Gradient Compression, PowerSGD, top-k sparsification	
+L.dpar.decen	Decentralised and gossip training	L.dpar	divides	method						workers exchange only with neighbours, with no global aggregation step	a central server or a global all-reduce	D-PSGD, SGP, gossip averaging, AD-PSGD	
+L.shard	Model-state sharding and pipelining			method					which dimension of the computation is split across devices	splits one model's parameters, activations or layers across devices	replicating the full model on every device	ZeRO, FSDP, Megatron tensor parallel, GPipe	
+L.shard.opt	Optimiser-state and parameter sharding	L.shard	divides	method						partitions optimiser state, gradients or parameters across data-parallel ranks	partitioning the computation of a single layer	ZeRO-1, ZeRO-2, ZeRO-3, FSDP, ZeRO-Offload, ZeRO-Infinity	
+L.shard.tensor	Intra-layer tensor parallelism	L.shard	divides	method						splits a single matrix multiplication across devices	assigning whole layers to devices	Megatron-LM tensor parallelism, sequence parallelism, 2D/2.5D parallel	
+L.shard.pipe	Pipeline parallelism	L.shard	divides	method						assigns consecutive layer blocks to devices and streams microbatches through them	splitting within a layer	GPipe, PipeDream, 1F1B, interleaved pipeline, zero-bubble pipeline	
+L.shard.expert	Sparse-expert routing	L.shard	divides	method						routes each token or example to a subset of experts and balances the load	dense computation on all parameters	top-k gating, Switch routing, expert-choice routing, BASE layers, load-balancing losses	boundary with architecture; routing itself is a procedure
+L.shard.ctx	Context and sequence sharding	L.shard	divides	method						splits one long sequence's attention computation across devices	splitting the batch	ring attention, context parallelism, Blockwise parallel transformers	
+L.memtrade	Memory-compute trade-offs			method					what is recomputed or moved rather than stored	reduces memory by recomputing or relocating intermediate state	reducing memory by changing the model	gradient checkpointing, selective recompute, CPU offload, mixed-precision training, loss scaling	boundary: closer to systems than to learning
+L.fed	Federated learning			method					what is changed relative to the local-steps-then-average loop	trains across clients that never transmit their raw data	centralised training on pooled data	FedAvg, FedProx, SCAFFOLD	
+L.fed.avg	Federated averaging and its corrections	L.fed; L.dpar.local	divides	method						averages client models after local epochs, with corrections for client drift	personalising a separate model per client	FedAvg, FedProx, SCAFFOLD, FedNova, FedOpt, FedAdam	
+L.fed.pers	Personalised federated learning	L.fed	divides	method						each client keeps a model that differs from the global one by design	producing a single shared global model	Per-FedAvg, pFedMe, FedRep, Ditto, FedBN	
+L.fed.sys	Federated system procedures	L.fed	divides	method						changes which clients participate, when, or how updates are buffered	changes the aggregation rule's mathematics	client selection, FedBuff, asynchronous FL, split learning, hierarchical FL	
+L.priv	Privacy-preserving training			method					what the privacy mechanism protects against	provides a stated privacy property for the training data	a method whose privacy claim is only informal	DP-SGD, PATE, secure aggregation	
+L.priv.dp	Differentially private learning	L.priv; L.gradproc.priv	divides	method						bounds any single example's influence and accounts for a cumulative epsilon	protecting data in transit without an epsilon bound	DP-SGD, DP-Adam, DP-FTRL, PATE, DP-FedAvg	
+L.priv.crypto	Cryptographic aggregation	L.priv	divides	method						hides individual updates from the aggregator using a cryptographic protocol	adding statistical noise to the update	secure aggregation, homomorphic-encryption aggregation, secure multiparty computation	
+L.priv.unlearn	Machine unlearning	L.priv	divides	method						removes a specific training example's influence from an already-trained model	preventing influence from being recorded in the first place	SISA, influence-function unlearning, certified removal, exact retraining shards	
+L.nas.evo	Evolutionary architecture search	L.nas; L.derivfree.ga	divides	method						mutates and selects architectures in a population	following a gradient through architecture weights	AmoebaNet/regularised evolution, NEAT, hierarchical evolution	
+M.1-bit-sgd	1-bit SGD	L.dpar.comp	instantiates	method									
+M.1f1b	1F1B	L.shard.pipe	instantiates	method									
+M.2d-2-5d-parallel	2D/2.5D parallel	L.shard.tensor	instantiates	method									
+M.ad-psgd	AD-PSGD	L.dpar.decen	instantiates	method									
+M.admm	ADMM	L.prox	instantiates	method									
+M.amsgrad	AMSGrad	L.adapt	instantiates	method									
+M.asam	ASAM	L.reg.geom	instantiates	method									
+M.asgd	ASGD	L.dpar.async	instantiates	method									
+M.adabelief	AdaBelief	L.adapt	instantiates	method									
+M.adagrad	AdaGrad	L.adapt	instantiates	method									
+M.adadelta	Adadelta	L.adapt	instantiates	method									
+M.adafactor	Adafactor	L.adapt	instantiates	method									
+M.adam	Adam	L.adapt	instantiates	method									
+M.adam-nscl	Adam-NSCL	L.cont.proj	instantiates	method									
+M.adamw	AdamW	L.adapt	instantiates	method									
+M.amoebanet-regularised-evolution	AmoebaNet/regularised evolution	L.nas.evo	instantiates	method									
+M.augmented-random-search	Augmented Random Search	L.derivfree.es	instantiates	method									
+M.base-layers	BASE layers	L.shard.expert	instantiates	method									
+M.bfgs	BFGS	L.precond.quasi	instantiates	method									
+M.blockwise-parallel-transformers	Blockwise parallel transformers	L.shard.ctx	instantiates	method									
+M.cagrad	CAGrad	L.gradproc.conflict	instantiates	method									
+M.cma-es	CMA-ES	L.derivfree.es	instantiates	method									
+M.cpu-offload	CPU offload	L.memtrade	instantiates	method									
+M.cauchy-point-methods	Cauchy-point methods	L.precond.trust	instantiates	method									
+M.d-psgd	D-PSGD	L.dpar.decen	instantiates	method									
+M.dapo	DAPO	L.pg.trust.grpo	instantiates	method									
+M.dare	DARE	L.wavg.merge	instantiates	method									
+M.dfp	DFP	L.precond.quasi	instantiates	method									
+M.dp-adam	DP-Adam	L.priv.dp	instantiates	method									
+M.dp-ftrl	DP-FTRL	L.priv.dp	instantiates	method									
+M.dp-fedavg	DP-FedAvg	L.priv.dp	instantiates	method									
+M.dp-sgd	DP-SGD	L.priv.dp	instantiates	method									
+M.dp-sgd-clipping	DP-SGD clipping	L.gradproc	instantiates	method									
+M.deep-gradient-compression	Deep Gradient Compression	L.dpar.comp	instantiates	method									
+M.diloco	DiLoCo	L.dpar.local	instantiates	method									
+M.ditto	Ditto	L.fed.pers	instantiates	method									
+M.downpour-sgd	Downpour SGD	L.dpar.async	instantiates	method									
+M.dr-grpo	Dr.GRPO	L.pg.trust.grpo	instantiates	method									
+M.dropblock	DropBlock	L.reg.act	instantiates	method									
+M.dropconnect	DropConnect	L.reg.act	instantiates	method									
+M.droppath	DropPath	L.reg.act	instantiates	method									
+M.easgd	EASGD	L.dpar.local	instantiates	method									
+M.ema	EMA	L.wavg	instantiates	method									
+M.ema-of-weights	EMA of weights	L.wavg.traj	instantiates	method									
+M.fista	FISTA	L.prox	instantiates	method									
+M.fsdp	FSDP	L.shard.opt	instantiates	method									
+M.fedadam	FedAdam	L.fed.avg	instantiates	method									
+M.fedavg	FedAvg	L.fed.avg	instantiates	method									
+M.fedavg-style-local-steps	FedAvg-style local steps	L.dpar.local	instantiates	method									
+M.fedbn	FedBN	L.fed.pers	instantiates	method									
+M.fedbuff	FedBuff	L.fed.sys	instantiates	method									
+M.fednova	FedNova	L.fed.avg	instantiates	method									
+M.fedopt	FedOpt	L.fed.avg	instantiates	method									
+M.fedprox	FedProx	L.fed.avg	instantiates	method									
+M.fedrep	FedRep	L.fed.pers	instantiates	method									
+M.fisher-merging	Fisher merging	L.wavg.merge	instantiates	method									
+M.fixup	Fixup	L.init	instantiates	method									
+M.frank-wolfe	Frank-Wolfe	L.prox	instantiates	method									
+M.gpm	GPM	L.cont.proj	instantiates	method									
+M.gpipe	GPipe	L.shard.pipe	instantiates	method									
+M.grpo	GRPO	L.pg.trust.grpo	instantiates	method									
+M.gsam	GSAM	L.reg.geom	instantiates	method									
+M.gauss-newton	Gauss-Newton	L.precond.cg	instantiates	method									
+M.graddrop	GradDrop	L.gradproc.conflict	instantiates	method									
+M.gradnorm	GradNorm	L.gradproc.conflict	instantiates	method									
+M.he-init	He init	L.init	instantiates	method									
+M.hessian-free-optimisation	Hessian-free optimisation	L.precond.cg	instantiates	method									
+M.hogwild	Hogwild!	L.dpar.async	instantiates	method									
+M.ista	ISTA	L.prox	instantiates	method									
+M.jacobian-hessian-penalties	Jacobian/Hessian penalties	L.reg.geom	instantiates	method									
+M.k-fac	K-FAC	L.precond.ng	instantiates	method									
+M.l-bfgs	L-BFGS	L.precond.quasi	instantiates	method									
+M.l1	L1	L.reg.weight	instantiates	method									
+M.l2-weight-decay	L2/weight decay	L.reg.weight	instantiates	method									
+M.lamb	LAMB	L.adapt	instantiates	method									
+M.lars-layer-wise-normalisation	LARS layer-wise normalisation	L.sgd.sign	instantiates	method									
+M.lawa	LAWA	L.wavg.traj	instantiates	method									
+M.lsuv	LSUV	L.init	instantiates	method									
+M.layerdrop	LayerDrop	L.reg.act	instantiates	method									
+M.lecun-init	LeCun init	L.init	instantiates	method									
+M.levenberg-marquardt	Levenberg-Marquardt	L.precond.cg	instantiates	method									
+M.lion	Lion	L.sgd.sign	instantiates	method									
+M.mean-teacher	Mean Teacher	L.ssl.selfdist; L.reg.consist	instantiates	method									
+M.megatron-tensor-parallel	Megatron tensor parallel	L.shard	instantiates	method									
+M.megatron-lm-tensor-parallelism	Megatron-LM tensor parallelism	L.shard.tensor	instantiates	method									
+M.muon	Muon	L.precond.ng	instantiates	method									
+M.nadam	NAdam	L.adapt	instantiates	method									
+M.neat	NEAT	L.nas.evo	instantiates	method									
+M.nes	NES	L.derivfree.es	instantiates	method									
+M.nelder-mead	Nelder-Mead	L.derivfree.local	instantiates	method									
+M.nesterov-acceleration	Nesterov acceleration	L.sgd	instantiates	method									
+M.newton-s-method	Newton's method	L.precond.quasi	instantiates	method									
+M.openai-es	OpenAI-ES	L.derivfree.es	instantiates	method									
+M.pate	PATE	L.priv.dp	instantiates	method									
+M.pcgrad	PCGrad	L.gradproc.conflict	instantiates	method									
+M.ppo	PPO	L.pg.trust	instantiates	method									
+M.ppo-clip	PPO-clip	L.pg.trust	instantiates	method									
+M.psgd	PSGD	L.precond.ng	instantiates	method									
+M.per-fedavg	Per-FedAvg	L.fed.pers	instantiates	method									
+M.pi-model	Pi-model	L.reg.consist	instantiates	method									
+M.pipedream	PipeDream	L.shard.pipe	instantiates	method									
+M.polyak-averaging	Polyak averaging	L.wavg	instantiates	method									
+M.polyak-ruppert-averaging	Polyak-Ruppert averaging	L.wavg.traj	instantiates	method									
+M.powell-s-method	Powell's method	L.derivfree.local	instantiates	method									
+M.powersgd	PowerSGD	L.dpar.comp	instantiates	method									
+M.qsgd	QSGD	L.dpar.comp	instantiates	method									
+M.r-drop	R-Drop	L.reg.consist	instantiates	method									
+M.radam	RAdam	L.adapt	instantiates	method									
+M.rloo	RLOO	L.pg.trust.grpo	instantiates	method									
+M.rmsprop	RMSProp	L.adapt	instantiates	method									
+M.reducelronplateau	ReduceLROnPlateau	L.sched.state	instantiates	method									
+M.robbins-monro	Robbins-Monro	L.sgd	instantiates	method									
+M.sag	SAG	L.vr	instantiates	method									
+M.saga	SAGA	L.vr	instantiates	method									
+M.sam	SAM	L.reg.geom	instantiates	method									
+M.sarah	SARAH	L.vr	instantiates	method									
+M.scaffold	SCAFFOLD	L.fed.avg	instantiates	method									
+M.sgd	SGD	L.sgd	instantiates	method									
+M.sgdr	SGDR	L.sched.time	instantiates	method									
+M.sgp	SGP	L.dpar.decen	instantiates	method									
+M.sisa	SISA	L.priv.unlearn	instantiates	method									
+M.slerp-merge	SLERP merge	L.wavg.merge	instantiates	method									
+M.soap	SOAP	L.precond.ng	instantiates	method									
+M.spider	SPIDER	L.vr	instantiates	method									
+M.sr1	SR1	L.precond.quasi	instantiates	method									
+M.svrg	SVRG	L.vr	instantiates	method									
+M.swa	SWA	L.wavg.traj	instantiates	method									
+M.shampoo	Shampoo	L.precond.ng	instantiates	method									
+M.sophia	Sophia	L.adapt	instantiates	method									
+M.switch-routing	Switch routing	L.shard.expert	instantiates	method									
+M.ties-merging	TIES-merging	L.wavg.merge	instantiates	method									
+M.trpo	TRPO	L.pg.trust	instantiates	method									
+M.trpo-s-kl-region	TRPO's KL region	L.precond.trust	instantiates	method									
+M.uda	UDA	L.reg.consist	instantiates	method									
+M.v-mpo	V-MPO	L.pg.trust	instantiates	method									
+M.vat	VAT	L.reg.consist	instantiates	method									
+M.wsd	WSD	L.sched.time	instantiates	method									
+M.xavier-glorot	Xavier/Glorot	L.init	instantiates	method									
+M.zero	ZeRO	L.shard	instantiates	method									
+M.zero-1	ZeRO-1	M.zero	derives-from	method									
+M.zero-2	ZeRO-2	M.zero	derives-from	method									
+M.zero-3	ZeRO-3	M.zero	derives-from	method									
+M.zero-infinity	ZeRO-Infinity	L.shard.opt	instantiates	method									
+M.zero-offload	ZeRO-Offload	L.shard.opt	instantiates	method									
+M.adaptive-gradient-clipping	adaptive gradient clipping	L.sched.state; L.gradproc.clip	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.asynchronous-fl	asynchronous FL	L.fed.sys	instantiates	method									
+M.averaged-sgd	averaged SGD	L.sgd	instantiates	method									
+M.basin-hopping	basin hopping	L.derivfree.anneal	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.best-checkpoint-selection	best-checkpoint selection	L.stop	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.certified-removal	certified removal	L.priv.unlearn	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.checkpoint-averaging	checkpoint averaging	L.wavg.traj	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.client-selection	client selection	L.fed.sys	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.confidence-penalty	confidence penalty	L.reg.target	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.conjugate-gradient	conjugate gradient	L.precond.cg	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.context-parallelism	context parallelism	L.shard.ctx	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.coordinate-descent	coordinate descent	L.prox	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.coordinate-search	coordinate search	L.derivfree.local	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.cosine-annealing	cosine annealing	L.sched.time	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.decoupled-weight-decay	decoupled weight decay	L.reg.weight	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.dropout	dropout	L.reg.act	instantiates	method									
+M.early-stopping	early stopping	L.stop	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.exact-retraining-shards	exact retraining shards	L.priv.unlearn	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.expert-choice-routing	expert-choice routing	L.shard.expert	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.exponential-decay	exponential decay	L.sched.time	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.genetic-algorithms	genetic algorithms	L.derivfree.ga	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.genetic-programming	genetic programming	L.derivfree.ga	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.global-norm-clipping	global-norm clipping	L.gradproc.clip	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.gossip-averaging	gossip averaging	L.dpar.decen	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.gradient-accumulation	gradient accumulation	L.gradproc	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.gradient-checkpointing	gradient checkpointing	L.memtrade	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.gradient-clipping	gradient clipping	L.gradproc	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.gradient-penalty	gradient penalty	L.reg.geom	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.heavy-ball-momentum	heavy-ball momentum	L.sgd	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.hierarchical-fl	hierarchical FL	L.fed.sys	instantiates	method									
+M.hierarchical-evolution	hierarchical evolution	L.nas.evo	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.homomorphic-encryption-aggregation	homomorphic-encryption aggregation	L.priv.crypto	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.influence-function-unlearning	influence-function unlearning	L.priv.unlearn	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.interleaved-pipeline	interleaved pipeline	L.shard.pipe	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.label-smoothing	label smoothing	L.reg.target	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.large-batch-recipes-with-lars-lamb	large-batch recipes with LARS/LAMB	L.dpar.sync	instantiates	method									
+M.linear-batch-size-scaling-rule	linear batch-size scaling rule	L.sched.scale	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.linear-warmup	linear warmup	L.sched.time	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.load-balancing-losses	load-balancing losses	L.shard.expert	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.local-sgd	local SGD	L.dpar.local	instantiates	method									
+M.loss-scaling	loss scaling	L.memtrade	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.loss-based-restarts	loss-based restarts	L.sched.state	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.max-norm	max-norm	L.reg.weight	instantiates	method									
+M.mirror-descent	mirror descent	L.prox	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.mixed-precision-training	mixed-precision training	L.memtrade	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.mixup-labels	mixup labels	L.reg.target	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.model-soups	model soups	L.wavg.merge	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.mup	muP	L.sched.scale	instantiates	method									
+M.mup-init	muP init	L.init	instantiates	method									
+M.mutransfer	muTransfer	L.sched.scale	instantiates	method									
+M.natural-gradient	natural gradient	L.precond.ng	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.natural-policy-gradient	natural policy gradient	L.pg.trust	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.normalised-sgd	normalised SGD	L.sgd.sign	instantiates	method									
+M.one-cycle	one-cycle	L.sched	instantiates	method									
+M.orthogonal-gradient-descent	orthogonal gradient descent	L.cont.proj	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.orthogonal-init	orthogonal init	L.init	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.orthogonality-penalties	orthogonality penalties	L.reg.weight	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.pfedme	pFedMe	L.fed.pers	instantiates	method									
+M.parallel-tempering	parallel tempering	L.derivfree.anneal	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.patience-rules	patience rules	L.stop	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.pattern-search	pattern search	L.derivfree.local	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.per-sample-clipping	per-sample clipping	L.gradproc.clip	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.polynomial-decay	polynomial decay	L.sched.time	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.post-local-sgd	post-local SGD	L.dpar.local	instantiates	method									
+M.proximal-gradient	proximal gradient	L.prox	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.regularised-evolution	regularised evolution	L.derivfree.ga	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.ring-all-reduce	ring all-reduce	L.dpar.sync	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.ring-attention	ring attention	L.shard.ctx	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.secure-aggregation	secure aggregation	L.priv.crypto	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.secure-multiparty-computation	secure multiparty computation	L.priv.crypto	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.selective-recompute	selective recompute	L.memtrade	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.sep-cma-es	sep-CMA-ES	L.derivfree.es	instantiates	method									
+M.sequence-parallelism	sequence parallelism	L.shard.tensor	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.signsgd	signSGD	L.sgd.sign	instantiates	method									
+M.simulated-annealing	simulated annealing	L.derivfree.anneal	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.spectral-norm	spectral norm	L.reg.weight	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.split-learning	split learning	L.fed.sys	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.square-root-scaling	square-root scaling	L.sched.scale	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.stale-synchronous-parallel	stale-synchronous parallel	L.dpar.async	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.step-decay	step decay	L.sched.time	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.stochastic-depth	stochastic depth	L.reg.act	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.synchronous-sgd	synchronous SGD	L.dpar.sync	instantiates	method									
+M.synchronous-all-reduce-sgd	synchronous all-reduce SGD	L.dpar	instantiates	method									
+M.task-arithmetic	task arithmetic	L.wavg.merge	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.temperature-softened-targets	temperature-softened targets	L.reg.target	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.temporal-ensembling	temporal ensembling	L.reg.consist	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.top-k-gating	top-k gating	L.shard.expert	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.top-k-sparsification	top-k sparsification	L.dpar.comp	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.trust-region-newton	trust-region Newton	L.precond.trust	instantiates	method									
+M.validation-plateau-stopping	validation-plateau stopping	L.stop	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.value-clipping	value clipping	L.gradproc.clip	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.warmup	warmup	L.sched	instantiates	method									
+M.weight-decay	weight decay	L.reg	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.zero-bubble-pipeline	zero-bubble pipeline	L.shard.pipe	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+L.operator	Operator-level execution strategies			method					what is reorganised so the operator fits the device's memory hierarchy	recomputes a standard operator with a different memory-access or scheduling pattern, emitting the same values	a different operator (linear or sparse attention changes the function and is model-side); a package shipping such a kernel	FlashAttention, PagedAttention, fused optimiser kernels	added after phase 1: both runs named FlashAttention as the boundary case they could not place. NB `L.kernel` is kernel methods (SVM, kernel ridge) -- the two senses of `kernel` collided on id, so this family avoids the word
+L.operator.tile	Tiling and fusion of a fused operator	L.operator	divides	method						splits the operator into blocks kept in fast memory, fusing the steps so no large intermediate is written out	recomputation purely to save activation memory across layers (L.memtrade)	FlashAttention, FlashAttention-2, FlashDecoding, fused layer-norm	
+L.operator.cache	Inference cache management	L.operator	divides	method						changes how the decoding cache is laid out, paged or shared across requests, without changing what is decoded	changing the attention function to shrink the cache (MQA, GQA) -- that is model-side	PagedAttention, radix attention, continuous batching	
+M.flashattention	FlashAttention	L.operator.tile	instantiates	method									
+M.flashattention-2	FlashAttention-2	M.flashattention	derives-from	method									
+M.flashattention-3	FlashAttention-3	M.flashattention	derives-from	method									
+M.flashdecoding	FlashDecoding	L.operator.tile	instantiates	method									
+M.fused-layer-norm	fused layer-norm	L.operator.tile	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.pagedattention	PagedAttention	L.operator.cache	instantiates	method									
+M.radix-attention	radix attention	L.operator.cache	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.continuous-batching	continuous batching	L.operator.cache	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description

@@ -84,7 +84,7 @@ L.hrl	Hierarchical RL			method					what the temporal abstraction is defined over
 L.bandit	Bandit algorithms			method					how uncertainty about arm values is turned into a choice	selects among actions with immediate feedback and no state transition	a setting with state dynamics and delayed credit	UCB1, Thompson sampling, EXP3	shares its characteristic with L.explore by design
 L.bandit.stoch	Stochastic and contextual bandits	L.bandit; L.explore.opt	divides	method						assumes i.i.d. rewards per arm, possibly conditioned on a context vector	an adversarial reward sequence	UCB1, LinUCB, LinTS, Thompson sampling, KL-UCB	
 L.bandit.adv	Adversarial bandits	L.bandit	divides	method						guarantees regret against an arbitrary, possibly adaptive reward sequence	an i.i.d. reward assumption	EXP3, EXP4, Tsallis-INF	
-L.bandit.bai	Best-arm identification	L.bandit; L.hpo.bandit	divides	method						spends a fixed budget to identify the best arm, not to maximise cumulative reward	minimising cumulative regret while acting	successive halving, sequential halving, LUCB, racing	
+L.bandit.bai	Best-arm identification	L.bandit	divides	method						spends a fixed budget to identify the best arm, not to maximise cumulative reward	minimising cumulative regret while acting	successive halving, sequential halving, LUCB, racing	had L.hpo.bandit as a second parent, which made a 2-cycle; the edge runs HPO -> BAI only
 L.bandit.ope	Off-policy evaluation and learning	L.bandit; L.causal.adjust	divides	method						estimates the value of a policy from logs collected under a different policy	evaluating a policy by running it	inverse propensity scoring, self-normalised IPS, doubly robust OPE, FQE	shares estimators with causal inference
 L.ssl.contrast	Instance-discrimination contrastive learning			method						pulls together views of the same instance and explicitly pushes apart other instances	a method with no negative examples in its loss	InstDisc, CPC, MoCo, MoCo v2, MoCo v3, SimCLR, SimCLR v2	
 L.ssl.contrast.x	Cross-modal contrastive alignment	L.ssl.contrast	derives-from	method						contrasts paired items from two different modalities against mismatched pairs	contrasting two augmented views of one item	CLIP, ALIGN, SigLIP, AudioCLIP, ImageBind	pairing is a supervision source, which blurs self vs supervised
@@ -1624,7 +1624,7 @@ M.stratified-cv	stratified CV	L.boot.cv	instantiates	method
 M.structural-time-series	structural time series	L.seq.ts	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
 M.structured-svm	structured SVM	L.kernel.svm; L.seq.crf	instantiates	method									
 M.structured-perceptron	structured perceptron	L.seq.crf	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
-M.successive-halving	successive halving		instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.successive-halving	successive halving	L.hpo.bandit	instantiates	method									orphaned by ancestor-pruning across the L.bandit.bai/L.hpo.bandit cycle; reattached
 M.supermasks	supermasks	L.cont.arch	instantiates	method									
 M.surgical-finetuning	surgical finetuning	L.peft.select	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
 M.synchronous-sgd	synchronous SGD	L.dpar.sync	instantiates	method									

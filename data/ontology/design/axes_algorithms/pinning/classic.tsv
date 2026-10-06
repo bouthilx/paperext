@@ -1,0 +1,439 @@
+node_id	name	parents	relation	kind	expands_to	signal	role	attributes	characteristic	positive_test	negative_test	examples	notes
+L.prep.select	Feature selection	L.prep; L.lin.pen	divides	method						removes input variables before or during fitting based on a relevance score	projecting features into a new space	mutual-information filtering, recursive feature elimination, lasso selection, Boruta	
+L.synth.cf	Counterfactual example construction	L.synth; L.causal	divides	method						constructs an example differing in one causal factor while holding others fixed	arbitrary perturbation with no factor held fixed	counterfactual data augmentation, CAD, minimal-pair generation	
+L.bandit.ope	Off-policy evaluation and learning	L.bandit; L.causal.adjust	divides	method						estimates the value of a policy from logs collected under a different policy	evaluating a policy by running it	inverse propensity scoring, self-normalised IPS, doubly robust OPE, FQE	shares estimators with causal inference
+L.vae	Variational autoencoding	L.vi	divides	method						maximises an evidence lower bound with an amortised inference network	maximising exact likelihood; using a discriminator	wake-sleep, VAE, beta-VAE, IWAE, NVAE	
+L.vae.vq	Discrete-latent autoencoding	L.vae	derives-from	method						quantises the latent to a learned codebook and trains through a straight-through estimator	a continuous Gaussian latent	VQ-VAE, VQ-VAE-2, VQGAN, FSQ, RQ-VAE	the tokeniser for most latent generative stacks
+L.em	Expectation-maximisation			method						alternates computing responsibilities under the current parameters and maximising the expected complete-data likelihood	optimising the marginal likelihood by direct gradient ascent	EM, generalised EM, variational EM, Baum-Welch, hard EM	the classical-statistics counterpart of an optimiser
+L.derivfree.anneal	Annealed stochastic search	L.derivfree; L.mcmc.temper	divides	method						accepts worsening moves with a temperature-controlled probability	greedy acceptance only	simulated annealing, parallel tempering, basin hopping	
+L.ls	Closed-form and spectral estimators			method					which matrix problem the estimate reduces to	obtains parameters by solving an equation or decomposition, not by iterating a step rule	any iterative descent procedure	normal equations, QR least squares, ridge closed form, truncated SVD, method of moments	the home for "no optimiser was used"
+L.semi.graph	Graph-based label propagation	L.semi; L.graphalg	divides	method						spreads labels across a similarity graph built over labelled and unlabelled points	assigning labels by a parametric model's prediction	label propagation, label spreading, harmonic functions	
+L.hpo.model	Surrogate-model search	L.hpo; L.gp	divides	method						fits a probabilistic surrogate to past trials and maximises an acquisition function	allocating budget without modelling the response surface	GP-EI Bayesian optimisation, TPE, SMAC, BOHB, BORE	
+L.retr.index	Approximate nearest-neighbour search	L.retr; L.inst	divides	method						finds approximate nearest neighbours under an index structure with a recall-speed trade-off	exhaustive exact search	LSH, IVF-PQ, HNSW, DiskANN, ScaNN	
+L.calib.bayes	Approximate Bayesian neural inference	L.calib; L.vi	divides	method						approximates a posterior over parameters and marginalises predictions over it	fitting a single point estimate	Laplace approximation, Bayes-by-backprop, MC dropout, SWAG, SGLD posteriors	
+L.interp.dict	Feature dictionary learning	L.interp; L.dimred.parts	divides	method						fits an overcomplete sparse basis over activations to name internal features	attributing to input dimensions	sparse autoencoders, dictionary learning on activations, transcoders	
+L.fair	Fairness-constrained procedures			method					at which stage the fairness constraint is applied	enforces a stated group or individual fairness criterion as part of the procedure	measuring disparity without acting on it	reweighing, adversarial debiasing, equalized-odds post-processing	
+L.fair.pre	Pre-processing fairness interventions	L.fair	divides	method						modifies the data before fitting so that a disparity criterion is reduced	modifying the loss or the predictions	reweighing, disparate impact remover, fair representation learning, LFR	
+L.fair.in	In-processing fairness constraints	L.fair	divides	method						adds a fairness constraint or penalty to the training objective	adjusting the trained model's thresholds	constrained ERM, reductions approach, adversarial debiasing, fair regularisers	
+L.fair.post	Post-processing fairness adjustment	L.fair; L.calib.post	divides	method						adjusts thresholds or outputs per group on a trained model	retraining with a modified objective	equalized-odds post-processing, reject-option classification, group-wise thresholds	
+L.lin	Linear and generalized linear estimation			method					what penalty or link is added to least squares	fits a linear predictor, possibly through a link function, to observed responses	fitting a nonlinear function class	OLS, ridge, lasso, logistic regression, GLM	
+L.lin.ols	Least-squares estimation	L.lin	divides	method						minimises squared residuals with no penalty term	adding a shrinkage penalty	OLS, weighted least squares, generalised least squares, total least squares	
+L.lin.pen	Penalised regression	L.lin	divides	method						adds a norm penalty on coefficients to the least-squares objective	changing the loss on the residuals	ridge, lasso, elastic net, group lasso, LARS, adaptive lasso, SCAD	lasso doubles as feature selection
+L.lin.glm	Generalized linear models	L.lin	divides	method						maps a linear predictor through a link to a non-Gaussian response distribution	using an identity link with Gaussian noise	logistic regression, Poisson regression, negative binomial, ordinal and multinomial logit	
+L.lin.robust	Robust and quantile regression	L.lin	divides	method						replaces squared loss with a loss bounded in the residual, or targets a quantile	minimising mean squared error	Huber regression, RANSAC, Theil-Sen, quantile regression, M-estimators	
+L.lin.mixed	Hierarchical and mixed-effects models	L.lin	divides	method						adds group-level random effects or a correlation structure to the linear predictor	treating all observations as independent with one coefficient vector	linear mixed models, GEE, multilevel models, random-effects meta-analysis	
+L.kernel	Kernel methods			method					which learning problem the kernel is substituted into	replaces inner products with a kernel so a linear method acts in a feature space	computing explicit high-dimensional features and fitting linearly	SVM, kernel ridge, kernel PCA	
+L.kernel.svm	Margin-maximising classifiers	L.kernel	divides	method						maximises the margin to the separating surface, with slack for errors	minimising a likelihood or squared error	perceptron, hard and soft-margin SVM, SVR, one-class SVM, structured SVM	
+L.kernel.ridge	Kernelised least squares and components	L.kernel	divides	method						substitutes a kernel into a closed-form least-squares or eigen problem	solving a hinge-loss quadratic program	kernel ridge regression, kernel PCA, kernel k-means, kernel CCA	
+L.kernel.approx	Kernel approximation	L.kernel	divides	method						approximates the kernel matrix with explicit random or sampled features	computing the exact kernel matrix	random Fourier features, Nystrom approximation, random kitchen sinks	
+L.gp	Gaussian-process inference			method					how the posterior is made tractable	places a GP prior over functions and computes a posterior predictive distribution	fitting point-estimate parameters with no function-space posterior	GP regression, SVGP, deep GP	
+L.gp.exact	Exact GP regression	L.gp	divides	method						inverts the full kernel matrix to obtain the exact posterior	approximating with inducing points or a variational bound	GP regression, GP with marginal-likelihood hyperparameter fitting	
+L.gp.sparse	Sparse and approximate GPs	L.gp	divides	method						summarises the data with inducing points or a variational posterior	exact cubic-cost inference	FITC, SVGP, SKI/KISS-GP, deep GP, GP classification by Laplace or EP	
+L.tree	Decision-tree induction			method					split criterion and pruning rule	grows a tree by recursively partitioning the feature space on single-variable tests	combining many trees as one predictor	ID3, C4.5, CART, CHAID, conditional inference trees	
+L.bag	Bootstrap aggregation	L.boot	divides	method						averages predictors each fitted to a resampled version of the data	fitting predictors sequentially on reweighted data	bagging, random forest, extremely randomised trees, rotation forest	
+L.boost	Boosting			method						fits predictors sequentially, each targeting the previous ensemble's errors	fitting predictors independently in parallel	AdaBoost, gradient boosting, XGBoost, LightGBM, CatBoost, NGBoost, LambdaMART	the strongest tabular baseline family
+L.inst	Instance-based learning			method						makes predictions directly from stored training examples with no fitted global model	fitting parameters that summarise the data	k-NN, weighted k-NN, condensed NN, Parzen windows/KDE, LOESS, RBF interpolation	the canonical algorithm with no model
+L.nb	Generative classifiers			method					what is assumed about the class-conditional density	models each class's feature distribution and classifies by Bayes rule	modelling the conditional label distribution directly	naive Bayes, Gaussian/multinomial/Bernoulli NB, LDA, QDA, Bayesian network classifiers	
+L.clust	Clustering			method					what defines cluster membership	partitions or groups unlabelled points without any target variable	grouping by a supplied label	k-means, DBSCAN, Ward linkage	
+L.clust.centroid	Centroid-based clustering	L.clust; L.em	divides	method						assigns points to the nearest of k representatives and updates the representatives	growing clusters by density connectivity or by merging	k-means, k-means++, mini-batch k-means, k-medoids/PAM, fuzzy c-means	
+L.clust.hier	Hierarchical clustering	L.clust	divides	method						builds a nested merge or split tree under a linkage criterion	producing a flat partition with a fixed k	agglomerative clustering, single/complete/average/Ward linkage, divisive clustering	
+L.clust.density	Density-based clustering	L.clust	divides	method						defines clusters as connected regions above a density threshold	assuming a fixed number of convex clusters	DBSCAN, OPTICS, HDBSCAN, mean-shift	
+L.clust.model	Mixture-model clustering	L.clust; L.em	divides	method						fits a probabilistic mixture and assigns soft responsibilities	assigning hard memberships by distance	Gaussian mixture models, Bayesian GMM, Dirichlet-process mixtures, latent class analysis	
+L.clust.graph	Graph and spectral clustering	L.clust; L.graphalg	divides	method						clusters using the eigenstructure or modularity of a similarity or adjacency graph	clustering directly in feature space	spectral clustering, normalised cuts, affinity propagation, Louvain, Leiden	
+L.dimred	Dimensionality reduction and factorisation			method					what structure of the data the low-dimensional map preserves	produces a lower-dimensional representation of the data with no target variable	predicting a target from features	PCA, t-SNE, UMAP, NMF	many of these produce no separable model
+L.dimred.var	Variance-preserving projections	L.dimred; L.ls	divides	method						finds orthogonal directions maximising retained variance or minimising reconstruction error	preserving pairwise distances or neighbourhoods	PCA, probabilistic PCA, sparse PCA, kernel PCA, randomised SVD, incremental PCA	
+L.dimred.indep	Independent-component decomposition	L.dimred	divides	method						finds a linear basis whose coefficients are maximally statistically independent	finding a basis that is merely uncorrelated	FastICA, Infomax ICA, JADE, SOBI	
+L.dimred.parts	Parts-based and topic factorisation	L.dimred	divides	method						factorises with non-negativity or a generative topic prior so components are additive parts	allowing arbitrary signed loadings	NMF, sparse NMF, PLSA, latent Dirichlet allocation, dictionary learning	LDA here is the topic model, not the discriminant
+L.dimred.dist	Neighbourhood-preserving embedding	L.dimred	divides	method						places points so that local neighbourhood structure is preserved in low dimensions	maximising global variance	MDS, Isomap, LLE, Laplacian eigenmaps, t-SNE, UMAP, PaCMAP, TriMap	t-SNE produces coordinates, not a reusable model
+L.dimred.disc	Supervised and multi-view projections	L.dimred	divides	method						finds directions that maximise class separation or cross-view correlation	ignoring labels and second views	Fisher LDA, CCA, kernel CCA, deep CCA, PLS regression	
+L.dimred.rand	Random projection and sketching	L.dimred	divides	method						projects with a random matrix whose distortion is bounded in expectation	fitting the projection to the data	Johnson-Lindenstrauss projection, sparse random projection, CountSketch, random SVD sketching	
+L.dimred.mf	Matrix completion and collaborative factorisation	L.dimred; L.rec	divides	method						factorises a partially observed matrix to predict its missing entries	factorising a fully observed matrix for representation	ALS matrix factorisation, SVD++, soft-impute, nuclear-norm completion	
+L.seq	State-space and structured sequence inference			method					what state representation inference runs over	infers a latent sequence or its parameters under an explicit temporal model	fitting an unstructured sequence model with no latent-state semantics	HMM, Kalman filter, CRF	
+L.seq.hmm	Discrete-state sequence inference	L.seq; L.em	divides	method						runs forward-backward or Viterbi recursions over a discrete latent chain	assuming a continuous Gaussian state	forward-backward, Baum-Welch, Viterbi, HSMM	
+L.seq.kalman	Gaussian state-space filtering	L.seq	divides	method						propagates a Gaussian belief through linear or linearised dynamics	representing the belief by particles	Kalman filter, EKF, UKF, RTS smoother, information filter	
+L.seq.pf	Sequential Monte Carlo	L.seq; L.mcmc	divides	method						represents the belief by weighted particles that are resampled over time	maintaining a closed-form Gaussian belief	particle filter, auxiliary particle filter, SMC, SMC-squared, particle MCMC	
+L.seq.crf	Discriminative structured prediction	L.seq	divides	method						models the conditional distribution over label sequences with global normalisation	modelling the joint distribution of observations and labels	MEMM, linear-chain CRF, structured perceptron, structured SVM	
+L.seq.ts	Classical time-series forecasting	L.seq	divides	method						fits an explicit autoregressive, trend and seasonality decomposition	fitting a generic neural sequence model	ARIMA, SARIMA, exponential smoothing, Holt-Winters, Prophet, structural time series, VAR	
+L.graphalg	Graph algorithms as learning procedures			method					what is propagated across the graph	computes a quantity by propagating along a graph's edges to convergence	computing from feature vectors without a graph	PageRank, belief propagation, Louvain, Weisfeiler-Lehman kernel, shortest paths	
+L.boot	Resampling-based inference			method					what is resampled and for what estimate	re-fits an estimator on resampled data to quantify variability or select a model	computing an analytic standard error	bootstrap, jackknife, permutation test, k-fold cross-validation	
+L.boot.ci	Resampling confidence estimation	L.boot	divides	method						builds intervals or standard errors from the distribution of resampled estimates	building intervals from an asymptotic formula	bootstrap, BCa bootstrap, block bootstrap, jackknife, bootstrap-t	
+L.boot.cv	Cross-validation	L.boot	divides	method						partitions data into folds and averages held-out performance to select or assess	evaluating once on a single held-out split	k-fold CV, stratified CV, leave-one-out, nested CV, time-series CV, group CV	admissible only if evaluation is in scope; see Tensions
+L.boot.perm	Permutation and randomisation tests	L.boot; L.test	divides	method						builds a null distribution by permuting labels or group assignment	assuming a parametric null distribution	permutation test, randomisation test, permutation feature importance	
+L.mcmc	Markov-chain Monte Carlo			method					how proposals are generated	draws correlated samples from a target density via a Markov chain with the right stationary law	optimising a parametric approximation to the posterior	Metropolis-Hastings, Gibbs, HMC, NUTS	
+L.mcmc.mh	Metropolis-Hastings family	L.mcmc	divides	method						proposes from an arbitrary kernel and accepts with the Metropolis ratio	sampling each coordinate from its exact conditional	Metropolis, Metropolis-Hastings, random-walk MH, adaptive MH, MALA	
+L.mcmc.gibbs	Gibbs sampling	L.mcmc	divides	method						samples each block from its exact full conditional, always accepting	using an accept-reject step	Gibbs sampling, collapsed Gibbs, blocked Gibbs, slice sampling	
+L.mcmc.grad	Gradient-informed samplers	L.mcmc	divides	method						uses the gradient of the log density to propose distant, high-acceptance moves	proposing without derivative information	Langevin/MALA, HMC, NUTS, SGLD, SGHMC, Riemannian HMC	SGLD bridges to stochastic optimisation
+L.mcmc.temper	Tempered and annealed sampling	L.mcmc	divides	method						runs chains at multiple temperatures or anneals between distributions	a single chain at a fixed target	parallel tempering, simulated tempering, annealed importance sampling, SMC samplers	
+L.mcmc.nested	Evidence-oriented sampling	L.mcmc	divides	method						targets the marginal likelihood by sampling nested likelihood shells	targeting posterior expectations only	nested sampling, MultiNest, dynamic nested sampling	speculative in ML venues; standard in astrostatistics
+L.vi	Variational inference			method					what family and bound are used	approximates a posterior by optimising a divergence over a tractable family	drawing samples from the exact posterior	mean-field VI, CAVI, SVI, ADVI, black-box VI, expectation propagation	parent of the VAE lineage
+L.mle	Likelihood-based point estimation			method					what is maximised or matched	selects parameters by maximising a likelihood or matching moments	producing a full posterior distribution	MLE, MAP, penalised likelihood, partial likelihood (Cox), method of moments, generalised method of moments, M-estimation	note the GMM name collision with Gaussian mixtures
+L.test	Hypothesis testing and error control			method					what is being controlled	computes a test statistic and a decision rule with a stated error rate	reporting an effect size with no decision rule	t-test, ANOVA, Mann-Whitney, chi-square, Bonferroni, Holm, Benjamini-Hochberg FDR	admissible only if evaluation is in scope
+L.causal	Causal effect estimation			method					what source of identification the estimator leans on	estimates an interventional or counterfactual contrast under a stated identification assumption	estimating a predictive association with no identification claim	propensity score matching, doubly robust estimation, difference-in-differences	
+L.causal.adjust	Adjustment and weighting estimators	L.causal	divides	method						identifies the effect by conditioning on or reweighting by observed confounders	using an instrument or a discontinuity	g-computation, propensity score matching, IPW, AIPW/doubly robust, TMLE, double ML, entropy balancing	
+L.causal.iv	Instrumental-variable estimation	L.causal	divides	method						uses a variable affecting treatment but not the outcome except through treatment	adjusting for measured confounders only	2SLS, LIML, GMM-IV, deep IV, Mendelian randomisation	
+L.causal.panel	Panel and design-based estimators	L.causal	divides	method						identifies from repeated observation of the same units before and after treatment	identifying from cross-sectional variation	difference-in-differences, event study, synthetic control, synthetic DiD, two-way fixed effects	
+L.causal.disc	Discontinuity designs	L.causal	divides	method						identifies from assignment determined by a threshold in a running variable	identifying from random or conditionally random assignment	sharp regression discontinuity, fuzzy RD, kink designs	
+L.causal.hte	Heterogeneous-effect estimation	L.causal; L.bag	divides	method						estimates how the effect varies with covariates, not only its average	estimating a single average treatment effect	causal forest, S/T/X-learner, DR-learner, uplift modelling, BART for causal effects	
+L.causal.struct	Causal structure discovery	L.causal	divides	method						infers the graph of causal relations rather than an effect size given a graph	estimating an effect from an assumed graph	PC, FCI, GES, NOTEARS, LiNGAM, DAG-GNN, CCM	
+L.causal.rep	Representation-based counterfactual estimation	L.causal; L.da.stat	divides	method						learns a representation balancing treated and control groups and predicts both potential outcomes	using a fixed propensity model with no learned representation	TARNet, CFR/IPM-balanced representations, Dragonnet, CEVAE, GANITE	
+L.anom	Anomaly and outlier detection			method					what makes a point anomalous	scores points by how unusual they are, typically fitted without anomaly labels	classifying points against labelled anomaly classes	isolation forest, one-class SVM, LOF	
+L.anom.density	Density-based anomaly scoring	L.anom	divides	method						scores by estimated density or local density ratio	scoring by a learned decision boundary	KDE scoring, LOF, GMM likelihood scoring, COPOD	
+L.anom.bound	Boundary-based anomaly scoring	L.anom; L.kernel.svm	divides	method						fits a compact boundary around the normal data and scores by distance outside	estimating a density	one-class SVM, SVDD, Deep SVDD	
+L.anom.isol	Isolation and partition scoring	L.anom; L.tree	divides	method						scores by how few random splits are needed to isolate a point	fitting a density or a boundary	isolation forest, extended isolation forest, RRCF	
+L.anom.recon	Reconstruction-error anomaly scoring	L.anom; L.vae	divides	method						scores by how badly a generative or autoencoding model reconstructs the point	scoring by an explicit density estimate	autoencoder reconstruction error, VAE ELBO scoring, diffusion reconstruction scoring	
+L.anom.cp	Change-point and sequence anomalies	L.anom; L.seq.ts	divides	method						detects a shift in a temporal process rather than a point outlier	flagging individual independent points	CUSUM, Bayesian online change-point detection, PELT, matrix profile	
+L.rec	Recommendation and ranking procedures			method					what the ranking signal is fitted to	fits a model to produce an ordering over items for a user or query	predicting an unordered label	ALS collaborative filtering, BPR, LambdaMART	
+L.rec.cf	Collaborative filtering	L.rec; L.dimred.mf	divides	method						predicts preferences from the interaction matrix alone	using item or query content features	user-kNN and item-kNN CF, ALS, SVD++, BPR, neural CF	
+L.rec.ltr	Learning to rank	L.rec	divides	method						optimises a listwise or pairwise ranking loss against relevance judgements	optimising a pointwise regression loss	RankNet, LambdaRank, LambdaMART, ListNet, ListMLE	
+L.pinn	Constraint- and physics-informed fitting			method					what known structure is imposed	adds a known equation, conservation law or logical constraint as part of the objective	learning the relationship purely from data	PINN, Lagrangian/Hamiltonian neural network training, SINDy, Deep Ritz	
+L.symreg	Symbolic regression			method					how the expression space is searched	searches over symbolic expressions for one that fits the data	fitting coefficients of a fixed functional form	genetic symbolic regression, SINDy, AI Feynman, neural-guided symbolic regression	partly speculative in mainstream ML venues
+M.2sls	2SLS	L.causal.iv	instantiates	method									
+M.advi	ADVI	L.vi	instantiates	method									
+M.ai-feynman	AI Feynman	L.symreg	instantiates	method									
+M.aipw-doubly-robust	AIPW/doubly robust	L.causal.adjust	instantiates	method									
+M.als	ALS	L.rec.cf	instantiates	method									
+M.als-collaborative-filtering	ALS collaborative filtering	L.rec	instantiates	method									
+M.als-matrix-factorisation	ALS matrix factorisation	L.dimred.mf	instantiates	method									
+M.anova	ANOVA	L.test	instantiates	method									
+M.arima	ARIMA	L.seq.ts	instantiates	method									
+M.adaboost	AdaBoost	L.boost	instantiates	method									
+M.bart-for-causal-effects	BART for causal effects	L.causal.hte	instantiates	method									
+M.bca-bootstrap	BCa bootstrap	L.boot.ci	instantiates	method									
+M.bohb	BOHB	L.hpo.model; L.hpo.bandit	instantiates	method									
+M.bore	BORE	L.hpo.model	instantiates	method									
+M.bpr	BPR	L.rec.cf	instantiates	method									
+M.baum-welch	Baum-Welch	L.seq.hmm	instantiates	method									
+M.bayes-by-backprop	Bayes-by-backprop	L.calib.bayes	instantiates	method									
+M.bayesian-gmm	Bayesian GMM	L.clust.model	instantiates	method									
+M.bayesian-network-classifiers	Bayesian network classifiers	L.nb	instantiates	method									
+M.bayesian-online-change-point-detection	Bayesian online change-point detection	L.anom.cp	instantiates	method									
+M.benjamini-hochberg-fdr	Benjamini-Hochberg FDR	L.test	instantiates	method									
+M.bonferroni	Bonferroni	L.test	instantiates	method									
+M.boruta	Boruta	L.prep.select	instantiates	method									
+M.c4-5	C4.5	L.tree	instantiates	method									
+M.cad	CAD	L.synth.cf	instantiates	method									
+M.cart	CART	L.tree	instantiates	method									
+M.cavi	CAVI	L.vi	instantiates	method									
+M.cca	CCA	L.dimred.disc	instantiates	method									
+M.ccm	CCM	L.causal.struct	instantiates	method									
+M.cevae	CEVAE	L.causal.rep	instantiates	method									
+M.cfr-ipm-balanced-representations	CFR/IPM-balanced representations	L.causal.rep	instantiates	method									
+M.chaid	CHAID	L.tree	instantiates	method									
+M.copod	COPOD	L.anom.density	instantiates	method									
+M.crf	CRF	L.seq	instantiates	method									
+M.cusum	CUSUM	L.anom.cp	instantiates	method									
+M.catboost	CatBoost	L.boost	instantiates	method									
+M.countsketch	CountSketch	L.dimred.rand	instantiates	method									
+M.dag-gnn	DAG-GNN	L.causal.struct	instantiates	method									
+M.dbscan	DBSCAN	L.clust.density	instantiates	method									
+M.dr-learner	DR-learner	L.causal.hte	instantiates	method									
+M.deep-ritz	Deep Ritz	L.pinn	instantiates	method									
+M.deep-svdd	Deep SVDD	L.anom.bound	instantiates	method									
+M.dirichlet-process-mixtures	Dirichlet-process mixtures	L.clust.model	instantiates	method									
+M.diskann	DiskANN	L.retr.index	instantiates	method									
+M.dragonnet	Dragonnet	L.causal.rep	instantiates	method									
+M.ekf	EKF	L.seq.kalman	instantiates	method									
+M.em	EM	L.em	instantiates	method									
+M.fci	FCI	L.causal.struct	instantiates	method									
+M.fitc	FITC	L.gp.sparse	instantiates	method									
+M.fqe	FQE	L.bandit.ope	instantiates	method									
+M.fsq	FSQ	L.vae.vq	instantiates	method									
+M.fastica	FastICA	L.dimred.indep	instantiates	method									
+M.fisher-lda	Fisher LDA	L.dimred.disc	instantiates	method									
+M.ganite	GANITE	L.causal.rep	instantiates	method									
+M.gee	GEE	L.lin.mixed	instantiates	method									
+M.ges	GES	L.causal.struct	instantiates	method									
+M.glm	GLM	L.lin	instantiates	method									
+M.gmm-likelihood-scoring	GMM likelihood scoring	L.anom.density	instantiates	method									
+M.gmm-iv	GMM-IV	L.causal.iv	instantiates	method									
+M.gp-classification-by-laplace-or-ep	GP classification by Laplace or EP	L.gp.sparse	instantiates	method									
+M.gp-regression	GP regression	L.gp.exact	instantiates	method									
+M.gp-with-marginal-likelihood-hyperparameter-fitting	GP with marginal-likelihood hyperparameter fitting	L.gp.exact	instantiates	method									
+M.gp-ei-bayesian-optimisation	GP-EI Bayesian optimisation	L.hpo.model	instantiates	method									
+M.gaussian-mixture-models	Gaussian mixture models	L.clust.model	instantiates	method									
+M.gaussian-multinomial-bernoulli-nb	Gaussian/multinomial/Bernoulli NB	L.nb	instantiates	method									
+M.gibbs	Gibbs	L.mcmc	instantiates	method									
+M.gibbs-sampling	Gibbs sampling	L.mcmc.gibbs	instantiates	method									
+M.hdbscan	HDBSCAN	L.clust.density	instantiates	method									
+M.hmc	HMC	L.mcmc.grad	instantiates	method									
+M.hmm	HMM	L.seq	instantiates	method									
+M.hnsw	HNSW	L.retr.index	instantiates	method									
+M.hsmm	HSMM	L.seq.hmm	instantiates	method									
+M.holm	Holm	L.test	instantiates	method									
+M.holt-winters	Holt-Winters	L.seq.ts	instantiates	method									
+M.huber-regression	Huber regression	L.lin.robust	instantiates	method									
+M.id3	ID3	L.tree	instantiates	method									
+M.ipw	IPW	L.causal.adjust	instantiates	method									
+M.ivf-pq	IVF-PQ	L.retr.index	instantiates	method									
+M.iwae	IWAE	L.vae	instantiates	method									
+M.infomax-ica	Infomax ICA	L.dimred.indep	instantiates	method									
+M.isomap	Isomap	L.dimred.dist	instantiates	method									
+M.jade	JADE	L.dimred.indep	instantiates	method									
+M.johnson-lindenstrauss-projection	Johnson-Lindenstrauss projection	L.dimred.rand	instantiates	method									
+M.kde-scoring	KDE scoring	L.anom.density	instantiates	method									
+M.kalman-filter	Kalman filter	L.seq.kalman	instantiates	method									
+M.lars	LARS	L.lin.pen	instantiates	method									
+M.lda	LDA	L.nb	instantiates	method									
+M.lfr	LFR	L.fair.pre	instantiates	method									
+M.liml	LIML	L.causal.iv	instantiates	method									
+M.lle	LLE	L.dimred.dist	instantiates	method									
+M.loess	LOESS	L.inst	instantiates	method									
+M.lof	LOF	L.anom.density	instantiates	method									
+M.lsh	LSH	L.retr.index	instantiates	method									
+M.lagrangian-hamiltonian-neural-network-training	Lagrangian/Hamiltonian neural network training	L.pinn	instantiates	method									
+M.lambdamart	LambdaMART	L.boost; L.rec.ltr	instantiates	method									
+M.lambdarank	LambdaRank	L.rec.ltr	instantiates	method									
+M.langevin-mala	Langevin/MALA	L.mcmc.grad	instantiates	method									
+M.laplace-approximation	Laplace approximation	L.calib.bayes	instantiates	method									
+M.laplacian-eigenmaps	Laplacian eigenmaps	L.dimred.dist	instantiates	method									
+M.leiden	Leiden	L.clust.graph	instantiates	method									
+M.lingam	LiNGAM	L.causal.struct	instantiates	method									
+M.lightgbm	LightGBM	L.boost	instantiates	bundle	histogram split finding; leaf-wise growth; GOSS sampling								
+M.listmle	ListMLE	L.rec.ltr	instantiates	method									
+M.listnet	ListNet	L.rec.ltr	instantiates	method									
+M.louvain	Louvain	L.clust.graph	instantiates	method									
+M.m-estimation	M-estimation	L.mle	instantiates	method									
+M.m-estimators	M-estimators	L.lin.robust	instantiates	method									
+M.mala	MALA	L.mcmc.mh	instantiates	method									
+M.map	MAP	L.mle	instantiates	method									
+M.mc-dropout	MC dropout	L.calib.bayes	instantiates	method									
+M.mds	MDS	L.dimred.dist	instantiates	method									
+M.memm	MEMM	L.seq.crf	instantiates	method									
+M.mle	MLE	L.mle	instantiates	method									
+M.mann-whitney	Mann-Whitney	L.test	instantiates	method									
+M.mendelian-randomisation	Mendelian randomisation	L.causal.iv	instantiates	method									
+M.metropolis	Metropolis	L.mcmc.mh	instantiates	method									
+M.metropolis-hastings	Metropolis-Hastings	L.mcmc.mh	instantiates	method									
+M.multinest	MultiNest	L.mcmc.nested	instantiates	method									
+M.ngboost	NGBoost	L.boost	instantiates	method									
+M.nmf	NMF	L.dimred.parts	instantiates	method									
+M.notears	NOTEARS	L.causal.struct	instantiates	method									
+M.nuts	NUTS	L.mcmc.grad	instantiates	method									
+M.nvae	NVAE	L.vae	instantiates	method									
+M.nystrom-approximation	Nystrom approximation	L.kernel.approx	instantiates	method									
+M.ols	OLS	L.lin.ols	instantiates	method									
+M.optics	OPTICS	L.clust.density	instantiates	method									
+M.pc	PC	L.causal.struct	instantiates	method									
+M.pca	PCA	L.dimred.var	instantiates	method									
+M.pelt	PELT	L.anom.cp	instantiates	method									
+M.pinn	PINN	L.pinn	instantiates	method									
+M.pls-regression	PLS regression	L.dimred.disc	instantiates	method									
+M.plsa	PLSA	L.dimred.parts	instantiates	method									
+M.pacmap	PaCMAP	L.dimred.dist	instantiates	method									
+M.pagerank	PageRank	L.graphalg	instantiates	method									
+M.parzen-windows-kde	Parzen windows/KDE	L.inst	instantiates	method									
+M.poisson-regression	Poisson regression	L.lin.glm	instantiates	method									
+M.prophet	Prophet	L.seq.ts	instantiates	method									
+M.qda	QDA	L.nb	instantiates	method									
+M.qr-least-squares	QR least squares	L.ls	instantiates	method									
+M.ransac	RANSAC	L.lin.robust	instantiates	method									
+M.rbf-interpolation	RBF interpolation	L.inst	instantiates	method									
+M.rq-vae	RQ-VAE	L.vae.vq	instantiates	method									
+M.rrcf	RRCF	L.anom.isol	instantiates	method									
+M.rts-smoother	RTS smoother	L.seq.kalman	instantiates	method									
+M.ranknet	RankNet	L.rec.ltr	instantiates	method									
+M.riemannian-hmc	Riemannian HMC	L.mcmc.grad	instantiates	method									
+M.s-t-x-learner	S/T/X-learner	L.causal.hte	instantiates	method									
+M.sarima	SARIMA	L.seq.ts	instantiates	method									
+M.scad	SCAD	L.lin.pen	instantiates	method									
+M.sghmc	SGHMC	L.mcmc.grad	instantiates	method									
+M.sgld	SGLD	L.mcmc.grad	instantiates	method									
+M.sgld-posteriors	SGLD posteriors	L.calib.bayes	instantiates	method									
+M.sindy	SINDy	L.pinn; L.symreg	instantiates	method									
+M.ski-kiss-gp	SKI/KISS-GP	L.gp.sparse	instantiates	method									
+M.smac	SMAC	L.hpo.model	instantiates	method									
+M.smc	SMC	L.seq.pf	instantiates	method									
+M.smc-samplers	SMC samplers	L.mcmc.temper	instantiates	method									
+M.smc-squared	SMC-squared	L.seq.pf	instantiates	method									
+M.sobi	SOBI	L.dimred.indep	instantiates	method									
+M.svd-plus-plus	SVD++	L.rec.cf	instantiates	method									
+M.svdd	SVDD	L.anom.bound	instantiates	method									
+M.svgp	SVGP	L.gp.sparse	instantiates	method									
+M.svi	SVI	L.vi	instantiates	method									
+M.svm	SVM	L.kernel	instantiates	method									
+M.svr	SVR	L.kernel.svm	instantiates	method									
+M.swag	SWAG	L.calib.bayes	instantiates	method									
+M.scann	ScaNN	L.retr.index	instantiates	method									
+M.tarnet	TARNet	L.causal.rep	instantiates	method									
+M.tmle	TMLE	L.causal.adjust	instantiates	method									
+M.tpe	TPE	L.hpo.model	instantiates	method									
+M.theil-sen	Theil-Sen	L.lin.robust	instantiates	method									
+M.trimap	TriMap	L.dimred.dist	instantiates	method									
+M.ukf	UKF	L.seq.kalman	instantiates	method									
+M.umap	UMAP	L.dimred.dist	instantiates	method									
+M.vae	VAE	L.vae	instantiates	method									
+M.vae-elbo-scoring	VAE ELBO scoring	L.anom.recon	instantiates	method									
+M.var	VAR	L.seq.ts	instantiates	method									
+M.vq-vae	VQ-VAE	L.vae.vq	instantiates	method									
+M.vq-vae-2	VQ-VAE-2	M.vq-vae	derives-from	method									
+M.vqgan	VQGAN	L.vae.vq	instantiates	method									
+M.viterbi	Viterbi	L.seq.hmm; L.optdisc	instantiates	method									
+M.ward-linkage	Ward linkage	L.clust	instantiates	method									
+M.weisfeiler-lehman-kernel	Weisfeiler-Lehman kernel	L.graphalg	instantiates	method									
+M.xgboost	XGBoost	L.boost	instantiates	bundle	second-order boosting objective; greedy split finding; shrinkage; column subsampling								
+M.adaptive-mh	adaptive MH	L.mcmc.mh	instantiates	method									
+M.adaptive-lasso	adaptive lasso	L.lin.pen	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.adversarial-debiasing	adversarial debiasing	L.fair.in	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.affinity-propagation	affinity propagation	L.clust.graph	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.agglomerative-clustering	agglomerative clustering	L.clust.hier	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.annealed-importance-sampling	annealed importance sampling	L.mcmc.temper	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.autoencoder-reconstruction-error	autoencoder reconstruction error	L.anom.recon	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.auxiliary-particle-filter	auxiliary particle filter	L.seq.pf	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.bagging	bagging	L.bag	instantiates	method									
+M.basin-hopping	basin hopping	L.derivfree.anneal	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.belief-propagation	belief propagation	L.graphalg	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.beta-vae	beta-VAE	L.vae	instantiates	method									
+M.black-box-vi	black-box VI	L.vi	instantiates	method									
+M.block-bootstrap	block bootstrap	L.boot.ci	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.blocked-gibbs	blocked Gibbs	L.mcmc.gibbs	instantiates	method									
+M.bootstrap	bootstrap	L.boot.ci	instantiates	method									
+M.bootstrap-t	bootstrap-t	L.boot.ci	instantiates	method									
+M.causal-forest	causal forest	L.causal.hte	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.chi-square	chi-square	L.test	instantiates	method									
+M.collapsed-gibbs	collapsed Gibbs	L.mcmc.gibbs	instantiates	method									
+M.condensed-nn	condensed NN	L.inst	instantiates	method									
+M.conditional-inference-trees	conditional inference trees	L.tree	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.constrained-erm	constrained ERM	L.fair.in	instantiates	method									
+M.counterfactual-data-augmentation	counterfactual data augmentation	L.synth.cf	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.deep-cca	deep CCA	L.dimred.disc	instantiates	method									
+M.deep-gp	deep GP	L.gp.sparse	instantiates	method									
+M.deep-iv	deep IV	L.causal.iv	instantiates	method									
+M.dictionary-learning	dictionary learning	L.dimred.parts	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.dictionary-learning-on-activations	dictionary learning on activations	L.interp.dict	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.difference-in-differences	difference-in-differences	L.causal.panel	instantiates	method									
+M.diffusion-reconstruction-scoring	diffusion reconstruction scoring	L.anom.recon	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.disparate-impact-remover	disparate impact remover	L.fair.pre	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.divisive-clustering	divisive clustering	L.clust.hier	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.double-ml	double ML	L.causal.adjust	instantiates	method									
+M.doubly-robust-ope	doubly robust OPE	L.bandit.ope	instantiates	method									
+M.doubly-robust-estimation	doubly robust estimation	L.causal	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.dynamic-nested-sampling	dynamic nested sampling	L.mcmc.nested	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.elastic-net	elastic net	L.lin.pen	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.entropy-balancing	entropy balancing	L.causal.adjust	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.equalized-odds-post-processing	equalized-odds post-processing	L.fair.post	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.event-study	event study	L.causal.panel	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.expectation-propagation	expectation propagation	L.vi	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.exponential-smoothing	exponential smoothing	L.seq.ts	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.extended-isolation-forest	extended isolation forest	L.anom.isol	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.extremely-randomised-trees	extremely randomised trees	L.bag	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.fair-regularisers	fair regularisers	L.fair.in	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.fair-representation-learning	fair representation learning	L.fair.pre	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.forward-backward	forward-backward	L.seq.hmm	instantiates	method									
+M.fuzzy-rd	fuzzy RD	L.causal.disc	instantiates	method									
+M.fuzzy-c-means	fuzzy c-means	L.clust.centroid	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.g-computation	g-computation	L.causal.adjust	instantiates	method									
+M.generalised-em	generalised EM	L.em	instantiates	method									
+M.generalised-least-squares	generalised least squares	L.lin.ols	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.generalised-method-of-moments	generalised method of moments	L.mle	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.genetic-symbolic-regression	genetic symbolic regression	L.symreg	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.gradient-boosting	gradient boosting	L.boost	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.group-cv	group CV	L.boot.cv	instantiates	method									
+M.group-lasso	group lasso	L.lin.pen	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.group-wise-thresholds	group-wise thresholds	L.fair.post	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.hard-em	hard EM	L.em	instantiates	method									
+M.hard-and-soft-margin-svm	hard and soft-margin SVM	L.kernel.svm	instantiates	method									
+M.harmonic-functions	harmonic functions	L.semi.graph	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.incremental-pca	incremental PCA	L.dimred.var	instantiates	method									
+M.information-filter	information filter	L.seq.kalman	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.inverse-propensity-scoring	inverse propensity scoring	L.bandit.ope	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.isolation-forest	isolation forest	L.anom.isol	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.jackknife	jackknife	L.boot.ci	instantiates	method									
+M.k-nn	k-NN	L.inst	instantiates	method									
+M.k-fold-cv	k-fold CV	L.boot.cv	instantiates	method									
+M.k-fold-cross-validation	k-fold cross-validation	L.boot	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.k-means	k-means	L.clust.centroid	instantiates	method									
+M.k-means-plus-plus	k-means++	L.clust.centroid	instantiates	method									
+M.k-medoids-pam	k-medoids/PAM	L.clust.centroid	instantiates	method									
+M.kernel-cca	kernel CCA	L.kernel.ridge; L.dimred.disc	instantiates	method									
+M.kernel-pca	kernel PCA	L.kernel.ridge; L.dimred.var	instantiates	method									
+M.kernel-k-means	kernel k-means	L.kernel.ridge	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.kernel-ridge	kernel ridge	L.kernel	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.kernel-ridge-regression	kernel ridge regression	L.kernel.ridge	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.kink-designs	kink designs	L.causal.disc	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.label-propagation	label propagation	L.semi.graph	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.label-spreading	label spreading	L.semi.graph	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.lasso	lasso	L.lin.pen	instantiates	method									
+M.lasso-selection	lasso selection	L.prep.select	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.latent-dirichlet-allocation	latent Dirichlet allocation	L.dimred.parts	instantiates	method									
+M.latent-class-analysis	latent class analysis	L.clust.model	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.leave-one-out	leave-one-out	L.boot.cv	instantiates	method									
+M.linear-mixed-models	linear mixed models	L.lin.mixed	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.linear-chain-crf	linear-chain CRF	L.seq.crf	instantiates	method									
+M.logistic-regression	logistic regression	L.lin.glm	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.matrix-profile	matrix profile	L.anom.cp	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.mean-field-vi	mean-field VI	L.vi	instantiates	method									
+M.mean-shift	mean-shift	L.clust.density	instantiates	method									
+M.method-of-moments	method of moments	L.ls; L.mle	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.mini-batch-k-means	mini-batch k-means	L.clust.centroid	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.minimal-pair-generation	minimal-pair generation	L.synth.cf	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.multilevel-models	multilevel models	L.lin.mixed	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.mutual-information-filtering	mutual-information filtering	L.prep.select	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.naive-bayes	naive Bayes	L.nb	instantiates	method									
+M.negative-binomial	negative binomial	L.lin.glm	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.nested-cv	nested CV	L.boot.cv	instantiates	method									
+M.nested-sampling	nested sampling	L.mcmc.nested	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.neural-cf	neural CF	L.rec.cf	instantiates	method									
+M.neural-guided-symbolic-regression	neural-guided symbolic regression	L.symreg	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.normal-equations	normal equations	L.ls	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.normalised-cuts	normalised cuts	L.clust.graph	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.nuclear-norm-completion	nuclear-norm completion	L.dimred.mf	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.one-class-svm	one-class SVM	L.anom.bound	instantiates	method									
+M.ordinal-and-multinomial-logit	ordinal and multinomial logit	L.lin.glm	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.parallel-tempering	parallel tempering	L.derivfree.anneal	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.partial-likelihood-cox	partial likelihood (Cox)	L.mle	instantiates	method									
+M.particle-mcmc	particle MCMC	L.seq.pf	instantiates	method									
+M.particle-filter	particle filter	L.seq.pf	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.penalised-likelihood	penalised likelihood	L.mle	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.perceptron	perceptron	L.kernel.svm	instantiates	method									
+M.permutation-feature-importance	permutation feature importance	L.boot.perm	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.permutation-test	permutation test	L.boot.perm	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.probabilistic-pca	probabilistic PCA	L.dimred.var	instantiates	method									
+M.propensity-score-matching	propensity score matching	L.causal.adjust	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.quantile-regression	quantile regression	L.lin.robust	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.random-fourier-features	random Fourier features	L.kernel.approx	instantiates	method									
+M.random-svd-sketching	random SVD sketching	L.dimred.rand	instantiates	method									
+M.random-forest	random forest	L.bag	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.random-kitchen-sinks	random kitchen sinks	L.kernel.approx	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.random-effects-meta-analysis	random-effects meta-analysis	L.lin.mixed	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.random-walk-mh	random-walk MH	L.mcmc.mh	instantiates	method									
+M.randomisation-test	randomisation test	L.boot.perm	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.randomised-svd	randomised SVD	L.dimred.var	instantiates	method									
+M.recursive-feature-elimination	recursive feature elimination	L.prep.select	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.reductions-approach	reductions approach	L.fair.in	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.reject-option-classification	reject-option classification	L.fair.post	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.reweighing	reweighing	L.fair.pre	instantiates	method									
+M.ridge	ridge	L.lin.pen	instantiates	method									
+M.ridge-closed-form	ridge closed form	L.ls	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.rotation-forest	rotation forest	L.bag	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.self-normalised-ips	self-normalised IPS	L.bandit.ope	instantiates	method									
+M.sharp-regression-discontinuity	sharp regression discontinuity	L.causal.disc	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.shortest-paths	shortest paths	L.graphalg	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.simulated-annealing	simulated annealing	L.derivfree.anneal	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.simulated-tempering	simulated tempering	L.mcmc.temper	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.single-complete-average-ward-linkage	single/complete/average/Ward linkage	L.clust.hier	instantiates	method									
+M.slice-sampling	slice sampling	L.mcmc.gibbs	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.soft-impute	soft-impute	L.dimred.mf	instantiates	method									
+M.sparse-nmf	sparse NMF	L.dimred.parts	instantiates	method									
+M.sparse-pca	sparse PCA	L.dimred.var	instantiates	method									
+M.sparse-autoencoders	sparse autoencoders	L.interp.dict	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.sparse-random-projection	sparse random projection	L.dimred.rand	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.spectral-clustering	spectral clustering	L.clust.graph	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.stratified-cv	stratified CV	L.boot.cv	instantiates	method									
+M.structural-time-series	structural time series	L.seq.ts	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.structured-svm	structured SVM	L.kernel.svm; L.seq.crf	instantiates	method									
+M.structured-perceptron	structured perceptron	L.seq.crf	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.synthetic-did	synthetic DiD	L.causal.panel	instantiates	method									
+M.synthetic-control	synthetic control	L.causal.panel	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.t-sne	t-SNE	L.dimred.dist	instantiates	method									
+M.t-test	t-test	L.test	instantiates	method									
+M.time-series-cv	time-series CV	L.boot.cv	instantiates	method									
+M.total-least-squares	total least squares	L.lin.ols	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.transcoders	transcoders	L.interp.dict	instantiates	method									
+M.truncated-svd	truncated SVD	L.ls	instantiates	method									
+M.two-way-fixed-effects	two-way fixed effects	L.causal.panel	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.uplift-modelling	uplift modelling	L.causal.hte	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.user-knn-and-item-knn-cf	user-kNN and item-kNN CF	L.rec.cf	instantiates	method									
+M.variational-em	variational EM	L.em	instantiates	method									
+M.wake-sleep	wake-sleep	L.vae	instantiates	method									
+M.weighted-k-nn	weighted k-NN	L.inst	instantiates	method									
+M.weighted-least-squares	weighted least squares	L.lin.ols	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
