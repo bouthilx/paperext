@@ -43,8 +43,10 @@ pairs are why runs exist** — three optimisers on three models is nine runs ove
 3×3 grid of two independent entity types, not nine models.
 
 **A run's participants are constrained by `execution_mode`**: an `inference` run
-has a model and **no algorithm**; `train` and `finetune` runs have both. Since
-`algorithms[]` holds *learning* algorithms only, this is a checkable invariant.
+has a model and **no parameter-updating algorithm** — though it may still carry
+the preprocessing the model requires; `train` and `finetune` runs have both. The
+invariant is checkable *because* the `role` axis (B.2) names which slot an
+algorithm fills. Before the scope widened it was checkable by entity type alone.
 
 ## A.3 Settled, inherited from the models work — do not re-litigate
 
@@ -52,8 +54,16 @@ has a model and **no algorithm**; `train` and `finetune` runs have both. Since
   object* — parameters describable and runnable independently of the procedure
   that produced them. Otherwise it is an **algorithm**, and a run may carry an
   algorithm with **no model**.
-- **`algorithms[]` is strictly *learning* algorithms.** Inference-time
-  procedures — beam search, sampling schedules, test-time planning — are out.
+- **`algorithms[]` holds the *learning procedure*, not only the learning.**
+  *Widened by the owner, 2026-10-06*, replacing "strictly learning algorithms":
+  data preprocessing, experience generation, configuration search and
+  post-training compression are all in, because each is part of producing the
+  learned object. The boundary is the **artifact test** — *a procedure is an
+  algorithm if running it changes or determines the learned object.* Out:
+  procedures that only consume a finished model without changing it — beam
+  search, nucleus sampling, test-time retrieval, channel decoding. Bounded the
+  way models bounded itself: **named procedures only** (`CutMix`, never "we
+  normalised the images").
 - **Backbone test.** A paradigm that leaves network topology unchanged and alters
   only the **training objective or sampling procedure** is an algorithm. Settled:
   GFlowNet (its papers use Transformer backbones — the owner's evidence),
@@ -112,18 +122,83 @@ That is what caught `Spiking neural network` sitting beside `Transformer`
 (a spiking CNN exists), and then `Autoencoder` beside it (a convolutional *and* a
 transformer autoencoder exist).
 
-## B.2 What has to be decided
+## B.2 Decided in the structural discussion (owner, 2026-10-06)
 
-- **Is it faceted, and on which axes?** Or is the backbone a single
-  characteristic — and if so, which?
-- **How RL fits.** 112 of v0's `algorithms` nodes were RL. The routed set is RL-
-  and SSL-heavy: ~13 RL update rules, 5 SSL objectives, 6 optimizers/distributed
-  methods, 4 domain-adaptation methods.
-- **Whether optimizers are a separate kind.** `adam`/`adamw` were extracted into
-  `libraries[]` — a #94 defect, but it hints the field treats them as tooling.
-- **What an "algorithm" is at the right grain**: is `PPO` a sibling of `Adam`?
-  They are both procedures that change parameters, and nothing else about them is
-  alike.
+### The sibling test for this dimension
+
+The models axis-admission test has a sharper, mechanical form here:
+
+> **Two algorithms that run together in a single training run cannot be
+> siblings.** Siblings are alternatives for the same slot.
+
+`PPO` is not a sibling of `Adam`. PPO fixes the objective (clipped surrogate) and
+the experience source (on-policy rollouts), then delegates the parameter step to
+Adam. A tree that makes them siblings asserts a choice nobody ever makes. A real
+setup stacks several algorithms at once — LoRA + instruction tuning + AdamW is
+three algorithms, three slots, one run.
+
+### Faceted, on four axes — and *not* by porting models
+
+The honest single-tree candidate was **learning signal** (supervised / RL /
+self-supervised / unsupervised / causal), which is how the field talks. It fails
+on this vocabulary: at least 13 of the 114 are **signal-agnostic** —
+`clipped-sgd`, `clipped-sgda`, `clipped-sstm`, `clipped-seg`, `byz-vr-marina`,
+`gradient descent`, `slowmo`, `papa`, `fedavg`, `lora`, `polytropon`, `mixup`,
+`mixupe` — and the widened scope (A.3) adds the preprocessing entries to them.
+Under a signal tree they are homeless: the same defect as the efficient-attention
+families in models, caught before building instead of after.
+
+The second failure is combinatorial, and it is the spiking-CNN case again: **`SPR`
+is an RL algorithm that learns from self-prediction**; `ConSpec` is RL that learns
+from contrast. An RL tree or an SSL tree misfiles both.
+
+| axis | what it is | cardinality |
+|---|---|---|
+| **lineage** | descent — `REINFORCE → A2C → PPO`; `DQN → Rainbow → {C51, QR-DQN, IQN}`; `SGD → clipped-SGD → clipped-SSTM`. The aggregation surface. | parent set |
+| **signal** | where the training target comes from: label, reward, reconstruction, agreement, score/denoising, likelihood, equilibrium, causal contrast | many, unions |
+| **role** | which slot of the procedure it fills: data preparation · experience generation · objective/estimator · parameter update rule · parameter subset · coordination · configuration search · compression | many, unions |
+| **attributes** | on/off-policy · model-based/free · value/policy · online/offline · centralised/decentralised · federated | per-family, as in models |
+
+Four axes again — flagged rather than hidden. But only **lineage** is ported, for
+a stated reason: the aggregation need is identical. `role` and `signal` are new
+and come from this vocabulary; connectivity and topology have no analogue here.
+The axis *values* above are a starting hypothesis for phase 1, not a fixed list.
+Axes may carry internal hierarchy, as the models axes do.
+
+**`role` survives the test that killed three models characteristics.** Those were
+rejected for being properties of a layer, an application or a *use*. Does Adam
+ever fill a slot other than the parameter update? Does mixup ever do anything but
+prepare data? Does PPO ever not be the policy objective? Role is stable per
+algorithm, not per use.
+
+### RL is a value, not a level
+
+`reward` is a value on **signal**; the RL families live on **lineage**. RL is ~40%
+of this vocabulary and was 112 of v0's algorithm nodes — under *never rebalance*
+that is a finding to report, not a reason to build an RL root. Making it a value
+is what lets `SPR` carry both `reward` and `agreement`.
+
+### Optimizers are a role value, not a separate kind
+
+Not libraries, not siblings of PPO. The `clipped-sgd` / `clipped-sstm` /
+`byz-vr-marina` cluster is optimisation-theory contribution with real lineage
+(convergence under heavy-tailed noise, under Byzantine workers) and belongs.
+
+### Three owner rulings
+
+1. **Classical ML and statistics are covered**, not only deep learning. `t-sne`,
+   `phate`, `k-nearest neighbors`, `erm` and the CATE meta-learners
+   `s-/t-/x-/r-/dr-learner` are in, and the structure must have somewhere to put
+   them that is not an afterthought.
+2. **Scope is the learning procedure, not learning per se** — the revised A.3
+   bullet and its artifact test. This admits `t-sne`/`phate` (running them
+   produces the embedding) and `k-nearest neighbors` (nonparametric: an algorithm
+   with no model, a legal state). It leaves `orbgrand` as the one likely
+   exclusion — GRAND is channel decoding and changes no learned object.
+3. **An ambiguous bare string gets no node.** `iql` is both Implicit Q-Learning
+   and Independent Q-Learning. Only the spelled-out forms are nodes; resolving
+   the bare string needs **paper context**, which makes it an extraction-time
+   question, not an alias. Ties are rejected, never guessed (B.5).
 
 ## B.3 Method
 
@@ -222,6 +297,14 @@ contributed-vs-used error #89 exists to prevent.
   tables, not ontology dimensions, until converted.
 - [ ] `adam`/`adamw`/`bert` in `libraries[]` and `pytorch` in `models[]` are
   extraction defects on the #94 list.
+- [ ] **The widened scope costs #94 an invariant.** `execution_mode: inference`
+  no longer implies an empty `algorithms[]`, since preprocessing may be named.
+  The check becomes "no algorithm whose `role` is `parameter update rule`" —
+  which only works once the role axis exists and `runs[]` lands.
+- [ ] The `generic`/`quarantine` line has to be drawn again for this dimension.
+  The widened scope invites unnamed procedure descriptions ("data augmentation",
+  "fine-tuning"); the named-procedures-only rule is what keeps it bounded, and it
+  needs the same `ROUTING.tsv` treatment models gave it.
 - [ ] Whether **libraries** are a third participant in a run (`MODELS_BRIEF`
   Part C) — `DeepSpeed`/`FSDP` are configuration, but library-based inference of
   parallelism is too imprecise to replace an explicit field.
