@@ -42,11 +42,12 @@ Entity lists are dimension tables; `runs` is the fact table. **(Model, Algorithm
 pairs are why runs exist** — three optimisers on three models is nine runs over a
 3×3 grid of two independent entity types, not nine models.
 
-**A run's participants are constrained by `execution_mode`**: an `inference` run
-has a model and **no parameter-updating algorithm** — though it may still carry
-the preprocessing the model requires; `train` and `finetune` runs have both. The
-invariant is checkable *because* the `role` axis (B.2) names which slot an
-algorithm fills. Before the scope widened it was checkable by entity type alone.
+**`execution_mode` no longer constrains *whether* a run has algorithms** — an
+`inference` run carries its preprocessing and its decoder. It constrains which
+**roles** may appear: no `parameter update rule` under `inference`. The invariant
+survives the widening only because `role` is an axis (B.2); before the widening
+it was checkable from entity type alone. This is the clearest argument that the
+role axis is load-bearing rather than decorative.
 
 ## A.3 Settled, inherited from the models work — do not re-litigate
 
@@ -54,16 +55,28 @@ algorithm fills. Before the scope widened it was checkable by entity type alone.
   object* — parameters describable and runnable independently of the procedure
   that produced them. Otherwise it is an **algorithm**, and a run may carry an
   algorithm with **no model**.
-- **`algorithms[]` holds the *learning procedure*, not only the learning.**
-  *Widened by the owner, 2026-10-06*, replacing "strictly learning algorithms":
-  data preprocessing, experience generation, configuration search and
-  post-training compression are all in, because each is part of producing the
-  learned object. The boundary is the **artifact test** — *a procedure is an
-  algorithm if running it changes or determines the learned object.* Out:
-  procedures that only consume a finished model without changing it — beam
-  search, nucleus sampling, test-time retrieval, channel decoding. Bounded the
-  way models bounded itself: **named procedures only** (`CutMix`, never "we
-  normalised the images").
+- **`algorithms[]` holds every procedure a run executes, not only learning.**
+  *Widened twice by the owner, 2026-10-06* — from "strictly learning algorithms",
+  through a learning-procedure scope, to the **participant rule**:
+
+  > An algorithm is a **named procedure a run executes**: preparing the data,
+  > producing or adapting the learned object, or using it to produce outputs.
+
+  So data preprocessing, experience generation, configuration search,
+  post-training compression, **decoding and test-time search** are all in. Beam
+  search is in: it decides which token is selected, so two papers reporting the
+  same metric under different decoders are not reporting the same number, and
+  that variance is exactly what a review of this kind has to see.
+
+  Out are the things that are not procedures — datasets, libraries, hardware, and
+  the learned object itself. This defines the dimension by **entity type**, not by
+  a boundary in the pipeline, which is why it needs no test about *when* a
+  procedure runs. It restores the symmetry of the four lists: models are the
+  learned object, datasets the data, libraries the implementations, algorithms the
+  procedures.
+
+  **Named procedures only** (`CutMix`, never "we normalised the images"). Naming
+  is what bounds the dimension now that topic does not.
 - **Backbone test.** A paradigm that leaves network topology unchanged and alters
   only the **training objective or sampling procedure** is an algorithm. Settled:
   GFlowNet (its papers use Transformer backbones — the owner's evidence),
@@ -90,13 +103,17 @@ algorithm fills. Before the scope widened it was checkable by entity type alone.
 - **Non-ML entries are `out-of-scope`**, deliberately distinct from
   `misextraction`.
 
-## A.4 MCTS, the declared boundary case
+## A.4 MCTS — a boundary case that dissolved
 
-Training-time target generation is a learning algorithm; test-time planning is
-not. MuZero, DreamerV2, PlaNet and QMIX were all ruled algorithm-side although
-each specifies networks — a reviewer wanting "proportion of papers using
-Dreamer" countable in the **models** dimension will disagree, and that is on
-record.
+It was declared because the old scope needed a line between training-time target
+generation (in) and test-time planning (out). The participant rule needs no such
+line: MCTS is in either way, and so is beam search. The widening removed a
+distinction the design was straining to draw.
+
+What stays on record is a *different* objection, untouched by this: MuZero,
+DreamerV2, PlaNet and QMIX were ruled algorithm-side although each specifies
+networks, and a reviewer wanting "proportion of papers using Dreamer" countable
+in the **models** dimension will disagree.
 
 ---
 
@@ -156,7 +173,7 @@ from contrast. An RL tree or an SSL tree misfiles both.
 |---|---|---|
 | **lineage** | descent — `REINFORCE → A2C → PPO`; `DQN → Rainbow → {C51, QR-DQN, IQN}`; `SGD → clipped-SGD → clipped-SSTM`. The aggregation surface. | parent set |
 | **signal** | where the training target comes from: label, reward, reconstruction, agreement, score/denoising, likelihood, equilibrium, causal contrast | many, unions |
-| **role** | which slot of the procedure it fills: data preparation · experience generation · objective/estimator · parameter update rule · parameter subset · coordination · configuration search · compression | many, unions |
+| **role** | which slot of the pipeline it fills: data preparation · experience generation · objective/estimator · parameter update rule · parameter subset · coordination · configuration search · compression · **output generation/decoding** · **test-time search** · **test-time adaptation** | many, unions |
 | **attributes** | on/off-policy · model-based/free · value/policy · online/offline · centralised/decentralised · federated | per-family, as in models |
 
 Four axes again — flagged rather than hidden. But only **lineage** is ported, for
@@ -190,11 +207,16 @@ Not libraries, not siblings of PPO. The `clipped-sgd` / `clipped-sstm` /
    `phate`, `k-nearest neighbors`, `erm` and the CATE meta-learners
    `s-/t-/x-/r-/dr-learner` are in, and the structure must have somewhere to put
    them that is not an afterthought.
-2. **Scope is the learning procedure, not learning per se** — the revised A.3
-   bullet and its artifact test. This admits `t-sne`/`phate` (running them
-   produces the embedding) and `k-nearest neighbors` (nonparametric: an algorithm
-   with no model, a legal state). It leaves `orbgrand` as the one likely
-   exclusion — GRAND is channel decoding and changes no learned object.
+2. **Scope is every procedure a run executes** — the participant rule in A.3.
+   This admits `t-sne`/`phate` (running them produces the embedding),
+   `k-nearest neighbors` (nonparametric: an algorithm with no model, a legal
+   state) and `orbgrand` (channel decoding is output generation). **Nothing in
+   the 114 is excluded by scope.** What the dimension excludes is non-procedures,
+   and unnamed descriptions of procedures.
+
+   Precision is not lost to the widening: counting is non-exclusive and `role` is
+   an axis, so "training-time algorithms only" is a filter, not a scope decision.
+   That is the point of putting role on an axis instead of in the tree.
 3. **An ambiguous bare string gets no node.** `iql` is both Implicit Q-Learning
    and Independent Q-Learning. Only the spelled-out forms are nodes; resolving
    the bare string needs **paper context**, which makes it an extraction-time
@@ -298,9 +320,15 @@ contributed-vs-used error #89 exists to prevent.
 - [ ] `adam`/`adamw`/`bert` in `libraries[]` and `pytorch` in `models[]` are
   extraction defects on the #94 list.
 - [ ] **The widened scope costs #94 an invariant.** `execution_mode: inference`
-  no longer implies an empty `algorithms[]`, since preprocessing may be named.
-  The check becomes "no algorithm whose `role` is `parameter update rule`" —
-  which only works once the role axis exists and `runs[]` lands.
+  no longer implies an empty `algorithms[]` — it carries preprocessing and a
+  decoder. The check becomes "no algorithm whose `role` is `parameter update
+  rule`", which needs the role axis built and `runs[]` landed.
+- [ ] **Where metrics sit is the one line the participant rule still needs.**
+  Beam search is in because it *determines* the output; BLEU only *measures* it,
+  and `ROUTING.tsv` currently calls a metric a misextraction. That holds only
+  while metrics have no dimension of their own — worth revisiting with #93/#94,
+  since "which metric was reported" is as much a review question as "which
+  decoder".
 - [ ] The `generic`/`quarantine` line has to be drawn again for this dimension.
   The widened scope invites unnamed procedure descriptions ("data augmentation",
   "fine-tuning"); the named-procedures-only rule is what keeps it bounded, and it
