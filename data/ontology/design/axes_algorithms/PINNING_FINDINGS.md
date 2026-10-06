@@ -12,6 +12,23 @@ the models dimension. It was.
 
 ---
 
+## 0. What the pass found that the pass was not built to find
+
+Three of the largest findings were **invisible to the check written for them**.
+Rule 4 said: if nothing fits, leave it blank and report it. That finds *absence*.
+It cannot find a pin that exists and is **wrong or too weak**:
+
+| finding | nodes | why `--homeless` missed it |
+|---|---|---|
+| the signal cross-product (SPR) | ~8 families | both facets have values; only their *pairing* is lost |
+| `S.src.ext` with no "measured outcome" child | 169 | they resolve to the interior node, so they are not homeless |
+| `A.deriv.closed` true-by-precedent, false-by-test | ~60 | a value was pinned, following phase 1's own EM precedent |
+
+**Carry this to datasets:** a homelessness check validates coverage, not
+correctness. Catching the other class took asking the agents to report *doubts*,
+not just failures — which is why the `## Tensions` and "anything that made you
+doubt an axis" sections earned more than the pins did.
+
 ## 1. Reliability: 91%
 
 187 nodes fall in two regions through multi-parent edges, so they were pinned
@@ -80,7 +97,19 @@ evidence of a conflation**, and the two must not be confused:
 
 ## 3. The homeless clusters
 
-### 3a. No signal value for "a measured held-out score" — 23 nodes, found by four regions independently
+### 3a. No signal value for "the response variable was measured in the world" — 169 nodes
+
+**The largest gap in the pass.** `S.src.ext` has children for human, model, rule,
+preference, demonstration and naturally co-occurring pairs — and none for a
+measured outcome. So 169 nodes across the classical branch sit parked on the
+*interior* node `S.src.ext`, and every `S.src.ext.*` roll-up will read "unknown
+annotation type" when the truth is "no annotator exists". Proposed
+`S.src.ext.obs`.
+
+This is the clearest case of the blind spot in §0: those nodes resolve to a
+value, so `--homeless` never names them.
+
+### 3a-bis. No signal value for "a measured held-out score" — 23 nodes, found by four regions independently
 
 `L.hpo` 10 · `L.nas` 7 · `L.automl` 6. **Four of six regions proposed this gap
 without knowing the others had**, under four different names: `S.form.sel.metric`
@@ -230,3 +259,59 @@ worth reporting, not a gap: that region is entirely empirically justified.
   the regions judge roughly three quarters false positives (lowercase by
   convention: behaviour cloning, label propagation, fictitious play) and name
   ~35 genuine deletions.
+
+
+## 9. The granularity question, measured
+
+The classical region was asked how often it pins more roles per node than the
+deep branch does, because that decides whether role roll-ups are comparable.
+
+Roles per method: 1 → 184 · 2 → 97 · 3 → 49 · 4 → 14 · 5 → 2 · none → 4.
+**Mean 1.69, 46% at two or more, 19% at three or more.** Phase 1's worked
+examples average ≈1.5 with ~8% at three or more.
+
+**They are not comparable, and the reason is sharper than the averages.** Phase
+1's ≥3 cases are all acknowledged bundles — DQN, MuZero, XGBoost, FixMatch. The
+classical ≥3 cases are *ordinary single-contribution papers*: k-means, random
+forests, CRFs, change-point detection, AdaBoost, causal forest. So the excess is
+not bundling, it is that classical methods are *named at whole-run grain*.
+
+Two measurements make it concrete: `R.fit.update` is carried by 118 nodes of
+which ~60 are tree or structure growth rather than a step rule, and `R.fit.est`
+is carried by 148 of 350 classical methods (42%) against a rare slot in the deep
+branch. And **`kind=bundle` is set on 2 nodes while 65 behave as bundles** — the
+composite marker the owner approved is needed on an order of magnitude more
+nodes than were hand-seeded.
+
+## 10. `divides` edges should not propagate axis values
+
+**52 of the classical region's 159 negative pins exist only to undo a
+multi-parent `divides` edge.** `M.viterbi` needs eight; `L.hpo.model` seven;
+simulated annealing and basin hopping six each.
+
+This is the same root cause as §6, measured from the other side: a `divides` edge
+says "this node is one of the ways its parent subdivides", which is a *statement
+about the parent's characteristic*, not an inheritance of the parent's axis
+values. Propagating values along it manufactures contradictions that then need
+denials. The clean rule is that only `derives-from` and `instantiates` edges
+carry axis values — which also makes rule 1 well-defined.
+
+## 11. Three late phase-1 additions, judged
+
+- **`S.form.moment` — load-bearing.** 34 pins, and without it every CATE, IV,
+  GEE, GMM, IPS and TMLE node is form-less. It is also the only home for
+  cumulant-matching ICA. Weakness: it does not separate just-identified
+  estimating equations from over-identified GMM.
+- **`A.guar` — necessary but incomplete.** 146 pins, but `cert` 0, `approx` 2,
+  `regret` 1, while the two claims classical work actually makes have no value:
+  **asymptotic coverage** (`A.guar.cover` explicitly excludes it, leaving 90
+  interval-valued nodes with no guarantee) and **test-level or FDR control**.
+- **`R.out.predict` — necessary, now overloaded.** 63 pins doing three jobs:
+  nonparametric prediction, structured decoding, and transductive grouping
+  (DBSCAN, Louvain, PageRank) — for which its parent `R.out`'s characteristic,
+  "between a trained model and an emitted result", is simply false.
+
+Also: **`S.form.post`'s positive test says "approached by sampling"**, which
+excludes the closed-form posteriors of GPs, Kalman filters, Laplace approximation
+and expectation propagation — roughly 25 of its 53 pins contradict their own
+test.
