@@ -1,0 +1,144 @@
+# Placement of WORKLIST_A against the faceted models ontology (MODELS_AXES.md).
+# One row per input name. Columns:
+#   name        -- the corpus string, verbatim from WORKLIST_A.tsv
+#   verdict     -- lineage | alias | generic | algorithm | quarantine | misextraction | unsure
+#   target      -- lineage: the R1 PARENT node_id (| separates R5 second parents).
+#                  alias: the node_id it spells. Otherwise empty.
+#   connectivity / topology / attributes -- for `lineage`, ONLY what the node pins
+#                  beyond what resolve.py already gives its parent; for `generic`,
+#                  everything the NAME ALONE pins. node_ids, | separated.
+#   confidence  -- high | medium | low
+#   why         -- the rule or framing that decides it
+#
+# Produced 2026-10-06. Companion: PLACEMENT_A_NOTES.md.
+name	verdict	target	connectivity	topology	attributes	confidence	why
+simclr	algorithm					high	Contrastive SSL objective over an unchanged backbone; settled algorithm-side by the backbone test.
+byol	algorithm					high	Self-distillation SSL objective with an EMA target; the encoder is an unchanged ResNet/ViT. Same class as SimCLR.
+dqn	algorithm					high	Value-learning algorithm; settled algorithm-side. The network it trains is a plain CNN or MLP.
+barlow twins	algorithm					high	Redundancy-reduction SSL objective on a joint-embedding pair; backbone unchanged.
+soft actor-critic (sac)	algorithm					high	Maximum-entropy off-policy RL algorithm; the actor and critic are generic MLPs.
+dino	lineage	vit				medium	Released ViT checkpoints that papers execute; DINOv2 is already a node under ViT, so its predecessor release is treated the same. The self-distillation objective itself is algorithm-side. Pins nothing beyond ViT. See notes: DINO/DINOv2/MAE/V-JEPA are the same judgement call (L-18).
+gflownets	algorithm					high	GFlowNet is settled algorithm-side: a training procedure for a sequential sampler; the sampler is an arbitrary backbone.
+neural networks	quarantine					high	Uninformative generic, quarantined exactly as the brief's 4.7 row and as `machine learning` was in the domains design.
+proximal policy optimization	algorithm					high	PPO; settled algorithm-side.
+gearnet	lineage	gnn	spatial-message-passing			medium	R1: the paper's own expansion is `GeomEtry-Aware Relational Graph Neural Network`, so the GNN edge is a framing claim. Relational edge-type message passing refines the parent's `Message passing`.
+conservative q-learning (cql)	algorithm					high	Offline RL objective (a Q-value regulariser); leaves the network unchanged.
+gpt-3.5-turbo	lineage	gpt35				high	R3: a separately named release under GPT-3.5, not a spelling of it. Pins nothing new. Proposed node_id gpt35_turbo; `gpt-3.5 turbo` in this same worklist is its orthographic alias.
+multilayer perceptron (mlp)	alias	mlp				high	R3 case 2: long form plus declared acronym of the root node `Feedforward network (multilayer perceptron)`. `multilayer perceptron` is already in SPELLINGS.tsv at priority 1.
+starcoder	lineage	transformer		causal-decoder		medium	Decoder-only code LLM. Its literal R1 parent is StarCoderBase (`we fine-tuned StarCoderBase ... resulting in StarCoder`), which is not a node; `Transformer` is the nearest existing descent parent. Topology must be pinned because the Transformer root deliberately pins none (L-10).
+two-layer neural network	generic		fully-connected	single-component		high	A generic description. Depth and width are paper facts, not axis values; the name alone pins only a dense feedforward net.
+autoencoder	generic			encoder-decoder	deterministic-latent	high	MODELS_AXES is explicit: `Autoencoder` is neither a lineage node nor a topology value. The name pins encoder-decoder topology and a deterministic latent; the reconstruction target is the algorithms-dimension residue.
+codegen	lineage	transformer		causal-decoder		medium	Autoregressive code LLM released as its own family (350M/2B/6B/16B). Same shape as StarCoder.
+diffpret	algorithm					high	`pre-train a protein encoder by sequence-structure joint diffusion modeling` -- an objective over an unchanged encoder. Diffusion is settled algorithm-side.
+dyngfn	algorithm					medium	A GFlowNet variant for cyclic causal structures; GFlowNet is settled algorithm-side. The paper calls it an architecture, and its hypernetwork sampler is architectural -- flagged in notes.
+faenet	lineage	gnn	spatial-message-passing			medium	R1: `FAENet: a simple, fast and expressive GNN`. Deliberately drops symmetry-preserving constraints, which is the symmetry default, so nothing to pin there.
+gpt-4v	lineage	gpt4				high	R3: a separately named release of GPT-4 (vision). No axis value for input modality, so it pins nothing -- see notes.
+graphically structured diffusion model (gsdm)	algorithm					medium	Diffusion is settled algorithm-side. Its architectural content is an attention mask derived from problem structure, which is attributes=sparse-attention on a Transformer backbone, not a new lineage.
+lagg-a	unsure					low	A learned optimizer. Is a parameterised optimizer a model (the authors call LAgg-A an architecture, and it is a small network with its own wiring) or part of the training procedure, i.e. algorithm-side? The design rules do not decide this, and the answer governs a whole class of learned-optimization names.
+lopt-a	unsure					low	Same question as LAgg-A: the worker-invariant learned optimizer from the same paper. Model-side or algorithm-side is undecided by the current rules.
+midjourney	unsure					low	BOUNDARY_CASES L-24 already defers this one by name: no vendor architecture statement exists, so a parent would be a guess. Left for a design pass, not resolved here.
+multi-layer perceptron (mlp)	alias	mlp				high	R3 case 1+2: hyphenation variant of the long form plus the declared acronym.
+rapidbrachymctps	misextraction					high	RapidBrachyMCTPS is Monte Carlo brachytherapy treatment-planning software, not a learned model. Same class of defect as `pytorch`.
+siamdiff	algorithm					medium	`Siamese Diffusion Trajectory Prediction`, a pretraining method that enhances DiffPreT; an objective over an unchanged protein encoder.
+species distribution models (sdms)	generic					medium	A task-defined class (predicting a species' niche), realised as GLMs, MaxEnt or random forests. It pins nothing on any model axis; what it names belongs to the task/domain dimension. See notes.
+swav	algorithm					high	Swapped-assignment clustering SSL objective; backbone unchanged.
+vit-b/16	lineage	vit				high	R3: a separately named release (size + patch size). Size variants are nodes, never aliases. Pins nothing beyond ViT.
+adaptive-	algorithm					high	`Adaptive-eta`, a learning-rate adaptation module -- squarely optimization, algorithm-side. The trailing character was lost in extraction (see notes).
+aicom-mp	unsure					low	A named application system (a monkeypox image detector). Neither the name nor the quote states an architecture, so any R1 parent would be a guess. Is it a model release at all, or a deployed system?
+alphacode	lineage	transformer		encoder-decoder		medium	A named code-generation model; DeepMind describes an encoder-decoder Transformer. Topology pinned because the Transformer root pins none.
+autogpt	misextraction					medium	An open-source agent framework that calls a language model; it is software, not a learned model. If agent scaffolding is wanted as a concept it is algorithm-side, not models[].
+bayesian neural network (bnn)	generic				bayesian-weights	high	BOUNDARY_CASES L-20 deleted this from lineage: it is attributes=bayesian-weights on whatever lineage the paper names. The connectivity comes from the paper, not from the name. SPELLINGS.tsv header calls out the wrong `Bayesian network` pairing explicitly.
+best response shaping (brs)	algorithm					medium	An opponent-shaping training approach for multi-agent RL; it changes who the agent trains against, not the network.
+big-g sparse	lineage	transformer		causal-decoder	conditional-computation	medium	Google's Switch-style sparse model family evaluated in BIG-bench, named and reported as a distinct family from dense BIG-G. MoE routing is the pin that separates it.
+bmg	algorithm					medium	Bootstrapped Meta-Gradients: a meta-gradient training procedure; the agent architecture is unchanged.
+c51	algorithm					high	Categorical/distributional Q-learning; a change of the learning target, not the network.
+chatgpt-3.5	alias	chatgpt				medium	The ChatGPT product on its GPT-3.5 backend; the quote uses bare `ChatGPT`. Ambiguous between the `ChatGPT` and `GPT-3.5` nodes, which L-24 keeps separate -- flagged in notes rather than claimed as certain.
+clipped-sgd	algorithm					high	An optimizer (gradient clipping + SGD). Optimizers are algorithm-side; one landing in models[] is the mirror of adam landing in libraries[].
+clipped-sstm	algorithm					high	Clipped Stochastic Similar Triangles Method -- an accelerated optimizer.
+conditionally optimistic exploration (coe)	algorithm					high	An exploration procedure for RL; leaves the network unchanged.
+contrastive retrospection (conspec)	algorithm					high	Self-described: `a new RL algorithm ... can be added to any existing RL algorithm`. That is the backbone test's definition of algorithm-side.
+contriever + flan-t5	unsure					medium	Not one name: a retriever-plus-reader pipeline string. It should be split into Contriever (a BERT-family dense retriever, no node yet) and Flan-T5 (already a node). The verdict set has no value for a composite configuration string -- see notes.
+coop-cbm	unsure					medium	A named design (cooperative Concept Bottleneck Model), but its R1 parent is `Concept bottleneck model`, which does not exist in lineage. R7 forbids me creating that grouping/family node, so this is flagged for a design pass rather than attached to a backbone it does not descend from.
+criticsmc	algorithm					high	Self-described: `a new algorithm for planning as inference` built from sequential Monte Carlo plus learned heuristic factors -- a sampling procedure.
+crystal-gfn	algorithm					medium	A GFlowNet for crystal structures; GFlowNet is settled algorithm-side. What is new is the state/action space and reward, not a network design.
+dart	lineage	transformer		causal-decoder	quantized-latent	low	A transformer world model plus policy over discrete (codebook) tokens. Read as a named architecture it is a Transformer child; read as `a sample-efficient method` (its own words) it is algorithm-side. Low confidence, flagged.
+decision transformer (dt)	alias	decision_transformer				high	R3 case 2: long form plus declared acronym of the existing node.
+deep q networks (dqn)	algorithm					high	DQN; settled algorithm-side. Long-form spelling of the same algorithm, but with no lineage node to alias to, the verdict is the algorithm verdict.
+deep q-network	algorithm					high	DQN again, singular/hyphenated. Algorithm-side.
+denoising diffusion probabilistic models	algorithm					high	Diffusion is settled algorithm-side; DDPM is the canonical formulation. The network it trains is a U-Net.
+deup	algorithm					medium	Direct Epistemic Uncertainty Prediction: a framework that fits a secondary error predictor. The secondary predictor is an unconstrained backbone; what is named is the estimation procedure.
+diffusion ensembles for capturing uncertainty (decu)	algorithm					medium	A framework for estimating epistemic uncertainty in diffusion models by ensembling; both ingredients are algorithm-side. Residue: the ensembling is topology=ensemble on whatever backbone is used.
+dinosaur	lineage	slot_attention				medium	Object-centric model: Slot Attention over frozen DINO ViT features with feature reconstruction. R1 names slot attention; an R5 second parent (ViT/DINO) is arguable since the encoder is frozen and supplies the features the slots bind to.
+dlinear	lineage	linear_model				medium	A one-layer linear forecaster with trend/seasonal decomposition, introduced as the LTSF-Linear family. Pins nothing new: Linear model already gives fully-connected + single component. The decomposition front end has no axis value.
+dpr + fid	unsure					medium	Same defect as `contriever + flan-t5`: a two-model pipeline string (DPR retriever + Fusion-in-Decoder reader), neither of which is a node yet. Needs splitting, not a verdict.
+drq	algorithm					high	Data-regularized Q: image augmentation plus Q-learning; the network is unchanged.
+dyg2vec	lineage	gnn	spatial-message-passing	encoder-decoder		medium	Self-described `encoder-decoder model for continuous-time dynamic graphs`, built on attention-based message passing over temporal neighbourhoods. The temporal-graph aspect has no axis value (see notes).
+dyrep	lineage	gnn	spatial-message-passing			medium	A representation-learning model over dynamic graphs: neighbourhood propagation driven by a temporal point process. The point-process part is a training objective; the wiring is message passing.
+egs_brachy graphical user interface (eb_gui)	misextraction					high	A graphical user interface for a Monte Carlo dose engine. Software, not a model -- the name says so.
+equibind	lineage	gnn	spatial-message-passing		euclidean-equivariance	medium	`an equivariant model that directly predicts the coordinates of the docked pose` -- an SE(3)-equivariant graph matching network. EGNN is a plausible R5/R1 alternative parent. Topology deliberately left inherited: the two graphs exchange messages at every layer, so `multi-tower` (combined only at the end) does not apply.
+film	unsure					medium	Feature-wise Linear Modulation is a conditioning layer, not a model and not a training procedure. L-06 states conditioning schemes are not lineage, but nothing in the design says where they go, and no axis has a value for conditioning. See notes.
+forcenet	lineage	gnn	spatial-message-passing			medium	`a scalable force-centric GNN that does not impose explicit physical constraints` -- R1 names GNN, and the explicit non-equivariance is the symmetry default, so there is nothing to pin.
+gatedgcn	lineage	gnn	spatial-message-passing		additive-residual	medium	Residual Gated Graph ConvNet (Bresson & Laurent). The quote itself notes the residual connections, which is the attribute pin. `gcn` is a possible alternative parent; the paper frames it from graph ConvNets plus edge gates.
+gcn (graph convolutional network)	alias	gcn				high	R3 case 2: acronym plus long form of the existing GCN node.
+gemini 1.5 pro	lineage	gemini			conditional-computation	medium	R3: a separately named release. The technical report describes it as a sparse mixture-of-experts Transformer, which is the one pin that differs from the Gemini parent.
+generative flow networks	algorithm					high	Long form of GFlowNet; settled algorithm-side, so it resolves to the algorithm, not to an alias.
+geossl-ddm	algorithm					high	Self-described `SE(3)-invariant denoising distance matching pretraining algorithm` -- an objective over an unchanged molecular encoder.
+ghn-3	lineage	gnn				low	Graph HyperNetwork (third generation): a GNN over a network's computational graph that predicts another network's parameters. The GNN edge is R1-grounded, but the axes have no value for a hypernetwork (a model whose output is another model's weights) -- see notes. Its true R1 parent GHN-2 is absent.
+goku-ui	lineage	vae				low	`an evolution of the SciML generative model GOKU-nets`: a VAE whose latent evolves under a learned ODE/SDE. Its literal R1 parent GOKU-net is absent, and Neural ODE is the natural R5 second parent but would wrongly import `standard convolution` (see notes). Latent-ODE dynamics have no connectivity value.
+google translate	lineage	transformer		encoder-decoder		low	A product name, which L-24 admits as a node under the family vendor documentation supports -- Google documents a Transformer NMT system since 2020. But the served system changed backbone (GNMT was LSTM-based), so this pin is time-dependent in a way the other L-24 products are not.
+gpt-3.5 turbo	alias	gpt35_turbo				high	R3 case 1: orthographic variant (space vs hyphen) of `gpt-3.5-turbo`, which this same file admits as a node under GPT-3.5. Target is that proposed node_id.
+gpt-4o	lineage	gpt4				medium	R3: a separately named release in the GPT-4 generation. No axis value for the omni/multimodal interface, so it pins nothing.
+gradient descent	algorithm					high	An optimizer. Belongs to the deferred algorithms dimension; it is not a model under any reading.
+graph convolutional network	alias	gcn				high	R3 case 2: the long form of GCN.
+graph convolutional networks	alias	gcn				high	R3 cases 2+3: plural of the long form of GCN.
+graphcg	algorithm					high	Self-described `model-agnostic and task-agnostic` unsupervised method for discovering steerable factors -- model-agnostic is the backbone test passing out loud.
+hausdorff factorized support (hfs)	algorithm					medium	A regulariser on the support of the learned representation (a disentanglement criterion); it changes the objective, not the network.
+independent proximal policy optimization (ippo)	algorithm					high	A multi-agent training scheme over PPO; algorithm-side.
+instructblip	lineage	blip				medium	A released instruction-tuned vision-language model. Instruction tuning is algorithm-side, but the released artifact is a node, exactly as Vicuna and Alpaca are nodes under LLaMA. Its literal R1 parent is BLIP-2, which is missing (see notes).
+itra	lineage	rnn		encoder-decoder	stochastic-latent	low	The quote states the design: a conditional variational recurrent neural network followed by a kinematic model. There is no `Variational RNN` family, so the stochastic latent and encoder-decoder shape are pinned directly on a Recurrent network child. The bicycle kinematic model is a non-learned component the axes cannot express.
+jumbot	algorithm					high	Unbalanced mini-batch optimal transport for domain adaptation; the quote itself calls the set it belongs to `PDA algorithms`.
+lag-llama	lineage	llama				medium	R1 by name and by framing: a decoder-only foundation model for probabilistic time-series forecasting built on the LLaMA architecture. Pins nothing new -- the lag-feature tokenization and the distributional output head are input/output choices no axis carries (see notes).
+latent bottlenecked attentive neural processes (lbanps)	lineage	neural_process	cross-attention			medium	R1: `a new computationally efficient sub-quadratic NP variant`. The latent bottleneck is a fixed set of latent vectors read by cross-attention, which the parent does not have.
+linear discriminant analysis (lda)	alias	lda_discriminant				high	R3 case 2: long form plus acronym of the existing node. Note this is LDA-the-discriminant, not LDA-the-topic-model -- both exist in lineage and the acronym is shared (see notes).
+local search gflownets (ls-gfn)	algorithm					high	A GFlowNet training procedure that adds local search in object space; explicitly a training-effectiveness change.
+long short-term memory (lstm)	alias	lstm				high	R3 case 2: long form plus declared acronym of the existing LSTM node.
+m2m-100	lineage	transformer		encoder-decoder		medium	A named many-to-many multilingual translation model release; encoder-decoder Transformer.
+maml	algorithm					high	Model-Agnostic Meta-Learning -- model-agnostic by name; a training procedure over any backbone.
+meshdiffusion	algorithm					medium	Diffusion applied to 3D meshes via deformable tetrahedral grids. Diffusion is settled algorithm-side; the denoiser is a 3D U-Net.
+meta-value learning	algorithm					high	A meta-learning procedure built on a surrogate meta-value function; the networks are unchanged.
+mixupe	algorithm					high	A data-augmentation/regularization scheme (an improvement of Mixup); nothing in the network changes.
+mosaiks	lineage	kernel_ridge	convolution			low	`Kitchen Sinks` in the expanded name is literal: random convolutional features followed by ridge regression, i.e. random-feature kernel ridge. The convolution pin is the random featurizer. Low confidence -- `Linear model` is a defensible alternative parent if the random features are read as preprocessing rather than as the model.
+mudiff	algorithm					medium	A diffusion generative model that co-generates 2D graph and 3D geometry; diffusion is settled algorithm-side. Its MUformer denoiser is a Transformer/GNN hybrid that could be a node if the owner wants denoiser architectures admitted.
+multi-headed bayesian deep learning probabilistic model	generic				bayesian-weights	medium	A generic description, not a named design. It pins Bayesian weights; `multi-headed` (one trunk, several output heads) has no axis value -- see notes.
+opt-1.3b	lineage	opt				high	R3: a separately named size release under OPT. Size variants are nodes, never aliases.
+pada	algorithm					high	Partial Adversarial Domain Adaptation; the quote groups it with `PDA algorithms`. A training scheme, not an architecture.
+papa	algorithm					high	PopulAtion Parameter Averaging -- a weight-averaging training method; the models averaged keep their architecture.
+perceiver io	lineage	perceiver		encoder-decoder		medium	R3/R1: a separately named release that adds an output-query cross-attention decoder, which is the topology pin. Note the parent Perceiver currently resolves to NO topology at all (see notes).
+phi 1.5	lineage	phi				high	R3: a separately named release under Phi.
+polytropon (poly)	algorithm					medium	A parameter-efficient fine-tuning method: an inventory of adapters plus a learned routing function. Adapters/LoRA are settled algorithm-side. Residue worth recording: the routing makes attributes=conditional-computation true of the fine-tuned model.
+prototypical networks	algorithm					medium	Episodic metric learning: a conv backbone plus a nearest-class-mean decision rule. The backbone is unchanged. Borderline -- it changes the prediction rule, not only the objective, so it is flagged in notes.
+protst	lineage	esm		multi-tower		low	The released artifact is a protein-sequence tower plus a biomedical-text tower aligned in a shared space, i.e. the CLIP shape; R5 composite with the text encoder (PubMedBERT, admitted elsewhere in this file). The multimodal pretraining objective itself is algorithm-side. Low confidence: the paper calls ProtST a framework, which would make it algorithm-only.
+pubmedbert	lineage	bert				high	R1+R3: a separately named domain-pretrained BERT release, exactly like BioBERT, SciBERT and ClinicalBERT, which are already nodes under BERT.
+qr-dqn	algorithm					high	Quantile-regression distributional Q-learning; a change of learning target.
+r-learner	algorithm					medium	A causal meta-learner: a Neyman-orthogonal estimation strategy that composes arbitrary base models. Model-agnostic, so algorithm-side. See notes on the S/T/X/R-learner family.
+raft	unsure					low	Ambiguous referent and the quote does not disambiguate: optical-flow RAFT (Recurrent All-Pairs Field Transforms -- a lineage node, CNN encoder plus a GRU update operator over a correlation volume) versus Reward rAnked FineTuning (algorithm-side). `training RAFT on different datasets` fits either.
+random forest classifier	alias	random_forest				medium	The same design named with its task. Strictly this is a fourth alias shape (task-suffixed form) that R3's three cases do not list -- see notes.
+reinforce	algorithm					high	The episodic policy-gradient estimator; the quote uses it as the optimization procedure.
+s-learner	algorithm					medium	A causal meta-learner (single regression on features plus treatment). Model-agnostic estimation strategy, algorithm-side.
+sac	algorithm					high	Soft Actor-Critic again, acronym-only. No lineage node exists to alias to, so the verdict is the algorithm verdict.
+sample-based expected utility (sbeu)	unsure					low	A cognitive process model of human decision making (sampling-based utility estimation), not a machine-learning architecture and not a training procedure for one. Neither the lineage root set nor the backbone test has anything to say about it. See notes: the corpus contains a class of domain simulation/process models the models dimension does not cover.
+sepformer	lineage	transformer		encoder-decoder	sparse-attention	medium	Masking-based speech separation: a learned convolutional encoder and decoder around a dual-path Transformer masker, hence the encoder-decoder pin. Dual-path chunking scores only intra- and inter-chunk pairs, which is sparse/local attention. CNN is a plausible R5 second parent for the learned front end.
+shallowconvnet	lineage	cnn	standard-convolution			medium	A named shallow EEG-decoding convnet (Schirrmeister et al.), the companion of DeepConvNet, and a sibling of the existing EEGNet node.
+siamese network	generic			multi-tower		medium	Names a shape, not a release: two identical towers over two inputs compared at the end. The weight tying between towers -- the thing that makes it Siamese -- has no axis value (see notes).
+simsiam	algorithm					high	A joint-embedding SSL objective with a stop-gradient; same class as BYOL and SimCLR.
+soft q-learning (sql)	algorithm					high	Maximum-entropy RL objective; algorithm-side.
+stacx	algorithm					medium	A self-tuning actor-critic variant of IMPALA driven by meta-gradients; a training procedure over an unchanged agent network.
+swift-dyngfn	algorithm					medium	A scalability-oriented DynGFN variant; inherits the GFlowNet verdict.
+t-learner	algorithm					medium	A causal meta-learner (two outcome models, one per treatment arm). Model-agnostic, algorithm-side.
+tankbind	lineage	gnn				low	A named binding-structure predictor: graph encoders for protein and ligand plus a trigonometry-aware interaction module predicting a distance map. The GNN edge is the best-supported one, but the paper's framing is about the trigonometry module and the pocket decomposition, so the parent is weak.
+thinker	algorithm					high	Self-described `the Thinker algorithm`: it wraps the environment in a learned world model and lets the agent plan in it; the agent network is unchanged.
+transfer entropy bottleneck (teb)	algorithm					medium	An information-bottleneck training objective on directed information transfer; what is learned is a model whose architecture the method does not fix.
+transunet	lineage	unet|transformer	self-attention			medium	R5 hybrid, and the quote is the framing claim verbatim: `the first model that combines Transformer and U-Net`. Topology (encoder-decoder), convolution and the concatenative skips all come from U-Net; the new pin is self-attention in the encoder.
+v-jepa	lineage	vit				medium	`a collection of vision models trained solely using a feature prediction objective` -- the released artifact is a ViT family, treated as MAE and DINOv2 are (L-18). The feature-prediction objective and the predictor are algorithm-side.
+videomae	lineage	mae				medium	R1: MAE for video, framed directly against MAE, which is an existing node. Pins nothing new; the tube-masking scheme is an objective detail.
+x-learner	algorithm					medium	A causal meta-learner that builds on the T-learner's nuisance models; model-agnostic, algorithm-side.

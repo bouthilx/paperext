@@ -37,13 +37,23 @@ are implemented once in `axes_models/resolve.py`:
 - **connectivity** — multi-valued. **Union** up the ancestor chain. A parent's
   coarse value and a child's refinement may both appear (`Convolution` +
   `Standard convolution`); the child refines, it does not replace.
-- **attributes** — multi-valued **across** families, single-valued **within**
-  one. Union across families, nearest-pin-wins within a family.
+- **attributes** — multi-valued **across** families. **Within** a family,
+  cardinality is **declared per family** in `attributes/nodes.tsv`:
+  `one` → nearest pin wins (substrate, latent treatment, invertibility, weight
+  treatment, routing, memory, attention sparsity); `many` → union (**symmetry**,
+  **shortcut connections**).
+- **negative pins** — a value written `!node-id` in a lineage row **blocks** it
+  for that node and its descendants.
 
-That last rule is not cosmetic. Without it VQ-VAE resolves to `Deterministic`
-**and** `Stochastic` **and** `Quantized` at once, inheriting one latent value
-from VAE and another from the family default. Found 2026-10-06 by inspecting
-worked examples, which is the only pass that would have found it.
+Each of those exists because the naive version produced a wrong answer on a real
+model, and none was visible to the structural validators:
+
+| rule | what it was wrong about before |
+|---|---|
+| per-family cardinality `one` | VQ-VAE resolved to `Deterministic` **and** `Stochastic` **and** `Quantized`. |
+| per-family cardinality `many` | A blanket single-value rule then regressed **EGNN**, which really is permutation- *and* Euclidean-equivariant, and dropped one of V-Net's and Stable Diffusion's two shortcut kinds. |
+| negative pins | Union inheritance gave a child no way to deny its parent. **MLP-Mixer** resolved to `Self-attention` although the paper's claim is an all-MLP architecture *without* attention; **FFJORD** resolved to `Standard convolution` because Neural ODE descends from ResNet. |
+| explicit topology under multi-parent | **Flamingo** resolved to `Bidirectional encoder stack` purely because `vit` was listed before `transformer` in its `parents` column. `resolve.py --audit` now reports any node in that state rather than silently resolving it. |
 
 ### Two naming modes, both first-class
 
@@ -102,6 +112,7 @@ Single component                    (ResNet, NeRF, SVM, Gaussian process)
 └── Causal decoder stack            (GPT, LLaMA)
 Encoder–decoder                     (T5, BART, U-Net, AE, VAE, MAE)
 Multi-tower / dual encoder          (CLIP, DPR, Siamese)
+Cascade / multi-stage               (Stable Diffusion, DALL-E 2, Imagen)
 Ensemble
 ```
 

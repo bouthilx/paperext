@@ -1,0 +1,140 @@
+# Placement of WORKLIST_B.tsv (130 names) against the faceted models ontology.
+# Classification pass, 2026-10-06. Rows are in worklist order.
+#
+# verdict: lineage | alias | generic | algorithm | quarantine | misextraction | unsure
+# target:  parent node_id (lineage) or the node it spells (alias). `|` = R5 second parent.
+# connectivity/topology/attributes: for `lineage`, what this node PINS -- only what
+#   differs from its parent. For `generic`, everything the name alone pins.
+#   Values are node_ids from axes_models/{connectivity,topology,attributes}/nodes.tsv.
+# Companion: PLACEMENT_B_NOTES.md.
+name	verdict	target	connectivity	topology	attributes	confidence	why
+gflownet	algorithm					high	Settled algorithm-side (brief 2.1): a training objective over a flow network. The model is whatever backbone the paper names.
+proximal policy optimization (ppo)	algorithm					high	Brief 2 fixed point: PPO is an update rule; the model is the policy/value network.
+rainbow	algorithm					high	Rainbow combines seven DQN improvements, all of them changes to the RL update rather than to the network.
+muzero	algorithm					medium	Model-based RL agent: learned dynamics plus MCTS planning. The contribution is the training and search procedure; the networks are plain residual convnets. Same reading as AlphaZero.
+vicreg	algorithm					high	Joint-embedding SSL objective (variance-invariance-covariance regularisation). The quote itself groups it with SimCLR and SwAV.
+dreamerv2	algorithm					medium	World-model RL agent. Its network is the RSSM, which is already the lineage node `rssm`; DreamerV2 contributes the imagination-based learning procedure. See notes.
+impala	algorithm					high	Distributed actor-learner RL algorithm (V-trace off-policy correction).
+ppo	algorithm					high	Same referent as `proximal policy optimization (ppo)`; algorithm either way, so no alias row is needed.
+deep q-network (dqn)	algorithm					high	Brief 2 fixed point: PPO/SAC/DQN are algorithms; the model is the Q-network.
+alphazero	algorithm					high	Self-play plus MCTS training procedure over an unchanged residual convnet.
+fedavg	algorithm					high	Settled algorithm-side: federated averaging is an aggregation/optimisation procedure.
+gpt-neo	lineage	gpt3				medium	R1: EleutherAI's open replication, introduced as GPT-3-like decoder LMs. Sibling of `gpt_neox`. Pins nothing -- self-attention, causal decoder and additive residual are all inherited.
+segment anything model (sam)	alias	sam				high	R3 case 2: the long form of the declared acronym of `Segment Anything (SAM)`.
+td3	algorithm					high	Twin Delayed DDPG: an off-policy RL update rule.
+advantage actor critic (a2c)	algorithm					high	Actor-critic RL update rule.
+barlowtwins	algorithm					high	SSL redundancy-reduction objective; the quote describes it purely as a loss. The model is the ResNet encoder.
+deep neural networks	quarantine					high	Bare generic named in brief 4.7 alongside `neural networks`: uninformative, excluded from family shares, reported as a line.
+distilhubert	lineage	hubert				high	R1 + R3: a separately named distilled release of HuBERT.
+ecapa-tdnn	lineage	tdnn	dilated-convolution		additive-residual	medium	R1: Emphasized Channel Attention, Propagation and Aggregation in TDNN -- defined against the x-vector TDNN. Adds Res2Net-style dilated 1D convolutions and residual connections. Its squeeze-excitation channel attention is NOT pinned as connectivity, following `senet`, which pins nothing for the same mechanism; see notes.
+generative adversarial networks (gans)	algorithm					medium	The merge took `GAN` apart as a lineage root (lineage/nodes.tsv header): adversarial training is an objective. Named GAN architectures (DCGAN, StyleGAN, CycleGAN, SRGAN) stay as nodes. Not quarantine -- it names a definite paradigm, just not a model.
+graph attention network (gat)	alias	gat				high	R3 case 2: long form plus declared acronym of `gat`.
+knn-lm	lineage	transformer		causal-decoder	external-memory	medium	R1: Nearest Neighbor Language Models -- a Transformer LM whose next-token distribution is interpolated with a kNN lookup over a datastore. The attributes axis lists retrieval-augmented models under `External memory`, which makes this model-side rather than a decoding trick.
+large language models	quarantine					high	A field-wide mass noun, excluded by the design exactly as `neural networks` is.
+lora	algorithm					high	Settled algorithm-side (parameter-efficient fine-tuning). The connectivity axis's `Factorized / low-rank` names LoRA-shaped adapters, but the name denotes the tuning procedure, not a released model.
+moco	algorithm					high	Momentum-contrast SSL objective; the quote calls it a pretraining method for detection backbones. The model is the encoder.
+pytorch	misextraction					high	A library. Known case; belongs in libraries[], never in models[].
+realm	lineage	bert			external-memory	medium	R1: Retrieval-Augmented Language Model pre-training -- a BERT-style masked LM coupled to a learned neural retriever over a document store. Pins only the memory attribute; the bidirectional encoder stack comes from `bert`.
+soft actor-critic	algorithm					high	Brief 2 fixed point.
+spr	algorithm					medium	Self-Predictive Representations: an auxiliary self-supervised objective bolted onto a Rainbow/DER agent, leaving the network unchanged.
+vision transformer	alias	vit				high	R3 case 2. SPELLINGS.tsv already carries `vision transformers` and `vit (vision transformer)`; the bare singular long form is missing.
+-model	unsure					low	The string is a mangled `delta-model` -- the quote names "the delta-model, a tractable approximation to the distributional successor measure" and extraction dropped the leading Greek letter. As written it denotes nothing; it needs re-extraction before placement.
+afroxlm-r	lineage	xlm_r				high	R1 + R3: XLM-R further pretrained on African languages; a separately named release.
+albef	lineage	vit|bert	cross-attention	multi-tower		medium	R5 composite: a ViT image encoder and a BERT text encoder aligned contrastively ("Align before Fuse"), then joined by a cross-attention multimodal encoder. Pins mirror `vilbert`, the closest existing node.
+ar	algorithm					medium	The quote frames the named items as "PDA algorithms"; AR is Adversarial Reweighting for partial domain adaptation -- a reweighting/training procedure. See notes: the two-letter string is also a plausible mis-extraction of "autoregressive".
+axondeepseg	misextraction					medium	The quote itself calls it a framework that "a convolutional neural network integrated in" -- software tooling. The model is the unnamed CNN inside it.
+bcd-nets	algorithm					medium	Bayesian Causal Discovery by variational inference over DAGs. The named object is an inference scheme for a posterior over graph structures, not a separable architecture. Same reading as `dibs`.
+big-g	lineage	transformer		causal-decoder		medium	The BIG-bench paper's name for Google's internal dense decoder-only Transformer LMs, reported as a size series. Sibling of the other dense LM families attached directly to `transformer`.
+bit-s-101	lineage	resnet				medium	Big Transfer (BiT) ResNet-v2-101: a separately named release (R3), and the quote says so. Attached directly to `resnet` because the intermediate `BiT` node does not exist -- see notes; `BiT` would be descent, not grouping, so it is creatable, just not by me here.
+byz-vr-marina	algorithm					high	A Byzantine-tolerant distributed optimisation method with variance reduction and compression. An optimiser, not a learned object.
+charlm	unsure					low	Either Kim et al. 2016's character-aware LSTM language model (a named design, a node under `lstm`) or the LEAF benchmark's stacked-LSTM character LM used as a generic federated baseline. The quote fits both. If generic it pins gated-recurrence and single-component and nothing else.
+clipped-seg	algorithm					high	Clipped stochastic extragradient: an optimiser. The quote gives the full name.
+clipped-sgda	algorithm					high	Clipped stochastic gradient descent-ascent: an optimiser.
+cnn-lstm	generic		convolution|gated-recurrence	single-component		high	The quote describes a combination, not a named release: "combines Convolutional Neural Network (CNN) and Long Short-Term Memory (LSTM)". Pins the two connectivity values the name states; depth, widths and directionality stay unknown. See notes on the coarse/fine convention for generic rows.
+constant memory attentive neural processes (cmanps)	lineage	neural_process	cross-attention|self-attention		linear-attention	medium	R1: a Neural Process built from Constant Memory Attention Blocks. `Linear attention` is the nearest available value but is not exactly right -- the claim is constant MEMORY in the context size. See notes.
+contriever + atlas	unsure					low	The string joins two systems with a plus (the Contriever retriever and the Atlas reader); it is a pipeline, not one name. It should be split before placement, and neither component exists as a node yet.
+convnet	alias	cnn				high	R3 case 1: a contracted spelling of "convolutional network", the canonical name of the `cnn` root. Not currently in SPELLINGS.tsv.
+corels	lineage	decision_list				medium	Certifiably Optimal RulE ListS. The learned object is a rule list; the branch-and-bound search is the algorithm. Same split as `xgboost`, which is a node under `gbdt` while boosting is the algorithm.
+crossvivit	lineage	vit	cross-attention			medium	R1: a cross-attention ViViT over paired spatiotemporal streams (station series plus satellite context). Its literal R1 parent is ViViT, the video ViT, which is not a node -- see notes.
+dag-gflownet	algorithm					high	A GFlowNet over DAG structures; GFlowNet is settled algorithm-side.
+data2vec	lineage	wav2vec2				medium	Placed by precedent rather than conviction: `hubert` and `wavlm` are already nodes under `wav2vec2` though they too differ only in the SSL objective, and the quote treats data2vec as a released checkpoint family beside them. See notes.
+deep deterministic policy gradient (ddpg)	algorithm					high	Off-policy actor-critic update rule.
+deep q-learning	algorithm					high	Same referent as DQN -- the quote glosses it "Deep Q-Learning (DQN)". Algorithm either way.
+deepspeech	lineage	rnn	convolution|gated-recurrence			medium	R1: Deep Speech / Deep Speech 2 is an end-to-end ASR stack -- a convolutional front end into bidirectional gated recurrent layers. The CTC loss is algorithm-side. Attached at the `rnn` root because no named recurrent ASR parent exists.
+der	algorithm					high	Data-Efficient Rainbow: a hyperparameter and algorithmic variant of Rainbow, as the quote spells out.
+dibs	algorithm					medium	Differentiable Bayesian Structure learning: a variational inference procedure over graph structures.
+diffusion probabilistic models (dpms)	algorithm					high	Diffusion is settled algorithm-side; the model is the denoiser, a U-Net or a DiT.
+distilgpt2	lineage	gpt2				high	R1 + R3: a separately named distilled release of GPT-2.
+dlrm	lineage	mlp|matrix_factorization				medium	R5 hybrid, mirroring `deepfm`: embedding tables with a dot-product (low-rank) interaction feeding MLP towers. DLRM is framed as joining the collaborative-filtering and the predictive-analytics traditions, which is exactly those two parents.
+dr-learner	algorithm					high	A doubly-robust meta-estimator for treatment effects. It wraps arbitrary base learners; the contribution is the estimating equation.
+drq()	algorithm					high	DrQ(epsilon): data-regularised Q-learning, an RL algorithm. The string has lost its epsilon, but the quote identifies it unambiguously.
+dyna-mpc	algorithm					high	The quote calls it a hybrid planner. Planning is a sampling procedure over an unchanged world model.
+e3bind	lineage	gnn			euclidean-equivariance	low	A named E(3)-equivariant network that iteratively refines a ligand pose. Its R1 parent is most likely EquiBind, which is not a node, so I attached it at the family root instead of guessing an edge. Verify -- see notes.
+emc	algorithm					medium	Episodic Multi-agent RL with Curiosity-driven exploration: an exploration/training method, listed in the quote beside QMIX and MAVEN as a baseline.
+erm	algorithm					high	Empirical risk minimisation is a training principle, not a model; the quote uses it to mean "trained with plain cross-entropy and no fairness constraint".
+flava	lineage	vit|transformer	cross-attention	multi-tower		medium	R5 composite: a ViT image encoder and a matching text encoder joined by a multimodal fusion encoder. The text tower is pinned to `transformer` rather than `bert` because FLAVA's text encoder is a ViT-architecture encoder, not a BERT release.
+fusionretro	lineage	transformer		encoder-decoder		low	A SMILES sequence-to-sequence Transformer for retrosynthesis that fuses reaction-context embeddings. The quote calls it a framework but the named object is the model; the quote does not state its R1 parent.
+gaussian processes (gp)	alias	gaussian_process				high	R3 cases 2 and 3: plural long form with the acronym.
+gcnii	lineage	gcn			additive-residual	medium	R1: GCN with Initial residual and Identity mapping. The residual path is precisely what it adds to GCN, and the quote names GCN as its baseline.
+gemnet	lineage	dimenet				medium	R1: a generalisation of directional message passing (DimeNet), by the same authors. Pins nothing -- `dimenet` already pins Euclidean equivariance. See notes: the quote calls GemNet INVARIANT, and the axis has no invariance value distinct from equivariance.
+generative flow networks (gflownets)	algorithm					high	Same referent as `gflownet`; settled algorithm-side.
+gflowout	algorithm					medium	A GFlowNet-trained posterior over dropout masks: a regularisation/training method over an unchanged backbone.
+glem	algorithm					medium	An EM training framework alternating between a language model and a GNN. Both backbones are unchanged, which is the backbone test.
+google bard	lineage	gemini				medium	A separately named served release; the quote pins this instance to "Google Bard powered by Gemini Pro". Caveat in notes: Bard's backbone changed over time (LaMDA, then PaLM 2, then Gemini) and neither LaMDA nor PaLM 2 is a node, so this edge is true of the quoted release only.
+gps++	lineage	mpnn|graph_transformer				medium	R5 hybrid, and the quote states it outright: "a hybrid Message Passing Neural Network / Graph Transformer model". Its literal R1 parent is GraphGPS, which is not a node -- see notes.
+gpt-4 turbo	lineage	gpt4				high	R3: a separately named release.
+gpt-j	lineage	gpt3				medium	EleutherAI's 6B GPT-3-class decoder LM; sibling of `gpt_neox` and `gpt-neo`. Explicitly NOT an alias of GPT-4 -- that is the known string-similarity defect.
+graph attention networks	alias	gat				high	R3 cases 2 and 3.
+graph convolutional network (gcn)	alias	gcn				high	R3 case 2.
+graph convolutional networks (gcn)	alias	gcn				high	R3 cases 2 and 3.
+gvp	lineage	gnn			euclidean-equivariance	medium	Geometric Vector Perceptron network: message passing over protein structure with vector-valued features that rotate with the input. The quote uses it as a structure encoder beside GearNet and CDConv, neither of which is a node.
+implicit q learning (iql)	algorithm					high	Offline RL update rule.
+independent q-learning (iql)	algorithm					high	A MARL training scheme in which each agent learns its own Q-function. Note the acronym collision: two different algorithms in this worklist are both called IQL.
+iqn	algorithm					high	Implicit Quantile Networks: a distributional RL update rule.
+jei-dnn	unsure					low	Jointly-learned Exit and Inference for a Dynamic Neural Network. It adds learned exit gates to an arbitrary backbone, which is `Conditional / mixture-of-experts` on the routing attribute -- a model-side property -- yet it has no R1 parent and its contribution is a joint training scheme. Model or algorithm? See notes.
+k-nearest neighbors	algorithm					high	Brief 2 fixed point: k-NN has no separable learned object. Algorithm only.
+lambdarank	algorithm					high	A learning-to-rank gradient/loss; the quote itself says "LambdaRank Loss".
+learning with opponent-learning awareness (lola)	algorithm					high	A multi-agent learning rule that differentiates through the opponent's update.
+llama2-7b-chat	lineage	llama2				high	R3: a separately named release (size plus chat tuning). Brief 4.7 places `llama2-7b` exactly this way.
+logistic regression model	alias	logistic_regression				high	R3 case 1: the trailing "model" is orthographic.
+lstm (long short-term memory)	alias	lstm				high	R3 case 2: the extractor's `long form (ACRONYM)` shape, inverted.
+mali (manifold alignment with label information)	algorithm					medium	A manifold-alignment procedure. Like t-SNE and PHATE it emits coordinates for the given points rather than a separable learned object, which is the k-NN / kernel-density case in brief 2.
+maven	algorithm					high	Multi-Agent Variational Exploration: a MARL exploration algorithm.
+meta-model	generic					medium	Names a role -- a network whose input is another network's parameters -- not an architecture. The quote pins nothing on any axis. Borderline with quarantine; see notes.
+mixup	algorithm					high	Data augmentation; the quote says so in as many words.
+moleculesde	lineage	gnn			euclidean-equivariance	low	The named object is an SE(3)-equivariant graph network over paired 2D and 3D molecular views; the SDE/diffusion machinery is algorithm-side under the backbone test. Attached at the family root because the quote does not name a parent.
+mpot	algorithm					medium	m-POT: partial-optimal-transport domain adaptation. The quote groups it with the other "PDA algorithms".
+muformer	lineage	transformer				low	The quote describes "our denoising transformer model" with an attention mechanism mixing 2D graph connectivity and 3D spatial information -- a Transformer variant. No further pin is safe from the quote alone.
+nllb (no language left behind)	lineage	transformer		encoder-decoder	conditional-computation	medium	NLLB-200: a sparsely gated mixture-of-experts encoder-decoder translation model. The distilled dense variants are separate releases that would re-pin routing back to the default.
+orbgrand	algorithm					medium	Ordered Reliability Bits GRAND is a channel-decoding search procedure with no learned parameters at all, so it cannot be a model here. Flagged in notes -- the algorithms dimension may not want it either.
+painn	lineage	mpnn			euclidean-equivariance	medium	R1: equivariant message passing, introduced explicitly against invariant MPNNs such as SchNet. `mpnn` pins only permutation equivariance, so the Euclidean value has to be pinned here.
+patchtst	lineage	transformer		bidirectional-encoder		medium	R1: a Transformer encoder over patches of a time series, channel-independent -- the same move ViT makes for images. Encoder-only, so the topology has to be pinned (the `transformer` root pins none).
+phate	algorithm					high	A diffusion-based dimensionality-reduction procedure; no separable learned object. Same reading as t-SNE.
+planet	algorithm					medium	The Deep Planning Network agent: an RSSM latent dynamics model plus online MPC planning. `rssm` is already the node for the network; PlaNet contributes the planner. See notes, with DreamerV2.
+prototype-sample relation distillation (prd)	algorithm					high	Distillation is settled algorithm-side; the quote describes a joint representation/prototype learning objective.
+protseed	lineage	transformer			euclidean-equivariance	low	An equivariant protein sequence-structure co-design network. The quote does not name its R1 parent; AlphaFold-style modules are the likely source. Verify -- see notes.
+proximal learning with opponent-learning awareness (pola)	algorithm					high	A proximal variant of LOLA: a multi-agent learning rule.
+qmix	algorithm					high	MARL value factorisation; the same bucket as DQN among the brief's fixed points. Caveat in notes: QMIX does specify a monotonic mixing network, so it is less purely objective-side than PPO.
+quantile temporal-difference learning (qtd)	algorithm					high	A distributional RL update rule; the quote calls it an algorithm.
+r-u-sure	algorithm					medium	A decode-time procedure that builds uncertainty-aware suggestions from samples of an unchanged code language model.
+rainproof	algorithm					medium	An OOD-detection framework computed from an existing model's output distribution; it adds no learned object.
+rapidbrachytg43	misextraction					high	A module of a brachytherapy treatment-planning system -- software, and not machine learning at all.
+retreever	unsure					low	"A flexible architecture for token-efficient inference" built on tree-structured retrieval, but the quote says neither what the architecture is nor what it derives from. Needs the paper.
+sa-mesh	lineage	slot_attention				medium	R1: a Slot Attention variant -- the quote calls it an "object-centric architecture", and the MESH change is to slot attention's assignment cost.
+safn	algorithm					medium	Stepwise Adaptive Feature Norm: a domain-adaptation training method. The quote groups it with the "PDA algorithms".
+satmae	lineage	mae				high	R1, and the quote states it: "an unsupervised pre-training framework based on Masked Autoencoders (MAE)" for satellite imagery.
+sf-gen	algorithm					medium	Successor features used to decouple LLM dynamics from task-specific rewards: a control/decoding procedure over an unchanged language model.
+shallownet	lineage	cnn	standard-convolution			medium	Cited as a specific baseline ("[18]") and the quote gives the architecture: two convolutional layers, each followed by max-pooling and dropout. Probably Schirrmeister et al.'s ShallowConvNet, the EEG baseline that sits beside `eegnet`. If the citation is spurious the name is a generic -- see notes.
+simclrv2	algorithm					high	SimCLR is settled algorithm-side; v2 changes the objective recipe, the projection head and the encoder size, not the model class.
+slowmo	algorithm					high	Slow momentum: a distributed optimisation method, as the quote describes.
+stable diffusion 2.1	lineage	stable_diffusion				high	R3: a separately named release, and the quote contrasts it with 1.5.
+starcoderbase	lineage	transformer		causal-decoder		medium	A decoder-only code LM, attached at `transformer` like the other open LLM families (Mistral, BLOOM, Falcon, Qwen). See notes: `StarCoder`, fine-tuned from it, would be a child of this node.
+swin-b	lineage	swin				high	R3: a separately named size variant of Swin Transformer. Size variants are nodes, not spellings.
+t-sne	algorithm					high	A nonparametric embedding procedure: it returns coordinates for the given points and no separable learned object (brief 2, the k-NN / kernel-density case).
+tgn	lineage	gnn	gated-recurrence		external-memory	medium	Temporal Graph Networks: message passing over a dynamic graph with a per-node memory vector updated by a GRU. The memory is an addressable store outside the parameters, which is the `External memory` test.
+toxbuster	unsure					low	A named released toxicity classifier for game chat, but neither the name nor the quote states its backbone (reported elsewhere as a fine-tuned BERT/RoBERTa). R1 needs the paper's own framing, so I will not guess the edge.
+transformer neural processes (tnps)	alias	transformer_neural_process				high	R3 cases 2 and 3: plural long form of `Transformer neural process`.
+uniter	lineage	bert|cnn				medium	R5 composite: a single-stream BERT-style encoder over the concatenation of text tokens and Faster R-CNN region features. Unlike `vilbert` it is ONE tower, so it pins neither cross-attention nor multi-tower; the inherited bidirectional encoder stack is right.
+v-net	lineage	unet				high	R1, and the quote says it: V-Net "leverages different types of backbones to the U-Net architecture" for 3D volumetric segmentation. A sibling of `unet_3d`, not the same design. Axes deliberately left empty: V-Net has BOTH U-Net concatenative skips and ResNet-style additive residuals, and `Shortcut connections` is single-valued within its family, so pinning additive-residual would silently delete the skips. See notes.
+wurstchen	lineage	stable_diffusion				medium	A three-stage latent-diffusion text-to-image architecture whose contribution is a far more aggressively compressed latent stage; R1 against latent diffusion, which is the `stable_diffusion` node's own canonical name. The three-stage cascade is not expressible on topology -- see notes.
+x-vlm	lineage	vit|bert	cross-attention	multi-tower		medium	R5 composite: a vision encoder and a text encoder joined by a cross-modal fusion encoder, aligned at multiple granularities. Same shape as `albef`.
