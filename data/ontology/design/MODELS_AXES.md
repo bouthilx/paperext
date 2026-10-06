@@ -97,7 +97,7 @@ and everything that turned out to be a constraint on the function class went to
 attributes.
 
 ```
-Single stack
+Single component                    (ResNet, NeRF, SVM, Gaussian process)
 ├── Bidirectional encoder stack     (BERT)
 └── Causal decoder stack            (GPT, LLaMA)
 Encoder–decoder                     (T5, BART, U-Net, AE, VAE, MAE)
@@ -187,12 +187,26 @@ network`, `Recurrent network`, `Graph neural network`, `Multilayer perceptron`,
 
 ---
 
-## On `Single stack` holding 57% of nodes
+## On `Single component` holding 57% of nodes
 
 Raised by the owner 2026-10-06: ResNet, SVM, HMM and Gaussian process all
-resolve to `Single stack`, which looks wrong for four such different models.
+resolve to the same value, which looks wrong for four such different models.
 
-It is correct, and it is worth stating why. **Topology asks only how many
+**Part of it was the name.** The value was `Single stack`, and a *stack* means a
+stack of layers — which asserts something false about an SVM even though the
+underlying claim, *this model has one component*, is true. Renamed to
+`Single component`; its two children keep `stack` because they are genuinely
+layer stacks.
+
+A compute-pattern reading was considered and rejected. It half works — an SVM at
+inference really is one matmul, one elementwise kernel and one reduction, so it
+matches a single dense layer — but a Gaussian process needs an O(n³) Cholesky at
+fit time, which has no analogue in any neural network, and SVM training is a
+quadratic program. More decisively, reading topology as compute would reverse
+the settled decision that compute belongs to the **run**, and would make a
+model's topology depend on whether it is training or predicting.
+
+The rest is correct, and worth stating why. **Topology asks only how many
 components a model has and how they are arranged** — nothing else. All four
 have one. What separates them lives on `connectivity`, which does so cleanly:
 ResNet is convolution, SVM and GP are kernel expansion, HMM is a factor graph
@@ -203,7 +217,7 @@ Measured distribution over the 297 lineage nodes:
 
 | value | nodes | |
 |---|---|---|
-| Single stack | 168 | 57% |
+| Single component | 168 | 57% |
 | Causal decoder stack | 43 | 14% |
 | Encoder–decoder | 33 | 11% |
 | Bidirectional encoder stack | 33 | 11% |
