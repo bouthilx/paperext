@@ -40,7 +40,60 @@ SPLIT = re.compile(r"[;,]")
 
 
 def cells(s: str) -> list[str]:
+    """Split a pin cell into values.
+
+    The `signal` column holds `(SOURCES, FORMS)` pairs whose commas must not be
+    split on, so parenthesised groups are flattened to their member values here
+    and the pair structure is read with `signal_pairs`.
+    """
+    if "(" in s:
+        return [v for a, b in signal_pairs(s) for v in sorted(a | b)] + [
+            x.strip() for x in s.split(";") if x.strip().startswith("!")
+        ]
     return [x.strip() for x in SPLIT.split(s) if x.strip()]
+
+
+def split_top(s: str, sep: str = ";") -> list[str]:
+    """Split on `sep` only outside parentheses."""
+    out, depth, cur = [], 0, ""
+    for ch in s:
+        if ch == "(":
+            depth += 1
+        elif ch == ")":
+            depth -= 1
+        if ch == sep and depth == 0:
+            out.append(cur)
+            cur = ""
+        else:
+            cur += ch
+    out.append(cur)
+    return [x.strip() for x in out if x.strip()]
+
+
+def signal_pairs(s: str) -> list[tuple[frozenset[str], frozenset[str]]]:
+    """Parse `(SRC + SRC, FORM + FORM); (SRC, FORM)` into one entry per term.
+
+    A pair is one objective term: the sources its target is drawn from, and the
+    form(s) its criterion takes. Both sides are multi-valued, for different
+    reasons. Multiple *sources* are needed on 46% of converted nodes -- a
+    self-prediction target is the model's own output *of* the next element, and
+    a design-based estimator draws its value from a measured outcome and its
+    comparability from a design. Multiple *forms* co-describe one criterion:
+    f-GAIL's adversarial objective *is* a learned f-divergence, and dropping one
+    of the two made its pin identical to plain GAIL's.
+    """
+    out: list[tuple[frozenset[str], frozenset[str]]] = []
+    for item in split_top(s):
+        if not item.startswith("("):
+            continue
+        inner = item.strip()[1:-1]
+        parts = split_top(inner, ",")
+        if len(parts) != 2:
+            continue
+        src = frozenset(x.strip() for x in parts[0].split("+") if x.strip())
+        form = frozenset(x.strip() for x in parts[1].split("+") if x.strip())
+        out.append((src, form))
+    return out
 
 
 @dataclass
@@ -138,6 +191,31 @@ class Dimension:
                     if len(seen) > 1:
                         found.append(f"attributes: parents disagree in single-valued family {fam}")
         return found
+
+    def signal_terms(self, nid: str) -> list[tuple[frozenset[str], frozenset[str]]]:
+        """The objective terms a node resolves to.
+
+        Pairs inherit as pairs: a descendant that states none of its own takes
+        its nearest ancestor's. They are not unioned down the chain, because a
+        descendant that restates its terms is replacing them, not adding to
+        them -- the DDPM/DDIM lesson applied to the pair representation.
+        """
+        for n in self.chain(nid):
+            pairs = signal_pairs(self.lineage[n]["signal"])
+            if pairs:
+                denied = {
+                    v[1:]
+                    for m in self.chain(nid)
+                    for v in split_top(self.lineage[m]["signal"])
+                    if v.startswith("!")
+                }
+                out = []
+                for src, form in pairs:
+                    s, f = src - denied, form - denied
+                    if s and f:
+                        out.append((frozenset(s), frozenset(f)))
+                return out
+        return []
 
     def _subsume(self, axis: str, vals: set[str]) -> set[str]:
         """Drop any value a more specific resolved value already implies.
@@ -249,10 +327,46 @@ def audit(dim: Dimension) -> int:
                         for x in cells(dim.lineage[a][axis])
                         if not x.startswith("!")
                     }
-                    if bare not in inherited:
+                    # A family default is implicitly asserted everywhere in
+                    # scope, so denying it is how a node says the default does
+                    # not hold -- the whole point of having defaults. Without
+                    # this, stripping redundant pins makes every such denial
+                    # look dead.
+                    is_default = (
+                        axis == "attributes"
+                        and dim.axes[axis].nodes[dim.axes[axis].family(bare)].get("default", "").strip() == bare
+                    )
+                    if bare not in inherited and not is_default:
                         out.append(f"DEAD PIN  {nid}.{axis} denies {bare}, which no ancestor asserts")
                 elif axis == "attributes" and not dim.axes[axis].scope(v):
                     out.append(f"NO SCOPE  {nid} pins {v}, whose family declares no scope predicate")
+
+    for nid, row in dim.lineage.items():
+        raw = row["signal"]
+        if "(" in raw:
+            for item in split_top(raw):
+                if item.startswith("!"):
+                    continue
+                if not (item.startswith("(") and item.endswith(")")) or len(split_top(item[1:-1], ",")) != 2:
+                    out.append(f"BAD PAIR  {nid}: {item!r} is not a (sources, forms) pair")
+            for src, form in signal_pairs(raw):
+                if not src or not form:
+                    out.append(f"EMPTY SIDE  {nid}: a pair has no {'source' if not src else 'form'}")
+                for v in src:
+                    if not v.startswith("S.src"):
+                        out.append(f"PAIR SIDE  {nid}: {v} is not an S.src value but sits in the source slot")
+                for v in form:
+                    if not v.startswith("S.form"):
+                        out.append(f"PAIR SIDE  {nid}: {v} is not an S.form value but sits in the form slot")
+
+    # A node whose flat values span both sub-facets but which has no pairs
+    # anywhere in its chain is back in the cross-product the pairs exist to kill.
+    for nid in dim.lineage:
+        vals, _ = dim.effective(nid, "signal")
+        srcs = {v for v in vals if v.startswith("S.src")}
+        forms = {v for v in vals if v.startswith("S.form")}
+        if len(srcs) > 1 and len(forms) > 1 and not dim.signal_terms(nid):
+            out.append(f"UNPAIRED  {nid}: {len(srcs)} sources x {len(forms)} forms resolve with no pair to say which go together")
 
     for nid in dim.lineage:
         for why in dim.conflicting_parents(nid):
@@ -299,7 +413,9 @@ def homeless(dim: Dimension) -> int:
             if not vals:
                 groups.setdefault(root_of(dim, nid), []).append(nid)
         total = sum(len(v) for v in groups.values())
-        print(f"\n{axis} — {total} homeless nodes in {len(groups)} families")
+        label = ("nodes with no non-default pin (a blank means the family default)"
+                 if axis == "attributes" else "homeless nodes")
+        print(f"\n{axis} — {total} {label}, in {len(groups)} families")
         for fam, members in sorted(groups.items(), key=lambda kv: -len(kv[1])):
             print(f"  {len(members):4}  {fam:20} {dim.lineage[fam]['name'][:46]}")
     return 0

@@ -22,8 +22,8 @@ inherits), `phase1/DRAFT_PHASE1_A.md` worked examples, `PINNING_FINDINGS.md`.
 needed four.
 
 **The cross-product was wrong on every one of the 79.** Before: these nodes
-licensed 2×2 up to 5×2 and 3×3 combinations — 79 nodes licensed 419 pairs where
-147 are true, so 65% of the licensed combinations were false. The three worst
+licensed 2×2 up to 5×2 and 3×3 combinations — the 79 rows licensed 390 combinations where
+147 are true, so 62% of what was licensed was false. The three worst
 cases collapse hard and cleanly:
 
 - `M.rlhf` 3×3 = 9 licensed → **3** true (one per stage, each stage consuming
@@ -91,10 +91,11 @@ and its own child, the child wins:
 | **`M.liml`** | `S.form.moment` | the `L.causal.iv` default. LIML's k-class/GMM representation is the same single criterion, not a second term. |
 | **`M.der`** | `S.form.recon` | named the logit-matching distance that `S.form.agree` already names, and `recon`'s own negative test excludes it. |
 
-Note the pattern: **24 of these 28 are a family default or a second-parent
-import**, not an agent error. Five of the six nodes
-`PINNING_FINDINGS.md` §5 predicted (second-parent imports) show up here —
-`M.fqe` is the worst single case in the file.
+Note the pattern: **21 of these 28 are a family default or a second-parent
+import**, not an agent error. That is the §5 finding
+("a high negative-pin count on one edge means the edge is wrong") arriving as
+wrong *positive* pins instead, with `M.fqe` the worst single case in the file:
+four values, all from one `divides` edge two levels up.
 
 ### 2c. Co-description of a term already encoded (14) — information lost to the representation
 
@@ -271,7 +272,7 @@ identification strategy. **Keep it.**
 - `S.form.spars`'s missing source (§4.4) and the one-term-two-forms case (§4.1)
   are the two items a datasets-dimension pairing pass should settle *before* it
   runs, not after.
-- The 24-of-28 split in §2b says it again: **a family default and a
+- The 21-of-28 split in §2b says it again: **a family default and a
   second-parent import are the two ways a wrong pin arrives**, and neither is
   visible to a homelessness check. §10's rule — only `derives-from` and
   `instantiates` carry values — would have prevented about half of them,
