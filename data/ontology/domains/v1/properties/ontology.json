@@ -1,0 +1,785 @@
+{
+  "meta": {
+    "version": "v1",
+    "dimension": "domains/properties"
+  },
+  "roots": [
+    "trustworthy-ai",
+    "frugal-ai",
+    "uninformative"
+  ],
+  "nodes": {
+    "trustworthy-ai": {
+      "name": "Trustworthy AI",
+      "description": "",
+      "examples": [],
+      "children": [
+        "fairness",
+        "privacy",
+        "robustness",
+        "safety",
+        "explainability",
+        "accountability"
+      ],
+      "axes": {},
+      "parent_ids": [],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "1",
+        "characteristic": "LEVEL 1 divides by which kind of external demand is made on the system: a demand for how it must TREAT THE WORLD AND THE PEOPLE IN IT (trustworthy) vs a demand for WHAT IT MAY CONSUME (frugal).",
+        "positive_test": "Some party outside the research -- an affected person, a regulator, a deployer, a professional user -- can be wronged by the system and is owed something by it.",
+        "negative_test": "The demand is about resource consumption (-> Frugal AI), or it is a question the field asks about its own learning machinery with no outside claimant (generalization, sample complexity, expressivity, scaling laws -> Method > Learning theory & generalization).",
+        "examples": "Fairness; Safety; Accountability",
+        "corpus_names": "20",
+        "corpus_mentions": "38",
+        "notes": "Subtree total 296 mentions (matches AXES.md 2's ~300). The 38 counted here are UMBRELLA SURFACES that name the whole branch and no single child -- `AI Ethics` 7, `Ethics in AI` 7, `Responsible AI` 5, `Ethical AI` 3, `FAccT` 1+1, `Fairness and Interpretability in Machine Learning` 1 -- mapped to the branch node by the 8b nearest-common-parent rule, exactly as `Bioinformatics` names the Life sciences branch in 7. `Trustworthy AI` itself does not occur as a surface."
+      }
+    },
+    "fairness": {
+      "name": "Fairness",
+      "description": "",
+      "examples": [],
+      "children": [
+        "fairness-group",
+        "fairness-individual",
+        "fairness-representational"
+      ],
+      "axes": {},
+      "parent_ids": [
+        "trustworthy-ai"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "2",
+        "characteristic": "LEVEL 2 under Trustworthy AI divides by WHICH MODE OF TRUST FAILURE the work forestalls -- the distinct way the system can betray the party that trusts it. One characteristic; six values.",
+        "positive_test": "The failure is that the system treats people or groups unequally, or reproduces a social disparity. A claimant can point to a group that is worse off.",
+        "negative_test": "The work studies a statistical bias with no human claimant (estimator bias, `Inductive Biases`, dataset shift) -> Method. The disparity is in the world and not produced by the system (`Health Equity`, `Healthcare Access`, `Environmental Justice`) -> Application.",
+        "examples": "Group fairness criteria; Bias mitigation in language models; Fairness in ranking and recommendation",
+        "corpus_names": "25",
+        "corpus_mentions": "67",
+        "notes": "Largest child of the axis. `Fairness in Machine Learning` 19 + `Fairness in AI` 13 alone are 32. Fairness TECHNIQUES (reweighting, adversarial debiasing) have a Method home; this node is the demand. Homonym: `bias` -- the fairness sense here, the estimator/inductive sense in Method."
+      }
+    },
+    "privacy": {
+      "name": "Privacy",
+      "description": "",
+      "examples": [],
+      "children": [
+        "privacy-training-data",
+        "privacy-user-input",
+        "privacy-subject-control"
+      ],
+      "axes": {},
+      "parent_ids": [
+        "trustworthy-ai"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "2",
+        "characteristic": "(same characteristic: which mode of trust failure)",
+        "positive_test": "The failure is that information about a data subject escapes -- through the model, its outputs, or the training process. The claimant is the person whose data it is.",
+        "negative_test": "The subject is a computer system being defended rather than a data subject being exposed (`Cybersecurity`, `IoT Security`) -> Application > Computer security. The name is a training architecture chosen partly for privacy but not a privacy claim (`Federated Learning` 24) -> Method > Training regime.",
+        "examples": "Differentially private learning; Membership inference and memorization; Machine unlearning",
+        "corpus_names": "14",
+        "corpus_mentions": "27",
+        "notes": "`Differential Privacy` 8 is mapped here AND to Method, under the name-level rule derived in RATIONALE: a technique name maps onto this axis only when the technique has no purpose other than securing the property. DP passes; quantization does not. Privacy ATTACKS (`Membership Inference Attacks`, `Reconstruction Attacks`) are classified by the property they break, not by being attacks -- which is why they land here and poisoning lands in Robustness."
+      }
+    },
+    "robustness": {
+      "name": "Robustness",
+      "description": "",
+      "examples": [],
+      "children": [
+        "robustness-adversarial",
+        "robustness-training-integrity",
+        "robustness-shift"
+      ],
+      "axes": {},
+      "parent_ids": [
+        "trustworthy-ai"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "2",
+        "characteristic": "(same characteristic: which mode of trust failure)",
+        "positive_test": "The failure is that the system stops working when its input departs from what it was trained on -- whether the departure is natural (shift, corruption, noise) or authored (adversarial example, poisoning, backdoor).",
+        "negative_test": "The work studies distribution shift as a PHENOMENON or asks what is provable about generalizing off-distribution (`Covariate Shift`, `Out-of-Distribution Generalization`, `Domain Generalization`, `Worst-Group Generalization`) -> Method > Learning theory & generalization (F9). `Robust Optimization` 3 is machinery -> Method > Inference & optimization.",
+        "examples": "Adversarial robustness; Distribution-shift robustness; Certified robustness",
+        "corpus_names": "27",
+        "corpus_mentions": "73",
+        "notes": "Kept as ONE node although AXES.md's `robustness/adversarial` invites a robustness/security split: the split was declined because the corpus's dominant surface `Adversarial Robustness` 10 has head noun `robustness` and would defeat it under the 8b head-noun rule, and because `Robustness & adversarial security` would be a banned compound. `Out-of-Distribution Detection` 12 is counted here per F9's three-way split; it is simultaneously Task > Detection and Method > Learning theory. `Machine Learning Security` 3 is here (the ML system is the victim); `Cybersecurity` 3 is not."
+      }
+    },
+    "safety": {
+      "name": "Safety",
+      "description": "",
+      "examples": [],
+      "children": [
+        "safety-alignment",
+        "safety-control",
+        "safety-output"
+      ],
+      "axes": {},
+      "parent_ids": [
+        "trustworthy-ai"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "2",
+        "characteristic": "(same characteristic: which mode of trust failure)",
+        "positive_test": "The failure is that the system, working as built, acts in a way that harms -- it pursues the wrong objective, takes an unacceptable risk, or produces harmful output. Nobody has to attack it and no group has to be disadvantaged.",
+        "negative_test": "The harm exists in the world and the system is merely asked to find it (`Misinformation Detection` 3, `Toxicity Detection`) -> Task > Detection + Application. The name is alignment MACHINERY (`Reinforcement Learning from Human Feedback` 2) -> Method > Learning signal.",
+        "examples": "AI alignment; Safe reinforcement learning; Risk-sensitive control",
+        "corpus_names": "11",
+        "corpus_mentions": "20",
+        "notes": "Alignment (3 mentions) is filed as a depth-3 child rather than a sibling: on this corpus it is not separable from safety, though it is the likeliest future split. `Risk-Averse Reinforcement Learning` 2 and `Safe Reinforcement Learning` 1 are constrained-RL machinery whose only purpose is the safety demand, so they pass the name-level rule."
+      }
+    },
+    "explainability": {
+      "name": "Explainability",
+      "description": "",
+      "examples": [],
+      "children": [
+        "explain-intrinsic",
+        "explain-posthoc",
+        "explain-recourse"
+      ],
+      "axes": {},
+      "parent_ids": [
+        "trustworthy-ai"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "2",
+        "characteristic": "(same characteristic: which mode of trust failure)",
+        "positive_test": "The failure is that the system's decision cannot be scrutinised by the person it is applied to or by the professional acting on it. The claimant demands an account, not better accuracy.",
+        "negative_test": "The work opens the model up to answer a SCIENTIFIC question about how networks compute, with no outside claimant (`Mechanistic Interpretability` 2, `Model Understanding and Mechanistic Interpretability`, `Automated Interpretability Methods`) -> Method > Model design & analysis. A specific attribution technique (saliency, SHAP, probing) is likewise Method.",
+        "examples": "Post-hoc explanation for deployed models; Intrinsically interpretable models; Right-to-explanation and disclosure",
+        "corpus_names": "21",
+        "corpus_mentions": "58",
+        "notes": "The contested node. Kept, because test 2 sorts by WHERE THE DEMAND COMES FROM, not by whether the property is normative or epistemic: explanation is epistemic in content but exogenous in demand (regulators, clinicians, affected persons ask for it), whereas compositional generalization is epistemic in content and endogenous in demand. `Explainable AI` is also the canonical <Adjective> AI surface. Argued in full in RATIONALE. Transparency splits: transparency about a model's reasoning is here; transparency as disclosure/documentation is Accountability."
+      }
+    },
+    "accountability": {
+      "name": "Accountability",
+      "description": "",
+      "examples": [],
+      "children": [
+        "account-compliance",
+        "account-auditability",
+        "account-traceability"
+      ],
+      "axes": {},
+      "parent_ids": [
+        "trustworthy-ai"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "2",
+        "characteristic": "(same characteristic: which mode of trust failure)",
+        "positive_test": "The failure is that no one can be held answerable for the system and no rule can be enforced on it. The claimant is an institution -- a regulator, an auditor, a procurement process -- not an end user.",
+        "negative_test": "The name is governance of a NON-AI subject (`Climate Governance`, `Regulatory Science`, `Health Policy`) -> Application. The name is a research ACTIVITY rather than a property of a system (`Benchmarking`, `Multimodal Model Evaluation`) -> mark_ignore on every axis (8b).",
+        "examples": "AI regulation and standards; Algorithmic auditing; Model documentation and provenance",
+        "corpus_names": "10",
+        "corpus_mentions": "13",
+        "notes": "Smallest Trustworthy child (13 mentions). Kept on semantics, not count, per rule 9: it is the only node holding the institutional demand, and the corpus's under-representation of it is a finding. Homonym: `Policy` -- `AI Policy` 2 and `Policy and Governance` 1 are here; `Policy Evaluation`, `Policy Gradient`, `Policy Optimization` are RL machinery (8b declares this homonym)."
+      }
+    },
+    "frugal-ai": {
+      "name": "Frugal AI",
+      "description": "",
+      "examples": [],
+      "children": [
+        "compute-cost",
+        "energy-cost",
+        "hardware-cost"
+      ],
+      "axes": {},
+      "parent_ids": [],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "1",
+        "characteristic": "LEVEL 1 divides by which kind of external demand is made on the system (see Trustworthy AI): here the demand is a budget on what the system may consume.",
+        "positive_test": "A budget outside the research -- a compute allocation, an energy bill, a carbon target, a device -- caps what the system may spend, and the work's point is to spend less of it.",
+        "negative_test": "The economised quantity is data (`Sample Efficiency`, `Data Efficiency`) or parameters (`Parameter-Efficient Fine-Tuning`), which AXES.md 2 explicitly excludes. The name is an energy or climate APPLICATION (`Renewable Energy Forecasting`, `Energy Storage`, `Greenhouse Gas Emissions Analysis`) -> Application.",
+        "examples": "Computational cost; Energy cost; Hardware cost",
+        "corpus_names": "4",
+        "corpus_mentions": "6",
+        "notes": "Subtree total 27 mentions, NOT the ~85 estimated in AXES.md 2 -- see RATIONALE: the ~85 counts compression/quantization/distillation/pruning technique names (33 mentions) that this derivation leaves in Method because their purpose is ambiguous at name level. Trustworthy:Frugal is therefore ~11:1 on demand-register names, not ~3.5:1. Reported, not engineered away. The 6 mentions here are unspecified-resource umbrellas (`Efficient Deep Learning` 3, `Model Efficiency` 1) plus `Green AI`'s sibling umbrella `Environmental Sustainability and Artificial Intelligence` 1."
+      }
+    },
+    "compute-cost": {
+      "name": "Computational cost",
+      "description": "",
+      "examples": [],
+      "children": [
+        "compute-training",
+        "compute-inference",
+        "compute-communication"
+      ],
+      "axes": {},
+      "parent_ids": [
+        "frugal-ai"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "2",
+        "characteristic": "LEVEL 2 under Frugal AI divides by WHICH RESOURCE is being economised. One characteristic; three values.",
+        "positive_test": "The budget is on computation itself -- FLOPs, wall-clock training or inference time, memory, or the bandwidth of a distributed run.",
+        "negative_test": "The budget is on electricity or emissions (-> Energy cost) or on the physical device (-> Hardware cost). The name economises data or parameters (excluded from the branch). `Distributed Training` and `Federated Learning` name how training is organised -> Method > Training regime.",
+        "examples": "Inference latency and throughput; Communication-efficient distributed training; Training-compute budgets",
+        "corpus_names": "10",
+        "corpus_mentions": "12",
+        "notes": "Communication cost (`Communication Efficiency` 3 + `Communication-Efficient Learning` 1) is filed as a depth-3 child, not a fourth sibling: bandwidth is arguably its own resource and AXES.md is silent, but 4 mentions do not carry a node. Revisit if distributed/federated work grows. `Scalability in X` 4 is read as compute cost, which is a judgement: it sometimes means graph size rather than budget."
+      }
+    },
+    "energy-cost": {
+      "name": "Energy cost",
+      "description": "",
+      "examples": [],
+      "children": [
+        "energy-consumption",
+        "energy-carbon"
+      ],
+      "axes": {},
+      "parent_ids": [
+        "frugal-ai"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "2",
+        "characteristic": "(same characteristic: which resource is economised)",
+        "positive_test": "The budget is energy drawn or carbon emitted by training or serving the model, and the work reports or reduces it.",
+        "negative_test": "The paper applies ML to an energy or climate problem -- the reflexive test in AXES.md 2 fails because the object of study is a power grid, not an AI system -> Application > Physical & environmental sciences or Industry & commerce.",
+        "examples": "Carbon footprint accounting for training; Energy-aware training; Sustainability reporting for models",
+        "corpus_names": "2",
+        "corpus_mentions": "3",
+        "notes": "3 mentions: `Green AI` 2, `Energy Efficiency` 1. This is the axis's sharpest BLIND SPOT and is kept regardless: AXES.md 2 builds the whole case for a separate properties axis on the Green-AI / energy-sector collision, and the owner calls Frugal AI strategically important. A node the corpus barely supports is `possibly speculative, justify or keep` under rule 9 -- justified and kept. `Green AI` is mapped here rather than to the branch umbrella because energy is its core referent."
+      }
+    },
+    "hardware-cost": {
+      "name": "Hardware cost",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "frugal-ai"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "2",
+        "characteristic": "(same characteristic: which resource is economised)",
+        "positive_test": "The budget is the physical substrate -- the model must fit and run on a given accelerator, phone, sensor or edge node.",
+        "negative_test": "The work designs hardware or hardware-description tooling as its subject (`Hardware Design`, `Hardware Description Languages`, `Functional Programming for Hardware`) -> Application > Computing & software systems; the demand there runs from AI to hardware, not from hardware to AI.",
+        "examples": "On-device and TinyML deployment; Accelerator-aware model design; Edge inference under memory limits",
+        "corpus_names": "3",
+        "corpus_mentions": "6",
+        "notes": "6 mentions: `Hardware Acceleration` 4, `Edge Computing` 1, `Mobile Edge Computing` 1. The hardware/application boundary is the one place where a single word (`hardware`) sits on both sides of the reflexive test."
+      }
+    },
+    "uninformative": {
+      "name": "Uninformative",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "1",
+        "characteristic": "ADMINISTRATIVE row required by 8b on every axis; not an aspect, excluded from this axis's shares.",
+        "positive_test": "The surface unmistakably asserts a property demand on an AI system but names no property class and reaches neither branch node.",
+        "negative_test": "The surface asserts a demand in words vague about WHICH demand but still within one branch -> that branch's node (`Responsible AI` -> Trustworthy AI, `Model Efficiency` -> Frugal AI). The surface simply has no property content (`Machine Learning` 249, `Predictive Modeling`, `Optimization Techniques`) -> no value on this axis at all.",
+        "examples": "(none)",
+        "corpus_names": "0",
+        "corpus_mentions": "0",
+        "notes": "EMPTY on this corpus, deliberately. On an optional axis the generic names 8b was written for are OFF-axis (no value) rather than uninformative, and the vague-but-on-axis surfaces are absorbed by the two branch nodes as umbrellas. The row is retained so the per-axis policy stays uniform and so future surfaces of the form `AI Quality` / `Responsible Computing` have a declared home. Contribution-type names (`Benchmarking` 7, `Multimodal Model Evaluation`) are mark_ignore per 8b and do NOT come here -- this is the exact error the earlier proposal made by treating evaluation as a property."
+      }
+    },
+    "robustness-adversarial": {
+      "name": "Adversarial robustness",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "robustness"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "3",
+        "characteristic": "LEVEL 3 under Robustness divides by WHERE THE DEPARTURE COMES FROM -- who or what authors the disturbance the system fails on. This refines the parent literally: its own positive test already separates natural from authored departures, and an author can act in two places.",
+        "positive_test": "An adversary authors the INPUT the deployed system sees. The model was trained honestly and is defeated at use: evasion, adversarial perturbation, adversarial patches, input-level attack and defence on a fielded model.",
+        "negative_test": "The work studies a GAN or any other use of the `adversarial` homonym that names an architecture or a training game rather than an attack (`Generative Adversarial Networks` 7+7) -> Method. The attack extracts information about training data rather than breaking the output -> Privacy, by the axis rule that attacks are filed by the property they break. Certification or formal verification OF robustness is Method > Model analysis machinery; the demand it serves is this node.",
+        "notes": "Best-supported child on the axis: `Adversarial Robustness` 10, `Adversarial Machine Learning` 13, `Adversarial Attacks` 2 + `Adversarial Attacks and Defenses` 2 + 2 named variants, `Adversarial Training` 1 + 1 (passes the name-level technique rule), `Machine Learning Security` 3, `Robust Reinforcement Learning` 1. The detection cluster (`Adversarial Detection` 3, `Adversarial Attack Detection` 2, `Adversarial Examples Detection` 1, `Textual Adversarial Attack Detection` 1) lands here AND on Task > Detection; it does not earn a node, because detecting an attack is a task, not a mode of trust failure. `Certified Robustness` 1 and `Robustness Verification` 1 land here too -- the guarantee register was rejected as a sibling set in phase 1 and the corpus check did not disturb that."
+      }
+    },
+    "robustness-training-integrity": {
+      "name": "Training-process integrity",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "robustness"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "3",
+        "characteristic": "(same characteristic: where the departure comes from)",
+        "positive_test": "An adversary authors the LEARNING PROCESS rather than the input: poisoning, backdoors and trojans, a tampered checkpoint, adversarial or Byzantine participants in a distributed or federated run. The model looks normal and misbehaves on the attacker's trigger.",
+        "negative_test": "The data is merely noisy, mislabelled or badly curated with no adversary -> Method > Data curation. The defence is a training architecture chosen for other reasons (`Federated Learning` 24) -> Method > Training regime.",
+        "notes": "Thin but non-empty: `Data Poisoning` 1, `Byzantine Robustness` 1. No backdoor or trojan surface in the 2024 corpus. DECLARED NAMING WEAKNESS: the node's name is narrower than its own positive test -- Byzantine gradient tampering corrupts the training PROCESS, not the training DATA. `Training-process integrity` is the better name and was NOT applied, because the depth-3 procedure licenses only two corpus-driven changes (add a blind-spot node, flag an unsupported one) and a rename is neither. Recorded here for the owner to decide."
+      }
+    },
+    "robustness-shift": {
+      "name": "Distribution-shift robustness",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "robustness"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "3",
+        "characteristic": "(same characteristic: where the departure comes from)",
+        "positive_test": "Nobody authored it. Deployment departs from training -- a new site, a new population, a new sensor, drift over time, corruption, noise -- and the system silently stops working. The claimant is a deployer who was promised the system would keep working.",
+        "negative_test": "The work studies shift as a PHENOMENON or asks what is provable about generalizing off-distribution (`Out-of-Distribution Generalization` 5, `Domain Generalization` 4, `Covariate Shift` 1, `Sub-population Shift` 1) -> Method > Learning theory, per F9. That expulsion is a level-2 ruling and this node does not reopen it: it holds the deployment demand only.",
+        "notes": "Supported in the demand register by `Corruption Robustness` 1, `Noise Robustness` 1, `Concept Drift` 1, plus the share of the parent's generic surfaces (`Model Robustness` 7, `Robustness in Deep Learning` 1) that mean shift rather than attack. `Out-of-Distribution Detection` 12 stays where the parent put it -- it is simultaneously Task > Detection and Method, and it names a task, not this demand. Thin by construction: F9 already removed the theory-register surfaces, so a thin node here is the expected consequence of a decision taken two levels up, not evidence against the node."
+      }
+    },
+    "fairness-group": {
+      "name": "Group fairness",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "fairness"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "3",
+        "characteristic": "LEVEL 3 under Fairness divides by WHICH FORM THE INEQUALITY TAKES -- what the claimant alleges was distributed unequally, and across whom. This is the fairness-criterion cut; the mitigation-stage cut (pre/in/post-processing) is Method's characteristic and is forbidden here.",
+        "positive_test": "Outcomes or error rates differ between demographic groups: disparate impact, demographic parity, equalized odds, accuracy or exposure gaps across a protected attribute, intersectional gaps. The comparison that exposes the wrong is between groups.",
+        "negative_test": "The disparity exists in the world and is not produced by the system (`Health Equity`, `Healthcare Access`, `Environmental Justice`) -> Application. A statistical bias with no human claimant (`Inductive Biases`, `Dataset Bias` in the estimator sense) -> Method; the `bias` homonym is declared on this axis.",
+        "notes": "Supported: `Intersectional Fairness` 1, `Age-related Bias` 1, `Equity, Diversity, and Inclusion (EDI) in AI` 1, and the group reading of the parent's large generic block. Most of Fairness's mass (`Fairness in Machine Learning` 19, `Fairness in AI` 13, `Algorithmic Fairness` 3, `Machine Learning Fairness` 2) names no criterion and stays on the branch node by the 8b nearest-common-parent rule, exactly as `AI Ethics` sits on Trustworthy AI. `Fairness in Ranking` 2 and `Fairness in Recommender Systems` 1 are read here (exposure between groups) but the TASK is a modifier, not a sibling -- ranking fairness can be group, individual or representational."
+      }
+    },
+    "fairness-individual": {
+      "name": "Individual fairness",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "fairness"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "3",
+        "characteristic": "(same characteristic: which form the inequality takes)",
+        "positive_test": "Two people alike in every respect relevant to the decision are treated differently, or the decision would flip if a protected attribute alone were changed. The comparison is between individuals, including counterfactually. Consistency, similarity metrics, counterfactual fairness.",
+        "negative_test": "The claim is about aggregate group rates -> Group fairness. The counterfactual is a causal-identification question with no claimant (`Causal Inference`) -> Method.",
+        "notes": "SPECULATIVE: zero corpus surfaces. `Individual Fairness`, `Counterfactual Fairness` and `Fairness Through Awareness` do not occur in the 2024 corpus. KEPT under rule 9 -- a category with no corpus support is `possibly speculative, justify or keep`, never deleted. Justification: it is one of the two canonical answers the field gives to `what makes this unfair`, it is the answer regulators reach for in individual-complaint procedures, and deleting it would leave Group fairness as an unopposed only child, which no longer divides anything. Its absence here is a finding about a 2024 single-institute corpus, reported, not repaired."
+      }
+    },
+    "fairness-representational": {
+      "name": "Representational fairness",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "fairness"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "3",
+        "characteristic": "(same characteristic: which form the inequality takes)",
+        "positive_test": "Nothing is allocated at all: the system's DEPICTIONS of a group are demeaning, stereotyped, erased or systematically poorer -- in generated text and images, in learned representations, in retrieved and ranked results. The wrong is to how a group is portrayed, not to what it receives.",
+        "negative_test": "The system is asked to FIND harmful depictions in the world (`Toxicity Detection`, `Misinformation Detection`) -> Task > Detection + Application. The representation is poorer because of a data or capability limit with no group claimant -> Method or Modality.",
+        "notes": "Thinly supported: `Bias Analysis in Language Models` 1, and the representational reading of `User Bias` 1. DECLARED STRAIN, carried over verbatim from the phase-1 draft: this child divides by the KIND OF GOOD at stake (a depiction rather than a decision) while its two siblings divide by the COMPARISON that exposes the wrong. I read the characteristic -- what was distributed unequally, and across whom -- as covering both, but a reader may score this sibling set as one-and-a-half principles. Dropping it was the alternative and it would lose the whole generative-model fairness literature, which is the fastest-growing part of the field this node has to survive into."
+      }
+    },
+    "explain-intrinsic": {
+      "name": "Intrinsic interpretability",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "explainability"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "3",
+        "characteristic": "LEVEL 3 under Explainability divides by WHAT THE OWED ACCOUNT IS ABOUT -- the model, a single output, or the affected person's own position with respect to it.",
+        "positive_test": "The demand is that the model ITSELF be legible, and no separate explanation is accepted as a substitute: rule lists, sparse and additive models, concept bottlenecks, prototype models, and the high-stakes position that black boxes plus explanations are not good enough.",
+        "negative_test": "The glass-box model is proposed for accuracy, sparsity or compute reasons rather than to satisfy a demand for legibility -> Method > Model design. Opening a model to answer a scientific question about how networks compute (`Mechanistic Interpretability` 2) -> Method > Model analysis, per the parent.",
+        "notes": "Supported: `Interpretable Models` 2, `Concept-based Models` 1, and the design reading of `Interpretable Machine Learning` 9 -- the surface RATIONALE 4 already flagged as ambiguous between the demand and the glass-box technique family. That flagged ambiguity is now a live boundary between this child and Method, and it is the single largest mapping risk on this branch."
+      }
+    },
+    "explain-posthoc": {
+      "name": "Post-hoc explanation",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "explainability"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "3",
+        "characteristic": "(same characteristic: what the owed account is about)",
+        "positive_test": "The model stays opaque and an account of a PARTICULAR OUTPUT must be produced about it, for the professional acting on that output -- the clinician, the operator, the reviewer who has to sign.",
+        "negative_test": "A named attribution technique (saliency, SHAP, probing, surrogate fitting, concept activation) -> Method > Model analysis. The explanation is produced to answer a research question about the network rather than to satisfy an outside claimant -> Method.",
+        "notes": "Supported: `Model-Agnostic Interpretability` 1, `Graph Neural Networks Explainability` 1, `Graph Neural Networks (GNN) Explanation` 1, `Model Interpretation` 1, `Explainable Question Answering` 1. As with Fairness, most of the branch's mass is generic (`Explainable AI` 10 + 4 + 2 + 1 spelling variants, `Model Interpretability` 7, `Interpretability` 6, `Explainability` 4) and sits on the branch node, naming no form of account."
+      }
+    },
+    "explain-recourse": {
+      "name": "Recourse and contestability",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "explainability"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "3",
+        "characteristic": "(same characteristic: what the owed account is about)",
+        "positive_test": "The account is about the AFFECTED PERSON'S POSITION: what would have had to be different for the decision to go the other way, and how to challenge it. The claimant is the subject of the decision -- an applicant, a patient, a defendant -- and the statutory right to an explanation of a decision made about you.",
+        "negative_test": "The claimant is an institution rather than the person decided about -- a regulator, an auditor, a procurement process -> Accountability. The parent's own split applies: transparency about a model's reasoning is on this branch, transparency as institutional disclosure is Accountability.",
+        "notes": "SPECULATIVE: zero corpus surfaces. `Algorithmic Recourse`, `Counterfactual Explanation`, `Contestability` and `Right to Explanation` do not occur. KEPT under rule 9. Justification, and it is unusually strong here: the whole case for Explainability BEING on this axis rests on the exogeneity argument -- that regulators, clinicians and loan applicants demand explanations in statute (AXES.md 2, RATIONALE 4). This node is where that claimant lives. Deleting it for thinness would remove the branch's own warrant for membership while keeping the branch. `Algorithmic Transparency` 1 is the nearest surface and is ambiguous between here and Accountability; flagged for the ambiguity probe."
+      }
+    },
+    "privacy-training-data": {
+      "name": "Training-data confidentiality",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "privacy"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "3",
+        "characteristic": "LEVEL 3 under Privacy divides by WHICH OF THE DATA SUBJECT'S CLAIMS FAILS.",
+        "positive_test": "Something about an individual training record is recoverable from what was released -- the model, its outputs, or a dataset derived from it. Membership inference, memorization and verbatim regurgitation, reconstruction and model inversion, re-identification of a released or synthetic dataset, and the guarantee register that answers them.",
+        "negative_test": "The subject is a computer system being defended rather than a data subject being exposed (`Cybersecurity`, `IoT Security`) -> Application > Computer security, per the parent. The attack breaks the output rather than exposing a record -> Robustness.",
+        "notes": "Best-supported privacy child: `Differential Privacy` 8 (mapped here and to Method under the name-level rule), `Membership Inference Attacks (MIAs)` 1, `Reconstruction Attacks` 1, `Privacy-Preserving Graph Data` 1. The branch's generic block (`Privacy-Preserving Machine Learning` 4, `Privacy in Machine Learning` 3, `Privacy` 2, `Data Privacy` 1, `Privacy Protection` 1, `Privacy in AI` 1, `Privacy Research` 1, `Privacy-Preserving Technologies` 1) names no claim and stays on the branch node."
+      }
+    },
+    "privacy-user-input": {
+      "name": "User-input confidentiality",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "privacy"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "3",
+        "characteristic": "(same characteristic: which of the data subject's claims fails)",
+        "positive_test": "The exposure is at USE, not at training: what a person gives a deployed system, and the fact that they gave it, does not stay private. Private and encrypted inference, query privacy, sensitive content in prompts, on-device processing demanded for confidentiality rather than for cost.",
+        "negative_test": "The demand is that the system fit a device or run cheaply -> Frugal AI > Hardware cost or Computational cost; on-device deployment serves both demands and takes the one the name asserts. The exposed party is the model owner rather than the user (model extraction, weight theft) -> not a data-subject claim; Robustness or out of scope.",
+        "notes": "SPECULATIVE: zero corpus surfaces. No private inference, secure or homomorphic inference, prompt privacy or PII-in-prompts name occurs in the 2024 corpus. KEPT under rule 9. Justification: it is the only child holding the DEPLOYMENT-side privacy claimant, it is the fastest-moving privacy demand in the LLM era, and its absence is exactly the frontier-LLM gap RATIONALE 7 already documents for Safety in this corpus -- the same finding, in a second place. Flagged as the child most likely to be vindicated by a 2023-2026 re-extraction."
+      }
+    },
+    "privacy-subject-control": {
+      "name": "Data subject control",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "privacy"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "3",
+        "characteristic": "(same characteristic: which of the data subject's claims fails)",
+        "positive_test": "Nothing leaks and the subject is still wronged: they cannot withdraw, limit or revoke the use of their data. Machine unlearning and the right to be forgotten, consent, purpose limitation, data minimisation, deletion on request.",
+        "negative_test": "The removal is for performance, licensing or curation reasons rather than a subject's claim -> Method > Data curation. The forgetting is a learning PHENOMENON (`Catastrophic Forgetting` 6) -> Method > Training regime; the `forgetting` homonym is declared here.",
+        "notes": "Thinly supported: `Machine Unlearning` 1, `Model Unlearning` 1. Both are demand-register names whose only purpose is this claim, so they pass the name-level technique rule. The `Catastrophic Forgetting` 6 collision is the reason this node states its homonym explicitly: the two senses are one word apart and on different axes."
+      }
+    },
+    "safety-alignment": {
+      "name": "Alignment",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "safety"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "3",
+        "characteristic": "LEVEL 3 under Safety divides by WHAT THE SYSTEM GETS WRONG WHILE WORKING AS BUILT -- its objective, its actions, or its outputs. The parent's positive test names these three in order and this set is that sentence made into nodes.",
+        "positive_test": "The OBJECTIVE is wrong. The system competently pursues something other than what was intended: specification gaming, reward hacking, goal misgeneralization, and the problem of conveying human values into an objective at all.",
+        "negative_test": "The name is alignment MACHINERY (`Reinforcement Learning from Human Feedback` 1+1, preference models) -> Method > Learning signal, per the parent. The word `alignment` is a declared homonym: `Multimodal Alignment` 1, `Vision-Language Alignment` 1, `Ontology Alignment` 1 and `Multiple Sequence Alignment` 1 are Modality, Task and Application. `Value Learning` 1 is RL value functions, not human values.",
+        "notes": "Supported: `AI Alignment` 2, `Machine Learning in AI Alignment` 1. `Goal Misgeneralization` 1 is conceptually here but the 8b head-noun rule sends it to Method > Learning theory; RATIONALE 8 already flagged that as a known misdirection and it stands. Pre-authorised by the parent's own note, which filed alignment as a depth-3 child rather than a seventh level-2 sibling."
+      }
+    },
+    "safety-control": {
+      "name": "Safe control",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "safety"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "3",
+        "characteristic": "(same characteristic: what the system gets wrong while working as built)",
+        "positive_test": "The objective is right and the behaviour en route is not. Hard constraints must hold during operation and during learning: safe reinforcement learning, safe exploration, risk-averse and risk-sensitive policies, avoiding catastrophic or irreversible actions.",
+        "negative_test": "DECLARED HOMONYM `control`: control theory as machinery -> Method; control engineering of a physical plant -> Application (8b and AXES.md 7 both already split these). Only the safety demand on the AI system's own behaviour is here. Risk as an estimation object (`Empirical Risk Minimization` 1) is Method; risk assessment as an ACTIVITY (`Risk Assessment` 1) is mark_ignore per 8b.",
+        "notes": "Supported: `Risk-Averse Reinforcement Learning` 2, `Safe Reinforcement Learning` 1, `Safety Engineering for ML` 1. These are constrained-RL technique names whose only purpose is the safety demand, so they pass the name-level rule -- the parent already says so."
+      }
+    },
+    "safety-output": {
+      "name": "Output safety",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "safety"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "3",
+        "characteristic": "(same characteristic: what the system gets wrong while working as built)",
+        "positive_test": "The objective and the actions are beside the point: the emitted content itself harms its reader. Harmful, dangerous or abusive generation, unsafe advice, and resistance to being talked into producing it -- jailbreaks, red-teaming of outputs, guardrails and refusal behaviour.",
+        "negative_test": "The harm exists in the world and the system is merely asked to find it (`Misinformation Detection` 3, `Toxicity Detection` 1, `Toxic Language Detection` 1, `Toxicity Detection in Online Gaming` 1) -> Task > Detection + Application. That is the parent's own negative test and it is the boundary this node must hold. Bare factuality or hallucination framed as a capability shortfall, with no harm claimant, is endogenous -> Method.",
+        "notes": "SPECULATIVE: zero corpus surfaces. RATIONALE 7 already reported that the 2024 corpus contains no jailbreak, red-teaming, guardrail or hallucination surface at all; this node is where that hole is now located precisely. KEPT under rule 9. Justification: it is the mode of safety failure that the generative-model era has made dominant everywhere outside this corpus, and the parent's own positive test names `produces harmful output` as one of its three cases -- deleting the node would leave a clause of the parent's characteristic with no child to discharge it. The gap is a finding about the corpus's frontier-LLM share, not about the node."
+      }
+    },
+    "account-compliance": {
+      "name": "Regulatory compliance",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "accountability"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "3",
+        "characteristic": "LEVEL 3 under Accountability divides by WHICH PRECONDITION OF ANSWERABILITY IS MISSING. To hold a system to account an institution needs a rule to apply to it, a way to inspect it, and a record of what it is.",
+        "positive_test": "There is no rule, or the system does not meet one: law and regulation, standards and conformity assessment, certification, liability, and the statutory requirement that a human remain able to oversee and intervene.",
+        "negative_test": "Governance of a NON-AI subject (`Climate Governance` 1, `Health Policy` 1, `Regulatory Science` 1, `Public Policy Analysis using AI` 1) -> Application, per the parent. DECLARED HOMONYM `policy`: `AI Policy` 2 and `Policy and Governance` 1 are here; `Policy Gradient Methods` 5, `Policy Optimization` 4, `Policy Evaluation` 1 and six further RL surfaces are Method.",
+        "notes": "Best-supported accountability child: `AI Governance` 3, `AI Policy` 2, `AI Regulation` 1, `Artificial Intelligence Governance` 1, `Governance of AI` 1, `Policy and Governance` 1, `Ethical, Legal and Social Implications (ELSI)` 1, plus the governance half of the compound surfaces `AI Safety and Regulation` 2 and `AI Safety and Governance` 1 (which, being compounds spanning two children of two different parents, map to the Trustworthy AI branch node by the 8b nearest-common-parent rule). FOURTH CHILD CONSIDERED AND NOT CREATED: `Human oversight`. The EU AI Act treats meaningful human control as its own requirement and under this characteristic it would be a fourth missing precondition, but as a node it collides with Safety and with HCI, and `Human-in-the-loop` is predominantly a Method surface (`Human-in-the-loop Reinforcement Learning` 1), so a node by that name would attract out-of-scope entries, which 9 forbids. Folded into this positive test; the likeliest fourth child."
+      }
+    },
+    "account-auditability": {
+      "name": "Auditability",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "accountability"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "3",
+        "characteristic": "(same characteristic: which precondition of answerability is missing)",
+        "positive_test": "There is a rule but no independent party can check it: third-party audit access, algorithmic auditing, impact and conformity assessment, evaluation that the deployer cannot mark themselves.",
+        "negative_test": "A research ACTIVITY rather than a property of a system (`Benchmarking` 7, `Multimodal Model Evaluation`, `Impact Evaluation` 1) -> mark_ignore on every axis, per 8b and the parent. This node is the demand that auditing BE POSSIBLE, never the activity of evaluating -- the distinction the earlier proposal collapsed when it filed evaluation as a property.",
+        "notes": "Thinly supported: `Data Auditing` 1, `AI Trustworthiness Assessment` 1, `AI Ethics Review` 1, `Model Risk Management` 1 (a governance function, kept, per RATIONALE 8). The auditability/benchmarking boundary is the one this node most needs enforced at mapping time."
+      }
+    },
+    "account-traceability": {
+      "name": "Traceability",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "accountability"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "3",
+        "characteristic": "(same characteristic: which precondition of answerability is missing)",
+        "positive_test": "There is no record travelling with the system: model documentation and model cards, dataset datasheets, training-data provenance and disclosure, logging and record-keeping, and provenance of generated content (watermarking, establishing where an output came from).",
+        "negative_test": "DECLARED HOMONYM: `traceability` in software engineering means requirements traceability and is Application > Computing; `Software Documentation` 1 and `Healthcare Data Documentation` 1 document a non-AI artefact -> Application. Data quality and metadata work aimed at model performance rather than at answerability (`Data Quality` 1, `Data Quality and Metadata Inference` 1) -> Method > Data curation.",
+        "notes": "SPECULATIVE: zero corpus surfaces, confirming RATIONALE 7's prediction that `Model Cards`, `Algorithmic Auditing`, `Provenance` and `Watermarking` occur zero times. KEPT under rule 9. Justification: it is the precondition of answerability that the AI Act, NIST AI RMF and ISO 42001 all make mandatory, and the parent node is itself kept on semantics rather than count for the same reason -- its under-representation at a 2024 Canadian ML institute is the publishable line, and a node is needed for the line to be about something. Naming note: `Traceability` was chosen over `Documentation and provenance`, which 9 would read as a compound."
+      }
+    },
+    "compute-training": {
+      "name": "Training compute",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "compute-cost"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "3",
+        "characteristic": "LEVEL 3 under Computational cost divides by WHICH COMPUTATION IS PAID FOR -- a refinement of the grandparent's `which resource is economised`, one turn finer. Each child has a different payer and different units.",
+        "positive_test": "The one-off cost of PRODUCING the model: FLOPs, GPU-hours, wall-clock time to train, the size or duration of a training run. Payer: whoever funds the run.",
+        "negative_test": "The economised quantity is data or parameters (`Sample Efficiency` 1, `Parameter-Efficient Fine-Tuning (PEFT)` 1 and 2 variants) -> excluded from the branch by AXES.md 2. The name is a compression or efficiency TECHNIQUE whose purpose is ambiguous (`Model Compression` 9, `Knowledge Distillation` 8, `Model Pruning` 7, `Quantization` 4 and ~10 variants, ~43 mentions) -> Method only, by the name-level rule; they reach this node only with paper-level motivation evidence.",
+        "notes": "Supported: `Efficient Training of Transformer Models` 1, `Scalable Machine Learning` 1, `Scalability in Deep Learning` 1, and the training reading of `Efficient Deep Learning` 3. `Scalability in X` 4 is a MODIFIER, not a fourth resource -- it can be true of training, inference and communication alike -- and the parent's own note already reads it as compute cost with a declared judgement that it sometimes means graph size."
+      }
+    },
+    "compute-inference": {
+      "name": "Inference cost",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "compute-cost"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "3",
+        "characteristic": "(same characteristic: which computation is paid for)",
+        "positive_test": "The recurring cost of EACH USE: latency, throughput, serving cost, memory at serving time, test-time compute budgets. Payer: whoever operates the deployment, per query.",
+        "negative_test": "The constraint is the physical substrate the model must fit (`Hardware Acceleration` 4, `Edge Computing` 1) -> Hardware cost. The name is an inference PROCEDURE rather than a cost claim (`Prompt Engineering`, `Chain-of-Thought`, test-time computation) -> Method > Computational machinery, per AXES.md 3's 2026-09-29 ruling.",
+        "notes": "Thinly supported: `Efficient Inference` 1, `Memory Optimization` 1, and the serving reading of `Real-Time Systems` 1 (which is more probably Application). DECLARED STRAIN, carried verbatim from the phase-1 draft: training-vs-inference can be read as a division by STAGE, which is defect M5 on the Method axis. I claim it is not -- these are two budgets with two payers and incommensurable units (one-off GPU-hours vs cost per query), which is the grandparent's `which resource` question and not `when the computation happens`. Declared so a reader can disagree."
+      }
+    },
+    "compute-communication": {
+      "name": "Communication cost",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "compute-cost"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "3",
+        "characteristic": "(same characteristic: which computation is paid for)",
+        "positive_test": "The cost of MOVING DATA between the machines doing the computing: bandwidth, round-trips and synchronisation in distributed and federated training. Payer: the network.",
+        "negative_test": "`Distributed Training` and `Federated Learning` 24 name how training is ORGANISED -> Method > Training regime; only a cost claim about them lands here. Communication SYSTEMS as a subject (`Communication Networks` 2, `5G Communications` 1, `Wireless Communication` 1, `Satellite Communication` 1+1, `Deep Learning for Wireless Communications` 1) -> Application; the `communication` homonym is declared on this axis.",
+        "notes": "Supported: `Communication Efficiency` 3, `Communication-Efficient Learning` 1. PRE-AUTHORISED by the parent's own note, which already filed communication cost as a depth-3 child rather than a fourth resource under Frugal AI; this delivery executes that ruling rather than deciding it."
+      }
+    },
+    "energy-consumption": {
+      "name": "Energy consumption",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "energy-cost"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "3",
+        "characteristic": "LEVEL 3 under Energy cost divides by WHICH QUANTITY IS BUDGETED -- the energy drawn, or the emissions it causes. These are not the same number and they do not have the same claimant: the same joules carry different carbon depending on grid, location and hour.",
+        "positive_test": "Joules and watts drawn by training or serving; energy-aware training and serving; measuring and reporting the power a run costs. Claimant: the operator paying the bill, and the device running on a battery.",
+        "negative_test": "The paper applies ML to an energy problem -- the object of study is a power grid, a building or a market, not an AI system (`Energy Management` 1 + 3 variants, `Energy Prediction` 1+1, `Renewable Energy Forecasting` 1, `Energy Storage` 1, `Energy Market Modeling` 1, `Building Energy Management Systems` 1, `Energy Consumption Pattern Recognition` 1) -> Application. This is the axis's founding collision and this node's boundary is where it is held.",
+        "notes": "Thinly supported: `Energy Efficiency` 1. `Green AI` 2 and `Environmental Sustainability and Artificial Intelligence` 1 name no quantity and stay on the parent node as umbrellas. Both children of Energy cost were flagged speculative IN ADVANCE in the phase-1 draft, before the corpus was opened, precisely so that the corpus result could not be read as having caused the flag."
+      }
+    },
+    "energy-carbon": {
+      "name": "Carbon footprint",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "energy-cost"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "3",
+        "characteristic": "(same characteristic: which quantity is budgeted)",
+        "positive_test": "CO2e emitted, and what can be done about it independently of joules: carbon-aware scheduling, location and time shifting of runs, carbon accounting and disclosure for models. Claimant: a climate target, a regulator, a reporting regime.",
+        "negative_test": "The paper analyses emissions in the world rather than the model's own (`Greenhouse Gas Emissions Analysis` 1, `Aviation Emissions` 1, `Carbon Capture` 1 + CCUS 1, `Climate Change Impact` 2) -> Application. THIRD CHILD CONSIDERED AND NOT CREATED: `Lifecycle and embodied footprint` (hardware manufacture, datacenter water, e-waste). Real and growing, but it sits one step from Application > environment and the reflexive test gets genuinely hard when the object of study is a building. Declined in writing, as the likeliest third child; NOT declined for thinness, since both delivered children are thin too.",
+        "notes": "SPECULATIVE: zero corpus surfaces for the model's own carbon. KEPT under rule 9, on the strongest available warrant: AXES.md 2 builds the ENTIRE case for a separate properties axis on the Green-AI / energy-sector collision, and the owner calls Frugal AI strategically important. Deleting this node for thinness would delete the axis's own founding example one level down."
+      }
+    }
+  }
+}

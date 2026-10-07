@@ -84,13 +84,38 @@ def _restore(
     onto._reindex()
 
 
+#: Fields :class:`~paperext.ontology.schema.Node` gained for faceted dimensions
+#: (D1h, #100). They are omitted from the content hash when empty, which every
+#: node of a legacy tree leaves them. Without that, extending the schema would
+#: move the hash of unchanged content and invalidate every sealed split and every
+#: recorded decision — the hash has to be over the content, not over the schema's
+#: field list.
+_OPTIONAL_NODE_FIELDS = (
+    "axes",
+    "parent_ids",
+    "value_parent",
+    "kind",
+    "expands_to",
+    "props",
+)
+
+
 def content_hash(onto: Ontology) -> str:
     """Stable sha256 over the tree + normalization DB.
 
     Pins the exact base a decision was taken against — ``base_version`` alone is
     not enough once a ``v<N>`` directory is rewritten.
+
+    Stable across schema growth: a field added to :class:`Node` contributes only
+    where a node actually uses it. ``models/v0`` is the sealed eval reference
+    (#95), so its hash must not move because a later dimension needed a new
+    field.
     """
     doc, norm = _snapshot(onto)
+    for node in doc.get("nodes", {}).values():
+        for name in _OPTIONAL_NODE_FIELDS:
+            if not node.get(name):
+                node.pop(name, None)
     payload = json.dumps(
         {"doc": doc, "norm": norm}, sort_keys=True, ensure_ascii=False
     ).encode()

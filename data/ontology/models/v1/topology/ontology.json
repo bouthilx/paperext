@@ -1,0 +1,153 @@
+{
+  "meta": {
+    "version": "v1",
+    "dimension": "models/topology"
+  },
+  "roots": [
+    "single-component",
+    "encoder-decoder",
+    "multi-tower",
+    "ensemble",
+    "cascade"
+  ],
+  "nodes": {
+    "single-component": {
+      "name": "Single component",
+      "description": "",
+      "examples": [],
+      "children": [
+        "bidirectional-encoder",
+        "causal-decoder"
+      ],
+      "axes": {},
+      "parent_ids": [],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "1",
+        "characteristic": "one component maps input to output in one pass",
+        "positive_test": "there is one body of parameters and one direction of flow",
+        "negative_test": "there is a second component consuming the first's output, or a parallel tower",
+        "examples": "most classifiers; GPT; BERT; NeRF; SVM; Gaussian process",
+        "notes": "Renamed from `Single stack` on 2026-10-06 (owner). A stack means a stack of LAYERS, which asserts something false about an SVM or a Gaussian process even though the underlying claim -- this model has one component -- is true of them. The axis is NOT misapplied to non-neural models: random forest resolves to Ensemble, so topology separates forests from kernel machines correctly. Only the name was neural-centric. Its two children keep `stack` because they are genuinely layer stacks."
+      }
+    },
+    "bidirectional-encoder": {
+      "name": "Bidirectional encoder stack",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "single-component"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "2",
+        "characteristic": "every position may attend to every other",
+        "positive_test": "the representation at a position depends on both sides of it",
+        "negative_test": "positions may only depend on what precedes them",
+        "examples": "BERT; RoBERTa; ViT",
+        "notes": "This level was built inside the Transformer LINEAGE subtree by both derivation runs. It is topology: it applies to any family."
+      }
+    },
+    "causal-decoder": {
+      "name": "Causal decoder stack",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "single-component"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "2",
+        "characteristic": "a position may depend only on what precedes it",
+        "positive_test": "the model can generate one step at a time from its own output",
+        "negative_test": "positions see the whole input at once",
+        "examples": "GPT; LLaMA; PixelCNN"
+      }
+    },
+    "encoder-decoder": {
+      "name": "Encoder–decoder",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "1",
+        "characteristic": "a second component consumes a representation built by the first",
+        "positive_test": "two bodies of parameters, with a latent or memory between them",
+        "negative_test": "one body of parameters, or two parallel towers over different inputs",
+        "examples": "T5; BART; U-Net; autoencoders; VAE; MAE",
+        "notes": "Autoencoders live here. An autoencoder IS an encoder and a decoder -- what makes it an autoencoder is the reconstruction TARGET, which is an objective and belongs to algorithms (owner, 2026-10-02)."
+      }
+    },
+    "multi-tower": {
+      "name": "Multi-tower / dual encoder",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "1",
+        "characteristic": "parallel components encode different inputs and are combined only at the end",
+        "positive_test": "two or more bodies of parameters run side by side, joined by a comparison in a shared space",
+        "negative_test": "one component feeds the next in sequence",
+        "examples": "CLIP; DPR; Siamese networks",
+        "notes": "Collapsed with its sole child on 2026-10-02: a parent with one child is a rename of that child (R4). Re-split if a non-dual multi-tower family appears."
+      }
+    },
+    "ensemble": {
+      "name": "Ensemble",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "1",
+        "characteristic": "many independent models are combined at prediction time",
+        "positive_test": "members are trained separately and their outputs are pooled",
+        "negative_test": "the components are jointly trained parts of one forward pass",
+        "examples": "random forest; deep ensembles"
+      }
+    },
+    "cascade": {
+      "name": "Cascade / multi-stage",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "1",
+        "characteristic": "several separately trained components run in sequence, each consuming the previous one's output",
+        "positive_test": "the stages are trained apart and composed at inference; a stage can be swapped without retraining the others",
+        "negative_test": "the components are jointly trained parts of one forward pass, which is encoder-decoder, or run side by side, which is multi-tower",
+        "examples": "Stable Diffusion; DALL-E 2; Imagen",
+        "notes": "Added 2026-10-06. Found twice over: a placement agent flagged multi-stage pipelines as homeless, and the topology audit independently reported stable_diffusion, dalle2 and segnet resolving by parents-column ORDER because their parents disagreed. Distinct from Encoder-decoder, where the two halves are trained together."
+      }
+    }
+  }
+}

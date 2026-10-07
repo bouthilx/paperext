@@ -16,7 +16,12 @@ Inheritance semantics, and why each is what it is:
 * **attributes** union *across* families. *Within* one family the nearest
   ancestor wins when the family is single-valued -- but cardinality is derived
   from the pinning pass, not assumed, so an undeclared family that resolves to
-  two values is reported rather than silently truncated.
+  two values is reported rather than silently truncated. A family declared
+  `many` unions up the whole chain, like `role` and `signal` do: it says several
+  values hold at once, so an inherited one does not compete with one pinned
+  here. A descendant that must *not* inherit a `many` value says so with `!`,
+  which is the same mechanism `signal` already relies on and this axis already
+  uses 83 times.
 
 `--audit` reports what a validator cannot see from the tables alone. The checks
 exist because each caught a real defect in the sibling models dimension: multi-
@@ -284,18 +289,34 @@ class Dimension:
 
         resolved: set[str] = set()
         for fam, hits in per_family.items():
+            card = self.axes[axis].nodes[fam].get("cardinality", "").strip()
+            if card == "many":
+                # A `many` family holds several values at once, so a value
+                # inherited from further up is not competing with one pinned
+                # here -- both hold, and the union spans the whole chain.
+                #
+                # This line used to read
+                #     at_front if card == "many" or len(at_front) == 1 else at_front
+                # whose two branches are identical: the intention to treat
+                # `many` differently was written and then collapsed, so the
+                # family resolved as if it were single-valued whenever a
+                # descendant pinned anything of its own. That dropped 17
+                # inherited values, EXP3's regret bound among them, and hid
+                # four ancestor pins that claim more than they should --
+                # L.marl.game asserting a regret bound for Nash-Q. Found by
+                # porting these semantics to `paperext.ontology.axes` and
+                # discovering the sibling models dimension disagreed (#100).
+                resolved.update(v for _, v in hits)
+                continue
             nearest = min(d for d, _ in hits)
             at_front = sorted({v for d, v in hits if d == nearest})
-            card = self.axes[axis].nodes[fam].get("cardinality", "").strip()
-            if len(at_front) > 1 and card != "many":
+            if len(at_front) > 1:
                 # never settle this by column order; that is the models defect
                 notes.append(
                     f"{nid}: family {fam} resolves to {at_front} at equal depth"
                     f" and cardinality is {card or 'undeclared'}"
                 )
-            resolved.update(
-                at_front if card == "many" or len(at_front) == 1 else at_front
-            )
+            resolved.update(at_front)
         return self._subsume(axis, resolved - denied), notes
 
 

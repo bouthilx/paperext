@@ -14,8 +14,18 @@ mutation API + invariants (D1a-2), the roll-up converter that reproduces
 :func:`paperext.analysis.rollup.build_category_map` exactly, and the faithful
 ``v0`` migration of the three legacy trees. The LLM categorization agent (D1b)
 builds on top of this.
+
+D1h (#100) makes the *derived* dimensions loadable through the same model:
+:class:`~paperext.ontology.axes.Dimension` is one manifest plus one
+:class:`Ontology` per axis, with the inheritance semantics declared per axis
+rather than hard-coded, and
+:func:`~paperext.ontology.rollup.to_category_sets` is the multi-parent
+counterpart of :func:`~paperext.ontology.rollup.to_category_map` -- added
+alongside it, because the flat map reproduces the legacy one and ``models/v0``
+is still the sealed eval reference.
 """
 
+from paperext.ontology.axes import Dimension
 from paperext.ontology.ontology import (
     CycleError,
     DuplicateNodeError,
@@ -29,11 +39,23 @@ from paperext.ontology.rollup import (
     UnresolvedCutError,
     resolve_cut,
     to_category_map,
+    to_category_sets,
 )
-from paperext.ontology.schema import Meta, Node, NormRow, OntologyDoc
+from paperext.ontology.schema import (
+    AxisSpec,
+    DimensionDoc,
+    Meta,
+    Node,
+    NormRow,
+    OntologyDoc,
+)
 
 __all__ = [
     "Ontology",
+    "Dimension",
+    "DimensionDoc",
+    "AxisSpec",
+    "to_category_sets",
     "OntologyDoc",
     "Node",
     "Meta",

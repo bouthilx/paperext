@@ -1,0 +1,2612 @@
+{
+  "meta": {
+    "version": "v1",
+    "dimension": "domains/method"
+  },
+  "roots": [
+    "learning-signal",
+    "training-regime",
+    "computational-machinery",
+    "model-design",
+    "model-analysis",
+    "learning-theory",
+    "data-curation",
+    "uninformative"
+  ],
+  "nodes": {
+    "learning-signal": {
+      "name": "Learning signal",
+      "description": "",
+      "examples": [],
+      "children": [
+        "supervised-learning",
+        "unsupervised-learning",
+        "self-supervised-learning",
+        "semi-supervised-learning",
+        "weakly-supervised-learning",
+        "reinforcement-learning"
+      ],
+      "axes": {},
+      "parent_ids": [],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "1",
+        "characteristic": "what supplies the training target",
+        "positive_test": "the name says what the learner is told while it is being trained",
+        "negative_test": "the name says how training runs are organised (training regime) or what structure is learned (model design)",
+        "corpus_names": "94",
+        "corpus_mentions": "615",
+        "notes": "Level-2 principle: the supplier of the target. Fixes M2: learning from human feedback is a specialisation of reinforcement learning, not a sibling."
+      }
+    },
+    "supervised-learning": {
+      "name": "Supervised learning",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "learning-signal"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "2",
+        "characteristic": "the target is an external label attached to every example",
+        "positive_test": "every training example carries a target produced outside the data",
+        "negative_test": "the target is derived from the input itself, or only part of the data is labelled",
+        "examples": "structured prediction; metric learning; label-efficient supervised training",
+        "corpus_names": "3",
+        "corpus_mentions": "22",
+        "notes": "Bare Supervised Learning (10) sits here. Classification/Regression surfaces are Task-axis names and also map here only when they name a training setup."
+      }
+    },
+    "unsupervised-learning": {
+      "name": "Unsupervised learning",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "learning-signal"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "2",
+        "characteristic": "no target is supplied; only the structure of the inputs",
+        "positive_test": "the method is fitted with no target of any kind",
+        "negative_test": "a pretext target is constructed from the input (self-supervised), or an external label exists",
+        "examples": "clustering methods; density estimation; manifold learning",
+        "corpus_names": "17",
+        "corpus_mentions": "33",
+        "notes": "Clustering / Density Estimation / Dimensionality Reduction are declared homonyms in AXES 8b: they map here on Method and to Task as well; cross-axis mapping is legal (D6)."
+      }
+    },
+    "self-supervised-learning": {
+      "name": "Self-supervised learning",
+      "description": "",
+      "examples": [],
+      "children": [
+        "masked-prediction",
+        "next-element-prediction",
+        "contrastive-learning",
+        "self-distillation",
+        "transformation-prediction"
+      ],
+      "axes": {},
+      "parent_ids": [
+        "learning-signal"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "2",
+        "characteristic": "the target is constructed from the input itself",
+        "positive_test": "a pretext target is derived mechanically from unlabelled data",
+        "negative_test": "the target comes from an annotator, or from acting in an environment",
+        "examples": "contrastive learning; masked prediction; predictive pretext tasks",
+        "corpus_names": "6",
+        "corpus_mentions": "98",
+        "notes": "Self-Supervised 73 + Contrastive 21. AXES notes this value skews used, not contributed (22% primary)."
+      }
+    },
+    "semi-supervised-learning": {
+      "name": "Semi-supervised learning",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "learning-signal"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "2",
+        "characteristic": "targets exist for part of the data and not the rest",
+        "positive_test": "training uses a labelled subset together with unlabelled data of the same kind",
+        "negative_test": "all examples are labelled, or none are",
+        "examples": "pseudo-labelling; consistency regularization; label propagation",
+        "corpus_names": "2",
+        "corpus_mentions": "6",
+        "notes": "Absent from the first derivation (M2). Classic, kept on semantics not volume."
+      }
+    },
+    "weakly-supervised-learning": {
+      "name": "Weakly supervised learning",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "learning-signal"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "2",
+        "characteristic": "the target is an indirect, incomplete or noisy proxy for the true label",
+        "positive_test": "the supervision is cheaper and less exact than the target of interest",
+        "negative_test": "the work measures or repairs the labels themselves (data curation > annotation)",
+        "examples": "multiple-instance learning; distant supervision; noisy-label learning",
+        "corpus_names": "2",
+        "corpus_mentions": "4",
+        "notes": "Absent from the first derivation (M2). Declared boundary with annotation: tolerating noise is a signal, fixing it is curation."
+      }
+    },
+    "reinforcement-learning": {
+      "name": "Reinforcement learning",
+      "description": "",
+      "examples": [],
+      "children": [
+        "online-rl",
+        "offline-rl",
+        "learning-from-demonstrations",
+        "learning-from-human-feedback",
+        "intrinsically-motivated-rl",
+        "multi-agent-rl"
+      ],
+      "axes": {},
+      "parent_ids": [
+        "learning-signal"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "2",
+        "characteristic": "the target is a reward obtained by acting in an environment",
+        "positive_test": "the learner receives evaluative feedback on actions it chose",
+        "negative_test": "the name states the problem formulation only (MDP, POMDP) with no learner: that is machinery > planning",
+        "examples": "policy-gradient methods; value-based methods; model-based reinforcement learning",
+        "corpus_names": "64",
+        "corpus_mentions": "452",
+        "notes": "Absorbs imitation learning, inverse RL, preference-based RL/RLHF, offline RL, multi-agent RL, hierarchical RL, exploration and bandit learning as depth 3. MARL lands here by the head-noun rule (8b)."
+      }
+    },
+    "training-regime": {
+      "name": "Training regime",
+      "description": "",
+      "examples": [],
+      "children": [
+        "transfer-learning",
+        "multi-task-learning",
+        "continual-learning",
+        "meta-learning",
+        "federated-learning",
+        "distributed-training",
+        "online-learning"
+      ],
+      "axes": {},
+      "parent_ids": [],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "1",
+        "characteristic": "the dimension along which a single training process is spread",
+        "positive_test": "the name says what the training run ranges over: tasks, time, data holders or machines",
+        "negative_test": "the name says what the learner is told (learning signal) or what is done to the dataset (data curation)",
+        "corpus_names": "44",
+        "corpus_mentions": "227",
+        "notes": "Level-2 principle: what training is distributed over. Curriculum learning is moved out to data curation, since an ordering of examples is not a dimension training is spread across."
+      }
+    },
+    "transfer-learning": {
+      "name": "Transfer learning",
+      "description": "",
+      "examples": [],
+      "children": [
+        "domain-adaptation",
+        "cross-task-transfer"
+      ],
+      "axes": {},
+      "parent_ids": [
+        "training-regime"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "2",
+        "characteristic": "training is spread across a source and a target domain or task",
+        "positive_test": "knowledge fitted on one distribution is reused on another",
+        "negative_test": "the two settings are trained jointly (multi-task) or arrive as a sequence (continual)",
+        "examples": "domain adaptation; fine-tuning; cross-lingual transfer",
+        "corpus_names": "16",
+        "corpus_mentions": "70",
+        "notes": "Transfer 42. AXES warns this is the strongest used-skew on the axis (10% primary)."
+      }
+    },
+    "multi-task-learning": {
+      "name": "Multi-task learning",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "training-regime"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "2",
+        "characteristic": "training is spread across several tasks optimised together",
+        "positive_test": "one model is trained on several objectives at the same time",
+        "negative_test": "the tasks arrive one after another",
+        "examples": "auxiliary-task training; task-conditioned training; negative-transfer mitigation",
+        "corpus_names": "2",
+        "corpus_mentions": "20",
+        "notes": "Multi-task 19."
+      }
+    },
+    "continual-learning": {
+      "name": "Continual learning",
+      "description": "",
+      "examples": [],
+      "children": [
+        "task-incremental-learning",
+        "class-incremental-learning",
+        "domain-incremental-learning"
+      ],
+      "axes": {},
+      "parent_ids": [
+        "training-regime"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "2",
+        "characteristic": "training is spread across a sequence of tasks arriving over time",
+        "positive_test": "earlier tasks are no longer available when later ones are trained",
+        "negative_test": "examples arrive one at a time with no task boundaries (online learning)",
+        "examples": "catastrophic forgetting; replay methods; class-incremental learning",
+        "corpus_names": "6",
+        "corpus_mentions": "43",
+        "notes": "Continual 29 + lifelong 5 + catastrophic forgetting 6."
+      }
+    },
+    "meta-learning": {
+      "name": "Meta-learning",
+      "description": "",
+      "examples": [],
+      "children": [
+        "optimization-based-meta-learning",
+        "metric-based-meta-learning",
+        "amortised-meta-learning"
+      ],
+      "axes": {},
+      "parent_ids": [
+        "training-regime"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "2",
+        "characteristic": "training is spread across a distribution of tasks in order to produce a learner",
+        "positive_test": "the outer objective is how well a learner adapts to a new task",
+        "negative_test": "a single task is adapted to a single other task (transfer)",
+        "examples": "few-shot learning; gradient-based meta-learning; in-context learning",
+        "corpus_names": "4",
+        "corpus_mentions": "47",
+        "notes": "Meta 26 + few-shot 14 + in-context 4. In-context learning placed here as adaptation without weight updates."
+      }
+    },
+    "federated-learning": {
+      "name": "Federated learning",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "training-regime"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "2",
+        "characteristic": "training is spread across data holders that do not pool their data",
+        "positive_test": "the constraint is that data cannot leave its owner",
+        "negative_test": "the constraint is only throughput across machines (distributed training)",
+        "examples": "client heterogeneity; secure aggregation; personalised federated learning",
+        "corpus_names": "1",
+        "corpus_mentions": "24",
+        "notes": "Federated 24."
+      }
+    },
+    "distributed-training": {
+      "name": "Distributed training",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "training-regime"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "2",
+        "characteristic": "training is spread across machines sharing one data pool",
+        "positive_test": "the work is about splitting a training run over compute",
+        "negative_test": "the work is about an optimizer for a distributed objective, which is machinery > optimization",
+        "examples": "data parallelism; model parallelism; decentralized training",
+        "corpus_names": "8",
+        "corpus_mentions": "11",
+        "notes": "Distributed Optimization is a declared homonym (8b): head noun Optimization sends it to machinery."
+      }
+    },
+    "online-learning": {
+      "name": "Online learning",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "training-regime"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "2",
+        "characteristic": "training is spread across a stream in which examples arrive one at a time",
+        "positive_test": "the learner updates per example or per round as data arrives",
+        "negative_test": "the stream has explicit task boundaries and forgetting is the object of study (continual)",
+        "examples": "incremental learning; streaming learning; bandit-feedback learning",
+        "corpus_names": "7",
+        "corpus_mentions": "12",
+        "notes": "Weakest pair on this branch with continual learning: both divide by time. Declared, not laundered."
+      }
+    },
+    "computational-machinery": {
+      "name": "Computational machinery",
+      "description": "",
+      "examples": [],
+      "children": [
+        "optimization",
+        "probabilistic-inference",
+        "causal-inference",
+        "logical-inference",
+        "game-theory",
+        "search",
+        "planning",
+        "evolutionary-computation",
+        "inference-procedures"
+      ],
+      "axes": {},
+      "parent_ids": [],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "1",
+        "characteristic": "what computes the answer, given an explicit problem specification",
+        "positive_test": "the answer is produced by an algorithm applied to a stated objective, likelihood, formula, game or action model",
+        "negative_test": "the answer comes out of parameters fitted to data, which is model design plus learning signal",
+        "corpus_names": "169",
+        "corpus_mentions": "471",
+        "notes": "Renamed from AXES 3 Inference & optimization, which is a compound name banned by 9 and too narrow for solvers, planners and search. Same aspect, stated characteristic unchanged: what machinery computes the answer."
+      }
+    },
+    "optimization": {
+      "name": "Optimization",
+      "description": "",
+      "examples": [],
+      "children": [
+        "continuous-optimization",
+        "combinatorial-optimization"
+      ],
+      "axes": {},
+      "parent_ids": [
+        "computational-machinery"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "2",
+        "characteristic": "the machinery exploits the analytic or combinatorial structure of an explicit objective over a feasible set",
+        "positive_test": "there is an objective to be minimised or maximised and the method uses its structure",
+        "negative_test": "only evaluations of candidates are used (evolutionary computation), or the answer is a distribution (probabilistic inference)",
+        "examples": "convex optimization; combinatorial optimization; stochastic gradient methods",
+        "corpus_names": "74",
+        "corpus_mentions": "227",
+        "notes": "Bare Optimization 71 lands here rather than at branch level, which is why continuous and combinatorial are depth 3 and not siblings. Also holds constrained, robust, minimax, bilevel and Bayesian optimization, regularized objectives, and optimal transport. Fixes M3: constrained learning is an objective modification."
+      }
+    },
+    "probabilistic-inference": {
+      "name": "Probabilistic inference",
+      "description": "",
+      "examples": [],
+      "children": [
+        "mcmc",
+        "variational-inference",
+        "sequential-monte-carlo",
+        "message-passing",
+        "simulation-based-inference"
+      ],
+      "axes": {},
+      "parent_ids": [
+        "computational-machinery"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "2",
+        "characteristic": "the machinery exploits a probability model and its likelihood",
+        "positive_test": "the answer is a distribution, a posterior or a sample from one",
+        "negative_test": "the quantity is an interventional or counterfactual effect (causal inference)",
+        "examples": "variational inference; Markov chain Monte Carlo; simulation-based inference",
+        "corpus_names": "28",
+        "corpus_mentions": "78",
+        "notes": "Bayesian Inference 19, variational, MCMC, SMC, probabilistic programming. Monte Carlo Simulations used as a physics instrument is a declared Simulation homonym and leaves this axis."
+      }
+    },
+    "causal-inference": {
+      "name": "Causal inference",
+      "description": "",
+      "examples": [],
+      "children": [
+        "causal-discovery",
+        "effect-estimation",
+        "causal-representation-learning"
+      ],
+      "axes": {},
+      "parent_ids": [
+        "computational-machinery"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "2",
+        "characteristic": "the machinery exploits causal assumptions encoded as interventions",
+        "positive_test": "the quantity estimated is defined by an intervention or a counterfactual",
+        "negative_test": "the model is merely probabilistic and no intervention is defined",
+        "examples": "causal discovery; treatment-effect estimation; causal representation learning",
+        "corpus_names": "10",
+        "corpus_mentions": "40",
+        "notes": "Causal Inference 16 + causal discovery 6 + causal representation learning 8. Owner-locked placement in AXES 3."
+      }
+    },
+    "logical-inference": {
+      "name": "Logical inference",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "computational-machinery"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "2",
+        "characteristic": "the machinery exploits entailment over symbolic formulas and constraints",
+        "positive_test": "correctness is defined by a proof, a model of a formula, or constraint satisfaction",
+        "negative_test": "the symbols are the learned structure rather than the reasoning engine (model design > symbolic models)",
+        "examples": "satisfiability solving; theorem proving; constraint programming",
+        "corpus_names": "17",
+        "corpus_mentions": "20",
+        "notes": "Closes blind spot 2 on the machinery side: SAT/SMT 2, theorem proving 1, constraint programming/solving/inference 3, automated reasoning 1, logical reasoning/inference 2. Thin by design and kept on breadth, not volume."
+      }
+    },
+    "game-theory": {
+      "name": "Game theory",
+      "description": "",
+      "examples": [],
+      "children": [
+        "equilibrium-computation",
+        "learning-in-games",
+        "mechanism-design",
+        "cooperative-game-theory"
+      ],
+      "axes": {},
+      "parent_ids": [
+        "computational-machinery"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "2",
+        "characteristic": "the machinery exploits strategic interaction between agents, solved for an equilibrium",
+        "positive_test": "the solution concept is an equilibrium or a best response",
+        "negative_test": "the agents are cooperative components of one training run (training regime)",
+        "examples": "equilibrium computation; mechanism design; cooperative game theory",
+        "corpus_names": "7",
+        "corpus_mentions": "36",
+        "notes": "Game Theory 20 plus variational inequalities. Multi-Agent Reinforcement Learning does NOT land here: the head-noun rule sends it to learning signal."
+      }
+    },
+    "search": {
+      "name": "Search",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "computational-machinery"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "2",
+        "characteristic": "the machinery exploits a goal test and a heuristic estimate over a state space",
+        "positive_test": "the answer is found by expanding states toward a goal",
+        "negative_test": "the candidate set is a population improved by variation and selection (evolutionary computation)",
+        "examples": "heuristic state-space search; game-tree search; Monte Carlo tree search",
+        "corpus_names": "2",
+        "corpus_mentions": "7",
+        "notes": "Closes part of blind spot 3. Near-zero corpus support (Neural-guided Heuristics 1, Evolutionary Search 1); kept because ACM CCS and the field both treat search methodologies as a first-class area. Declared as the thinnest node on the axis."
+      }
+    },
+    "planning": {
+      "name": "Planning",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "computational-machinery"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "2",
+        "characteristic": "the machinery exploits an action model with preconditions and effects to produce a course of action",
+        "positive_test": "the answer is a plan, a policy over states, or a schedule",
+        "negative_test": "the policy is learned from reward rather than computed from a model (learning signal > reinforcement)",
+        "examples": "classical planning; planning under uncertainty; scheduling",
+        "corpus_names": "21",
+        "corpus_mentions": "30",
+        "notes": "Closes part of blind spot 3, and gives Markov Decision Processes 3 and POMDPs 5 a home as a problem formalism rather than as a sibling of RL. This is the M4 fix for Sequential decision-making. Motion planning and model predictive control sit here."
+      }
+    },
+    "evolutionary-computation": {
+      "name": "Evolutionary computation",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "computational-machinery"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "2",
+        "characteristic": "candidate solutions are improved by stochastic variation and selection on evaluated fitness alone",
+        "positive_test": "the method needs only to evaluate candidates, never to differentiate or relax the objective",
+        "negative_test": "the method is merely biologically inspired in its architecture (neural networks, neuroscience-inspired AI)",
+        "examples": "genetic algorithms; genetic programming; swarm intelligence",
+        "corpus_names": "7",
+        "corpus_mentions": "10",
+        "notes": "Closes blind spot 1. Corpus: Evolutionary Algorithms 2, Metaheuristics 2, Swarm Robotics 2, Evolutionary Search 1, Simulated Annealing 1, Neural-Guided Meta-Heuristic Algorithms 1. Kept on ACM Bio-inspired approaches and arXiv cs.NE, not on volume. Named Evolutionary rather than Bio-inspired so it does not attract neural networks."
+      }
+    },
+    "model-design": {
+      "name": "Model design",
+      "description": "",
+      "examples": [],
+      "children": [
+        "neural-architectures",
+        "generative-models",
+        "symbolic-models",
+        "kernel-methods",
+        "ensemble-methods",
+        "model-efficiency"
+      ],
+      "axes": {},
+      "parent_ids": [],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "1",
+        "characteristic": "which structure computes the function, and what is done to that form",
+        "positive_test": "the name picks out the form of the model itself",
+        "negative_test": "the name picks out a claim about an existing model (model analysis) or the algorithm that solves a stated problem (computational machinery)",
+        "corpus_names": "153",
+        "corpus_mentions": "513",
+        "notes": "Level-2 principle: which family of structure the model belongs to. Model efficiency is an owner-locked exception to that principle and is declared as such."
+      }
+    },
+    "neural-architectures": {
+      "name": "Neural architectures",
+      "description": "",
+      "examples": [],
+      "children": [
+        "convolutional-networks",
+        "recurrent-networks",
+        "attention-architectures",
+        "equivariant-architectures",
+        "conditional-computation",
+        "memory-augmented-architectures",
+        "implicit-depth-architectures"
+      ],
+      "axes": {},
+      "parent_ids": [
+        "model-design"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "2",
+        "characteristic": "the structure is an arrangement of differentiable components",
+        "positive_test": "the name picks out how a network is wired, independently of the data it sees",
+        "negative_test": "the name implies a modality or a task, in which case AXES 5 translates it to those axes",
+        "examples": "attention architectures; recurrent architectures; architecture search",
+        "corpus_names": "65",
+        "corpus_mentions": "236",
+        "notes": "Per AXES 5: Transformers 21, Attention Mechanisms 13, RNNs 8, NAS 6, Geometric Deep Learning 11 stay here; Graph Neural Networks 76 and Vision Transformers translate to Modality. Also holds equivariant, physics-informed, object-centric, memory- and retrieval-augmented, neuromorphic and mixture-of-experts architectures."
+      }
+    },
+    "generative-models": {
+      "name": "Generative models",
+      "description": "",
+      "examples": [],
+      "children": [
+        "autoregressive-models",
+        "latent-variable-models",
+        "normalizing-flows",
+        "energy-based-models",
+        "implicit-generative-models",
+        "diffusion-score-models",
+        "graphical-models"
+      ],
+      "axes": {},
+      "parent_ids": [
+        "model-design"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "2",
+        "characteristic": "the structure specifies a distribution it can sample from or score",
+        "positive_test": "the model defines a density, a sampler or an implicit distribution over data",
+        "negative_test": "the name states the artefact to be produced (Image Generation), which is a Task",
+        "examples": "diffusion models; latent-variable models; autoregressive models",
+        "corpus_names": "37",
+        "corpus_mentions": "176",
+        "notes": "Generative Models 83 + Generative Modeling 9 + GANs 14 + Diffusion 13 + flows 7 + energy-based 3. Absorbs graphical and Bayesian-network models as depth 3; separating them would reproduce the M7 overlap."
+      }
+    },
+    "symbolic-models": {
+      "name": "Symbolic models",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "model-design"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "2",
+        "characteristic": "the structure is explicit symbols, relations and rules",
+        "positive_test": "what is learned or authored is a set of symbols and relations a person could read",
+        "negative_test": "the symbolic apparatus is the solver rather than the model (machinery > logical inference)",
+        "examples": "knowledge graphs; ontologies; inductive logic programming",
+        "corpus_names": "13",
+        "corpus_mentions": "15",
+        "notes": "Closes blind spots 2 and 3 on the representation side, and gives Neural-Symbolic Learning 1 and Neuro-Symbolic AI 1 the home the first derivation reported missing. Also Knowledge Representation 3, Expert Systems 1, Ontology Alignment 1."
+      }
+    },
+    "kernel-methods": {
+      "name": "Kernel methods",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "model-design"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "2",
+        "characteristic": "the structure is a similarity function between inputs",
+        "positive_test": "the model is defined by a kernel or a covariance function rather than by learned features",
+        "negative_test": "the kernel is used as an analytical device for a network, which is learning theory > training dynamics",
+        "examples": "support-vector machines; Gaussian processes; kernel approximation",
+        "corpus_names": "6",
+        "corpus_mentions": "6",
+        "notes": "Gap found in AXES 3, which has no home for non-neural model families. Thin here (Kernel Methods, Graph Kernels, SVM, NTK) and kept on semantics."
+      }
+    },
+    "ensemble-methods": {
+      "name": "Ensemble methods",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "model-design"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "2",
+        "characteristic": "the structure is several models combined into one predictor",
+        "positive_test": "the prediction is an aggregate over more than one fitted model",
+        "negative_test": "the models are trained on separate data holders and aggregated for privacy (training regime > federated)",
+        "examples": "boosting; bagging; model merging",
+        "corpus_names": "9",
+        "corpus_mentions": "18",
+        "notes": "Ensemble Learning 6, Ensemble Methods 3, Model Merging 2, Model Averaging 1, Model Aggregation 2. Second half of the non-neural gap."
+      }
+    },
+    "model-efficiency": {
+      "name": "Model efficiency",
+      "description": "",
+      "examples": [],
+      "children": [
+        "pruning",
+        "quantization",
+        "knowledge-distillation",
+        "low-rank-factorisation"
+      ],
+      "axes": {},
+      "parent_ids": [
+        "model-design"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "2",
+        "characteristic": "the model form is changed so the same function costs less to store or run",
+        "positive_test": "the work trades accuracy, size, latency or energy against each other",
+        "negative_test": "the saving is in labels or parameters updated, not in compute (AXES 2 excludes sample efficiency and PEFT)",
+        "examples": "pruning; quantization; knowledge distillation",
+        "corpus_names": "23",
+        "corpus_mentions": "62",
+        "notes": "Owner-locked as a depth-2 family here (AXES 3, 2026-09-25). DECLARED DEFECT: its principle is a transformation of the form, while its five siblings are families of form. Kept because the owner locked it; flagged rather than laundered. Compression 9, distillation 8, pruning 12, quantization 4."
+      }
+    },
+    "model-analysis": {
+      "name": "Model analysis",
+      "description": "",
+      "examples": [],
+      "children": [
+        "interpretability",
+        "adversarial-machine-learning",
+        "formal-verification",
+        "uncertainty-quantification"
+      ],
+      "axes": {},
+      "parent_ids": [],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "1",
+        "characteristic": "what is established about a model that already exists",
+        "positive_test": "the object of study is a model already built, and the output is a claim about it",
+        "negative_test": "the output is a change to the model (model design) or a claim about learning in general (learning theory)",
+        "corpus_names": "69",
+        "corpus_mentions": "164",
+        "notes": "Level-2 principle: which question is asked of the trained model."
+      }
+    },
+    "interpretability": {
+      "name": "Interpretability",
+      "description": "",
+      "examples": [],
+      "children": [
+        "feature-attribution",
+        "concept-based-explanation",
+        "mechanistic-interpretability",
+        "example-based-explanation"
+      ],
+      "axes": {},
+      "parent_ids": [
+        "model-analysis"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "2",
+        "characteristic": "the question is what the model computes internally and why it produced an output",
+        "positive_test": "the deliverable is a human-readable account of the model behaviour",
+        "negative_test": "the deliverable is a guarantee or a bound (formal verification)",
+        "examples": "feature attribution; mechanistic interpretability; concept-based explanation",
+        "corpus_names": "28",
+        "corpus_mentions": "68",
+        "notes": "About 65 mentions. AXES 2 sends Mechanistic Interpretability here explicitly; Explainable AI also carries a Desired-properties value, which is legal cross-axis mapping."
+      }
+    },
+    "adversarial-machine-learning": {
+      "name": "Adversarial machine learning",
+      "description": "",
+      "examples": [],
+      "children": [
+        "evasion-attacks",
+        "poisoning-attacks",
+        "privacy-attacks"
+      ],
+      "axes": {},
+      "parent_ids": [
+        "model-analysis"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "2",
+        "characteristic": "the question is how the model fails under a worst-case or malicious input",
+        "positive_test": "an adversary is modelled explicitly",
+        "negative_test": "the worst case is proved rather than searched for (formal verification)",
+        "examples": "adversarial attacks; adversarial defences; data poisoning",
+        "corpus_names": "18",
+        "corpus_mentions": "46",
+        "notes": "About 64 mentions. Adversarial Training also carries a Desired-properties value per AXES 2."
+      }
+    },
+    "formal-verification": {
+      "name": "Formal verification",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "model-analysis"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "2",
+        "characteristic": "the question is what can be proved about the model over a specified input set",
+        "positive_test": "the claim holds for all inputs in a stated set, by proof",
+        "negative_test": "the claim is empirical over a test set, which is a contribution type and off-axis (8b)",
+        "examples": "neural network verification; certified robustness; reachability analysis",
+        "corpus_names": "12",
+        "corpus_mentions": "21",
+        "notes": "Neural Network Verification 5, Formal Methods 3, Robustness Verification 1, Quantitative Verification 1. Weakest pair with adversarial machine learning: both concern worst-case behaviour, one searched and one proved. Declared."
+      }
+    },
+    "uncertainty-quantification": {
+      "name": "Uncertainty quantification",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "model-analysis"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "2",
+        "characteristic": "the question is how far the model output can be trusted",
+        "positive_test": "the deliverable is a confidence, an interval or a coverage guarantee",
+        "negative_test": "the deliverable is an out-of-distribution decision, which names an output and is a Task",
+        "examples": "calibration; conformal prediction; predictive uncertainty estimation",
+        "corpus_names": "11",
+        "corpus_mentions": "29",
+        "notes": "AXES 2 routes this machinery to Method when it declines a Reliability property node, but AXES 3 never gives it a node. Gap closed here. About 21 mentions."
+      }
+    },
+    "learning-theory": {
+      "name": "Learning theory",
+      "description": "",
+      "examples": [],
+      "children": [
+        "generalization",
+        "sample-complexity",
+        "expressivity",
+        "training-dynamics",
+        "scaling-behaviour"
+      ],
+      "axes": {},
+      "parent_ids": [],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "1",
+        "characteristic": "what is established about learning itself, rather than about one model",
+        "positive_test": "the claim is about a learning procedure or a model class in general",
+        "negative_test": "the claim is about one trained model (model analysis), or the name is a demand from outside the field (Desired properties)",
+        "corpus_names": "32",
+        "corpus_mentions": "62",
+        "notes": "Level-2 principle: which property of learning is bounded or explained. Register note: ACM CCS files this under Theory of computation, not Computing methodologies; see RATIONALE on M1."
+      }
+    },
+    "generalization": {
+      "name": "Generalization",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "learning-theory"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "2",
+        "characteristic": "the property bounded is performance on data not seen in training",
+        "positive_test": "the claim links training performance to unseen-data performance",
+        "negative_test": "the shift is handled by a training procedure rather than analysed (training regime > transfer)",
+        "examples": "generalization bounds; out-of-distribution generalization; implicit regularization",
+        "corpus_names": "14",
+        "corpus_mentions": "24",
+        "notes": "OOD Generalization 5, Domain Generalization 4, Generalization 3+2. AXES 2 explicitly assigns compositional generalization here rather than to Desired properties."
+      }
+    },
+    "sample-complexity": {
+      "name": "Sample complexity",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "learning-theory"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "2",
+        "characteristic": "the property bounded is how much data learning needs",
+        "positive_test": "the result is a rate or a bound in the number of examples",
+        "negative_test": "the result is an engineering technique for using fewer labels (data curation > data selection)",
+        "examples": "PAC learning; minimax rates; label complexity",
+        "corpus_names": "3",
+        "corpus_mentions": "3",
+        "notes": "Sample Complexity 1, PAC-Bayesian Theory 1, Sample Efficiency 1. Topic-sized, like its siblings: this is the M6 fix."
+      }
+    },
+    "expressivity": {
+      "name": "Expressivity",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "learning-theory"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "2",
+        "characteristic": "the property bounded is what functions a model class can represent",
+        "positive_test": "the claim is about representability, independent of any training",
+        "negative_test": "the claim is about what one trained model does represent (model analysis > interpretability)",
+        "examples": "universal approximation; depth separation; graph network expressive power",
+        "corpus_names": "1",
+        "corpus_mentions": "1",
+        "notes": "AXES contradicts itself here: 2 lists expressivity under learning theory, 3 lists expressive power under model analysis. Resolved to 2, since a model class is not a model that exists."
+      }
+    },
+    "training-dynamics": {
+      "name": "Training dynamics",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "learning-theory"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "2",
+        "characteristic": "the property explained is what happens to the parameters while learning runs",
+        "positive_test": "the claim is about the trajectory or the convergence of training",
+        "negative_test": "the contribution is a new optimizer, which is machinery > optimization",
+        "examples": "convergence analysis; loss landscape geometry; neural tangent kernel theory",
+        "corpus_names": "6",
+        "corpus_mentions": "7",
+        "notes": "Training Dynamics 2, Neural Network Learning Dynamics 1, Neural Tangent Kernel 1."
+      }
+    },
+    "scaling-behaviour": {
+      "name": "Scaling behaviour",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "learning-theory"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "2",
+        "characteristic": "the property explained is how performance moves with model size, data and compute",
+        "positive_test": "the claim is a trend across scale",
+        "negative_test": "the claim is that a fixed budget is met, which is Desired properties > Frugal AI",
+        "examples": "scaling laws; emergent capabilities; data scaling",
+        "corpus_names": "4",
+        "corpus_mentions": "5",
+        "notes": "Language Model Scaling 2. Community-real, corpus-thin; kept."
+      }
+    },
+    "data-curation": {
+      "name": "Data curation",
+      "description": "",
+      "examples": [],
+      "children": [
+        "data-synthesis",
+        "data-selection",
+        "annotation"
+      ],
+      "axes": {},
+      "parent_ids": [],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "1",
+        "characteristic": "how the training set itself is produced, chosen or repaired",
+        "positive_test": "the contribution is to the data rather than to the learner",
+        "negative_test": "the contribution is a supervision paradigm (learning signal) or a dataset for a field, which is a contribution type and off-axis",
+        "corpus_names": "35",
+        "corpus_mentions": "63",
+        "notes": "Level-2 principle: which part of the training set the work acts on - the inputs, the composition, or the labels. This is the M7 fix; the first derivation never stated a principle."
+      }
+    },
+    "data-synthesis": {
+      "name": "Data synthesis",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "data-curation"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "2",
+        "characteristic": "the work acts on the inputs, creating or transforming examples",
+        "positive_test": "examples exist after the method that did not exist before it",
+        "negative_test": "existing examples are kept and only chosen among (data selection)",
+        "examples": "data augmentation; synthetic data generation; simulation-based data",
+        "corpus_names": "18",
+        "corpus_mentions": "33",
+        "notes": "Merges the first derivation Data augmentation and Synthetic data, which overlapped because both create data (M7). Data Augmentation 11 plus synthetic-data names."
+      }
+    },
+    "data-selection": {
+      "name": "Data selection",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "data-curation"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "2",
+        "characteristic": "the work acts on the composition, choosing, weighting or ordering what is used",
+        "positive_test": "the same pool of examples is used differently",
+        "negative_test": "the examples themselves change (data synthesis)",
+        "examples": "active learning; coreset selection; curriculum ordering",
+        "corpus_names": "13",
+        "corpus_mentions": "26",
+        "notes": "Active Learning 9, Feature Selection 3, Curriculum Learning 3, Data Valuation 1. Curriculum moved here from training regime, argued in RATIONALE."
+      }
+    },
+    "annotation": {
+      "name": "Annotation",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "data-curation"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "2",
+        "characteristic": "the work acts on the labels, obtaining or repairing them",
+        "positive_test": "the contribution changes what targets the examples carry",
+        "negative_test": "the method merely tolerates imperfect labels, which is learning signal > weakly supervised",
+        "examples": "label cleaning; crowdsourced annotation; programmatic labelling",
+        "corpus_names": "4",
+        "corpus_mentions": "4",
+        "notes": "Label Cleaning 1, Learning with Noisy Labels 1, Label Fusion 1. Thin; kept because the three-way split is what states the principle."
+      }
+    },
+    "uninformative": {
+      "name": "Uninformative",
+      "description": "",
+      "examples": [],
+      "children": [
+        "generic-field-names",
+        "generic-technique-names"
+      ],
+      "axes": {},
+      "parent_ids": [],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "1",
+        "characteristic": "administrative row for on-axis names too vague to inform, per AXES 8b",
+        "positive_test": "the name is about method but narrows nothing",
+        "negative_test": "the name says nothing about method at all, in which case it is simply absent from this axis",
+        "corpus_names": "30",
+        "corpus_mentions": "581",
+        "notes": "Not an aspect. Excluded from this axis shares and reported as a single line. Largest cluster on the axis."
+      }
+    },
+    "generic-field-names": {
+      "name": "Generic field names",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "uninformative"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "2",
+        "characteristic": "the name is the field itself rather than a method in it",
+        "positive_test": "the name would cover most of the corpus",
+        "negative_test": "the name narrows to a paradigm, a structure or a machinery",
+        "examples": "machine learning; deep learning; artificial intelligence",
+        "corpus_names": "17",
+        "corpus_mentions": "543",
+        "notes": "AXES 5 row three. Machine Learning 250, Deep Learning 233, Neural Networks 19, AI 15."
+      }
+    },
+    "generic-technique-names": {
+      "name": "Generic technique names",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "uninformative"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "2",
+        "characteristic": "the name is a method-shaped placeholder that narrows nothing",
+        "positive_test": "the name is a method word with no family behind it",
+        "negative_test": "the name identifies a family that has depth-3 members",
+        "examples": "predictive modeling; optimization techniques; data analysis",
+        "corpus_names": "13",
+        "corpus_mentions": "38",
+        "notes": "AXES 8b too-generic names. Contribution-type names (Benchmarking, Model Evaluation) are mark_ignore and are NOT here."
+      }
+    },
+    "inference-procedures": {
+      "name": "Inference procedures",
+      "description": "",
+      "examples": [],
+      "children": [
+        "prompting",
+        "intermediate-reasoning",
+        "test-time-search"
+      ],
+      "axes": {},
+      "parent_ids": [
+        "computational-machinery"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "2",
+        "characteristic": "the computation that produces the answer is spent at query time, on a model whose parameters are fixed",
+        "positive_test": "names a procedure applied to an already-trained model to obtain its output, rather than a procedure that fits it",
+        "negative_test": "if the name identifies a model family it is Model design; if it names what the output must be it is a Task",
+        "examples": "prompt engineering; chain-of-thought prompting; test-time compute scaling",
+        "corpus_names": "7",
+        "corpus_mentions": "7",
+        "notes": "Owner ruling 2026-09-29. DECLARED STRAIN: divides by stage (when computation happens) while its siblings divide by formal structure -- defect M5 re-entering by ruling. Revisit if the 2023-2026 re-extraction makes it large."
+      }
+    },
+    "online-rl": {
+      "name": "Online reinforcement learning",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "reinforcement-learning"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "3",
+        "characteristic": "the signal is the environment reward, obtained on actions the learner itself chose and can repeat",
+        "positive_test": "the learner both acts and is scored, and can gather more experience at will",
+        "negative_test": "the interaction is fixed in advance (offline), or the behaviour scored is somebody else’s (demonstrations, human feedback)",
+        "corpus_names": "15",
+        "corpus_mentions": "45",
+        "notes": "Residual home of the branch: bare Reinforcement Learning 271 and Deep Reinforcement Learning 36 stay at branch level per AXES 8b and are NOT counted here. Depth 4 under this node is model-based vs model-free (the owner’s worked example, demoted here; 17 mentions), then value-based vs policy-gradient vs actor-critic at depth 5. Hierarchical and goal-conditioned RL are also depth 4."
+      }
+    },
+    "offline-rl": {
+      "name": "Offline reinforcement learning",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "reinforcement-learning"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "3",
+        "characteristic": "the signal is a fixed log of interaction the learner did not generate and cannot extend",
+        "positive_test": "no new interaction is possible; the method must cope with actions absent from the log",
+        "negative_test": "the learner may act to test a policy, however rarely (online)",
+        "corpus_names": "2",
+        "corpus_mentions": "4",
+        "notes": "Strains the parent positive test (\"evaluative feedback on actions it chose\") on purpose: in offline RL the actions were chosen by a behaviour policy. Declared. Offline Learning 2 is counted here and is a mild homonym with Training regime > online learning."
+      }
+    },
+    "learning-from-demonstrations": {
+      "name": "Learning from demonstrations",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "reinforcement-learning"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "3",
+        "characteristic": "the signal is expert behaviour rather than a reward",
+        "positive_test": "the method is given trajectories of somebody performing the task well",
+        "negative_test": "the expert judges the learner’s own behaviour instead of performing the task (human feedback)",
+        "corpus_names": "4",
+        "corpus_mentions": "19",
+        "notes": "One concept in the field’s idiom (LfD), not a fused pair: it covers behavioural cloning, apprenticeship learning and inverse RL, which recovers the reward that explains the demonstrations. RATIONALE section 2 M2 files behavioural cloning here although it is supervised by construction; that ruling is inherited."
+      }
+    },
+    "learning-from-human-feedback": {
+      "name": "Learning from human feedback",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "reinforcement-learning"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "3",
+        "characteristic": "the signal is a human judgment of the agent’s own behaviour",
+        "positive_test": "a person compares, ranks or scores what the learner did, and a reward is fitted to that",
+        "negative_test": "the person supplies the behaviour rather than judging it (demonstrations), or supplies a label on an input (supervised learning)",
+        "corpus_names": "4",
+        "corpus_mentions": "4",
+        "notes": "The audit’s M2 said Learning from human feedback is a specialisation of RL promoted to sibling; this is where the demotion lands. Reward Learning 1 is counted here rather than at branch level because the reward is fitted to judgments."
+      }
+    },
+    "intrinsically-motivated-rl": {
+      "name": "Intrinsically motivated reinforcement learning",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "reinforcement-learning"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "3",
+        "characteristic": "the signal is computed by the agent for itself rather than received from outside",
+        "positive_test": "the reward optimised is a function of the agent’s own uncertainty, novelty, competence or control",
+        "negative_test": "the bonus is an algorithmic device for choosing actions with no reward of its own (epsilon-greedy, UCB), which is exploration machinery and stays at branch level",
+        "corpus_names": "4",
+        "corpus_mentions": "6",
+        "notes": "DECLARED PHASE-2 GAP: the corpus has ~7 mentions of exploration in the generic sense (Exploration in Reinforcement Learning 4, Exploration 1, Exploration Strategies 1) that this node does NOT cover, because exploration-as-machinery divides by a second principle. They stay at branch level. Adding an Exploration node was considered and refused; see DEPTH3_RATIONALE section 4."
+      }
+    },
+    "multi-agent-rl": {
+      "name": "Multi-agent reinforcement learning",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "reinforcement-learning"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "3",
+        "characteristic": "the signal is jointly produced by other agents that are learning at the same time, and is therefore non-stationary by construction",
+        "positive_test": "the return of one learner depends on policies that are themselves being updated",
+        "negative_test": "the other agents are fixed parts of the environment, or the object of study is the equilibrium rather than the learning (machinery > game theory)",
+        "corpus_names": "4",
+        "corpus_mentions": "18",
+        "notes": "WEAKEST MEMBER OF THIS SET, declared in the phase-1 draft before any count was seen: the honest reading of MARL is \"how many agents\", which is a second principle; it is admitted under the co-learner reading of the signal. Lands here, not under Game theory, by the AXES 8b head-noun rule. Gives the Multi-Agent Systems 11 homonym (RATIONALE section 7) one of its two candidate homes; Game theory > learning in games is the other."
+      }
+    },
+    "convolutional-networks": {
+      "name": "Convolutional networks",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "neural-architectures"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "3",
+        "characteristic": "connectivity is local and weight-shared over a regular lattice",
+        "positive_test": "the same small operator is applied at every position of a grid-structured input",
+        "negative_test": "the name fixes a modality (Vision Transformers, Graph Convolutional Networks), in which case AXES 5 translates it",
+        "corpus_names": "2",
+        "corpus_mentions": "5",
+        "notes": "Kept on this axis by the same argument AXES 5 uses for Recurrent Neural Networks: convolutions are used on images, audio, text and grids alike, so the name implies no single modality."
+      }
+    },
+    "recurrent-networks": {
+      "name": "Recurrent networks",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "neural-architectures"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "3",
+        "characteristic": "a state is carried forward across steps of a sequence and reused",
+        "positive_test": "the same parameters consume a sequence step by step, passing a state along",
+        "negative_test": "positions are all visible at once and routing is content-based (attention)",
+        "corpus_names": "3",
+        "corpus_mentions": "10",
+        "notes": "State Space Models 1 is counted here: a linear state recurrence is a recurrence. Declared as a mapping decision, since the SSM community positions itself against both recurrence and attention."
+      }
+    },
+    "attention-architectures": {
+      "name": "Attention-based architectures",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "neural-architectures"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "3",
+        "characteristic": "routing between positions is content-addressed rather than fixed by position or adjacency",
+        "positive_test": "which unit reads which other unit is computed from the values themselves",
+        "negative_test": "the name fixes a modality (Vision Transformers 3, Graph Transformers 6), translated by AXES 5",
+        "corpus_names": "9",
+        "corpus_mentions": "41",
+        "notes": "Largest node added on this branch (41 indicative mentions). Transformers 13 + Transformer Models 8 + Attention Mechanisms 13 and variants."
+      }
+    },
+    "equivariant-architectures": {
+      "name": "Equivariant architectures",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "neural-architectures"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "3",
+        "characteristic": "the wiring is constrained by a symmetry group, so a transformation of the input is a transformation of the output",
+        "positive_test": "the architecture is derived from an invariance or equivariance requirement",
+        "negative_test": "the physical law is imposed on the objective rather than on the wiring (physics-informed networks; see notes)",
+        "corpus_names": "5",
+        "corpus_mentions": "15",
+        "notes": "Geometric Deep Learning 11 is counted here rather than at branch level, since AXES 5 lists it as an architecture name. DECLARED PHASE-2 GAP: Physics-Informed Neural Networks 2 + Physics-Constrained Deep Learning 1 build the prior into the loss, not the wiring, so they have no node under this principle and stay at branch level or map to machinery > optimization."
+      }
+    },
+    "conditional-computation": {
+      "name": "Conditional computation",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "neural-architectures"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "3",
+        "characteristic": "which components run is decided per input rather than fixed for all inputs",
+        "positive_test": "part of the network is skipped, selected or generated depending on what is being processed",
+        "negative_test": "sparsity is a penalty on the weights of a fixed network, which is an objective (machinery > optimization)",
+        "corpus_names": "8",
+        "corpus_mentions": "9",
+        "notes": "Mixture-of-experts, routing, gating, early exit, hypernetworks. Sparse Neural Networks 2 is a declared homonym between input-conditional sparsity (here) and sparsity-as-compression (model efficiency > pruning); the surface decides."
+      }
+    },
+    "memory-augmented-architectures": {
+      "name": "Memory-augmented architectures",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "neural-architectures"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "3",
+        "characteristic": "an external addressable store is read and written alongside the weights",
+        "positive_test": "the network’s state includes a store it can query, which is not itself a parameter updated by training",
+        "negative_test": "the store is the model’s own recurrent state (recurrent networks)",
+        "corpus_names": "5",
+        "corpus_mentions": "6",
+        "notes": "RATIONALE section 2 routes Retrieval-Augmented Generation and Memory-Augmented Neural Networks here, and this is the node that receives them."
+      }
+    },
+    "implicit-depth-architectures": {
+      "name": "Implicit-depth architectures",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "neural-architectures"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "3",
+        "characteristic": "the output is defined as the solution of an equation rather than by a fixed stack of layers",
+        "positive_test": "depth is set by a solver at run time, not by the architecture",
+        "negative_test": "the equation is the object of study rather than the model (Scientific discipline; RATIONALE section 4.7)",
+        "corpus_names": "1",
+        "corpus_mentions": "1",
+        "notes": "THINNEST NODE ADDED ON THIS AXIS: 1 name / 1 mention (Neural Differential Equations). Flagged in the phase-1 draft as expected-thin before the corpus was opened, and kept on the field’s structure: neural ODEs and deep equilibrium models are a named architecture family with their own literature."
+      }
+    },
+    "continuous-optimization": {
+      "name": "Continuous optimization",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "optimization"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "3",
+        "characteristic": "the feasible set is continuous, so derivatives, convexity and duality are available to be exploited",
+        "positive_test": "the decision variables range over a continuum",
+        "negative_test": "the decision is a choice among finitely many structures (combinatorial)",
+        "corpus_names": "26",
+        "corpus_mentions": "54",
+        "notes": "DELIBERATELY COARSE. Stochastic (10), Bayesian (5), robust (4), constrained (3), bilevel (2), multi-objective and optimal-transport (4) formulations all sit under this node at depth 4, because each divides by a SECOND principle (the form of the problem, not the feasible set). Phase 2 measured ~54 mentions spread over 26 such names and changed nothing: AXES forbids re-cutting a sibling set on counts."
+      }
+    },
+    "combinatorial-optimization": {
+      "name": "Combinatorial optimization",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "optimization"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "3",
+        "characteristic": "the feasible set is discrete, so the structure exploited is integrality, flow, matroid or polyhedral",
+        "positive_test": "the answer is a choice among finitely many structures and the method uses that structure",
+        "negative_test": "candidates are only evaluated, never relaxed or bounded (machinery > evolutionary computation)",
+        "corpus_names": "9",
+        "corpus_mentions": "27",
+        "notes": "Combinatorial Optimization 17 plus the integer-programming family. Neural Combinatorial Optimization 1 maps here by the head-noun rule."
+      }
+    },
+    "autoregressive-models": {
+      "name": "Autoregressive models",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "generative-models"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "3",
+        "characteristic": "the density is factorised into a product of conditionals and evaluated exactly",
+        "positive_test": "the model scores or samples one element at a time, conditioned on those before it",
+        "negative_test": "the name says what is generated (Text Generation, Image Generation), which is a Task",
+        "corpus_names": "1",
+        "corpus_mentions": "1",
+        "notes": "THIN: 1 name / 1 mention. Language Modeling 12 is the large surface for this family but AXES 6 treats it as a Task name, so it is not counted here. Overlaps Graphical models (an autoregressive factorisation is a complete DAG) — declared in the phase-1 self-audit."
+      }
+    },
+    "latent-variable-models": {
+      "name": "Latent-variable models",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "generative-models"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "3",
+        "characteristic": "the density is defined by marginalising an unobserved variable and is bounded rather than computed",
+        "positive_test": "sampling goes through a latent code and the likelihood is intractable but boundable",
+        "negative_test": "the latent variable is the object to be recovered rather than a modelling device (machinery > causal representation learning)",
+        "corpus_names": "3",
+        "corpus_mentions": "5",
+        "notes": "VAEs and descendants. The inference machinery they use is machinery > probabilistic inference > variational inference; the structure is here. Cross-axis-style split within one axis, declared."
+      }
+    },
+    "normalizing-flows": {
+      "name": "Normalizing flows",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "generative-models"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "3",
+        "characteristic": "the density is obtained exactly by an invertible change of variables",
+        "positive_test": "the model is a bijection whose Jacobian determinant is computable",
+        "negative_test": "the map is not invertible and the density is only bounded (latent-variable models)",
+        "corpus_names": "2",
+        "corpus_mentions": "7",
+        "notes": "Normalizing Flows 5 + Continuous Normalizing Flows 2."
+      }
+    },
+    "energy-based-models": {
+      "name": "Energy-based models",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "generative-models"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "3",
+        "characteristic": "the density is specified only up to an unknown normalising constant",
+        "positive_test": "the model scores configurations without being able to normalise the score",
+        "negative_test": "the normaliser is tractable by construction (autoregressive, flows)",
+        "corpus_names": "2",
+        "corpus_mentions": "7",
+        "notes": "Generative Flow Networks 4 counted here: a GFlowNet is an amortised sampler for a given unnormalised reward. DECLARED as the least comfortable mapping in this sibling set — a GFlowNet node was considered in phase 2 and refused on specificity (one method family beside six field-sized ones); see DEPTH3_RATIONALE section 4."
+      }
+    },
+    "implicit-generative-models": {
+      "name": "Implicit generative models",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "generative-models"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "3",
+        "characteristic": "no density is defined at all; the model is a sampler",
+        "positive_test": "the only thing the model can do is produce samples, and training compares samples to data",
+        "negative_test": "a likelihood or an energy is defined, however approximately",
+        "corpus_names": "2",
+        "corpus_mentions": "14",
+        "notes": "GANs 14. Named for the property rather than the architecture so that the sibling set stays on one principle; the corpus surface is almost entirely Generative Adversarial Networks."
+      }
+    },
+    "diffusion-score-models": {
+      "name": "Diffusion & score-based models",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "generative-models"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "3",
+        "characteristic": "the density is specified through its score along a prescribed noising process",
+        "positive_test": "generation is the reversal of a fixed corruption process",
+        "negative_test": "the corruption is a data-augmentation device for a discriminative model (data curation > data synthesis)",
+        "corpus_names": "9",
+        "corpus_mentions": "21",
+        "notes": "A doublet naming one family in the field’s own idiom, which AXES 9 permits (diffusion and score-based formulations are provably the same model). 21 mentions. Declared homonym: Diffusion MRI 3 and Information Diffusion 1 are not this node."
+      }
+    },
+    "graphical-models": {
+      "name": "Graphical models",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "generative-models"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "3",
+        "characteristic": "the density is specified by a conditional-independence structure over a graph",
+        "positive_test": "the model is given as a factorisation whose graph is the object manipulated",
+        "negative_test": "the graph is the data rather than the model (Modality > graphs)",
+        "corpus_names": "3",
+        "corpus_mentions": "5",
+        "notes": "Placed here by the parent’s own note (\"absorbs graphical and Bayesian-network models as depth 3\"). Bayesian Networks 1 is counted here and not under machinery > probabilistic inference, which holds the algorithms rather than the structures."
+      }
+    },
+    "masked-prediction": {
+      "name": "Masked prediction",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "self-supervised-learning"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "3",
+        "characteristic": "the target is a withheld part of the input, predicted from the rest",
+        "positive_test": "part of the input is hidden and the model must restore it",
+        "negative_test": "the withheld part is the continuation of the input in its natural order (next-element prediction)",
+        "corpus_names": "0",
+        "corpus_mentions": "0",
+        "notes": "SPECULATIVE: zero corpus support in the 2024 name list. Kept per AXES 9 (a category with no corpus support is justified or kept, never deleted on that ground). Masked language and masked image modelling are among the most widely used methods in the field; that the 2024 name list contains no surface for them is evidence about how researchers name their research domain, not about the method’s existence. Weakest pair with next-element prediction (both withhold part of the input) — declared in the phase-1 draft."
+      }
+    },
+    "next-element-prediction": {
+      "name": "Next-element prediction",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "self-supervised-learning"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "3",
+        "characteristic": "the target is the continuation of the input in its natural order",
+        "positive_test": "the model predicts what comes next in a sequence drawn from unlabelled data",
+        "negative_test": "the withheld part is chosen at random anywhere in the input (masked prediction)",
+        "corpus_names": "0",
+        "corpus_mentions": "0",
+        "notes": "SPECULATIVE: zero corpus support in the 2024 name list. Kept per AXES 9 (a category with no corpus support is justified or kept, never deleted on that ground). Language Modeling 12 is the surface that would land here, but AXES 6 reads it as a Task name, so this node measures zero on Method. Declared."
+      }
+    },
+    "contrastive-learning": {
+      "name": "Contrastive learning",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "self-supervised-learning"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "3",
+        "characteristic": "the target is which candidate shares a source with the anchor, against negatives",
+        "positive_test": "training pulls together views known to match and pushes apart views known not to",
+        "negative_test": "no negatives are used and the target is another network’s output (self-distillation)",
+        "corpus_names": "2",
+        "corpus_mentions": "22",
+        "notes": "Largest node on this branch: Contrastive Learning 21. AXES 3 counts contrastive 21 inside self-supervised 73, which this node makes explicit."
+      }
+    },
+    "self-distillation": {
+      "name": "Self-distillation",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "self-supervised-learning"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "3",
+        "characteristic": "the target is the representation produced by another view or by a slowly-updated copy of the network itself",
+        "positive_test": "the teacher is the model itself, or its moving average, and no negatives are needed",
+        "negative_test": "the teacher is a different, larger model and the point is cost (model design > knowledge distillation)",
+        "corpus_names": "1",
+        "corpus_mentions": "1",
+        "notes": "THIN: 1 name / 1 mention (Contrastive and Non-Contrastive Learning). DECLARED HOMONYM introduced by this node: distillation to a smaller model (efficiency) vs distillation from a copy of oneself (self-supervision). BYOL/DINO/JEPA-style latent prediction."
+      }
+    },
+    "transformation-prediction": {
+      "name": "Transformation prediction",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "self-supervised-learning"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "3",
+        "characteristic": "the target is the identity of a transformation applied to the input",
+        "positive_test": "a transformation is sampled, applied, and its label is the thing predicted",
+        "negative_test": "the transformation enlarges the training set without becoming the target (data curation > data synthesis)",
+        "corpus_names": "0",
+        "corpus_mentions": "0",
+        "notes": "SPECULATIVE: zero corpus support in the 2024 name list. Kept per AXES 9 (a category with no corpus support is justified or kept, never deleted on that ground). Rotation, jigsaw and colourisation pretext tasks: the first generation of self-supervision, now largely superseded, which is a plausible reason for its absence from a 2024 corpus. Kept because deleting it would erase the family the term \"pretext task\" names."
+      }
+    },
+    "mcmc": {
+      "name": "Markov chain Monte Carlo",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "probabilistic-inference"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "3",
+        "characteristic": "the posterior is approximated by simulating a chain whose stationary distribution is it",
+        "positive_test": "the answer is a set of correlated samples produced by a transition kernel",
+        "negative_test": "the samples are weighted particles propagated along a sequence (sequential Monte Carlo)",
+        "corpus_names": "4",
+        "corpus_mentions": "8",
+        "notes": "Monte Carlo Methods 5 counted here. Monte Carlo Simulations 5 is NOT: AXES 8b declares Simulation a homonym and its physics/clinical reading leaves the axis."
+      }
+    },
+    "variational-inference": {
+      "name": "Variational inference",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "probabilistic-inference"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "3",
+        "characteristic": "the posterior is approximated by optimising over a tractable family",
+        "positive_test": "inference is stated as a minimisation of a divergence to the true posterior",
+        "negative_test": "no family is posited and the answer is a sample (Monte Carlo methods)",
+        "corpus_names": "3",
+        "corpus_mentions": "6",
+        "notes": "DECLARED HOMONYM: Variational Inequality / Variational Inequalities / Variational Inequality Problems (4 mentions) are NOT this node — they are equilibrium machinery and are counted under game theory > equilibrium computation, as the level-2 row already required."
+      }
+    },
+    "sequential-monte-carlo": {
+      "name": "Sequential Monte Carlo",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "probabilistic-inference"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "3",
+        "characteristic": "the posterior is propagated along a sequence by weighted particles and resampling",
+        "positive_test": "the state is tracked through time by reweighting and resampling a population",
+        "negative_test": "the population is improved by fitness rather than reweighted by likelihood (machinery > evolutionary computation)",
+        "corpus_names": "1",
+        "corpus_mentions": "1",
+        "notes": "THIN: 1 name / 1 mention. Particle filtering. Closest pair with MCMC; the line is a fixed target distribution versus a sequence of them."
+      }
+    },
+    "message-passing": {
+      "name": "Message passing",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "probabilistic-inference"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "3",
+        "characteristic": "the posterior is computed by propagating local messages over the model’s factorisation",
+        "positive_test": "the algorithm exploits the graph structure of the model, exactly or in a loopy approximation",
+        "negative_test": "the graph is the architecture of a neural network (model design > neural architectures)",
+        "corpus_names": "0",
+        "corpus_mentions": "0",
+        "notes": "SPECULATIVE: zero corpus support in the 2024 name list. Kept per AXES 9 (a category with no corpus support is justified or kept, never deleted on that ground). DECLARED HOMONYM, and the reason this node measures zero: the corpus’s only \"message passing\" surface is Message Passing Neural Networks 1, which is a GNN architecture and translates to Modality > graphs by AXES 5. Belief propagation, junction tree and expectation propagation have no surface in this corpus. Kept: it is the classical inference family for graphical models, which the sibling generative-models > graphical models presumes."
+      }
+    },
+    "simulation-based-inference": {
+      "name": "Simulation-based inference",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "probabilistic-inference"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "3",
+        "characteristic": "the likelihood cannot be evaluated, so the posterior is obtained from simulations",
+        "positive_test": "the model can be sampled from but not scored, and inference is built on that asymmetry",
+        "negative_test": "the likelihood is available and merely intractable to normalise (MCMC, variational inference)",
+        "corpus_names": "5",
+        "corpus_mentions": "8",
+        "notes": "ABC and neural posterior estimation. 8 indicative mentions; a real and growing area in this institute."
+      }
+    },
+    "domain-adaptation": {
+      "name": "Domain adaptation",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "transfer-learning"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "3",
+        "characteristic": "the input distribution changes between source and target and the task does not",
+        "positive_test": "the label space and objective are unchanged; what moves is where the data comes from",
+        "negative_test": "the shift is analysed rather than handled by a procedure (learning theory > generalization)",
+        "corpus_names": "7",
+        "corpus_mentions": "19",
+        "notes": "Sim-to-Real Transfer 4 and the cross-lingual transfer names 4 are counted here: on Method they are a distribution change with a fixed task, while on Modality they take their own value. Depth 4 under this node is what the target side provides — unsupervised, source-free, test-time adaptation."
+      }
+    },
+    "cross-task-transfer": {
+      "name": "Cross-task transfer",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "transfer-learning"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "3",
+        "characteristic": "the task changes between source and target: a new label space or a new objective",
+        "positive_test": "a representation or a parameter set fitted for one task is reused for a different one",
+        "negative_test": "the tasks are trained together rather than in sequence (training regime > multi-task learning)",
+        "corpus_names": "9",
+        "corpus_mentions": "9",
+        "notes": "Pretraining-then-fine-tuning, including parameter-efficient fine-tuning (PEFT 3 mentions), which AXES 2 explicitly declines to call Frugal AI and names a Method. Only two children on this branch, which is the minimum AXES 9 allows; no third division exists under this principle."
+      }
+    },
+    "feature-attribution": {
+      "name": "Feature attribution",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "interpretability"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "3",
+        "characteristic": "the account assigns credit to parts of the input",
+        "positive_test": "the deliverable is a per-input score over features, pixels or tokens",
+        "negative_test": "the deliverable is a claim about internal components (mechanistic interpretability)",
+        "corpus_names": "2",
+        "corpus_mentions": "2",
+        "notes": "THIN: 2 names / 2 mentions, although this is the largest interpretability literature in the field. The branch’s ~50 mentions sit at branch level (Explainable AI 10, Interpretable Machine Learning 9, Model Interpretability 7, Interpretability 6), which AXES 8b makes legitimate and which is the dominant fact about this branch. Cross-link: Shapley attribution borrows machinery from game theory > cooperative game theory."
+      }
+    },
+    "concept-based-explanation": {
+      "name": "Concept-based explanation",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "interpretability"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "3",
+        "characteristic": "the account is stated in human-named concepts the model is shown to encode",
+        "positive_test": "a concept is fixed in advance and the model is tested for it, or built to use it",
+        "negative_test": "the concept vocabulary is the model itself (model design > symbolic models)",
+        "corpus_names": "2",
+        "corpus_mentions": "2",
+        "notes": "THIN: 2 names / 2 mentions (Concept-based Models, Probing in NLP). Probing, concept activation vectors, concept bottlenecks. Declared homonym: Concept Drift 1 is not this node."
+      }
+    },
+    "mechanistic-interpretability": {
+      "name": "Mechanistic interpretability",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "interpretability"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "3",
+        "characteristic": "the account is a circuit over internal components: which units and paths implement the behaviour",
+        "positive_test": "the claim names specific internal structure and is tested by intervening on it",
+        "negative_test": "the claim is about which inputs mattered (feature attribution)",
+        "corpus_names": "3",
+        "corpus_mentions": "4",
+        "notes": "AXES 2 routes Mechanistic Interpretability to Method explicitly, as the example of a question with no outside claimant; this is the node it lands on."
+      }
+    },
+    "example-based-explanation": {
+      "name": "Example-based explanation",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "interpretability"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "3",
+        "characteristic": "the account names other data points: influential training examples, prototypes or counterfactual instances",
+        "positive_test": "the explanation is itself a datum rather than a score or a mechanism",
+        "negative_test": "the counterfactual is an intervention on a causal model (machinery > causal inference)",
+        "corpus_names": "1",
+        "corpus_mentions": "1",
+        "notes": "THIN: 1 name / 1 mention (Prototype-Based Learning). Influence functions, prototypes, counterfactual explanations."
+      }
+    },
+    "pruning": {
+      "name": "Pruning",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "model-efficiency"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "3",
+        "characteristic": "parameters or whole structures are removed from the fitted model",
+        "positive_test": "part of the network is deleted and the rest is kept or retrained",
+        "negative_test": "the parameters are kept and only their precision falls (quantization)",
+        "corpus_names": "4",
+        "corpus_mentions": "14",
+        "notes": "Largest efficiency node: 14 indicative mentions. Declared homonym with conditional computation: sparsity as deletion (here) vs sparsity as input-conditional routing (model design > conditional computation). Data Sampling and Pruning 1 is data curation, not this node."
+      }
+    },
+    "quantization": {
+      "name": "Quantization",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "model-efficiency"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "3",
+        "characteristic": "the numerical precision of weights and activations is reduced",
+        "positive_test": "the same parameters are stored or computed in fewer bits",
+        "negative_test": "the parameters themselves are dropped (pruning)",
+        "corpus_names": "2",
+        "corpus_mentions": "5",
+        "notes": "AXES 2 is explicit that a quantization paper takes Method = Quantization and, when its point is energy cost, Desired property = Frugal AI. This is the Method node that statement presupposes."
+      }
+    },
+    "knowledge-distillation": {
+      "name": "Knowledge distillation",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "model-efficiency"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "3",
+        "characteristic": "the model is replaced by a smaller one trained to reproduce its behaviour",
+        "positive_test": "a second, smaller model is fitted to the outputs of the first",
+        "negative_test": "the teacher is a copy of the model itself and the point is representation quality (learning signal > self-distillation)",
+        "corpus_names": "2",
+        "corpus_mentions": "10",
+        "notes": "The homonym with self-supervised self-distillation is declared on both nodes. 10 indicative mentions."
+      }
+    },
+    "low-rank-factorisation": {
+      "name": "Low-rank factorisation",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "model-efficiency"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "3",
+        "characteristic": "dense operators are replaced by factored or low-rank approximations",
+        "positive_test": "a weight matrix or tensor is rewritten as a product of smaller ones",
+        "negative_test": "the decomposition is a numerical tool applied to data rather than to the model (machinery, branch level)",
+        "corpus_names": "2",
+        "corpus_mentions": "2",
+        "notes": "THIN: 2 names / 2 mentions. Gives the Tensor Decomposition / Tensor Factorization surfaces a home; RATIONALE section 7 had filed them as unplaced at branch level on computational machinery. DECLARED HOMONYM: decomposition of a model (here) vs of a data tensor (machinery)."
+      }
+    },
+    "evasion-attacks": {
+      "name": "Evasion attacks",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "adversarial-machine-learning"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "3",
+        "characteristic": "the adversary perturbs the input at inference time",
+        "positive_test": "the model is fixed and the attacker changes what is fed to it",
+        "negative_test": "the attacker changed the training data instead (poisoning)",
+        "corpus_names": "13",
+        "corpus_mentions": "27",
+        "notes": "By far the largest child: 27 indicative mentions, including the defences (adversarial training, certified robustness), which map to the attack they forestall. Depth 4: jailbreaks and prompt injection are evasion attacks on an instruction-following model. Adversarial Robustness 10 also carries a Desired-properties value, which is legal cross-axis mapping."
+      }
+    },
+    "poisoning-attacks": {
+      "name": "Poisoning attacks",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "adversarial-machine-learning"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "3",
+        "characteristic": "the adversary corrupts the training data or the training process",
+        "positive_test": "the attack happens before or during training and persists in the fitted model",
+        "negative_test": "the labels are merely noisy with no adversary (data curation > annotation, or learning signal > weakly supervised)",
+        "corpus_names": "1",
+        "corpus_mentions": "1",
+        "notes": "THIN: 1 name / 1 mention (Data Poisoning). Backdoors and trojans have no surface in this corpus. Kept: it is one of the three standard attack surfaces and the NIST adversarial-ML taxonomy is an external check on the sibling set."
+      }
+    },
+    "privacy-attacks": {
+      "name": "Privacy attacks",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "adversarial-machine-learning"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "3",
+        "characteristic": "the adversary learns about the training data or the model from access to it",
+        "positive_test": "the asset being attacked is information, not the prediction",
+        "negative_test": "the work proposes a privacy guarantee or mechanism (Differential Privacy and its family are Desired properties per AXES 2)",
+        "corpus_names": "2",
+        "corpus_mentions": "2",
+        "notes": "THIN: 2 names / 2 mentions (Membership Inference Attacks, Reconstruction Attacks). NAME-LEVEL TRAP, declared: the corpus holds ~25 mentions of Differential Privacy / Privacy-Preserving ML / Privacy which must NOT land here — they are demands, not attacks. RATIONALE section 4.3 refuses a privacy node in Method; this is an attack family, which is a question asked of an existing model, and is a different thing."
+      }
+    },
+    "optimization-based-meta-learning": {
+      "name": "Optimization-based meta-learning",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "meta-learning"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "3",
+        "characteristic": "the outer loop produces a starting point from which a few gradient steps suffice",
+        "positive_test": "adaptation is fine-tuning, and what is meta-learned is where it starts or how it steps",
+        "negative_test": "adaptation needs no gradient step at all (amortised meta-learning)",
+        "corpus_names": "1",
+        "corpus_mentions": "1",
+        "notes": "THIN: 1 name / 1 mention (Meta-gradient Learning). MAML and descendants. A fourth child under the same principle — the outer loop produces the update rule (learned optimizers, learned losses) — was rejected on specificity and is depth 4 here."
+      }
+    },
+    "metric-based-meta-learning": {
+      "name": "Metric-based meta-learning",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "meta-learning"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "3",
+        "characteristic": "the outer loop produces an embedding in which adaptation is comparison with labelled examples",
+        "positive_test": "a new class is handled by distance to its examples in a meta-learned space",
+        "negative_test": "the embedding is learned for its own sake with no task distribution (Task > representation learning)",
+        "corpus_names": "0",
+        "corpus_mentions": "0",
+        "notes": "SPECULATIVE: zero corpus support in the 2024 name list. Kept per AXES 9 (a category with no corpus support is justified or kept, never deleted on that ground). Prototypical and matching networks. Zero surfaces despite Few-Shot Learning 16 in the corpus: few-shot names the SETTING, not the mechanism, and is a cross-cut that sits at branch level on meta-learning."
+      }
+    },
+    "amortised-meta-learning": {
+      "name": "Amortised meta-learning",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "meta-learning"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "3",
+        "characteristic": "the outer loop produces a model that reads the task’s examples and adapts in a single forward pass",
+        "positive_test": "adaptation happens with no weight update at all",
+        "negative_test": "adaptation is a gradient step from a meta-learned initialisation (optimization-based)",
+        "corpus_names": "1",
+        "corpus_mentions": "4",
+        "notes": "In-Context Learning 4 lands here, as the parent’s own note requires (\"In-context learning placed here as adaptation without weight updates\"). Named amortised rather than model-based to avoid colliding with model-based reinforcement learning."
+      }
+    },
+    "task-incremental-learning": {
+      "name": "Task-incremental learning",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "continual-learning"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "3",
+        "characteristic": "the steps are distinct tasks and the task identity is given at test time",
+        "positive_test": "the model may use a task label to select a head or a subnetwork",
+        "negative_test": "no task identity is available and all classes must be separated jointly (class-incremental)",
+        "corpus_names": "0",
+        "corpus_mentions": "0",
+        "notes": "SPECULATIVE: zero corpus support in the 2024 name list. Kept per AXES 9 (a category with no corpus support is justified or kept, never deleted on that ground). One of the field’s three standard continual-learning scenarios (Van de Ven & Tolias). Zero surfaces; the branch’s ~44 mentions are almost all branch-level (Continual Learning 29, Catastrophic Forgetting 6, Lifelong Learning 5)."
+      }
+    },
+    "class-incremental-learning": {
+      "name": "Class-incremental learning",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "continual-learning"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "3",
+        "characteristic": "new classes arrive and must be told apart from all earlier ones, with no task identity given",
+        "positive_test": "the output space grows and old and new classes compete in one decision",
+        "negative_test": "a task label disambiguates which classes are in play (task-incremental)",
+        "corpus_names": "1",
+        "corpus_mentions": "1",
+        "notes": "THIN: 1 name / 1 mention, the only one of the three scenarios with any surface at all."
+      }
+    },
+    "domain-incremental-learning": {
+      "name": "Domain-incremental learning",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "continual-learning"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "3",
+        "characteristic": "the task stays fixed while its input distribution shifts from step to step",
+        "positive_test": "the label space never changes; the data does",
+        "negative_test": "the shift is between two fixed settings with the source still available (training regime > transfer learning > domain adaptation)",
+        "corpus_names": "0",
+        "corpus_mentions": "0",
+        "notes": "SPECULATIVE: zero corpus support in the 2024 name list. Kept per AXES 9 (a category with no corpus support is justified or kept, never deleted on that ground). Boundary with domain adaptation declared: the sequence and the loss of access to earlier data are what make it continual."
+      }
+    },
+    "causal-discovery": {
+      "name": "Causal discovery",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "causal-inference"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "3",
+        "characteristic": "the causal structure is unknown and is recovered from data",
+        "positive_test": "the deliverable is a graph or an equivalence class of graphs",
+        "negative_test": "the graph is assumed and only a quantity is estimated (effect estimation)",
+        "corpus_names": "1",
+        "corpus_mentions": "6",
+        "notes": "Named by AXES 3 itself as one of the three members of this family. 6 mentions."
+      }
+    },
+    "effect-estimation": {
+      "name": "Effect estimation",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "causal-inference"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "3",
+        "characteristic": "the structure is assumed and the magnitude of an intervention’s effect is the unknown",
+        "positive_test": "the deliverable is an estimand, its identification, or an estimator for it",
+        "negative_test": "the deliverable is the structure (causal discovery)",
+        "corpus_names": "1",
+        "corpus_mentions": "2",
+        "notes": "THIN: 2 names / 2 mentions (Interventional Data Analysis), although identification and treatment-effect estimation are the centre of the causal literature; bare Causal Inference 16 sits at branch level and is where those papers name themselves. Depth 4: back-door, front-door, instruments, difference-in-differences."
+      }
+    },
+    "causal-representation-learning": {
+      "name": "Causal representation learning",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "causal-inference"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "3",
+        "characteristic": "the causal variables themselves are unknown and must be recovered from low-level observations",
+        "positive_test": "the work asks what the causal units ARE, not how they are connected or how strong the link is",
+        "negative_test": "the variables are given and only their graph is sought (causal discovery)",
+        "corpus_names": "2",
+        "corpus_mentions": "9",
+        "notes": "Named by AXES 3 as the third member of this family (Causal Representation Learning 8). Best-supported causal child after discovery."
+      }
+    },
+    "equilibrium-computation": {
+      "name": "Equilibrium computation",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "game-theory"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "3",
+        "characteristic": "a solution concept of a given game is computed",
+        "positive_test": "the game is fixed and the answer is an equilibrium or a best response to one",
+        "negative_test": "the equilibrium is reached by agents repeatedly playing (learning in games)",
+        "corpus_names": "5",
+        "corpus_mentions": "6",
+        "notes": "Receives the variational-inequality surfaces (4 mentions) the level-2 row assigns to this branch, plus Equilibrium-based Methods 1 and Coordination Games 1. DECLARED HOMONYM found in phase 2: of the corpus’s ~30 game* mentions, 8 are videogames (Game Playing 2, Game Design and Analysis, Game Development, Game Testing, Automated Game Testing, Serious Games, Videogame-based Neuroscience) and leave this axis entirely."
+      }
+    },
+    "learning-in-games": {
+      "name": "Learning in games",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "game-theory"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "3",
+        "characteristic": "agents reach, or fail to reach, an equilibrium through repeated play",
+        "positive_test": "the object of study is the dynamics of learning agents and what they converge to",
+        "negative_test": "the agents maximise a reward signal and the equilibrium is not the object (learning signal > multi-agent reinforcement learning)",
+        "corpus_names": "0",
+        "corpus_mentions": "0",
+        "notes": "SPECULATIVE: zero corpus support in the 2024 name list. Kept per AXES 9 (a category with no corpus support is justified or kept, never deleted on that ground). No-regret dynamics, fictitious play, convergence of gradient dynamics. This node and multi-agent RL are the two homes RATIONALE section 7 asks for when it declines to sweep Multi-Agent Systems 11 into game theory; the head-noun rule decides per surface."
+      }
+    },
+    "mechanism-design": {
+      "name": "Mechanism design",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "game-theory"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "3",
+        "characteristic": "the game itself is designed so that the desired outcome is an equilibrium",
+        "positive_test": "the work chooses the rules rather than playing under them",
+        "negative_test": "the rules are given and the work solves or learns within them (equilibrium computation, learning in games)",
+        "corpus_names": "0",
+        "corpus_mentions": "0",
+        "notes": "SPECULATIVE: zero corpus support in the 2024 name list. Kept per AXES 9 (a category with no corpus support is justified or kept, never deleted on that ground). Auctions, matching, incentive compatibility, social choice. The corpus’s single auction surface (Simulation of auction data using Deep Learning 1) is an application, not this node. Kept on breadth: mechanism design is a whole community (EC), and AXES 3 gives ACM CCS and community structure this exact standing against corpus silence."
+      }
+    },
+    "cooperative-game-theory": {
+      "name": "Cooperative game theory",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "game-theory"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "3",
+        "characteristic": "value is allocated among coalitions rather than predicted from individual strategies",
+        "positive_test": "the primitive is what a group can achieve together, and the answer is a division of it",
+        "negative_test": "the agents are non-cooperative players with individual payoffs (equilibrium computation)",
+        "corpus_names": "1",
+        "corpus_mentions": "1",
+        "notes": "THIN: 1 name / 1 mention. Cross-link declared: Shapley-value attribution is used by model analysis > interpretability > feature attribution; the surface decides which node a name takes."
+      }
+    },
+    "prompting": {
+      "name": "Prompting",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "inference-procedures"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "3",
+        "characteristic": "the input given to the fixed model is engineered",
+        "positive_test": "what changes between runs is the text or format handed to the model, not its weights",
+        "negative_test": "the examples in the input are the object of study as adaptation across a task distribution (training regime > amortised meta-learning)",
+        "corpus_names": "1",
+        "corpus_mentions": "6",
+        "notes": "Prompt Engineering 6, which RATIONALE section 7 had declared unplaced; the owner’s 2026-09-29 ruling created the parent and this is where the surface lands. Boundary with in-context learning declared and inherited from RATIONALE section 2."
+      }
+    },
+    "intermediate-reasoning": {
+      "name": "Intermediate reasoning",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "inference-procedures"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "3",
+        "characteristic": "the model is made to emit and consume its own intermediate steps before answering",
+        "positive_test": "extra tokens are generated whose purpose is the computation, not the answer",
+        "negative_test": "the name says what the output must be (Mathematical Reasoning, Visual Reasoning), which is a Task",
+        "corpus_names": "1",
+        "corpus_mentions": "1",
+        "notes": "THIN: 1 name / 1 mention (Chain-of-Thought (CoT) Reasoning). NAME-LEVEL TRAP declared: the corpus holds ~20 mentions of X Reasoning names that are Task-axis values, not this node."
+      }
+    },
+    "test-time-search": {
+      "name": "Test-time search",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "inference-procedures"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "3",
+        "characteristic": "several candidate answers are produced and one is selected",
+        "positive_test": "the cost at query time rises with the number of candidates considered",
+        "negative_test": "the search is over model structures at training time (model design > neural architectures, branch level: architecture search)",
+        "corpus_names": "0",
+        "corpus_mentions": "0",
+        "notes": "SPECULATIVE: zero corpus support in the 2024 name list. Kept per AXES 9 (a category with no corpus support is justified or kept, never deleted on that ground). Self-consistency, best-of-n, verifier reranking, tree search over generations, test-time compute scaling. AXES 3 names \"test-time computation\" in the owner’s ruling that created this parent, so the node is owner-sanctioned although the 2024 corpus predates the literature’s growth. This whole branch carries the parent’s DECLARED STRAIN: it divides by stage."
+      }
+    }
+  }
+}
