@@ -223,7 +223,7 @@ def model2df(model: BaseModel):
 
         elif k in (
             "models",
-            "datasets",
+            "data_sources",
             "libraries",
         ):
             for i, entry in enumerate(v):

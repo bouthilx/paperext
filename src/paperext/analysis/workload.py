@@ -149,7 +149,7 @@ def _paper_items_split(extractions, dim: Dimension, split: Split):
 
     ``(name_key, display, category, mapped, split_value)``; ``ignore`` items dropped.
     """
-    entries = getattr(extractions, dim.key)
+    entries = getattr(extractions, dim.field_name or dim.key)
     items = []
     for entry in entries:
         primary, aliases, raw = _entity_names(entry)
@@ -323,7 +323,7 @@ def _workload_dimensions(models_cut):
     models = build_maps(
         Dimension("models", data / "categorized_models.json", models_cut)
     )
-    datasets = build_maps(Dimension("datasets"))
+    datasets = build_maps(Dimension("datasets", field_name="data_sources"))
     libraries = build_maps(Dimension("libraries"))
     return [
         (models, IS_EXECUTED),

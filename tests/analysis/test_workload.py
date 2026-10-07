@@ -40,6 +40,7 @@ def _ref(name, role="used"):
         # v5 (#93); unused here, but `RefDataset` requires them. `RefLibrary`
         # ignores the extras.
         "size": _expl("unknown"),
+        "derived_from": [],
         "sample_properties": [],
         "referenced_paper_title": _expl(""),
     }
@@ -57,7 +58,7 @@ def make_paper(models=None, datasets=None, libraries=None):
             "type": _expl("empirical"),
             "research_fields": [_rf("x")],
             "models": [_model(**m) for m in (models or [])],
-            "datasets": [_ref(**d) for d in (datasets or [])],
+            "data_sources": [_ref(**d) for d in (datasets or [])],
             "libraries": [_ref(**l) for l in (libraries or [])],
             "algorithms": [],
             "runs": [],
@@ -96,7 +97,7 @@ def node_dim(tree_path):
 
 @pytest.fixture
 def datasets_dim():
-    return build_maps(Dimension("datasets"))
+    return build_maps(Dimension("datasets", field_name="data_sources"))
 
 
 # --- is_executed split ------------------------------------------------------

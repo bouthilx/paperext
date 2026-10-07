@@ -33,7 +33,7 @@ from paperext.utils import str_normalize
 #: ``runs[]`` list attribute -> the top-level entity list it references.
 REFERENCE_FIELDS: dict[str, str] = {
     "models": "models",
-    "datasets": "datasets",
+    "data_sources": "data_sources",
     "algorithms": "algorithms",
 }
 

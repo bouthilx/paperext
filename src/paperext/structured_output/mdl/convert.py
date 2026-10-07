@@ -351,23 +351,29 @@ def convert_model_v4(
                 fields[field_name].append(m)
 
         elif field_name in ("datasets",):
-            fields[field_name] = []
+            # v5 renames the list to `data_sources` (#102): the dimension covers
+            # interactive environments and generators as well as fixed samples,
+            # and a field called `datasets` invites an extractor to skip MuJoCo.
+            fields["data_sources"] = []
             for d in extractions.datasets:
-                # New in v5 (#93). The paper is not re-read here, so size and
-                # per-sample measures are `unknown` with no grounding quote
-                # rather than absent: the field has to be distinguishable from a
-                # size the extractor looked for and did not find.
-                d = dest_model.RefDataset(
-                    name=d.name.model_dump(),
-                    aliases=d.aliases,
-                    role=dest_model.Role(d.role.value),
-                    size=dest_model.Explained(
-                        value="unknown", justification="", quote=""
-                    ).model_dump(),
-                    sample_properties=[],
-                    referenced_paper_title=d.referenced_paper_title.model_dump(),
+                # New in v5 (#93). The paper is not re-read here, so size,
+                # per-sample measures and `derived_from` are empty or `unknown`
+                # with no grounding quote rather than absent: the field has to be
+                # distinguishable from one the extractor looked for and did not
+                # find.
+                fields["data_sources"].append(
+                    dest_model.RefDataSource(
+                        name=d.name.model_dump(),
+                        aliases=d.aliases,
+                        role=dest_model.Role(d.role.value),
+                        size=dest_model.Explained(
+                            value="unknown", justification="", quote=""
+                        ).model_dump(),
+                        derived_from=[],
+                        sample_properties=[],
+                        referenced_paper_title=d.referenced_paper_title.model_dump(),
+                    )
                 )
-                fields[field_name].append(d)
 
         elif field_name in ("libraries",):
             fields[field_name] = []

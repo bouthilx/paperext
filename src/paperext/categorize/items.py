@@ -46,7 +46,11 @@ from paperext.analysis.rollup import str_normalize
 #: stay single-field.
 DIMENSION_FIELDS: "dict[str, tuple[str, ...]]" = {
     "models": ("models",),
-    "datasets": ("datasets",),
+    # The reporting dimension keeps its name while the schema field is
+    # `data_sources` (#102). DIMENSION_FIELDS exists for exactly this: the two
+    # are not required to agree, and renaming the dimension would invalidate
+    # every recorded categorization decision keyed on it.
+    "datasets": ("data_sources",),
     "libraries": ("libraries",),
     "domains": ("research_fields",),
 }

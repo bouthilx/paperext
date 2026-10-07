@@ -43,21 +43,22 @@ def _algorithm(name, *, executed=True, aliases=None):
     }
 
 
-def _dataset(name, *, aliases=None):
+def _data_source(name, *, aliases=None):
     return {
         "name": _expl(name),
         "aliases": aliases or [],
         "role": "used",
         "size": _expl("unknown"),
+        "derived_from": [],
         "sample_properties": [],
         "referenced_paper_title": _expl(""),
     }
 
 
-def _run(*, models=(), datasets=(), algorithms=(), mode="train"):
+def _run(*, models=(), data_sources=(), algorithms=(), mode="train"):
     return {
         "models": [{"name": n, "role_in_run": "main"} for n in models],
-        "datasets": [{"name": n, "roles_in_run": ["train"]} for n in datasets],
+        "data_sources": [{"name": n, "roles_in_run": ["train"]} for n in data_sources],
         "algorithms": [{"name": n} for n in algorithms],
         "execution_mode": _expl(mode),
         "epochs": _expl("unknown"),
@@ -73,7 +74,7 @@ def _run(*, models=(), datasets=(), algorithms=(), mode="train"):
     }
 
 
-def _paper(*, models=(), datasets=(), algorithms=(), runs=()):
+def _paper(*, models=(), data_sources=(), algorithms=(), runs=()):
     return model_v5.PaperExtractions.model_validate(
         {
             "title": _expl("t"),
@@ -81,7 +82,7 @@ def _paper(*, models=(), datasets=(), algorithms=(), runs=()):
             "type": _expl("empirical"),
             "research_fields": [{"name": _expl("x"), "aliases": [], "role": "unknown"}],
             "models": list(models),
-            "datasets": list(datasets),
+            "data_sources": list(data_sources),
             "libraries": [],
             "algorithms": list(algorithms),
             "runs": list(runs),
@@ -96,9 +97,15 @@ def _codes(extractions):
 def test_a_resolving_reference_is_not_a_problem():
     ext = _paper(
         models=[_model("ResNet-50")],
-        datasets=[_dataset("ImageNet")],
+        data_sources=[_data_source("ImageNet")],
         algorithms=[_algorithm("AdamW")],
-        runs=[_run(models=["ResNet-50"], datasets=["ImageNet"], algorithms=["AdamW"])],
+        runs=[
+            _run(
+                models=["ResNet-50"],
+                data_sources=["ImageNet"],
+                algorithms=["AdamW"],
+            )
+        ],
     )
     assert check_references(ext) == []
 
@@ -146,11 +153,11 @@ def test_an_unresolved_reference_still_validates():
     assert check_references(ext)  # reported, not raised
 
 
-@pytest.mark.parametrize("field", ["models", "datasets", "algorithms"])
+@pytest.mark.parametrize("field", ["models", "data_sources", "algorithms"])
 def test_every_reference_field_is_checked(field):
     ext = _paper(
         models=[_model("m")],
-        datasets=[_dataset("d")],
+        data_sources=[_data_source("d")],
         algorithms=[_algorithm("a")],
         runs=[_run(**{field: ["absent"]})],
     )
