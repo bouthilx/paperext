@@ -381,8 +381,19 @@ def audit(dim: Dimension) -> int:
             vals, notes = dim.effective(nid, axis)
             out.extend(f"AMBIGUOUS {n}" for n in notes)
             counts[f"{axis}:resolved" if vals else f"{axis}:HOMELESS"] += 1
-        if row["kind"] in ("bundle", "pipeline") and not row["expands_to"].strip():
-            out.append(f"NO EXPANSION  {nid} is kind={row['kind']} but expands_to is empty")
+    # expands_to must name nodes, not describe them: an expansion in prose
+    # cannot be rolled up, and rolling up is the only reason it exists. It may
+    # be empty when a composite's parts are not independently nameable --
+    # nobody cites "column subsampling" on its own -- but it may never be prose.
+    for nid, row in dim.lineage.items():
+        exp = row["expands_to"].strip()
+        if not exp:
+            continue
+        for part in cells(exp):
+            if part not in dim.lineage:
+                out.append(f"PROSE EXPANSION  {nid}: expands_to names {part!r}, which is not a node_id")
+        if row["kind"] not in ("bundle", "pipeline"):
+            out.append(f"EXPANSION ON METHOD  {nid} has an expansion but kind={row['kind']!r}")
 
     for line in sorted(set(out)):
         print(line)

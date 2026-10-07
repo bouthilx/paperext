@@ -1,0 +1,17 @@
+# Nodes transferred out of the algorithms dimension to models (#95), 2026-10-07.
+# Reason: the owner's specification test -- a thing is a model component if
+# specifying the NETWORK requires it, and an algorithm if specifying the RUN
+# requires it. nn.Dropout(p=0.1) is a module with a placement and a rate.
+# Receiving family: models attributes `stochastic-regularisation`.
+# Why the obvious alternative test was rejected: "does it survive to inference"
+# would split dropout from batch norm, but MC-dropout keeps dropout at inference,
+# so the same construct would change dimension by use -- the property-of-the-use
+# trap that killed three candidate characteristics in the models dimension.
+node_id	name	models_value
+L.reg.act	Stochastic activation regularisation	stochastic-regularisation
+M.dropblock	DropBlock	stoch-structured
+M.dropconnect	DropConnect	stoch-weight
+M.droppath	DropPath	stoch-structured
+M.layerdrop	LayerDrop	stoch-structured
+M.dropout	dropout	stoch-unit
+M.stochastic-depth	stochastic depth	stoch-structured
