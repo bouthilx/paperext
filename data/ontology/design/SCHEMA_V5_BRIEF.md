@@ -1,9 +1,10 @@
 # Schema v5 — design brief and handover
 
 Written 2026-10-07, after the models (#95) and algorithms (#96) ontologies were
-built and closed. Companion to `ALGORITHMS_BRIEF.md` (which this file succeeds as
-the active handover), `ALGORITHMS_EXTRACTION_REQUIREMENTS.md` (the prompt spec
-for `algorithms[]`), `MODELS_BRIEF.md` (the entity model) and
+built and closed. Companion to `SCHEMA_V5_STRUCTURE.md` (the entity/run
+structural decision), `ALGORITHMS_BRIEF.md` (which this file succeeds as the
+active handover), `ALGORITHMS_EXTRACTION_REQUIREMENTS.md` (the prompt spec for
+`algorithms[]`), `MODELS_BRIEF.md` (the entity model) and
 `B6_ALGORITHMS_COMPARISON.md`.
 
 **Read this file first when resuming.** It is the handover.
@@ -69,6 +70,12 @@ converter and a single re-extraction run cover all three.
 
 The issue body is the specification and is still accurate. What follows is what
 the models and algorithms work added to it, which the issue does not yet say.
+
+**The structure is settled in `SCHEMA_V5_STRUCTURE.md`** (owner, 2026-10-07):
+entity lists stay top-level and `runs[]` is a fact table referencing them, so the
+pointer runs `runs[] → algorithms[]` as it does for models and datasets.
+References are by verbatim name and checked after extraction, never in a pydantic
+validator. Read it before writing `model_v5.py`.
 
 ## B.1 `algorithms[]` is a new entity list, and its ontology is built
 
@@ -264,6 +271,7 @@ rediscover.
 ```
 data/ontology/design/
 ├── SCHEMA_V5_BRIEF.md                      <- this file, the active handover
+├── SCHEMA_V5_STRUCTURE.md                  <- entity/run structure: runs[] references entity lists
 ├── ALGORITHMS_EXTRACTION_REQUIREMENTS.md   <- the prompt spec for algorithms[]
 ├── ALGORITHMS_BRIEF.md                     <- superseded as handover; Parts A/B/D still the rationale
 ├── B6_ALGORITHMS_COMPARISON.md             <- 102 of 111 domains `method` nodes overlap; a risk list, not a merge list
