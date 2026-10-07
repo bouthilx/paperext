@@ -396,10 +396,19 @@ value that carries no information, an inheritance rule that manufactures work.
 - Split the three conflations whose own tests convict them: `A.uncert`
   (parameters vs per-example latents), `A.outspace` (element type vs joint
   structure), `A.topology` (discipline vs parties).
-- **`divides` edges do not propagate axis values.** A `divides` edge is a claim
-  about the parent's *characteristic*, not its values; propagating along it
-  manufactured 52 of one region's 159 denials. This also makes rule 1
-  well-defined.
+- ~~`divides` edges do not propagate axis values~~ — **this diagnosis was too
+  broad and is withdrawn.** Only 19 of 170 denial-carrying nodes are multi-parent
+  at all, and the worst offenders (`M.ddim` with 8 denials) are single-parent.
+  What the denials actually localise is narrower and more useful: **a family that
+  grouped by goal or mechanism instead of by a characteristic**, which is itself
+  multi-parent, and whose children then disagree wildly on denial count. Two such
+  families accounted for 45 denials: `L.score.sample` held training-free samplers
+  beside training procedures (goal: cheaper sampling), `L.derivfree.anneal` held
+  an optimiser beside an MCMC sampler (mechanism: annealing). Replaced by:
+  **an explicit `value_parent`** naming the parent values flow along, declared
+  and never inferred from `parents` column order, and required by the audit only
+  where parents actually conflict. 18 were derived from the denial evidence --
+  a denial is the node saying which parent was wrong. Denials 281 -> 200.
 - Widen `S.form.post`'s test, which says "approached by sampling" and so excludes
   the closed-form posteriors of GPs, Kalman filters and Laplace approximation —
   ~25 of its own 53 pins.

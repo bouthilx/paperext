@@ -277,15 +277,44 @@ def homeless(dim: Dimension) -> int:
     return 0
 
 
+def redundant(dim: Dimension) -> int:
+    """Attribute pins that only restate their family default.
+
+    A blank means the default, so such a pin carries no information. One region
+    measured 650 of 1024 attribute pins this way -- real information buried under
+    its own boilerplate. Stripping them is lossless *because* the default is
+    written down.
+    """
+    ax = dim.axes["attributes"]
+    hits: dict[str, list[str]] = {}
+    for nid, row in dim.lineage.items():
+        for v in cells(row["attributes"]):
+            if v.startswith("!") or v not in ax.nodes:
+                continue
+            fam = ax.family(v)
+            if ax.nodes[fam].get("default", "").strip() == v:
+                hits.setdefault(fam, []).append(nid)
+    total = sum(len(v) for v in hits.values())
+    pins = sum(len([v for v in cells(r["attributes"]) if not v.startswith("!")])
+               for r in dim.lineage.values())
+    print(f"{total} of {pins} attribute pins restate a family default ({100 * total // max(pins, 1)}%)")
+    for fam, ns in sorted(hits.items(), key=lambda kv: -len(kv[1])):
+        print(f"  {len(ns):5}  {fam:18} -> {ax.nodes[fam]['default']}")
+    return 0
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--audit", action="store_true", help="report defects and exit nonzero if any")
     ap.add_argument("--homeless", action="store_true", help="group nodes resolving to no value, by family")
+    ap.add_argument("--redundant", action="store_true", help="count attribute pins that merely restate their family default")
     ap.add_argument("--node", help="print one node's resolved axes")
     args = ap.parse_args()
     dim = Dimension.load()
     if args.homeless:
         return homeless(dim)
+    if args.redundant:
+        return redundant(dim)
     if args.node:
         for axis in AXES:
             vals, notes = dim.effective(args.node, axis)
