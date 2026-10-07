@@ -105,7 +105,7 @@ def extract_model_categories(
 
     try:
         response = ExtractionResponse.model_validate_json(f.read_text())
-    except (FileNotFoundError, pydantic_core._pydantic_core.ValidationError):
+    except FileNotFoundError, pydantic_core._pydantic_core.ValidationError:
         models = copy.deepcopy(models)
         models.pop("ignore")
         models["others"] = {}

@@ -28,7 +28,6 @@ def _model(name, is_executed=False, execution_mode="unknown"):
         "is_executed": _expl(is_executed),
         "is_compared": _expl(False),
         "execution_mode": _expl(execution_mode),
-        "parameter_count": _expl("unknown"),
         "referenced_paper_title": _expl(""),
     }
 
@@ -38,12 +37,16 @@ def _ref(name, role="used"):
         "name": _expl(name),
         "aliases": [],
         "role": role,
+        # v5 (#93); unused here, but `RefDataset` requires them. `RefLibrary`
+        # ignores the extras.
+        "size": _expl("unknown"),
+        "sample_properties": [],
         "referenced_paper_title": _expl(""),
     }
 
 
-def _rf(name):
-    return {"name": _expl(name), "aliases": []}
+def _rf(name, role="unknown"):
+    return {"name": _expl(name), "aliases": [], "role": role}
 
 
 def make_paper(models=None, datasets=None, libraries=None):
@@ -52,11 +55,12 @@ def make_paper(models=None, datasets=None, libraries=None):
             "title": _expl("t"),
             "description": "d",
             "type": _expl("empirical"),
-            "primary_research_field": _rf("x"),
-            "sub_research_fields": [],
+            "research_fields": [_rf("x")],
             "models": [_model(**m) for m in (models or [])],
             "datasets": [_ref(**d) for d in (datasets or [])],
             "libraries": [_ref(**l) for l in (libraries or [])],
+            "algorithms": [],
+            "runs": [],
         }
     )
 

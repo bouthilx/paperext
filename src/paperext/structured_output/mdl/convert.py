@@ -7,7 +7,13 @@ import yaml
 from pydantic import BaseModel
 
 from paperext import CFG
-from paperext.structured_output.mdl import model_v1, model_v2, model_v3
+from paperext.structured_output.mdl import (
+    model_v1,
+    model_v2,
+    model_v3,
+    model_v4,
+    model_v5,
+)
 from paperext.structured_output.utils import model_dump_yaml
 from paperext.utils import split_entry, str_eq
 
@@ -250,7 +256,11 @@ def convert_model_v2(extractions: model_v2.PaperExtractions):
 
 
 def convert_model_v3(extractions: model_v3.PaperExtractions):
-    from paperext.structured_output.mdl import model as dest_model
+    # Each converter names its destination version explicitly, never the `model`
+    # proxy. Targeting the proxy works only while that version happens to be the
+    # newest: when v5 landed, this function silently started emitting v5 and
+    # every conversion from v3 or below failed on the v5 fields it does not set.
+    from paperext.structured_output.mdl import model_v4 as dest_model
 
     fields = {}
 
@@ -287,15 +297,113 @@ def convert_model_v3(extractions: model_v3.PaperExtractions):
     return dest_model.PaperExtractions(**{k: _model_dump(v) for k, v in fields.items()})
 
 
+def convert_model_v4(
+    extractions: model_v4.PaperExtractions,
+) -> model_v5.PaperExtractions:
+    from paperext.structured_output.mdl import model_v5 as dest_model
+
+    fields = {}
+
+    for field_name, field in extractions:
+        # #89: `primary_research_field` + `sub_research_fields` collapse into one
+        # `research_fields` list with a role. The role is left `unknown`: these
+        # extractions were produced before the question was asked, and the rank
+        # does not answer it -- 187 of the 1999 legacy-2024 papers rank a vacuous
+        # field (`deep learning`, `machine learning`) first, so `primary` is not
+        # evidence of `contributed`. Guessing here would manufacture the
+        # distinction #89 exists to measure. #14 re-extracts for the real roles.
+        if field_name in ("primary_research_field",):
+            fields["research_fields"] = [
+                dest_model.ResearchField(
+                    name=extractions.primary_research_field.name.model_dump(),
+                    aliases=extractions.primary_research_field.aliases,
+                    role=dest_model.Role.UNKNOWN,
+                )
+            ]
+
+        elif field_name in ("sub_research_fields",):
+            # `primary_research_field` is iterated first, so the list exists.
+            fields["research_fields"].extend(
+                dest_model.ResearchField(
+                    name=srf.name.model_dump(),
+                    aliases=srf.aliases,
+                    role=dest_model.Role.UNKNOWN,
+                )
+                for srf in extractions.sub_research_fields
+            )
+
+        elif field_name in ("models",):
+            fields[field_name] = []
+            for m in extractions.models:
+                # `parameter_count` moves to the run in v5. It has never been
+                # populated by any extraction -- no corpus was ever produced with
+                # v4 -- so there is no value to carry anywhere, and the run it
+                # would belong to does not exist until re-extraction either.
+                m = dest_model.RefModel(
+                    name=m.name.model_dump(),
+                    aliases=m.aliases,
+                    is_contributed=m.is_contributed.model_dump(),
+                    is_executed=m.is_executed.model_dump(),
+                    is_compared=m.is_compared.model_dump(),
+                    execution_mode=m.execution_mode.model_dump(),
+                    referenced_paper_title=m.referenced_paper_title.model_dump(),
+                )
+                fields[field_name].append(m)
+
+        elif field_name in ("datasets",):
+            fields[field_name] = []
+            for d in extractions.datasets:
+                # New in v5 (#93). The paper is not re-read here, so size and
+                # per-sample measures are `unknown` with no grounding quote
+                # rather than absent: the field has to be distinguishable from a
+                # size the extractor looked for and did not find.
+                d = dest_model.RefDataset(
+                    name=d.name.model_dump(),
+                    aliases=d.aliases,
+                    role=dest_model.Role(d.role.value),
+                    size=dest_model.Explained(
+                        value="unknown", justification="", quote=""
+                    ).model_dump(),
+                    sample_properties=[],
+                    referenced_paper_title=d.referenced_paper_title.model_dump(),
+                )
+                fields[field_name].append(d)
+
+        elif field_name in ("libraries",):
+            fields[field_name] = []
+            for l in extractions.libraries:
+                l = dest_model.RefLibrary(
+                    name=l.name.model_dump(),
+                    aliases=l.aliases,
+                    role=dest_model.Role(l.role.value),
+                    referenced_paper_title=l.referenced_paper_title.model_dump(),
+                )
+                fields[field_name].append(l)
+
+        else:
+            fields[field_name] = field
+
+    # `algorithms` and `runs` are new entity lists, not reshaped ones. Nothing in
+    # v4 holds an algorithm or a compute configuration, so a converter can only
+    # leave them empty; they are filled by the v5 re-extraction (#13/#14). An
+    # empty `runs` is also the honest value for a paper whose compute profile was
+    # never asked about.
+    fields["algorithms"] = []
+    fields["runs"] = []
+
+    return dest_model.PaperExtractions(**{k: _model_dump(v) for k, v in fields.items()})
+
+
 CONVERT_MODEL = {
     model_v1: convert_model_v1,
     model_v2: convert_model_v2,
     model_v3: convert_model_v3,
+    model_v4: convert_model_v4,
 }
 
 # Ordered conversion chain: each module maps to a converter producing the next
-# version, ending at the `model` proxy (currently v4).
-CONVERT_CHAIN = [model_v1, model_v2, model_v3]
+# version, ending at the `model` proxy (currently v5).
+CONVERT_CHAIN = [model_v1, model_v2, model_v3, model_v4]
 
 
 def _detect_version(model_data):
@@ -305,8 +413,11 @@ def _detect_version(model_data):
     PaperExtractions."""
     from paperext.structured_output.mdl import model as dest_model
 
-    # Newest first: v4 files also validate as older PaperExtractions (extra
-    # fields are ignored), so the proxy must be tried before the older versions.
+    # Newest first: a newer file also validates as an older PaperExtractions
+    # (extra fields are ignored), so the proxy must be tried before the older
+    # versions. v4 and v5 are mutually exclusive in both directions -- v5 has no
+    # `primary_research_field` and v4 has no `research_fields`, and both are
+    # required -- but v5 still validates as v3 and below, so order matters.
     for module in (dest_model, *reversed(CONVERT_CHAIN)):
         try:
             response = module.ExtractionResponse.model_validate(model_data)
@@ -358,7 +469,7 @@ if __name__ == "__main__":
             continue
 
         logging.info(f"Updating {path.relative_to(CFG.dir.root)}")
-        # Chain converters from the detected version up to the proxy (v4).
+        # Chain converters from the detected version up to the proxy (v5).
         for src_model in CONVERT_CHAIN[CONVERT_CHAIN.index(module) :]:
             extractions = CONVERT_MODEL[src_model](extractions)
 

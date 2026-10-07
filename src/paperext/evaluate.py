@@ -175,7 +175,10 @@ def _evaluate_precision(papers: list):
         .index
     )
 
-    for label in ("title", "type", "primary_research_field"):
+    # `primary_research_field` was the only single-valued research-field label
+    # and v5 removed the rank that produced it (#89), so the research fields are
+    # evaluated set-wise below, with everything else that is a list.
+    for label in ("title", "type"):
         for i in range(max_attempt + 1):
             mat, classes = _cm(
                 annotated[0].loc[:, label],
@@ -190,7 +193,7 @@ def _evaluate_precision(papers: list):
             )
 
     for label in (
-        "sub_research_fields",
+        "research_fields",
         "all_research_fields",
         "research_fields_categories",
     ):

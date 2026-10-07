@@ -97,7 +97,7 @@ def extract_dataset_categories(
 
     try:
         response = ExtractionResponse.model_validate_json(f.read_text())
-    except (FileNotFoundError, pydantic_core._pydantic_core.ValidationError):
+    except FileNotFoundError, pydantic_core._pydantic_core.ValidationError:
         datasets = copy.deepcopy(datasets)
         datasets.pop("ignore")
         datasets["others"] = {}

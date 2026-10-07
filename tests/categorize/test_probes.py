@@ -233,7 +233,9 @@ def test_a_case_whose_base_has_a_duplicate_is_not_built(tiny):
                 surface="vit",
                 name="ViT",
                 aliases=["ViTs"],
-                mentions=[Mention(paper="p", spelling="ViTs", quote="a vision transformer")],
+                mentions=[
+                    Mention(paper="p", spelling="ViTs", quote="a vision transformer")
+                ],
             )
         ],
     )

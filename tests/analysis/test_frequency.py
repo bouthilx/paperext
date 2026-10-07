@@ -40,30 +40,35 @@ def _ref(name, role="used", aliases=None):
         "name": _expl(name),
         "aliases": aliases or [],
         "role": role,
+        # v5 (#93); unused here, but `RefDataset` requires them. `RefLibrary`
+        # ignores the extras.
+        "size": _expl("unknown"),
+        "sample_properties": [],
         "referenced_paper_title": _expl(""),
     }
 
 
-def _rf(name, aliases=None):
-    return {"name": _expl(name), "aliases": aliases or []}
+def _rf(name, aliases=None, role="unknown"):
+    return {"name": _expl(name), "aliases": aliases or [], "role": role}
 
 
-def make_paper(
-    models=None, datasets=None, libraries=None, primary_rf="x", sub_rfs=None
-):
+def make_paper(models=None, datasets=None, libraries=None, research_fields=None):
+    if research_fields is None:
+        research_fields = ["x"]
     return PaperExtractions.model_validate(
         {
             "title": _expl("t"),
             "description": "d",
             "type": _expl("empirical"),
-            "primary_research_field": _rf(primary_rf),
-            "sub_research_fields": [_rf(s) for s in (sub_rfs or [])],
+            "research_fields": [_rf(f) for f in research_fields],
             "models": [
                 _model(*m) if isinstance(m, tuple) else _model(m)
                 for m in (models or [])
             ],
             "datasets": [_ref(d) for d in (datasets or [])],
             "libraries": [_ref(l) for l in (libraries or [])],
+            "algorithms": [],
+            "runs": [],
         }
     )
 
@@ -237,14 +242,20 @@ def test_extraction_alias_resolves(depth2_dim):
 # --- research fields --------------------------------------------------------
 
 
-def test_research_fields_fan_primary_and_sub(tmp_path):
+def test_research_fields_fan_over_the_whole_list(tmp_path):
+    """Every entry of `research_fields` counts, with no rank among them.
+
+    Before schema v5 this read the `primary_research_field` plus the
+    `sub_research_fields` (#89); the counting was already non-exclusive, so
+    dropping the rank changes nothing here but where the names are read from.
+    """
     tree = {"vision": {"computer vision": {}}, "nlp": {"language": {}}}
     p = tmp_path / "dom.json"
     p.write_text(json.dumps(tree))
     dim = build_maps(Dimension("research_fields", p, 1))
     papers = [
-        make_paper(primary_rf="computer vision", sub_rfs=["language"]),
-        make_paper(primary_rf="computer vision"),  # vision -> 2, nlp -> 1
+        make_paper(research_fields=["computer vision", "language"]),
+        make_paper(research_fields=["computer vision"]),  # vision -> 2, nlp -> 1
     ]
     res = aggregate(papers, dim)
     assert res.category_counts == {"vision": 2, "nlp": 1}

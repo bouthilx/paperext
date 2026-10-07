@@ -1,5 +1,6 @@
 """Mechanical comparison of the design proposals. Countable criteria only:
 impressions are written separately, afterwards, so they cannot contaminate this."""
+
 from __future__ import annotations
 
 import csv
@@ -24,11 +25,17 @@ def norm(name: str) -> str:
 def score(run: Path) -> dict:
     rows = load(run)
     top = [r for r in rows if not (r.get("parent") or "").strip()]
-    children = Counter(norm(r["parent"]) for r in rows if (r.get("parent") or "").strip())
+    children = Counter(
+        norm(r["parent"]) for r in rows if (r.get("parent") or "").strip()
+    )
     axes = {r.get("axis", "") for r in rows}
     compound = [r["category"] for r in rows if COMPOUND.search(r["category"])]
-    thin = [r["category"] for r in rows
-            if len([e for e in (r.get("example_children") or "").split(";") if e.strip()]) < 3]
+    thin = [
+        r["category"]
+        for r in rows
+        if len([e for e in (r.get("example_children") or "").split(";") if e.strip()])
+        < 3
+    ]
     no_out = [r["category"] for r in rows if not (r.get("scope_out") or "").strip()]
     return {
         "categories": len(rows),
