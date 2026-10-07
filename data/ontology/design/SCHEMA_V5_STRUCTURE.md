@@ -24,12 +24,16 @@ PaperExtractions
 ├── libraries[]         RefLibrary      identity + paper-level role
 ├── algorithms[]        RefAlgorithm    identity + paper-level role   (#94, new)
 └── runs[]              Run             the fact table                (#94, new)
-     ├── models[]       RunRef          {name, role_in_run?}
-     ├── datasets[]     RunRef          {name, role_in_run?}
-     ├── algorithms[]   RunRef          {name, role_in_run?}
+     ├── models[]       RunModel        {name, role_in_run}
+     ├── datasets[]     RunDataset      {name, roles_in_run[]}
+     ├── algorithms[]   RunAlgorithm    {name}
      └── execution_mode · epochs · parameter_count · accelerator_type/model/count
          · precision · parallelism · duration · utilisation · repetitions
 ```
+
+Built in `src/paperext/structured_output/mdl/model_v5.py`. The run-side field is
+`role_in_run` rather than `role` because the referenced entity has a role too
+(`RefDataset.role` spells it exactly that) — see section 3.
 
 `RefAlgorithm` mirrors `RefModel`: `name` · `aliases` · `is_contributed` ·
 `is_executed` · `is_compared` · `referenced_paper_title`. The last field is not
@@ -70,26 +74,26 @@ Independent Q-Learning and whose bare string resolves to neither.
 ## 3. What considering the reversal did reveal: pair-valued facts
 
 The reversal is wrong, but the case for it points at something real: **some facts
-belong to the `(run, entity)` edge, not to either end.** Hence `RunRef` is a
-small object, not a bare string.
+belong to the `(run, entity)` edge, not to either end.** Hence a reference is a
+small object rather than a bare string — for two of the three entity types.
 
-- **Role is use-dependent for algorithms.** Measured, not hypothesised: *38
-  nodes resolve to no role, concentrated in combinatorial solvers whose slot is a
-  property of their use* — Hungarian matching is an objective in DETR and a
-  label-assignment step in SwAV (`ALGORITHMS_EXTRACTION_REQUIREMENTS.md` §7).
-  Within one paper, PPO as RLHF stage 3 and PPO as a compared baseline are
-  different roles for one name.
-- **The `execution_mode` invariant is itself a pair predicate.** *"No algorithm
-  whose `role` is `R.fit.update` in an inference run"* constrains the edge. It
-  is checkable at all only because role is an axis (`SCHEMA_V5_BRIEF.md` B.3).
 - **Datasets need it for the compute formula, which is the whole point of #94.**
   `6 × parameters × training examples × epochs` needs the *training* examples.
   A dataset's run-level role — trained on / validated on / evaluated on — is a
   different fact from `RefDataset.role` (contributed/used/referenced, which is
-  paper-level), and the formula is wrong without it. This is the strongest
-  instance of the pair-attribute point and it is not about algorithms at all.
+  paper-level), and the formula is wrong without it. `roles_in_run` is a list
+  because one dataset can be both trained and evaluated on within one run, and
+  one reference per named entity per run keeps the reference list a clean
+  key→attributes map for the check in section 4.
 - **Models need it too**: student/teacher pairs and ensemble members are
-  distinguishable roles inside one run.
+  distinguishable roles inside one run, which the paper-level
+  `is_contributed`/`is_compared` cannot express.
+- **The `execution_mode` invariant is a pair predicate.** *"No algorithm whose
+  `role` is `R.fit.update` in an inference run"* constrains the edge, and is
+  checkable at all only because role is an axis (`SCHEMA_V5_BRIEF.md` B.3). But
+  the `role` it reads is the **ontology's**, resolved after extraction from the
+  name and the quote — not a field an extractor fills. So that invariant needs
+  the dimension loadable (#100); it is not a schema field.
 
 **The field is named `role_in_run`, not `role`, deliberately.** `RefDataset.role`
 and `RefLibrary.role` already mean contributed/used/referenced. Two fields named
@@ -97,6 +101,21 @@ and `RefLibrary.role` already mean contributed/used/referenced. Two fields named
 conflation the ontology work paid for twice (`A.deriv.fixed`; the respondent vs
 annotator wording). The vocabularies also differ per entity type, so the enums
 are separate.
+
+### Correction to this section as first drafted: algorithms get no `role_in_run`
+
+The evidence first quoted for giving algorithms one — *38 nodes resolve to no
+role, concentrated in combinatorial solvers whose slot is a property of their
+use*, Hungarian matching being an objective in DETR and a label-assignment step
+in SwAV (`ALGORITHMS_EXTRACTION_REQUIREMENTS.md` §7) — is evidence about
+**assigning the ontology's role axis**, which happens post-hoc from the name and
+the quote. It is not evidence that an extractor can or should emit a per-run
+role, and asking it to classify is precisely what would close the vocabulary.
+
+The one algorithm fact that genuinely varies is *what the algorithm did in this
+paper*, and that is recorded once, in free text, as `RefAlgorithm.paper_role`.
+`RunAlgorithm` is therefore a bare reference. If #99 finds that a per-run
+algorithm role is extractable after all, adding it is a field, not a redesign.
 
 ## 4. How a reference is spelled: by verbatim name, validated afterwards
 
@@ -114,6 +133,20 @@ schema permissive and run the check afterwards, in the shape of
 read, the same way 13 model names became recorded questions instead of guesses.
 
 This is **one decision covering models, datasets and algorithms**, not three.
+
+**Built**: `src/paperext/structured_output/mdl/check.py`, run over a corpus with
+`uv run python -m paperext.structured_output.mdl.check --details`. Four codes,
+and it raises on none of them:
+
+| code | what it means |
+|---|---|
+| `unresolved-reference` | a run names something no entity list holds. A **written alias** resolves a reference; **similarity never does** — `gpt-j` against `GPT-4` stays unresolved, because a wrong repair is worse than a reported gap |
+| `referenced-but-not-executed` | a run executes an entity whose `is_executed` is `False`. One of the two statements is wrong |
+| `execution-mode-disagrees` | `RefModel.execution_mode` and `Run.execution_mode` disagree for a model that ran. `unknown` on either side is an absence of evidence and contradicts nothing |
+| `executed-without-run` | an executed model no run accounts for. **Expected in bulk on converted data** — `convert_model_v4` leaves `runs[]` empty — so it is read per corpus, not per record |
+
+`tests/structured_output/mdl/test_check.py` covers each, including the one that
+is really a statement about the schema: an unresolved reference **validates**.
 
 ## 5. Sparse by design
 
@@ -152,15 +185,29 @@ relocate. No v4 extraction exists to migrate.
 
 ## 7. Open items
 
-- [ ] The `role_in_run` enums per entity type: datasets look like
-      train/validation/test/unknown; models and algorithms are less obvious, and
-      the algorithms one should stay coarse rather than restate the ontology's
-      `role` axis — the axis is assigned afterwards, from the name and quote
-- [ ] Whether `Run` needs a `checkpoint` reference to another run in v5 or later.
-      It now has its motivating case — the edge between RLHF stage 1 and stages
-      2–3 *is* a checkpoint reference (`SCHEMA_V5_BRIEF.md` B.3) — but it is the
-      one field with no second use yet
-- [ ] Whether `RunRef` needs its own `Explained` wrapper. Everything else in the
-      schema is quote-backed; a reference arguably inherits its quote from the
-      entity it names, and the quote that would matter is the one locating the
-      *run*, not the mention
+Settled while building:
+
+- [x] **The `role_in_run` enums.** Datasets: train/validation/test/unknown,
+      list-valued. Models: main/teacher/student/ensemble-member/unknown,
+      single-valued. Algorithms: **none**, for the reason in section 3.
+- [x] **A reference is a plain `str`, not `Explained[str]`.** A reference is a
+      pointer and its quote lives on the entity it names; the quote that would
+      matter for a run is the one locating the *run*, which the run's own fields
+      already carry.
+
+Still open:
+
+- [ ] Whether `Run` needs a `checkpoint` reference to another run. It has its
+      motivating case — the edge between RLHF stage 1 and stages 2–3 *is* a
+      checkpoint reference (`SCHEMA_V5_BRIEF.md` B.3) — but it is the one field
+      with no second use yet, and nothing in the first extraction will populate
+      it, so it can wait for evidence instead of being guessed at now
+- [ ] `Explained[list[Parallelism]]` is the first generic in this schema with a
+      list argument. It produces a valid closed strict schema (checked against
+      `backends.anthropic.strict_schema`: every object closed, every property
+      required, definition names clean), but no live API call has used it yet,
+      and the v4 comment about `instructor.Mode.TOOLS_STRICT` is a standing
+      reminder that schema *shape* has broken at the API before
+- [ ] The ontology-role half of the `execution_mode` invariant needs the
+      algorithms dimension loadable (#100). Until then `check.py` covers only
+      the schema-level half

@@ -441,7 +441,12 @@ class RunModel(BaseModel):
     name: str = Field(
         description="Name of the Model, repeated EXACTLY as reported in the models list",
     )
-    role: ModelRunRole = Field(
+    # `role_in_run`, not `role`: the referenced `RefModel` has a role too
+    # (`is_contributed`/`is_compared` at paper level, and `RefDataset.role`
+    # literally spells it `role`), and two fields called `role` carrying
+    # different vocabularies on the two ends of one reference is a conflation
+    # waiting to be read as one thing.
+    role_in_run: ModelRunRole = Field(
         description="How this Run used the Model: 'main' for the model the run "
         "produces or executes, 'teacher'/'student' in a distillation run, "
         "'ensemble-member', or 'unknown'",
@@ -455,7 +460,7 @@ class RunDataset(BaseModel):
     name: str = Field(
         description="Name of the Dataset, repeated EXACTLY as reported in the datasets list",
     )
-    roles: list[DatasetRunRole] = Field(
+    roles_in_run: list[DatasetRunRole] = Field(
         description="Which splits of the Dataset this Run consumed: train, "
         "validation and/or test. Usually one. ['unknown'] if the paper does not say",
     )
