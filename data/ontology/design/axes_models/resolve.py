@@ -34,6 +34,7 @@ gives a child no way to deny its parent: MLP-Mixer resolved to Self-attention
 although the paper's claim is "without attention", and FFJORD resolved to
 Standard convolution because Neural ODE descends from ResNet.
 """
+
 from __future__ import annotations
 
 import csv
@@ -46,7 +47,9 @@ AXES = ("connectivity", "topology", "attributes")
 
 def _load(rel: str) -> list[dict[str, str]]:
     with open(BASE / rel, encoding="utf-8") as fh:
-        return list(csv.DictReader((l for l in fh if not l.startswith("#")), delimiter="\t"))
+        return list(
+            csv.DictReader((l for l in fh if not l.startswith("#")), delimiter="\t")
+        )
 
 
 def load_axes() -> tuple[dict, dict, dict]:
@@ -63,8 +66,11 @@ def load_axes() -> tuple[dict, dict, dict]:
 
 
 def family_cardinality() -> dict[str, str]:
-    return {r["node_id"]: (r.get("cardinality") or "one").strip() or "one"
-            for r in _load("attributes/nodes.tsv") if not r["parent_id"].strip()}
+    return {
+        r["node_id"]: (r.get("cardinality") or "one").strip() or "one"
+        for r in _load("attributes/nodes.tsv")
+        if not r["parent_id"].strip()
+    }
 
 
 def _parents(lineage: dict, node: str) -> list[str]:
@@ -87,14 +93,25 @@ def _pins(lineage: dict, node: str, axis: str) -> list[str]:
     return [v.strip() for v in (lineage[node].get(axis) or "").split("|") if v.strip()]
 
 
-def effective(lineage: dict, family: dict, node: str, axis: str,
-              cardinality: dict[str, str] | None = None) -> list[str]:
+def effective(
+    lineage: dict,
+    family: dict,
+    node: str,
+    axis: str,
+    cardinality: dict[str, str] | None = None,
+) -> list[str]:
     chain = _chain(lineage, node)
-    blocked = {v[1:] for n in chain for v in _pins(lineage, n, axis) if v.startswith("!")}
+    blocked = {
+        v[1:] for n in chain for v in _pins(lineage, n, axis) if v.startswith("!")
+    }
 
     if axis == "topology":
         for n in chain:
-            vals = [v for v in _pins(lineage, n, axis) if not v.startswith("!") and v not in blocked]
+            vals = [
+                v
+                for v in _pins(lineage, n, axis)
+                if not v.startswith("!") and v not in blocked
+            ]
             if vals:
                 return vals[:1]
         return []
@@ -134,10 +151,14 @@ def audit() -> list[str]:
             continue
         vals = {t for p in ps for t in effective(lineage, family, p, "topology", card)}
         if len(vals) > 1:
-            problems.append(f"{nid}: parents disagree on topology {sorted(vals)}; "
-                            f"resolved by column order -- pin one explicitly")
+            problems.append(
+                f"{nid}: parents disagree on topology {sorted(vals)}; "
+                f"resolved by column order -- pin one explicitly"
+            )
     for nid in lineage:
-        if _parents(lineage, nid) and not effective(lineage, family, nid, "topology", card):
+        if _parents(lineage, nid) and not effective(
+            lineage, family, nid, "topology", card
+        ):
             problems.append(f"{nid}: resolves to NO topology")
     return problems
 
@@ -145,7 +166,10 @@ def audit() -> list[str]:
 def describe(node: str) -> dict[str, list[str]]:
     lineage, names, family = load_axes()
     card = family_cardinality()
-    return {a: [names.get(v, v) for v in effective(lineage, family, node, a, card)] for a in AXES}
+    return {
+        a: [names.get(v, v) for v in effective(lineage, family, node, a, card)]
+        for a in AXES
+    }
 
 
 if __name__ == "__main__":
@@ -159,7 +183,14 @@ if __name__ == "__main__":
         if node not in lineage:
             print(f"  {node}: not a lineage node")
             continue
-        v = {a: ", ".join(names.get(x, x) for x in effective(lineage, family, node, a, card)) or "—"
-             for a in AXES}
-        print(f"  {lineage[node]['name']:<26} conn={v['connectivity']:<40} "
-              f"topo={v['topology']:<28} attr={v['attributes']}")
+        v = {
+            a: ", ".join(
+                names.get(x, x) for x in effective(lineage, family, node, a, card)
+            )
+            or "—"
+            for a in AXES
+        }
+        print(
+            f"  {lineage[node]['name']:<26} conn={v['connectivity']:<40} "
+            f"topo={v['topology']:<28} attr={v['attributes']}"
+        )

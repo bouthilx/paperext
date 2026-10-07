@@ -1,13 +1,23 @@
 import json
+from types import ModuleType
+from typing import Any, Callable
 
 import pytest
 
-from paperext.structured_output.mdl import model, model_v1, model_v2, model_v3
+from paperext.structured_output.mdl import (
+    model,
+    model_v1,
+    model_v2,
+    model_v3,
+    model_v4,
+    model_v5,
+)
 from paperext.structured_output.mdl.convert import (
     _model_dump,
     convert_model_v1,
     convert_model_v2,
     convert_model_v3,
+    convert_model_v4,
 )
 
 
@@ -33,10 +43,16 @@ def test_model_dump(cfg):
         ["2402.04821_00", 2, 3],
         ["2401.14487_00", 3, 4],
         ["2402.04821_00", 3, 4],
+        ["2401.14487_00", 4, 5],
+        ["2402.04821_00", 4, 5],
     ],
 )
 def test_convert_model(cfg, query_file: str, from_version: int, dest_version: int):
     """Test that the model can be converted from a version to the next version."""
+
+    convert_model: Callable[[Any], Any]
+    from_model: ModuleType
+    dest_model: ModuleType
 
     match from_version:
         case 1:
@@ -50,7 +66,14 @@ def test_convert_model(cfg, query_file: str, from_version: int, dest_version: in
         case 3:
             convert_model = convert_model_v3
             from_model = model_v3
-            dest_model = model
+            # Explicitly v4, not the `model` proxy: a converter names its own
+            # destination version, so that moving the proxy to v5 does not turn
+            # this into a v3 -> v5 conversion that cannot work.
+            dest_model = model_v4
+        case 4:
+            convert_model = convert_model_v4
+            from_model = model_v4
+            dest_model = model_v5
         case _:
             raise ValueError(f"Unknown version: {from_version}")
 

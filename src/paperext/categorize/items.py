@@ -40,12 +40,15 @@ from pydantic import BaseModel, Field
 from paperext.analysis.rollup import str_normalize
 
 #: Dimensions an item can be built for -> the ``PaperExtractions`` attribute(s)
-#: that hold them. ``domains`` spans two fields, which is why this is a tuple.
+#: that hold them. Still a tuple of fields: ``domains`` spanned
+#: ``primary_research_field`` plus ``sub_research_fields`` until schema v5
+#: collapsed the rank into one list (#89), and nothing requires a dimension to
+#: stay single-field.
 DIMENSION_FIELDS: "dict[str, tuple[str, ...]]" = {
     "models": ("models",),
     "datasets": ("datasets",),
     "libraries": ("libraries",),
-    "domains": ("primary_research_field", "sub_research_fields"),
+    "domains": ("research_fields",),
 }
 
 #: Cap on mentions kept per item. The most-mentioned model has hundreds; three
@@ -143,6 +146,15 @@ def _mention(
     if mode in (None, "unknown") or not _text(entry, "execution_mode", "quote"):
         mode = None
     role = getattr(entry, "role", None)
+    role = getattr(role, "value", role)  # Role enum -> str
+    # v5 adds ``Role.UNKNOWN`` so the v4 -> v5 converter can decline to invent a
+    # research-field role (#89). Same reading as execution_mode above: an
+    # absence of evidence, not evidence of an unknown role, so it is not
+    # rendered. This is also what keeps every already-recorded ``payload_hash``
+    # valid -- a converted record renders exactly as it did before the field
+    # existed.
+    if role == "unknown":
+        role = None
     return Mention(
         paper=paper,
         spelling=spelling,
@@ -161,10 +173,30 @@ def _mention(
     )
 
 
-def _primary_field(extractions: Any) -> str:
-    field = getattr(extractions, "primary_research_field", None)
-    name = getattr(field, "name", None)
-    return (getattr(name, "value", "") or "").strip()
+def _grounding_field(extractions: Any) -> str:
+    """The research field used as grounding context for a mention.
+
+    v5 replaced the ``primary``/``sub`` rank with one list carrying a role
+    (#89), so there is no primary field to read. The replacement is the first
+    ``contributed`` field, falling back to the first field of any role.
+
+    The fallback is what makes this safe to change: the v4 -> v5 converter
+    leaves every role ``unknown`` and puts the former primary first, so a
+    converted record yields the same string the old function did, and the
+    ``payload_hash`` of every recorded categorization decision stays valid. The
+    rendering only moves for records re-extracted with real roles (#13/#14).
+    """
+    fields = getattr(extractions, "research_fields", None) or []
+    if not isinstance(fields, list):
+        fields = [fields]
+
+    def _name(field: Any) -> str:
+        return (getattr(getattr(field, "name", None), "value", "") or "").strip()
+
+    for field in fields:
+        if getattr(getattr(field, "role", None), "value", None) == "contributed":
+            return _name(field)
+    return _name(fields[0]) if fields else ""
 
 
 def iter_mentions(
@@ -182,7 +214,7 @@ def iter_mentions(
     ways must not list it as its own neighbour, which in an ablated run would hand
     the agent the answer it is being asked for.
     """
-    research_field = _primary_field(extractions)
+    research_field = _grounding_field(extractions)
     title = (_explained(extractions, "title") or "").strip()
 
     entries = []

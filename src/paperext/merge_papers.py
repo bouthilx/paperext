@@ -209,7 +209,7 @@ def _validate_field(
     if not isinstance(model_dump, dict):
         model_cls = model_dump.__class__
         model_dump = model_dump.model_dump()
-    # PaperExtractions.[sub_research_fields]
+    # PaperExtractions.[research_fields]
     field = ".".join(filename.split(".")[1:])
 
     try:

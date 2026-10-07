@@ -186,10 +186,17 @@ class Dimension:
                 for fam in {ax.family(v) for p in ps for v in sets[p] if v in ax.nodes}:
                     if ax.nodes[fam].get("cardinality", "").strip() == "many":
                         continue
-                    seen = {frozenset(v for v in sets[p] if v in ax.nodes and ax.family(v) == fam) for p in ps}
+                    seen = {
+                        frozenset(
+                            v for v in sets[p] if v in ax.nodes and ax.family(v) == fam
+                        )
+                        for p in ps
+                    }
                     seen = {s for s in seen if s}
                     if len(seen) > 1:
-                        found.append(f"attributes: parents disagree in single-valued family {fam}")
+                        found.append(
+                            f"attributes: parents disagree in single-valued family {fam}"
+                        )
         return found
 
     def signal_terms(self, nid: str) -> list[tuple[frozenset[str], frozenset[str]]]:
@@ -261,8 +268,9 @@ class Dimension:
         for v, d in asserted.items():
             if v in denied_at and denied_at[v] == d:
                 notes.append(f"{nid}: {v} is both asserted and denied at the same node")
-        live = {v for v, d in asserted.items()
-                if v not in denied_at or d < denied_at[v]}
+        live = {
+            v for v, d in asserted.items() if v not in denied_at or d < denied_at[v]
+        }
         denied = {v for v in denied_at if v not in live}
 
         if axis != "attributes":
@@ -285,7 +293,9 @@ class Dimension:
                     f"{nid}: family {fam} resolves to {at_front} at equal depth"
                     f" and cardinality is {card or 'undeclared'}"
                 )
-            resolved.update(at_front if card == "many" or len(at_front) == 1 else at_front)
+            resolved.update(
+                at_front if card == "many" or len(at_front) == 1 else at_front
+            )
         return self._subsume(axis, resolved - denied), notes
 
 
@@ -302,7 +312,9 @@ def audit(dim: Dimension) -> int:
             if p not in dim.lineage:
                 out.append(f"DANGLING  {n} -> unknown parent {p}")
             elif colour.get(p) == 1:
-                out.append(f"CYCLE     {' -> '.join(stack[stack.index(p):] + [n, p]) if p in stack else f'{n} -> {p}'}")
+                out.append(
+                    f"CYCLE     {' -> '.join(stack[stack.index(p):] + [n, p]) if p in stack else f'{n} -> {p}'}"
+                )
             elif colour.get(p, 0) == 0:
                 walk(p, stack + [n])
         colour[n] = 2
@@ -318,7 +330,9 @@ def audit(dim: Dimension) -> int:
             for v in cells(row[axis]):
                 bare = v[1:] if v.startswith("!") else v
                 if bare not in dim.axes[axis].nodes:
-                    out.append(f"UNKNOWN   {nid}.{axis} pins {v!r}, which is not a node on that axis")
+                    out.append(
+                        f"UNKNOWN   {nid}.{axis} pins {v!r}, which is not a node on that axis"
+                    )
                     continue
                 if v.startswith("!"):
                     inherited = {
@@ -334,12 +348,20 @@ def audit(dim: Dimension) -> int:
                     # look dead.
                     is_default = (
                         axis == "attributes"
-                        and dim.axes[axis].nodes[dim.axes[axis].family(bare)].get("default", "").strip() == bare
+                        and dim.axes[axis]
+                        .nodes[dim.axes[axis].family(bare)]
+                        .get("default", "")
+                        .strip()
+                        == bare
                     )
                     if bare not in inherited and not is_default:
-                        out.append(f"DEAD PIN  {nid}.{axis} denies {bare}, which no ancestor asserts")
+                        out.append(
+                            f"DEAD PIN  {nid}.{axis} denies {bare}, which no ancestor asserts"
+                        )
                 elif axis == "attributes" and not dim.axes[axis].scope(v):
-                    out.append(f"NO SCOPE  {nid} pins {v}, whose family declares no scope predicate")
+                    out.append(
+                        f"NO SCOPE  {nid} pins {v}, whose family declares no scope predicate"
+                    )
 
     for nid, row in dim.lineage.items():
         raw = row["signal"]
@@ -347,17 +369,28 @@ def audit(dim: Dimension) -> int:
             for item in split_top(raw):
                 if item.startswith("!"):
                     continue
-                if not (item.startswith("(") and item.endswith(")")) or len(split_top(item[1:-1], ",")) != 2:
-                    out.append(f"BAD PAIR  {nid}: {item!r} is not a (sources, forms) pair")
+                if (
+                    not (item.startswith("(") and item.endswith(")"))
+                    or len(split_top(item[1:-1], ",")) != 2
+                ):
+                    out.append(
+                        f"BAD PAIR  {nid}: {item!r} is not a (sources, forms) pair"
+                    )
             for src, form in signal_pairs(raw):
                 if not src or not form:
-                    out.append(f"EMPTY SIDE  {nid}: a pair has no {'source' if not src else 'form'}")
+                    out.append(
+                        f"EMPTY SIDE  {nid}: a pair has no {'source' if not src else 'form'}"
+                    )
                 for v in src:
                     if not v.startswith("S.src"):
-                        out.append(f"PAIR SIDE  {nid}: {v} is not an S.src value but sits in the source slot")
+                        out.append(
+                            f"PAIR SIDE  {nid}: {v} is not an S.src value but sits in the source slot"
+                        )
                 for v in form:
                     if not v.startswith("S.form"):
-                        out.append(f"PAIR SIDE  {nid}: {v} is not an S.form value but sits in the form slot")
+                        out.append(
+                            f"PAIR SIDE  {nid}: {v} is not an S.form value but sits in the form slot"
+                        )
 
     # A node whose flat values span both sub-facets but which has no pairs
     # anywhere in its chain is back in the cross-product the pairs exist to kill.
@@ -366,7 +399,9 @@ def audit(dim: Dimension) -> int:
         srcs = {v for v in vals if v.startswith("S.src")}
         forms = {v for v in vals if v.startswith("S.form")}
         if len(srcs) > 1 and len(forms) > 1 and not dim.signal_terms(nid):
-            out.append(f"UNPAIRED  {nid}: {len(srcs)} sources x {len(forms)} forms resolve with no pair to say which go together")
+            out.append(
+                f"UNPAIRED  {nid}: {len(srcs)} sources x {len(forms)} forms resolve with no pair to say which go together"
+            )
 
     for nid in dim.lineage:
         for why in dim.conflicting_parents(nid):
@@ -391,9 +426,13 @@ def audit(dim: Dimension) -> int:
             continue
         for part in cells(exp):
             if part not in dim.lineage:
-                out.append(f"PROSE EXPANSION  {nid}: expands_to names {part!r}, which is not a node_id")
+                out.append(
+                    f"PROSE EXPANSION  {nid}: expands_to names {part!r}, which is not a node_id"
+                )
         if row["kind"] not in ("bundle", "pipeline"):
-            out.append(f"EXPANSION ON METHOD  {nid} has an expansion but kind={row['kind']!r}")
+            out.append(
+                f"EXPANSION ON METHOD  {nid} has an expansion but kind={row['kind']!r}"
+            )
 
     for line in sorted(set(out)):
         print(line)
@@ -424,8 +463,11 @@ def homeless(dim: Dimension) -> int:
             if not vals:
                 groups.setdefault(root_of(dim, nid), []).append(nid)
         total = sum(len(v) for v in groups.values())
-        label = ("nodes with no non-default pin (a blank means the family default)"
-                 if axis == "attributes" else "homeless nodes")
+        label = (
+            "nodes with no non-default pin (a blank means the family default)"
+            if axis == "attributes"
+            else "homeless nodes"
+        )
         print(f"\n{axis} — {total} {label}, in {len(groups)} families")
         for fam, members in sorted(groups.items(), key=lambda kv: -len(kv[1])):
             print(f"  {len(members):4}  {fam:20} {dim.lineage[fam]['name'][:46]}")
@@ -450,9 +492,13 @@ def redundant(dim: Dimension) -> int:
             if ax.nodes[fam].get("default", "").strip() == v:
                 hits.setdefault(fam, []).append(nid)
     total = sum(len(v) for v in hits.values())
-    pins = sum(len([v for v in cells(r["attributes"]) if not v.startswith("!")])
-               for r in dim.lineage.values())
-    print(f"{total} of {pins} attribute pins restate a family default ({100 * total // max(pins, 1)}%)")
+    pins = sum(
+        len([v for v in cells(r["attributes"]) if not v.startswith("!")])
+        for r in dim.lineage.values()
+    )
+    print(
+        f"{total} of {pins} attribute pins restate a family default ({100 * total // max(pins, 1)}%)"
+    )
     for fam, ns in sorted(hits.items(), key=lambda kv: -len(kv[1])):
         print(f"  {len(ns):5}  {fam:18} -> {ax.nodes[fam]['default']}")
     return 0
@@ -460,9 +506,19 @@ def redundant(dim: Dimension) -> int:
 
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
-    ap.add_argument("--audit", action="store_true", help="report defects and exit nonzero if any")
-    ap.add_argument("--homeless", action="store_true", help="group nodes resolving to no value, by family")
-    ap.add_argument("--redundant", action="store_true", help="count attribute pins that merely restate their family default")
+    ap.add_argument(
+        "--audit", action="store_true", help="report defects and exit nonzero if any"
+    )
+    ap.add_argument(
+        "--homeless",
+        action="store_true",
+        help="group nodes resolving to no value, by family",
+    )
+    ap.add_argument(
+        "--redundant",
+        action="store_true",
+        help="count attribute pins that merely restate their family default",
+    )
     ap.add_argument("--node", help="print one node's resolved axes")
     args = ap.parse_args()
     dim = Dimension.load()

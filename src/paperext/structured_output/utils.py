@@ -204,23 +204,21 @@ def model2df(model: BaseModel):
     for k, v in _model_dump(model).items():
         if k in ("type",):
             v = str_normalize(v.split()[0])
-        elif k in ("primary_research_field",):
-            v = v["name"]
-        elif k in ("sub_research_fields",):
-            v = [srf["name"] for srf in v]
+        # v5 (#89): one `research_fields` list with a role, in place of the
+        # `primary_research_field` + `sub_research_fields` rank. The rank was the
+        # only thing distinguishing the two former columns, so they collapse into
+        # one set-valued column here as well.
+        elif k in ("research_fields",):
+            v = [rf["name"] for rf in v]
 
         if k in (
             "title",
             "type",
-            "primary_research_field",
-            "sub_research_fields",
+            "research_fields",
         ):
             paper_1d_df[k] = v
 
-        if k in ("primary_research_field",):
-            paper_1d_df["all_research_fields"].append(v)
-
-        elif k in ("sub_research_fields",):
+        if k in ("research_fields",):
             paper_1d_df["all_research_fields"].extend(v)
 
         elif k in (
@@ -309,7 +307,7 @@ def model2df(model: BaseModel):
     if map_error:
         raise map_error
 
-    paper_1d_df["sub_research_fields"] = [pd.Series(paper_1d_df["sub_research_fields"])]
+    paper_1d_df["research_fields"] = [pd.Series(paper_1d_df["research_fields"])]
     paper_1d_df["all_research_fields"] = [pd.Series(paper_1d_df["all_research_fields"])]
     paper_1d_df["research_fields_categories"] = [
         pd.Series(paper_1d_df["research_fields_categories"])

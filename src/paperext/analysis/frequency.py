@@ -230,11 +230,9 @@ def _resolve(primary: str, aliases: "list[str]", raw: str, dim: Dimension):
 def _paper_items(extractions, dim: Dimension):
     """Every resolved item in one paper for *dim* (before within-paper dedup)."""
     key = dim.key
-    if key == "research_fields":
-        fields = [extractions.primary_research_field, *extractions.sub_research_fields]
-        entries = fields
-    else:
-        entries = getattr(extractions, key)
+    # `research_fields` used to be assembled from the `primary`/`sub` rank; v5
+    # stores it as one list (#89), so it reads like every other dimension.
+    entries = getattr(extractions, key)
 
     items = []
     for entry in entries:
@@ -556,7 +554,7 @@ def main(argv: Optional["list[str]"] = None) -> None:
                 merged.models.extend(ext.models)
                 merged.datasets.extend(ext.datasets)
                 merged.libraries.extend(ext.libraries)
-                merged.sub_research_fields.extend(ext.sub_research_fields)
+                merged.research_fields.extend(ext.research_fields)
         papers.append(merged)
 
     results = [aggregate(papers, dim, other_policy=args.other) for dim in dims]
