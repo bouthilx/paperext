@@ -457,3 +457,65 @@ def test_schema_growth_does_not_move_the_content_hash():
     # Using one of them is content, and must move it.
     next(iter(onto.doc.nodes.values())).kind = "bundle"
     assert content_hash(onto) != before
+
+
+# --------------------------------------------------------------------------- #
+# the `many`-family triage (#100, PINNING_FINDINGS.md §9)
+# --------------------------------------------------------------------------- #
+
+#: ``(node, value, should_resolve)``. A `many` family unions up the chain, so an
+#: inherited value holds unless the node denies it. These are the cases that
+#: changed when that was fixed, and each was decided individually -- a silent
+#: regression here would put a wrong claim about a real algorithm back in.
+TRIAGE = [
+    # True values the old nearest-depth resolution dropped.
+    ("M.exp3", "A.guar.regret", True),  # EXP3's headline theorem
+    ("M.mirror-descent", "A.guar.conv", True),  # has both conv and regret
+    ("M.mirror-descent", "A.guar.regret", True),
+    ("L.mcmc.gibbs", "A.deriv.sample", True),  # closed-form conditionals, sampled
+    ("L.mcmc.gibbs", "A.deriv.closed", True),
+    ("M.blocked-gibbs", "A.deriv.closed", True),
+    ("M.collapsed-gibbs", "A.deriv.closed", True),
+    ("M.simulated-annealing", "A.deriv.sample", True),
+    ("L.hpo.model", "A.deriv.closed", True),  # the GP posterior is closed-form
+    # Ancestor pins that claimed more than they should.
+    ("M.nash-q", "A.guar.regret", False),  # convergence, not regret
+    ("M.nfsp", "A.guar.regret", False),
+    ("M.fictitious-play", "A.guar.regret", False),
+    ("M.cfr", "A.guar.regret", True),  # the narrow must not cost these three
+    ("M.deep-cfr", "A.guar.regret", True),
+    ("M.regret-matching", "A.guar.regret", True),
+    ("M.viterbi", "A.deriv.closed", False),  # a DP recursion
+    ("M.k-medoids-pam", "A.deriv.closed", False),  # a swap search, unlike k-means
+    ("M.slice-sampling", "A.deriv.closed", False),  # its conditionals are not
+    ("L.causal.hte", "A.uncert.ens", False),  # bagged, but not ensemble-uncertainty
+    ("M.causal-forest", "A.uncert.ens", True),  # the one child for which it holds
+]
+
+
+@pytest.mark.parametrize("node_id,value,expected", TRIAGE)
+def test_many_family_triage(node_id, value, expected):
+    dim = Dimension.load(SNAPSHOTS / "algorithms" / "v1")
+    assert (value in dim.effective(node_id, "attributes")[0]) is expected
+
+
+def test_the_many_fix_only_added_values():
+    """Chain-union is additive: nothing the old resolution found was lost.
+
+    Which is what makes the triage safe to read as a gain -- the four narrowed
+    and denied pins removed values that chain-union had newly introduced, not
+    values the dimension previously relied on.
+    """
+    chain = Dimension.load(SNAPSHOTS / "algorithms" / "v1")
+    nearest = Dimension.load(SNAPSHOTS / "algorithms" / "v1")
+    for spec in nearest.doc.axes:
+        if spec.name == "attributes":
+            spec.many_inherit = "nearest"
+
+    gained = lost = 0
+    for nid in chain.backbone_nodes():
+        new, _ = chain.effective(nid, "attributes")
+        old, _ = nearest.effective(nid, "attributes")
+        gained += len(new - old)
+        lost += len(old - new)
+    assert (gained, lost) == (10, 0)

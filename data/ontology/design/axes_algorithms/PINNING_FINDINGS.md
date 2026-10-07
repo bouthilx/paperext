@@ -315,3 +315,70 @@ Also: **`S.form.post`'s positive test says "approached by sampling"**, which
 excludes the closed-form posteriors of GPs, Kalman filters, Laplace approximation
 and expectation propagation — roughly 25 of its 53 pins contradict their own
 test.
+
+---
+
+## §9 — `many` families did not union up the chain (found 2026-10-07, #100)
+
+Found by porting these inheritance semantics into `paperext.ontology.axes` and
+discovering the sibling **models** dimension disagreed. `resolve.py` contained:
+
+```python
+resolved.update(at_front if card == "many" or len(at_front) == 1 else at_front)
+```
+
+Both branches are identical. The intention to treat a `many` family differently
+was written and then collapsed, so **every family resolved as if it were
+single-valued whenever a descendant pinned anything of its own** — `cardinality
+= many` applied only to values written on the same row, which is precisely the
+case where it was least needed.
+
+This is a fourth instance of the pattern §0–§8 keep finding: **the pin existed
+and was wrong, so no coverage check could see it.** A node resolving to one
+value where two were true looks identical to a node that correctly has one.
+
+### Why chain-union is the fix rather than `one` cardinality
+
+`many` was already doing real work — 21 nodes resolve to ≥2 `A.deriv` values, 14
+to ≥2 `A.guar`, 5 to ≥2 `A.uncert`. The families genuinely hold several values at
+once; only the *inheritance* was restricted. And the escape hatch chain-union
+needs was already there and already used: **83 denials on this axis**, 12 of them
+on `A.deriv`. `signal` (92 denials) and `role` (20) had taken the same route
+already — union up the chain, deny where it does not hold. Attributes was the
+only axis that shadowed instead.
+
+### What it exposed, and the triage
+
+17 node-axis pairs changed. **10 were true values being dropped**, kept as-is:
+
+| node | gains | why it is true |
+|---|---|---|
+| `M.exp3` | `A.guar.regret` | the regret bound is EXP3's headline theorem; `A.guar.unbias` is also true |
+| `M.mirror-descent` | `A.guar.conv` | has both regret and convergence results |
+| `L.mcmc.gibbs` | `A.deriv.sample` | closed-form conditionals, drawn from — both |
+| `M.blocked-gibbs`, `M.collapsed-gibbs` | `A.deriv.closed` | block/marginal conditionals are analytic |
+| `M.dirichlet-process-mixtures` | `A.deriv.closed` | CRP conditionals are closed-form, sampled from |
+| `L.derivfree.anneal` | `A.deriv.zero` | derivative-free *and* sampling-based |
+| `M.simulated-annealing`, `M.basin-hopping` | `A.deriv.sample` | both propose by sampling |
+| `L.hpo.model` | `A.deriv.closed` | the GP posterior is closed-form; 5 sibling BO methods already pin **both** explicitly, which is the precedent |
+| `L.causal.hte` | — | see below |
+
+**7 were ancestor pins claiming more than they should.** Under the standing rule
+*a family pins only what is true of every descendant*, these were already
+defective; nearest-depth had been hiding them.
+
+| fix | where | why |
+|---|---|---|
+| **narrowed** `A.guar.regret` off `L.marl.game` | 3 of its 6 children have convergence results, not regret bounds (NFSP, Nash-Q, fictitious play). The 3 it *is* true of — CFR, Deep-CFR, regret-matching — already assert it on their own rows, so the narrow costs nothing | |
+| **denied** `!A.deriv.closed` | `M.viterbi` | a max-plus DP recursion, not an equation solved in one shot |
+| **denied** `!A.deriv.closed` | `M.k-medoids-pam` | a swap search; the contrast with k-means, whose mean update *is* closed-form, is what the value distinguishes |
+| **denied** `!A.deriv.closed` | `M.slice-sampling` | it exists *because* the conditionals are not closed-form |
+| **denied** `!A.uncert.ens` | `L.causal.hte` | it descends from `L.bag` for good reasons — it resamples examples, it aggregates outputs — but ensemble-based uncertainty is not one of them. Four of its five children already wrote this denial individually; saying it once at the parent is the same claim, said once |
+
+`value_parent = L.causal` was the tempting fix for the last one and is **too
+blunt**: measured, it also strips `R.out.agg`, `R.data.select`, `S.form.assess`
+and `A.cadence.full` from the whole subtree, and those are true of it.
+
+**Net: +10 resolved values, −0.** `resolve.py --audit` clean throughout
+(0 problems, 1672 nodes), and `tests/ontology/test_axes.py` asserts the engine
+and this script still agree on all 5016 resolutions.

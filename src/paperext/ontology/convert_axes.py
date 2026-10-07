@@ -168,8 +168,17 @@ SPECS: "dict[str, TableSpec]" = {
                 pair_prefixes=["S.src", "S.form"],
             ),
             AxisSpec(name="role", inherit="union"),
+            # `many_inherit="chain"` matches `signal` and `role`, which also
+            # union up the chain, and matches what `cardinality = many`
+            # declares. It used to resolve as `nearest` because the design
+            # script's branch for `many` had collapsed into its own fallback;
+            # fixing it recovered 17 inherited values and exposed four ancestor
+            # pins that claimed more than they should (#100).
             AxisSpec(
-                name="attributes", inherit="nearest-in-family", require_scope=True
+                name="attributes",
+                inherit="nearest-in-family",
+                require_scope=True,
+                many_inherit="chain",
             ),
         ),
         # Every algorithms table, backbone and facet alike, uses `parents`.
