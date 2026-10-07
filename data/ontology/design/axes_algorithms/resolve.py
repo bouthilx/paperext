@@ -164,31 +164,37 @@ class Dimension:
     def effective(self, nid: str, axis: str) -> tuple[set[str], list[str]]:
         """Resolved values for `nid` on `axis`, plus any conflicts found."""
         chain = self.chain(nid)
-        denied = {
-            v[1:]
-            for n in chain
-            for v in cells(self.lineage[n][axis])
-            if v.startswith("!")
-        }
         notes: list[str] = []
         ax = self.axes[axis]
 
+        # Nearest statement wins between asserting and denying a value. A
+        # denial means "this does not apply here", so it governs what it
+        # inherits -- not what a more specific descendant goes on to assert
+        # about itself. Without this, a `!R.fit.est` on L.causal.struct silently
+        # cancelled M.lingam's own R.fit.est pin and left it with no role.
+        asserted: dict[str, int] = {}
+        denied_at: dict[str, int] = {}
+        for depth, n in enumerate(chain):
+            for v in cells(self.lineage[n][axis]):
+                if v.startswith("!"):
+                    denied_at.setdefault(v[1:], depth)
+                else:
+                    asserted.setdefault(v, depth)
+        for v, d in asserted.items():
+            if v in denied_at and denied_at[v] == d:
+                notes.append(f"{nid}: {v} is both asserted and denied at the same node")
+        live = {v for v, d in asserted.items()
+                if v not in denied_at or d < denied_at[v]}
+        denied = {v for v in denied_at if v not in live}
+
         if axis != "attributes":
-            vals = {
-                v
-                for n in chain
-                for v in cells(self.lineage[n][axis])
-                if not v.startswith("!")
-            }
-            return self._subsume(axis, vals - denied), notes
+            return self._subsume(axis, live), notes
 
         # attributes: union across families, nearest-ancestor-wins within one
         per_family: dict[str, list[tuple[int, str]]] = {}
-        for depth, n in enumerate(chain):
-            for v in cells(self.lineage[n][axis]):
-                if v.startswith("!") or v in denied or v not in ax.nodes:
-                    continue
-                per_family.setdefault(ax.family(v), []).append((depth, v))
+        for v in live:
+            if v in ax.nodes:
+                per_family.setdefault(ax.family(v), []).append((asserted[v], v))
 
         resolved: set[str] = set()
         for fam, hits in per_family.items():
