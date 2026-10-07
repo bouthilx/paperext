@@ -76,6 +76,52 @@ def parse_term(item: str) -> "tuple[frozenset[str], frozenset[str]] | None":
     return src, form
 
 
+#: The four states a family can be in on a node. The distinction is the reason
+#: family defaults are written down at all: without it, "this procedure is
+#: on-policy by default" and "nobody has said whether it is on-policy" are the
+#: same blank cell.
+FAMILY_STATES = ("stated", "absent", "default", "unknown")
+
+
+@dataclass(frozen=True)
+class FamilyValue:
+    """What a node says about one axis family, and how firmly.
+
+    ``state`` is:
+
+    - ``stated`` — the node resolves to ``values`` in this family.
+    - ``absent`` — it resolves to nothing **and** the chain denies the family
+      default. An asserted absence: somebody looked and said no.
+    - ``default`` — it resolves to nothing and the family has a default, which
+      **would** apply wherever the family's ``scope`` predicate holds.
+    - ``unknown`` — nothing resolved and no default to fall back on.
+
+    ``default`` is deliberately *not* merged into ``values``. A family default
+    applies only where its scope predicate holds, that predicate is prose, and
+    no code can evaluate it — so synthesising the default here would turn an
+    unchecked claim into data. `A.regime` defaults to on-policy, which is
+    meaningless for a tokenizer. The caller gets the default and the prose and
+    decides.
+    """
+
+    family: str
+    values: "frozenset[str]"
+    state: str
+    default: str = ""
+    scope: str = ""
+
+    @property
+    def effective_values(self) -> "frozenset[str]":
+        """``values``, or the default when that is the family's state.
+
+        Only correct where the family's scope predicate holds. Read
+        :class:`FamilyValue`'s docstring before using it.
+        """
+        if self.state == "default" and self.default:
+            return frozenset({self.default})
+        return self.values
+
+
 @dataclass
 class Dimension:
     """A faceted dimension: a manifest plus one :class:`Ontology` per axis."""
@@ -359,6 +405,50 @@ class Dimension:
         if spec.subsume:
             resolved = self._subsume(axis, resolved)
         return [v for v in ordered if v in resolved], notes
+
+    def families(self, node_id: str, axis: str) -> "dict[str, FamilyValue]":
+        """Every family of *axis*, and what *node_id* says about it.
+
+        Covers families the node resolves to **and** families it does not, since
+        the whole point of the distinction is what a blank means. Keyed by
+        family id.
+        """
+        onto = self.axes[axis]
+        values, _ = self.effective(node_id, axis)
+        by_family: "dict[str, set[str]]" = {}
+        for value in values:
+            if value in onto:
+                by_family.setdefault(self.family(axis, value), set()).add(value)
+
+        denied = {
+            v[1:]
+            for n in self.chain(node_id)
+            for v in self.pins(n, axis)
+            if v.startswith("!")
+        }
+
+        out: "dict[str, FamilyValue]" = {}
+        for family in onto.roots:
+            props = onto.node(family).props
+            default = props.get("default", "").strip()
+            scope = props.get("scope", "").strip()
+            found = by_family.get(family, set())
+            if found:
+                state = "stated"
+            elif default and default in denied:
+                state = "absent"
+            elif default:
+                state = "default"
+            else:
+                state = "unknown"
+            out[family] = FamilyValue(
+                family=family,
+                values=frozenset(found),
+                state=state,
+                default=default,
+                scope=scope,
+            )
+        return out
 
     def resolved_order(self, node_id: str, axis: str) -> "list[str]":
         """Resolved values, nearest-first, as the design scripts returned them."""
