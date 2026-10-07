@@ -309,10 +309,45 @@ contributed-vs-used error #89 exists to prevent.
 
 ## Inputs
 
-- **`data/ontology/design/axes_models/ROUTING.tsv`** — the **114 `algorithm`
-  rows are this dimension's vocabulary**, already identified, sized and
-  justified. This derivation does **not** start from a blank corpus scan.
-  It also carries 13 `unsure` rows, deliberately unresolved.
+- **`data/ontology/design/axes_models/ROUTING.tsv`** — the 114 `algorithm` rows,
+  deduplicated to 105 names in `axes_algorithms/phase2/VOCABULARY.tsv`
+  (count-free, alphabetical). It also carries 13 `unsure` rows, all of which
+  turned out to be model-side questions.
+
+  **This sample is biased, and the bias is measured.** Every one of those names
+  was extracted from the `models[]` slot by an agent prompted to find *models*,
+  so the sample over-represents algorithms with the surface form of a named
+  system and under-represents everything else. Against the ontology's own
+  regions:
+
+  | region | % of ontology | % of corpus hits |
+  |---|---|---|
+  | reinforcement learning | 10% | **52%** |
+  | classical ML / statistics | 23% | 9% |
+  | optimisation / systems | 16% | 6% |
+  | data preparation | 14% | 6% |
+  | inference / adaptation | 26% | 18% |
+  | generative / SSL | 10% | 9% |
+
+  RL over-represented ~5x; classical, optimisation and data preparation each
+  under-represented ~2.5x; **decoding and evaluation have zero hits**. Direct
+  evidence rather than inference: `adam` and `adamw` were extracted into
+  `libraries[]` (a #94 defect). That misrouting *is* the bias.
+
+  **Consequences, binding on phase 2:**
+  1. **Blind-spot detection is still valid.** A corpus name with no node is a
+     real gap however the sample was drawn; bias cannot manufacture a false
+     positive. 77 of the 105 match no node today.
+  2. **Speculative flagging from corpus absence is INVALID — do not do it.**
+     Beam search's absence from a models-slot sample says nothing about beam
+     search. Treating absence as evidence would re-bias the structure toward
+     model-like algorithms, defeating the "field, not corpus" rule through the
+     back door after it survived the front.
+  3. **This dimension has no usage evidence at all** — not weak evidence, none.
+     Do not report frequencies derived from this sample as if they described the
+     field. Real evidence requires re-extraction with an algorithms-aware prompt
+     (#94, schema v5), and until that runs the structure stands on field
+     coverage alone.
 - **The corpus is in a different checkout**:
   `/home/bouthilx/projects/paperext-llm-backend/data/mdl/queries/openai/legacy-2024/`
   (2110 files) + `vertexai/` (102) = **1999 distinct papers**. This working copy
