@@ -136,11 +136,27 @@ extraction was open.
   `RLHF` and one writing `SFT + reward model + PPO` roll up identically.
 - **`kind=pipeline` tells `runs[]` how many rows to expect.** `RLHF` is three
   runs with three `execution_mode`s — supervised finetuning, reward-model
-  fitting, then PPO against the frozen reward model — because **a run is the unit
-  that produces one learned object**, and RLHF produces three (the SFT model, the
-  reward model, the aligned policy). `Rainbow` is `kind=bundle`: six named
-  improvements active simultaneously in one optimisation loop, one network out,
-  one run.
+  fitting, then PPO against the frozen reward model — because **a run is one
+  coupled optimisation loop**, and no gradient crosses between those three.
+  `Rainbow` is `kind=bundle`: six named improvements active simultaneously in
+  one optimisation loop, one run.
+
+  **Corrected 2026-10-07 (owner).** This bullet previously said *a run is the
+  unit that produces one learned object*, which is wrong in both directions and
+  had reached the v5 prompt. It **splits what should merge** — a GAN produces a
+  generator and a discriminator, an actor-critic an actor and a critic, a VAE an
+  encoder and a decoder, and each is one loop and one run; the generator's
+  gradient flows *through* the discriminator, so they are not separable. And it
+  **merges what should split** — pretrain → finetune produces one final network
+  but is two runs, two `execution_mode`s, two compute profiles. The Rainbow
+  sentence beside it already used the right criterion, which is how the
+  contradiction was visible without any data.
+
+  The rule to state: **networks updated from a shared backward pass are one
+  run; a frozen network that only supplies targets or scores is a participant
+  with a `role_in_run`, not a run of its own.** That is why a distillation
+  teacher is `role_in_run=teacher` rather than a second run, and why RLHF's
+  three stages — each with the previous stage's network frozen — are three.
 - **`runs[].checkpoint` now has its motivating case.** The edge between RLHF's
   stage 1 and stages 2–3 *is* a checkpoint reference. It was an open item with no
   worked example; this is it.

@@ -77,12 +77,21 @@ SYSTEM_MESSAGE = (
     "mode are among the six. Hyperparameter variation that moves none of the "
     "six -- learning rate, seed, dropout rate, weight decay -- stays in ONE run "
     "and is counted in `repetitions`.\n"
-    "A run is the unit that produces one learned object, so a multi-stage "
-    "procedure is several runs: reporting supervised finetuning, then reward "
-    "model fitting, then PPO against that reward model is three runs. You are "
-    "not required to decompose a procedure the paper only names -- if the paper "
-    "says only 'we used RLHF' and describes no stages, report the Algorithm and "
-    "whatever runs the paper actually describes.\n"
+    "A run is ONE COUPLED OPTIMISATION LOOP. Networks whose parameters are "
+    "updated from a shared backward pass belong to the SAME run, however many "
+    "networks that is: a generator and its discriminator are ONE run, because "
+    "the generator's gradient flows through the discriminator; an actor and its "
+    "critic are ONE run; an encoder and its decoder are ONE run. A network that "
+    "is FROZEN and only supplies targets or scores is a participant of the run, "
+    "not a run of its own -- a distillation teacher is reported in the run's "
+    "models with role_in_run='teacher', not as a second run.\n"
+    "A multi-stage procedure is several runs when the stages are separate "
+    "loops: reporting supervised finetuning, then reward model fitting, then "
+    "PPO against a FROZEN reward model is three runs, because no gradient "
+    "crosses between them. You are not required to decompose a procedure the "
+    "paper only names -- if the paper says only 'we used RLHF' and describes no "
+    "stages, report the Algorithm and whatever runs the paper actually "
+    "describes.\n"
     "Reference Models, Datasets and Algorithms from a Run by repeating the name "
     "EXACTLY as you reported it in the corresponding list.\n"
     "Only Models the paper actually executed get a Run. A baseline whose "
@@ -185,6 +194,13 @@ class ModelRunRole(str, enum.Enum):
     TEACHER = "teacher"
     STUDENT = "student"
     ENSEMBLE_MEMBER = "ensemble-member"
+    # A second network co-optimised in the same loop, whose job is to score the
+    # main one's output: a GAN discriminator, an RL value network. One value for
+    # both, because the structural role is identical -- co-trained, scores, and
+    # usually discarded. Whether the two objectives are adversarial or
+    # cooperative is a question the algorithms `signal` axis already asks, and
+    # asking it twice is the conflation these dimensions keep paying for.
+    CRITIC = "critic"
     UNKNOWN = "unknown"
 
 
@@ -196,6 +212,13 @@ class DatasetRunRole(str, enum.Enum):
     TRAIN = "train"
     VALIDATION = "validation"
     TEST = "test"
+    # Consumed by the run but not trained, validated or tested on: a retrieval
+    # corpus or knowledge base queried at inference. Measured in the
+    # legacy-2024 corpus as 12 names over 23 papers (`wikipedia`, `thepile`,
+    # `commoncrawl`, `freebase`), all of which the other three values would
+    # misreport -- and it must stay out of `training examples` in
+    # `6 x parameters x training examples x epochs`.
+    REFERENCE = "reference"
     UNKNOWN = "unknown"
 
 
@@ -448,7 +471,9 @@ class RunModel(BaseModel):
     # waiting to be read as one thing.
     role_in_run: ModelRunRole = Field(
         description="How this Run used the Model: 'main' for the model the run "
-        "produces or executes, 'teacher'/'student' in a distillation run, "
+        "produces or executes, 'critic' for a second network co-optimised in "
+        "the same loop to score the first (a GAN discriminator, an RL value "
+        "network), 'teacher'/'student' in a distillation run, "
         "'ensemble-member', or 'unknown'",
     )
 
@@ -461,8 +486,11 @@ class RunDataset(BaseModel):
         description="Name of the Dataset, repeated EXACTLY as reported in the datasets list",
     )
     roles_in_run: list[DatasetRunRole] = Field(
-        description="Which splits of the Dataset this Run consumed: train, "
-        "validation and/or test. Usually one. ['unknown'] if the paper does not say",
+        description="How this Run consumed the Dataset: 'train', 'validation' "
+        "and/or 'test' for the splits it was fitted or scored on, or "
+        "'reference' for a corpus it only queried at inference without "
+        "training on it (a retrieval corpus, a knowledge base). Usually one. "
+        "['unknown'] if the paper does not say",
     )
 
     def __lt__(self, other: "RunDataset"):
