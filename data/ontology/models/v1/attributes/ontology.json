@@ -1,0 +1,1082 @@
+{
+  "meta": {
+    "version": "v1",
+    "dimension": "models/attributes"
+  },
+  "roots": [
+    "substrate",
+    "weight-treatment",
+    "symmetry",
+    "routing",
+    "memory",
+    "latent-treatment",
+    "invertibility",
+    "attention-sparsity",
+    "shortcut-connections",
+    "parameter-source",
+    "normalisation",
+    "stochastic-regularisation"
+  ],
+  "nodes": {
+    "substrate": {
+      "name": "Substrate",
+      "description": "",
+      "examples": [],
+      "children": [
+        "rate-based",
+        "spiking"
+      ],
+      "axes": {},
+      "parent_ids": [],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "1",
+        "cardinality": "one",
+        "characteristic": "what the elementary learned unit computes",
+        "positive_test": "two models differ here only if their units are of a different kind",
+        "negative_test": "the difference is in how units are wired, which is connectivity",
+        "examples": "rate-based vs spiking"
+      }
+    },
+    "rate-based": {
+      "name": "Rate-based neuron",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "substrate"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "2",
+        "characteristic": "a weighted sum passed through a nonlinearity",
+        "positive_test": "the unit emits a continuous activation",
+        "negative_test": "the unit emits discrete events in time",
+        "examples": "every mainstream deep network",
+        "notes": "DEFAULT."
+      }
+    },
+    "spiking": {
+      "name": "Spiking neuron",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "substrate"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "2",
+        "characteristic": "a membrane potential emitting discrete events in time",
+        "positive_test": "the unit integrates input over time and fires",
+        "negative_test": "the unit emits a continuous value",
+        "examples": "SNNs; integrate-and-fire networks",
+        "notes": "ORTHOGONAL to wiring -- a spiking CNN exists. Both derivation runs made this a lineage ROOT, which would force a spiking CNN to choose. Zero corpus mentions; kept because the ontology covers the field."
+      }
+    },
+    "weight-treatment": {
+      "name": "Weight treatment",
+      "description": "",
+      "examples": [],
+      "children": [
+        "point-estimate",
+        "bayesian-weights"
+      ],
+      "axes": {},
+      "parent_ids": [],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "1",
+        "cardinality": "one",
+        "characteristic": "what a parameter is taken to be",
+        "positive_test": "two models differ here only in whether parameters carry uncertainty",
+        "negative_test": "the difference is in the shape or wiring of the model",
+        "examples": "point estimate vs posterior"
+      }
+    },
+    "point-estimate": {
+      "name": "Point estimate",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "weight-treatment"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "2",
+        "characteristic": "each parameter is a single number",
+        "positive_test": "training yields one weight vector",
+        "negative_test": "training yields a distribution, or an explicit set of weight samples",
+        "examples": "almost everything",
+        "notes": "DEFAULT."
+      }
+    },
+    "bayesian-weights": {
+      "name": "Bayesian / distributional",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "weight-treatment"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "2",
+        "characteristic": "parameters carry a distribution",
+        "positive_test": "the model represents uncertainty in its own weights",
+        "negative_test": "uncertainty is represented only in the output layer",
+        "examples": "Bayesian neural networks"
+      }
+    },
+    "symmetry": {
+      "name": "Symmetry",
+      "description": "",
+      "examples": [],
+      "children": [
+        "no-symmetry",
+        "permutation-equivariance",
+        "euclidean-equivariance",
+        "euclidean-invariance",
+        "translation-equivariance"
+      ],
+      "axes": {},
+      "parent_ids": [],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "1",
+        "cardinality": "many",
+        "characteristic": "which transformations of the input the model is built to respect",
+        "positive_test": "two models differ here only in the group they are equivariant to",
+        "negative_test": "the invariance is learned from augmentation rather than built in",
+        "examples": "permutation; E(n)"
+      }
+    },
+    "no-symmetry": {
+      "name": "No built-in symmetry",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "symmetry"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "2",
+        "characteristic": "no equivariance is imposed by construction",
+        "positive_test": "any invariance is learned",
+        "negative_test": "the architecture guarantees it",
+        "examples": "most models",
+        "notes": "DEFAULT."
+      }
+    },
+    "permutation-equivariance": {
+      "name": "Permutation equivariance",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "symmetry"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "2",
+        "characteristic": "reordering the inputs reorders the outputs identically",
+        "positive_test": "the model treats its input as a set or graph",
+        "negative_test": "the model depends on input order",
+        "examples": "Deep Sets; GNNs"
+      }
+    },
+    "euclidean-equivariance": {
+      "name": "Euclidean equivariance",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "symmetry"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "2",
+        "characteristic": "rotating or translating the input transforms the output accordingly",
+        "positive_test": "the architecture guarantees E(n) or SE(3) equivariance",
+        "negative_test": "the symmetry is only encouraged by the loss or by augmentation",
+        "examples": "EGNN; SE(3)-Transformer",
+        "notes": "ORTHOGONAL: the corpus has equivariant GNNs, Transformers, MLPs and mesh networks -- one property across four lineages. Split from invariance 2026-10-06: a corpus quote partitions them outright -- 'Invariant Model: SchNet, DimeNet, SphereNet, GemNet' against 'Vector Frame Basis Equivariant Model: EGNN, PaiNN, GVP' -- and one collapsed value lost the distinction."
+      }
+    },
+    "euclidean-invariance": {
+      "name": "Euclidean invariance",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "symmetry"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "2",
+        "characteristic": "rotating or translating the input leaves the output unchanged",
+        "positive_test": "the output is a scalar or otherwise carries no frame",
+        "negative_test": "the output transforms WITH the input, which is equivariance",
+        "examples": "SchNet; DimeNet; SphereNet; GemNet",
+        "notes": "Added 2026-10-06. Mathematically a special case of equivariance, but the field and the corpus treat them as a partition."
+      }
+    },
+    "translation-equivariance": {
+      "name": "Translation equivariance",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "symmetry"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "2",
+        "characteristic": "shifting the input shifts the output",
+        "positive_test": "weight sharing across positions guarantees it",
+        "negative_test": "position-specific weights break it",
+        "examples": "CNNs",
+        "notes": "Implied by connectivity=convolution; recorded only where a paper makes it the point."
+      }
+    },
+    "routing": {
+      "name": "Routing",
+      "description": "",
+      "examples": [],
+      "children": [
+        "dense-computation",
+        "conditional-computation"
+      ],
+      "axes": {},
+      "parent_ids": [],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "1",
+        "cardinality": "one",
+        "characteristic": "whether every parameter participates in every forward pass",
+        "positive_test": "two models differ here only in whether computation is conditional",
+        "negative_test": "the difference is in total parameter count, which belongs to the run",
+        "examples": "dense vs MoE"
+      }
+    },
+    "dense-computation": {
+      "name": "Dense computation",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "routing"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "2",
+        "characteristic": "every parameter is used for every input",
+        "positive_test": "one forward pass touches the whole model",
+        "negative_test": "a gate selects a subset of parameters per input",
+        "examples": "most models",
+        "notes": "DEFAULT."
+      }
+    },
+    "conditional-computation": {
+      "name": "Conditional / mixture-of-experts",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "routing"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "2",
+        "characteristic": "a learned gate selects which parameters run",
+        "positive_test": "active parameter count is lower than total parameter count",
+        "negative_test": "all parameters are always active",
+        "examples": "Switch Transformer; MoE layers",
+        "notes": "Makes total vs active parameters diverge, which matters for the Epoch compute estimate."
+      }
+    },
+    "memory": {
+      "name": "Memory",
+      "description": "",
+      "examples": [],
+      "children": [
+        "no-memory",
+        "external-memory",
+        "differentiable-memory",
+        "frozen-datastore",
+        "learned-retriever"
+      ],
+      "axes": {},
+      "parent_ids": [],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "1",
+        "cardinality": "one",
+        "characteristic": "whether the model reads and writes an external store",
+        "positive_test": "two models differ here only in the presence of a store outside the weights",
+        "negative_test": "the state is carried in activations, which is recurrence",
+        "examples": "external memory"
+      }
+    },
+    "no-memory": {
+      "name": "No external memory",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "memory"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "2",
+        "characteristic": "all state lives in weights and activations",
+        "positive_test": "the model has no addressable store",
+        "negative_test": "there is a differentiable or retrieved store",
+        "examples": "most models",
+        "notes": "DEFAULT."
+      }
+    },
+    "external-memory": {
+      "name": "External memory",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "memory"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "2",
+        "characteristic": "an addressable store outside the parameters",
+        "positive_test": "the model issues reads and writes against a store",
+        "negative_test": "the store is the input itself",
+        "examples": "Neural Turing Machine; memory networks; retrieval-augmented models",
+        "notes": "Divided 2026-10-06: one value was doing three jobs."
+      }
+    },
+    "differentiable-memory": {
+      "name": "Differentiable memory",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "memory"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "3",
+        "characteristic": "an addressable store written and read by the model, trained end to end",
+        "positive_test": "gradients flow through the read and write operations",
+        "negative_test": "the store is fixed at inference, or populated by a separate retriever",
+        "examples": "Neural Turing Machine; Differentiable Neural Computer; memory networks"
+      }
+    },
+    "frozen-datastore": {
+      "name": "Frozen datastore",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "memory"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "3",
+        "characteristic": "a fixed store looked up at inference and never trained",
+        "positive_test": "entries are precomputed and the lookup has no learned parameters",
+        "negative_test": "the retriever itself is trained, or the model writes to the store",
+        "examples": "kNN-LM"
+      }
+    },
+    "learned-retriever": {
+      "name": "Learned retriever",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "memory"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "3",
+        "characteristic": "a trained retriever selects entries from an external corpus",
+        "positive_test": "the retrieval step has its own learned parameters",
+        "negative_test": "lookup is by fixed similarity, or the store is written by the model",
+        "examples": "REALM; RAG; Atlas"
+      }
+    },
+    "latent-treatment": {
+      "name": "Latent treatment",
+      "description": "",
+      "examples": [],
+      "children": [
+        "deterministic-latent",
+        "stochastic-latent",
+        "quantized-latent"
+      ],
+      "axes": {},
+      "parent_ids": [],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "1",
+        "cardinality": "one",
+        "characteristic": "what the internal representation is taken to be",
+        "positive_test": "two models differ here only in whether the latent is a distribution",
+        "negative_test": "the difference is what the model is trained to output, an objective",
+        "examples": "deterministic vs stochastic"
+      }
+    },
+    "deterministic-latent": {
+      "name": "Deterministic",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "latent-treatment"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "2",
+        "characteristic": "the encoder emits a vector",
+        "positive_test": "one input gives one latent",
+        "negative_test": "the encoder emits distribution parameters and the latent is sampled",
+        "examples": "plain autoencoders; most encoders",
+        "notes": "DEFAULT."
+      }
+    },
+    "stochastic-latent": {
+      "name": "Stochastic",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "latent-treatment"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "2",
+        "characteristic": "the encoder emits distribution parameters and the latent is sampled",
+        "positive_test": "the forward pass draws the latent, typically via reparameterization",
+        "negative_test": "the latent is a deterministic function of the input",
+        "examples": "VAE; CVAE",
+        "notes": "This is the genuine structural residue of the autoencoder question: a VAE encoder emits mu and sigma rather than z, which is a difference in the network and not only in the loss."
+      }
+    },
+    "invertibility": {
+      "name": "Invertibility",
+      "description": "",
+      "examples": [],
+      "children": [
+        "non-invertible",
+        "invertible"
+      ],
+      "axes": {},
+      "parent_ids": [],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "1",
+        "cardinality": "one",
+        "characteristic": "whether the map is constrained to be bijective",
+        "positive_test": "two models differ here only in whether the forward map can be exactly inverted",
+        "negative_test": "the inverse is learned approximately by a second component",
+        "examples": "invertible vs not"
+      }
+    },
+    "non-invertible": {
+      "name": "Non-invertible",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "invertibility"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "2",
+        "characteristic": "the forward map loses information",
+        "positive_test": "no exact inverse exists",
+        "negative_test": "the architecture guarantees an exact inverse with tractable Jacobian",
+        "examples": "most models",
+        "notes": "DEFAULT."
+      }
+    },
+    "invertible": {
+      "name": "Invertible",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "invertibility"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "2",
+        "characteristic": "the forward map is bijective with a tractable Jacobian",
+        "positive_test": "the same weights run exactly backwards",
+        "negative_test": "a separate decoder approximates the inverse",
+        "examples": "normalizing flows",
+        "notes": "Owner moved this out of topology on 2026-10-02: invertibility constrains the FUNCTION CLASS, which is what equivariance does, and equivariance is an attribute. A flow is a single stack with invertibility=invertible; its coupling / autoregressive / continuous-time split is LINEAGE substructure."
+      }
+    },
+    "attention-sparsity": {
+      "name": "Attention sparsity",
+      "description": "",
+      "examples": [],
+      "children": [
+        "dense-attention",
+        "sparse-attention",
+        "linear-attention"
+      ],
+      "axes": {},
+      "parent_ids": [],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "1",
+        "cardinality": "one",
+        "characteristic": "whether every position attends to every other",
+        "positive_test": "two models differ here only in which pairs the attention is allowed to score",
+        "negative_test": "the difference is whether attention is present at all, which is connectivity",
+        "examples": "dense vs sparse vs linear",
+        "notes": "Applies only where connectivity includes attention. Added 2026-10-02: the lineage merge found efficient-attention families homeless on all four axes, and both derivation runs had refused them as lineage nodes."
+      }
+    },
+    "dense-attention": {
+      "name": "Dense attention",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "attention-sparsity"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "2",
+        "characteristic": "every position may attend to every other",
+        "positive_test": "cost grows quadratically with sequence length",
+        "negative_test": "the pattern is restricted, or the softmax is replaced by a kernel feature map",
+        "examples": "BERT; GPT; ViT",
+        "notes": "DEFAULT."
+      }
+    },
+    "sparse-attention": {
+      "name": "Sparse / local attention",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "attention-sparsity"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "2",
+        "characteristic": "only a chosen subset of position pairs is scored",
+        "positive_test": "a fixed or learned pattern restricts which pairs are computed",
+        "negative_test": "all pairs are scored, or attention is linearised by a feature map",
+        "examples": "Longformer; BigBird; Reformer",
+        "notes": "Changes the compute profile without changing the lineage, which is why it is an attribute."
+      }
+    },
+    "linear-attention": {
+      "name": "Linear attention",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "attention-sparsity"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "2",
+        "characteristic": "the softmax is replaced so cost is linear in length",
+        "positive_test": "attention is computed through a kernel feature map or low-rank factorization",
+        "negative_test": "the full pairwise softmax is computed over a restricted pattern",
+        "examples": "Performer; Linformer"
+      }
+    },
+    "quantized-latent": {
+      "name": "Quantized / discrete",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "latent-treatment"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "2",
+        "characteristic": "the latent is snapped to entries of a learned codebook",
+        "positive_test": "the forward pass replaces the encoder output with its nearest codebook vector",
+        "negative_test": "the latent is a free real vector, or is sampled from a distribution",
+        "examples": "VQ-VAE; VQGAN",
+        "notes": "Added 2026-10-06: VQ-VAE resolved to BOTH Deterministic and Stochastic, which is incoherent on a single-valued family. Its latent is neither."
+      }
+    },
+    "shortcut-connections": {
+      "name": "Shortcut connections",
+      "description": "",
+      "examples": [],
+      "children": [
+        "no-shortcut",
+        "additive-residual",
+        "concatenative-skip"
+      ],
+      "axes": {},
+      "parent_ids": [],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "1",
+        "cardinality": "many",
+        "characteristic": "whether and how information bypasses layers",
+        "positive_test": "two models differ here only in what a shortcut path carries across a block",
+        "negative_test": "the difference is in what the layers themselves compute, which is connectivity",
+        "examples": "none vs additive vs concatenative",
+        "notes": "Added 2026-10-06 (owner): ResNet's distinctive contribution WAS the skip connection, and the axes could not say so -- ResNet and DenseNet resolved identically. Cross-cutting, which is the test for an attribute: it appears in CNNs, Transformers and U-Nets alike."
+      }
+    },
+    "no-shortcut": {
+      "name": "No shortcut",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "shortcut-connections"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "2",
+        "characteristic": "every layer feeds only the next",
+        "positive_test": "signal passes through each block in turn",
+        "negative_test": "a path carries the block input past the block",
+        "examples": "LeNet; VGG; plain MLPs",
+        "notes": "DEFAULT."
+      }
+    },
+    "additive-residual": {
+      "name": "Additive residual",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "shortcut-connections"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "2",
+        "characteristic": "the block input is added to the block output",
+        "positive_test": "the block learns a residual, and identity is the zero-parameter solution",
+        "negative_test": "the bypassed signal is concatenated rather than summed",
+        "examples": "ResNet; Transformer blocks",
+        "notes": "What made ResNet trainable at depth. Shared with Transformer blocks, which is why this is an attribute and not a ResNet-lineage fact."
+      }
+    },
+    "concatenative-skip": {
+      "name": "Concatenative skip",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "shortcut-connections"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "2",
+        "characteristic": "the bypassed signal is concatenated to the block output",
+        "positive_test": "channel count grows along the path; earlier features stay separately addressable",
+        "negative_test": "the bypassed signal is summed into the output",
+        "examples": "DenseNet; U-Net",
+        "notes": "This is exactly what separates DenseNet from ResNet, and U-Net from a plain encoder-decoder convnet."
+      }
+    },
+    "parameter-source": {
+      "name": "Parameter source",
+      "description": "",
+      "examples": [],
+      "children": [
+        "learned-directly",
+        "generated-weights"
+      ],
+      "axes": {},
+      "parent_ids": [],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "1",
+        "cardinality": "one",
+        "characteristic": "where a model's weights come from",
+        "positive_test": "two models differ here only in whether their weights were trained directly or emitted by another network",
+        "negative_test": "the difference is in what the weights encode, which is lineage, or how they are updated, which is an algorithm",
+        "examples": "learned directly vs generated"
+      }
+    },
+    "learned-directly": {
+      "name": "Learned directly",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "parameter-source"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "2",
+        "characteristic": "the weights are the trained parameters themselves",
+        "positive_test": "gradient updates land on the weights that are used",
+        "negative_test": "another network outputs these weights",
+        "examples": "nearly everything",
+        "notes": "DEFAULT."
+      }
+    },
+    "generated-weights": {
+      "name": "Generated by a network",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "parameter-source"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "2",
+        "characteristic": "another network emits these weights",
+        "positive_test": "a generator network's OUTPUT is the target network's parameters",
+        "negative_test": "the weights are trained directly, or copied from a checkpoint",
+        "examples": "DynGFN; GHN-3; HyperNetworks",
+        "notes": "Added 2026-10-06. Found twice: a placement agent reported GHN-3 resolving as a plain GNN, losing the point of it, and DynGFN's architectural contribution is a hypernetwork sampler that the diffusion/GFlowNet routing was discarding. Cross-cutting, which is the attribute test: any architecture can have its weights generated."
+      }
+    },
+    "normalisation": {
+      "name": "Normalisation",
+      "description": "",
+      "examples": [],
+      "children": [
+        "norm-none",
+        "norm-batch",
+        "norm-layer",
+        "norm-rms",
+        "norm-group",
+        "norm-weight"
+      ],
+      "axes": {},
+      "parent_ids": [],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "1",
+        "cardinality": "many",
+        "characteristic": "which statistic is removed from the activations or weights, and over what it is pooled",
+        "positive_test": "the network contains a layer or weight transform that recentres or rescales using a statistic computed over a declared axis",
+        "negative_test": "a training-time procedure that changes the objective or the data rather than the computation (that is an algorithm); dropping units at random, which is stochastic-regularisation",
+        "notes": "added 2026-10-07 for #95, after the algorithms pinning pass found dropout and batch norm had no home in either dimension. The owner's specification test decides: a thing is a model component if specifying the NETWORK requires it, and an algorithm if specifying the RUN requires it. A normalisation layer is a module with a placement; weight decay is an optimiser argument. Spectral normalisation belongs here too, since W/sigma(W) is what runs at inference"
+      }
+    },
+    "norm-none": {
+      "name": "No normalisation",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "normalisation"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "2"
+      }
+    },
+    "norm-batch": {
+      "name": "Batch normalisation",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "normalisation"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "2",
+        "positive_test": "statistics are pooled over the batch at training time and replaced by running estimates at inference",
+        "examples": "BatchNorm, SyncBatchNorm, Ghost BatchNorm"
+      }
+    },
+    "norm-layer": {
+      "name": "Layer normalisation",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "normalisation"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "2",
+        "positive_test": "statistics are pooled over the feature dimension of each example independently, so training and inference behave identically",
+        "examples": "LayerNorm, pre-LN and post-LN transformer blocks"
+      }
+    },
+    "norm-rms": {
+      "name": "RMS normalisation",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "normalisation"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "2",
+        "positive_test": "rescales by a root-mean-square over features with no recentring",
+        "examples": "RMSNorm"
+      }
+    },
+    "norm-group": {
+      "name": "Group or instance normalisation",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "normalisation"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "2",
+        "positive_test": "statistics are pooled over channel groups within one example, instance normalisation being the one-channel-per-group case",
+        "examples": "GroupNorm, InstanceNorm"
+      }
+    },
+    "norm-weight": {
+      "name": "Weight normalisation",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "normalisation"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "2",
+        "positive_test": "the weight tensor itself is reparameterised by its norm, leaving activations untouched",
+        "examples": "weight normalisation, spectral normalisation"
+      }
+    },
+    "stochastic-regularisation": {
+      "name": "Stochastic regularisation",
+      "description": "",
+      "examples": [],
+      "children": [
+        "stoch-none",
+        "stoch-unit",
+        "stoch-weight",
+        "stoch-structured"
+      ],
+      "axes": {},
+      "parent_ids": [],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "1",
+        "cardinality": "many",
+        "characteristic": "what is randomly dropped or perturbed inside the network during training",
+        "positive_test": "the network definition randomly removes or perturbs part of its own computation during training, and the rate is a stated architectural hyperparameter",
+        "negative_test": "adding a term to the objective -- R-Drop and VAT are algorithms although both are built out of dropout; perturbing the data rather than the network",
+        "notes": "added 2026-10-07 for #95. Separate from normalisation because one characteristic per sibling set: normalisation answers what statistic is removed, this answers what is randomly dropped, and they co-occur freely -- a ResNet has batch norm and no dropout, a transformer has layer norm and dropout. Receives the 7 nodes of L.reg.act from the algorithms dimension"
+      }
+    },
+    "stoch-none": {
+      "name": "No stochastic regularisation",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "stochastic-regularisation"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "2"
+      }
+    },
+    "stoch-unit": {
+      "name": "Unit dropout",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "stochastic-regularisation"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "2",
+        "positive_test": "individual activations are zeroed independently at a stated rate",
+        "examples": "dropout, Gaussian dropout"
+      }
+    },
+    "stoch-weight": {
+      "name": "Weight dropout",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "stochastic-regularisation"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "2",
+        "positive_test": "individual weights rather than activations are zeroed",
+        "examples": "DropConnect"
+      }
+    },
+    "stoch-structured": {
+      "name": "Structured dropout",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "stochastic-regularisation"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "2",
+        "positive_test": "a contiguous or structural unit is dropped as a whole -- a channel, a spatial block, a residual branch, a layer",
+        "examples": "DropBlock, DropPath, stochastic depth, LayerDrop"
+      }
+    }
+  }
+}

@@ -1,0 +1,901 @@
+{
+  "meta": {
+    "version": "v1",
+    "dimension": "algorithms/role"
+  },
+  "roots": [
+    "R.data",
+    "R.exp",
+    "R.fit",
+    "R.sys",
+    "R.search",
+    "R.rewrite",
+    "R.out",
+    "R.eval"
+  ],
+  "nodes": {
+    "R.data": {
+      "name": "Data preparation",
+      "description": "",
+      "examples": [],
+      "children": [
+        "R.data.repr",
+        "R.data.aug",
+        "R.data.select",
+        "R.data.label",
+        "R.data.synth"
+      ],
+      "axes": {},
+      "parent_ids": [],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "characteristic": "what the procedure does to the example set",
+        "positive_test": "acts on the training examples before they reach the learner",
+        "negative_test": "acts on parameters, gradients or outputs",
+        "examples": "tokenization, augmentation, curriculum"
+      }
+    },
+    "R.data.repr": {
+      "name": "Input representation construction",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "R.data"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "positive_test": "converts raw input into the units or features the model consumes",
+        "negative_test": "changes which examples are present",
+        "examples": "BPE, WordPiece, feature scaling, discretisation, spectrogram extraction, one-hot encoding"
+      }
+    },
+    "R.data.aug": {
+      "name": "Example transformation",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "R.data"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "positive_test": "emits a transformed version of an existing example for training",
+        "negative_test": "emits an entirely new example",
+        "examples": "mixup, CutMix, RandAugment, SpecAugment, back-translation, adversarial perturbation"
+      }
+    },
+    "R.data.select": {
+      "name": "Example selection, weighting and ordering",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "R.data"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "positive_test": "decides which examples are used, with what weight, in what order",
+        "negative_test": "changes the content of an example",
+        "examples": "dedup, quality filtering, DoReMi, curriculum learning, active learning, class-imbalance resampling"
+      }
+    },
+    "R.data.label": {
+      "name": "Target construction for unlabelled data",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "R.data"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "positive_test": "assigns a target to an example that did not have one",
+        "negative_test": "assigns targets by a human annotator inside the run",
+        "examples": "pseudo-labelling, Snorkel, label propagation, Dawid-Skene, HER relabelling"
+      }
+    },
+    "R.data.synth": {
+      "name": "Example synthesis",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "R.data"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "positive_test": "creates training examples that did not exist before",
+        "negative_test": "transforms examples that already exist",
+        "examples": "Self-Instruct, domain randomisation, generative oversampling, dataset distillation"
+      }
+    },
+    "R.exp": {
+      "name": "Experience generation",
+      "description": "",
+      "examples": [],
+      "children": [
+        "R.exp.act",
+        "R.exp.store",
+        "R.exp.task"
+      ],
+      "axes": {},
+      "parent_ids": [],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "characteristic": "what determines the distribution of collected interaction",
+        "positive_test": "determines what interaction data the learner sees, by acting",
+        "negative_test": "consumes a fixed dataset",
+        "examples": "epsilon-greedy, PER, self-play",
+        "notes": "empty for any run with a static dataset"
+      }
+    },
+    "R.exp.act": {
+      "name": "Behaviour and exploration policy",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "R.exp"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "positive_test": "decides which action is taken for data-collection purposes",
+        "negative_test": "decides how the collected data updates parameters",
+        "examples": "epsilon-greedy, Boltzmann exploration, UCB, Thompson sampling, RND bonus, NoisyNets"
+      }
+    },
+    "R.exp.store": {
+      "name": "Experience storage and reuse",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "R.exp"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "positive_test": "decides which past interaction is replayed and with what target",
+        "negative_test": "decides which fresh action to take",
+        "examples": "experience replay, PER, HER, episodic memory, rehearsal buffers"
+      }
+    },
+    "R.exp.task": {
+      "name": "Task and opponent generation",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "R.exp"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "positive_test": "decides which environment, goal or opponent the agent faces next",
+        "negative_test": "decides the action within a fixed task",
+        "examples": "self-play, PSRO, league training, PLR, POET, automatic domain randomisation"
+      }
+    },
+    "R.fit": {
+      "name": "Producing or adapting the learned object",
+      "description": "",
+      "examples": [],
+      "children": [
+        "R.fit.init",
+        "R.fit.obj",
+        "R.fit.est",
+        "R.fit.grad",
+        "R.fit.update",
+        "R.fit.fixpoint",
+        "R.fit.sched",
+        "R.fit.scope",
+        "R.fit.stop"
+      ],
+      "axes": {},
+      "parent_ids": [],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "characteristic": "which part of the fitting loop the procedure defines",
+        "positive_test": "participates in turning data into parameters",
+        "negative_test": "acts before data reaches the learner, or after parameters are final",
+        "examples": "loss functions, optimisers, LoRA"
+      }
+    },
+    "R.fit.init": {
+      "name": "Initialisation",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "R.fit"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "positive_test": "sets parameter values before any update",
+        "negative_test": "changes parameters after updates have begun",
+        "examples": "He init, Xavier init, orthogonal init, LSUV, Fixup, muP init",
+        "notes": "boundary with architecture; see Tensions"
+      }
+    },
+    "R.fit.obj": {
+      "name": "Objective definition",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "R.fit"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "positive_test": "defines the scalar the run minimises, including added penalty terms",
+        "negative_test": "defines how that scalar's gradient is turned into a step",
+        "examples": "cross-entropy, InfoNCE, ELBO, PPO surrogate, weight decay, KD loss, SAM",
+        "notes": "the most crowded slot in the dimension"
+      }
+    },
+    "R.fit.est": {
+      "name": "Estimator and inference engine",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "R.fit"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "positive_test": "defines how an intractable expectation or posterior is estimated or sampled",
+        "negative_test": "defines the scalar being estimated",
+        "examples": "REINFORCE estimator, reparameterisation trick, straight-through estimator, Gumbel-softmax, EM E-step, MCMC, variational inference, SMC",
+        "notes": "the slot that makes classical statistics fit"
+      }
+    },
+    "R.fit.grad": {
+      "name": "Gradient post-processing",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "R.fit"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "positive_test": "modifies the gradient between the backward pass and the update",
+        "negative_test": "modifies the loss, or the optimiser's internal state rule",
+        "examples": "gradient clipping, gradient accumulation, PCGrad, DP-SGD noise, gradient compression at the worker"
+      }
+    },
+    "R.fit.update": {
+      "name": "Parameter update rule",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "R.fit"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "positive_test": "maps a gradient and optimiser state to a parameter change",
+        "negative_test": "produces the gradient, or decides which parameters are eligible",
+        "examples": "SGD, momentum, Adam, AdamW, L-BFGS, Shampoo, Muon, CMA-ES, closed-form normal equations",
+        "notes": "Adam never fills any other slot; the slot test passes cleanly"
+      }
+    },
+    "R.fit.fixpoint": {
+      "name": "Fixed-point computation",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "R.fit"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "positive_test": "iterates a map to its fixed point, or solves for one, with no gradient of an objective involved",
+        "negative_test": "mapping a gradient and optimiser state to a parameter change (R.fit.update); a closed-form solve in one shot",
+        "examples": "value iteration, policy iteration, counterfactual regret minimisation, regret matching, Sinkhorn iterations, belief propagation",
+        "notes": "added after pinning: R.fit.update's positive test demands a gradient, so these had no slot on any axis"
+      }
+    },
+    "R.fit.sched": {
+      "name": "Optimisation schedule and control",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "R.fit"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "positive_test": "changes a hyperparameter of the update over the course of training",
+        "negative_test": "changes the direction of the update",
+        "examples": "cosine annealing, SGDR, warmup, one-cycle, ReduceLROnPlateau, batch-size ramps, EMA decay schedule"
+      }
+    },
+    "R.fit.scope": {
+      "name": "Adaptation scope",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "R.fit"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "positive_test": "decides which parameters are eligible to change, or adds new ones to change instead",
+        "negative_test": "decides how eligible parameters change",
+        "examples": "LoRA, adapters, prefix tuning, BitFit, linear probing, layer freezing, PackNet masks"
+      }
+    },
+    "R.fit.stop": {
+      "name": "Stopping and checkpoint selection",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "R.fit"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "positive_test": "decides when fitting ends or which produced checkpoint is kept",
+        "negative_test": "decides the step size while fitting continues",
+        "examples": "early stopping, patience, best-on-validation checkpointing, trial early-stopping in Hyperband"
+      }
+    },
+    "R.sys": {
+      "name": "Execution strategy",
+      "description": "",
+      "examples": [],
+      "children": [
+        "R.sys.replicate",
+        "R.sys.partition",
+        "R.sys.comm",
+        "R.sys.mem",
+        "R.sys.agg",
+        "R.sys.operator"
+      ],
+      "axes": {},
+      "parent_ids": [],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "characteristic": "the physical resource across which the computation is laid out",
+        "positive_test": "determines how a single logical run is physically carried out -- across workers, devices, or one device's memory hierarchy",
+        "negative_test": "anything that changes what is computed rather than how it is carried out; a library that merely implements such a strategy",
+        "examples": "all-reduce SGD, ZeRO, FedAvg",
+        "notes": "renamed from R.coord after phase 1: `coordination across workers` left single-device procedures (FlashAttention, gradient checkpointing) with no slot on any axis; renamed from R.exec after pinning: `R.exec` and the attribute family `A.exec` are two senses of the word and began co-occurring in pins, the same collision as L.kernel/L.operator"
+      }
+    },
+    "R.sys.replicate": {
+      "name": "Replicated data-parallel execution",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "R.sys"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "positive_test": "every worker holds the full model and processes a different data shard",
+        "negative_test": "workers hold different parts of the model",
+        "examples": "synchronous SGD, ring all-reduce, Hogwild!, local SGD, DiLoCo, gossip SGD"
+      }
+    },
+    "R.sys.partition": {
+      "name": "Model-state partitioning",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "R.sys"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "positive_test": "the model's parameters, optimiser state or layers are split across devices",
+        "negative_test": "the model is replicated",
+        "examples": "ZeRO-1/2/3, FSDP, Megatron tensor parallel, GPipe, 1F1B, expert parallelism, ring attention"
+      }
+    },
+    "R.sys.comm": {
+      "name": "Communication reduction",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "R.sys"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "positive_test": "changes what or how often workers transmit, not what they compute locally",
+        "negative_test": "changes which worker computes what",
+        "examples": "gradient quantization, PowerSGD, top-k sparsification, infrequent averaging, hierarchical all-reduce"
+      }
+    },
+    "R.sys.mem": {
+      "name": "Memory-compute trade-off",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "R.sys"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "positive_test": "trades recomputation or data movement against stored state on one device",
+        "negative_test": "trades work across devices",
+        "examples": "gradient checkpointing, activation offload, CPU/NVMe offload, mixed precision with loss scaling",
+        "notes": "borderline systems rather than learning"
+      }
+    },
+    "R.sys.agg": {
+      "name": "Constrained aggregation of client updates",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "R.sys"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "positive_test": "combines updates from parties that do not share raw data, under a stated constraint",
+        "negative_test": "combines gradients from workers that share one dataset",
+        "examples": "FedAvg aggregation, SCAFFOLD control variates, secure aggregation, trimmed-mean robust aggregation"
+      }
+    },
+    "R.search": {
+      "name": "Configuration search",
+      "description": "",
+      "examples": [],
+      "children": [
+        "R.search.hp",
+        "R.search.arch",
+        "R.search.pipe",
+        "R.search.policy"
+      ],
+      "axes": {},
+      "parent_ids": [],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "characteristic": "which part of the configuration is searched",
+        "positive_test": "runs or simulates multiple configurations and selects among them by a measured signal",
+        "negative_test": "fixes the configuration in advance",
+        "examples": "random search, Hyperband, DARTS",
+        "notes": "the inner trials are themselves runs"
+      }
+    },
+    "R.search.hp": {
+      "name": "Hyperparameter search",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "R.search"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "positive_test": "searches scalar or categorical settings of a fixed learning procedure",
+        "negative_test": "searches the model's structure",
+        "examples": "grid search, random search, TPE, SMAC, Hyperband, ASHA, PBT, muTransfer"
+      }
+    },
+    "R.search.arch": {
+      "name": "Architecture search",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "R.search"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "positive_test": "searches the structure of the model itself",
+        "negative_test": "searches the optimiser's settings",
+        "examples": "NASNet, ENAS, DARTS, Once-for-All, regularised evolution, zero-cost proxies"
+      }
+    },
+    "R.search.pipe": {
+      "name": "Pipeline and algorithm selection",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "R.search"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "positive_test": "searches jointly over preprocessing, model family and their hyperparameters",
+        "negative_test": "searches within one fixed model family",
+        "examples": "Auto-WEKA, auto-sklearn, TPOT, AutoGluon"
+      }
+    },
+    "R.search.policy": {
+      "name": "Procedure-policy search",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "R.search"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "positive_test": "searches over which data or training procedure to apply, rather than model settings",
+        "negative_test": "searches over the model or its scalars",
+        "examples": "AutoAugment, Population-Based Augmentation, learned curricula, data-mixture search",
+        "notes": "the slot AutoAugment really occupies"
+      }
+    },
+    "R.rewrite": {
+      "name": "Parameter-space rewriting",
+      "description": "",
+      "examples": [],
+      "children": [
+        "R.rewrite.sparse",
+        "R.rewrite.precision",
+        "R.rewrite.factor",
+        "R.rewrite.combine"
+      ],
+      "axes": {},
+      "parent_ids": [],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "characteristic": "what is changed about the stored parameters",
+        "positive_test": "transforms an existing parameter set without redefining what the model computes",
+        "negative_test": "fits parameters from data in the first place",
+        "examples": "magnitude pruning, GPTQ, model soups",
+        "notes": "replaces the hypothesis's \"compression\""
+      }
+    },
+    "R.rewrite.sparse": {
+      "name": "Sparsification",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "R.rewrite"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "positive_test": "removes parameters or structures from the computation",
+        "negative_test": "changes the numeric representation of retained parameters",
+        "examples": "magnitude pruning, lottery ticket, movement pruning, SparseGPT, Wanda, channel and head pruning"
+      }
+    },
+    "R.rewrite.precision": {
+      "name": "Precision reduction",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "R.rewrite"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "positive_test": "lowers the numeric precision of weights, activations or caches",
+        "negative_test": "removes parameters",
+        "examples": "GPTQ, AWQ, SmoothQuant, LLM.int8, QAT, LSQ, BinaryConnect, KV-cache quantization",
+        "notes": "QAT also occupies R.fit.est via the straight-through estimator"
+      }
+    },
+    "R.rewrite.factor": {
+      "name": "Factorisation",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "R.rewrite"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "positive_test": "replaces a weight tensor with a product of smaller factors",
+        "negative_test": "zeroes or requantises the original tensor",
+        "examples": "SVD compression, Tucker and CP decomposition, ASVD",
+        "notes": "speculative: often unnamed"
+      }
+    },
+    "R.rewrite.combine": {
+      "name": "Parameter combination",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "R.rewrite"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "positive_test": "produces one parameter set by combining several",
+        "negative_test": "produces one by combining several models' predictions",
+        "examples": "model soups, task arithmetic, TIES, DARE, Fisher merging, SWA, EMA of weights"
+      }
+    },
+    "R.out": {
+      "name": "Producing outputs from the learned object",
+      "description": "",
+      "examples": [],
+      "children": [
+        "R.out.decode",
+        "R.out.search",
+        "R.out.context",
+        "R.out.calib",
+        "R.out.agg",
+        "R.out.predict",
+        "R.out.explain"
+      ],
+      "axes": {},
+      "parent_ids": [],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "characteristic": "what the procedure contributes between a trained model and an emitted result",
+        "positive_test": "runs at inference and changes what is emitted, how it is scored, or what it was given",
+        "negative_test": "changes the parameters",
+        "examples": "beam search, RAG, conformal prediction"
+      }
+    },
+    "R.out.decode": {
+      "name": "Output generation",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "R.out"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "positive_test": "converts model scores into the emitted output",
+        "negative_test": "explores multiple complete candidate outputs",
+        "examples": "greedy, beam search, top-p, contrastive decoding, constrained decoding, speculative decoding, diffusion samplers, classifier-free guidance"
+      }
+    },
+    "R.out.search": {
+      "name": "Test-time search and deliberation",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "R.out"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "positive_test": "spends extra inference compute exploring several reasoning or action paths",
+        "negative_test": "emits one pass through the model",
+        "examples": "self-consistency, best-of-n, tree of thoughts, ReAct, Reflexion, MCTS, MPC/CEM, A-star",
+        "notes": "the cost shows up in the run's budget"
+      }
+    },
+    "R.out.context": {
+      "name": "Retrieval and context construction",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "R.out"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "positive_test": "selects external content to place in the model's input at inference",
+        "negative_test": "selects training examples before fitting",
+        "examples": "BM25, DPR, HNSW index lookup, RAG, FiD, reranking, kNN-LM"
+      }
+    },
+    "R.out.calib": {
+      "name": "Calibration, uncertainty and abstention",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "R.out"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "positive_test": "converts outputs into calibrated probabilities, intervals or an abstention decision",
+        "negative_test": "converts them into a different emitted answer",
+        "examples": "temperature scaling, isotonic regression, conformal prediction, deep ensembles, MC dropout, OOD scoring"
+      }
+    },
+    "R.out.agg": {
+      "name": "Inference-time aggregation",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "R.out"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "positive_test": "combines outputs of several models or several samples into one",
+        "negative_test": "combines their parameters",
+        "examples": "voting, prediction averaging, stacking, MBR, Bayesian model averaging, MoE inference routing"
+      }
+    },
+    "R.out.predict": {
+      "name": "Prediction rule",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "R.out"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "positive_test": "computes the output by an explicit named procedure over stored data or fitted structure, with no model forward pass to delegate to",
+        "negative_test": "emitting the forward pass of a separable model",
+        "examples": "k-NN majority vote, kernel density prediction, LOESS local fit, Viterbi decoding of a CRF, GP posterior mean",
+        "notes": "added after the k-NN worked example found no fitting slot"
+      }
+    },
+    "R.out.explain": {
+      "name": "Explanation production",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "R.out"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "positive_test": "produces a statement about the model's behaviour as the run's output",
+        "negative_test": "produces a prediction about the data",
+        "examples": "Grad-CAM, integrated gradients, LIME, SHAP, activation patching, sparse autoencoder features, CKA",
+        "notes": "admitted because an explanation is an output"
+      }
+    },
+    "R.eval": {
+      "name": "Evaluation and model assessment",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "characteristic": "what the assessment procedure controls",
+        "positive_test": "computes a reported performance or inference claim about the fitted object",
+        "negative_test": "contributes to producing the object or its outputs",
+        "examples": "k-fold cross-validation, bootstrap CIs, permutation tests, FDR control, LLM-as-judge scoring, significance tests",
+        "notes": "the participant rule as written excludes this; see Tensions"
+      }
+    },
+    "R.sys.operator": {
+      "name": "Operator-level computation strategy",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "R.sys"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "positive_test": "reorganises how a single operator is computed on one device -- tiling, fusion, recomputation, memory-hierarchy placement",
+        "negative_test": "a different operator (linear attention changes the function and is model-side); a package that ships such a kernel",
+        "examples": "FlashAttention, FlashAttention-2, PagedAttention, fused optimiser kernels",
+        "notes": "the boundary case both phase-1 runs named and neither could place"
+      }
+    }
+  }
+}

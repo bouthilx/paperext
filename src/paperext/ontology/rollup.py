@@ -180,3 +180,110 @@ def to_category_map(
         mapping[key] = category
 
     return mapping
+
+
+# --------------------------------------------------------------------------- #
+# Set-valued roll-up for multi-parent dimensions (D1h, #100)
+# --------------------------------------------------------------------------- #
+#
+# :func:`to_category_map` above returns one category per name and must keep
+# doing so: it reproduces the legacy map byte for byte, and ``models/v0`` is the
+# sealed eval reference (#95). Two legacy collisions are cut-unstable, so the
+# first-non-``Other`` dedup is a faithfulness requirement, not an oversight.
+#
+# The derived dimensions are DAGs on purpose -- counting is non-exclusive (E1,
+# #16), so a node may sit under several parents and genuinely belong to several
+# categories at once. Collapsing that to one category would not be a lossy
+# summary, it would be a wrong answer. So the set-valued roll-up is an
+# *additional* contract rather than a change to the existing one.
+
+
+def _paths_to_cut(
+    onto: Ontology, resolved: ResolvedCut
+) -> "dict[str, set[tuple[str, str]]]":
+    """``{node_id: {(root_id, cut_node_id_or_empty)}}``, one entry per path.
+
+    Every root-to-node path is accounted for, because in a DAG each path can
+    reach a different cut node, and the node belongs to all of them. The number
+    of distinct ``(root, cut)`` pairs stays small even where the number of paths
+    does not, which is what keeps this linear in practice.
+
+    ``root_id`` is carried so a path through a dropped root can be discarded
+    without discarding the node: a node reachable both from ``ignore`` and from
+    a real branch still counts under the real one.
+    """
+    memo: "dict[str, set[tuple[str, int, str]]]" = {}
+
+    def walk(node_id: str) -> "set[tuple[str, int, str]]":
+        """``{(root, path_length, cut_node)}`` for every path reaching *node_id*."""
+        if node_id in memo:
+            return memo[node_id]
+        memo[node_id] = set()  # cycle guard; a cycle is reported by the audit
+        parents = onto.parents(node_id)
+        if not parents:
+            out = {(node_id, 1, node_id if _at_cut(onto, node_id, resolved, 1) else "")}
+        else:
+            out = set()
+            for parent in parents:
+                for root, length, cut in walk(parent):
+                    here = length + 1
+                    if isinstance(resolved, NodeCut):
+                        nearest = node_id if node_id in resolved.ids else cut
+                    else:
+                        # Once the path is at least `depth` long the cut node is
+                        # fixed; before that it is the node itself.
+                        nearest = node_id if here <= resolved else cut
+                    out.add((root, here, nearest))
+        memo[node_id] = out
+        return out
+
+    return {nid: {(r, c) for r, _, c in walk(nid)} for nid in onto.nodes}
+
+
+def _at_cut(onto: Ontology, node_id: str, resolved: ResolvedCut, length: int) -> bool:
+    if isinstance(resolved, NodeCut):
+        return node_id in resolved.ids
+    return length <= resolved
+
+
+def to_category_sets(
+    onto: Ontology,
+    cut: AnyCut,
+    drop_roots: Iterable[str] = DEFAULT_DROP_ROOTS,
+) -> "dict[str, set[str]]":
+    """Roll *onto* up to *cut*, returning ``{normalized_name: {category, ...}}``.
+
+    The multi-parent counterpart of :func:`to_category_map`. Differences, each
+    because a single category would be wrong rather than merely coarse:
+
+    - **A node under several parents yields several categories.** Non-exclusive
+      counting is locked (#16), so this is the correct answer, not a tie to break.
+    - **A name shared by several nodes yields the union of their categories**
+      instead of the first in depth-first order. The legacy dedup exists to
+      reproduce a map that had to pick one; here nothing has to.
+    - **A path through a dropped root is discarded, not the node.** A node
+      reachable from ``ignore`` *and* from a real branch still counts under the
+      real one.
+
+    A node that reaches no cut point on any path maps to ``{OTHER}`` -- aggregate,
+    never drop, exactly as before.
+    """
+    resolved = resolve_cut(onto, cut)
+    drop = {str_normalize(root) for root in drop_roots}
+
+    mapping: "dict[str, set[str]]" = {}
+    for node_id, paths in _paths_to_cut(onto, resolved).items():
+        key = str_normalize(onto.name(node_id))
+        if not key:
+            continue
+        live = [
+            cut_id
+            for root_id, cut_id in paths
+            if str_normalize(onto.name(root_id)) not in drop
+        ]
+        if not live:
+            continue
+        mapping.setdefault(key, set()).update(
+            onto.name(cut_id) if cut_id else OTHER for cut_id in live
+        )
+    return mapping

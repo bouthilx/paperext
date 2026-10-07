@@ -1,0 +1,507 @@
+{
+  "meta": {
+    "version": "v1",
+    "dimension": "models/connectivity"
+  },
+  "roots": [
+    "dense",
+    "convolution",
+    "attention",
+    "recurrence",
+    "message-passing",
+    "set-aggregation",
+    "symbolic-evaluation",
+    "factor-graph",
+    "recursive-composition",
+    "integral-operator",
+    "kernel-expansion"
+  ],
+  "nodes": {
+    "dense": {
+      "name": "Dense",
+      "description": "",
+      "examples": [],
+      "children": [
+        "fully-connected",
+        "factorized"
+      ],
+      "axes": {},
+      "parent_ids": [],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "1",
+        "characteristic": "every unit is wired to every unit of the adjacent group",
+        "positive_test": "the layer applies a full weight matrix with no structural sparsity",
+        "negative_test": "the wiring is constrained by locality, position, a graph, or time",
+        "examples": "MLP layers; projection heads"
+      }
+    },
+    "fully-connected": {
+      "name": "Fully connected",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "dense"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "2",
+        "characteristic": "an unconstrained dense weight matrix",
+        "positive_test": "the layer is a plain matmul plus nonlinearity",
+        "negative_test": "the matrix is constrained to a low-rank or factorized form",
+        "examples": "MLP; feedforward block of a Transformer"
+      }
+    },
+    "factorized": {
+      "name": "Factorized / low-rank",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "dense"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "2",
+        "characteristic": "the dense map is constrained to a product of smaller factors",
+        "positive_test": "the weights are stored and applied as a product of lower-rank terms",
+        "negative_test": "the matrix is unconstrained",
+        "examples": "matrix factorization; LoRA-shaped adapters",
+        "notes": "Lineage families like matrix factorization pin this."
+      }
+    },
+    "convolution": {
+      "name": "Convolution",
+      "description": "",
+      "examples": [],
+      "children": [
+        "standard-convolution",
+        "depthwise-separable",
+        "dilated-convolution"
+      ],
+      "axes": {},
+      "parent_ids": [],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "1",
+        "characteristic": "units share weights across positions of a regular grid",
+        "positive_test": "the same kernel is applied at every position",
+        "negative_test": "weights are position-specific, or the domain is an irregular graph",
+        "examples": "CNNs; TCNs; WaveNet"
+      }
+    },
+    "standard-convolution": {
+      "name": "Standard convolution",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "convolution"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "2",
+        "characteristic": "a dense kernel over all input channels",
+        "positive_test": "one kernel mixes space and channels together",
+        "negative_test": "space and channels are mixed in separate stages, or the kernel is spaced out",
+        "examples": "LeNet; VGG; ResNet blocks"
+      }
+    },
+    "depthwise-separable": {
+      "name": "Depthwise-separable convolution",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "convolution"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "2",
+        "characteristic": "spatial mixing and channel mixing are separate stages",
+        "positive_test": "a depthwise step is followed by a pointwise step",
+        "negative_test": "one kernel does both at once",
+        "examples": "MobileNet; Xception; ConvNeXt blocks"
+      }
+    },
+    "dilated-convolution": {
+      "name": "Dilated convolution",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "convolution"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "2",
+        "characteristic": "the kernel samples positions at a stride greater than one",
+        "positive_test": "receptive field grows without extra parameters or pooling",
+        "negative_test": "the kernel reads contiguous positions",
+        "examples": "WaveNet; dilated TCN"
+      }
+    },
+    "attention": {
+      "name": "Attention",
+      "description": "",
+      "examples": [],
+      "children": [
+        "self-attention",
+        "cross-attention"
+      ],
+      "axes": {},
+      "parent_ids": [],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "1",
+        "characteristic": "the wiring weights are computed from the content of the inputs",
+        "positive_test": "which units talk is decided per example by a similarity score",
+        "negative_test": "the wiring is fixed by position, grid or graph before seeing the input",
+        "examples": "Transformer blocks"
+      }
+    },
+    "self-attention": {
+      "name": "Self-attention",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "attention"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "2",
+        "characteristic": "queries, keys and values all come from one sequence",
+        "positive_test": "the layer relates a sequence to itself",
+        "negative_test": "queries come from one stream and keys from another",
+        "examples": "BERT; GPT; ViT"
+      }
+    },
+    "cross-attention": {
+      "name": "Cross-attention",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "attention"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "2",
+        "characteristic": "queries come from one stream, keys and values from another",
+        "positive_test": "the layer relates two distinct streams",
+        "negative_test": "both sides are the same stream",
+        "examples": "T5 decoder; Perceiver; DETR"
+      }
+    },
+    "recurrence": {
+      "name": "Recurrence",
+      "description": "",
+      "examples": [],
+      "children": [
+        "gated-recurrence",
+        "state-space-recurrence"
+      ],
+      "axes": {},
+      "parent_ids": [],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "1",
+        "characteristic": "units are wired to their own state at the previous step",
+        "positive_test": "the computation carries a state along a sequence and reuses one set of weights",
+        "negative_test": "the sequence is processed in parallel with no carried state",
+        "examples": "RNNs; state-space models"
+      }
+    },
+    "gated-recurrence": {
+      "name": "Gated recurrence",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "recurrence"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "2",
+        "characteristic": "learned gates control what the state keeps and forgets",
+        "positive_test": "multiplicative gates mediate the state update",
+        "negative_test": "the state update is linear and time-invariant",
+        "examples": "LSTM; GRU"
+      }
+    },
+    "state-space-recurrence": {
+      "name": "State-space recurrence",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "recurrence"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "2",
+        "characteristic": "the state update is a linear dynamical system",
+        "positive_test": "the recurrence is linear, so it can also be run as a convolution or scan",
+        "negative_test": "gates make the update input-dependent and nonlinear",
+        "examples": "S4; Mamba; RSSM",
+        "notes": "Lineage root `State-space model` pins this."
+      }
+    },
+    "message-passing": {
+      "name": "Message passing",
+      "description": "",
+      "examples": [],
+      "children": [
+        "spectral-graph-convolution",
+        "spatial-message-passing"
+      ],
+      "axes": {},
+      "parent_ids": [],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "1",
+        "characteristic": "units are wired by the edges of an irregular graph",
+        "positive_test": "each unit aggregates from its graph neighbours",
+        "negative_test": "the neighbourhood is a regular grid, or all units are neighbours",
+        "examples": "GNNs"
+      }
+    },
+    "spectral-graph-convolution": {
+      "name": "Spectral graph convolution",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "message-passing"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "2",
+        "characteristic": "aggregation is defined through the graph Laplacian spectrum",
+        "positive_test": "the operator is a polynomial of the Laplacian",
+        "negative_test": "aggregation is defined directly on neighbours in the spatial domain",
+        "examples": "ChebNet; GCN"
+      }
+    },
+    "spatial-message-passing": {
+      "name": "Spatial message passing",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "message-passing"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "2",
+        "characteristic": "aggregation is defined directly over neighbours",
+        "positive_test": "messages are computed per edge and pooled per node",
+        "negative_test": "the operator is defined in the spectral domain",
+        "examples": "GAT; GraphSAGE; GIN; MPNN"
+      }
+    },
+    "set-aggregation": {
+      "name": "Set aggregation",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "1",
+        "characteristic": "all units are pooled into one with no ordering or adjacency",
+        "positive_test": "a permutation-invariant pool reduces a set to a fixed-size vector",
+        "negative_test": "the inputs carry an order, a grid position, or edges",
+        "examples": "Deep Sets; PointNet",
+        "notes": "Added 2026-10-02: the axis had no value for a pooling stack. Distinct from message passing, which needs edges."
+      }
+    },
+    "symbolic-evaluation": {
+      "name": "Symbolic evaluation",
+      "description": "",
+      "examples": [],
+      "children": [
+        "tree-traversal",
+        "rule-set-evaluation"
+      ],
+      "axes": {},
+      "parent_ids": [],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "1",
+        "characteristic": "the output is produced by evaluating learned discrete conditions",
+        "positive_test": "prediction follows from tests that are true or false, not from a weighted sum",
+        "negative_test": "the output is a weighted combination of continuous activations",
+        "examples": "decision trees; rule sets",
+        "notes": "Non-neural."
+      }
+    },
+    "tree-traversal": {
+      "name": "Tree traversal",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "symbolic-evaluation"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "2",
+        "characteristic": "the conditions are arranged as a hierarchy of splits",
+        "positive_test": "one root-to-leaf path decides the output",
+        "negative_test": "the conditions are an unordered or flat set",
+        "examples": "CART; random forest members"
+      }
+    },
+    "rule-set-evaluation": {
+      "name": "Rule set evaluation",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "symbolic-evaluation"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "2",
+        "characteristic": "the conditions are a flat list of if-then rules",
+        "positive_test": "rules are matched in order or by coverage, not by descending a tree",
+        "negative_test": "the conditions form a hierarchy",
+        "examples": "decision lists; rule sets; ILP hypotheses",
+        "notes": "Added 2026-10-02: the lineage pinning pass found Rule-based model unpinnable."
+      }
+    },
+    "factor-graph": {
+      "name": "Factor graph",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "1",
+        "characteristic": "units are wired by a factor graph over random variables",
+        "positive_test": "the structure states which variables share a factor",
+        "negative_test": "the structure wires deterministic activations rather than variables",
+        "examples": "Bayesian networks; MRFs; HMMs; CRFs",
+        "notes": "Added 2026-10-02: no value existed for probabilistic graphical models."
+      }
+    },
+    "recursive-composition": {
+      "name": "Recursive composition",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "1",
+        "characteristic": "the wiring follows a tree given by the input itself",
+        "positive_test": "the same cell is applied bottom-up over a parse or syntax tree",
+        "negative_test": "the structure is fixed in advance, or carried along a flat sequence",
+        "examples": "recursive neural networks; TreeLSTM",
+        "notes": "Added 2026-10-02. Distinct from recurrence, where the structure is a chain fixed in advance."
+      }
+    },
+    "integral-operator": {
+      "name": "Integral operator",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "1",
+        "characteristic": "the map is a learned integral kernel between function spaces",
+        "positive_test": "the layer acts on a function and is discretization-invariant",
+        "negative_test": "the layer acts on a fixed-size vector of features",
+        "examples": "Fourier neural operator; DeepONet",
+        "notes": "Added 2026-10-02: the Neural operator lineage was unpinnable."
+      }
+    },
+    "kernel-expansion": {
+      "name": "Kernel expansion",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "1",
+        "characteristic": "the input is compared against stored reference points",
+        "positive_test": "prediction is a weighted sum of kernel evaluations against training data",
+        "negative_test": "the model holds a fixed parameter vector independent of the data",
+        "examples": "SVM; Gaussian process; RBF network",
+        "notes": "Non-neural."
+      }
+    }
+  }
+}

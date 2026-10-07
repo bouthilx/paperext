@@ -1,0 +1,1915 @@
+{
+  "meta": {
+    "version": "v1",
+    "dimension": "domains/modality"
+  },
+  "roots": [
+    "vision",
+    "language",
+    "audio",
+    "graphs",
+    "time-series",
+    "molecular-materials",
+    "records",
+    "multimodal",
+    "uninformative"
+  ],
+  "nodes": {
+    "vision": {
+      "name": "Vision & imaging",
+      "description": "",
+      "examples": [],
+      "children": [
+        "photographic-imagery",
+        "tomographic-imaging",
+        "microscopy-imaging",
+        "multispectral-imagery",
+        "range-geometry",
+        "document-imagery"
+      ],
+      "axes": {},
+      "parent_ids": [],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "1",
+        "characteristic": "The signal is a spatially sampled record of radiation reaching a sensor from a scene or specimen.",
+        "positive_test": "The input is an array (or explicit geometry) whose axes are spatial and whose values are radiometric.",
+        "negative_test": "Reject names whose 'visual' word denotes the human visual system studied as biology, or 'visualization' as a presentation technique.",
+        "examples": "Photographic imagery; Tomographic & radiological imaging; Range & 3D scene geometry",
+        "corpus_names": "641",
+        "corpus_mentions": "641",
+        "notes": "641 indicative mentions of which 258 sit at depth 1 (Computer Vision 251 and near-synonyms) - branch-level residence per AXES.md 8b. EXTERNAL_DIFF: arXiv puts cs.CL at ~2.2x the whole vision cluster; this branch's size is the one known to be inflated and must not be used to size anything."
+      }
+    },
+    "language": {
+      "name": "Language & text",
+      "description": "",
+      "examples": [],
+      "children": [
+        "natural-language-text",
+        "source-code",
+        "formal-notation"
+      ],
+      "axes": {},
+      "parent_ids": [],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "1",
+        "characteristic": "The signal is a string of discrete symbols produced under a grammar, whether a human language or a formal one.",
+        "positive_test": "The input is tokenised symbol sequence whose meaning is fixed by a grammar plus a convention of use or an interpreter.",
+        "negative_test": "Reject symbol strings that are measurements of a physical molecule (protein/nucleotide sequences) - inverted precedence sends those to Molecular & materials data.",
+        "examples": "Natural-language text; Source code; Formal & mathematical notation",
+        "corpus_names": "617",
+        "corpus_mentions": "617",
+        "notes": "617 indicative mentions of which 323 sit at depth 1 (NLP 306 and near-synonyms). Multilingual/cross-lingual/low-resource names also sit at depth 1: language coverage is a property of a corpus, not a kind of text (fixes D3)."
+      }
+    },
+    "audio": {
+      "name": "Speech & audio",
+      "description": "",
+      "examples": [],
+      "children": [
+        "speech-voice",
+        "music-audio",
+        "environmental-audio"
+      ],
+      "axes": {},
+      "parent_ids": [],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "1",
+        "characteristic": "The signal is acoustic pressure over time, produced to be heard or emitted by a physical source in air or water.",
+        "positive_test": "The input is a waveform whose relevant band is acoustic and whose source is a voice, an instrument or the environment.",
+        "negative_test": "Reject non-acoustic 1-D waveforms (bioelectric, radio, seismic): those are Time series & signals > Waveform signals.",
+        "examples": "Speech & voice; Music; Environmental sound",
+        "corpus_names": "50",
+        "corpus_mentions": "50",
+        "notes": "The boundary with Time series > Waveform signals is convention, not physics; AXES.md never states it. Test supplied here: audible acoustic pressure intended to be heard or produced -> Audio."
+      }
+    },
+    "graphs": {
+      "name": "Graphs & relational",
+      "description": "",
+      "examples": [],
+      "children": [
+        "knowledge-graphs",
+        "interaction-networks",
+        "measured-networks",
+        "engineered-networks"
+      ],
+      "axes": {},
+      "parent_ids": [],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "1",
+        "characteristic": "The signal is a set of entities together with relations that are recorded as data in their own right.",
+        "positive_test": "The relation is given, not inferred from a feature space, and removing it destroys the datum.",
+        "negative_test": "Reject data that merely admits a graph encoding - molecules, meshes, point clouds, grids (AXES.md 6, 'natively relational data only').",
+        "examples": "Curated knowledge graphs; Interaction & citation networks; Physical & engineered networks",
+        "corpus_names": "116",
+        "corpus_mentions": "116",
+        "notes": "116 indicative mentions of which 61 at depth 1 (translated Graph Neural Networks 81 and graph-learning near-synonyms). Homonym trap measured on this axis: a node named 'Networks' would be ~59% wrong by papers, 78% by names - every neural-network name is excluded here."
+      }
+    },
+    "time-series": {
+      "name": "Time series & signals",
+      "description": "",
+      "examples": [],
+      "children": [
+        "waveform-signals",
+        "sampled-series",
+        "event-streams"
+      ],
+      "axes": {},
+      "parent_ids": [],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "1",
+        "characteristic": "The signal is a quantity recorded against a time index and carries no other native structure.",
+        "positive_test": "Removing the time ordering destroys the datum, and no spatial, grammatical or relational structure is present.",
+        "negative_test": "Reject data whose temporal extent is a property of another kind of signal (video, temporal graphs, longitudinal records): time-indexing alone does not move a signal here.",
+        "examples": "Waveform signals; Sampled quantity series; Event & point-process streams",
+        "corpus_names": "109",
+        "corpus_mentions": "109",
+        "notes": "This branch is the one place where temporality is constitutive rather than a property; stated explicitly because the same modifier is demoted to depth 3 in Vision, Language and Graphs."
+      }
+    },
+    "molecular-materials": {
+      "name": "Molecular & materials data",
+      "description": "",
+      "examples": [],
+      "children": [
+        "atomistic-structure",
+        "biomolecular-sequences",
+        "omics-profiles"
+      ],
+      "axes": {},
+      "parent_ids": [],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "1",
+        "characteristic": "The signal is a description of matter: the identity and arrangement of its atoms, or the abundance of its molecular constituents.",
+        "positive_test": "The datum is obtained by a chemical, physical or biochemical assay of a substance, and its referent is a material object rather than an artefact of communication.",
+        "negative_test": "Reject the field names that study matter (chemistry, genetics, materials science): those are Scientific discipline. Reject symbol strings of human origin.",
+        "examples": "Molecular & crystal structure; Biomolecular sequences; Omics abundance profiles",
+        "corpus_names": "293",
+        "corpus_mentions": "293",
+        "notes": "RENAMED from 'Molecular & biological data' as AXES.md 6 itself proposes. 'Biological' is a field word and broke both the D5 naming clause and 9's ban on compound category names; 'molecules and materials' is the community's own doublet for one thing. 293 indicative mentions of which 104 at depth 1 (Bioinformatics 40, Computational Biology 33, Computational Chemistry 12 and near-synonyms). Never a bare 'sequences' node: 65% of corpus names containing 'sequen' are Sequence Modeling / Seq2Seq."
+      }
+    },
+    "records": {
+      "name": "Tabular & structured records",
+      "description": "",
+      "examples": [],
+      "children": [
+        "feature-tables",
+        "interaction-logs",
+        "longitudinal-records",
+        "state-vectors"
+      ],
+      "axes": {},
+      "parent_ids": [],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "1",
+        "characteristic": "The signal is a set of records over named fields, where a row is an entity, an event or a state and the columns are a schema.",
+        "positive_test": "The datum is addressed by field name rather than by position in space, time or a string.",
+        "negative_test": "Reject a matrix that is a sampled signal in disguise (an image, a spectrum, an adjacency matrix).",
+        "examples": "Feature tables; Transactional & interaction logs; Longitudinal administrative records",
+        "corpus_names": "85",
+        "corpus_mentions": "85",
+        "notes": "AXES.md 6 reports ~34 for this branch; the higher figure here comes from admitting administrative records and state vectors under process-named children rather than domain-named ones. Counts indicative either way."
+      }
+    },
+    "multimodal": {
+      "name": "Multimodal",
+      "description": "",
+      "examples": [],
+      "children": [
+        "vision-language",
+        "audio-visual",
+        "multisensor-perception"
+      ],
+      "axes": {},
+      "parent_ids": [],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "1",
+        "characteristic": "The subject of the work is the relationship between two or more signal kinds, not their co-occurrence.",
+        "positive_test": "The research question is alignment, fusion, grounding, translation or cross-modal transfer between named modalities.",
+        "negative_test": "Reject a paper that merely evaluates one method on two datasets of different kinds; its values are the two constituent modalities and nothing here.",
+        "examples": "Vision-language; Audio-visual; Multi-sensor perception",
+        "corpus_names": "42",
+        "corpus_mentions": "42",
+        "notes": "Children exist only where a research community does; pairs are never enumerated (AXES.md 6). This branch remains a different KIND of level-1 row from its siblings - a relation over values rather than a value - which the granularity audit noted and AXES.md declares rather than fixes."
+      }
+    },
+    "uninformative": {
+      "name": "Uninformative",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "1",
+        "characteristic": "Administrative row, not a signal kind: names that are on-axis but name no kind of signal.",
+        "positive_test": "The name asserts that there is data and nothing about what the data is.",
+        "negative_test": "Reject names that are simply silent about modality (Deep Learning, Reinforcement Learning): on an optional axis those take no value at all (AXES.md 8b).",
+        "corpus_names": "10",
+        "corpus_mentions": "14",
+        "notes": "Required by AXES.md 8b as a level-1 row on every axis; excluded from this axis's shares. Deliberately has no children."
+      }
+    },
+    "photographic-imagery": {
+      "name": "Photographic imagery",
+      "description": "",
+      "examples": [],
+      "children": [
+        "photo-still",
+        "photo-video"
+      ],
+      "axes": {},
+      "parent_ids": [
+        "vision"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "2",
+        "characteristic": "How the image was formed: what physical process wrote the array, and in what coordinate frame.",
+        "positive_test": "Visible-light, three-or-fewer-band projective capture of a real scene by a conventional camera, in a scene-relative frame.",
+        "negative_test": "Reject penetrating or magnified capture (tomography, microscopy) and reject arrays with more than three spectral bands.",
+        "examples": "Natural-scene photographs; Video & image sequences; Close-range clinical photography (dermoscopy, endoscopy)",
+        "corpus_names": "59",
+        "corpus_mentions": "114",
+        "notes": "Video lives HERE at depth 3, not as a sibling: a camera read at a frame rate is the same sensor, and temporal extent is a property of an image stream, not a kind of image (fixes D2). Dermoscopy and endoscopy land here rather than in a 'biomedical' node - the instrument decides, not the ward."
+      }
+    },
+    "tomographic-imaging": {
+      "name": "Tomographic & radiological imaging",
+      "description": "",
+      "examples": [],
+      "children": [
+        "tomo-xray",
+        "tomo-mr",
+        "tomo-ultrasound",
+        "tomo-emission",
+        "tomo-optical"
+      ],
+      "axes": {},
+      "parent_ids": [
+        "vision"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "2",
+        "characteristic": "How the image was formed: what physical process wrote the array, and in what coordinate frame.",
+        "positive_test": "The array is reconstructed from penetrating radiation, resonance or echo measurements sampled over a volume or a cross-section.",
+        "negative_test": "Reject treatment-delivery and dose names (brachytherapy, dosimetry, radiation therapy): they name a procedure, not an image.",
+        "examples": "MR volumes; CT & PET volumes; Ultrasound sequences",
+        "corpus_names": "42",
+        "corpus_mentions": "167",
+        "notes": "This is the D5-compliant replacement for 'Biomedical imagery'. Named by the reconstruction physics, so industrial and materials CT fall in the same node and the discipline stays free. Largest depth-2 node on the axis, and the one most exposed to the Vision inflation warning."
+      }
+    },
+    "microscopy-imaging": {
+      "name": "Microscopy & histological imaging",
+      "description": "",
+      "examples": [],
+      "children": [
+        "micro-light",
+        "micro-electron"
+      ],
+      "axes": {},
+      "parent_ids": [
+        "vision"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "2",
+        "characteristic": "How the image was formed: what physical process wrote the array, and in what coordinate frame.",
+        "positive_test": "The array is formed by magnifying optics or an electron beam over a prepared specimen at a fixed focal plane.",
+        "negative_test": "Reject in-vivo camera imagery at human scale and reject volumetric reconstruction.",
+        "examples": "Light & fluorescence microscopy; Whole-slide histopathology; Electron microscopy",
+        "corpus_names": "5",
+        "corpus_mentions": "8",
+        "notes": "Thin in this corpus (5 names). Kept on the formation principle, not on volume; a microscope is a distinct image-forming process whether or not this institute uses many."
+      }
+    },
+    "multispectral-imagery": {
+      "name": "Multispectral & radar imagery",
+      "description": "",
+      "examples": [],
+      "children": [
+        "ms-passive",
+        "ms-radar"
+      ],
+      "axes": {},
+      "parent_ids": [
+        "vision"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "2",
+        "characteristic": "How the image was formed: what physical process wrote the array, and in what coordinate frame.",
+        "positive_test": "The array carries more than three spectral bands or is formed by active ranging radar, and is georeferenced or sky-referenced rather than scene-relative.",
+        "negative_test": "Reject plain RGB aerial or drone photography (that is Photographic imagery) and reject satellite communication names, which are Graphs > Physical & engineered networks.",
+        "examples": "Satellite multispectral rasters; Synthetic-aperture radar; Astronomical survey imagery",
+        "corpus_names": "12",
+        "corpus_mentions": "24",
+        "notes": "D5-compliant replacement for 'Remote-sensing imagery': named by band structure and referencing, so forestry, disaster response, agriculture, archaeology and astronomy all differ on discipline under one node. Astronomical imaging is folded here rather than given a node; declared as a blind spot in RATIONALE."
+      }
+    },
+    "range-geometry": {
+      "name": "Range & 3D scene geometry",
+      "description": "",
+      "examples": [],
+      "children": [
+        "range-active",
+        "range-multiview",
+        "range-authored"
+      ],
+      "axes": {},
+      "parent_ids": [
+        "vision"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "2",
+        "characteristic": "How the image was formed: what physical process wrote the array, and in what coordinate frame.",
+        "positive_test": "The signal is the metric geometry of surfaces in a scene, acquired by active ranging or multi-view reconstruction and carried as explicit 3D coordinates rather than a projected raster.",
+        "negative_test": "Reject volumetric medical reconstructions (tomographic) and reject 3D as a mere property of another array; the node is defined by the ranging or reconstruction process.",
+        "examples": "LiDAR & depth point clouds; Surface meshes & CAD geometry; Rendered & radiance-field scenes",
+        "corpus_names": "46",
+        "corpus_mentions": "65",
+        "notes": "Named by acquisition, not by dimensionality, which is what makes it survive the property test that killed 'Video' and 'Temporal graphs' (fixes D2). Graphics and rendering names sit here because their datum is a scene, not a photograph."
+      }
+    },
+    "document-imagery": {
+      "name": "Document & screen imagery",
+      "description": "",
+      "examples": [],
+      "children": [
+        "doc-scanned",
+        "doc-screen"
+      ],
+      "axes": {},
+      "parent_ids": [
+        "vision"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "2",
+        "characteristic": "How the image was formed: what physical process wrote the array, and in what coordinate frame.",
+        "positive_test": "The array is a raster of symbolic content laid out for human reading - a page, a form, a chart, a screen - rather than a measurement of the world.",
+        "negative_test": "Reject any name whose datum is the extracted text itself: that is Language & text. Only pixel-level input qualifies.",
+        "examples": "Scanned document pages; Charts & diagrams; Screen & UI captures",
+        "corpus_names": "5",
+        "corpus_mentions": "5",
+        "notes": "LOW CONFIDENCE, declared: 5 corpus names, and its principle names the origin of the depicted content rather than sensing physics, so it is the least well-matched sibling in this set. Kept because document image analysis and GUI agents are large external communities and dropping the node would make the formation principle non-exhaustive."
+      }
+    },
+    "natural-language-text": {
+      "name": "Natural-language text",
+      "description": "",
+      "examples": [],
+      "children": [
+        "nl-edited",
+        "nl-dialogue",
+        "nl-posts",
+        "nl-practitioner"
+      ],
+      "axes": {},
+      "parent_ids": [
+        "language"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "2",
+        "characteristic": "The kind of grammar that licenses the string, and the kind of semantics that fixes what it means.",
+        "positive_test": "The string is an instance of a human language whose meaning is fixed by usage rather than by an interpreter or a calculus.",
+        "negative_test": "Reject register and genre as a basis for a sibling: prose, dialogue, chat and clinical notes are all this node, at depth 3.",
+        "examples": "Written prose & documents; Conversational & dialogue text; User-generated & social text",
+        "corpus_names": "103",
+        "corpus_mentions": "214",
+        "notes": "Absorbs the old 'Conversational language' sibling: register is a genre of a language, not a kind of language (fixes half of D3). 'Multilingual text' is NOT here and is not a sibling - language coverage is a property that cross-cuts every sibling, so those names sit at branch level (fixes the other half of D3)."
+      }
+    },
+    "source-code": {
+      "name": "Source code",
+      "description": "",
+      "examples": [],
+      "children": [
+        "code-source",
+        "code-lowlevel",
+        "code-hdl",
+        "code-query"
+      ],
+      "axes": {},
+      "parent_ids": [
+        "language"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "2",
+        "characteristic": "The kind of grammar that licenses the string, and the kind of semantics that fixes what it means.",
+        "positive_test": "The string is an instance of a programming or hardware-description language and has an operational semantics: it runs.",
+        "negative_test": "Reject the 'programming' homonym family - integer, stochastic, constraint, dynamic and probabilistic programming are Method (measured 83% wrong).",
+        "examples": "Program source files; Hardware-description & configuration code; Code-adjacent artefacts (diffs, tests)",
+        "corpus_names": "36",
+        "corpus_mentions": "50",
+        "notes": "Software-engineering discipline names (Software Engineering 36, Empirical SE, MLOps) are NOT counted here unless their datum is code; arXiv puts cs.SE at 6.6% of the corpus, larger than all of vision, so the discipline axis carries that mass, not this node."
+      }
+    },
+    "formal-notation": {
+      "name": "Formal & mathematical notation",
+      "description": "",
+      "examples": [],
+      "children": [
+        "formal-math",
+        "formal-logic",
+        "formal-specs"
+      ],
+      "axes": {},
+      "parent_ids": [
+        "language"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "2",
+        "characteristic": "The kind of grammar that licenses the string, and the kind of semantics that fixes what it means.",
+        "positive_test": "The string is an instance of a formal calculus with a declarative semantics: it denotes, is proved, or is solved.",
+        "negative_test": "Reject learning-theory and optimization names that merely use mathematics; the datum must itself be notation the system reads or writes. Reject executable query and configuration languages (SQL, SPARQL, Cypher, YAML): they are executed, not asserted, and belong to Source code > query & configuration. Settled 2026-09-29; the corpus names in scope are Text-to-SQL 1, Knowledge Base Question Answering 1, Database Systems 1.",
+        "examples": "Mathematical expressions; Logical formulas & proof terms; Structured queries (SQL, SPARQL)",
+        "corpus_names": "22",
+        "corpus_mentions": "30",
+        "notes": "LOW CONFIDENCE, declared: source code is also a formal language, so this pair is partitioned by operational-versus-declarative semantics, a cut the field does not routinely make (a Lean development is both). Gives the corpus's unplaceable Neural-Symbolic Learning a home and answers one of EXTERNAL_DIFF's three blind spots."
+      }
+    },
+    "speech-voice": {
+      "name": "Speech & voice",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "audio"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "2",
+        "characteristic": "What physical source generated the acoustic signal.",
+        "positive_test": "The sound is produced by a human vocal tract, whether or not it carries linguistic content.",
+        "negative_test": "Reject text transcripts analysed as text (Language & text) and reject synthesised speech studied only as generation machinery (Method).",
+        "examples": "Read & spontaneous speech; Speaker & voice identity; Non-linguistic vocalisation",
+        "corpus_names": "14",
+        "corpus_mentions": "26",
+        "notes": "Characteristic is the source (a vocal tract), not the content, so speaker verification, accent and infant-cry analysis all fit without a second principle."
+      }
+    },
+    "music-audio": {
+      "name": "Music",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "audio"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "2",
+        "characteristic": "What physical source generated the acoustic signal.",
+        "positive_test": "The sound is a musical performance or composition, recorded as audio or as a symbolic score.",
+        "negative_test": "Reject recommendation over music catalogues: the datum there is an interaction log, not audio.",
+        "examples": "Recorded musical audio; Symbolic music scores; Multi-track stems",
+        "corpus_names": "5",
+        "corpus_mentions": "6",
+        "notes": "Thin (5 names) but a long-standing distinct community (ISMIR, MIR)."
+      }
+    },
+    "environmental-audio": {
+      "name": "Environmental sound",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "audio"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "2",
+        "characteristic": "What physical source generated the acoustic signal.",
+        "positive_test": "The sound is emitted by a source in the world that is neither a human voice nor a musical instrument.",
+        "negative_test": "Reject ultrasound imaging (tomographic) and sonar used as ranging (Range & 3D scene geometry).",
+        "examples": "Acoustic scenes; Animal vocalisation (bioacoustics); Machine & sonar sound",
+        "corpus_names": "5",
+        "corpus_mentions": "7",
+        "notes": "Animal vocalisation sits here rather than under Speech & voice because that node's characteristic is a HUMAN vocal tract; the strain is declared in the RATIONALE audit."
+      }
+    },
+    "knowledge-graphs": {
+      "name": "Curated knowledge graphs",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "graphs"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "2",
+        "characteristic": "Where the edges come from: the process by which the relation was put into the data.",
+        "positive_test": "Edges are asserted facts entered against a schema or ontology by curators or by extraction.",
+        "negative_test": "Reject a graph whose edges are observed events or measured couplings.",
+        "examples": "Encyclopaedic knowledge graphs; Domain ontologies; Commonsense knowledge bases",
+        "corpus_names": "5",
+        "corpus_mentions": "6",
+        "notes": "Ontology-alignment names land here, not on the AI-safety sense of 'alignment' (4 of 6 corpus 'alignment' surfaces are multimodal/sequence/ontology alignment - AXES.md 8b)."
+      }
+    },
+    "interaction-networks": {
+      "name": "Interaction & citation networks",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "graphs"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "2",
+        "characteristic": "Where the edges come from: the process by which the relation was put into the data.",
+        "positive_test": "Edges are observed events between agents or documents: a follow, a citation, a hyperlink, a message.",
+        "negative_test": "Reject user-item interaction data recorded as a log for recommendation: AXES.md 6 routes that to Tabular & structured records.",
+        "examples": "Social follow & friendship graphs; Citation networks; Web hyperlink graphs",
+        "corpus_names": "10",
+        "corpus_mentions": "16",
+        "notes": "The boundary with Tabular > Transactional & interaction logs is decided by AXES.md fiat, not by a test; flagged in RATIONALE as a schema ambiguity."
+      }
+    },
+    "measured-networks": {
+      "name": "Measured interaction networks",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "graphs"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "2",
+        "characteristic": "Where the edges come from: the process by which the relation was put into the data.",
+        "positive_test": "Edges are couplings between physical entities estimated from experiment or from statistical dependence.",
+        "negative_test": "Reject a node named for the field the network comes from; the node is defined by the estimation process, and gene networks, connectomes and food webs are depth-3 within it.",
+        "examples": "Gene regulatory networks; Protein interaction networks; Brain connectomes",
+        "corpus_names": "8",
+        "corpus_mentions": "11",
+        "notes": "Deliberately NOT named 'Biological networks'. Under the D5 naming clause the field word would be the leak; the estimation process is the principle and it leaves the discipline free (molecular biology, neuroscience, ecology)."
+      }
+    },
+    "engineered-networks": {
+      "name": "Physical & engineered networks",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "graphs"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "2",
+        "characteristic": "Where the edges come from: the process by which the relation was put into the data.",
+        "positive_test": "Edges are built connections between located devices or places, fixed by engineering rather than by behaviour.",
+        "negative_test": "Reject routing, scheduling and flow names whose subject is the optimization algorithm rather than the network as data: those are Method > Inference & optimization.",
+        "examples": "Road & transit networks; Power grids; Communication networks",
+        "corpus_names": "15",
+        "corpus_mentions": "22",
+        "notes": "Thin and partly contested: several members (Optimal Power Flow, Traffic Signal Control) are arguably Method. Declared in the RATIONALE audit."
+      }
+    },
+    "waveform-signals": {
+      "name": "Waveform signals",
+      "description": "",
+      "examples": [],
+      "children": [
+        "wave-em",
+        "wave-mech",
+        "wave-optical"
+      ],
+      "axes": {},
+      "parent_ids": [
+        "time-series"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "2",
+        "characteristic": "What a single sample is: a waveform amplitude, a reading of a quantity, or the occurrence of an event.",
+        "positive_test": "The sampling rate far exceeds the phenomenon's own rate, so the shape and spectrum of the trace carry the information.",
+        "negative_test": "Reject acoustic waveforms meant to be heard (Speech & audio) and reject series whose individual readings are the datum.",
+        "examples": "Bioelectric recordings (EEG, MEG, ECG, EMG); Vibration & seismic traces; Radio & channel waveforms",
+        "corpus_names": "23",
+        "corpus_mentions": "32",
+        "notes": "This is the D5-compliant replacement for 'Physiological signals'. EEG and ECG are instruments, not a field; grouping them with seismic and RF traces by sampling regime is what stops the branch reproducing the discipline axis. The 'spectral' homonym is 89% wrong on this axis, so no node is named for spectra."
+      }
+    },
+    "sampled-series": {
+      "name": "Sampled quantity series",
+      "description": "",
+      "examples": [],
+      "children": [
+        "samp-transduced",
+        "samp-tallied"
+      ],
+      "axes": {},
+      "parent_ids": [
+        "time-series"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "2",
+        "characteristic": "What a single sample is: a waveform amplitude, a reading of a quantity, or the occurrence of an event.",
+        "positive_test": "Each timestamp carries a reading of a quantity that is meaningful on its own, at an interval chosen by the recorder.",
+        "negative_test": "Reject any division of this node by the field the quantity comes from: financial, environmental, energy and epidemiological series are one signal kind and differ only on the Scientific discipline axis.",
+        "examples": "Transducer telemetry (wearables, IMU, IoT); Metered utility & throughput readings; Aggregated count & index series",
+        "corpus_names": "37",
+        "corpus_mentions": "54",
+        "notes": "This single node absorbs the old 'Physiological / Environmental / Financial / Sensor streams' sibling set, which was the clearest instance of D5. Nothing is lost: the field is recovered by cross-tabulating with Scientific discipline, which is the whole point of a faceted design (AXES.md 1)."
+      }
+    },
+    "event-streams": {
+      "name": "Event & point-process streams",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "time-series"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "2",
+        "characteristic": "What a single sample is: a waveform amplitude, a reading of a quantity, or the occurrence of an event.",
+        "positive_test": "The datum is the timestamp of an occurrence; there is no value between events and no fixed sampling interval.",
+        "negative_test": "Reject per-subject institutional histories with a coded schema: those are Tabular > Longitudinal administrative records.",
+        "examples": "Timestamped system logs; Point-process event sequences; Irregular activity timelines",
+        "corpus_names": "5",
+        "corpus_mentions": "6",
+        "notes": "Thin (5 names) but structurally distinct: irregular support is what separates it from Sampled quantity series, and it is where log-based and change-point work belongs."
+      }
+    },
+    "atomistic-structure": {
+      "name": "Molecular & crystal structure",
+      "description": "",
+      "examples": [],
+      "children": [
+        "atom-finite",
+        "atom-periodic",
+        "atom-surface"
+      ],
+      "axes": {},
+      "parent_ids": [
+        "molecular-materials"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "2",
+        "characteristic": "What kind of description of matter the datum is: an arrangement of atoms, a covalent sequence, or an abundance measurement.",
+        "positive_test": "The datum is a set of atoms with bonds and/or 3D coordinates: a molecule, a macromolecular fold, a periodic crystal, a trajectory.",
+        "negative_test": "Reject the chemistry, drug-discovery and materials-science field names, which are Scientific discipline; reject molecular GRAPH encodings claimed for the Graphs branch (inverted precedence takes the token naming the signal).",
+        "examples": "Small-molecule graphs & conformers; Macromolecular 3D structure; Crystal & periodic solid structure",
+        "corpus_names": "44",
+        "corpus_mentions": "82",
+        "notes": "Proteins-as-structures and small molecules are ONE node here, not two, because the measurement and the representation are identical; splitting them would reproduce the chemistry/structural-biology field boundary inside the branch - the same D5 leak this derivation removes elsewhere."
+      }
+    },
+    "biomolecular-sequences": {
+      "name": "Biomolecular sequences",
+      "description": "",
+      "examples": [],
+      "children": [
+        "bioseq-nucleotide",
+        "bioseq-protein"
+      ],
+      "axes": {},
+      "parent_ids": [
+        "molecular-materials"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "2",
+        "characteristic": "What kind of description of matter the datum is: an arrangement of atoms, a covalent sequence, or an abundance measurement.",
+        "positive_test": "The datum is a symbol string over a biochemical alphabet (nucleotides, amino acids) obtained by sequencing.",
+        "negative_test": "NEVER admit a bare 'sequences' surface: 65% of corpus names containing 'sequen' are Sequence Modeling / Seq2Seq and belong to Method or Task.",
+        "examples": "Genomic nucleotide sequences; Transcript & RNA sequences; Amino-acid sequences",
+        "corpus_names": "33",
+        "corpus_mentions": "77",
+        "notes": "Protein Language Models map here, not to Language & text: AXES.md 8b's inverted precedence takes the token naming the signal, which is the modifier."
+      }
+    },
+    "omics-profiles": {
+      "name": "Omics abundance profiles",
+      "description": "",
+      "examples": [],
+      "children": [
+        "omics-transcript",
+        "omics-protein",
+        "omics-metabolite",
+        "omics-epigenomic"
+      ],
+      "axes": {},
+      "parent_ids": [
+        "molecular-materials"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "2",
+        "characteristic": "What kind of description of matter the datum is: an arrangement of atoms, a covalent sequence, or an abundance measurement.",
+        "positive_test": "The datum is a quantitative assay of how much of each molecular species is present in a sample.",
+        "negative_test": "Reject the assay's downstream clinical use as a basis for a sibling; reject generic high-dimensional-matrix names, which are Tabular > Feature tables.",
+        "examples": "Bulk expression profiles; Single-cell abundance matrices; Mass-spectrometry abundance profiles",
+        "corpus_names": "20",
+        "corpus_mentions": "30",
+        "notes": "Named by the assay, not by 'biology'. Structurally these are matrices, which is exactly the representation argument this axis forbids as a principle of division."
+      }
+    },
+    "feature-tables": {
+      "name": "Feature tables",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "records"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "2",
+        "characteristic": "What writes a row: a survey of entities, an interaction with a system, an institution's accumulating file, or a system's own state.",
+        "positive_test": "One row per entity, a fixed schema of typed attributes, no temporal index required.",
+        "negative_test": "Reject matrices that are sampled signals (images, spectra, adjacency); reject feature-engineering method names.",
+        "examples": "Fixed-schema attribute tables; Categorical & mixed-type records; Survey & questionnaire responses",
+        "corpus_names": "9",
+        "corpus_mentions": "12",
+        "notes": "The generic case, and the node that catches 'high-dimensional data' when it means a wide table rather than a signal."
+      }
+    },
+    "interaction-logs": {
+      "name": "Transactional & interaction logs",
+      "description": "",
+      "examples": [],
+      "children": [
+        "log-implicit",
+        "log-elicited"
+      ],
+      "axes": {},
+      "parent_ids": [
+        "records"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "2",
+        "characteristic": "What writes a row: a survey of entities, an interaction with a system, an institution's accumulating file, or a system's own state.",
+        "positive_test": "Rows are generated by an agent acting on a system: a click, a rating, a query, a purchase.",
+        "negative_test": "Reject the recommendation TASK itself (Recommender Systems 16 is a Task name); only the datum belongs here.",
+        "examples": "User-item rating matrices; Clickstream & query logs; Transaction ledgers",
+        "corpus_names": "13",
+        "corpus_mentions": "32",
+        "notes": "LOW CONFIDENCE, declared, on two counts: it overlaps Longitudinal administrative records (both are timestamped per-entity event tables, cut here by who generates the row), and a user-item log is natively bipartite-relational, which the Graphs branch's own reading would claim. AXES.md 6 decides by fiat; flagged in RATIONALE."
+      }
+    },
+    "longitudinal-records": {
+      "name": "Longitudinal administrative records",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "records"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "2",
+        "characteristic": "What writes a row: a survey of entities, an interaction with a system, an institution's accumulating file, or a system's own state.",
+        "positive_test": "Rows accumulate per subject over time in an institution's file, irregularly, with coded vocabularies and censoring.",
+        "negative_test": "Reject the naming of this node after any one institution's sector: EHR, claims, registry, student and court records are depth-3 within it.",
+        "examples": "Electronic health records; Claims & billing records; Registry & cohort records",
+        "corpus_names": "17",
+        "corpus_mentions": "17",
+        "notes": "This is the D5-compliant replacement for 'Electronic health records'. The structural peculiarities that motivated that node - irregular sampling, coded categoricals, censoring - are properties of institutional record-keeping generally, and naming the node for them frees the discipline axis."
+      }
+    },
+    "state-vectors": {
+      "name": "Low-dimensional state & proprioceptive vectors",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "records"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "2",
+        "characteristic": "What writes a row: a survey of entities, an interaction with a system, an institution's accumulating file, or a system's own state.",
+        "positive_test": "The datum is a short vector of physical state variables read directly from a system or simulator (joint angles, velocities, poses).",
+        "negative_test": "Reject 'State Space Models', which on this corpus is an architecture family (Method), not a kind of observation; reject bare RL names, which take no modality at all.",
+        "examples": "Proprioceptive joint states; Simulator state vectors; Low-dimensional control observations",
+        "corpus_names": "11",
+        "corpus_mentions": "24",
+        "notes": "Required by AXES.md 6's RL ruling. The 11 names / 24 mentions counted here is the PERMISSIVE tally; under the same section's strict rule ('Continuous Control names no signal either - there is nothing to label') the measured support is near zero and this node is retained by design, not by evidence. AXES.md contradicts itself here; see RATIONALE."
+      }
+    },
+    "vision-language": {
+      "name": "Vision-language",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "multimodal"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "2",
+        "characteristic": "Which pair of signal kinds a research community has formed around.",
+        "positive_test": "The work studies grounding, alignment, retrieval or translation between imagery and text.",
+        "negative_test": "Reject a model that merely happens to ingest both; the relationship must be the subject.",
+        "examples": "Image-text pairs; Video-text pairs; Document-figure pairs",
+        "corpus_names": "7",
+        "corpus_mentions": "10",
+        "notes": "By far the largest multimodal community in the corpus (Vision-Language Models 11, Vision-and-Language 3, VQA 6, VL pretraining 2). Constituent naming keeps a 'vision-touching' total derivable (AXES.md 6)."
+      }
+    },
+    "audio-visual": {
+      "name": "Audio-visual",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "multimodal"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "2",
+        "characteristic": "Which pair of signal kinds a research community has formed around.",
+        "positive_test": "The work studies correspondence between an acoustic stream and a synchronized visual stream.",
+        "negative_test": "Reject video-with-a-soundtrack used only as a data source for a single-modality task.",
+        "examples": "Video with synchronized audio; Lip-speech pairs; Audio-visual scenes",
+        "corpus_names": "0",
+        "corpus_mentions": "0",
+        "notes": "ZERO corpus support, kept on AXES.md 6's explicit instruction and on external community evidence. The keeping rule used throughout this derivation is stated in RATIONALE: a zero-support node is kept only if an external classification names it AND it is needed to keep a sibling set's principle exhaustive."
+      }
+    },
+    "multisensor-perception": {
+      "name": "Multi-sensor perception",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "multimodal"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "2",
+        "characteristic": "Which pair of signal kinds a research community has formed around.",
+        "positive_test": "The work studies fusing heterogeneous sensor streams that observe the same scene from an embodied platform.",
+        "negative_test": "Reject single-sensor perception and reject RL names that state no observation (AXES.md 6's RL ruling).",
+        "examples": "Camera-LiDAR pairs; Visual-inertial streams; Radar-camera pairs",
+        "corpus_names": "5",
+        "corpus_mentions": "9",
+        "notes": "Named by the fusion process rather than by an enumerated pair, which is how it avoids the combinatorial blow-up AXES.md 6 forbids. Replaces the deleted 'Multimodal biomedical data', which was a D5 leak (named by field)."
+      }
+    },
+    "photo-still": {
+      "name": "Still photographs",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "photographic-imagery"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "3",
+        "characteristic": "The exposure regime: what one datum covers.",
+        "positive_test": "One exposure of a scene is the datum; there is no temporal ordering to destroy.",
+        "negative_test": "Reject a frame drawn from a stream where the stream is the object of study.",
+        "corpus_names": "20",
+        "corpus_mentions": "55",
+        "notes": "Support is almost entirely TASK names over this signal kind (Image Classification 15, Object Detection 9, Image Segmentation 6); no corpus name says 'photograph'. Sibling set is at the two-child minimum; see DEPTH3_RATIONALE on why optical access (endoscopic, aerial-RGB, egocentric) is a property here and not a third sibling."
+      }
+    },
+    "photo-video": {
+      "name": "Video & frame streams",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "photographic-imagery"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "3",
+        "characteristic": "The exposure regime: what one datum covers.",
+        "positive_test": "The same sensor is read continuously at a frame rate and the ordered stream is the datum.",
+        "negative_test": "Reject an unordered image collection, and reject frame-rate capture by a non-photographic sensor.",
+        "corpus_names": "11",
+        "corpus_mentions": "15",
+        "notes": "Placed here by AXES.md 6 / RATIONALE D2 disposal ('a camera read at a frame rate is the same sensor'), which is what fixes this sibling set's principle to exposure regime. Strain declared: dividing by temporal extent is the closest this derivation comes to dividing by mathematical structure."
+      }
+    },
+    "tomo-xray": {
+      "name": "X-ray attenuation imaging",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "tomographic-imaging"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "3",
+        "characteristic": "Which physical interaction is measured and reconstructed into the array.",
+        "positive_test": "The array's contrast is attenuation of transmitted X-rays: projection radiography, computed tomography, industrial and materials CT.",
+        "negative_test": "Reject dose, treatment-planning and therapy names (brachytherapy, dosimetry, radiotherapy): a procedure is not an image.",
+        "corpus_names": "0",
+        "corpus_mentions": "0",
+        "notes": "SPECULATIVE - zero corpus support. Measured in phase 2: the vocabulary contains no CT, radiography or X-ray surface at all. Kept because the sibling principle (which interaction is reconstructed) is not exhaustive without it and because radiography is the oldest standing member of the family. Never deleted on a count (AXES.md 9)."
+      }
+    },
+    "tomo-mr": {
+      "name": "Magnetic resonance imaging",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "tomographic-imaging"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "3",
+        "characteristic": "Which physical interaction is measured and reconstructed into the array.",
+        "positive_test": "Contrast comes from nuclear spin relaxation in an applied magnetic field.",
+        "negative_test": "Reject magnetic-resonance spectroscopy read as a spectrum with no spatial sampling.",
+        "corpus_names": "12",
+        "corpus_mentions": "26",
+        "notes": "The only well-supported child of this node. 'Neuroimaging' 28 and 'Brain Imaging' 3 are anatomy-named and stay at the level-2 node or resolve here when the name says MR; no anatomy node is created (D5 clause 1)."
+      }
+    },
+    "tomo-ultrasound": {
+      "name": "Ultrasound & echo imaging",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "tomographic-imaging"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "3",
+        "characteristic": "Which physical interaction is measured and reconstructed into the array.",
+        "positive_test": "The array is reconstructed from reflected acoustic pulses insonifying the specimen.",
+        "negative_test": "Reject sonar used as ranging (Range & 3D scene geometry) and audible acoustics (Speech & audio).",
+        "corpus_names": "1",
+        "corpus_mentions": "3",
+        "notes": "Thin but non-zero (Ultrasound Imaging 3)."
+      }
+    },
+    "tomo-emission": {
+      "name": "Emission & tracer imaging",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "tomographic-imaging"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "3",
+        "characteristic": "Which physical interaction is measured and reconstructed into the array.",
+        "positive_test": "The array is reconstructed from radiation emitted by a tracer introduced into the specimen: PET, SPECT, scintigraphy.",
+        "negative_test": "Reject the tracer chemistry itself, which is Molecular & materials data, and reject radiopharmaceutical dosimetry, which is a procedure.",
+        "corpus_names": "2",
+        "corpus_mentions": "3",
+        "notes": "Thin but non-zero (Positron Emission Tomography 1, Nuclear Medicine 2)."
+      }
+    },
+    "tomo-optical": {
+      "name": "Optical & photoacoustic tomography",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "tomographic-imaging"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "3",
+        "characteristic": "Which physical interaction is measured and reconstructed into the array.",
+        "positive_test": "Depth is resolved from backscattered light or from light-induced acoustic waves: OCT, diffuse optical tomography, photoacoustic imaging.",
+        "negative_test": "Reject surface photography of an illuminated specimen, which resolves no depth, and reject microscopy, which has no depth reconstruction.",
+        "corpus_names": "0",
+        "corpus_mentions": "0",
+        "notes": "SPECULATIVE - zero corpus support; 'Optical Imaging' 1 is ambiguous between this node and microscopy and is not counted here. Kept on external community evidence (retinal OCT is a standing imaging community) and on exhaustiveness of the interaction principle."
+      }
+    },
+    "micro-light": {
+      "name": "Light microscopy",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "microscopy-imaging"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "3",
+        "characteristic": "What probe the magnifying instrument uses to form the array.",
+        "positive_test": "The array is formed by photons through magnifying optics: brightfield, fluorescence, confocal, whole-slide histology scans.",
+        "negative_test": "Reject unmagnified photography of a specimen and reject electron-beam imaging.",
+        "corpus_names": "4",
+        "corpus_mentions": "7",
+        "notes": "Whole-slide histopathology is folded here rather than given its own node as the parent's examples column suggests: a slide scanner is light microscopy, and 'histopathology' names the ward (D5 clause 1). Bare 'Microscopy' 3 is branch-level."
+      }
+    },
+    "micro-electron": {
+      "name": "Electron microscopy",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "microscopy-imaging"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "3",
+        "characteristic": "What probe the magnifying instrument uses to form the array.",
+        "positive_test": "The array is formed by an electron beam over a prepared specimen: TEM, SEM, cryo-EM micrographs.",
+        "negative_test": "Reject the 3-D structure solved from those micrographs, which is Molecular & crystal structure.",
+        "corpus_names": "1",
+        "corpus_mentions": "1",
+        "notes": "One corpus name. This is AXES.md 6's stated clause-2 exception in its literal form (cryo-EM has one user): the node stands because the leak would be a naming fault and there is none."
+      }
+    },
+    "ms-passive": {
+      "name": "Passive multispectral & hyperspectral imagery",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "multispectral-imagery"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "3",
+        "characteristic": "Whether the instrument samples radiation it receives or radiation it emits.",
+        "positive_test": "The instrument records reflected or emitted radiation in more than three bands, georeferenced or sky-referenced: multispectral, hyperspectral, thermal and survey-telescope imagery.",
+        "negative_test": "Reject three-band RGB aerial or drone capture (Photographic imagery).",
+        "corpus_names": "7",
+        "corpus_mentions": "18",
+        "notes": "Astronomical survey imagery is folded here rather than given a node, following the level-2 RATIONALE's own clause-3 ruling; the astronomy surfaces themselves (Astrophysics 15, Cosmology 5) are discipline names."
+      }
+    },
+    "ms-radar": {
+      "name": "Synthetic-aperture & active radar imagery",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "multispectral-imagery"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "3",
+        "characteristic": "Whether the instrument samples radiation it receives or radiation it emits.",
+        "positive_test": "The instrument illuminates the scene with microwaves and images the returns, including interferometric and polarimetric products.",
+        "negative_test": "Reject radar used only as a range measurement without image formation (Range & 3D scene geometry) and reject satellite COMMUNICATION names (Graphs > Physical & engineered networks).",
+        "corpus_names": "0",
+        "corpus_mentions": "0",
+        "notes": "SPECULATIVE - zero corpus support; the only 'satellite' surfaces in the vocabulary are Satellite Communication, which the parent's own negative test routes elsewhere. Kept because the parent's name is a doublet of two formation processes and dropping this child leaves the compound name unexplained."
+      }
+    },
+    "range-active": {
+      "name": "Active range measurement",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "range-geometry"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "3",
+        "characteristic": "Where the coordinates came from: measured by active ranging, inferred from several views, or authored.",
+        "positive_test": "Coordinates are obtained by timing or triangulating an emitted beam: LiDAR, time-of-flight, structured light, depth sensors.",
+        "negative_test": "Reject imaging radar (Multispectral & radar imagery) and reject volumetric medical reconstruction.",
+        "corpus_names": "9",
+        "corpus_mentions": "11",
+        "notes": "SLAM and indoor-positioning surfaces counted here; they name the ranging-and-pose datum."
+      }
+    },
+    "range-multiview": {
+      "name": "Image-based reconstruction",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "range-geometry"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "3",
+        "characteristic": "Where the coordinates came from: measured by active ranging, inferred from several views, or authored.",
+        "positive_test": "Coordinates are inferred from several passive views of the same scene: structure-from-motion, multi-view stereo, photogrammetry, neural scene reconstruction.",
+        "negative_test": "Reject single-view depth estimation whose datum is the photograph.",
+        "corpus_names": "5",
+        "corpus_mentions": "7",
+        "notes": "Neural Radiance Fields is counted here rather than under authored geometry: a radiance field fitted to captured views is a reconstruction, whereas the parent's examples column groups it with rendering."
+      }
+    },
+    "range-authored": {
+      "name": "Authored & synthetic scene geometry",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "range-geometry"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "3",
+        "characteristic": "Where the coordinates came from: measured by active ranging, inferred from several views, or authored.",
+        "positive_test": "Coordinates are written by a designer or a generator rather than measured: CAD models, asset meshes, simulated environments, scenes built to be rendered.",
+        "negative_test": "Reject the rendered raster output itself, and reject 'Simulation' as a method name (AXES.md: a data-generating process is not a signal kind).",
+        "corpus_names": "15",
+        "corpus_mentions": "26",
+        "notes": "Best-supported child of this node (Computer Graphics 9 plus the rendering and mesh family). The level-2 note that 'graphics and rendering names sit here because their datum is a scene' is what this node makes explicit."
+      }
+    },
+    "doc-scanned": {
+      "name": "Scanned & photographed pages",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "document-imagery"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "3",
+        "characteristic": "How the raster of symbolic material was obtained.",
+        "positive_test": "A sensor images a physical carrier of symbolic material: scanned pages, forms, receipts, manuscripts, whiteboards, photographed documents.",
+        "negative_test": "Reject the extracted text itself, which is Language & text; only pixel-level input qualifies.",
+        "corpus_names": "0",
+        "corpus_mentions": "0",
+        "notes": "SPECULATIVE - zero corpus support; the vocabulary contains no OCR, handwriting or scanned-document surface. Kept because ICDAR-style document image analysis is a large external community and because the parent is declared LOW CONFIDENCE precisely for lacking a sensing principle, which this child supplies."
+      }
+    },
+    "doc-screen": {
+      "name": "Rendered screen captures",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "document-imagery"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "3",
+        "characteristic": "How the raster of symbolic material was obtained.",
+        "positive_test": "The raster is read from a framebuffer that a renderer wrote: screenshots, GUI states, rendered charts and web pages.",
+        "negative_test": "Reject the underlying markup or code, which is Source code.",
+        "corpus_names": "5",
+        "corpus_mentions": "5",
+        "notes": "Thin but non-zero (Graphical User Interfaces, Web Navigation, Chart Understanding, Image-to-Code Generation, User Interface Design). 'Charts & diagrams', which the parent's examples column lists as a third child, names depicted CONTENT and not a formation process, so it is absorbed here rather than made a sibling."
+      }
+    },
+    "nl-edited": {
+      "name": "Edited published text",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "natural-language-text"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "3",
+        "characteristic": "The setting in which the string was produced and put on record: who produced it, for whom, and whether it was revised before it was recorded.",
+        "positive_test": "A single author composes and revises the string before it is recorded, addressing an absent reader: books, articles, newswire, encyclopedic and scientific writing, reports.",
+        "negative_test": "Reject text that reaches the record unrevised, and reject turn-addressed exchange.",
+        "corpus_names": "9",
+        "corpus_mentions": "13",
+        "notes": "Support is INDIRECT only: every counted surface is a task name over this text kind (summarization, document classification, reading comprehension). No corpus name states the production setting."
+      }
+    },
+    "nl-dialogue": {
+      "name": "Conversational transcripts",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "natural-language-text"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "3",
+        "characteristic": "The setting in which the string was produced and put on record: who produced it, for whom, and whether it was revised before it was recorded.",
+        "positive_test": "Two or more participants produce turns addressed to each other and the record is the exchange: chat logs, call and meeting transcripts, interviews, human-agent dialogue.",
+        "negative_test": "Reject the acoustic recording of the same conversation (Speech & audio) and reject a monologue with no addressee turn structure.",
+        "corpus_names": "4",
+        "corpus_mentions": "14",
+        "notes": "Absorbs the 'Conversational language' sibling that the property test removed at level 2 (RATIONALE D3 disposal: register is a genre of a language, not a kind of language)."
+      }
+    },
+    "nl-posts": {
+      "name": "Open-platform posts",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "natural-language-text"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "3",
+        "characteristic": "The setting in which the string was produced and put on record: who produced it, for whom, and whether it was revised before it was recorded.",
+        "positive_test": "The string is self-published to an open platform with no editorial gate: posts, comments, reviews, forum threads.",
+        "negative_test": "Reject editorially gated publication and reject turn-addressed exchange.",
+        "corpus_names": "9",
+        "corpus_mentions": "18",
+        "notes": "Well supported (social media, misinformation, toxicity, sentiment). Least confident member of this set on principle, not on volume: the editorial-gate cut is a real record-keeping distinction but a soft one."
+      }
+    },
+    "nl-practitioner": {
+      "name": "Practitioner free-text records",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "natural-language-text"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "3",
+        "characteristic": "The setting in which the string was produced and put on record: who produced it, for whom, and whether it was revised before it was recorded.",
+        "positive_test": "The string is narrative text entered into an operational record in the course of doing the work: notes, reports, case files, incident and defect descriptions.",
+        "negative_test": "Reject the coded fields of the same record, which are Tabular > Longitudinal administrative records.",
+        "corpus_names": "5",
+        "corpus_mentions": "5",
+        "notes": "This is the D5-legal form of the cut the corpus vocabulary most wants (clinical text, legal text, biomedical text). Named by the record-keeping practice, so its members differ on discipline: Healthcare Data Documentation, Software Documentation, Computational Phenotyping, Bug Analysis, Bug Reproducibility."
+      }
+    },
+    "code-source": {
+      "name": "General-purpose program source",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "source-code"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "3",
+        "characteristic": "What interprets the string, and therefore which grammar licenses it.",
+        "positive_test": "Source text in a general-purpose programming language, compiled or interpreted into a running process.",
+        "negative_test": "Reject the 'programming' homonym family - integer, stochastic, constraint, dynamic and probabilistic programming are Method (measured 83% wrong).",
+        "corpus_names": "18",
+        "corpus_mentions": "26",
+        "notes": "By far the best-supported child. Diffs, commits and tests are NOT a sibling: version-control form is a property that can be true of HDL and query code alike (property test); corpus support for it is zero in any case."
+      }
+    },
+    "code-lowlevel": {
+      "name": "Compiled & low-level representations",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "source-code"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "3",
+        "characteristic": "What interprets the string, and therefore which grammar licenses it.",
+        "positive_test": "The string is the compiler's or assembler's output, read by a machine or a decompiler: assembly, bytecode, compiler IR, binaries.",
+        "negative_test": "Reject execution traces and profiles, which are Time series > Event & point-process streams.",
+        "corpus_names": "2",
+        "corpus_mentions": "3",
+        "notes": "Thin but non-zero (Deep Learning Compilers 2, Binary Vulnerability Detection 1)."
+      }
+    },
+    "code-hdl": {
+      "name": "Hardware description",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "source-code"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "3",
+        "characteristic": "What interprets the string, and therefore which grammar licenses it.",
+        "positive_test": "The string is in a hardware-description language and is synthesized into a circuit rather than into a process.",
+        "negative_test": "Reject the fabricated device and its measurements, and reject hardware-acceleration names whose subject is the model, not the description.",
+        "corpus_names": "5",
+        "corpus_mentions": "5",
+        "notes": "Explicitly licensed by the parent's own positive test ('a programming OR HARDWARE-DESCRIPTION language'). Supported: Hardware Description Languages, FPGA Synthesis, Functional Programming for Hardware, two VLSI surfaces."
+      }
+    },
+    "code-query": {
+      "name": "Query & configuration languages",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "source-code"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "3",
+        "characteristic": "What interprets the string, and therefore which grammar licenses it.",
+        "positive_test": "The string is read by an engine that executes it directly against data or infrastructure: query languages, build, deployment and configuration specifications.",
+        "negative_test": "Reject a formal specification that is proved rather than executed (Formal & mathematical notation).",
+        "corpus_names": "3",
+        "corpus_mentions": "3",
+        "notes": "CONTESTED, declared: the sibling level-2 row Formal & mathematical notation lists 'Structured queries (SQL, SPARQL)' in its own examples column, so this node and that node both claim Text-to-SQL. Level-2 rows are fixed and the phase-2 rules license no change on this ground; recorded as the concrete instance of the parent set's declared A2 low-confidence cut (operational versus declarative semantics)."
+      }
+    },
+    "formal-math": {
+      "name": "Mathematical expressions",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "formal-notation"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "3",
+        "characteristic": "Which formal calculus the string belongs to, identified by the semantics that fixes its meaning.",
+        "positive_test": "The string is algebraic or analytic notation denoting quantities and relations, to be evaluated, simplified or rewritten.",
+        "negative_test": "Reject work that merely uses mathematics; the notation must be what the system reads or writes.",
+        "corpus_names": "5",
+        "corpus_mentions": "7",
+        "notes": "Supported by the mathematical-reasoning family. 'Mathematics of Deep Learning', 'Machine Learning Theory' and similar are Method names and are not counted."
+      }
+    },
+    "formal-logic": {
+      "name": "Logical formulae & proof terms",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "formal-notation"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "3",
+        "characteristic": "Which formal calculus the string belongs to, identified by the semantics that fixes its meaning.",
+        "positive_test": "The string is in a deductive calculus and is checked, proved or refuted: proof-assistant developments, first-order and modal formulae, SAT/SMT instances.",
+        "negative_test": "Reject informal mathematical prose, which is Natural-language text, and reject the solver algorithm, which is Method.",
+        "corpus_names": "16",
+        "corpus_mentions": "21",
+        "notes": "Best-supported child on this branch, and the node that gives the corpus's Neural-Symbolic Learning and Neuro-Symbolic AI a home (EXTERNAL_DIFF blind spot 2)."
+      }
+    },
+    "formal-specs": {
+      "name": "Declarative problem specifications",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "formal-notation"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "3",
+        "characteristic": "Which formal calculus the string belongs to, identified by the semantics that fixes its meaning.",
+        "positive_test": "The string states a problem for a solver in a specification language: constraint models, planning domains, declarative optimization models.",
+        "negative_test": "Reject the solver algorithm itself and reject the 'programming' homonym family, both of which are Method.",
+        "corpus_names": "0",
+        "corpus_mentions": "0",
+        "notes": "SPECULATIVE - zero corpus support ONCE THE HOMONYM GUARD IS APPLIED: Constraint Programming, Probabilistic Planning and Optimization Models are all Method surfaces under AXES.md's 83%-wrong 'programming' rule and its planning ruling. Kept because the calculus principle is otherwise non-exhaustive and because planning languages are EXTERNAL_DIFF blind spot 3."
+      }
+    },
+    "wave-em": {
+      "name": "Electrical & electromagnetic traces",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "waveform-signals"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "3",
+        "characteristic": "Which physical field the transducer couples to.",
+        "positive_test": "A transducer records a voltage, current or induced field at waveform rates: EEG, MEG, ECG, EMG, local field potentials, spike traces, antenna and channel captures.",
+        "negative_test": "Reject a quantity read at intervals chosen by the recorder (Sampled quantity series) and reject imaging reconstructions.",
+        "corpus_names": "17",
+        "corpus_mentions": "23",
+        "notes": "Bioelectric and radio traces are ONE node, against the parent's examples column which splits them. Splitting reintroduces the field boundary (medicine versus telecom) that the level-2 node was created to remove; clause 3 names the transduced field, not the user."
+      }
+    },
+    "wave-mech": {
+      "name": "Mechanical & vibrational traces",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "waveform-signals"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "3",
+        "characteristic": "Which physical field the transducer couples to.",
+        "positive_test": "A transducer couples to displacement, acceleration or non-audible pressure: seismic traces, structural vibration, accelerometry, ultrasonic and sonar returns analysed as traces.",
+        "negative_test": "Reject audible acoustic pressure produced to be heard (Speech & audio).",
+        "corpus_names": "3",
+        "corpus_mentions": "3",
+        "notes": "Thin but non-zero (Earthquake Monitoring, Pedestrian Inertial Navigation, UWB-based Human State Estimation)."
+      }
+    },
+    "wave-optical": {
+      "name": "Optical intensity traces",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "waveform-signals"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "3",
+        "characteristic": "Which physical field the transducer couples to.",
+        "positive_test": "A detector records light intensity against time at waveform rates: photoplethysmography, fluorescence and calcium traces, photometric light curves.",
+        "negative_test": "Reject spatially sampled optical arrays (Vision & imaging).",
+        "corpus_names": "0",
+        "corpus_mentions": "0",
+        "notes": "SPECULATIVE - zero corpus support. Kept because the transduced-field principle is not exhaustive without it (photonic transduction is the third of the three fields a trace can come from) and because photoplethysmography and astronomical light curves are standing external communities."
+      }
+    },
+    "samp-transduced": {
+      "name": "Transduced sensor readings",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "sampled-series"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "3",
+        "characteristic": "How a reading gets into the series: transduced from a physical quantity, or tallied from events.",
+        "positive_test": "A transducer converts a physical quantity and the recorder samples it at a chosen interval: temperature, flow, load, occupancy, wearable and telemetry readings.",
+        "negative_test": "Reject waveform-rate traces where the shape carries the information, and reject any reading that is a count.",
+        "corpus_names": "13",
+        "corpus_mentions": "38",
+        "notes": "Metered utility readings are folded here rather than given a node as the parent's examples column suggests: a meter is a transducer. Much of the counted mass is branch-level task naming (Time Series Forecasting 12, Time Series Analysis 8)."
+      }
+    },
+    "samp-tallied": {
+      "name": "Tallied & aggregated counts",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "sampled-series"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "3",
+        "characteristic": "How a reading gets into the series: transduced from a physical quantity, or tallied from events.",
+        "positive_test": "Each reading is a count or an aggregate computed over a reporting period from discrete events: case counts, volumes, consumption totals, incidence rates.",
+        "negative_test": "Reject the individual timestamped events themselves (Event & point-process streams).",
+        "corpus_names": "5",
+        "corpus_mentions": "7",
+        "notes": "No 'quoted ledger / price series' sibling was admitted: it would pass D5 clause 1 as a record-keeping practice but fails clause 2 outright (every carrier is economics or finance), which is exactly why the level-2 derivation deleted Financial time series."
+      }
+    },
+    "atom-finite": {
+      "name": "Finite molecular structures",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "atomistic-structure"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "3",
+        "characteristic": "The spatial boundary condition under which the arrangement of atoms is specified.",
+        "positive_test": "A bounded atom set with a molecular boundary and no lattice - of any size, from a ligand to a macromolecular fold or complex.",
+        "negative_test": "Reject a structure specified in a unit cell with lattice vectors.",
+        "corpus_names": "18",
+        "corpus_mentions": "40",
+        "notes": "Small molecules and protein folds are ONE node, as the parent's NOTES require; the parent's examples column contradicts its own notes by listing them separately, and the notes are followed. Splitting them would reproduce the chemistry / structural-biology field boundary inside the branch."
+      }
+    },
+    "atom-periodic": {
+      "name": "Periodic crystalline structures",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "atomistic-structure"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "3",
+        "characteristic": "The spatial boundary condition under which the arrangement of atoms is specified.",
+        "positive_test": "Atoms are given in a unit cell with lattice vectors and periodic boundary conditions: crystals, alloys, framework and layered materials.",
+        "negative_test": "Reject a finite cluster cut out of a solid, and reject Materials Science as a field name (Scientific discipline).",
+        "corpus_names": "6",
+        "corpus_mentions": "8",
+        "notes": "Named by the boundary condition, not by 'materials': two papers carrying it differ on discipline (battery chemistry, semiconductor physics, mineralogy, pharmaceutical polymorphs)."
+      }
+    },
+    "atom-surface": {
+      "name": "Surface & interface structures",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "atomistic-structure"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "3",
+        "characteristic": "The spatial boundary condition under which the arrangement of atoms is specified.",
+        "positive_test": "An extended substrate terminated by a boundary, with adsorbates or a second phase at the interface: slabs, adsorption sites, grain boundaries, solvated interfaces.",
+        "negative_test": "Reject bulk periodic structure with no terminating boundary.",
+        "corpus_names": "2",
+        "corpus_mentions": "2",
+        "notes": "EFFECTIVELY SPECULATIVE: the two counted surfaces (Catalysis, Catalyst Design) are field names that D5 sends to Scientific discipline, so the node's own support is near zero. Kept because the boundary-condition principle has exactly three cases and this is the third. Dynamics is NOT a fourth sibling: a trajectory qualifies all three (property test)."
+      }
+    },
+    "bioseq-nucleotide": {
+      "name": "Nucleotide sequences",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "biomolecular-sequences"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "3",
+        "characteristic": "Which biochemical alphabet the assay read.",
+        "positive_test": "The string is over a nucleotide alphabet, read by a sequencing assay from DNA or RNA: genomes, reads, variants, coding and regulatory regions.",
+        "negative_test": "NEVER admit a bare 'sequence' surface: 65% of corpus names containing 'sequen' are Sequence Modeling / Seq2Seq and belong to Method or Task.",
+        "corpus_names": "15",
+        "corpus_mentions": "46",
+        "notes": "DNA and RNA are ONE node, against the parent's examples column which splits them: they are read by the same sequencing process, and D5 clause 3 names at the most general level of the process. Transcript ABUNDANCE is a different assay and is the sibling node Omics abundance profiles. 'Single-cell' is a resolution property, not a kind."
+      }
+    },
+    "bioseq-protein": {
+      "name": "Amino-acid sequences",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "biomolecular-sequences"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "3",
+        "characteristic": "Which biochemical alphabet the assay read.",
+        "positive_test": "The string gives a protein's covalent residue order over the amino-acid alphabet.",
+        "negative_test": "Reject the folded 3-D structure of the same protein, which is Molecular & crystal structure.",
+        "corpus_names": "8",
+        "corpus_mentions": "13",
+        "notes": "Protein Language Models maps here, not to Language & text (AXES.md 8b inverted precedence: take the token naming the signal)."
+      }
+    },
+    "omics-transcript": {
+      "name": "Transcript abundance profiles",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "omics-profiles"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "3",
+        "characteristic": "Which class of molecular species the assay quantifies.",
+        "positive_test": "The assay quantifies RNA species per sample: RNA-seq, single-cell RNA-seq, expression arrays.",
+        "negative_test": "Reject the nucleotide string itself (Biomolecular sequences).",
+        "corpus_names": "9",
+        "corpus_mentions": "12",
+        "notes": "Single-cell and spatial are PROPERTIES of an assay's resolution, true of every child here, so neither is a sibling - the same test that killed Video and Multilingual text at level 2. The parent's examples column ('Bulk expression profiles / Single-cell abundance matrices / Mass-spectrometry abundance profiles') divides by resolution and platform and does not survive that test."
+      }
+    },
+    "omics-protein": {
+      "name": "Protein & peptide abundance profiles",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "omics-profiles"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "3",
+        "characteristic": "Which class of molecular species the assay quantifies.",
+        "positive_test": "The assay quantifies proteins or peptides by mass spectrometry or affinity capture.",
+        "negative_test": "Reject protein structure and protein sequence, which are the sibling nodes of the parent's parent.",
+        "corpus_names": "4",
+        "corpus_mentions": "10",
+        "notes": "Well supported (Proteomics 6, Proteogenomics 2, Clinical Proteomics, Mass Spectrometry)."
+      }
+    },
+    "omics-metabolite": {
+      "name": "Metabolite abundance profiles",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "omics-profiles"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "3",
+        "characteristic": "Which class of molecular species the assay quantifies.",
+        "positive_test": "The assay quantifies small-molecule metabolites or lipids by mass spectrometry or NMR.",
+        "negative_test": "Reject the structural identification of an unknown compound, which is Molecular & crystal structure.",
+        "corpus_names": "1",
+        "corpus_mentions": "1",
+        "notes": "Near-zero support: the single surface is the compound name 'Genomics and Metabolomics'. Kept on the species-class principle."
+      }
+    },
+    "omics-epigenomic": {
+      "name": "Epigenomic & chromatin profiles",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "omics-profiles"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "3",
+        "characteristic": "Which class of molecular species the assay quantifies.",
+        "positive_test": "The assay quantifies base modification or chromatin state per genomic position: methylation arrays, ATAC-seq, ChIP-seq.",
+        "negative_test": "Reject variant calling from the same reads, which reports sequence, not abundance.",
+        "corpus_names": "1",
+        "corpus_mentions": "1",
+        "notes": "Near-zero support (Epigenetics 1) AND the least well-matched member of this set on principle: a methylation level is a per-position state rather than an abundance of a species, so it strains the parent's own characteristic. Declared in the audit."
+      }
+    },
+    "log-implicit": {
+      "name": "Implicit behaviour logs",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "interaction-logs"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "3",
+        "characteristic": "Whether the row records the act itself or a judgement the system asked for.",
+        "positive_test": "The row records that an act occurred: a click, a view, a play, a dwell, a purchase, a query issued.",
+        "negative_test": "Reject a judgement the agent was asked to supply, and reject the recommendation TASK itself (Recommender Systems is a Task name; only its datum is here).",
+        "corpus_names": "7",
+        "corpus_mentions": "25",
+        "notes": "Most of the counted mass is the Recommender Systems family, which AXES.md 7 sends to Task while routing its DATUM here; the count is therefore a datum-attribution, not a modality naming."
+      }
+    },
+    "log-elicited": {
+      "name": "Elicited preference & rating records",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [
+        "interaction-logs"
+      ],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "depth": "3",
+        "characteristic": "Whether the row records the act itself or a judgement the system asked for.",
+        "positive_test": "The row records a judgement solicited from the agent: a rating, a thumbs signal, a pairwise preference, an annotation.",
+        "negative_test": "Reject behaviour treated as a proxy for preference; the solicitation must have happened.",
+        "corpus_names": "5",
+        "corpus_mentions": "5",
+        "notes": "Thin but non-zero (Learning from Preferential Feedback, Preference Modeling, two RLHF surfaces, Reputation Systems). Inherits the parent's declared LOW CONFIDENCE (audit A3)."
+      }
+    }
+  }
+}
