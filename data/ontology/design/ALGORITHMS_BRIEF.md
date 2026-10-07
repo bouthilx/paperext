@@ -355,6 +355,103 @@ contributed-vs-used error #89 exists to prevent.
 - `model_names.tsv` — 2483 names / 3549 mentions, with the header flagging that
   the corpus predates the model/algorithm split.
 
+# Part D — sequencing (owner, 2026-10-07)
+
+Four phases, in this order:
+
+1. **Design the base ontology from field knowledge** — done: 1697 lineage nodes,
+   four axes, pinned, `resolve.py --audit` clean.
+2. **Plan and run the extraction** — `algorithms[]` with an algorithms-aware
+   prompt (#94, schema v5).
+3. **Revise the ontology** against real data.
+4. **Execute the categorisation.**
+
+**Why step 3 exists.** With reliable usage data the ontology could go straight to
+categorisation. We have none (Part C: the only sample was drawn through the
+`models[]` slot and is biased ~5x toward RL, with zero hits on decoding and
+evaluation). So a revision pass is budgeted rather than hoped for.
+
+**This changes the bar for step 1.** The structure does not have to be right. It
+has to be *good enough to write an extraction prompt against* and *cheap to
+revise*. That reorders the remaining work by whether data could speak to the
+question at all.
+
+## D.1 Fix now — logical defects, which no amount of data would settle
+
+Each of these is wrong on its own terms: a pin that contradicts its own test, a
+value that carries no information, an inheritance rule that manufactures work.
+
+- The signal axis takes **(source, form) pairs, one per objective term**. SPR's
+  cross-product licenses combinations the method does not have, data or no data.
+- `S.src.ext.obs` — 169 nodes are parked on an interior node for want of
+  "the response variable was measured in the world".
+- `A.deriv.fixed` — `A.deriv.closed`'s negative test is "iterating a step rule
+  to convergence", and ~60 nodes carry it *while iterating a fixed-point map*,
+  because phase 1's EM worked example set the precedent.
+- `R.fit.perturb` (dropout and five siblings have no role) and `R.fit.fixpoint`
+  (`R.fit.update` demands a gradient, so value iteration, CFR and Sinkhorn have
+  none).
+- **Delete `R.adapt`**: it resolves on exactly the 20 `L.tta` descendants, so it
+  cross-cuts nothing and only double-counts.
+- Split the three conflations whose own tests convict them: `A.uncert`
+  (parameters vs per-example latents), `A.outspace` (element type vs joint
+  structure), `A.topology` (discipline vs parties).
+- **`divides` edges do not propagate axis values.** A `divides` edge is a claim
+  about the parent's *characteristic*, not its values; propagating along it
+  manufactured 52 of one region's 159 denials. This also makes rule 1
+  well-defined.
+- Widen `S.form.post`'s test, which says "approached by sampling" and so excludes
+  the closed-form posteriors of GPs, Kalman filters and Laplace approximation —
+  ~25 of its own 53 pins.
+- Dissolve `L.optdisc` (12 of 20 nodes roleless; members share one attribute).
+- Clear ~25 duplicate node pairs and rename one of `R.exec` / `A.exec`.
+
+## D.2 Settle before the extraction — they change what gets collected
+
+- **Dropout vs batch norm.** Dropout is in and batch norm is out with nothing in
+  either dimension explaining why. An extractor cannot be told what to record
+  until this is ruled. *Open.*
+- **Composites.** The extractor records what the paper says (`RLHF`), and the
+  ontology expands it; `expands_to` must hold **node_ids, not free text**, or the
+  expansion is unusable at roll-up time. The 65 unmarked bundles can wait, but
+  the mechanism cannot.
+- **Open vocabulary.** The prompt must ask for free-text names and the paper's
+  own framing, and use this ontology only for *scope* and for examples of the
+  kinds of thing in range. Handing over a closed list makes step 3 circular: the
+  extractor would find only what we listed, and the revision would rubber-stamp
+  it. The 77 currently unmatched names exist because the models extraction was
+  open.
+- **Known misroutings are the acceptance test** for the new prompt:
+  `adam`/`adamw` in `libraries[]`, `pytorch` in `models[]`.
+
+## D.3 Defer to the step-3 revision — only data can settle these
+
+- `slot` vs `bundle` for the 65 candidates: how often is a bundle cited as a
+  unit? Phase 1 named this and said it could not be tested without data.
+- Whether role roll-ups are comparable across the classical and deep branches
+  (measured 1.69 roles per classical method against ~1.5, but the shape of the
+  excess is what matters).
+- Which of ~346 "may be a description, not a named procedure" flags are real —
+  the test is whether anyone cites it.
+- Whether thin attribute families (`A.hier` non-default on 6 of 173 nodes,
+  `A.exec` on one subfamily) earn family status.
+- Speculative flags, which Part C forbids deriving from the current sample.
+
+## D.4 What makes the revision cheap
+
+- `resolve.py --audit` stays green, so revision breakage is detectable rather
+  than discovered.
+- **Fix the pinning convention in writing** before any re-pin: a method row
+  carries deltas from what it inherits, never the full resolved set. Mixing the
+  two produced 350 of 401 apparent inter-region disagreements.
+- Stable `node_id`s, so re-extraction maps onto existing nodes.
+- A `support` column that stays **empty** until step 2 delivers real counts —
+  never backfilled from the `models[]` sample.
+- Keep `pinning/*.REPORT.md`: the tensions, not the pins, are what found the
+  defects that mattered.
+
+---
+
 ## Open
 
 - [ ] `algorithms[]` does not exist in the schema yet — it is part of **#94**
