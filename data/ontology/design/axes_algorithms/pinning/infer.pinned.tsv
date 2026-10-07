@@ -1,0 +1,504 @@
+node_id	name	parents	relation	kind	expands_to	signal	role	attributes	characteristic	positive_test	negative_test	examples	notes
+L.aug.policy	Searched augmentation policies	L.aug; L.hpo	divides	method			R.search.policy;R.data.aug	A.deriv.zero;A.determinism.stoch		selects which augmentations to apply by searching over policies against a validation signal	a fixed augmentation list chosen by hand	AutoAugment, Fast AutoAugment, RandAugment, TrivialAugment, PBA	sits on two axes at once by construction
+L.aug.adv	Adversarial example generation	L.aug; L.robust	divides	method		S.src.ext.human;S.form.game	R.data.aug	A.deriv.first;A.outspace.cont		constructs an input perturbation that maximises the model's loss under a norm budget	random noise with no maximisation step	FGSM, PGD, C&W, AutoAttack	same procedure serves as attack and as training-data source
+L.mbrl.search	Learned-model tree search	L.mbrl; L.tts.plan	divides	method		S.src.env.reward;S.src.self.own;S.form.return;S.form.lik	R.fit.obj;R.exp.act;R.out.search	A.regime.off;A.rltarget.ac;A.hier.flat;A.deriv.first;A.deriv.comb;A.determinism.stoch;A.param.param;A.world.learned		combines a learned model with an explicit tree search that produces the acting policy	planning by trajectory sampling without a tree	AlphaGo, AlphaZero, MuZero, EfficientZero, Sampled MuZero	the clearest case of one lineage spanning two roles
+L.pref	Preference-based alignment			method			R.fit.obj	A.deriv.first;A.cadence.mini;A.param.param;A.outspace.struct	whether a reward model is fit, and how the policy is updated against preferences	optimises a policy against pairwise or ranked human or AI preference judgements	optimising against a scalar reward supplied by the environment	RLHF, DPO, GRPO-with-reward-model	
+L.pref.rm	Reward modelling plus policy optimisation	L.pref	divides	method		S.src.ext.pref;S.src.env.rm;S.form.rank;S.form.return				fits an explicit reward model on comparisons, then runs an RL algorithm against it	optimising the policy on preferences in closed form, with no reward model	RLHF with PPO, RLAIF, Constitutional AI, reward-model ensembles	
+L.pref.direct	Direct preference optimisation	L.pref	divides	method		S.src.ext.pref;S.form.rank;S.form.lik		A.regime.offline		derives a closed-form policy loss from the preference pairs, skipping the reward model	fitting a separate reward network	DPO, IPO, KTO, ORPO, SimPO, cDPO, CPO	
+L.pref.reject	Rejection-sampled finetuning	L.pref	divides	method		S.form.lik	R.data.synth;R.data.select	A.determinism.stoch		samples candidates, keeps the best by a scorer, then does supervised finetuning on them	updating with a policy-gradient step	best-of-n finetuning, RAFT, STaR, rejection-sampling SFT, ReST	sits between SFT and RL
+L.pref.verif	Verifier-rewarded RL	L.pref	divides	method		S.src.env.verifier;S.form.return		A.regime.on		the reward comes from a programmatic checker rather than a learned or human judgement	a reward model trained on human comparisons	RLVR, unit-test reward, math-answer-match reward	
+L.ssl.contrast.sup	Label-aware contrastive learning	L.ssl.contrast; L.sft	divides	method		S.src.ext.human;S.form.contrast	R.fit.obj	A.deriv.first;A.cadence.mini;A.param.param		treats all same-class examples as positives using ground-truth labels	treating only augmented views of one instance as positives	SupCon, contrastive representation distillation	
+L.score.guide	Guidance of the diffusion trajectory	L.score; L.dec.guide	derives-from	method			R.out.decode	A.outspace.cont		steers sampling with an external or implicit conditional signal during generation	conditioning only through the training objective	classifier guidance, classifier-free guidance, ControlNet conditioning, CFG rescaling	role is decoding although the lineage is generative
+L.score.sample	Diffusion samplers and distillation	L.score; L.dec	divides	method		!S.src.self.corrupt;!S.form.score	R.out.decode	A.outspace.cont;A.exact.approx		reduces the number of denoising steps needed to produce a sample	the training procedure that fits the denoiser	DDIM, DPM-Solver, UniPC, progressive distillation, consistency models, LCM	lineage drifts from objective to decoder; see Tensions
+L.sched.scale	Scaling-rule hyperparameter transfer	L.sched; L.hpo.transfer	divides	method		S.src.none;S.form.none	R.fit.sched	A.determinism.det		sets step sizes by a width or compute scaling law transferred from a smaller model	tuning the step size on the target model directly	muP, muTransfer, linear batch-size scaling rule, square-root scaling	
+L.da	Domain adaptation and invariance			method		S.src.ext.human;S.src.ext.prog	R.fit.obj	A.deriv.first;A.cadence.mini;A.param.param	what quantity is aligned across domains	trains with data from a source domain to perform on a shifted target domain	adapting after deployment with no training-time target data	DANN, CORAL, IRM	
+L.da.adv	Adversarial domain alignment	L.da; L.gan	divides	method		S.form.game				trains a domain discriminator the feature extractor is trained to fool	matching moments or kernels in closed form	DANN, ADDA, CDAN, MDD	
+L.da.stat	Statistic-matching alignment	L.da	divides	method		S.form.div				minimises an explicit discrepancy between source and target feature statistics	using a learned discriminator	CORAL, Deep CORAL, MMD/DAN, JAN, optimal-transport alignment	
+L.da.inv	Invariant risk and environment-based objectives	L.da	divides	method		S.form.inv				requires the optimal predictor to be simultaneously optimal across labelled environments	aligning marginal feature distributions	IRM, REx, GroupDRO, Fish, CLOvE	
+L.robust	Distributional and adversarial robustness			method				A.param.param	what adversary the objective is minimised against	minimises a worst-case rather than an average risk	minimising the empirical mean loss	DRO, PGD adversarial training, randomised smoothing	
+L.robust.dro	Distributionally robust optimisation	L.robust	divides	method		S.src.ext.human;S.form.inv	R.fit.obj	A.deriv.first;A.cadence.mini		minimises the worst-case loss over a set of reweightings of the training distribution	minimising worst case over input perturbations	DRO, CVaR-DRO, GroupDRO, chi-square DRO	
+L.robust.adv	Adversarial training	L.robust; L.aug.adv	divides	method		S.src.ext.human;S.form.game	R.fit.obj;R.data.aug	A.deriv.first;A.cadence.mini		solves an inner maximisation over input perturbations inside each training step	perturbing inputs without maximising the loss	PGD adversarial training, TRADES, MART, FastAT, free adversarial training	
+L.robust.cert	Certified robustness	L.robust	divides	method		S.src.none;S.form.none	R.eval	A.guar.cert		returns a provable guarantee of invariance within a stated input region	providing only empirical attack resistance	randomised smoothing, IBP, CROWN, convex relaxations	
+L.meta	Meta-learning			method		S.src.ext.human	R.fit.obj	A.deriv.first;A.cadence.mini;A.param.param	what quantity is meta-learned	optimises across a distribution of tasks so that per-task adaptation is cheap	training on one task distribution with no inner adaptation loop	MAML, prototypical networks, RL-squared	
+L.meta.init	Optimisation-based meta-learning	L.meta	divides	method		S.form.lik	R.fit.init;R.fit.est			meta-learns an initialisation whose few-step adaptation performs well	meta-learning a metric or a black-box update	MAML, FOMAML, Reptile, ANIL, Meta-SGD, iMAML	
+L.meta.metric	Metric-based few-shot learning	L.meta	divides	method			R.out.predict	A.param.inst		classifies by distance to class representatives in a learned embedding	updating parameters per task	Siamese networks, Matching Networks, Prototypical Networks, Relation Networks	
+L.meta.black	Black-box and in-context adaptation	L.meta	divides	method		S.form.lik				adaptation happens in activations or recurrent state, with no parameter update	adapting by gradient steps at task time	RL-squared, SNAIL, in-context learning as meta-learning	partly speculative as a *training* procedure
+L.meta.opt	Learned optimisers	L.meta	divides	method			R.fit.update			meta-trains a parametric update rule applied to another model's parameters	using a hand-designed update rule	learning to learn by gradient descent, VeLO, L2O	the learned optimiser is a model; the meta-training is the algorithm
+L.cont	Continual learning			method				A.deriv.first;A.cadence.mini;A.param.param	how interference with earlier tasks is resisted	trains on a sequence of tasks without full access to earlier data	training on all tasks jointly	EWC, A-GEM, iCaRL	
+L.cont.reg	Importance-weighted parameter anchoring	L.cont	divides	method			R.fit.obj			penalises movement of parameters deemed important to earlier tasks	storing and replaying earlier examples	EWC, SI, MAS, Riemannian walk	
+L.cont.replay	Rehearsal	L.cont; L.replay	divides	method		S.src.none;S.form.none	R.data.select;R.exp.store			stores or regenerates earlier examples and mixes them into current training	constraining parameters without any stored data	experience replay, GEM, A-GEM, DER, iCaRL, generative replay	
+L.cont.arch	Capacity isolation	L.cont	divides	method		S.src.none;S.form.none	R.fit.scope			allocates disjoint parameters or masks per task	sharing all parameters across tasks	progressive networks, PackNet, HAT, supermasks	
+L.cont.proj	Gradient projection	L.cont; L.gradproc	divides	method		S.src.none;S.form.none	R.fit.grad			projects updates onto directions that do not disturb earlier-task outputs	penalising parameter movement isotropically	orthogonal gradient descent, GPM, Adam-NSCL	
+L.peft	Parameter-efficient adaptation			method		S.src.none;S.form.none	R.fit.scope	A.param.param;A.deriv.first;A.cadence.mini	where the new degrees of freedom live	adapts a pretrained model while updating only a small fraction of, or an addition to, its parameters	updating every parameter of the pretrained model	LoRA, adapters, prefix tuning, BitFit	
+L.peft.adapter	Inserted adapter modules	L.peft	divides	method						inserts new trainable submodules into the frozen network and trains only those	reparameterising existing weight matrices	Houlsby adapters, Pfeiffer adapters, AdapterFusion, Compacter, Parallel adapters	
+L.peft.lowrank	Low-rank weight reparameterisation	L.peft	divides	method						adds a trainable low-rank update to existing weight matrices, mergeable at inference	adding modules that change the computation graph at inference	LoRA, QLoRA, AdaLoRA, DoRA, LoRA+, ReLoRA, VeRA	
+L.peft.prompt	Prompt and prefix tuning	L.peft	divides	method						trains continuous vectors prepended to the input or to the attention keys and values	training weights inside the network	prefix tuning, prompt tuning, P-tuning v2, soft prompts	
+L.peft.select	Sparse parameter selection	L.peft	divides	method						trains a chosen sparse subset of the existing parameters	adding new parameters of any kind	BitFit, IA3, diff pruning, Fish-Mask, surgical finetuning	
+L.peft.freeze	Freezing and staged unfreezing	L.peft	divides	method						holds some existing layers fixed and trains the rest, with no new parameters beyond a head	training all layers from the first step	linear probing, feature extraction, gradual unfreezing, ULMFiT schedule, LP-FT	
+L.sft	Supervised adaptation recipes			method		S.src.ext.human;S.form.lik	R.fit.obj	A.deriv.first;A.cadence.mini;A.param.param	what the demonstration data is and how it is composed	finetunes a pretrained model on labelled demonstrations of the target behaviour	fitting from random initialisation	BERT finetuning, FLAN, Alpaca-style SFT	
+L.sft.inst	Instruction tuning	L.sft	divides	method		S.src.ext.model	R.data.select			finetunes on instruction-response pairs across many tasks to induce instruction following	finetuning on a single downstream task	FLAN, T0, Natural Instructions, Alpaca, Tulu-style SFT	
+L.sft.task	Single-task finetuning	L.sft	divides	method						adapts a pretrained model to one labelled downstream task	multi-task instruction mixtures	BERT finetuning, ULMFiT, task-specific heads	
+L.hpo	Hyperparameter optimisation			method			R.search.hp		how the next configuration is chosen	runs multiple training trials to select hyperparameters by a validation signal	picking hyperparameters by hand or by citation	grid search, TPE, Hyperband, PBT	
+L.hpo.enum	Enumerative and random search	L.hpo	divides	method				A.deriv.zero		draws configurations from a fixed design with no adaptation to past trials	choosing the next point from previous results	grid search, random search, Sobol/quasi-random, Latin hypercube	random search is the baseline everyone must beat
+L.hpo.model	Surrogate-model search	L.hpo; L.gp	divides	method				A.deriv.zero		fits a probabilistic surrogate to past trials and maximises an acquisition function	allocating budget without modelling the response surface	GP-EI Bayesian optimisation, TPE, SMAC, BOHB, BORE	
+L.hpo.bandit	Budget-allocation search	L.hpo; L.bandit.bai	divides	method			R.fit.stop	A.deriv.zero		reallocates compute across running trials by early-stopping the weak ones	running every trial to completion	successive halving, Hyperband, ASHA, BOHB, PBT	
+L.hpo.grad	Gradient-based hyperparameter optimisation	L.hpo	divides	method		S.src.ext.human;S.form.lik		A.deriv.first		differentiates a validation loss with respect to hyperparameters	treating the trial as a black box	hypergradient descent, implicit differentiation, DARTS-style relaxation	
+L.hpo.transfer	Transferred and predicted configurations	L.hpo	divides	method						sets hyperparameters from a scaling rule or a meta-model, without search on the target	searching directly at the target scale	muTransfer, meta-learned priors, scaling-law extrapolation, zero-shot HPO	
+L.nas	Neural architecture search			method			R.search.arch		how the architecture space is traversed	searches over architectures using a measured or predicted performance signal	designing the architecture by hand	NASNet, DARTS, Once-for-All	the product is a model; the search is the algorithm
+L.nas.rl	Controller-based search	L.nas; L.pg	divides	method				A.deriv.zero;A.deriv.first;A.regime.on;A.rltarget.policy		trains a controller policy that emits architectures, rewarded by their accuracy	mutating a population or relaxing the space	NASNet/Zoph-Le, ENAS, MetaQNN	
+L.nas.evo	Evolutionary architecture search	L.nas; L.derivfree.ga	divides	method				A.deriv.zero;A.determinism.stoch		mutates and selects architectures in a population	following a gradient through architecture weights	AmoebaNet/regularised evolution, NEAT, hierarchical evolution	
+L.nas.grad	Differentiable architecture search	L.nas; L.hpo.grad	divides	method		S.src.ext.human;S.form.lik		A.deriv.first		relaxes discrete choices into continuous weights and follows their gradient	evaluating discrete candidates separately	DARTS, PC-DARTS, GDAS, ProxylessNAS, SNAS	
+L.nas.oneshot	Supernet and weight-sharing search	L.nas	divides	method				A.deriv.zero		trains one over-parameterised network whose subnetworks are the candidates	training each candidate from scratch	one-shot NAS, Once-for-All, BigNAS, SPOS	
+L.nas.zero	Training-free architecture scoring	L.nas	divides	method		S.src.none;S.form.none		A.deriv.first		ranks architectures by a proxy computable without training	ranking by measured post-training accuracy	zero-cost proxies, NASWOT, synflow score	
+L.automl	Pipeline and algorithm selection			method			R.search.pipe	A.deriv.zero	what part of the pipeline is searched	searches jointly over preprocessing, model family and hyperparameters	searching hyperparameters of a fixed model family	Auto-WEKA, auto-sklearn, TPOT, AutoGluon, H2O AutoML	
+L.prune	Pruning			method			R.rewrite.sparse	A.exact.approx;A.determinism.det	what score decides which parameters are removed	sets a subset of parameters to zero and removes them from the computation	lowering the numeric precision of all parameters	magnitude pruning, lottery ticket, SparseGPT	
+L.prune.sal	Curvature-based saliency pruning	L.prune	divides	method		S.src.none;S.form.none		A.deriv.second		scores parameters by an estimated loss increase from removing them	scoring by magnitude alone	OBD, OBS, WoodFisher, SNIP, GraSP	
+L.prune.mag	Magnitude and movement pruning	L.prune	divides	method		S.src.none;S.form.none				removes the smallest weights, or those moving toward zero during finetuning	estimating a second-order saliency	magnitude pruning, iterative magnitude pruning, lottery ticket, movement pruning, RigL	
+L.prune.struct	Structured pruning	L.prune	divides	method		S.src.none;S.form.none				removes whole channels, heads, layers or structured blocks	removing individual scattered weights	channel pruning, head pruning, LLM-Pruner, 2:4 structured sparsity, ShortGPT	
+L.prune.oneshot	One-shot post-training pruning	L.prune	divides	method		S.src.self.struct;S.form.recon		A.deriv.second;A.cadence.full		prunes a trained model using a small calibration set and a local reconstruction	pruning during training with retraining between steps	SparseGPT, Wanda, Optimal BERT Surgeon	
+L.quant	Quantization			method			R.rewrite.precision	A.exact.approx	whether and how the network is retrained to the quantized grid	reduces the numeric precision of weights or activations	removing parameters entirely	GPTQ, LSQ, BinaryConnect	
+L.quant.ptq	Post-training quantization	L.quant	divides	method		S.src.self.struct		A.cadence.full;A.determinism.det		quantises a finished model using only a small calibration set, with no gradient training	training the model with quantization in the loop	min-max calibration, GPTQ, AWQ, SmoothQuant, LLM.int8, QuIP, SpQR	
+L.quant.qat	Quantization-aware training	L.quant	divides	method		S.src.none;S.form.none	R.fit.est	!A.exact.approx;A.exact.altered;A.cadence.mini;A.deriv.first		simulates quantization in the forward pass and trains through a straight-through estimator	calibrating without any training	QAT, LSQ, PACT, DoReFa	
+L.quant.bin	Binarisation and ternarisation	L.quant	divides	method		S.src.none;S.form.none	R.fit.est	A.cadence.mini;A.deriv.first		reduces weights or activations to one or two bits	reducing to 4 or 8 bits	BinaryConnect, XNOR-Net, BNN, TWN	
+L.quant.kv	Inference-cache quantization	L.quant	divides	method		S.src.none;S.form.none		A.determinism.det		quantises the attention cache rather than the parameters	quantising weights	KV-cache quantization, KIVI, per-channel cache scaling	
+L.kd	Knowledge distillation			method		S.src.ext.model	R.fit.obj	A.deriv.first;A.cadence.mini;A.param.param	what of the teacher is matched	trains a student against targets produced by a teacher model	training against ground-truth labels only	Hinton KD, FitNets, DistilBERT	role is objective; compression is a goal, not a slot
+L.kd.logit	Output-distribution distillation	L.kd	divides	method		S.form.div				matches the teacher's softened output distribution	matching internal representations	Hinton KD, born-again networks, DistilBERT, decoupled KD, sequence-level KD	
+L.kd.feat	Representation distillation	L.kd	divides	method						matches internal activations, attention maps or relations	matching outputs only	FitNets, attention transfer, CRD, relational KD, TinyBERT	
+L.kd.self	Self-distillation	L.kd	divides	method		S.src.self.own				teacher and student are the same architecture, or the model's own earlier state	a strictly larger separate teacher	born-again networks, self-distillation, BAN, deep mutual learning	
+L.lowrankc	Weight factorisation			method		S.form.recon	R.rewrite.factor	A.deriv.closed;A.exact.approx;A.determinism.det;A.cadence.full	which decomposition is applied	replaces a weight tensor with a product of smaller factors	zeroing or requantising the original tensor	SVD compression, Tucker decomposition, CP decomposition, ASVD	speculative: often reported without a name
+L.dec	Sequence decoding			method		S.src.none;S.form.none	R.out.decode		how the next output is chosen from the model's scores	converts the model's scores into an emitted sequence at inference time	changing what the model scores	beam search, nucleus sampling, speculative decoding	decides what is selected, so it decides what the model says
+L.dec.greedy	Greedy decoding	L.dec	divides	method				A.determinism.det;A.outspace.disc		emits the argmax at every step with no lookahead and no sampling	keeping multiple hypotheses or sampling	greedy decoding, argmax decoding	
+L.dec.beam	Beam search	L.dec	divides	method				A.deriv.comb;A.determinism.det;A.outspace.struct		maintains a fixed number of partial hypotheses ranked by cumulative score	keeping only one hypothesis, or sampling	beam search, length-normalised beam, diverse beam search, constrained beam search	
+L.dec.sample	Truncated stochastic sampling	L.dec	divides	method				A.determinism.stoch;A.outspace.disc		samples from the output distribution after reshaping or truncating its tail	deterministic selection	ancestral sampling, temperature, top-k, nucleus/top-p, typical sampling, min-p, eta sampling, Mirostat	
+L.dec.contrast	Contrastive decoding	L.dec	divides	method				A.outspace.disc		scores a token by the difference between two models' or two layers' log-probabilities	scoring with a single distribution	contrastive decoding, DoLa, context-aware decoding, contrastive search	
+L.dec.constr	Constrained decoding	L.dec	divides	method				A.deriv.comb;A.outspace.struct		masks tokens that would violate a grammar, schema or lexical constraint	rejecting invalid outputs after generation	grammar-constrained decoding, FSM-constrained decoding, lexically constrained decoding, JSON-schema decoding	
+L.dec.rerank	Candidate reranking and MBR	L.dec	divides	method			!R.out.decode;R.out.search;R.out.agg	A.outspace.struct		generates a candidate set and selects among complete candidates by a utility	selecting token by token	MBR decoding, reranking by model score, n-best reranking, quality-estimation reranking	
+L.dec.spec	Speculative decoding	L.dec	divides	method				A.exact.exact;A.determinism.stoch;A.outspace.disc		a cheap proposer drafts tokens that the target model verifies in parallel	a single model emitting one token per forward pass	speculative decoding, Medusa, EAGLE, lookahead decoding, self-speculative decoding	changes cost, not the output distribution
+L.dec.guide	Guided generation	L.dec	divides	method						perturbs the output distribution with an auxiliary scorer or an unconditional contrast	selecting from the unmodified distribution	classifier guidance, classifier-free guidance, PPLM, FUDGE, GeDi	shared with the diffusion lineage
+L.tts	Test-time search and deliberation			method		S.src.none;S.form.none	R.out.search		what structure the search explores	spends extra inference compute exploring multiple reasoning or action paths	a single forward pass per output	self-consistency, tree of thoughts, MCTS	
+L.tts.sample	Sample-and-select	L.tts	divides	method			R.out.agg	A.determinism.stoch		samples several complete attempts and selects or aggregates among them	expanding a partial solution	best-of-n, self-consistency majority vote, weighted best-of-n, rejection sampling at inference	
+L.tts.tree	Structured reasoning search	L.tts	divides	method				A.deriv.comb;A.outspace.struct		expands and scores partial reasoning states in a tree or graph	generating one linear chain	chain-of-thought prompting, least-to-most, tree of thoughts, graph of thoughts, PRM-guided beam, MCTS-guided decoding	CoT is a named procedure, so it is admissible
+L.tts.loop	Iterative refinement loops	L.tts	divides	method				A.determinism.stoch		re-invokes the model on its own previous output plus feedback, in a loop	a single generation with no revision	ReAct, Reflexion, self-refine, self-debug, multi-agent debate	
+L.tts.plan	Explicit planning over a model	L.tts	divides	method				A.deriv.comb;A.hier.flat		searches over an environment or dynamics model to choose an action	choosing an action by a direct policy forward pass	A-star, Dijkstra, MCTS, UCT, PUCT, CEM-MPC, MPPI, iLQR, DDP	shared with model-based RL
+L.retr	Retrieval and context construction			method			R.out.context	A.param.inst	how candidate context is scored	selects external items to place in the model's input at inference	selecting training examples before fitting	BM25, DPR, RAG	
+L.retr.lex	Lexical retrieval	L.retr	divides	method		S.src.self.struct;S.form.none		A.determinism.det;A.deriv.comb		scores documents by weighted term overlap with the query	scoring by learned dense vectors	TF-IDF, BM25, BM25+, SPLADE (hybrid)	
+L.retr.dense	Learned dense retrieval	L.retr; L.ssl.contrast	divides	method		S.src.ext.pair;S.form.contrast	R.fit.obj	A.param.param;A.deriv.first;A.cadence.mini		scores by inner product of learned query and document embeddings	scoring by term statistics	DSSM, DPR, ANCE, ColBERT, E5, GTE	trained contrastively, used at inference
+L.retr.index	Approximate nearest-neighbour search	L.retr; L.inst	divides	method		S.src.self.struct;S.form.none		A.deriv.comb;A.exact.approx;A.determinism.det		finds approximate nearest neighbours under an index structure with a recall-speed trade-off	exhaustive exact search	LSH, IVF-PQ, HNSW, DiskANN, ScaNN	
+L.retr.aug	Retrieval-augmented generation	L.retr	divides	method				A.param.param		conditions generation on retrieved passages, possibly trained jointly	retrieving without feeding the result to a generator	kNN-LM, REALM, RAG, FiD, RETRO, Self-RAG	
+L.retr.rerank	Retrieval reranking and fusion	L.retr	divides	method		S.src.ext.pref;S.form.rank		A.determinism.det		re-scores or merges candidate lists from a first-stage retriever	producing the first-stage candidates	cross-encoder reranking, monoT5, reciprocal rank fusion, ColBERT late interaction	
+L.calib	Calibration and uncertainty quantification			method			R.out.calib		what produces the uncertainty estimate	converts model outputs into calibrated probabilities, intervals or abstentions	changing which output is emitted	temperature scaling, conformal prediction, deep ensembles	
+L.calib.post	Post-hoc probability recalibration	L.calib	divides	method		S.src.ext.human;S.form.lik		A.cadence.full;A.determinism.det;A.param.param		fits a small mapping from scores to probabilities on a held-out split	producing uncertainty from multiple models or a posterior	Platt scaling, isotonic regression, temperature scaling, vector and matrix scaling, beta calibration	
+L.calib.conf	Conformal prediction	L.calib	divides	method		S.src.ext.human;S.form.cover		A.guar.cover;A.uncert.interval;A.determinism.det;A.param.param;A.cadence.full;A.deriv.closed		produces sets or intervals with a finite-sample coverage guarantee under exchangeability	producing a point probability with no coverage guarantee	split conformal, full conformal, CQR, conformal risk control, adaptive conformal	
+L.calib.ens	Ensemble-based uncertainty	L.calib; L.ens	divides	method		S.src.none;S.form.none	R.out.agg	A.uncert.ens		estimates uncertainty from disagreement across independently trained or sampled models	estimating from one model's output distribution	deep ensembles, snapshot ensembles, batch ensembles, hyper-ensembles	
+L.calib.bayes	Approximate Bayesian neural inference	L.calib; L.vi	divides	method			R.fit.est	A.uncert.post		approximates a posterior over parameters and marginalises predictions over it	fitting a single point estimate	Laplace approximation, Bayes-by-backprop, MC dropout, SWAG, SGLD posteriors	
+L.calib.ood	Out-of-distribution and selective prediction	L.calib	divides	method				A.determinism.det		scores whether an input is outside the training distribution and may abstain	calibrating probabilities on in-distribution data	max-softmax baseline, ODIN, Mahalanobis score, energy-based OOD, selective prediction	
+L.tta	Test-time adaptation			method			R.adapt	A.param.param;A.cadence.mini	what is updated at test time	updates the model or its statistics using unlabelled test data during deployment	adapting with labelled target data before deployment	TENT, TTT, SHOT	adapting at test time is a property of the method, not its use
+L.tta.norm	Normalisation-statistic adaptation	L.tta	divides	method		S.src.self.struct;S.form.none				recomputes normalisation statistics on test batches, updating no weights	updating weights by an optimisation step	BN-statistic adaptation, DUA, prediction-time BN	
+L.tta.ent	Entropy-minimisation adaptation	L.tta	divides	method		S.src.self.own;S.form.conf	R.fit.obj;R.fit.scope	A.deriv.first		takes gradient steps on the entropy or a confidence surrogate of test predictions	taking steps on a self-supervised auxiliary loss	TENT, EATA, SAR, CoTTA, RoTTA	
+L.tta.ssl	Self-supervised test-time training	L.tta; L.ssl.mask	divides	method			R.fit.obj	A.deriv.first		takes gradient steps on an auxiliary self-supervised loss computed on the test input	using the task head's own entropy	TTT, TTT-MAE, MEMO, TTT-layers	
+L.tta.proto	Prototype and classifier-only adaptation	L.tta	divides	method		S.src.self.own;S.form.dist	R.out.predict	A.param.inst		re-estimates class prototypes or the classifier head from test features	updating the feature extractor	SHOT, T3A, prototype refinement	
+L.ens	Inference-time aggregation			method			R.out.agg		over what the predictions are combined	combines several models' or several runs' predictions into one output	combining their parameters instead	voting, averaging, stacking, Bayesian model averaging, mixture-of-experts routing at inference	
+L.interp	Attribution and interpretation			method			R.out.explain		what the explanation is computed from	produces an explanation of a trained model's behaviour as an output	changing the model's predictions	Grad-CAM, SHAP, activation patching	an explanation is an output, so the participant rule admits this
+L.interp.grad	Gradient-based attribution	L.interp	divides	method		S.src.none;S.form.none		A.deriv.first		attributes using gradients or gradient paths through the network	attributing by perturbing inputs and refitting a surrogate	saliency maps, Grad-CAM, integrated gradients, SmoothGrad, GradientSHAP	
+L.interp.pert	Perturbation-based attribution	L.interp	divides	method		S.src.none;S.form.none				attributes by measuring output change under input occlusion or resampling	reading internal gradients	LIME, SHAP, occlusion, permutation importance, ablation studies	
+L.interp.probe	Probing and representation analysis	L.interp; L.peft.freeze	divides	method						fits or compares a simple readout on frozen internal representations	explaining a single prediction	linear probing, CKA, SVCCA, causal tracing, activation patching	
+L.interp.dict	Feature dictionary learning	L.interp; L.dimred.parts	divides	method		S.src.self.ident;S.form.recon;S.form.spars	R.fit.obj	A.deriv.first;A.cadence.mini;A.param.param		fits an overcomplete sparse basis over activations to name internal features	attributing to input dimensions	sparse autoencoders, dictionary learning on activations, transcoders	
+L.fair.post	Post-processing fairness adjustment	L.fair; L.calib.post	divides	method			R.out.calib	A.cadence.full;A.determinism.det;A.param.param		adjusts thresholds or outputs per group on a trained model	retraining with a modified objective	equalized-odds post-processing, reject-option classification, group-wise thresholds	
+L.causal.rep	Representation-based counterfactual estimation	L.causal; L.da.stat	divides	method		S.src.design.adjust;S.src.ext.human;S.form.lik	R.fit.obj	A.deriv.first;A.cadence.mini;A.param.param;A.uncert.point;A.guar.consist		learns a representation balancing treated and control groups and predicts both potential outcomes	using a fixed propensity model with no learned representation	TARNet, CFR/IPM-balanced representations, Dragonnet, CEVAE, GANITE	
+M.2-4-structured-sparsity	2:4 structured sparsity	L.prune.struct	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.a-gem	A-GEM	L.cont.replay	instantiates	method			R.fit.grad						
+M.a-star	A-star	L.tts.plan	instantiates	method				A.determinism.det;A.world.given					
+M.adda	ADDA	L.da.adv	instantiates	method									
+M.ance	ANCE	L.retr.dense	instantiates	method									
+M.anil	ANIL	L.meta.init	instantiates	method									
+M.asha	ASHA	L.hpo.bandit	instantiates	method				A.guar.regret					
+M.asvd	ASVD	L.lowrankc	instantiates	method		S.src.self.struct							
+M.awq	AWQ	L.quant.ptq	instantiates	method		S.form.recon		A.deriv.zero					
+M.adalora	AdaLoRA	L.peft.lowrank	instantiates	method									
+M.adam-nscl	Adam-NSCL	L.cont.proj	instantiates	method									
+M.adapterfusion	AdapterFusion	L.peft.adapter	instantiates	method		S.src.ext.human;S.form.lik;!S.src.none;!S.form.none	R.fit.obj;R.out.agg						
+M.alpaca	Alpaca	L.sft.inst	instantiates	method									
+M.alpaca-style-sft	Alpaca-style SFT	L.sft	instantiates	method		S.src.ext.model							
+M.alphago	AlphaGo	L.mbrl.search	instantiates	pipeline	supervised policy on expert play; RL self-play; value network; MCTS at play time	S.src.ext.demo		!A.world.learned;A.world.given;A.agents.comp;A.outspace.disc					
+M.alphazero	AlphaZero	L.mbrl.search	instantiates	pipeline	self-play generation; policy-value fitting; MCTS at play time			!A.world.learned;A.world.given;A.agents.comp;A.outspace.disc					
+M.amoebanet-regularised-evolution	AmoebaNet/regularised evolution	L.nas.evo	instantiates	method									
+M.auto-weka	Auto-WEKA	L.automl	instantiates	method									
+M.autoattack	AutoAttack	L.aug.adv	instantiates	method									
+M.autoaugment	AutoAugment	L.aug.policy	instantiates	method									
+M.autogluon	AutoGluon	L.automl	instantiates	method			R.out.agg						
+M.ban	BAN	L.kd.self	instantiates	method									
+M.bert-finetuning	BERT finetuning	L.sft.task	instantiates	method									
+M.bm25	BM25	L.retr.lex	instantiates	method									
+M.bm25-plus	BM25+	L.retr.lex	instantiates	method									
+M.bn-statistic-adaptation	BN-statistic adaptation	L.tta.norm	instantiates	method									
+M.bnn	BNN	L.quant.bin	instantiates	method		S.src.ext.human;S.form.bound		A.deriv.first					
+M.bohb	BOHB	L.hpo.model; L.hpo.bandit	instantiates	method									
+M.bore	BORE	L.hpo.model	instantiates	method									
+M.bayes-by-backprop	Bayes-by-backprop	L.calib.bayes	instantiates	method		S.src.ext.human;S.form.bound		A.deriv.first					
+M.bayesian-model-averaging	Bayesian model averaging	L.ens	instantiates	method		S.form.lik		A.uncert.post					
+M.bignas	BigNAS	L.nas.oneshot	instantiates	method									
+M.binaryconnect	BinaryConnect	L.quant.bin	instantiates	method									
+M.bitfit	BitFit	L.peft.select	instantiates	method									
+M.c-w	C&W	L.aug.adv	instantiates	method				A.deriv.first					
+M.cdan	CDAN	L.da.adv	instantiates	method									
+M.cem-mpc	CEM-MPC	L.mbrl.plan; L.tts.plan	instantiates	method				!A.deriv.comb;A.deriv.zero;A.determinism.stoch;A.outspace.cont;A.world.given					
+M.cevae	CEVAE	L.causal.rep	instantiates	method		S.form.bound							
+M.cfg-rescaling	CFG rescaling	L.score.guide	instantiates	method		!S.src.self.corrupt;!S.form.score;S.src.none;S.form.none							
+M.cfr-ipm-balanced-representations	CFR/IPM-balanced representations	L.causal.rep	instantiates	method		S.form.div							
+M.cka	CKA	L.interp.probe	instantiates	method		S.src.none;S.form.none	!R.fit.scope	!A.param.param;A.param.trans;A.determinism.det					
+M.clove	CLOvE	L.da.inv	instantiates	method									
+M.coral	CORAL	L.da.stat	instantiates	method									
+M.cp-decomposition	CP decomposition	L.lowrankc	instantiates	method									
+M.cpo	CPO	L.pref.direct	instantiates	method									
+M.cqr	CQR	L.calib.conf	instantiates	method									
+M.crd	CRD	L.kd.feat	instantiates	method		S.form.contrast							
+M.crown	CROWN	L.robust.cert	instantiates	method				A.determinism.det					
+M.cvar-dro	CVaR-DRO	L.robust.dro	instantiates	method									
+M.cotta	CoTTA	L.tta.ent	instantiates	method		S.form.agree							
+M.colbert	ColBERT	L.retr.dense	instantiates	method									
+M.colbert-late-interaction	ColBERT late interaction	L.retr.rerank	instantiates	method			R.fit.obj	A.param.param					
+M.compacter	Compacter	L.peft.adapter	instantiates	method									
+M.constitutional-ai	Constitutional AI	L.pref.rm	instantiates	pipeline	supervised self-critique revision; AI-feedback preference model; RL finetuning	S.src.ext.model;S.form.lik	R.data.synth;R.data.label	A.rltarget.ac					
+M.controlnet-conditioning	ControlNet conditioning	L.score.guide	instantiates	method			R.fit.obj						
+M.dann	DANN	L.da.adv	instantiates	method									
+M.darts	DARTS	L.nas.grad	instantiates	method									
+M.darts-style-relaxation	DARTS-style relaxation	L.hpo.grad	instantiates	method									
+M.ddim	DDIM	L.score.sample	instantiates	method		S.src.none;S.form.none		A.determinism.det					
+M.ddp	DDP	L.tts.plan	instantiates	method				!A.deriv.comb;A.deriv.second;A.determinism.det;A.outspace.cont;A.world.given					
+M.der	DER	L.cont.replay	instantiates	method		!S.src.none;!S.form.none;S.src.self.own;S.form.agree							
+M.dpm-solver	DPM-Solver	L.score.sample	instantiates	method		S.src.none;S.form.none		A.determinism.det					
+M.dpo	DPO	L.pref.direct	instantiates	method									
+M.dpr	DPR	L.retr.dense	instantiates	method									
+M.dro	DRO	L.robust.dro	instantiates	method									
+M.dssm	DSSM	L.retr.dense	instantiates	method									
+M.dua	DUA	L.tta.norm	instantiates	method									
+M.deep-coral	Deep CORAL	L.da.stat	instantiates	method									
+M.dijkstra	Dijkstra	L.tts.plan	instantiates	method				A.determinism.det;A.world.given					
+M.diskann	DiskANN	L.retr.index	instantiates	method									
+M.distilbert	DistilBERT	L.kd.logit	instantiates	method			R.fit.init						
+M.dola	DoLa	L.dec.contrast	instantiates	method									
+M.dora	DoRA	L.peft.lowrank	instantiates	method									
+M.dorefa	DoReFa	L.quant.qat	instantiates	method									
+M.dragonnet	Dragonnet	L.causal.rep	instantiates	method									
+M.e5	E5	L.retr.dense	instantiates	method									
+M.eagle	EAGLE	L.dec.spec	instantiates	method		!S.src.none;!S.form.none;S.src.self.next;S.form.lik	R.fit.obj						
+M.eata	EATA	L.tta.ent	instantiates	method									
+M.enas	ENAS	L.nas.rl	instantiates	method									
+M.ewc	EWC	L.cont.reg	instantiates	method				A.deriv.second					
+M.efficientzero	EfficientZero	L.mbrl.search	instantiates	method				A.outspace.disc					
+M.fgsm	FGSM	L.aug.adv	instantiates	method				A.determinism.det					
+M.flan	FLAN	L.sft.inst	instantiates	method									
+M.fomaml	FOMAML	L.meta.init	instantiates	method									
+M.fsm-constrained-decoding	FSM-constrained decoding	L.dec.constr	instantiates	method									
+M.fudge	FUDGE	L.dec.guide	instantiates	method		!S.src.none;!S.form.none;S.src.ext.human;S.form.lik	R.fit.obj	A.outspace.disc					
+M.fast-autoaugment	Fast AutoAugment	L.aug.policy	instantiates	method									
+M.fastat	FastAT	L.robust.adv	instantiates	method									
+M.fid	FiD	L.retr.aug	instantiates	method		S.src.ext.human;S.form.lik	R.fit.obj						
+M.fish	Fish	L.da.inv	instantiates	method									
+M.fish-mask	Fish-Mask	L.peft.select	instantiates	method									
+M.fitnets	FitNets	L.kd.feat	instantiates	method		S.form.recon							
+M.ganite	GANITE	L.causal.rep	instantiates	method		S.form.game							
+M.gdas	GDAS	L.nas.grad	instantiates	method				A.determinism.stoch					
+M.gem	GEM	L.cont.replay	instantiates	method			R.fit.grad						
+M.gp-ei-bayesian-optimisation	GP-EI Bayesian optimisation	L.hpo.model	instantiates	method				A.uncert.post;A.deriv.closed					
+M.gpm	GPM	L.cont.proj	instantiates	method									
+M.gptq	GPTQ	L.quant.ptq	instantiates	method		S.form.recon		A.deriv.second					
+M.grpo-with-reward-model	GRPO-with-reward-model	L.pref	instantiates	method		S.src.ext.pref;S.src.env.rm;S.form.rank;S.form.return		A.regime.on;A.rltarget.policy					
+M.gte	GTE	L.retr.dense	instantiates	method									
+M.gedi	GeDi	L.dec.guide	instantiates	method		!S.src.none;!S.form.none;S.src.ext.human;S.form.lik	R.fit.obj	A.outspace.disc					
+M.grasp	GraSP	L.prune.sal	instantiates	method				A.deriv.first					
+M.grad-cam	Grad-CAM	L.interp.grad	instantiates	method				A.determinism.det					
+M.gradientshap	GradientSHAP	L.interp.grad	instantiates	method				A.determinism.stoch					
+M.groupdro	GroupDRO	L.da.inv; L.robust.dro	instantiates	method									
+M.h2o-automl	H2O AutoML	L.automl	instantiates	method			R.out.agg						
+M.hat	HAT	L.cont.arch	instantiates	method									
+M.hnsw	HNSW	L.retr.index	instantiates	method									
+M.hinton-kd	Hinton KD	L.kd.logit	instantiates	method									
+M.houlsby-adapters	Houlsby adapters	L.peft.adapter	instantiates	method									
+M.hyperband	Hyperband	L.hpo.bandit	instantiates	method				A.guar.regret					
+M.ia3	IA3	L.peft.select	instantiates	method									
+M.ibp	IBP	L.robust.cert	instantiates	method				A.determinism.det					
+M.ipo	IPO	L.pref.direct	instantiates	method									
+M.irm	IRM	L.da.inv	instantiates	method									
+M.ivf-pq	IVF-PQ	L.retr.index	instantiates	method									
+M.jan	JAN	L.da.stat	instantiates	method									
+M.json-schema-decoding	JSON-schema decoding	L.dec.constr	instantiates	method									
+M.kivi	KIVI	L.quant.kv	instantiates	method									
+M.kto	KTO	L.pref.direct	instantiates	method									
+M.kv-cache-quantization	KV-cache quantization	L.quant.kv	instantiates	method									
+M.l2o	L2O	L.meta.opt	instantiates	method									
+M.lcm	LCM	L.score.sample	instantiates	method		S.src.ext.model;S.form.recon	R.fit.obj	A.cadence.mini;A.deriv.first					
+M.lime	LIME	L.interp.pert	instantiates	method		!S.src.none;!S.form.none;S.src.self.own;S.form.lik		A.determinism.stoch;A.param.trans					
+M.llm-pruner	LLM-Pruner	L.prune.struct	instantiates	method									
+M.llm-int8	LLM.int8	L.quant.ptq	instantiates	method		!S.src.self.struct;S.src.none;S.form.none							
+M.lp-ft	LP-FT	L.peft.freeze	instantiates	method			R.fit.sched						
+M.lsh	LSH	L.retr.index	instantiates	method									
+M.lsq	LSQ	L.quant.qat	instantiates	method									
+M.laplace-approximation	Laplace approximation	L.calib.bayes	instantiates	method		S.src.ext.human;S.form.post		A.deriv.second;A.deriv.closed					
+M.latin-hypercube	Latin hypercube	L.hpo.enum	instantiates	method				A.determinism.stoch					
+M.lora	LoRA	L.peft.lowrank	instantiates	method									
+M.lora-plus	LoRA+	L.peft.lowrank	instantiates	method									
+M.maml	MAML	L.meta.init	instantiates	method									
+M.mart	MART	L.robust.adv	instantiates	method									
+M.mas	MAS	L.cont.reg	instantiates	method									
+M.mbr-decoding	MBR decoding	L.dec.rerank	instantiates	method									
+M.mc-dropout	MC dropout	L.calib.bayes	instantiates	method		S.src.none;S.form.none		!A.uncert.post;A.uncert.ens;A.determinism.stoch					
+M.mcts	MCTS	L.tts.plan	instantiates	method				A.determinism.stoch;A.world.given					
+M.mcts-guided-decoding	MCTS-guided decoding	L.tts.tree	instantiates	method									
+M.mdd	MDD	L.da.adv	instantiates	method									
+M.memo	MEMO	L.tta.ssl	instantiates	method		S.src.self.view;S.form.conf							
+M.mmd-dan	MMD/DAN	L.da.stat	instantiates	method									
+M.mppi	MPPI	L.mbrl.plan; L.tts.plan	instantiates	method				!A.deriv.comb;A.deriv.zero;A.determinism.stoch;A.outspace.cont;A.world.given					
+M.mahalanobis-score	Mahalanobis score	L.calib.ood	instantiates	method		S.src.self.struct;S.form.lik		A.deriv.closed;A.cadence.full					
+M.matching-networks	Matching Networks	L.meta.metric	instantiates	method		S.form.lik							
+M.medusa	Medusa	L.dec.spec	instantiates	method		!S.src.none;!S.form.none;S.src.self.next;S.form.lik	R.fit.obj						
+M.meta-sgd	Meta-SGD	L.meta.init	instantiates	method			R.fit.update						
+M.metaqnn	MetaQNN	L.nas.rl	instantiates	method									
+M.mirostat	Mirostat	L.dec.sample	instantiates	method									
+M.muzero	MuZero	L.mbrl.search	instantiates	pipeline	self-play generation; learned-dynamics fitting; MCTS at play time			A.outspace.disc					
+M.nasnet	NASNet	L.nas	instantiates	method				A.deriv.zero;A.deriv.first;A.regime.on;A.rltarget.policy					
+M.nasnet-zoph-le	NASNet/Zoph-Le	L.nas.rl	instantiates	method									
+M.naswot	NASWOT	L.nas.zero	instantiates	method									
+M.neat	NEAT	L.nas.evo	instantiates	method			R.fit.update						
+M.natural-instructions	Natural Instructions	L.sft.inst	instantiates	method									
+M.obd	OBD	L.prune.sal	instantiates	method									
+M.obs	OBS	L.prune.sal	instantiates	method									
+M.odin	ODIN	L.calib.ood	instantiates	method		S.src.none;S.form.none							
+M.orpo	ORPO	L.pref.direct	instantiates	method									
+M.once-for-all	Once-for-All	L.nas.oneshot	instantiates	method									
+M.optimal-bert-surgeon	Optimal BERT Surgeon	L.prune.oneshot	instantiates	method									
+M.p-tuning-v2	P-tuning v2	L.peft.prompt	instantiates	method									
+M.pact	PACT	L.quant.qat	instantiates	method									
+M.pba	PBA	L.aug.policy	instantiates	method									
+M.pbt	PBT	L.hpo.bandit	instantiates	method			R.fit.sched	A.determinism.stoch					
+M.pc-darts	PC-DARTS	L.nas.grad	instantiates	method									
+M.pgd	PGD	L.aug.adv	instantiates	method									
+M.pgd-adversarial-training	PGD adversarial training	L.robust.adv	instantiates	method									
+M.pplm	PPLM	L.dec.guide	instantiates	method		!S.src.none;!S.form.none;S.src.ext.human;S.form.lik	R.fit.obj	A.outspace.disc					
+M.prm-guided-beam	PRM-guided beam	L.tts.tree	instantiates	method									
+M.puct	PUCT	L.tts.plan	instantiates	method				A.determinism.stoch;A.world.given					
+M.packnet	PackNet	L.cont.arch	instantiates	method									
+M.parallel-adapters	Parallel adapters	L.peft.adapter	instantiates	method									
+M.pfeiffer-adapters	Pfeiffer adapters	L.peft.adapter	instantiates	method									
+M.platt-scaling	Platt scaling	L.calib.post	instantiates	method									
+M.prototypical-networks	Prototypical Networks	L.meta.metric	instantiates	method		S.form.dist;S.form.lik							
+M.proxylessnas	ProxylessNAS	L.nas.grad	instantiates	method									
+M.qat	QAT	L.quant.qat	instantiates	method									
+M.qlora	QLoRA	L.peft.lowrank	instantiates	method			R.rewrite.precision	A.exact.approx					
+M.quip	QuIP	L.quant.ptq	instantiates	method		S.form.recon		A.deriv.second					
+M.raft	RAFT	L.pref.reject	instantiates	method		S.src.env.rm							
+M.rag	RAG	L.retr.aug	instantiates	method		S.src.ext.human;S.form.lik	R.fit.obj						
+M.realm	REALM	L.retr.aug	instantiates	method		S.src.self.mask;S.form.lik	R.fit.obj						
+M.retro	RETRO	L.retr.aug	instantiates	method		S.src.self.next;S.form.lik	R.fit.obj						
+M.rex	REx	L.da.inv	instantiates	method									
+M.rl-squared	RL-squared	L.meta.black	instantiates	method		!S.src.ext.human;!S.form.lik;S.src.env.reward;S.form.return		A.regime.on;A.rltarget.ac;A.world.free					
+M.rlaif	RLAIF	L.pref.rm	instantiates	pipeline	supervised finetuning; AI-feedback reward-model fitting; policy optimisation	S.src.ext.model;S.form.lik	R.data.synth	A.rltarget.ac					
+M.rlhf	RLHF	L.pref	instantiates	pipeline	supervised finetuning; reward-model fitting; PPO against the reward model	S.src.ext.human;S.src.ext.pref;S.src.env.rm;S.form.lik;S.form.rank;S.form.return							
+M.rlhf-with-ppo	RLHF with PPO	L.pref.rm	instantiates	pipeline	supervised finetuning; reward-model fitting; PPO against the reward model	S.src.ext.human;S.form.lik		A.rltarget.ac					
+M.rlvr	RLVR	L.pref.verif	instantiates	method									
+M.randaugment	RandAugment	L.aug.policy	instantiates	method			!R.search.policy	!A.deriv.zero					
+M.react	ReAct	L.tts.loop	instantiates	method									
+M.relora	ReLoRA	L.peft.lowrank	instantiates	method									
+M.rest	ReST	L.pref.reject	instantiates	method		S.src.env.rm							
+M.reflexion	Reflexion	L.tts.loop	instantiates	method									
+M.relation-networks	Relation Networks	L.meta.metric	instantiates	method									
+M.reptile	Reptile	L.meta.init	instantiates	method									
+M.riemannian-walk	Riemannian walk	L.cont.reg	instantiates	method				A.deriv.second					
+M.rigl	RigL	L.prune.mag	instantiates	method				A.deriv.first					
+M.rotta	RoTTA	L.tta.ent	instantiates	method									
+M.sar	SAR	L.tta.ent	instantiates	method									
+M.sgld-posteriors	SGLD posteriors	L.calib.bayes	instantiates	method		S.form.post		A.deriv.sample;A.deriv.first					
+M.shap	SHAP	L.interp.pert	instantiates	method				A.determinism.stoch					
+M.shot	SHOT	L.tta.proto	instantiates	method		S.form.conf;S.form.dist	R.fit.obj						
+M.si	SI	L.cont.reg	instantiates	method									
+M.smac	SMAC	L.hpo.model	instantiates	method				A.uncert.ens					
+M.snail	SNAIL	L.meta.black	instantiates	method									
+M.snas	SNAS	L.nas.grad	instantiates	method				A.determinism.stoch					
+M.snip	SNIP	L.prune.sal	instantiates	method				!A.deriv.second;A.deriv.first					
+M.splade-hybrid	SPLADE (hybrid)	L.retr.lex	instantiates	method		!S.src.self.struct;S.src.ext.pair;S.form.rank	R.fit.obj	A.param.param					
+M.spos	SPOS	L.nas.oneshot	instantiates	method									
+M.star	STaR	L.pref.reject	instantiates	method		S.src.env.verifier							
+M.svcca	SVCCA	L.interp.probe	instantiates	method		S.src.none;S.form.none	!R.fit.scope	!A.param.param;A.param.trans;A.determinism.det					
+M.svd-compression	SVD compression	L.lowrankc	instantiates	method									
+M.swag	SWAG	L.calib.bayes	instantiates	method		S.form.post		A.deriv.first					
+M.sampled-muzero	Sampled MuZero	L.mbrl.search	instantiates	method				A.outspace.cont					
+M.scann	ScaNN	L.retr.index	instantiates	method									
+M.self-rag	Self-RAG	L.retr.aug	instantiates	method		S.src.ext.model;S.form.lik	R.fit.obj						
+M.shortgpt	ShortGPT	L.prune.struct	instantiates	method									
+M.siamese-networks	Siamese networks	L.meta.metric	instantiates	method		S.form.contrast							
+M.simpo	SimPO	L.pref.direct	instantiates	method									
+M.smoothgrad	SmoothGrad	L.interp.grad	instantiates	method				A.determinism.stoch					
+M.smoothquant	SmoothQuant	L.quant.ptq	instantiates	method		S.form.none		A.deriv.zero					
+M.sobol-quasi-random	Sobol/quasi-random	L.hpo.enum	instantiates	method				A.determinism.det					
+M.spqr	SpQR	L.quant.ptq	instantiates	method		S.form.recon		A.deriv.second					
+M.sparsegpt	SparseGPT	L.prune.oneshot	instantiates	method									
+M.supcon	SupCon	L.ssl.contrast.sup	instantiates	method									
+M.t0	T0	L.sft.inst	instantiates	method									
+M.t3a	T3A	L.tta.proto	instantiates	method									
+M.tarnet	TARNet	L.causal.rep	instantiates	method									
+M.tent	TENT	L.tta.ent	instantiates	method									
+M.tf-idf	TF-IDF	L.retr.lex	instantiates	method									
+M.tpe	TPE	L.hpo.model	instantiates	method									
+M.tpot	TPOT	L.automl	instantiates	method				A.determinism.stoch					
+M.trades	TRADES	L.robust.adv	instantiates	method		S.form.inv							
+M.ttt	TTT	L.tta.ssl	instantiates	method									
+M.ttt-mae	TTT-MAE	L.tta.ssl	instantiates	method		S.src.self.mask;S.form.recon							
+M.ttt-layers	TTT-layers	L.tta.ssl	instantiates	method									
+M.twn	TWN	L.quant.bin	instantiates	method									
+M.tinybert	TinyBERT	L.kd.feat	instantiates	method		S.form.recon							
+M.trivialaugment	TrivialAugment	L.aug.policy	instantiates	method			!R.search.policy	!A.deriv.zero					
+M.tucker-decomposition	Tucker decomposition	L.lowrankc	instantiates	method									
+M.tulu-style-sft	Tulu-style SFT	L.sft.inst	instantiates	method									
+M.uct	UCT	L.tts.plan	instantiates	method				A.determinism.stoch;A.guar.regret;A.world.given					
+M.ulmfit	ULMFiT	L.sft.task	instantiates	method									
+M.ulmfit-schedule	ULMFiT schedule	L.peft.freeze	instantiates	method			R.fit.sched						
+M.unipc	UniPC	L.score.sample	instantiates	method		S.src.none;S.form.none		A.determinism.det					
+M.velo	VeLO	L.meta.opt	instantiates	method									
+M.vera	VeRA	L.peft.lowrank	instantiates	method									
+M.wanda	Wanda	L.prune.oneshot	instantiates	method		!S.form.recon;S.form.none		!A.deriv.second;A.deriv.first					
+M.woodfisher	WoodFisher	L.prune.sal	instantiates	method									
+M.xnor-net	XNOR-Net	L.quant.bin	instantiates	method									
+M.ablation-studies	ablation studies	L.interp.pert	instantiates	method			R.eval						lowercase descriptive string -- confirm it is a named procedure, not a description
+M.activation-patching	activation patching	L.interp.probe	instantiates	method		S.src.none;S.form.none	!R.fit.scope	!A.param.param;A.determinism.det					lowercase descriptive string -- confirm it is a named procedure, not a description
+M.adapters	adapters	L.peft	instantiates	method									
+M.adaptive-conformal	adaptive conformal	L.calib.conf	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.ancestral-sampling	ancestral sampling	L.dec.sample	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.argmax-decoding	argmax decoding	L.dec.greedy	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.attention-transfer	attention transfer	L.kd.feat	instantiates	method		S.form.recon							lowercase descriptive string -- confirm it is a named procedure, not a description
+M.auto-sklearn	auto-sklearn	L.automl	instantiates	method									
+M.averaging	averaging	L.ens	instantiates	method		S.src.none;S.form.none		A.determinism.det					
+M.batch-ensembles	batch ensembles	L.calib.ens	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.beam-search	beam search	L.dec.beam	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.best-of-n	best-of-n	L.tts.sample	instantiates	method									
+M.best-of-n-finetuning	best-of-n finetuning	L.pref.reject	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.beta-calibration	beta calibration	L.calib.post	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.born-again-networks	born-again networks	L.kd.logit; L.kd.self	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.cdpo	cDPO	L.pref.direct	instantiates	method									
+M.causal-tracing	causal tracing	L.interp.probe	instantiates	method		S.src.none;S.form.none	!R.fit.scope	!A.param.param;A.determinism.det					lowercase descriptive string -- confirm it is a named procedure, not a description
+M.chain-of-thought-prompting	chain-of-thought prompting	L.tts.tree	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.channel-pruning	channel pruning	L.prune.struct	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.chi-square-dro	chi-square DRO	L.robust.dro	instantiates	method									
+M.classifier-guidance	classifier guidance	L.score.guide	instantiates	method		!S.src.self.corrupt;!S.form.score;S.src.ext.human;S.form.lik	R.fit.obj						lowercase descriptive string -- confirm it is a named procedure, not a description
+M.classifier-free-guidance	classifier-free guidance	L.score.guide	instantiates	method			R.data.aug						lowercase descriptive string -- confirm it is a named procedure, not a description
+M.conformal-prediction	conformal prediction	L.calib	instantiates	method		S.src.ext.human;S.form.cover		A.guar.cover;A.uncert.interval;A.determinism.det;A.param.param;A.cadence.full					lowercase descriptive string -- confirm it is a named procedure, not a description
+M.conformal-risk-control	conformal risk control	L.calib.conf	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.consistency-models	consistency models	L.score.sample	instantiates	method		S.src.ext.model;S.src.self.own;S.form.agree	R.fit.obj	A.cadence.mini;A.deriv.first					lowercase descriptive string -- confirm it is a named procedure, not a description
+M.constrained-beam-search	constrained beam search	L.dec.beam	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.context-aware-decoding	context-aware decoding	L.dec.contrast	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.contrastive-decoding	contrastive decoding	L.dec.contrast	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.contrastive-representation-distillation	contrastive representation distillation	L.ssl.contrast.sup	instantiates	method		!S.src.ext.human;S.src.ext.model							lowercase descriptive string -- confirm it is a named procedure, not a description
+M.contrastive-search	contrastive search	L.dec.contrast	instantiates	method				A.determinism.det					lowercase descriptive string -- confirm it is a named procedure, not a description
+M.convex-relaxations	convex relaxations	L.robust.cert	instantiates	method				A.determinism.det					lowercase descriptive string -- confirm it is a named procedure, not a description
+M.cross-encoder-reranking	cross-encoder reranking	L.retr.rerank	instantiates	method			R.fit.obj	A.param.param					lowercase descriptive string -- confirm it is a named procedure, not a description
+M.decoupled-kd	decoupled KD	L.kd.logit	instantiates	method									
+M.deep-ensembles	deep ensembles	L.calib.ens	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.deep-mutual-learning	deep mutual learning	L.kd.self	instantiates	method		!S.src.ext.model;S.src.self.own							lowercase descriptive string -- confirm it is a named procedure, not a description
+M.dictionary-learning-on-activations	dictionary learning on activations	L.interp.dict	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.diff-pruning	diff pruning	L.peft.select	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.diverse-beam-search	diverse beam search	L.dec.beam	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.energy-based-ood	energy-based OOD	L.calib.ood	instantiates	method		S.src.none;S.form.none							
+M.equalized-odds-post-processing	equalized-odds post-processing	L.fair.post	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.eta-sampling	eta sampling	L.dec.sample	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.experience-replay	experience replay	L.replay.unif; L.cont.replay	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.feature-extraction	feature extraction	L.peft.freeze	instantiates	method		!S.src.none;!S.form.none;S.src.ext.human;S.form.lik							lowercase descriptive string -- confirm it is a named procedure, not a description
+M.free-adversarial-training	free adversarial training	L.robust.adv	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.full-conformal	full conformal	L.calib.conf	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.generative-replay	generative replay	L.cont.replay	instantiates	method			R.data.synth						lowercase descriptive string -- confirm it is a named procedure, not a description
+M.gradual-unfreezing	gradual unfreezing	L.peft.freeze	instantiates	method			R.fit.sched						lowercase descriptive string -- confirm it is a named procedure, not a description
+M.grammar-constrained-decoding	grammar-constrained decoding	L.dec.constr	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.graph-of-thoughts	graph of thoughts	L.tts.tree	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.greedy-decoding	greedy decoding	L.dec.greedy	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.grid-search	grid search	L.hpo.enum	instantiates	method				A.determinism.det					lowercase descriptive string -- confirm it is a named procedure, not a description
+M.group-wise-thresholds	group-wise thresholds	L.fair.post	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.head-pruning	head pruning	L.prune.struct	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.hierarchical-evolution	hierarchical evolution	L.nas.evo	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.hyper-ensembles	hyper-ensembles	L.calib.ens	instantiates	method									
+M.hypergradient-descent	hypergradient descent	L.hpo.grad	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.icarl	iCaRL	L.cont.replay	instantiates	method		!S.src.none;!S.form.none;S.src.self.own;S.form.div	R.out.predict	A.param.inst					
+M.ilqr	iLQR	L.tts.plan	instantiates	method				!A.deriv.comb;A.deriv.second;A.determinism.det;A.outspace.cont;A.world.given					
+M.imaml	iMAML	L.meta.init	instantiates	method				A.deriv.second					
+M.implicit-differentiation	implicit differentiation	L.hpo.grad	instantiates	method				A.deriv.second					lowercase descriptive string -- confirm it is a named procedure, not a description
+M.in-context-learning-as-meta-learning	in-context learning as meta-learning	L.meta.black	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.integrated-gradients	integrated gradients	L.interp.grad	instantiates	method				A.determinism.det					lowercase descriptive string -- confirm it is a named procedure, not a description
+M.isotonic-regression	isotonic regression	L.calib.post	instantiates	method				A.deriv.comb					lowercase descriptive string -- confirm it is a named procedure, not a description
+M.iterative-magnitude-pruning	iterative magnitude pruning	L.prune.mag	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.knn-lm	kNN-LM	L.retr.aug	instantiates	method		S.src.none;S.form.none							
+M.learning-to-learn-by-gradient-descent	learning to learn by gradient descent	L.meta.opt	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.least-to-most	least-to-most	L.tts.tree	instantiates	method									
+M.length-normalised-beam	length-normalised beam	L.dec.beam	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.lexically-constrained-decoding	lexically constrained decoding	L.dec.constr	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.linear-batch-size-scaling-rule	linear batch-size scaling rule	L.sched.scale	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.linear-probing	linear probing	L.interp.probe	instantiates	method		!S.src.none;!S.form.none;S.src.ext.human;S.form.lik							lowercase descriptive string -- confirm it is a named procedure, not a description
+M.lookahead-decoding	lookahead decoding	L.dec.spec	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.lottery-ticket	lottery ticket	L.prune.mag	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.magnitude-pruning	magnitude pruning	L.prune.mag	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.math-answer-match-reward	math-answer-match reward	L.pref.verif	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.max-softmax-baseline	max-softmax baseline	L.calib.ood	instantiates	method		S.src.none;S.form.none							lowercase descriptive string -- confirm it is a named procedure, not a description
+M.meta-learned-priors	meta-learned priors	L.hpo.transfer	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.min-max-calibration	min-max calibration	L.quant.ptq	instantiates	method		S.form.none							lowercase descriptive string -- confirm it is a named procedure, not a description
+M.min-p	min-p	L.dec.sample	instantiates	method									
+M.mixture-of-experts-routing-at-inference	mixture-of-experts routing at inference	L.ens	instantiates	method		S.src.none;S.form.none		A.determinism.det					lowercase descriptive string -- confirm it is a named procedure, not a description
+M.monot5	monoT5	L.retr.rerank	instantiates	method			R.fit.obj	A.param.param					
+M.movement-pruning	movement pruning	L.prune.mag	instantiates	method				A.deriv.first					lowercase descriptive string -- confirm it is a named procedure, not a description
+M.mup	muP	L.sched.scale	instantiates	method			R.fit.init						
+M.mutransfer	muTransfer	L.sched.scale	instantiates	method									
+M.multi-agent-debate	multi-agent debate	L.tts.loop	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.n-best-reranking	n-best reranking	L.dec.rerank	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.nucleus-sampling	nucleus sampling	L.dec	instantiates	method				A.determinism.stoch;A.outspace.disc					lowercase descriptive string -- confirm it is a named procedure, not a description
+M.nucleus-top-p	nucleus/top-p	L.dec.sample	instantiates	method									
+M.occlusion	occlusion	L.interp.pert	instantiates	method				A.determinism.det					
+M.one-shot-nas	one-shot NAS	L.nas.oneshot	instantiates	method									
+M.optimal-transport-alignment	optimal-transport alignment	L.da.stat	instantiates	method		S.form.dist							lowercase descriptive string -- confirm it is a named procedure, not a description
+M.orthogonal-gradient-descent	orthogonal gradient descent	L.cont.proj	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.per-channel-cache-scaling	per-channel cache scaling	L.quant.kv	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.permutation-importance	permutation importance	L.interp.pert	instantiates	method			R.eval	A.determinism.stoch					lowercase descriptive string -- confirm it is a named procedure, not a description
+M.prediction-time-bn	prediction-time BN	L.tta.norm	instantiates	method									
+M.prefix-tuning	prefix tuning	L.peft.prompt	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.progressive-distillation	progressive distillation	L.score.sample	instantiates	method		S.src.ext.model;S.form.recon	R.fit.obj	A.cadence.mini;A.deriv.first					lowercase descriptive string -- confirm it is a named procedure, not a description
+M.progressive-networks	progressive networks	L.cont.arch	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.prompt-tuning	prompt tuning	L.peft.prompt	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.prototype-refinement	prototype refinement	L.tta.proto	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.quality-estimation-reranking	quality-estimation reranking	L.dec.rerank	instantiates	method		!S.src.none;!S.form.none;S.src.ext.human;S.form.lik	R.fit.obj						lowercase descriptive string -- confirm it is a named procedure, not a description
+M.random-search	random search	L.hpo.enum	instantiates	method				A.determinism.stoch					lowercase descriptive string -- confirm it is a named procedure, not a description
+M.randomised-smoothing	randomised smoothing	L.robust.cert	instantiates	method			R.out.agg	A.determinism.stoch					lowercase descriptive string -- confirm it is a named procedure, not a description
+M.reciprocal-rank-fusion	reciprocal rank fusion	L.retr.rerank	instantiates	method		!S.src.ext.pref;!S.form.rank;S.src.none;S.form.none	R.out.agg						lowercase descriptive string -- confirm it is a named procedure, not a description
+M.reject-option-classification	reject-option classification	L.fair.post	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.rejection-sampling-at-inference	rejection sampling at inference	L.tts.sample	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.rejection-sampling-sft	rejection-sampling SFT	L.pref.reject	instantiates	method									
+M.relational-kd	relational KD	L.kd.feat	instantiates	method		S.form.dist							
+M.reranking-by-model-score	reranking by model score	L.dec.rerank	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.reward-model-ensembles	reward-model ensembles	L.pref.rm	instantiates	method			R.out.agg	A.uncert.ens					lowercase descriptive string -- confirm it is a named procedure, not a description
+M.saliency-maps	saliency maps	L.interp.grad	instantiates	method				A.determinism.det					lowercase descriptive string -- confirm it is a named procedure, not a description
+M.scaling-law-extrapolation	scaling-law extrapolation	L.hpo.transfer	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.selective-prediction	selective prediction	L.calib.ood	instantiates	method		S.src.none;S.form.none							lowercase descriptive string -- confirm it is a named procedure, not a description
+M.self-consistency	self-consistency	L.tts	instantiates	method			R.out.agg	A.determinism.stoch					
+M.self-consistency-majority-vote	self-consistency majority vote	L.tts.sample	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.self-debug	self-debug	L.tts.loop	instantiates	method									
+M.self-distillation	self-distillation	L.kd.self	instantiates	method		!S.src.ext.model							
+M.self-refine	self-refine	L.tts.loop	instantiates	method									
+M.self-speculative-decoding	self-speculative decoding	L.dec.spec	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.sequence-level-kd	sequence-level KD	L.kd.logit	instantiates	method									
+M.snapshot-ensembles	snapshot ensembles	L.calib.ens	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.soft-prompts	soft prompts	L.peft.prompt	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.sparse-autoencoders	sparse autoencoders	L.interp.dict	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.speculative-decoding	speculative decoding	L.dec.spec	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.split-conformal	split conformal	L.calib.conf	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.square-root-scaling	square-root scaling	L.sched.scale	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.stacking	stacking	L.ens	instantiates	method		S.src.ext.human;S.form.lik	R.fit.obj	A.param.param					
+M.successive-halving	successive halving	L.hpo.bandit	instantiates	method				A.guar.regret					orphaned by ancestor-pruning across the L.bandit.bai/L.hpo.bandit cycle; reattached
+M.supermasks	supermasks	L.cont.arch	instantiates	method									
+M.surgical-finetuning	surgical finetuning	L.peft.select	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.synflow-score	synflow score	L.nas.zero	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.task-specific-heads	task-specific heads	L.sft.task	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.temperature	temperature	L.dec.sample	instantiates	method									
+M.temperature-scaling	temperature scaling	L.calib.post	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.top-k	top-k	L.dec.sample	instantiates	method									
+M.transcoders	transcoders	L.interp.dict	instantiates	method									
+M.tree-of-thoughts	tree of thoughts	L.tts.tree	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.typical-sampling	typical sampling	L.dec.sample	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.unit-test-reward	unit-test reward	L.pref.verif	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.vector-and-matrix-scaling	vector and matrix scaling	L.calib.post	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.voting	voting	L.ens	instantiates	method		S.src.none;S.form.none		A.determinism.det					
+M.weighted-best-of-n	weighted best-of-n	L.tts.sample	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.zero-cost-proxies	zero-cost proxies	L.nas.zero	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.zero-shot-hpo	zero-shot HPO	L.hpo.transfer	instantiates	method			!R.search.hp						

@@ -1,0 +1,198 @@
+node_id	name	parents	relation	kind	expands_to	signal	role	attributes	characteristic	positive_test	negative_test	examples	notes
+L.dp	Dynamic programming for MDPs			method		S.src.self.own;S.form.return		A.hier.flat;A.agents.single		computes a value or policy by sweeping Bellman backups over a known transition model	learning from sampled transitions without a given model	policy iteration, value iteration, generalised policy iteration, asynchronous DP	founder of the whole value-based lineage
+L.td	Temporal-difference learning	L.dp	derives-from	method		S.src.env.reward;S.form.return	R.fit.obj	A.world.free		updates a value estimate toward a bootstrapped target built from the next state's own estimate	updating toward a full Monte-Carlo return only	TD(0), TD(lambda), true online TD, GTD	
+L.td.q	Off-policy TD control	L.td	derives-from	method				A.regime.off;A.rltarget.value;A.outspace.disc		bootstraps from the max (or an argmax-decoupled estimate) over next-state actions	bootstrapping from the action the behaviour policy actually took	Q-learning, Double Q-learning, Expected SARSA(off-policy form)	
+L.td.sarsa	On-policy TD control	L.td	derives-from	method				A.regime.on;A.rltarget.value;A.outspace.disc;A.cadence.one		bootstraps from the action the current policy actually selects	bootstrapping from a max over actions	SARSA, Expected SARSA, n-step SARSA	
+L.dqn	Deep Q-networks	L.td.q	derives-from	method			R.exp.store	A.deriv.first;A.cadence.mini;A.param.param		fits Q-learning with a neural network plus a target network and a replay buffer	tabular Q-learning; actor-critic with an explicit policy head	DQN, Double DQN, Dueling DQN, NoisyNet-DQN, Rainbow, Ape-X, R2D2, Munchausen DQN	the canonical "ancestor worth aggregating to"
+L.dqn.dist	Distributional value learning	L.dqn	derives-from	method						learns the full return distribution rather than only its expectation	learning a scalar expected return	C51, QR-DQN, IQN, FQF	
+L.dqn.eff	Sample-efficient deep value learning	L.dqn	derives-from	method						raises updates-per-environment-step with explicit remedies for the resulting overfitting	scaling data rather than updates	DrQ, SPR, SR-SPR, BBF, REDQ	SPR is multi-parent with self-predictive SSL
+L.pg	Policy-gradient methods			method		S.src.env;S.form.return	R.fit.obj	A.world.free;A.hier.flat;A.agents.single;A.deriv.first;A.cadence.mini;A.param.param		differentiates expected return with respect to policy parameters via the score-function identity	updating a value table or network with no explicit policy parameterisation	REINFORCE, actor-critic, A3C, A2C	
+L.pg.ac	Actor-critic	L.pg	derives-from	method		S.src.self.own		A.rltarget.ac		reduces policy-gradient variance with a learned value baseline or critic	using an empirical return baseline only	actor-critic, A3C, A2C, GAE, IMPALA/V-trace, ACER	
+L.pg.trust	Trust-region and clipped policy updates	L.pg.ac; L.precond.trust	derives-from	method				A.regime.on		bounds the size of the policy change per update by a divergence or ratio constraint	an unconstrained gradient step on the policy	natural policy gradient, TRPO, PPO, PPO-clip, V-MPO	
+L.pg.trust.grpo	Group-relative policy optimisation	L.pg.trust	derives-from	method		!S.src.self.own		!A.rltarget.ac;A.rltarget.policy		replaces the learned critic with a baseline computed across a sampled group of completions	using a learned value network as the baseline	GRPO, RLOO, DAPO, Dr.GRPO	the dominant recent RL-for-reasoning branch
+L.dpg	Deterministic policy gradients	L.pg	derives-from	method		S.src.env.reward;S.src.self.own		A.regime.off;A.rltarget.ac;A.outspace.cont		backpropagates the critic's gradient through a deterministic actor	sampling actions from a stochastic policy and using the score function	DPG, DDPG, TD3, D4PG	requires continuous actions
+L.maxent	Maximum-entropy RL	L.pg	derives-from	method		S.src.env.reward;S.src.self.own;S.form.conf		A.regime.off		optimises return plus a policy-entropy term as part of the objective, not as a bonus	entropy added only as an auxiliary regulariser with no soft-Bellman consistency	soft Q-learning, SAC, MPO, soft actor-critic variants, REDQ	
+L.mbrl	Model-based RL			method				A.hier.flat	what the learned dynamics model is used for	learns a transition or reward model and uses it to improve the policy or the value estimate	learning a value or policy directly from environment samples only	Dyna, PETS, Dreamer, MuZero	
+L.mbrl.dyna	Model-generated experience	L.mbrl	divides	method		S.src.env.reward;S.src.self.next;S.src.self.own;S.form.return	R.fit.obj;R.data.synth	A.world.learned;A.regime.off;A.agents.single;A.deriv.first;A.cadence.mini;A.param.param		uses the learned model to synthesise extra transitions for a model-free learner	using the model only inside an action-selection search	Dyna, Dyna-Q, MBPO, SLBO	
+L.mbrl.plan	Model-predictive control over a learned model	L.mbrl	divides	method			R.out.search	A.deriv.zero;A.outspace.cont;A.agents.single		re-plans an action sequence at each step by rolling the model forward	amortising the plan into a policy network and never re-planning	PILCO, PETS, CEM-MPC, MPPI, iCEM	
+L.mbrl.latent	Latent-dynamics world models	L.mbrl	divides	method		S.src.env.reward;S.src.self.next;S.form.return	R.fit.obj	A.world.learned;A.regime.off;A.rltarget.ac;A.agents.single;A.deriv.first;A.cadence.mini;A.param.param		learns dynamics in a compressed latent space and trains the policy inside it	planning directly in observation space	World Models, PlaNet, Dreamer, DreamerV2, DreamerV3, TD-MPC	
+L.mbrl.search	Learned-model tree search	L.mbrl; L.tts.plan	divides	method		S.src.env.reward;S.src.self.own;S.form.return;S.form.lik	R.fit.obj;R.exp.act;R.out.search	A.regime.off;A.rltarget.ac;A.outspace.disc;A.deriv.first;A.cadence.mini;A.param.param;A.determinism.stoch		combines a learned model with an explicit tree search that produces the acting policy	planning by trajectory sampling without a tree	AlphaGo, AlphaZero, MuZero, EfficientZero, Sampled MuZero	the clearest case of one lineage spanning two roles
+L.orl	Offline reinforcement learning			method		S.src.env.reward;S.form.return	R.fit.obj	A.regime.offline;A.world.free;A.hier.flat;A.agents.single;A.deriv.first;A.cadence.mini;A.param.param	how the policy is kept inside the data's support	learns a policy from a fixed logged dataset with no further environment interaction	collecting new interaction at any point in training	BCQ, CQL, IQL, Decision Transformer	
+L.orl.polcon	Explicit policy constraint	L.orl	divides	method				A.rltarget.ac;A.outspace.cont		penalises or projects the learned policy toward the behaviour policy	penalising the value function instead	BCQ, BEAR, TD3+BC, BRAC	
+L.orl.valpen	Pessimistic value penalty	L.orl	divides	method		S.src.self.own				lowers values of out-of-distribution actions so they are never selected	constraining the policy's action distribution directly	CQL, COMBO, pessimistic MDPs, EDAC	
+L.orl.implicit	Implicit and weighted-regression policy extraction	L.orl	divides	method		S.src.self.own;S.form.lik		A.rltarget.ac;A.outspace.cont		extracts a policy by advantage-weighted regression without querying unseen actions	computing a max over actions outside the data	AWR, AWAC, IQL, XQL, SQL	
+L.orl.seq	Return-conditioned sequence modelling	L.orl	divides	method		!S.form.return;S.form.lik		A.rltarget.policy		casts control as supervised next-token prediction conditioned on a desired return	fitting a value function and improving a policy against it	Decision Transformer, Trajectory Transformer, RvS, Multi-Game DT	signal is a label, not a reward, despite being RL
+L.marl	Multi-agent RL			method		S.src.env.reward;S.form.return	R.fit.obj	A.hier.flat	how the joint value or joint policy is factored	trains two or more interacting policies whose returns depend on each other	a single agent in a stationary environment	QMIX, MADDPG, MAPPO	
+L.marl.indep	Independent learners	L.marl	divides	method				A.exec.decen;A.world.free;A.deriv.first;A.cadence.mini;A.param.param		each agent runs a single-agent algorithm treating others as part of the environment	any explicit factorisation of a joint value or a centralised critic	IQL, IPPO, independent A2C	
+L.marl.factor	Value factorisation	L.marl	divides	method		S.src.self.own		A.agents.coop;A.exec.ctde;A.rltarget.value;A.outspace.disc;A.regime.off;A.world.free;A.deriv.first;A.cadence.mini;A.param.param		decomposes a joint action-value into per-agent terms under a monotonicity or additivity condition	learning the joint value without any decomposition	VDN, QMIX, QTRAN, QPLEX, Qatten	
+L.marl.ctde	Centralised critic, decentralised actors	L.marl	divides	method		S.src.self.own		A.agents.coop;A.exec.ctde;A.rltarget.ac;A.world.free;A.deriv.first;A.cadence.mini;A.param.param		trains a critic with access to global state while each actor sees only its own observation	both training and execution use only local information	MADDPG, MAPPO, COMA, FACMAC	
+L.marl.game	Equilibrium-computing methods	L.marl; L.selfplay.popul	divides	method		S.form.game		A.agents.comp		computes an approximate equilibrium rather than a best response to fixed others	optimising against a frozen opponent	fictitious play, CFR, Deep CFR, NFSP, Nash-Q, regret matching	
+L.hrl	Hierarchical RL			method		S.src.env.reward;S.form.return	R.fit.obj	A.hier.hier;A.agents.single;A.world.free;A.deriv.first;A.cadence.mini;A.param.param	what the temporal abstraction is defined over	learns a policy over temporally extended sub-policies with their own termination	a flat policy over primitive actions	options framework, option-critic, FeUdal networks, HIRO, HAC	
+L.bandit	Bandit algorithms			method		S.src.env		A.hier.flat;A.outspace.disc	how uncertainty about arm values is turned into a choice	selects among actions with immediate feedback and no state transition	a setting with state dynamics and delayed credit	UCB1, Thompson sampling, EXP3	shares its characteristic with L.explore by design
+L.bandit.stoch	Stochastic and contextual bandits	L.bandit; L.explore.opt	divides	method		S.src.env.reward	R.exp.act	A.regime.on;A.guar.regret;A.agents.single;A.cadence.one;A.param.param		assumes i.i.d. rewards per arm, possibly conditioned on a context vector	an adversarial reward sequence	UCB1, LinUCB, LinTS, Thompson sampling, KL-UCB	
+L.bandit.adv	Adversarial bandits	L.bandit	divides	method		S.src.env.reward	R.exp.act	A.regime.on;A.guar.regret;A.cadence.one;A.deriv.first;A.determinism.stoch		guarantees regret against an arbitrary, possibly adaptive reward sequence	an i.i.d. reward assumption	EXP3, EXP4, Tsallis-INF	
+L.bandit.bai	Best-arm identification	L.bandit	divides	method						spends a fixed budget to identify the best arm, not to maximise cumulative reward	minimising cumulative regret while acting	successive halving, sequential halving, LUCB, racing	had L.hpo.bandit as a second parent, which made a 2-cycle; the edge runs HPO -> BAI only
+L.bandit.ope	Off-policy evaluation and learning	L.bandit; L.causal.adjust	divides	method		S.src.env.reward	R.eval;R.fit.est	A.regime.offline;A.agents.single;A.param.param		estimates the value of a policy from logs collected under a different policy	evaluating a policy by running it	inverse propensity scoring, self-normalised IPS, doubly robust OPE, FQE	shares estimators with causal inference
+L.hpo.bandit	Budget-allocation search	L.hpo; L.bandit.bai	divides	method		S.form.none	R.search.hp;R.fit.stop	A.deriv.zero		reallocates compute across running trials by early-stopping the weak ones	running every trial to completion	successive halving, Hyperband, ASHA, BOHB, PBT	
+L.nas.rl	Controller-based search	L.nas; L.pg	divides	method		S.form.return	R.search.arch	A.rltarget.policy;A.regime.on;A.world.free;A.agents.single;A.deriv.first		trains a controller policy that emits architectures, rewarded by their accuracy	mutating a population or relaxing the space	NASNet/Zoph-Le, ENAS, MetaQNN	
+L.optdisc	Discrete optimisation inside learning			method		S.src.none;S.form.none		A.determinism.det;A.param.trans	what combinatorial structure is solved	solves a combinatorial subproblem as a step inside a learning procedure	solving a continuous parameter optimisation	Hungarian matching, Sinkhorn, Viterbi, beam search as search	underrated: appears inside many deep pipelines
+L.optdisc.assign	Assignment and matching	L.optdisc	divides	method			R.fit.obj	A.deriv.comb		solves a bipartite matching to pair predictions with targets or clusters	sorting or thresholding heuristically	Hungarian algorithm, DETR bipartite matching, auction algorithm	
+L.optdisc.ot	Optimal transport	L.optdisc	divides	method						computes a coupling minimising transport cost between two distributions	computing a pointwise divergence	Sinkhorn-Knopp, entropic OT, Wasserstein distance, Gromov-Wasserstein, SwAV assignment step	
+L.optdisc.submod	Greedy submodular selection	L.optdisc; L.curate.active	divides	method		!S.src.none;!S.form.none;S.src.self.struct;S.form.dist	R.data.select	A.deriv.comb;A.guar.approx		selects a set greedily under a submodular objective with an approximation guarantee	selecting by independent per-item score	facility location coresets, greedy maximum coverage, k-center greedy	
+L.optdisc.exact	Exact combinatorial solvers	L.optdisc	divides	method				A.deriv.comb		solves to optimality with branch and bound or an integer program	using a heuristic with no optimality claim	branch and bound, mixed-integer programming, constraint programming, SAT-based learning	
+M.a2c	A2C	L.pg.ac	instantiates	method				A.regime.on					
+M.a3c	A3C	L.pg.ac	instantiates	method			R.exec.replicate	A.regime.on;A.topology.casync;A.exact.altered					
+M.acer	ACER	L.pg.ac	instantiates	method			R.exp.store;R.fit.est	A.regime.off					
+M.asha	ASHA	L.hpo.bandit	instantiates	method				A.topology.casync;A.determinism.stoch					
+M.awac	AWAC	L.orl.implicit	instantiates	method				!A.regime.offline;A.regime.off					
+M.awr	AWR	L.orl.implicit	instantiates	method				!A.regime.offline;A.regime.off					
+M.alphago	AlphaGo	L.mbrl.search	instantiates	pipeline	supervised policy on expert play; RL self-play; value network; MCTS at play time	S.src.ext.demo	R.exp.task	A.world.given;A.agents.comp					
+M.alphazero	AlphaZero	L.mbrl.search	instantiates	pipeline	self-play generation; policy-value fitting; MCTS at play time		R.exp.task	A.world.given;A.agents.comp					
+M.ape-x	Ape-X	L.dqn	instantiates	method			R.exp.act;R.exec.replicate	A.topology.casync;A.exact.altered					
+M.bbf	BBF	L.dqn.eff	instantiates	method		S.src.self.next;S.form.agree							
+M.bcq	BCQ	L.orl.polcon	instantiates	method		S.form.bound	R.fit.est						
+M.bear	BEAR	L.orl.polcon	instantiates	method		S.form.div							
+M.bohb	BOHB	L.hpo.model; L.hpo.bandit	instantiates	method				A.uncert.post;A.determinism.stoch					
+M.brac	BRAC	L.orl.polcon	instantiates	method		S.form.div							
+M.c51	C51	L.dqn.dist	instantiates	method		S.form.lik							
+M.cem-mpc	CEM-MPC	L.mbrl.plan; L.tts.plan	instantiates	method		S.src.none;S.form.none	R.out.search;R.exp.act	A.deriv.zero;A.determinism.stoch;A.param.trans;A.outspace.cont;A.hier.flat;A.agents.single					
+M.cfr	CFR	L.marl.game	instantiates	method				A.guar.regret;A.determinism.det;A.cadence.full					
+M.coma	COMA	L.marl.ctde	instantiates	method				A.regime.on;A.outspace.disc					
+M.combo	COMBO	L.orl.valpen	instantiates	method		S.src.self.next;S.form.lik		!A.world.free;A.world.learned					
+M.cql	CQL	L.orl.valpen	instantiates	method		S.form.contrast							
+M.d4pg	D4PG	L.dpg	instantiates	method		S.form.lik	R.exec.replicate;R.exp.store	A.topology.casync;A.exact.altered					
+M.dapo	DAPO	L.pg.trust.grpo	instantiates	method		S.src.env.verifier							
+M.ddpg	DDPG	L.dpg	instantiates	method			R.exp.act;R.exp.store						
+M.detr-bipartite-matching	DETR bipartite matching	L.optdisc.assign	instantiates	method									
+M.dpg	DPG	L.dpg	instantiates	method									
+M.dqn	DQN	L.dqn	instantiates	method			R.exp.act						
+M.decision-transformer	Decision Transformer	L.orl.seq	instantiates	method									
+M.deep-cfr	Deep CFR	L.marl.game	instantiates	method		S.src.self.own	R.fit.obj	A.deriv.first;A.cadence.mini;A.param.param;A.guar.regret					
+M.double-dqn	Double DQN	L.dqn	instantiates	method									
+M.double-q-learning	Double Q-learning	L.td.q	instantiates	method				A.cadence.one					
+M.dr-grpo	Dr.GRPO	L.pg.trust.grpo	instantiates	method		S.src.env.verifier							
+M.drq	DrQ	L.dqn.eff	instantiates	method		S.src.self.view;S.form.inv	R.data.aug						
+M.dreamer	Dreamer	L.mbrl.latent	instantiates	method		S.src.self.own;S.form.bound	R.fit.est						
+M.dreamerv2	DreamerV2	M.dreamer	derives-from	method			R.fit.est						
+M.dreamerv3	DreamerV3	M.dreamer	derives-from	method									
+M.dueling-dqn	Dueling DQN	L.dqn	instantiates	method									
+M.dyna	Dyna	L.mbrl.dyna	instantiates	method				A.rltarget.value;!A.cadence.mini;A.cadence.one;A.determinism.det					
+M.dyna-q	Dyna-Q	L.mbrl.dyna	instantiates	method				A.rltarget.value;!A.cadence.mini;A.cadence.one					
+M.edac	EDAC	L.orl.valpen	instantiates	method				A.rltarget.ac;A.outspace.cont;A.uncert.ens					
+M.enas	ENAS	L.nas.rl	instantiates	method									
+M.exp3	EXP3	L.bandit.adv	instantiates	method				A.guar.unbias					
+M.exp4	EXP4	L.bandit.adv	instantiates	method									
+M.efficientzero	EfficientZero	L.mbrl.search	instantiates	method		S.src.self.next;S.form.agree		A.world.learned;A.agents.single					
+M.expected-sarsa	Expected SARSA	L.td.sarsa	instantiates	method									
+M.expected-sarsa-off-policy-form	Expected SARSA(off-policy form)	L.td.q	instantiates	method									
+M.facmac	FACMAC	L.marl.ctde	instantiates	method				A.regime.off;A.outspace.cont					
+M.fqe	FQE	L.bandit.ope	instantiates	method		S.src.self.own;S.form.return		A.rltarget.value;A.guar.consist;A.deriv.first;A.cadence.mini					
+M.fqf	FQF	L.dqn.dist	instantiates	method				A.determinism.stoch					
+M.feudal-networks	FeUdal networks	L.hrl	instantiates	method				A.rltarget.ac;A.regime.on					
+M.gae	GAE	L.pg.ac	instantiates	method			R.fit.est	A.regime.on					
+M.grpo	GRPO	L.pg.trust.grpo	instantiates	method									
+M.gtd	GTD	L.td	instantiates	method				A.regime.off;A.deriv.first;A.cadence.one;A.guar.conv					
+M.gromov-wasserstein	Gromov-Wasserstein	L.optdisc.ot	instantiates	method		!S.form.none;S.form.dist							
+M.hac	HAC	L.hrl	instantiates	method			R.data.label	A.rltarget.ac;A.regime.off;A.outspace.cont					
+M.hiro	HIRO	L.hrl	instantiates	method			R.data.label	A.rltarget.ac;A.regime.off;A.outspace.cont					
+M.hungarian-algorithm	Hungarian algorithm	L.optdisc.assign	instantiates	method									
+M.hungarian-matching	Hungarian matching	L.optdisc	instantiates	method			R.fit.obj	A.deriv.comb					
+M.hyperband	Hyperband	L.hpo.bandit	instantiates	method				A.determinism.stoch					
+M.impala-v-trace	IMPALA/V-trace	L.pg.ac	instantiates	method			R.exec.replicate;R.fit.est	A.regime.off;A.topology.casync;A.exact.altered					
+M.ippo	IPPO	L.marl.indep	instantiates	method				A.regime.on;A.rltarget.ac;A.agents.coop					
+M.iql	IQL	L.orl.implicit; L.marl.indep	instantiates	method									
+M.iqn	IQN	L.dqn.dist	instantiates	method				A.determinism.stoch					
+M.kl-ucb	KL-UCB	L.bandit.stoch	instantiates	method				A.determinism.det;A.uncert.interval					
+M.lucb	LUCB	L.bandit.bai	instantiates	method		S.src.env.reward	R.exp.act	A.agents.single;A.determinism.det					
+M.lints	LinTS	L.bandit.stoch	instantiates	method		S.form.lik		A.determinism.stoch;A.uncert.post;A.deriv.closed					
+M.linucb	LinUCB	L.bandit.stoch	instantiates	method		S.form.lik		A.determinism.det;A.uncert.interval;A.deriv.closed					
+M.maddpg	MADDPG	L.marl.ctde	instantiates	method				A.regime.off;A.outspace.cont					
+M.mappo	MAPPO	L.marl.ctde	instantiates	method				A.regime.on;A.outspace.disc					
+M.mbpo	MBPO	L.mbrl.dyna	instantiates	method		S.form.lik		A.rltarget.ac;A.uncert.ens;A.outspace.cont					
+M.mpo	MPO	L.maxent	instantiates	method		S.form.bound	R.fit.est	A.rltarget.ac;A.outspace.cont					
+M.mppi	MPPI	L.mbrl.plan; L.tts.plan	instantiates	method		S.src.none;S.form.none	R.out.search;R.exp.act	A.deriv.zero;A.determinism.stoch;A.param.trans;A.hier.flat;A.agents.single					
+M.metaqnn	MetaQNN	L.nas.rl	instantiates	method				!A.rltarget.policy;A.rltarget.value;!A.regime.on;A.regime.off					
+M.muzero	MuZero	L.mbrl.search	instantiates	pipeline	self-play generation; learned-dynamics fitting; MCTS at play time	S.src.self.next		A.world.learned;A.agents.single;A.agents.comp					
+M.multi-game-dt	Multi-Game DT	L.orl.seq	instantiates	method									
+M.munchausen-dqn	Munchausen DQN	L.dqn	instantiates	method		S.form.conf							
+M.nasnet-zoph-le	NASNet/Zoph-Le	L.nas.rl	instantiates	method									
+M.nfsp	NFSP	L.marl.game	instantiates	method		S.src.self.own	R.exp.task;R.exp.store	A.deriv.first;A.cadence.mini;A.param.param					
+M.nash-q	Nash-Q	L.marl.game	instantiates	method				A.rltarget.value;A.regime.off;A.cadence.one;A.outspace.disc;A.guar.conv					
+M.noisynet-dqn	NoisyNet-DQN	L.dqn	instantiates	method			R.exp.act	A.determinism.stoch					
+M.pbt	PBT	L.hpo.bandit	instantiates	method			R.fit.sched	A.topology.casync;A.determinism.stoch					
+M.pets	PETS	L.mbrl.plan	instantiates	method		S.src.self.next;S.form.lik	R.fit.obj	A.world.learned;A.uncert.ens;A.determinism.stoch					
+M.pilco	PILCO	L.mbrl.plan	instantiates	method		S.src.self.next;S.form.lik	!R.out.search;R.fit.obj	!A.deriv.zero;A.deriv.first;A.world.learned;A.uncert.post;A.cadence.full;A.param.param;A.determinism.det					
+M.ppo	PPO	L.pg.trust	instantiates	method									
+M.ppo-clip	PPO-clip	L.pg.trust	instantiates	method									
+M.planet	PlaNet	L.mbrl.latent	instantiates	method		S.src.self.next;S.form.bound	R.out.search	!A.rltarget.ac;A.deriv.zero					
+M.q-learning	Q-learning	L.td.q	instantiates	method				A.cadence.one;A.guar.conv					
+M.qmix	QMIX	L.marl.factor	instantiates	method									
+M.qplex	QPLEX	L.marl.factor	instantiates	method									
+M.qr-dqn	QR-DQN	L.dqn.dist	instantiates	method									
+M.qtran	QTRAN	L.marl.factor	instantiates	method									
+M.qatten	Qatten	L.marl.factor	instantiates	method									
+M.r2d2	R2D2	L.dqn	instantiates	method			R.exec.replicate	A.topology.casync;A.exact.altered					
+M.redq	REDQ	L.dqn.eff; L.maxent	instantiates	method				!A.rltarget.value;A.rltarget.ac;!A.outspace.disc;A.outspace.cont;A.uncert.ens					
+M.reinforce	REINFORCE	L.pg	instantiates	method			R.fit.est	A.regime.on;A.rltarget.policy;A.guar.unbias					
+M.rloo	RLOO	L.pg.trust.grpo	instantiates	method		S.src.env.rm		A.guar.unbias					
+M.rainbow	Rainbow	L.dqn	instantiates	bundle	double Q-learning; prioritised replay; duelling heads; multi-step returns; distributional loss; noisy nets	S.form.lik	R.exp.act	A.determinism.stoch					
+M.rvs	RvS	L.orl.seq	instantiates	method									
+M.sac	SAC	L.maxent	instantiates	method			R.exp.store	A.rltarget.ac;A.outspace.cont					
+M.sarsa	SARSA	L.td.sarsa	instantiates	method									
+M.sat-based-learning	SAT-based learning	L.optdisc.exact	instantiates	method									
+M.slbo	SLBO	L.mbrl.dyna	instantiates	method		S.form.lik		A.rltarget.ac;A.outspace.cont;A.guar.conv					
+M.spr	SPR	L.dqn.eff; L.ssl.jepa	instantiates	method		S.src.self.next;S.form.agree							
+M.sql	SQL	L.orl.implicit	instantiates	method									
+M.sr-spr	SR-SPR	L.dqn.eff	instantiates	method		S.src.self.next;S.form.agree							
+M.sampled-muzero	Sampled MuZero	L.mbrl.search	instantiates	method			R.fit.est	!A.outspace.disc;A.outspace.cont					
+M.sinkhorn	Sinkhorn	L.optdisc	instantiates	method									
+M.sinkhorn-knopp	Sinkhorn-Knopp	L.optdisc.ot	instantiates	method									
+M.swav-assignment-step	SwAV assignment step	L.optdisc.ot	instantiates	method		!S.src.none;S.src.self.struct	R.data.label						
+M.td-0	TD(0)	L.td	instantiates	method				A.regime.on;A.cadence.one					
+M.td-lambda	TD(lambda)	L.td	instantiates	method				A.regime.on;A.cadence.one					
+M.td-mpc	TD-MPC	L.mbrl.latent	instantiates	method		S.src.self.own;S.form.agree	R.out.search	A.deriv.zero;A.outspace.cont					
+M.td3	TD3	L.dpg	instantiates	method			R.exp.store						
+M.td3-plusbc	TD3+BC	L.orl.polcon	instantiates	method		S.form.lik							
+M.trpo	TRPO	L.pg.trust	instantiates	method				A.deriv.second;A.guar.conv					
+M.thompson-sampling	Thompson sampling	L.explore.post; L.bandit.stoch	instantiates	method		S.form.post		A.determinism.stoch;A.uncert.post					
+M.trajectory-transformer	Trajectory Transformer	L.orl.seq	instantiates	method		S.src.self.next	R.out.search	!A.world.free;A.world.learned;A.deriv.comb					
+M.tsallis-inf	Tsallis-INF	L.bandit.adv	instantiates	method									
+M.ucb1	UCB1	L.bandit.stoch	instantiates	method				A.determinism.det;A.uncert.interval					
+M.v-mpo	V-MPO	L.pg.trust	instantiates	method		S.form.bound							
+M.vdn	VDN	L.marl.factor	instantiates	method									
+M.viterbi	Viterbi	L.seq.hmm; L.optdisc	instantiates	method			R.out.predict	A.deriv.comb;A.outspace.struct					
+M.wasserstein-distance	Wasserstein distance	L.optdisc.ot	instantiates	method		!S.form.none;S.form.dist							
+M.world-models	World Models	L.mbrl.latent	instantiates	method		S.src.self.ident;S.form.bound	R.fit.est	!A.rltarget.ac;A.rltarget.policy;!A.deriv.first;A.deriv.zero;A.outspace.cont					
+M.xql	XQL	L.orl.implicit	instantiates	method									
+M.actor-critic	actor-critic	L.pg.ac	instantiates	method				A.regime.on					
+M.asynchronous-dp	asynchronous DP	L.dp	instantiates	method				A.world.given;A.rltarget.value;A.cadence.full;A.determinism.det;A.guar.conv;A.param.param					
+M.auction-algorithm	auction algorithm	L.optdisc.assign	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.beam-search-as-search	beam search as search	L.optdisc	instantiates	method			R.out.decode	A.deriv.comb;A.outspace.struct					lowercase descriptive string -- confirm it is a named procedure, not a description
+M.branch-and-bound	branch and bound	L.optdisc.exact	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.constraint-programming	constraint programming	L.optdisc.exact	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.doubly-robust-ope	doubly robust OPE	L.bandit.ope	instantiates	method		S.src.design.adjust;S.form.moment		A.guar.unbias;A.uncert.interval					
+M.entropic-ot	entropic OT	L.optdisc.ot	instantiates	method		!S.form.none;S.form.dist							
+M.facility-location-coresets	facility location coresets	L.optdisc.submod	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.fictitious-play	fictitious play	L.marl.game	instantiates	method		!S.form.return		A.determinism.det;A.cadence.full;A.guar.conv					lowercase descriptive string -- confirm it is a named procedure, not a description
+M.generalised-policy-iteration	generalised policy iteration	L.dp	instantiates	method				A.world.given					lowercase descriptive string -- confirm it is a named procedure, not a description
+M.greedy-maximum-coverage	greedy maximum coverage	L.optdisc.submod	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.icem	iCEM	L.mbrl.plan	instantiates	method		S.src.none;S.form.none	R.out.search;R.exp.act	A.determinism.stoch;A.param.trans;A.hier.flat;A.agents.single					
+M.independent-a2c	independent A2C	L.marl.indep	instantiates	method				A.regime.on;A.rltarget.ac					
+M.inverse-propensity-scoring	inverse propensity scoring	L.bandit.ope	instantiates	method		S.src.design.adjust;S.form.moment		A.guar.unbias;A.uncert.point					lowercase descriptive string -- confirm it is a named procedure, not a description
+M.k-center-greedy	k-center greedy	L.optdisc.submod	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.mixed-integer-programming	mixed-integer programming	L.optdisc.exact	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.n-step-sarsa	n-step SARSA	L.td.sarsa	instantiates	method									
+M.natural-policy-gradient	natural policy gradient	L.pg.trust	instantiates	method				A.deriv.second					lowercase descriptive string -- confirm it is a named procedure, not a description
+M.option-critic	option-critic	L.hrl	instantiates	method				A.rltarget.ac;A.regime.on					
+M.options-framework	options framework	L.hrl	instantiates	method									lowercase descriptive string -- confirm it is a named procedure, not a description
+M.pessimistic-mdps	pessimistic MDPs	L.orl.valpen	instantiates	method									
+M.policy-iteration	policy iteration	L.dp	instantiates	method				A.world.given;A.rltarget.ac;A.cadence.full;A.determinism.det;A.guar.conv;A.param.param					lowercase descriptive string -- confirm it is a named procedure, not a description
+M.racing	racing	L.bandit.bai	instantiates	method			R.exp.act	A.determinism.det					
+M.regret-matching	regret matching	L.marl.game	instantiates	method		!S.form.return		A.guar.regret;A.determinism.det					lowercase descriptive string -- confirm it is a named procedure, not a description
+M.self-normalised-ips	self-normalised IPS	L.bandit.ope	instantiates	method		S.src.design.adjust;S.form.moment		A.uncert.point					
+M.sequential-halving	sequential halving	L.bandit.bai	instantiates	method			R.exp.act	A.determinism.det					lowercase descriptive string -- confirm it is a named procedure, not a description
+M.soft-q-learning	soft Q-learning	L.maxent	instantiates	method				A.rltarget.value					
+M.soft-actor-critic-variants	soft actor-critic variants	L.maxent	instantiates	method				A.rltarget.ac;A.outspace.cont					lowercase descriptive string -- confirm it is a named procedure, not a description
+M.successive-halving	successive halving	L.hpo.bandit	instantiates	method									orphaned by ancestor-pruning across the L.bandit.bai/L.hpo.bandit cycle; reattached
+M.true-online-td	true online TD	L.td	instantiates	method				A.regime.on;A.cadence.one					
+M.value-iteration	value iteration	L.dp	instantiates	method				A.world.given;A.rltarget.value;A.cadence.full;A.determinism.det;A.guar.conv;A.param.param					lowercase descriptive string -- confirm it is a named procedure, not a description
