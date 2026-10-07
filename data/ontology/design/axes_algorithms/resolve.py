@@ -80,8 +80,22 @@ class Dimension:
             axes={a: Axis(table(root / a / "nodes.tsv")) for a in AXES},
         )
 
+    def value_parents(self, nid: str) -> list[str]:
+        """Parents that axis values flow along.
+
+        A multi-parent node often sits under one family it genuinely descends
+        from and another it merely relates to, and inheriting from both
+        manufactures contradictions the node then has to deny. `value_parent`
+        names the one values come from; the others still carry membership for
+        roll-up. It is declared, never inferred from the order of `parents` --
+        deciding by column order is a recorded defect of the models dimension.
+        """
+        row = self.lineage[nid]
+        vp = row.get("value_parent", "").strip()
+        return [vp] if vp else cells(row["parents"])
+
     def chain(self, nid: str) -> list[str]:
-        """The node and its ancestors, nearest first, breadth-first over parents."""
+        """The node and its value-bearing ancestors, nearest first."""
         out: list[str] = []
         queue = [nid]
         while queue:
@@ -89,8 +103,41 @@ class Dimension:
             if cur in out:
                 continue
             out.append(cur)
-            queue.extend(cells(self.lineage[cur]["parents"]))
+            queue.extend(self.value_parents(cur))
         return out
+
+    def conflicting_parents(self, nid: str) -> list[str]:
+        """Where a multi-parent node's parents disagree, so a choice is required.
+
+        Two parents conflict when one asserts a value another denies, or when
+        they land two values in the same single-valued attribute family. When
+        they agree, the union is unambiguous and no declaration is needed --
+        explicitness is required exactly where ambiguity exists, not everywhere.
+        """
+        ps = cells(self.lineage[nid]["parents"])
+        if len(ps) < 2 or self.lineage[nid].get("value_parent", "").strip():
+            return []
+        found: list[str] = []
+        for axis in AXES:
+            sets, denied = {}, {}
+            for p in ps:
+                vals = {v for n in self.chain(p) for v in cells(self.lineage[n][axis])}
+                sets[p] = {v for v in vals if not v.startswith("!")}
+                denied[p] = {v[1:] for v in vals if v.startswith("!")}
+            for a in ps:
+                for b in ps:
+                    if a < b and (sets[a] & denied[b] or sets[b] & denied[a]):
+                        found.append(f"{axis}: {a} asserts what {b} denies")
+            if axis == "attributes":
+                ax = self.axes[axis]
+                for fam in {ax.family(v) for p in ps for v in sets[p] if v in ax.nodes}:
+                    if ax.nodes[fam].get("cardinality", "").strip() == "many":
+                        continue
+                    seen = {frozenset(v for v in sets[p] if v in ax.nodes and ax.family(v) == fam) for p in ps}
+                    seen = {s for s in seen if s}
+                    if len(seen) > 1:
+                        found.append(f"attributes: parents disagree in single-valued family {fam}")
+        return found
 
     def effective(self, nid: str, axis: str) -> tuple[set[str], list[str]]:
         """Resolved values for `nid` on `axis`, plus any conflicts found."""
@@ -178,6 +225,13 @@ def audit(dim: Dimension) -> int:
                         out.append(f"DEAD PIN  {nid}.{axis} denies {bare}, which no ancestor asserts")
                 elif axis == "attributes" and not dim.axes[axis].scope(v):
                     out.append(f"NO SCOPE  {nid} pins {v}, whose family declares no scope predicate")
+
+    for nid in dim.lineage:
+        for why in dim.conflicting_parents(nid):
+            out.append(f"NEEDS VALUE_PARENT  {nid}: {why}")
+        vp = dim.lineage[nid].get("value_parent", "").strip()
+        if vp and vp not in cells(dim.lineage[nid]["parents"]):
+            out.append(f"BAD VALUE_PARENT  {nid}: {vp} is not among its parents")
 
     # resolution
     for nid, row in dim.lineage.items():
