@@ -15,7 +15,12 @@ from pathlib import Path
 
 import pytest
 
-from paperext.ontology.axes import Dimension, parse_term, split_top
+from paperext.ontology.axes import (
+    Dimension,
+    FamilyValue,
+    parse_term,
+    split_top,
+)
 from paperext.ontology.convert_axes import SPECS, convert, write_snapshot
 from paperext.ontology.ontology import Ontology
 from paperext.ontology.rollup import to_category_map, to_category_sets
@@ -519,3 +524,72 @@ def test_the_many_fix_only_added_values():
         gained += len(new - old)
         lost += len(old - new)
     assert (gained, lost) == (10, 0)
+
+
+# --------------------------------------------------------------------------- #
+# family state: "asserted absent" vs "nothing recorded" (#100)
+# --------------------------------------------------------------------------- #
+
+
+def test_a_resolved_family_is_stated():
+    dim = Dimension.load(SNAPSHOTS / "algorithms" / "v1")
+    fam = dim.families("M.ppo", "attributes")["A.regime"]
+    assert fam.state == "stated"
+    assert fam.values == frozenset({"A.regime.on"})
+
+
+def test_a_blank_family_with_a_default_is_not_the_same_as_one_without():
+    """The distinction family defaults exist for.
+
+    `A.world` defaults to model-free, so a blank there means "model-free unless
+    the scope predicate says otherwise". `A.regime` has no default, so a blank
+    means nobody has said.
+    """
+    dim = Dimension.load(SNAPSHOTS / "algorithms" / "v1")
+    families = dim.families("L.tok.bpe", "attributes")
+    assert families["A.world"].state == "default"
+    assert families["A.world"].default == "A.world.free"
+    assert families["A.regime"].state == "unknown"
+    assert families["A.regime"].default == ""
+
+
+def test_denying_the_family_default_is_an_asserted_absence():
+    """Exactly two nodes in the dimension make this claim, and it must survive.
+
+    Activation patching and causal tracing deny `A.param.param`: they produce no
+    separable model at all. Collapsing that into "nothing recorded" would read as
+    an unanswered question rather than an answer.
+    """
+    dim = Dimension.load(SNAPSHOTS / "algorithms" / "v1")
+    absent = [
+        (nid, family)
+        for nid in dim.backbone_nodes()
+        for family, value in dim.families(nid, "attributes").items()
+        if value.state == "absent"
+    ]
+    assert absent == [
+        ("M.activation-patching", "A.param"),
+        ("M.causal-tracing", "A.param"),
+    ]
+
+
+def test_the_default_is_offered_never_merged_into_the_values():
+    """A default applies only where its family's prose scope predicate holds.
+
+    No code can evaluate that predicate, so synthesising the default into
+    `values` would turn an unchecked claim into data -- `A.regime` defaults to
+    on-policy, which is meaningless for a tokenizer.
+    """
+    dim = Dimension.load(SNAPSHOTS / "algorithms" / "v1")
+    fam = dim.families("L.tok.bpe", "attributes")["A.world"]
+    assert fam.values == frozenset()
+    assert fam.effective_values == frozenset({"A.world.free"})
+    # and nothing synthesised it behind the caller's back
+    assert "A.world.free" not in dim.effective("L.tok.bpe", "attributes")[0]
+
+
+def test_every_family_is_reported_even_when_the_node_says_nothing():
+    dim = Dimension.load(SNAPSHOTS / "algorithms" / "v1")
+    families = dim.families("L.tok.bpe", "attributes")
+    assert set(families) == set(dim.axis("attributes").roots)
+    assert all(isinstance(v, FamilyValue) for v in families.values())

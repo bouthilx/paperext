@@ -25,7 +25,7 @@ alongside it, because the flat map reproduces the legacy one and ``models/v0``
 is still the sealed eval reference.
 """
 
-from paperext.ontology.axes import Dimension
+from paperext.ontology.axes import Dimension, FamilyValue
 from paperext.ontology.ontology import (
     CycleError,
     DuplicateNodeError,
@@ -53,6 +53,7 @@ from paperext.ontology.schema import (
 __all__ = [
     "Ontology",
     "Dimension",
+    "FamilyValue",
     "DimensionDoc",
     "AxisSpec",
     "to_category_sets",
