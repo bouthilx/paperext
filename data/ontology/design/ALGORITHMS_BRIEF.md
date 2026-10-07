@@ -8,7 +8,10 @@ domains design was run).
 Issue **#96**. Siblings: **#95** models · **#91** domains · **#93** datasets ·
 **#94** extraction (runs, schema v5).
 
-**Read this file first when resuming.** It is the handover. Phase 1 is done —
+**SUPERSEDED as the handover, 2026-10-07.** #96 is closed and the active
+handover is `SCHEMA_V5_BRIEF.md`. Parts A, B and D of this file remain the
+rationale for the algorithms dimension and are still accurate; Part C's
+sampling-bias measurement and Part D's sequencing are reproduced there. Phase 1 is done —
 `axes_algorithms/SYNTHESIS.md` carries what the two runs agreed on, what they
 overturned in B.2, and the owner rulings that followed.
 
