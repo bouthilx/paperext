@@ -139,6 +139,28 @@ class Dimension:
                         found.append(f"attributes: parents disagree in single-valued family {fam}")
         return found
 
+    def _subsume(self, axis: str, vals: set[str]) -> set[str]:
+        """Drop any value a more specific resolved value already implies.
+
+        A family that legitimately pins the interior `S.src.ext` ("external,
+        unspecified") would otherwise push it back onto a leaf that has since
+        been given `S.src.ext.obs`, and the leaf would resolve to both. The
+        specific value supersedes: it is the same claim, said better. This is
+        what lets an interior pin stay correct on a family that really does span
+        its children, instead of having to be removed from 19 of them by hand.
+        """
+        ax = self.axes[axis].nodes
+        keep = set(vals)
+        for v in vals:
+            cur = v
+            while True:
+                ps = cells(ax[cur].get("parents", "")) if cur in ax else []
+                if not ps:
+                    break
+                cur = ps[0]
+                keep.discard(cur)
+        return keep
+
     def effective(self, nid: str, axis: str) -> tuple[set[str], list[str]]:
         """Resolved values for `nid` on `axis`, plus any conflicts found."""
         chain = self.chain(nid)
@@ -158,7 +180,7 @@ class Dimension:
                 for v in cells(self.lineage[n][axis])
                 if not v.startswith("!")
             }
-            return vals - denied, notes
+            return self._subsume(axis, vals - denied), notes
 
         # attributes: union across families, nearest-ancestor-wins within one
         per_family: dict[str, list[tuple[int, str]]] = {}
@@ -180,7 +202,7 @@ class Dimension:
                     f" and cardinality is {card or 'undeclared'}"
                 )
             resolved.update(at_front if card == "many" or len(at_front) == 1 else at_front)
-        return resolved - denied, notes
+        return self._subsume(axis, resolved - denied), notes
 
 
 def audit(dim: Dimension) -> int:
