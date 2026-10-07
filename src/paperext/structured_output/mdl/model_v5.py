@@ -32,7 +32,29 @@ SYSTEM_MESSAGE = (
     "procedures a paper used, never its scientific content, findings or "
     "methods.\n\n"
     "Your role is to extract, from a given research paper, its Research Fields, "
-    "Models, Datasets, Libraries, Algorithms, and the Runs it executed.\n\n"
+    "Models, Data Sources, Libraries, Algorithms, and the Runs it executed.\n\n"
+    "DATA SOURCES. A Data Source is a NAMED SOURCE OF THE EXAMPLES A RUN "
+    "CONSUMES. That covers a fixed dataset (ImageNet), an interactive "
+    "environment whose observations depend on the actions taken in it "
+    "(MuJoCo, Atari, a driving simulator), and a generator that produces "
+    "examples on demand (a physics simulator, a procedural generator). All "
+    "three are Data Sources -- a fixed dataset is a frozen sample of what a "
+    "generator would produce -- so do NOT omit an environment or a simulator "
+    "because it is not a dataset.\n"
+    "Out of scope: UNNAMED descriptions, so 'synthetic data' and 'our "
+    "simulated dataset' are not entries while 'Moving MNIST' is; the "
+    "SOFTWARE that implements a source, which is a Library (the MuJoCo "
+    "physics engine is a Library, the MuJoCo benchmark environments are Data "
+    "Sources); and a source that is itself a Model, such as a teacher "
+    "network whose outputs are used for training -- report that Model in the "
+    "Run instead.\n"
+    "If the paper names a Data Source it built FROM another named one -- "
+    "Moving MNIST from MNIST, an offline RL dataset from a simulator -- "
+    "report both and name the original in the derived one's derived_from. A "
+    "transformation the paper does not name is NOT a new Data Source: 'we "
+    "trained on rotated MNIST' is MNIST plus an augmentation Algorithm, and "
+    "a subset or split of a source is the same source with a different "
+    "size.\n\n"
     "RESEARCH FIELDS. Report every field as one list entry with a role: "
     "'contributed' if the paper advances that field or addresses a claim to it "
     "(several fields may be contributed -- do not rank them, and do not force a "
@@ -77,12 +99,21 @@ SYSTEM_MESSAGE = (
     "mode are among the six. Hyperparameter variation that moves none of the "
     "six -- learning rate, seed, dropout rate, weight decay -- stays in ONE run "
     "and is counted in `repetitions`.\n"
-    "A run is the unit that produces one learned object, so a multi-stage "
-    "procedure is several runs: reporting supervised finetuning, then reward "
-    "model fitting, then PPO against that reward model is three runs. You are "
-    "not required to decompose a procedure the paper only names -- if the paper "
-    "says only 'we used RLHF' and describes no stages, report the Algorithm and "
-    "whatever runs the paper actually describes.\n"
+    "A run is ONE COUPLED OPTIMISATION LOOP. Networks whose parameters are "
+    "updated from a shared backward pass belong to the SAME run, however many "
+    "networks that is: a generator and its discriminator are ONE run, because "
+    "the generator's gradient flows through the discriminator; an actor and its "
+    "critic are ONE run; an encoder and its decoder are ONE run. A network that "
+    "is FROZEN and only supplies targets or scores is a participant of the run, "
+    "not a run of its own -- a distillation teacher is reported in the run's "
+    "models with role_in_run='teacher', not as a second run.\n"
+    "A multi-stage procedure is several runs when the stages are separate "
+    "loops: reporting supervised finetuning, then reward model fitting, then "
+    "PPO against a FROZEN reward model is three runs, because no gradient "
+    "crosses between them. You are not required to decompose a procedure the "
+    "paper only names -- if the paper says only 'we used RLHF' and describes no "
+    "stages, report the Algorithm and whatever runs the paper actually "
+    "describes.\n"
     "Reference Models, Datasets and Algorithms from a Run by repeating the name "
     "EXACTLY as you reported it in the corresponding list.\n"
     "Only Models the paper actually executed get a Run. A baseline whose "
@@ -100,14 +131,15 @@ SYSTEM_MESSAGE = (
     "does not say."
 )
 FIRST_MESSAGE = (
-    "Which Research Fields, Models, Datasets, Libraries, Algorithms and Runs "
+    "Which Research Fields, Models, Data Sources, Libraries, Algorithms and "
+    "Runs "
     "can you find in the following research paper:\n"
     "{}"
 )
 RETRY_MESSAGE = (
     "Given your previous list of Models\n"
     "{}\n"
-    "your previous list of Datasets\n"
+    "your previous list of Data Sources\n"
     "{}\n"
     "your previous list of Libraries\n"
     "{}\n"
@@ -115,7 +147,8 @@ RETRY_MESSAGE = (
     "{}\n"
     "and your previous list of Runs\n"
     "{}\n"
-    "which might be incomplete or erroneous, please find more Models, Datasets, "
+    "which might be incomplete or erroneous, please find more Models, Data "
+    "Sources, "
     "Libraries, Algorithms and Runs in the same research paper:\n"
     "{}"
 )
@@ -185,17 +218,31 @@ class ModelRunRole(str, enum.Enum):
     TEACHER = "teacher"
     STUDENT = "student"
     ENSEMBLE_MEMBER = "ensemble-member"
+    # A second network co-optimised in the same loop, whose job is to score the
+    # main one's output: a GAN discriminator, an RL value network. One value for
+    # both, because the structural role is identical -- co-trained, scores, and
+    # usually discarded. Whether the two objectives are adversarial or
+    # cooperative is a question the algorithms `signal` axis already asks, and
+    # asking it twice is the conflation these dimensions keep paying for.
+    CRITIC = "critic"
     UNKNOWN = "unknown"
 
 
 # Which split of a Dataset a Run consumed. This is a different question from
-# `RefDataset.role` (contributed/used/referenced, which is paper-level), and
+# `RefDataSource.role` (contributed/used/referenced, which is paper-level), and
 # `6 x parameters x training examples x epochs` needs the TRAINING examples
 # specifically, so the two cannot be collapsed.
-class DatasetRunRole(str, enum.Enum):
+class DataSourceRunRole(str, enum.Enum):
     TRAIN = "train"
     VALIDATION = "validation"
     TEST = "test"
+    # Consumed by the run but not trained, validated or tested on: a retrieval
+    # corpus or knowledge base queried at inference. Measured in the
+    # legacy-2024 corpus as 12 names over 23 papers (`wikipedia`, `thepile`,
+    # `commoncrawl`, `freebase`), all of which the other three values would
+    # misreport -- and it must stay out of `training examples` in
+    # `6 x parameters x training examples x epochs`.
+    REFERENCE = "reference"
     UNKNOWN = "unknown"
 
 
@@ -307,7 +354,7 @@ class SampleProperty(BaseModel):
 # context=('properties', 'name'), 'additionalProperties' is required to be
 # supplied and to be false.", 'type': 'invalid_request_error', 'param':
 # 'tools[0].function.parameters', 'code': 'invalid_function_parameters'}}
-class RefDataset(BaseModel):
+class RefDataSource(BaseModel):
     name: Explained[str] = Field(
         description="Name of the Dataset",
     )
@@ -327,6 +374,20 @@ class RefDataset(BaseModel):
         "'unknown' if the paper does not state it. NEVER infer the size from "
         "the Dataset's name or from prior knowledge of the Dataset",
     )
+    # The relation the owner's framing makes explicit (2026-10-07): a fixed
+    # dataset is a frozen draw from a generator, so "this source's content
+    # originates in that one" is a real edge. It propagates for provenance --
+    # a paper using Moving MNIST did build on MNIST -- but NOT for compute
+    # sizing, since the run consumed Moving MNIST's examples, not MNIST's.
+    # Unlike `algorithms[].composed_of`, a derivation is not its source.
+    derived_from: list[str] = Field(
+        description="If this Data Source was built from other NAMED Data "
+        "Sources, their names as the paper writes them -- Moving MNIST from "
+        "MNIST, an offline RL dataset from a simulator. Empty otherwise. An "
+        "unnamed transformation is not a derivation: 'rotated MNIST' is "
+        "MNIST plus an augmentation, and a subset or split is the same "
+        "source",
+    )
     sample_properties: list[SampleProperty] = Field(
         description="Per-sample measures of this Dataset that the paper states, "
         "each with its own unit; empty if the paper states none",
@@ -335,7 +396,7 @@ class RefDataset(BaseModel):
         description="Title of the reference paper of the Dataset, found in the references section",
     )
 
-    def __lt__(self, other: "RefDataset"):
+    def __lt__(self, other: "RefDataSource"):
         return _lt(self, other, ("referenced_paper_title",))
 
 
@@ -442,13 +503,15 @@ class RunModel(BaseModel):
         description="Name of the Model, repeated EXACTLY as reported in the models list",
     )
     # `role_in_run`, not `role`: the referenced `RefModel` has a role too
-    # (`is_contributed`/`is_compared` at paper level, and `RefDataset.role`
+    # (`is_contributed`/`is_compared` at paper level, and `RefDataSource.role`
     # literally spells it `role`), and two fields called `role` carrying
     # different vocabularies on the two ends of one reference is a conflation
     # waiting to be read as one thing.
     role_in_run: ModelRunRole = Field(
         description="How this Run used the Model: 'main' for the model the run "
-        "produces or executes, 'teacher'/'student' in a distillation run, "
+        "produces or executes, 'critic' for a second network co-optimised in "
+        "the same loop to score the first (a GAN discriminator, an RL value "
+        "network), 'teacher'/'student' in a distillation run, "
         "'ensemble-member', or 'unknown'",
     )
 
@@ -456,16 +519,19 @@ class RunModel(BaseModel):
         return _lt(self, other, ())
 
 
-class RunDataset(BaseModel):
+class RunDataSource(BaseModel):
     name: str = Field(
         description="Name of the Dataset, repeated EXACTLY as reported in the datasets list",
     )
-    roles_in_run: list[DatasetRunRole] = Field(
-        description="Which splits of the Dataset this Run consumed: train, "
-        "validation and/or test. Usually one. ['unknown'] if the paper does not say",
+    roles_in_run: list[DataSourceRunRole] = Field(
+        description="How this Run consumed the Dataset: 'train', 'validation' "
+        "and/or 'test' for the splits it was fitted or scored on, or "
+        "'reference' for a corpus it only queried at inference without "
+        "training on it (a retrieval corpus, a knowledge base). Usually one. "
+        "['unknown'] if the paper does not say",
     )
 
-    def __lt__(self, other: "RunDataset"):
+    def __lt__(self, other: "RunDataSource"):
         return _lt(self, other, ())
 
 
@@ -488,8 +554,8 @@ class Run(BaseModel):
         description="The Models this Run executed. Usually one; a list covers "
         "ensembles and student/teacher pairs",
     )
-    datasets: list[RunDataset] = Field(
-        description="The Datasets this Run consumed",
+    data_sources: list[RunDataSource] = Field(
+        description="The Data Sources this Run consumed",
     )
     algorithms: list[RunAlgorithm] = Field(
         description="The Algorithms this Run executed. May be empty: most "
@@ -574,7 +640,10 @@ class PaperExtractions(BaseModel):
         "each with its role. Do not rank them",
     )
     models: list[RefModel] = Field(description="All Models found in the paper")
-    datasets: list[RefDataset] = Field(description="All Datasets found in the paper")
+    data_sources: list[RefDataSource] = Field(
+        description="All Data Sources found in the paper: fixed datasets, "
+        "interactive environments and generators alike"
+    )
     libraries: list[RefLibrary] = Field(
         description="All Libraries explicitely used or contributed according to the paper"
     )
@@ -631,16 +700,17 @@ def empty_model(model_cls):
     empty_fields["models"][0]["is_executed"]["value"] = False
     empty_fields["models"][0]["is_compared"]["value"] = False
     empty_fields["models"][0]["execution_mode"]["value"] = "unknown"
-    empty_fields["datasets"][0]["role"] = "referenced"
-    empty_fields["datasets"][0]["size"]["value"] = "unknown"
-    empty_fields["datasets"][0]["sample_properties"] = []
+    empty_fields["data_sources"][0]["role"] = "referenced"
+    empty_fields["data_sources"][0]["size"]["value"] = "unknown"
+    empty_fields["data_sources"][0]["derived_from"] = []
+    empty_fields["data_sources"][0]["sample_properties"] = []
     empty_fields["libraries"][0]["role"] = "referenced"
     empty_fields["algorithms"][0]["is_contributed"]["value"] = False
     empty_fields["algorithms"][0]["is_executed"]["value"] = False
     empty_fields["algorithms"][0]["is_compared"]["value"] = False
     empty_fields["algorithms"][0]["composed_of"] = []
     empty_fields["runs"][0]["models"] = []
-    empty_fields["runs"][0]["datasets"] = []
+    empty_fields["runs"][0]["data_sources"] = []
     empty_fields["runs"][0]["algorithms"] = []
     empty_fields["runs"][0]["execution_mode"]["value"] = "unknown"
     empty_fields["runs"][0]["accelerator_type"]["value"] = "unknown"

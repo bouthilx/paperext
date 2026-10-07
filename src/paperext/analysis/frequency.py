@@ -81,6 +81,12 @@ class Dimension:
     tree_path: Optional[Path] = None
     cut: Union[int, "set[str]", None] = None
     drop_roots: tuple = ("ignore",)
+    #: The ``PaperExtractions`` attribute holding this dimension's entries, when
+    #: it is not the key itself. v5 renamed the dataset list to ``data_sources``
+    #: (#102) while the reporting dimension keeps its name, since the name keys
+    #: committed reports and recorded decisions. Declared last so that the
+    #: positional ``Dimension(key, tree_path, cut)`` calls keep working.
+    field_name: Optional[str] = None
 
     # Populated by build_maps().
     category_map: Optional[dict] = field(default=None, repr=False)
@@ -232,7 +238,7 @@ def _paper_items(extractions, dim: Dimension):
     key = dim.key
     # `research_fields` used to be assembled from the `primary`/`sub` rank; v5
     # stores it as one list (#89), so it reads like every other dimension.
-    entries = getattr(extractions, key)
+    entries = getattr(extractions, dim.field_name or key)
 
     items = []
     for entry in entries:
@@ -492,7 +498,7 @@ def _default_dimensions(models_cut, domains_cut) -> "list[Dimension]":
         Dimension("models", data / "categorized_models.json", models_cut),
         Dimension("research_fields", data / "categorized_domains.json", domains_cut),
         # Datasets/libraries: reported by name until D1 wires their taxonomy.
-        Dimension("datasets"),
+        Dimension("datasets", field_name="data_sources"),
         Dimension("libraries"),
     ]
     return [build_maps(d) for d in dims]
@@ -552,7 +558,7 @@ def main(argv: Optional["list[str]"] = None) -> None:
                 merged = ext
             else:
                 merged.models.extend(ext.models)
-                merged.datasets.extend(ext.datasets)
+                merged.data_sources.extend(ext.data_sources)
                 merged.libraries.extend(ext.libraries)
                 merged.research_fields.extend(ext.research_fields)
         papers.append(merged)

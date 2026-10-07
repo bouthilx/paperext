@@ -43,6 +43,7 @@ def _ref(name, role="used", aliases=None):
         # v5 (#93); unused here, but `RefDataset` requires them. `RefLibrary`
         # ignores the extras.
         "size": _expl("unknown"),
+        "derived_from": [],
         "sample_properties": [],
         "referenced_paper_title": _expl(""),
     }
@@ -65,7 +66,7 @@ def make_paper(models=None, datasets=None, libraries=None, research_fields=None)
                 _model(*m) if isinstance(m, tuple) else _model(m)
                 for m in (models or [])
             ],
-            "datasets": [_ref(d) for d in (datasets or [])],
+            "data_sources": [_ref(d) for d in (datasets or [])],
             "libraries": [_ref(l) for l in (libraries or [])],
             "algorithms": [],
             "runs": [],
@@ -265,7 +266,7 @@ def test_research_fields_fan_over_the_whole_list(tmp_path):
 
 
 def test_no_tree_dimension_reports_by_name():
-    dim = build_maps(Dimension("datasets"))
+    dim = build_maps(Dimension("datasets", field_name="data_sources"))
     assert not dim.has_tree
     papers = [
         make_paper(datasets=["CIFAR-10", "ImageNet"]),
