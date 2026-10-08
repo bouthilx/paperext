@@ -1,0 +1,495 @@
+"""The #103 verification pass: does the v5 prompt work, measured on a small run.
+
+Schema v5 added ``runs[]``, ``algorithms[]`` and ``data_sources[]``, and **no
+extraction has ever run against them**. #103 exists to spend one small run
+finding that out rather than discovering it after ~2000 papers, because step 3
+of ``design -> extract -> revise -> categorise`` (#99) revises the *ontology*
+against the extraction -- so an extraction that failed for a **prompt** reason
+would send #99 chasing a defect that is not in the ontology.
+
+This module runs every mechanisable check #103 and #102 specify, over a
+directory of extractions::
+
+    uv run python -m paperext.structured_output.mdl.verify data/mdl/queries/anthropic/...
+
+Three kinds of result, and the distinction is the point:
+
+- **CHECK** -- a pass/fail with a stated reading. A failure is a prompt defect.
+- **PROBE** -- a region that must be non-zero. Zero means the widened scope
+  never reached the prompt, and the finding is about the prompt's *scope
+  statement*, never its vocabulary: handing the extractor a closed list would
+  make #99 circular, which is #103 section 5.
+- **MEASURE** -- a number with no pass condition, because the risk being sized
+  has no correct value. Over-splitting and field coverage are both of this kind.
+
+Region probes are read off the algorithms ``role`` axis through the #100 loader
+(``data/ontology/design/c0_verification/probe_sets.json``), never hand-typed.
+Matching is by written name or written alias and **never by similarity** --
+token matching once paired ``gpt-j`` with ``GPT-4``, and a morphological rule
+put ``bayesian neural networks`` under the graphical-model node.
+"""
+
+from __future__ import annotations
+
+import argparse
+import json
+from collections import Counter
+from dataclasses import dataclass, field
+from pathlib import Path
+from typing import Any, Iterable
+
+from paperext.structured_output.mdl.check import (
+    check_references,
+    iter_extractions,
+)
+from paperext.utils import str_normalize
+
+PROBE_SETS = Path("data/ontology/design/c0_verification/probe_sets.json")
+
+
+@dataclass
+class Finding:
+    """One result. ``ok`` is ``None`` for a measurement, which cannot fail."""
+
+    kind: str
+    name: str
+    ok: bool | None
+    detail: str
+    reading: str = ""
+    papers: list[str] = field(default_factory=list)
+
+    def __str__(self) -> str:
+        mark = {True: "PASS", False: "FAIL", None: "----"}[self.ok]
+        out = f"[{mark}] {self.kind:7} {self.name}\n         {self.detail}"
+        if self.ok is False and self.reading:
+            out += f"\n         READING: {self.reading}"
+        if self.papers:
+            shown = ", ".join(self.papers[:6])
+            more = f" (+{len(self.papers) - 6})" if len(self.papers) > 6 else ""
+            out += f"\n         papers: {shown}{more}"
+        return out
+
+
+def _names(entries: Iterable[Any]) -> set[str]:
+    """Normalised name plus written aliases for every entry in a list."""
+    out: set[str] = set()
+    for entry in entries or []:
+        name = getattr(getattr(entry, "name", None), "value", "") or ""
+        if name.strip():
+            out.add(str_normalize(name))
+        for alias in getattr(entry, "aliases", None) or []:
+            if alias.strip():
+                out.add(str_normalize(alias))
+    return out
+
+
+def _value(obj: Any, attr: str) -> Any:
+    """An ``Explained[T]``'s value, or a plain attribute, or ``None``."""
+    got = getattr(obj, attr, None)
+    got = getattr(got, "value", got)
+    return getattr(got, "value", got)
+
+
+@dataclass
+class Corpus:
+    """Every extraction, indexed the few ways the checks need."""
+
+    papers: dict[str, Any] = field(default_factory=dict)
+
+    @classmethod
+    def load(cls, paths: Iterable[Path]) -> Corpus:
+        return cls({path.stem: ex for path, ex in iter_extractions(paths)})
+
+    def where(self, slot: str, *wanted: str) -> list[str]:
+        """Papers whose ``slot`` names any of ``wanted`` (exact, normalised)."""
+        want = {str_normalize(w) for w in wanted}
+        return sorted(
+            p for p, ex in self.papers.items() if _names(getattr(ex, slot, [])) & want
+        )
+
+    def runs(self) -> list[tuple[str, Any]]:
+        return [(p, r) for p, ex in self.papers.items() for r in ex.runs or []]
+
+
+def _slot_exclusion(
+    corpus: Corpus, label: str, name: str, wrong: str, right: str, reading: str
+) -> Finding:
+    """``name`` must appear in ``right`` and not in ``wrong``."""
+    bad = corpus.where(wrong, name)
+    good = corpus.where(right, name)
+    return Finding(
+        kind="CHECK",
+        name=label,
+        ok=not bad,
+        detail=(
+            f"{name!r} in {wrong}[]: {len(bad)} papers; in {right}[]: "
+            f"{len(good)} papers"
+        ),
+        reading=reading,
+        papers=bad,
+    )
+
+
+def acceptance(corpus: Corpus) -> list[Finding]:
+    """#103 section 1's name checks, plus #102's admission-rule clauses."""
+    out = [
+        _slot_exclusion(
+            corpus,
+            "adam/adamw are algorithms, not libraries",
+            "adam",
+            "libraries",
+            "algorithms",
+            "a known legacy misrouting. `adam` in libraries[] means the "
+            "algorithms scope statement did not land.",
+        ),
+        _slot_exclusion(
+            corpus,
+            "adamw is an algorithm, not a library",
+            "adamw",
+            "libraries",
+            "algorithms",
+            "same misrouting as `adam`; both were measured in legacy-2024.",
+        ),
+        _slot_exclusion(
+            corpus,
+            "pytorch is a library, not a model",
+            "pytorch",
+            "models",
+            "libraries",
+            "a known legacy misrouting in the other direction.",
+        ),
+        _slot_exclusion(
+            corpus,
+            "mujoco is a library, not a data source",
+            "mujoco",
+            "data_sources",
+            "libraries",
+            "#102 Part A's library clause. One string, two entities: the "
+            "engine is a library, HalfCheetah is a data source. HARD "
+            "FAILURE -- `mujoco` was the most-cited name in the placement set.",
+        ),
+    ]
+
+    # The protocol clause (#102 Part A, added 2026-10-08). A protocol says how
+    # much of a source to use and how to score it, so it is not a source.
+    protocols = ("atari 100k", "atari 57", "helm", "urlb", "carla nocrash")
+    hits = {name: corpus.where("data_sources", name) for name in protocols}
+    offenders = sorted({p for ps in hits.values() for p in ps})
+    out.append(
+        Finding(
+            kind="CHECK",
+            name="an evaluation protocol is not a data source",
+            ok=not offenders,
+            detail=", ".join(f"{k}: {len(v)}" for k, v in hits.items()),
+            reading=(
+                "#102 Part A's protocol clause. All three placement runs found "
+                "these admitted because they are named, then returning their "
+                "base environment's values -- double-counting it."
+            ),
+            papers=offenders,
+        )
+    )
+
+    # Unnamed descriptions. `synthetic data` is the measured exemplar (~41
+    # names, 1.6% of the corpus vocabulary).
+    unnamed = ("synthetic data", "synthetic dataset", "synthetic datasets")
+    offenders = sorted({p for n in unnamed for p in corpus.where("data_sources", n)})
+    out.append(
+        Finding(
+            kind="CHECK",
+            name="an unnamed description is not a data source",
+            ok=not offenders,
+            detail=f"{len(offenders)} papers name a bare synthetic-data description",
+            reading="#102 Part A: a description is not an artifact.",
+            papers=offenders,
+        )
+    )
+
+    # `generate` must not carry a parameter count: the mode exists because the
+    # cost of stepping a simulator is not parameter-shaped.
+    offenders = [
+        p
+        for p, run in corpus.runs()
+        if _value(run, "execution_mode") == "generate"
+        and _value(run, "parameter_count") not in (None, "", "unknown")
+    ]
+    out.append(
+        Finding(
+            kind="CHECK",
+            name="a generate run has no parameter count",
+            ok=not offenders,
+            detail=f"{len(offenders)} generate runs carry a parameter_count",
+            reading=(
+                "HARD FAILURE. `generate` is deliberately not `inference`: "
+                "stepping a simulator or transforming a corpus has no "
+                "parameter count, and the 6ND/2ND formulas assume a network."
+            ),
+            papers=sorted(set(offenders)),
+        )
+    )
+    return out
+
+
+def probes(corpus: Corpus, probe_sets: dict[str, Any]) -> list[Finding]:
+    """#103 section 1's three region checks, read off the `role` axis."""
+    out = []
+    for region, entries in probe_sets["regions"].items():
+        want: set[str] = set()
+        for entry in entries:
+            want.add(str_normalize(entry["name"]))
+            want.update(str_normalize(s) for s in entry["surfaces"])
+        hits = {
+            p: sorted(_names(ex.algorithms) & want)
+            for p, ex in corpus.papers.items()
+            if _names(ex.algorithms) & want
+        }
+        found = sorted({n for ns in hits.values() for n in ns})
+        out.append(
+            Finding(
+                kind="PROBE",
+                name=f"{region} is non-zero",
+                ok=bool(hits),
+                detail=(
+                    f"{len(hits)} papers, {len(found)} distinct names, against a "
+                    f"probe of {len(entries)} nodes / {len(want)} surfaces"
+                    + (f": {', '.join(found[:8])}" if found else "")
+                ),
+                reading=(
+                    "Zero means the widened scope never reached the prompt. The "
+                    "finding is about the prompt's SCOPE STATEMENT, not its "
+                    "vocabulary -- #103 section 5. Do NOT fix this by handing "
+                    "the extractor a closed list; that makes #99 circular."
+                ),
+                papers=sorted(hits),
+            )
+        )
+    return out
+
+
+def manual(corpus: Corpus) -> list[Finding]:
+    """Cases no assertion can settle, surfaced for a human read."""
+    out = []
+    iql = corpus.where("algorithms", "iql")
+    out.append(
+        Finding(
+            kind="MANUAL",
+            name="iql comes back with its context, unresolved",
+            ok=None,
+            detail=(
+                f"{len(iql)} papers name `iql`. Read each one's quote: the bare "
+                "string is both Implicit and Independent Q-Learning and "
+                "resolves to neither, so a usable extraction returns the "
+                "context rather than picking one"
+            ),
+            papers=iql,
+        )
+    )
+    refs = [
+        p
+        for p, run in corpus.runs()
+        for ds in run.data_sources or []
+        if "reference" in [str(r) for r in (getattr(ds, "roles_in_run", None) or [])]
+    ]
+    out.append(
+        Finding(
+            kind="MANUAL",
+            name="a retrieval corpus comes back with roles_in_run=['reference']",
+            ok=None,
+            detail=(
+                f"{len(set(refs))} papers report a reference-role data source. "
+                "Corpus frequency of this shape was 12 names / 23 pairs, so a "
+                "flat zero on a RAG-containing sample is the thing to notice"
+            ),
+            papers=sorted(set(refs)),
+        )
+    )
+    return out
+
+
+def measurements(corpus: Corpus) -> list[Finding]:
+    """#103 section 3: over-splitting and field coverage. No pass condition."""
+    per_paper = Counter(len(ex.runs or []) for ex in corpus.papers.values())
+    runs = corpus.runs()
+    out = [
+        Finding(
+            kind="MEASURE",
+            name="runs per paper",
+            ok=None,
+            detail=(
+                f"{len(runs)} runs over {len(corpus.papers)} papers; "
+                "distribution "
+                + " ".join(f"{k}:{v}" for k, v in sorted(per_paper.items()))
+                + ". Read against what the papers describe -- `runs[]` gives "
+                "room to list eight configurations where one sweep happened"
+            ),
+        )
+    ]
+
+    reps = Counter(str(_value(r, "repetitions")) for _, r in runs)
+    out.append(
+        Finding(
+            kind="MEASURE",
+            name="repetitions distribution",
+            ok=None,
+            detail=(
+                " ".join(f"{k}:{v}" for k, v in reps.most_common(8))
+                + ". LOAD-BEARING: `unknown` rather than `1` when the paper is "
+                "silent. 5 seeds x 20 configurations is 100x the compute, and a "
+                "silent `1` undercounts compute rather than losing detail"
+            ),
+        )
+    )
+
+    for fld in ("duration", "utilisation", "parallelism", "accelerator_count"):
+        present = sum(
+            1 for _, r in runs if _value(r, fld) not in (None, "", "unknown", [])
+        )
+        out.append(
+            Finding(
+                kind="MEASURE",
+                name=f"{fld} coverage",
+                ok=None,
+                detail=(
+                    f"{present}/{len(runs)} runs"
+                    + (
+                        ". Partial coverage is EXPECTED and accepted -- #92 "
+                        "fills gaps from repositories and reference papers. "
+                        "This is a baseline, not a target"
+                        if fld != "utilisation"
+                        else ". Also check the VALUES: Epoch's 30-50% is "
+                        "applied later, in analysis. Recorded at extraction "
+                        "time it would read as something the paper stated"
+                    )
+                ),
+            )
+        )
+
+    access = Counter(
+        str(_value(ds, "access")) for _, r in runs for ds in r.data_sources or []
+    )
+    out.append(
+        Finding(
+            kind="MEASURE",
+            name="access distribution",
+            ok=None,
+            detail=(
+                " ".join(f"{k}:{v}" for k, v in access.most_common())
+                + ". `stream` near-zero is EXPECTED and is not evidence "
+                "against the value. `interactive` at zero on an RL-containing "
+                "sample is the thing to notice"
+            ),
+        )
+    )
+
+    modes = Counter(str(_value(r, "execution_mode")) for _, r in runs)
+    out.append(
+        Finding(
+            kind="MEASURE",
+            name="execution_mode distribution",
+            ok=None,
+            detail=" ".join(f"{k}:{v}" for k, v in modes.most_common()),
+        )
+    )
+    return out
+
+
+def consistency(corpus: Corpus) -> list[Finding]:
+    """``check.py``'s codes, summarised with #103 section 2's readings."""
+    counts: Counter[str] = Counter()
+    by_code: dict[str, list[str]] = {}
+    for paper, ex in corpus.papers.items():
+        for problem in check_references(ex, paper=paper):
+            counts[problem.code] += 1
+            by_code.setdefault(problem.code, []).append(paper)
+
+    readings = {
+        "unresolved-reference": (
+            "the extractor is not repeating names exactly between runs[] and "
+            "the entity lists. A prompt problem, and the one most likely to be "
+            "systematic"
+        ),
+        "referenced-but-not-executed": "is_executed and runs[] contradict each other",
+        "execution-mode-disagrees": (
+            "RefModel.execution_mode and Run.execution_mode disagree for a "
+            "model that ran"
+        ),
+        "generate-run-with-models": (
+            "a generate run references a model -- if a model produced the data "
+            "the mode is `inference`"
+        ),
+        "executed-without-run": (
+            "an executed model no run accounts for. EXPECTED IN BULK on "
+            "converted data, so read it only on freshly extracted output"
+        ),
+    }
+    return [
+        Finding(
+            kind="CHECK",
+            name=f"check.py: {code}",
+            ok=counts.get(code, 0) == 0,
+            detail=f"{counts.get(code, 0)} occurrences",
+            reading=reading,
+            papers=sorted(set(by_code.get(code, [])))[:12],
+        )
+        for code, reading in readings.items()
+    ]
+
+
+def run(paths: Iterable[Path], probe_sets: dict[str, Any]) -> list[Finding]:
+    corpus = Corpus.load(paths)
+    return [
+        *acceptance(corpus),
+        *probes(corpus, probe_sets),
+        *consistency(corpus),
+        *manual(corpus),
+        *measurements(corpus),
+    ]
+
+
+def main(argv: list[str] | None = None) -> int:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("paths", nargs="+", type=Path, help="extraction files or dirs")
+    parser.add_argument("--probe-sets", type=Path, default=PROBE_SETS)
+    parser.add_argument("--json", action="store_true", help="machine-readable output")
+    args = parser.parse_args(argv)
+
+    files: list[Path] = []
+    for path in args.paths:
+        files.extend(sorted(path.glob("*.json")) if path.is_dir() else [path])
+    if not files:
+        parser.error(f"no extraction files under {args.paths}")
+
+    probe_sets = json.loads(args.probe_sets.read_text())
+    findings = run(files, probe_sets)
+
+    if args.json:
+        print(
+            json.dumps(
+                [
+                    {
+                        "kind": f.kind,
+                        "name": f.name,
+                        "ok": f.ok,
+                        "detail": f.detail,
+                        "papers": f.papers,
+                    }
+                    for f in findings
+                ],
+                indent=1,
+            )
+        )
+        return 0
+
+    print(f"{len(files)} extraction files\n")
+    for finding in findings:
+        print(finding)
+        print()
+    failed = [f for f in findings if f.ok is False]
+    print(f"{len(failed)} failed of {sum(1 for f in findings if f.ok is not None)}")
+    for finding in failed:
+        print(f"  - {finding.name}")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

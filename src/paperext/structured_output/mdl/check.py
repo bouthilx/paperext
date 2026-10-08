@@ -199,8 +199,14 @@ def check_references(extractions: Any, *, paper: str = "") -> list[Problem]:
     return problems
 
 
-def check_paths(paths: Iterable[Path]) -> Iterator[tuple[Path, list[Problem]]]:
-    """``(path, problems)`` for every extraction file, up-converted first."""
+def iter_extractions(paths: Iterable[Path]) -> Iterator[tuple[Path, Any]]:
+    """``(path, extractions)`` for every readable extraction file, up-converted.
+
+    Unreadable files are logged and skipped rather than raised on, for the same
+    reason the reference check reports: a corpus pass must survive one bad file.
+    Shared with :mod:`paperext.structured_output.mdl.verify` so both read the
+    corpus the same way -- two loaders would be two version-detection rules.
+    """
     from paperext.structured_output.mdl import model as dest_model
     from paperext.structured_output.mdl.convert import (
         CONVERT_CHAIN,
@@ -233,6 +239,12 @@ def check_paths(paths: Iterable[Path]) -> Iterator[tuple[Path, list[Problem]]]:
                 convert: Any = CONVERT_MODEL[src]
                 extractions = convert(extractions)
 
+        yield path, extractions
+
+
+def check_paths(paths: Iterable[Path]) -> Iterator[tuple[Path, list[Problem]]]:
+    """``(path, problems)`` for every extraction file, up-converted first."""
+    for path, extractions in iter_extractions(paths):
         yield path, check_references(extractions, paper=path.stem)
 
 
