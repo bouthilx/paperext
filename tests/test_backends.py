@@ -6,6 +6,7 @@ import openai
 import pytest
 
 from paperext.backends import available, get_backend
+from paperext.backends.anthropic import DEFAULT_MAX_TOKENS
 from paperext.backends.base import Backend
 from paperext.backends.openai import OpenAIBackend
 
@@ -178,8 +179,11 @@ def test_claude_make_client_injects_max_tokens(monkeypatch):
         )
     )
 
-    # Anthropic requires max_tokens; the backend injects a default.
-    assert captured["max_tokens"] == 32768
+    # Anthropic requires max_tokens; the backend injects a default. Assert the
+    # plumbing, not the number -- the ceiling has been retuned twice as the
+    # schema grew, and a test pinning the value fails on tuning rather than on
+    # a break.
+    assert captured["max_tokens"] == DEFAULT_MAX_TOKENS
     assert captured["model"] == "claude-opus-4-8"
     assert usage == {"input_tokens": 1, "output_tokens": 2, "total_tokens": 3}
 
@@ -490,7 +494,7 @@ def test_anthropic_make_client_uses_the_direct_sdk_and_injects_max_tokens(
     )
 
     assert constructed["client"] is sentinel
-    assert captured["max_tokens"] == 32768
+    assert captured["max_tokens"] == DEFAULT_MAX_TOKENS
     assert captured["model"] == "claude-opus-5"
     assert usage == {"input_tokens": 1, "output_tokens": 2, "total_tokens": 3}
 
@@ -753,3 +757,28 @@ def test_a_provider_error_is_tagged_with_the_backend_and_model(monkeypatch, clou
         asyncio.run(client.chat.completions.create_with_completion(messages=[]))
     note = "\n".join(getattr(caught.value, "__notes__", []))
     assert "openai/" in note and "(agent)" in note and "$OPENAI_API_KEY" in note
+
+
+def test_max_tokens_is_configurable_and_validated(monkeypatch):
+    """The ceiling has been outgrown twice, each time by a schema change.
+
+    v5 measured 20.2k mean / 29.5k max output on the C0 sample against a 32k
+    ceiling -- 10% headroom, and one paper in nine truncated outright. A
+    truncation costs the whole paper, so raising this must not require a code
+    edit.
+    """
+    backend = get_backend("anthropic")
+    assert backend.max_tokens == DEFAULT_MAX_TOKENS
+
+    monkeypatch.setitem(backend.config._config, "max_tokens", "65536")
+    assert backend.max_tokens == 65536
+    assert backend.request_defaults["max_tokens"] == 65536
+
+    # Blank means "use the default", matching how the other options read.
+    monkeypatch.setitem(backend.config._config, "max_tokens", "")
+    assert backend.max_tokens == DEFAULT_MAX_TOKENS
+
+    for bad in ("lots", "0", "-1"):
+        monkeypatch.setitem(backend.config._config, "max_tokens", bad)
+        with pytest.raises(ValueError):
+            backend.max_tokens

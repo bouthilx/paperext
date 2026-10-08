@@ -88,7 +88,16 @@ class Backend(ABC):
     api_key_env: str | None = None
 
     #: Request kwargs the pipeline never sets but the provider requires.
-    request_defaults: dict[str, Any] = {}
+    @property
+    def request_defaults(self) -> "dict[str, Any]":
+        """Per-request kwargs this backend injects when the caller sets none.
+
+        A property rather than a class attribute because a backend may read it
+        from config -- Anthropic's `max_tokens` does, since that ceiling has
+        been outgrown twice by schema growth and a truncation costs a whole
+        paper's extraction.
+        """
+        return {}
 
     #: Whether the model is named per request. False when it is bound to the
     #: client instead (Vertex's ``GenerativeModel``).

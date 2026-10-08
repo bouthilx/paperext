@@ -1,0 +1,2703 @@
+{
+  "paper": "69a5fd3b48887d403d0a4b9d.txt",
+  "words": 13522,
+  "extractions": {
+    "title": {
+      "quote": "SHAPE OF THOUGHT: WHEN DISTRIBUTION MATTERS MORE THAN CORRECTNESS IN REASONING TASKS",
+      "justification": "Title as printed on the first page",
+      "value": "Shape of Thought: When Distribution Matters More than Correctness in Reasoning Tasks"
+    },
+    "description": "An empirical study of supervised fine-tuning of small LLMs (1.5B-9B, Gemma/Llama/Qwen) on chain-of-thought traces of three kinds: human-written, synthetic with correct final answers (G), and synthetic with incorrect final answers (W). Experiments on MATH, GSM8K, Countdown and MBPP show synthetic traces, even incorrect ones, outperform human-written traces, attributed to distributional closeness; also includes paraphrasing experiments and controlled error-injection experiments.",
+    "type": {
+      "quote": "we conduct a systematic study of supervised fine-tuning (SFT) on reasoning traces across categories (1), (2), and (3) above.",
+      "justification": "The paper runs fine-tuning experiments and reports accuracies.",
+      "value": "empirical"
+    },
+    "research_fields": [
+      {
+        "name": {
+          "quote": "Large language models (LLMs) have made rapid progress on reasoning tasks, often using supervised fine-tuning on chain-of-thought (CoT) traces",
+          "justification": "The paper studies LLM reasoning via SFT.",
+          "value": "Large Language Model Reasoning"
+        },
+        "aliases": [
+          "LLM reasoning",
+          "chain-of-thought reasoning"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "We demonstrate our findings across various reasoning domains like math, algorithmic reasoning and code generation",
+          "justification": "Mathematical reasoning is a setting used and contributed to.",
+          "value": "Mathematical Reasoning"
+        },
+        "aliases": [
+          "math reasoning"
+        ],
+        "role": "used"
+      },
+      {
+        "name": {
+          "quote": "We also show our results on code generation using MBPP (Austin et al., 2021) dataset.",
+          "justification": "Code generation is an evaluation venue.",
+          "value": "Code Generation"
+        },
+        "aliases": [
+          "program synthesis"
+        ],
+        "role": "used"
+      },
+      {
+        "name": {
+          "quote": "This has motivated extensive study of how neural networks learn from noisy labels (Song et al., 2022).",
+          "justification": "Learning from noisy data is background context the paper connects to.",
+          "value": "Learning from Noisy Data"
+        },
+        "aliases": [
+          "noisy labels"
+        ],
+        "role": "referenced"
+      },
+      {
+        "name": {
+          "quote": "Distilling reasoning from synthetic CoT traces enables smaller models to acquire problem-solving ability",
+          "justification": "The paper's method is a distillation/synthetic-data setting.",
+          "value": "Knowledge Distillation / Synthetic Data Generation"
+        },
+        "aliases": [
+          "distillation"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "The learning dynamics of neural networks show some similarity to the principles in human cognitive science.",
+          "justification": "Cognitive science is cited as inspiration context.",
+          "value": "Cognitive Science"
+        },
+        "aliases": [
+          "human cognitive development"
+        ],
+        "role": "referenced"
+      }
+    ],
+    "models": [
+      {
+        "name": {
+          "quote": "Gemma-2-2B (Team et al., 2024) (G-2B)",
+          "justification": "Base model fine-tuned in experiments.",
+          "value": "Gemma-2-2B"
+        },
+        "aliases": [
+          "G-2B"
+        ],
+        "is_contributed": {
+          "quote": "We perform experiments on three open-source pretrained base LMs for SFT",
+          "justification": "Pre-existing open model.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We ran all our experiments on 4 A100 80GB GPUs and 8 A100 40GB GPUs.",
+          "justification": "Fine-tuned and evaluated on GPUs.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Table 7: Avg and Max of all runs on all models on all tasks",
+          "justification": "Its results are compared across datasets and with other models.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "We perform SFT on the base models discussed above",
+          "justification": "The model is fine-tuned.",
+          "value": "finetune"
+        },
+        "referenced_paper_title": {
+          "quote": "Gemma 2: Improving open language models at a practical size.",
+          "justification": "Reference for Gemma models.",
+          "value": "Gemma 2: Improving open language models at a practical size"
+        }
+      },
+      {
+        "name": {
+          "quote": "Llama-3.1-8B (Grattafiori et al., 2024) (L-8B)",
+          "justification": "Base model fine-tuned.",
+          "value": "Llama-3.1-8B"
+        },
+        "aliases": [
+          "L-8B",
+          "Llama-3-8B"
+        ],
+        "is_contributed": {
+          "quote": "We perform experiments on three open-source pretrained base LMs for SFT",
+          "justification": "Pre-existing model.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Results of SFT on Llama-3-8B model for Code Generation task.",
+          "justification": "Fine-tuned in the paper.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Table 4: Max accuracy on MBPP.",
+          "justification": "Compared across datasets and models.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "We perform SFT on the base models discussed above",
+          "justification": "Fine-tuned.",
+          "value": "finetune"
+        },
+        "referenced_paper_title": {
+          "quote": "The llama 3 herd of models.",
+          "justification": "Reference for Llama 3.",
+          "value": "The llama 3 herd of models"
+        }
+      },
+      {
+        "name": {
+          "quote": "Qwen2.5-1.5B (Qwen et al., 2025) (Q-1.5B)",
+          "justification": "Base model fine-tuned.",
+          "value": "Qwen2.5-1.5B"
+        },
+        "aliases": [
+          "Q-1.5B",
+          "Qwen-2.5-1.5B"
+        ],
+        "is_contributed": {
+          "quote": "We perform experiments on three open-source pretrained base LMs for SFT",
+          "justification": "Pre-existing model.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Results of SFT on Qwen-2.5-1.5B model for Code Generation task.",
+          "justification": "Fine-tuned in the paper.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Table 1: Performance on harder tasks like Countdown.",
+          "justification": "Compared to other models.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "We perform SFT on the base models discussed above",
+          "justification": "Fine-tuned.",
+          "value": "finetune"
+        },
+        "referenced_paper_title": {
+          "quote": "Qwen2.5 technical report",
+          "justification": "Reference for Qwen2.5.",
+          "value": "Qwen2.5 technical report"
+        }
+      },
+      {
+        "name": {
+          "quote": "We also perform some experiments on Gemma-2-9B (Team et al., 2024) (G-9B), to study the effect of scaling model size",
+          "justification": "Scaling experiment model.",
+          "value": "Gemma-2-9B"
+        },
+        "aliases": [
+          "G-9B"
+        ],
+        "is_contributed": {
+          "quote": "We also perform some experiments on Gemma-2-9B",
+          "justification": "Pre-existing model.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We further examine the effect of scaling model size by finetuning Gemma-2-9B on human-written traces",
+          "justification": "Fine-tuned.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Table 5: Distribution matters even at scale.",
+          "justification": "Compared against G-2B.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "finetuning Gemma-2-9B on human-written traces",
+          "justification": "Fine-tuned.",
+          "value": "finetune"
+        },
+        "referenced_paper_title": {
+          "quote": "Gemma 2: Improving open language models at a practical size.",
+          "justification": "Gemma reference.",
+          "value": "Gemma 2: Improving open language models at a practical size"
+        }
+      },
+      {
+        "name": {
+          "quote": "we use use Gemma-2-27B-IT model (G-27B-IT) for generating the CoTs",
+          "justification": "Teacher/data-source model used to generate synthetic CoTs and paraphrases.",
+          "value": "Gemma-2-27B-IT"
+        },
+        "aliases": [
+          "G-27B-IT",
+          "Gemma-2-27B-It"
+        ],
+        "is_contributed": {
+          "quote": "we use use Gemma-2-27B-IT model (G-27B-IT) for generating the CoTs",
+          "justification": "Pre-existing model.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We sample 64 solutions at temperature of 0.8.",
+          "justification": "Sampled to generate datasets.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Table 8: Comparison of CoT Performance across Datasets.",
+          "justification": "Its CoTs are qualitatively compared with Q-14B's.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "To generate the synthetic CoTs, we use the same or more capable models. We sample 64 solutions at temperature of 0.8.",
+          "justification": "Used only for sampling/inference.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "Gemma 2: Improving open language models at a practical size.",
+          "justification": "Gemma reference.",
+          "value": "Gemma 2: Improving open language models at a practical size"
+        }
+      },
+      {
+        "name": {
+          "quote": "generated from G-27B-IT and Q-14B-IT models for the same questions",
+          "justification": "Another generator model used for MATH synthetic data.",
+          "value": "Q-14B-IT"
+        },
+        "aliases": [
+          "Q-14B",
+          "Qwen-14B-IT"
+        ],
+        "is_contributed": {
+          "quote": "Source ... Q-14B-IT",
+          "justification": "Pre-existing model.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Table 9: G and W CoTs curated for MATH. Source H G-27B-IT Q-14B-IT Q-72B-IT",
+          "justification": "Used to generate CoT datasets.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Table 8: Comparison of CoT Performance across Datasets.",
+          "justification": "Compared qualitatively with G-27B-IT CoTs.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "To generate the synthetic CoTs, we use the same or more capable models.",
+          "justification": "Used for generation only.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "Qwen2.5 technical report",
+          "justification": "Qwen reference.",
+          "value": "Qwen2.5 technical report"
+        }
+      },
+      {
+        "name": {
+          "quote": "Source H G-27B-IT Q-14B-IT Q-72B-IT G-2B L-8B Q-1.5B",
+          "justification": "Listed as a CoT-generating model for MATH.",
+          "value": "Q-72B-IT"
+        },
+        "aliases": [
+          "Qwen-72B-IT"
+        ],
+        "is_contributed": {
+          "quote": "Q-72B-IT 6700 2373",
+          "justification": "Pre-existing model.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Q-72B-IT 6700 2373",
+          "justification": "Used to generate CoT datasets for MATH.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Q-72B-W 0.53 0.55 / Q-72B-G 0.54 0.56",
+          "justification": "Results of SFT on its data appear in Table 7.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "To generate the synthetic CoTs, we use the same or more capable models.",
+          "justification": "Generation only.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "Qwen2.5 technical report",
+          "justification": "Qwen reference.",
+          "value": "Qwen2.5 technical report"
+        }
+      },
+      {
+        "name": {
+          "quote": "Figure 12: Paraphrasing experiment for L-8B. H paraphrased CoTs by L-70B-IT model performs better than the original H CoTs.",
+          "justification": "Used for paraphrasing human CoTs for Llama.",
+          "value": "L-70B-IT"
+        },
+        "aliases": [
+          "Llama-70B-IT"
+        ],
+        "is_contributed": {
+          "quote": "H paraphrased CoTs by L-70B-IT model",
+          "justification": "Pre-existing model.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "H paraphrased CoTs by L-70B-IT model performs better than the original H CoTs.",
+          "justification": "Used to produce paraphrased dataset.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "H paraphrased CoTs by L-70B-IT model performs better than the original H CoTs.",
+          "justification": "Its paraphrased data is compared.",
+          "value": false
+        },
+        "execution_mode": {
+          "quote": "We prompt G-27B-IT to paraphrase H solutions.",
+          "justification": "Prompted for generation only.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "The llama 3 herd of models.",
+          "justification": "Llama reference.",
+          "value": "The llama 3 herd of models"
+        }
+      }
+    ],
+    "data_sources": [
+      {
+        "name": {
+          "quote": "MATH (Hendrycks et al., 2021b) consists of 7500 human written problem-solution pairs.",
+          "justification": "Primary math dataset used.",
+          "value": "MATH"
+        },
+        "aliases": [
+          "MATH500 (test set)"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "MATH (Hendrycks et al., 2021b) consists of 7500 human written problem-solution pairs. We use the standard test set containing 500 problems for evaluation.",
+          "justification": "Stated sizes.",
+          "value": "7500 training problem-solution pairs; 500 test problems"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "Measuring mathematical problem solving with the math dataset.",
+          "justification": "Reference listed.",
+          "value": "Measuring mathematical problem solving with the MATH dataset"
+        }
+      },
+      {
+        "name": {
+          "quote": "GSM8K (Cobbe et al., 2021) consists of 7473 human written problem-solution pairs.",
+          "justification": "Dataset used.",
+          "value": "GSM8K"
+        },
+        "aliases": [],
+        "role": "used",
+        "size": {
+          "quote": "consists of 7473 human written problem-solution pairs. We use their standard test set for evaluation comprising 1319 problems-solution pairs.",
+          "justification": "Stated sizes.",
+          "value": "7473 training pairs; 1319 test pairs (594 subset used for SFT)"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "Training verifiers to solve math word problems.",
+          "justification": "Reference listed.",
+          "value": "Training verifiers to solve math word problems"
+        }
+      },
+      {
+        "name": {
+          "quote": "Countdown (Pan et al., 2025) task requires to reach a target number using exactly three/four given operands",
+          "justification": "Task dataset used.",
+          "value": "Countdown"
+        },
+        "aliases": [
+          "TinyZero Countdown"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "We use a 10k subset of the dataset corpus for training and 1k subset for evaluation.",
+          "justification": "Stated sizes.",
+          "value": "10k training subset; 1k evaluation subset"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "Jiayi Pan, Junjie Zhang, Xingyao Wang, Lifan Yuan, Hao Peng, and Alane Suhr. Tinyzero.",
+          "justification": "Reference listed.",
+          "value": "TinyZero"
+        }
+      },
+      {
+        "name": {
+          "quote": "We also show our results on code generation using MBPP (Austin et al., 2021) dataset. This benchmark contains around 1k crowd-sourced Python programming problems.",
+          "justification": "Dataset used.",
+          "value": "MBPP"
+        },
+        "aliases": [],
+        "role": "used",
+        "size": {
+          "quote": "contains around 1k crowd-sourced Python programming problems ... kept aside a subset of 200 programming tasks as the test set. We used remaining 774 programming problems",
+          "justification": "Stated sizes.",
+          "value": "~1k problems; 200 test, 774 train"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "Program synthesis with large language models.",
+          "justification": "Reference listed.",
+          "value": "Program synthesis with large language models"
+        }
+      },
+      {
+        "name": {
+          "quote": "Datasets generated by model M are named as M-G (CoTs with correct final answers)",
+          "justification": "Named synthetic dataset of correct-answer CoTs generated by G-27B-IT.",
+          "value": "G-27B-IT-G"
+        },
+        "aliases": [
+          "G",
+          "Gold"
+        ],
+        "role": "contributed",
+        "size": {
+          "quote": "Source ... G-27B-IT Correct-final-answer 5809 ... We extracted 6913 G and 594 W pairs datasets.",
+          "justification": "Sizes stated per task.",
+          "value": "MATH: 5809; GSM8K: 6913 (594 subset used); MBPP: 354 subset; Countdown: 7131"
+        },
+        "derived_from": [
+          "MATH",
+          "GSM8K",
+          "Countdown",
+          "MBPP"
+        ],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "No reference paper; created in this work.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "M-W (CoTs with incorrect final answers)",
+          "justification": "Named synthetic dataset of incorrect-answer CoTs generated by G-27B-IT.",
+          "value": "G-27B-IT-W"
+        },
+        "aliases": [
+          "W",
+          "Wrong"
+        ],
+        "role": "contributed",
+        "size": {
+          "quote": "G-27B-IT Incorrect-final-answer 6076 ... For Countdown, we obtain 7131 W and G datasets.",
+          "justification": "Stated sizes.",
+          "value": "MATH: 6076; GSM8K: 594; MBPP: 354; Countdown: 7131"
+        },
+        "derived_from": [
+          "MATH",
+          "GSM8K",
+          "Countdown",
+          "MBPP"
+        ],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "Created in this work.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "Q-14B-IT 6158 2130",
+          "justification": "Synthetic MATH CoT dataset from Q-14B-IT with correct answers.",
+          "value": "Q-14B-G"
+        },
+        "aliases": [
+          "Q-14B-IT-G"
+        ],
+        "role": "contributed",
+        "size": {
+          "quote": "Q-14B-IT 6158 2130",
+          "justification": "Stated table values.",
+          "value": "6158"
+        },
+        "derived_from": [
+          "MATH"
+        ],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "Created in this work.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "Q-14B-IT 6158 2130",
+          "justification": "Synthetic MATH CoT dataset from Q-14B-IT with incorrect answers.",
+          "value": "Q-14B-W"
+        },
+        "aliases": [
+          "Q-14B-IT-W"
+        ],
+        "role": "contributed",
+        "size": {
+          "quote": "Q-14B-IT 6158 2130",
+          "justification": "Stated table values.",
+          "value": "2130"
+        },
+        "derived_from": [
+          "MATH"
+        ],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "Created in this work.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "Q-72B-IT 6700 2373",
+          "justification": "Synthetic MATH CoT dataset with correct answers from Q-72B-IT.",
+          "value": "Q-72B-G"
+        },
+        "aliases": [
+          "Q-72B-IT-G"
+        ],
+        "role": "contributed",
+        "size": {
+          "quote": "Q-72B-IT 6700 2373",
+          "justification": "Table value.",
+          "value": "6700"
+        },
+        "derived_from": [
+          "MATH"
+        ],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "Created in this work.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "Q-72B-IT 6700 2373",
+          "justification": "Synthetic MATH CoT dataset with incorrect answers from Q-72B-IT.",
+          "value": "Q-72B-W"
+        },
+        "aliases": [
+          "Q-72B-IT-W"
+        ],
+        "role": "contributed",
+        "size": {
+          "quote": "Q-72B-IT 6700 2373",
+          "justification": "Table value.",
+          "value": "2373"
+        },
+        "derived_from": [
+          "MATH"
+        ],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "Created in this work.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "G-2B 1295 7044",
+          "justification": "Self-generated MATH CoT dataset with correct answers from Gemma-2-2B.",
+          "value": "G-2B-G"
+        },
+        "aliases": [],
+        "role": "contributed",
+        "size": {
+          "quote": "G-2B 1295 7044",
+          "justification": "Table value.",
+          "value": "1295"
+        },
+        "derived_from": [
+          "MATH"
+        ],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "Created in this work.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "G-2B 1295 7044",
+          "justification": "Self-generated MATH CoT dataset with incorrect answers.",
+          "value": "G-2B-W"
+        },
+        "aliases": [],
+        "role": "contributed",
+        "size": {
+          "quote": "G-2B 1295 7044",
+          "justification": "Table value.",
+          "value": "7044"
+        },
+        "derived_from": [
+          "MATH"
+        ],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "Created in this work.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "L-8B 3497 7448",
+          "justification": "Self-generated MATH CoT dataset with correct answers from Llama-3.1-8B.",
+          "value": "L-8B-G"
+        },
+        "aliases": [],
+        "role": "contributed",
+        "size": {
+          "quote": "L-8B 3497 7448",
+          "justification": "Table value.",
+          "value": "3497"
+        },
+        "derived_from": [
+          "MATH"
+        ],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "Created in this work.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "L-8B 3497 7448",
+          "justification": "Self-generated MATH CoT dataset with incorrect answers.",
+          "value": "L-8B-W"
+        },
+        "aliases": [],
+        "role": "contributed",
+        "size": {
+          "quote": "L-8B 3497 7448",
+          "justification": "Table value.",
+          "value": "7448"
+        },
+        "derived_from": [
+          "MATH"
+        ],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "Created in this work.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "Q-1.5B 5264 7360",
+          "justification": "Self-generated MATH CoT dataset with correct answers from Qwen2.5-1.5B.",
+          "value": "Q-1.5B-G"
+        },
+        "aliases": [],
+        "role": "contributed",
+        "size": {
+          "quote": "Q-1.5B 5264 7360",
+          "justification": "Table value.",
+          "value": "5264"
+        },
+        "derived_from": [
+          "MATH"
+        ],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "Created in this work.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "Q-1.5B 5264 7360",
+          "justification": "Self-generated MATH CoT dataset with incorrect answers.",
+          "value": "Q-1.5B-W"
+        },
+        "aliases": [],
+        "role": "contributed",
+        "size": {
+          "quote": "Q-1.5B 5264 7360",
+          "justification": "Table value.",
+          "value": "7360"
+        },
+        "derived_from": [
+          "MATH"
+        ],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "Created in this work.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "H-Para-G-27B-IT",
+          "justification": "Paraphrased human CoT dataset produced by prompting G-27B-IT.",
+          "value": "H-Para-G-27B-IT"
+        },
+        "aliases": [
+          "H-Para",
+          "Paraphrased H"
+        ],
+        "role": "contributed",
+        "size": {
+          "quote": "We prompt G-27B-IT to paraphrase H solutions.",
+          "justification": "Size not stated separately.",
+          "value": "unknown"
+        },
+        "derived_from": [
+          "MATH",
+          "MBPP"
+        ],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "Created in this work.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "we construct datasets with varying proportions of flawed CoTs by mixing them with CoTs leading to correct final answers (G-27B-IT-G) to create G-27B-IT-G-xE datasets, where x = 25%, 50%, 75%, and 100% flawed CoTs",
+          "justification": "Named mixture datasets with injected flawed CoTs.",
+          "value": "G-27B-IT-G-xE"
+        },
+        "aliases": [
+          "G-27B-IT-25E",
+          "G-27B-IT-50E",
+          "G-27B-IT-75E",
+          "G-27B-IT-100E"
+        ],
+        "role": "contributed",
+        "size": {
+          "quote": "we construct datasets with varying proportions of flawed CoTs",
+          "justification": "Sizes not stated.",
+          "value": "unknown"
+        },
+        "derived_from": [
+          "G-27B-IT-G",
+          "MATH"
+        ],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "Created in this work.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "generated a dataset of programming solutions leading to correct solutions passing all test cases (G-27B-IT-G) and compilable incorrect solutions failing one or more test cases (G-27B-IT-W)",
+          "justification": "MBPP synthetic subsets, counted as instances of the named synthetic datasets; recorded size here.",
+          "value": "H (human-written CoTs)"
+        },
+        "aliases": [
+          "H"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "We ended up taking a subset of 354 datapoints for H, G and W.",
+          "justification": "Stated subset sizes for MBPP; MATH H is 7500.",
+          "value": "MATH: 7500; GSM8K: 594 subset; MBPP: 354"
+        },
+        "derived_from": [
+          "MATH",
+          "GSM8K",
+          "MBPP"
+        ],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "Measuring mathematical problem solving with the math dataset.",
+          "justification": "Human CoTs come from the original benchmarks.",
+          "value": "Measuring mathematical problem solving with the MATH dataset"
+        }
+      }
+    ],
+    "libraries": [
+      {
+        "name": {
+          "quote": "We then use math_verify (for MATH and GSM8K) Kydlíček et al. (2025)",
+          "justification": "Library used to verify final answers.",
+          "value": "math_verify"
+        },
+        "aliases": [
+          "math-verify"
+        ],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "math-verify: A robust mathematical expression evaluation system for LLM outputs",
+          "justification": "Reference listed.",
+          "value": "math-verify: A robust mathematical expression evaluation system for LLM outputs"
+        }
+      }
+    ],
+    "algorithms": [
+      {
+        "name": {
+          "quote": "adapting them to specific tasks is commonly achieved through Supervised Fine-Tuning (SFT)",
+          "justification": "Main training procedure.",
+          "value": "Supervised Fine-Tuning (SFT)"
+        },
+        "aliases": [
+          "SFT"
+        ],
+        "is_contributed": {
+          "quote": "we conduct a systematic study of supervised fine-tuning (SFT) on reasoning traces",
+          "justification": "Pre-existing procedure.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We perform SFT on the base models discussed above using the human written (H), Synthetic CoTs with correct answers (G) and synthetic CoTs with incorrect answers (W) datasets.",
+          "justification": "Executed in all experiments.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Our analysis focuses exclusively on SFT",
+          "justification": "Not compared against other training algorithms numerically.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "SFT is a process that updates a model’s parameters using a labeled dataset D = {(x, y)} of input-output pairs.",
+          "justification": "Used as the learning paradigm.",
+          "value": "the learning paradigm used to finetune base LMs on CoT datasets"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Training language models to follow instructions with human feedback.",
+          "justification": "Closest reference for SFT/instruction tuning.",
+          "value": "Training language models to follow instructions with human feedback"
+        }
+      },
+      {
+        "name": {
+          "quote": "chain-of-thought (CoT) traces",
+          "justification": "CoT is the named procedure for step-by-step reasoning generation.",
+          "value": "chain-of-thought (CoT)"
+        },
+        "aliases": [
+          "CoT"
+        ],
+        "is_contributed": {
+          "quote": "A common assumption in this line of research is that correctness is the primary determinant of data quality",
+          "justification": "Pre-existing.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "When you answer, respond only with the Solution, thinking step by step.",
+          "justification": "Used in prompting and generation.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "we focus on the distribution of CoTs",
+          "justification": "Not compared as an algorithm.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "models are supervised directly on step-by-step solutions",
+          "justification": "The reasoning trace format used for training and evaluation.",
+          "value": "step-by-step reasoning traces used as training data and generated at evaluation"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "No specific CoT reference in the list.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "For evaluation, we use greedy decoding in all our experiments.",
+          "justification": "Decoding strategy at test time.",
+          "value": "greedy decoding"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "For evaluation, we use greedy decoding in all our experiments.",
+          "justification": "Standard method.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "For evaluation, we use greedy decoding in all our experiments.",
+          "justification": "Used at evaluation.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "For evaluation, we use greedy decoding in all our experiments.",
+          "justification": "No comparison to other decoding strategies.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "For evaluation, we use greedy decoding in all our experiments.",
+          "justification": "Decoding at evaluation.",
+          "value": "the decoding strategy used in evaluation"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "No reference.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "We report the zero-shot and four-shot accuracies on all the tasks for the three base models",
+          "justification": "Named evaluation prompting procedure.",
+          "value": "four-shot prompting"
+        },
+        "aliases": [
+          "4-shot",
+          "few-shot prompting"
+        ],
+        "is_contributed": {
+          "quote": "We report the zero-shot and four-shot accuracies",
+          "justification": "Standard evaluation protocol.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Table 10: Zero-shot and Four-shot accuracies for three models across three datasets.",
+          "justification": "Executed for baselines.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "All the baselines start from 0% zero-shot and maximum of 16% with four-shot",
+          "justification": "Compared to finetuned results.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "We report the zero-shot and four-shot accuracies on all the tasks for the three base models we use in Table 10.",
+          "justification": "Baseline evaluation protocol.",
+          "value": "baseline evaluation protocol for base models"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "No reference.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "we rely on test accuracy measured by final answer correctness and code test case pass rates (Pass@1) to assess model performance",
+          "justification": "Named evaluation metric procedure for code.",
+          "value": "Pass@1"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "code test case pass rates (Pass@1)",
+          "justification": "Standard metric.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we rely on test accuracy measured by final answer correctness and code test case pass rates (Pass@1)",
+          "justification": "Used for MBPP evaluation.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Table 4: Max accuracy on MBPP.",
+          "justification": "Used for comparing datasets.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "code test case pass rates (Pass@1) to assess model performance",
+          "justification": "Evaluation procedure for code generation.",
+          "value": "evaluation metric for code generation performance"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "No reference.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "We use weight decay of 0.05 and adamw_torch as an optimizer.",
+          "justification": "Named optimizer.",
+          "value": "adamw_torch"
+        },
+        "aliases": [
+          "AdamW"
+        ],
+        "is_contributed": {
+          "quote": "We use weight decay of 0.05 and adamw_torch as an optimizer.",
+          "justification": "Standard optimizer.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We use weight decay of 0.05 and adamw_torch as an optimizer.",
+          "justification": "Used in training.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "We use weight decay of 0.05 and adamw_torch as an optimizer.",
+          "justification": "Not compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "We use weight decay of 0.05 and adamw_torch as an optimizer.",
+          "justification": "Parameter update rule.",
+          "value": "the optimizer used in all SFT runs"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "No reference.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "In all the experiments, we use a linear learning rate decay with warmup ratio of 0.1.",
+          "justification": "Named schedule procedure.",
+          "value": "linear learning rate decay with warmup"
+        },
+        "aliases": [
+          "linear LR decay"
+        ],
+        "is_contributed": {
+          "quote": "we use a linear learning rate decay with warmup ratio of 0.1",
+          "justification": "Standard.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "In all the experiments, we use a linear learning rate decay with warmup ratio of 0.1.",
+          "justification": "Used in training.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "In all the experiments, we use a linear learning rate decay with warmup ratio of 0.1.",
+          "justification": "Not compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "In all the experiments, we use a linear learning rate decay with warmup ratio of 0.1.",
+          "justification": "LR scheduling.",
+          "value": "learning rate schedule used in SFT runs"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "No reference.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "We use weight decay of 0.05",
+          "justification": "Named regularisation algorithm.",
+          "value": "weight decay"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "We use weight decay of 0.05",
+          "justification": "Standard.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We use weight decay of 0.05 and adamw_torch as an optimizer.",
+          "justification": "Used in training.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "We use weight decay of 0.05",
+          "justification": "Not compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "We use weight decay of 0.05 and adamw_torch as an optimizer.",
+          "justification": "Regularisation in SFT.",
+          "value": "regularisation used during SFT"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "No reference.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "we prompt the G-27B-IT model to paraphrase human-written solutions, explicitly instructing it to preserve correctness and avoid adding new details",
+          "justification": "Named data transformation procedure.",
+          "value": "paraphrasing human CoTs"
+        },
+        "aliases": [
+          "H-Para"
+        ],
+        "is_contributed": {
+          "quote": "We paraphrase human data to better match the model distribution, improving reasoning scores.",
+          "justification": "Introduced as a contribution of the paper's analysis.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "We prompt G-27B-IT to paraphrase H solutions.",
+          "justification": "Executed to create paraphrased dataset.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Moreover Paraphrased H dataset performs much better highlighting the importance of distribution of dataset.",
+          "justification": "Compared against H, G, W.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "shifting their distribution closer to the model’s own distribution",
+          "justification": "Data transformation to bring human CoTs closer to model distribution.",
+          "value": "data transformation used to bring human-written traces closer to the model's distribution"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "Introduced here.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "we conduct a controlled error-introduction experiment using the G-2B model on the MATH500 dataset",
+          "justification": "Named procedure for constructing degraded datasets.",
+          "value": "controlled error-introduction experiment"
+        },
+        "aliases": [
+          "error introduction",
+          "xE mixing"
+        ],
+        "is_contributed": {
+          "quote": "We progressively degrade CoTs to quantify how much incorrect reasoning a model tolerates",
+          "justification": "Introduced as part of the paper's study.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "We then construct datasets with varying proportions of flawed CoTs by mixing them with CoTs leading to correct final answers",
+          "justification": "Executed.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Table 6: Tolerance of reasoning SFT to error introduction.",
+          "justification": "Results compared across mixing fractions.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "We prompt the G-27B-IT model to generate completely flawed CoTs using MATH training problems.",
+          "justification": "Dataset construction procedure.",
+          "value": "procedure for constructing increasingly flawed CoT datasets to test error tolerance"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "Introduced here.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "Synthetic Data Generation Pipeline. To generate the synthetic CoTs, we use the same or more capable models. We sample 64 solutions at temperature of 0.8.",
+          "justification": "Named pipeline.",
+          "value": "Synthetic Data Generation Pipeline"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "Synthetic Data Generation Pipeline.",
+          "justification": "Described as the paper's own pipeline.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "We sample 64 solutions at temperature of 0.8. We then use math_verify ... to classify each of the generations into Gold (G) ... and Wrong (W)",
+          "justification": "Executed to build datasets.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Synthetic Data Generation Pipeline.",
+          "justification": "Not numerically compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "We select exactly one G and W for each of the problems from the training sets randomly.",
+          "justification": "Data generation and filtering.",
+          "value": "generating and classifying synthetic CoT traces into Gold and Wrong datasets"
+        },
+        "composed_of": [
+          "math_verify"
+        ],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "Introduced here.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "Early work such as STaR (Zelikman et al., 2022) showed that self-training on model-generated CoTs improved reasoning abilities.",
+          "justification": "Referenced algorithm, not executed.",
+          "value": "STaR"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "Early work such as STaR (Zelikman et al., 2022)",
+          "justification": "Prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Early work such as STaR (Zelikman et al., 2022) showed that self-training on model-generated CoTs improved reasoning abilities.",
+          "justification": "Only cited.",
+          "value": false
+        },
+        "is_compared": {
+          "quote": "Early work such as STaR (Zelikman et al., 2022)",
+          "justification": "Not numerically compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "Early work such as STaR (Zelikman et al., 2022) showed that self-training on model-generated CoTs improved reasoning abilities.",
+          "justification": "Background context.",
+          "value": "cited as prior work on self-training from model-generated CoTs"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Star: Bootstrapping reasoning with reasoning.",
+          "justification": "Reference listed.",
+          "value": "STaR: Bootstrapping reasoning with reasoning"
+        }
+      }
+    ],
+    "runs": [
+      {
+        "models": [
+          {
+            "name": "Gemma-2-27B-IT",
+            "role_in_run": "data-source"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "MATH",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "GSM8K",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "Countdown",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "MBPP",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Synthetic Data Generation Pipeline"
+          },
+          {
+            "name": "chain-of-thought (CoT)"
+          }
+        ],
+        "produces": [
+          "G-27B-IT-G",
+          "G-27B-IT-W"
+        ],
+        "execution_mode": {
+          "quote": "To generate the synthetic CoTs, we use the same or more capable models. We sample 64 solutions at temperature of 0.8.",
+          "justification": "A model sampled to produce training data is inference.",
+          "value": "inference"
+        },
+        "epochs": {
+          "quote": "We sample 64 solutions at temperature of 0.8.",
+          "justification": "No epochs for generation.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "Gemma-2-27B-IT model (G-27B-IT)",
+          "justification": "Paper does not state the parameter count explicitly as a number in text beyond model name.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "We ran all our experiments on 4 A100 80GB GPUs and 8 A100 40GB GPUs.",
+          "justification": "GPUs used for all experiments.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "We ran all our experiments on 4 A100 80GB GPUs and 8 A100 40GB GPUs.",
+          "justification": "Stated hardware.",
+          "value": "A100 80GB / A100 40GB"
+        },
+        "accelerator_count": {
+          "quote": "We ran all our experiments on 4 A100 80GB GPUs and 8 A100 40GB GPUs.",
+          "justification": "Stated counts.",
+          "value": "4 A100 80GB GPUs and 8 A100 40GB GPUs"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "We sample 64 solutions at temperature of 0.8.",
+          "justification": "64 samples per problem.",
+          "value": "64 samples per problem"
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "Q-14B-IT",
+            "role_in_run": "data-source"
+          },
+          {
+            "name": "Q-72B-IT",
+            "role_in_run": "data-source"
+          },
+          {
+            "name": "Gemma-2-2B",
+            "role_in_run": "data-source"
+          },
+          {
+            "name": "Llama-3.1-8B",
+            "role_in_run": "data-source"
+          },
+          {
+            "name": "Qwen2.5-1.5B",
+            "role_in_run": "data-source"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "MATH",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Synthetic Data Generation Pipeline"
+          }
+        ],
+        "produces": [
+          "Q-14B-G",
+          "Q-14B-W",
+          "Q-72B-G",
+          "Q-72B-W",
+          "G-2B-G",
+          "G-2B-W",
+          "L-8B-G",
+          "L-8B-W",
+          "Q-1.5B-G",
+          "Q-1.5B-W"
+        ],
+        "execution_mode": {
+          "quote": "The details of the datasets and models used to construct the same using MATH dataset problems are presented in the Table 9.",
+          "justification": "Models sampled to produce MATH CoT datasets.",
+          "value": "inference"
+        },
+        "epochs": {
+          "quote": "",
+          "justification": "Not applicable.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "",
+          "justification": "Not stated numerically.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "We ran all our experiments on 4 A100 80GB GPUs and 8 A100 40GB GPUs.",
+          "justification": "GPU hardware.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "We ran all our experiments on 4 A100 80GB GPUs and 8 A100 40GB GPUs.",
+          "justification": "Stated hardware.",
+          "value": "A100 80GB / A100 40GB"
+        },
+        "accelerator_count": {
+          "quote": "We ran all our experiments on 4 A100 80GB GPUs and 8 A100 40GB GPUs.",
+          "justification": "Stated counts.",
+          "value": "4 A100 80GB GPUs and 8 A100 40GB GPUs"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "We sample 64 solutions at temperature of 0.8.",
+          "justification": "64 samples per problem.",
+          "value": "64 samples per problem"
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "Gemma-2-27B-IT",
+            "role_in_run": "data-source"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "MATH",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "MBPP",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "paraphrasing human CoTs"
+          }
+        ],
+        "produces": [
+          "H-Para-G-27B-IT"
+        ],
+        "execution_mode": {
+          "quote": "we prompt the G-27B-IT model to paraphrase human-written solutions, explicitly instructing it to preserve correctness and avoid adding new details",
+          "justification": "Model sampled to produce paraphrased data.",
+          "value": "inference"
+        },
+        "epochs": {
+          "quote": "",
+          "justification": "Not applicable.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "We ran all our experiments on 4 A100 80GB GPUs and 8 A100 40GB GPUs.",
+          "justification": "GPU.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "We ran all our experiments on 4 A100 80GB GPUs and 8 A100 40GB GPUs.",
+          "justification": "Stated.",
+          "value": "A100 80GB / A100 40GB"
+        },
+        "accelerator_count": {
+          "quote": "We ran all our experiments on 4 A100 80GB GPUs and 8 A100 40GB GPUs.",
+          "justification": "Stated.",
+          "value": "4 A100 80GB GPUs and 8 A100 40GB GPUs"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "Gemma-2-27B-IT",
+            "role_in_run": "data-source"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "MATH",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "controlled error-introduction experiment"
+          }
+        ],
+        "produces": [
+          "G-27B-IT-G-xE"
+        ],
+        "execution_mode": {
+          "quote": "To generate completely flawed CoTs, we prompted G-27B-IT model to generate completely flawed CoTs. We generate one sample per problem at a temperature of 0.8.",
+          "justification": "Sampling a model to produce data.",
+          "value": "inference"
+        },
+        "epochs": {
+          "quote": "",
+          "justification": "Not applicable.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "We ran all our experiments on 4 A100 80GB GPUs and 8 A100 40GB GPUs.",
+          "justification": "GPU.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "We ran all our experiments on 4 A100 80GB GPUs and 8 A100 40GB GPUs.",
+          "justification": "Stated.",
+          "value": "A100 80GB / A100 40GB"
+        },
+        "accelerator_count": {
+          "quote": "We ran all our experiments on 4 A100 80GB GPUs and 8 A100 40GB GPUs.",
+          "justification": "Stated.",
+          "value": "4 A100 80GB GPUs and 8 A100 40GB GPUs"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "We generate one sample per problem at a temperature of 0.8.",
+          "justification": "One sample per problem stated.",
+          "value": "one sample per problem (resampled when correct)"
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "Gemma-2-2B",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "MATH",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          },
+          {
+            "name": "G-27B-IT-G",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "G-27B-IT-W",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "H (human-written CoTs)",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "Q-14B-G",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "Q-14B-W",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "G-2B-G",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "G-2B-W",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "H-Para-G-27B-IT",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "G-27B-IT-G-xE",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Supervised Fine-Tuning (SFT)"
+          },
+          {
+            "name": "adamw_torch"
+          },
+          {
+            "name": "linear learning rate decay with warmup"
+          },
+          {
+            "name": "weight decay"
+          },
+          {
+            "name": "greedy decoding"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "We perform SFT on the base models discussed above using the human written (H), Synthetic CoTs with correct answers (G) and synthetic CoTs with incorrect answers (W) datasets.",
+          "justification": "Fine-tuning run.",
+          "value": "finetune"
+        },
+        "epochs": {
+          "quote": "We train for a total of 10 epochs.",
+          "justification": "Stated.",
+          "value": "10"
+        },
+        "parameter_count": {
+          "quote": "Gemma-2-2B (Team et al., 2024) (G-2B)",
+          "justification": "Only implied by name; three model families ranging from 1.5B to 9B is stated but not per-model.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "We ran all our experiments on 4 A100 80GB GPUs and 8 A100 40GB GPUs.",
+          "justification": "GPU.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "We ran all our experiments on 4 A100 80GB GPUs and 8 A100 40GB GPUs.",
+          "justification": "Stated.",
+          "value": "A100 80GB / A100 40GB"
+        },
+        "accelerator_count": {
+          "quote": "We ran all our experiments on 4 A100 80GB GPUs and 8 A100 40GB GPUs.",
+          "justification": "Stated.",
+          "value": "4 A100 80GB GPUs and 8 A100 40GB GPUs"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "we report mean ± standard deviation across 5 random seeds ... We ablated the batch size over 16, 64, and 256, and the learning rate over 2e-5 and 1e-6.",
+          "justification": "Seeds and hyperparameter grid stated.",
+          "value": "5 seeds; plus batch size (16/64/256) x learning rate (2e-5/1e-6) ablations"
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "Gemma-2-2B",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "GSM8K",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          },
+          {
+            "name": "G-27B-IT-G",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "G-27B-IT-W",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "H (human-written CoTs)",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Supervised Fine-Tuning (SFT)"
+          },
+          {
+            "name": "greedy decoding"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "Results of Gemma-2-2B model on GSM8K task after SFT on Gemma-2-27B-It generated G and W datasets.",
+          "justification": "Fine-tuning.",
+          "value": "finetune"
+        },
+        "epochs": {
+          "quote": "We train for a total of 10 epochs.",
+          "justification": "Stated.",
+          "value": "10"
+        },
+        "parameter_count": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "We ran all our experiments on 4 A100 80GB GPUs and 8 A100 40GB GPUs.",
+          "justification": "GPU.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "We ran all our experiments on 4 A100 80GB GPUs and 8 A100 40GB GPUs.",
+          "justification": "Stated.",
+          "value": "A100 80GB / A100 40GB"
+        },
+        "accelerator_count": {
+          "quote": "We ran all our experiments on 4 A100 80GB GPUs and 8 A100 40GB GPUs.",
+          "justification": "Stated.",
+          "value": "4 A100 80GB GPUs and 8 A100 40GB GPUs"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "",
+          "justification": "Not stated for this task.",
+          "value": "unknown"
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "Gemma-2-2B",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Countdown",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          },
+          {
+            "name": "G-27B-IT-G",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "G-27B-IT-W",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Supervised Fine-Tuning (SFT)"
+          },
+          {
+            "name": "greedy decoding"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "Results of Gemma-2-2B model on Countdown task after SFT on Gemma-2-27B-It generated CoTs datasets",
+          "justification": "Fine-tuning.",
+          "value": "finetune"
+        },
+        "epochs": {
+          "quote": "We train for a total of 10 epochs.",
+          "justification": "Stated.",
+          "value": "10"
+        },
+        "parameter_count": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "We ran all our experiments on 4 A100 80GB GPUs and 8 A100 40GB GPUs.",
+          "justification": "GPU.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "We ran all our experiments on 4 A100 80GB GPUs and 8 A100 40GB GPUs.",
+          "justification": "Stated.",
+          "value": "A100 80GB / A100 40GB"
+        },
+        "accelerator_count": {
+          "quote": "We ran all our experiments on 4 A100 80GB GPUs and 8 A100 40GB GPUs.",
+          "justification": "Stated.",
+          "value": "4 A100 80GB GPUs and 8 A100 40GB GPUs"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "Gemma-2-2B",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "MBPP",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          },
+          {
+            "name": "G-27B-IT-G",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "G-27B-IT-W",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "H-Para-G-27B-IT",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "H (human-written CoTs)",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Supervised Fine-Tuning (SFT)"
+          },
+          {
+            "name": "Pass@1"
+          },
+          {
+            "name": "greedy decoding"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "Results of SFT on Gemma-2-2B model for Code Generation task.",
+          "justification": "Fine-tuning.",
+          "value": "finetune"
+        },
+        "epochs": {
+          "quote": "We train for a total of 10 epochs.",
+          "justification": "Stated.",
+          "value": "10"
+        },
+        "parameter_count": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "We ran all our experiments on 4 A100 80GB GPUs and 8 A100 40GB GPUs.",
+          "justification": "GPU.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "We ran all our experiments on 4 A100 80GB GPUs and 8 A100 40GB GPUs.",
+          "justification": "Stated.",
+          "value": "A100 80GB / A100 40GB"
+        },
+        "accelerator_count": {
+          "quote": "We ran all our experiments on 4 A100 80GB GPUs and 8 A100 40GB GPUs.",
+          "justification": "Stated.",
+          "value": "4 A100 80GB GPUs and 8 A100 40GB GPUs"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "Gemma-2-9B",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "MATH",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          },
+          {
+            "name": "G-27B-IT-G",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "G-27B-IT-W",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "H (human-written CoTs)",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "H-Para-G-27B-IT",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Supervised Fine-Tuning (SFT)"
+          },
+          {
+            "name": "greedy decoding"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "We further examine the effect of scaling model size by finetuning Gemma-2-9B on human-written traces, as well as synthetic correct (G-27B-IT-G) and incorrect (G-27B-IT-W) traces.",
+          "justification": "Fine-tuning at a different scale.",
+          "value": "finetune"
+        },
+        "epochs": {
+          "quote": "We train for a total of 10 epochs.",
+          "justification": "Stated.",
+          "value": "10"
+        },
+        "parameter_count": {
+          "quote": "three model families ranging from 1.5B to 9B parameters",
+          "justification": "Range stated, but not a specific count beyond the model name.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "We ran all our experiments on 4 A100 80GB GPUs and 8 A100 40GB GPUs.",
+          "justification": "GPU.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "We ran all our experiments on 4 A100 80GB GPUs and 8 A100 40GB GPUs.",
+          "justification": "Stated.",
+          "value": "A100 80GB / A100 40GB"
+        },
+        "accelerator_count": {
+          "quote": "We ran all our experiments on 4 A100 80GB GPUs and 8 A100 40GB GPUs.",
+          "justification": "Stated.",
+          "value": "4 A100 80GB GPUs and 8 A100 40GB GPUs"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "Llama-3.1-8B",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "MATH",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          },
+          {
+            "name": "GSM8K",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          },
+          {
+            "name": "Countdown",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          },
+          {
+            "name": "MBPP",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          },
+          {
+            "name": "G-27B-IT-G",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "G-27B-IT-W",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "L-8B-G",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "L-8B-W",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "H (human-written CoTs)",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Supervised Fine-Tuning (SFT)"
+          },
+          {
+            "name": "adamw_torch"
+          },
+          {
+            "name": "linear learning rate decay with warmup"
+          },
+          {
+            "name": "greedy decoding"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "Performance of Llama-3.1-8B on different datasets for SFT (256 batch-size, lr=1e-6).",
+          "justification": "Fine-tuning.",
+          "value": "finetune"
+        },
+        "epochs": {
+          "quote": "We train for a total of 10 epochs.",
+          "justification": "Stated.",
+          "value": "10"
+        },
+        "parameter_count": {
+          "quote": "three model families ranging from 1.5B to 9B parameters",
+          "justification": "Not explicitly stated per model.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "We ran all our experiments on 4 A100 80GB GPUs and 8 A100 40GB GPUs.",
+          "justification": "GPU.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "We ran all our experiments on 4 A100 80GB GPUs and 8 A100 40GB GPUs.",
+          "justification": "Stated.",
+          "value": "A100 80GB / A100 40GB"
+        },
+        "accelerator_count": {
+          "quote": "We ran all our experiments on 4 A100 80GB GPUs and 8 A100 40GB GPUs.",
+          "justification": "Stated.",
+          "value": "4 A100 80GB GPUs and 8 A100 40GB GPUs"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "Qwen2.5-1.5B",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "MATH",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          },
+          {
+            "name": "GSM8K",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          },
+          {
+            "name": "Countdown",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          },
+          {
+            "name": "MBPP",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          },
+          {
+            "name": "G-27B-IT-G",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "G-27B-IT-W",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "Q-1.5B-G",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "Q-1.5B-W",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "Q-14B-G",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "Q-14B-W",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "Q-72B-G",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "Q-72B-W",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "H (human-written CoTs)",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "H-Para-G-27B-IT",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Supervised Fine-Tuning (SFT)"
+          },
+          {
+            "name": "adamw_torch"
+          },
+          {
+            "name": "greedy decoding"
+          },
+          {
+            "name": "Pass@1"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "Results of SFT on Qwen-2.5-1.5B model for Code Generation task.",
+          "justification": "Fine-tuning.",
+          "value": "finetune"
+        },
+        "epochs": {
+          "quote": "We train for a total of 10 epochs.",
+          "justification": "Stated.",
+          "value": "10"
+        },
+        "parameter_count": {
+          "quote": "three model families ranging from 1.5B to 9B parameters",
+          "justification": "Not explicitly per model.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "We ran all our experiments on 4 A100 80GB GPUs and 8 A100 40GB GPUs.",
+          "justification": "GPU.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "We ran all our experiments on 4 A100 80GB GPUs and 8 A100 40GB GPUs.",
+          "justification": "Stated.",
+          "value": "A100 80GB / A100 40GB"
+        },
+        "accelerator_count": {
+          "quote": "We ran all our experiments on 4 A100 80GB GPUs and 8 A100 40GB GPUs.",
+          "justification": "Stated.",
+          "value": "4 A100 80GB GPUs and 8 A100 40GB GPUs"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "Gemma-2-2B",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Llama-3.1-8B",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Qwen2.5-1.5B",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "MATH",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          },
+          {
+            "name": "GSM8K",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          },
+          {
+            "name": "Countdown",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "four-shot prompting"
+          },
+          {
+            "name": "greedy decoding"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "We report the zero-shot and four-shot accuracies on all the tasks for the three base models we use in Table 10.",
+          "justification": "Base-model evaluation only.",
+          "value": "inference"
+        },
+        "epochs": {
+          "quote": "",
+          "justification": "Not applicable.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "We ran all our experiments on 4 A100 80GB GPUs and 8 A100 40GB GPUs.",
+          "justification": "GPU.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "We ran all our experiments on 4 A100 80GB GPUs and 8 A100 40GB GPUs.",
+          "justification": "Stated.",
+          "value": "A100 80GB / A100 40GB"
+        },
+        "accelerator_count": {
+          "quote": "We ran all our experiments on 4 A100 80GB GPUs and 8 A100 40GB GPUs.",
+          "justification": "Stated.",
+          "value": "4 A100 80GB GPUs and 8 A100 40GB GPUs"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        }
+      }
+    ]
+  },
+  "usage": {
+    "input_tokens": 44788,
+    "output_tokens": 25315,
+    "total_tokens": 70103
+  }
+}

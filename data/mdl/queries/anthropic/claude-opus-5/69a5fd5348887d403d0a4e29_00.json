@@ -1,0 +1,1156 @@
+{
+  "paper": "69a5fd5348887d403d0a4e29.txt",
+  "words": 13420,
+  "extractions": {
+    "title": {
+      "quote": "The Three Regimes of Offline-to-Online Reinforcement\nLearning",
+      "justification": "Title appears at the top of the paper.",
+      "value": "The Three Regimes of Offline-to-Online Reinforcement Learning"
+    },
+    "description": "A large-scale empirical study of offline-to-online reinforcement learning that proposes a stability-plasticity framework identifying three regimes (Superior, Comparable, Inferior) based on the relative performance of the pretrained policy and the offline dataset. The authors pretrain agents with CalQL, ReBRAC and BC(+FQE) on 21 D4RL dataset-task compositions and fine-tune them online with six representative design choices (warmup, offline RL regularization, offline data replay, reset, combinations), yielding 63 settings evaluated with 10 seeds each.",
+    "type": {
+      "quote": "We validate this framework through a large-scale empirical study, finding that the results strongly align with its predictions in 45 out of 63 cases",
+      "justification": "The paper validates its framework through a large-scale empirical study over 63 settings.",
+      "value": "empirical"
+    },
+    "research_fields": [
+      {
+        "name": {
+          "quote": "Offline-to-online reinforcement learning (RL) has emerged as a practical paradigm that leverages offline datasets for pretraining and online interactions for fine-tuning.",
+          "justification": "The paper's framework and empirical study target offline-to-online RL.",
+          "value": "Offline-to-Online Reinforcement Learning"
+        },
+        "aliases": [
+          "offline-to-online RL"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "Reinforcement learning (RL) has achieved impressive successes in a variety of domains",
+          "justification": "The general field of the paper.",
+          "value": "Reinforcement Learning"
+        },
+        "aliases": [
+          "RL"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "we analyze this transition from offline pretraining to online fine-tuning as a fundamental continual learning problem",
+          "justification": "The paper frames the offline-to-online transition as a continual learning problem and uses stability-plasticity notions from it.",
+          "value": "Continual Learning"
+        },
+        "aliases": [],
+        "role": "used"
+      },
+      {
+        "name": {
+          "quote": "for example in imitation learning, where regimes have been proposed based on density ratios [24] or dataset size [25]",
+          "justification": "Mentioned as related context and prior taxonomies.",
+          "value": "Imitation Learning"
+        },
+        "aliases": [],
+        "role": "referenced"
+      }
+    ],
+    "models": [],
+    "data_sources": [
+      {
+        "name": {
+          "quote": "we include MuJoCo locomotion, AntMaze navigation, Adroit manipulation, and Kitchen manipulation domains from D4RL [8], covering a total of 21 dataset-task compositions.",
+          "justification": "The benchmark suite from which all dataset-task compositions come.",
+          "value": "D4RL"
+        },
+        "aliases": [
+          "D4RL tasks"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "covering a total of 21 dataset-task compositions",
+          "justification": "Paper states the number of dataset-task compositions used.",
+          "value": "21 dataset-task compositions"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "Justin Fu, Aviral Kumar, Ofir Nachum, George Tucker, and Sergey Levine. D4rl: Datasets for deep data-driven reinforcement learning. arXiv preprint arXiv:2004.07219, 2020.",
+          "justification": "Reference [8].",
+          "value": "D4rl: Datasets for deep data-driven reinforcement learning"
+        }
+      },
+      {
+        "name": {
+          "quote": "we include MuJoCo locomotion, AntMaze navigation, Adroit manipulation, and Kitchen manipulation domains from D4RL [8]",
+          "justification": "One of the four D4RL domains used (halfcheetah, hopper, walker2d tasks).",
+          "value": "MuJoCo locomotion"
+        },
+        "aliases": [
+          "halfcheetah",
+          "hopper",
+          "walker2d"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "halfcheetah-random-v2 ... 1000",
+          "justification": "Trajectory counts per dataset are given in Table 13 but not a single size for the domain.",
+          "value": "unknown"
+        },
+        "derived_from": [
+          "D4RL"
+        ],
+        "sample_properties": [
+          {
+            "name": "number of trajectories (halfcheetah-medium-replay-v2)",
+            "value": {
+              "quote": "halfcheetah-medium-replay-v2 0.271 ± 0.135 202",
+              "justification": "Table 13 lists #Trajs.",
+              "value": "202"
+            },
+            "unit": "trajectories"
+          }
+        ],
+        "referenced_paper_title": {
+          "quote": "MuJoCo locomotion, AntMaze navigation, Adroit manipulation, and Kitchen manipulation domains from D4RL [8]",
+          "justification": "Domains come from D4RL reference [8].",
+          "value": "D4rl: Datasets for deep data-driven reinforcement learning"
+        }
+      },
+      {
+        "name": {
+          "quote": "on D4RL tasks [8] such as antmaze-large-play-v2",
+          "justification": "One of the four D4RL domains used, e.g. antmaze-large-play-v2.",
+          "value": "AntMaze"
+        },
+        "aliases": [
+          "AntMaze navigation",
+          "antmaze-large-play-v2",
+          "antmaze-large-diverse-v2",
+          "antmaze-ultra-diverse-v2"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "antmaze-large-diverse-v2 0.106 ± 0.308 999",
+          "justification": "Table 13 reports 999 trajectories for each antmaze dataset.",
+          "value": "999 trajectories per antmaze dataset"
+        },
+        "derived_from": [
+          "D4RL"
+        ],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "MuJoCo locomotion, AntMaze navigation, Adroit manipulation, and Kitchen manipulation domains from D4RL [8]",
+          "justification": "Domains come from D4RL reference [8].",
+          "value": "D4rl: Datasets for deep data-driven reinforcement learning"
+        }
+      },
+      {
+        "name": {
+          "quote": "In contrast, on D4RL tasks such as relocate-binary-v0, the opposite pattern emerges",
+          "justification": "One of the four D4RL domains used, e.g. relocate-binary-v0.",
+          "value": "Adroit"
+        },
+        "aliases": [
+          "Adroit manipulation",
+          "pen-binary-v0",
+          "door-binary-v0",
+          "relocate-binary-v0"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "pen-binary-v0 1.000 ± 0.000 846\ndoor-binary-v0 1.000 ± 0.000 82\nrelocate-binary-v0 1.000 ± 0.000 36",
+          "justification": "Table 13 reports trajectory counts.",
+          "value": "846 / 82 / 36 trajectories for pen / door / relocate"
+        },
+        "derived_from": [
+          "D4RL"
+        ],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "MuJoCo locomotion, AntMaze navigation, Adroit manipulation, and Kitchen manipulation domains from D4RL [8]",
+          "justification": "Domains come from D4RL reference [8].",
+          "value": "D4rl: Datasets for deep data-driven reinforcement learning"
+        }
+      },
+      {
+        "name": {
+          "quote": "MuJoCo locomotion, AntMaze navigation, Adroit manipulation, and Kitchen manipulation domains from D4RL [8]",
+          "justification": "One of the four D4RL domains used.",
+          "value": "Kitchen"
+        },
+        "aliases": [
+          "Kitchen manipulation",
+          "kitchen-partial-v0",
+          "kitchen-mixed-v0",
+          "kitchen-complete-v0"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "kitchen-partial-v0 0.586 ± 0.187 600\nkitchen-mixed-v0 0.598 ± 0.145 600\nkitchen-complete-v0 1.000 ± 0.000 19",
+          "justification": "Table 13 reports trajectory counts.",
+          "value": "600 / 600 / 19 trajectories for partial / mixed / complete"
+        },
+        "derived_from": [
+          "D4RL"
+        ],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "MuJoCo locomotion, AntMaze navigation, Adroit manipulation, and Kitchen manipulation domains from D4RL [8]",
+          "justification": "Domains come from D4RL reference [8].",
+          "value": "D4rl: Datasets for deep data-driven reinforcement learning"
+        }
+      }
+    ],
+    "libraries": [],
+    "algorithms": [
+      {
+        "name": {
+          "quote": "We employ two representative offline RL algorithms, CalQL [15] and ReBRAC [21], as well as behavior cloning (BC) [22]",
+          "justification": "Used as one of three pretraining algorithms.",
+          "value": "CalQL"
+        },
+        "aliases": [
+          "Cal-QL"
+        ],
+        "is_contributed": {
+          "quote": "CalQL [15] and RLPD [10] use α = 0.5",
+          "justification": "Prior work cited as [15].",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we train CalQL for 1M gradient steps on AntMaze, 20k on Adroit, and 250k on both Kitchen and MuJoCo locomotion tasks.",
+          "justification": "CalQL was trained for offline pretraining.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Combining the 21 dataset-task compositions with these 3 pretraining algorithms yields 63 experimental settings in total.",
+          "justification": "Pretrained policies from different algorithms are compared across settings.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "We employ two representative offline RL algorithms, CalQL [15] and ReBRAC [21]",
+          "justification": "Stated in experimental setup.",
+          "value": "representative offline RL algorithm used for offline pretraining"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Mitsuhiko Nakamoto, Simon Zhai, Anikait Singh, Max Sobol Mark, Yi Ma, Chelsea Finn, Aviral Kumar, and Sergey Levine. Cal-ql: Calibrated offline rl pre-training for efficient online fine-tuning.",
+          "justification": "Reference [15].",
+          "value": "Cal-ql: Calibrated offline rl pre-training for efficient online fine-tuning"
+        }
+      },
+      {
+        "name": {
+          "quote": "We employ two representative offline RL algorithms, CalQL [15] and ReBRAC [21]",
+          "justification": "Used as one of three pretraining algorithms and for regularized fine-tuning.",
+          "value": "ReBRAC"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "Denis Tarasov, Vladislav Kurenkov, Alexander Nikulin, and Sergey Kolesnikov. Revisiting the minimalist approach to offline reinforcement learning.",
+          "justification": "Prior work cited as [21].",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "ReBRAC is trained for 1M gradient steps on AntMaze, 100k on Adroit, 250k on Kitchen, and 500k on MuJoCo tasks.",
+          "justification": "ReBRAC was trained for pretraining.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Combining the 21 dataset-task compositions with these 3 pretraining algorithms yields 63 experimental settings in total.",
+          "justification": "Compared across pretraining algorithms.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "For the deterministic BC pretraining, we use TD3 for fine-tuning to match its deterministic actor structure, and use ReBRAC when applying regularization.",
+          "justification": "Stated in experimental setup.",
+          "value": "representative offline RL algorithm used for offline pretraining and as the regularized fine-tuning algorithm for BC-pretrained agents"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Denis Tarasov, Vladislav Kurenkov, Alexander Nikulin, and Sergey Kolesnikov. Revisiting the minimalist approach to offline reinforcement learning. Advances in Neural Information Processing Systems, 36:11592–11620, 2023.",
+          "justification": "Reference [21].",
+          "value": "Revisiting the minimalist approach to offline reinforcement learning"
+        }
+      },
+      {
+        "name": {
+          "quote": "as well as behavior cloning (BC) [22] using a deterministic policy",
+          "justification": "Third pretraining approach.",
+          "value": "behavior cloning (BC)"
+        },
+        "aliases": [
+          "BC"
+        ],
+        "is_contributed": {
+          "quote": "behavior cloning (BC) [22]",
+          "justification": "Classic method cited as [22].",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "For the behavior cloning (BC) baseline, we perform 500K gradient steps of policy learning",
+          "justification": "BC pretraining run for 500K gradient steps.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Raw return (ours) ... BC performance",
+          "justification": "Compared across pretraining algorithms and as an alternative taxonomy metric.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "as well as behavior cloning (BC) [22] using a deterministic policy",
+          "justification": "Stated in setup.",
+          "value": "pretraining algorithm using a deterministic policy"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Stefan Schaal. Learning from demonstration. Advances in neural information processing systems, 9, 1996.",
+          "justification": "Reference [22].",
+          "value": "Learning from demonstration"
+        }
+      },
+      {
+        "name": {
+          "quote": "To pair a behavior-cloned policy with a critic, we pretrain the critic by Fitted Q Evaluation (FQE) [23] after BC.",
+          "justification": "Used to pretrain a critic after BC.",
+          "value": "Fitted Q Evaluation (FQE)"
+        },
+        "aliases": [
+          "FQE"
+        ],
+        "is_contributed": {
+          "quote": "Fitted Q Evaluation (FQE) [23]",
+          "justification": "Cited prior work [23].",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "followed by 100k steps of fitted Q evaluation [23] (FQE) to obtain a Q-function for subsequent RL fine-tuning",
+          "justification": "100k steps of FQE were run.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "To pair a behavior-cloned policy with a critic, we pretrain the critic by Fitted Q Evaluation (FQE) [23] after BC.",
+          "justification": "Not compared numerically; used as a component.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "we pretrain the critic by Fitted Q Evaluation (FQE) [23] after BC",
+          "justification": "As stated.",
+          "value": "pretrains the critic for the behavior-cloned policy"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Hoang Le, Cameron Voloshin, and Yisong Yue. Batch policy learning under constraints.",
+          "justification": "Reference [23].",
+          "value": "Batch policy learning under constraints"
+        }
+      },
+      {
+        "name": {
+          "quote": "we fine-tune CalQL-pretrained agents using SAC [18]",
+          "justification": "Online RL algorithm used to fine-tune CalQL agents.",
+          "value": "SAC"
+        },
+        "aliases": [
+          "Soft Actor-Critic"
+        ],
+        "is_contributed": {
+          "quote": "a standard online RL algorithm (e.g., SAC [18] or TD3 [19])",
+          "justification": "Prior work [18].",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we fine-tune CalQL-pretrained agents using SAC [18]",
+          "justification": "Used in online fine-tuning runs.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "we fine-tune CalQL-pretrained agents using SAC [18]",
+          "justification": "Used as the base algorithm rather than compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "To ensure consistency between offline pretraining phase and online fine-tuning phase, we fine-tune each agent using the corresponding base algorithm.",
+          "justification": "Stated in online fine-tuning phase.",
+          "value": "base online RL algorithm for fine-tuning CalQL-pretrained agents"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Tuomas Haarnoja, Aurick Zhou, Pieter Abbeel, and Sergey Levine. Soft actor-critic: Off-policy maximum entropy deep reinforcement learning with a stochastic actor.",
+          "justification": "Reference [18].",
+          "value": "Soft actor-critic: Off-policy maximum entropy deep reinforcement learning with a stochastic actor"
+        }
+      },
+      {
+        "name": {
+          "quote": "and ReBRAC-pretrained agents using TD3 [19]",
+          "justification": "Online RL algorithm used to fine-tune ReBRAC and BC agents.",
+          "value": "TD3"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "a standard online RL algorithm (e.g., SAC [18] or TD3 [19])",
+          "justification": "Prior work [19].",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "For the deterministic BC pretraining, we use TD3 for fine-tuning to match its deterministic actor structure",
+          "justification": "Used in fine-tuning runs.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "and ReBRAC-pretrained agents using TD3 [19]",
+          "justification": "Used as base algorithm.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "we fine-tune CalQL-pretrained agents using SAC [18] and ReBRAC-pretrained agents using TD3 [19]",
+          "justification": "Stated in setup.",
+          "value": "base online RL algorithm for fine-tuning ReBRAC- and BC-pretrained agents"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Scott Fujimoto, Herke Hoof, and David Meger. Addressing function approximation error in actor-critic methods.",
+          "justification": "Reference [19].",
+          "value": "Addressing function approximation error in actor-critic methods"
+        }
+      },
+      {
+        "name": {
+          "quote": "Online data warmup. Before applying gradient updates, the agent π0 first collects a larger amount of online data (K steps) [9].",
+          "justification": "One of the π0-centric fine-tuning design choices evaluated.",
+          "value": "online data warmup"
+        },
+        "aliases": [
+          "warmup",
+          "+warmup"
+        ],
+        "is_contributed": {
+          "quote": "the agent π0 first collects a larger amount of online data (K steps) [9]",
+          "justification": "Taken from WSRL [9].",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "the baseline with (i) online data warmup (K = 5,000 steps)",
+          "justification": "Evaluated as a fine-tuning variant with K=5,000.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Comparing the two π0 -centric methods, online data warmup achieves better performance in 27 out of 32 settings",
+          "justification": "Compared against other design choices.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "This strategy reduces the mismatch between the pretraining distribution and the online data distribution",
+          "justification": "Described in Section 4.2.",
+          "value": "π0-centric design choice that reduces mismatch between pretraining and online data distributions"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Zhiyuan Zhou, Andy Peng, Qiyang Li, Sergey Levine, and Aviral Kumar. Efficient online reinforcement learning fine-tuning need not retain offline data.",
+          "justification": "Reference [9] (WSRL).",
+          "value": "Efficient online reinforcement learning fine-tuning need not retain offline data"
+        }
+      },
+      {
+        "name": {
+          "quote": "Offline RL regularization. Fine-tuning can also reuse the same offline RL algorithm that produced the pretrained policy, thereby inheriting its conservative regularization.",
+          "justification": "One of the π0-centric design choices evaluated.",
+          "value": "offline RL regularization"
+        },
+        "aliases": [
+          "+offline_RL"
+        ],
+        "is_contributed": {
+          "quote": "Such regularization is widely adopted in prior work [6, 20, 21, 15].",
+          "justification": "Widely adopted in prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "the baseline with ... (ii) offline RL regularization using the pretraining coefficient",
+          "justification": "Evaluated as a fine-tuning variant.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "it only outperforms warmup (5 of 32 settings) when the pretrained policy is already near-optimal",
+          "justification": "Compared to warmup and D-centric methods.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "This regularization penalizes state-action pairs outside the online data.",
+          "justification": "Section 4.2.",
+          "value": "π0-centric design choice inheriting conservative regularization during fine-tuning"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Such regularization is widely adopted in prior work [6, 20, 21, 15].",
+          "justification": "No single reference; cited group [6,20,21,15].",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "D-centric methods: Two variants of such methods are evaluated: the baseline with (i) offline data replay",
+          "justification": "D-centric design choice evaluated.",
+          "value": "offline data replay"
+        },
+        "aliases": [
+          "+offline_data"
+        ],
+        "is_contributed": {
+          "quote": "For instance, CalQL [15] and RLPD [10] use α = 0.5",
+          "justification": "Standard strategy used by CalQL and RLPD.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Both variants use separate replay buffers with an offline data ratio of α = 0.5.",
+          "justification": "Used in fine-tuning runs with α=0.5.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "D-centric methods outperform π0 -centric methods in 19 out of 23 settings (83%)",
+          "justification": "Compared to π0-centric methods.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "Design choices in this category promote stability by reusing the offline dataset during online fine-tuning.",
+          "justification": "Section 4.1.",
+          "value": "D-centric design choice reusing the offline dataset during online fine-tuning"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Philip J Ball, Laura Smith, Ilya Kostrikov, and Sergey Levine. Efficient online reinforcement learning with offline data.",
+          "justification": "RLPD reference [10] uses this strategy.",
+          "value": "Efficient online reinforcement learning with offline data"
+        }
+      },
+      {
+        "name": {
+          "quote": "A direct method to increase plasticity is to reset network parameters",
+          "justification": "Plasticity-enhancing design choice evaluated.",
+          "value": "parameter reset"
+        },
+        "aliases": [
+          "reset",
+          "full parameter reset",
+          "+offline_data+reset"
+        ],
+        "is_contributed": {
+          "quote": "as randomly initialized networks tend to exhibit higher plasticity than pretrained ones [17]",
+          "justification": "Based on prior work [17].",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "the baseline with ... (ii) with offline data replay and reset",
+          "justification": "Evaluated as a fine-tuning variant combined with offline data replay.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "offline data replay with reset achieves better performance than offline data replay in 13 out of 23 settings",
+          "justification": "Compared to offline data replay alone.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "parameter reset can be interpreted as starting from any pretrained agent π0 and then resetting its weights to a randomly initialized agent π1",
+          "justification": "Section 4.3.",
+          "value": "plasticity-enhancing design choice resetting weights to a randomly initialized agent"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Evgenii Nikishin, Max Schwarzer, Pierluca D’Oro, Pierre-Luc Bacon, and Aaron Courville. The primacy bias in deep reinforcement learning.",
+          "justification": "Reference [17].",
+          "value": "The primacy bias in deep reinforcement learning"
+        }
+      },
+      {
+        "name": {
+          "quote": "Warm-Start RL (WSRL) [9], which relies on the pretrained policy and discards the offline dataset during online fine-tuning",
+          "justification": "Named method discussed and shown in Figure 1 comparison.",
+          "value": "WSRL"
+        },
+        "aliases": [
+          "Warm-Start RL"
+        ],
+        "is_contributed": {
+          "quote": "Warm-Start RL (WSRL) [9]",
+          "justification": "Prior work [9].",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Figure 1: Comparison between WSRL (pretrained policy only) and RLPD (offline dataset only) on two representative offline-to-online RL tasks.",
+          "justification": "Learning curves of WSRL are presented in Figure 1.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "substantially outperforms RL with Prior Data (RLPD) [10]",
+          "justification": "Compared to RLPD.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "WSRL (pretrained policy only)",
+          "justification": "Used in the introductory comparison.",
+          "value": "motivating example of a pretrained-policy-only fine-tuning method"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Zhiyuan Zhou, Andy Peng, Qiyang Li, Sergey Levine, and Aviral Kumar. Efficient online reinforcement learning fine-tuning need not retain offline data.",
+          "justification": "Reference [9].",
+          "value": "Efficient online reinforcement learning fine-tuning need not retain offline data"
+        }
+      },
+      {
+        "name": {
+          "quote": "RL with Prior Data (RLPD) [10], which uses the offline dataset only at the online RL stage",
+          "justification": "Named method discussed and shown in Figure 1 comparison.",
+          "value": "RLPD"
+        },
+        "aliases": [
+          "RL with Prior Data"
+        ],
+        "is_contributed": {
+          "quote": "RLPD [10] directly trains an online RL agent from random initialization",
+          "justification": "Prior work [10].",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Figure 1: Comparison between WSRL (pretrained policy only) and RLPD (offline dataset only) on two representative offline-to-online RL tasks.",
+          "justification": "Learning curves shown in Figure 1.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "with RLPD outperforming WSRL by a wide margin",
+          "justification": "Compared to WSRL.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "RLPD (offline dataset only)",
+          "justification": "Used in the introductory comparison.",
+          "value": "motivating example of an offline-dataset-only fine-tuning method"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Philip J Ball, Laura Smith, Ilya Kostrikov, and Sergey Levine. Efficient online reinforcement learning with offline data.",
+          "justification": "Reference [10].",
+          "value": "Efficient online reinforcement learning with offline data"
+        }
+      },
+      {
+        "name": {
+          "quote": "we employ the two one-sided t-test (TOST) procedure with a margin of δ = 0.05 and a significance level of α = 0.05",
+          "justification": "Statistical procedure used for regime classification.",
+          "value": "two one-sided t-test (TOST)"
+        },
+        "aliases": [
+          "TOST",
+          "t-tests"
+        ],
+        "is_contributed": {
+          "quote": "we conduct t-tests with a margin δ = 0.05 to assess whether the difference between J(π0 ) and J(πD ) is statistically significant",
+          "justification": "Standard statistical procedure.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Based on this t-test, we classify each task into the three regimes.",
+          "justification": "Applied to classify each of the 63 settings.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "we employ the two one-sided t-test (TOST) procedure",
+          "justification": "Not compared; used as an evaluation procedure.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "The goal is to formally assess whether the pretrained policy π0 and the offline dataset πD are statistically indistinguishable in performance",
+          "justification": "Stated in Appendix B.1.",
+          "value": "assesses whether the pretrained policy and offline dataset are statistically indistinguishable in performance for regime assignment"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "we employ the two one-sided t-test (TOST) procedure with a margin of δ = 0.05",
+          "justification": "No reference given.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "we compare the interquartile mean (IQM) of evaluation results of online data warmup and offline RL regularization within π0 -centric methods",
+          "justification": "Evaluation aggregation procedure used to select strongest variant.",
+          "value": "interquartile mean (IQM)"
+        },
+        "aliases": [
+          "IQM"
+        ],
+        "is_contributed": {
+          "quote": "interquartile mean (IQM) of evaluation results",
+          "justification": "Standard metric.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "To obtain the strongest performance for each class in each settings, we compare the interquartile mean (IQM) of evaluation results",
+          "justification": "Used in the analysis of results.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "we compare the interquartile mean (IQM) of evaluation results",
+          "justification": "Used as an evaluation procedure.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "To obtain the strongest performance for each class in each settings, we compare the interquartile mean (IQM)",
+          "justification": "Appendix B.2.",
+          "value": "aggregates evaluation results to identify the strongest method within each category"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "interquartile mean (IQM)",
+          "justification": "No reference given.",
+          "value": "unknown"
+        }
+      }
+    ],
+    "runs": [
+      {
+        "models": [],
+        "data_sources": [
+          {
+            "name": "D4RL",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "AntMaze",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "Adroit",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "Kitchen",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "MuJoCo locomotion",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "CalQL"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "For offline pretraining, we train CalQL for 1M gradient steps on AntMaze, 20k on Adroit, and 250k on both Kitchen and MuJoCo locomotion tasks.",
+          "justification": "Offline pretraining of CalQL agents.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "we train CalQL for 1M gradient steps on AntMaze, 20k on Adroit, and 250k on both Kitchen and MuJoCo locomotion tasks",
+          "justification": "Stated gradient step counts.",
+          "value": "1M gradient steps on AntMaze, 20k on Adroit, 250k on Kitchen and MuJoCo locomotion"
+        },
+        "parameter_count": {
+          "quote": "we train CalQL for 1M gradient steps on AntMaze",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "All experiments were conducted on a single-GPU setup using an NVIDIA L40S GPU, 24 CPU workers, and 20GB of RAM.",
+          "justification": "All experiments used a single NVIDIA L40S GPU.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "All experiments were conducted on a single-GPU setup using an NVIDIA L40S GPU",
+          "justification": "Stated in compute details.",
+          "value": "NVIDIA L40S"
+        },
+        "accelerator_count": {
+          "quote": "All experiments were conducted on a single-GPU setup using an NVIDIA L40S GPU",
+          "justification": "Single-GPU setup.",
+          "value": "1"
+        },
+        "precision": {
+          "quote": "All experiments were conducted on a single-GPU setup",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "All experiments were conducted on a single-GPU setup using an NVIDIA L40S GPU",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "All experiments were conducted on a single-GPU setup",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "All experiments were conducted on a single-GPU setup",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "All experiments are conducted with 10 random seeds to ensure statistical reliability.",
+          "justification": "Paper states 10 seeds and reports averages over 10 seeds.",
+          "value": "10 random seeds across 21 dataset-task compositions"
+        }
+      },
+      {
+        "models": [],
+        "data_sources": [
+          {
+            "name": "D4RL",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "AntMaze",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "Adroit",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "Kitchen",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "MuJoCo locomotion",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "ReBRAC"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "ReBRAC is trained for 1M gradient steps on AntMaze, 100k on Adroit, 250k on Kitchen, and 500k on MuJoCo tasks.",
+          "justification": "Offline pretraining of ReBRAC agents.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "ReBRAC is trained for 1M gradient steps on AntMaze, 100k on Adroit, 250k on Kitchen, and 500k on MuJoCo tasks.",
+          "justification": "Stated gradient step counts.",
+          "value": "1M gradient steps on AntMaze, 100k on Adroit, 250k on Kitchen, 500k on MuJoCo"
+        },
+        "parameter_count": {
+          "quote": "ReBRAC is trained for 1M gradient steps on AntMaze",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "All experiments were conducted on a single-GPU setup using an NVIDIA L40S GPU, 24 CPU workers, and 20GB of RAM.",
+          "justification": "All experiments on a single GPU.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "using an NVIDIA L40S GPU",
+          "justification": "Stated in compute details.",
+          "value": "NVIDIA L40S"
+        },
+        "accelerator_count": {
+          "quote": "All experiments were conducted on a single-GPU setup",
+          "justification": "Single-GPU setup.",
+          "value": "1"
+        },
+        "precision": {
+          "quote": "All experiments were conducted on a single-GPU setup",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "All experiments were conducted on a single-GPU setup",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "All experiments were conducted on a single-GPU setup",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "All experiments were conducted on a single-GPU setup",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "All experiments are conducted with 10 random seeds to ensure statistical reliability.",
+          "justification": "Stated.",
+          "value": "10 random seeds across 21 dataset-task compositions"
+        }
+      },
+      {
+        "models": [],
+        "data_sources": [
+          {
+            "name": "D4RL",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "AntMaze",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "Adroit",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "Kitchen",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "MuJoCo locomotion",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "behavior cloning (BC)"
+          },
+          {
+            "name": "Fitted Q Evaluation (FQE)"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "For the behavior cloning (BC) baseline, we perform 500K gradient steps of policy learning followed by 100k steps of fitted Q evaluation [23] (FQE)",
+          "justification": "BC policy learning followed by FQE critic fitting.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "we perform 500K gradient steps of policy learning followed by 100k steps of fitted Q evaluation [23] (FQE)",
+          "justification": "Stated.",
+          "value": "500K gradient steps of policy learning followed by 100k steps of FQE"
+        },
+        "parameter_count": {
+          "quote": "we perform 500K gradient steps of policy learning",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "All experiments were conducted on a single-GPU setup using an NVIDIA L40S GPU, 24 CPU workers, and 20GB of RAM.",
+          "justification": "All experiments on a single GPU.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "using an NVIDIA L40S GPU",
+          "justification": "Stated.",
+          "value": "NVIDIA L40S"
+        },
+        "accelerator_count": {
+          "quote": "All experiments were conducted on a single-GPU setup",
+          "justification": "Single-GPU setup.",
+          "value": "1"
+        },
+        "precision": {
+          "quote": "All experiments were conducted on a single-GPU setup",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "All experiments were conducted on a single-GPU setup",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "All experiments were conducted on a single-GPU setup",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "All experiments were conducted on a single-GPU setup",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "All experiments are conducted with 10 random seeds to ensure statistical reliability.",
+          "justification": "Stated.",
+          "value": "10 random seeds across 21 dataset-task compositions"
+        }
+      },
+      {
+        "models": [],
+        "data_sources": [
+          {
+            "name": "D4RL",
+            "access": "interactive",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "AntMaze",
+            "access": "interactive",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "Adroit",
+            "access": "interactive",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "Kitchen",
+            "access": "interactive",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "MuJoCo locomotion",
+            "access": "interactive",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "SAC"
+          },
+          {
+            "name": "TD3"
+          },
+          {
+            "name": "online data warmup"
+          },
+          {
+            "name": "offline RL regularization"
+          },
+          {
+            "name": "offline data replay"
+          },
+          {
+            "name": "parameter reset"
+          },
+          {
+            "name": "ReBRAC"
+          },
+          {
+            "name": "CalQL"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "Across all environments, online fine-tuning is performed for 500k environment steps with UTD=1.",
+          "justification": "Online fine-tuning of pretrained agents for 500k environment steps.",
+          "value": "finetune"
+        },
+        "epochs": {
+          "quote": "Across all environments, online fine-tuning is performed for 500k environment steps with UTD=1.",
+          "justification": "Stated.",
+          "value": "500k environment steps with UTD=1"
+        },
+        "parameter_count": {
+          "quote": "online fine-tuning is performed for 500k environment steps",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "All experiments were conducted on a single-GPU setup using an NVIDIA L40S GPU, 24 CPU workers, and 20GB of RAM.",
+          "justification": "All experiments on a single GPU.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "using an NVIDIA L40S GPU",
+          "justification": "Stated.",
+          "value": "NVIDIA L40S"
+        },
+        "accelerator_count": {
+          "quote": "All experiments were conducted on a single-GPU setup",
+          "justification": "Single-GPU setup.",
+          "value": "1"
+        },
+        "precision": {
+          "quote": "All experiments were conducted on a single-GPU setup",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "All experiments were conducted on a single-GPU setup",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "All experiments were conducted on a single-GPU setup",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "All experiments were conducted on a single-GPU setup",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "Combining the 21 dataset-task compositions with these 3 pretraining algorithms yields 63 experimental settings in total. ... We then evaluate six representative methods spanning these four categories ... All experiments are conducted with 10 random seeds",
+          "justification": "Paper states 63 settings, six evaluated methods, and 10 seeds.",
+          "value": "63 settings x 6 fine-tuning methods x 10 random seeds"
+        }
+      }
+    ]
+  },
+  "usage": {
+    "input_tokens": 47762,
+    "output_tokens": 14507,
+    "total_tokens": 62269
+  }
+}
