@@ -337,3 +337,127 @@ availability/governance (3/3), supply/boundedness (2/3), locality (2/3),
 collection channel (1/3), temporal stability (1/3).
 
 **Phase 2 may now open the corpus**, for blind spots only.
+
+## 6. Phase 2 result (2026-10-08)
+
+Three runs placed the same 194 names (`placement_candidates.tsv`) with the
+corpus open, independently, reports in `placements/run_{A,B,C}.md`. They
+admitted 169 / 175 / 172 and rejected 25 / 19 / 22.
+
+### What the measurements said
+
+| | A | B | C | reading |
+|---|---|---|---|---|
+| `provenance-other` | 0 | 0 | 1 | **void — see below** |
+| strained `human-incidental` | 4+1 | 5 | 4 | the strain is `natural`, not the fold |
+| `rule` used | 9 | 12 | 4 firm | kept, and no longer speculative |
+| `stream` | 0 | 0 | 0 | expected; read as nothing |
+| `simulated`/`constructed` bites | 65/169 | 45 | 75/172 | **38–44%, the headline** |
+
+**Measurement 1 was void and all three runs said so before reporting it.** An
+environment/suite/reference keyword net contains no term that can select a
+cluster trace, so the 0 is a property of the sample, not of the field — and
+reading it as support for the fold would be the arbitration §2's own method
+forbids. The sweep that was missing is `operational_sweep.tsv`: 34 names / 52
+paper-pairs, of which **27 fall under the fold's human sub-cases and 7 are
+machine telemetry with no human actor**, each in one paper. Run A sharpened the
+remainder: the replay logs in the placement set (DQN Replay, RL Unplugged, D4RL,
+MAMuJoCo) are machine-emitted but already have a home in `model-generated`, so
+the uncovered case is only machine records **with no model in the causal chain**.
+7 singletons is a watch, not a restore.
+
+### The one finding underneath four symptoms
+
+Every structural tension the three runs reported is the same confusion, and the
+axis has it in three different rows: **`provenance` conflates the mechanism that
+produced the signal with what the signal is a record of.** The corpus contains
+the cells where the two come apart, in bulk.
+
+- **`simulated` vs `constructed`.** `simulated`'s positive test asks for an
+  engine with physical units (mechanism) *and* for "the simulation is wrong" to
+  be a meaningful complaint (referent). B's proof pair: the UVA/Padova diabetes
+  simulator satisfies both; **HalfCheetah has the identical engine and units and
+  no referent at all.** A located the mechanism exactly — the *"absorbs
+  `rendered`"* **note** routes every Atari, Procgen, MiniGrid and SMAC frame to
+  `simulated` while `simulated`'s own **test** is false of an emulator and
+  `constructed`'s is true. A: *"the largest defect found, and it is in a note,
+  not a test."* B resolved 26 names *"only because the examples column names
+  MuJoCo rollouts — resolution by authority, not by test."*
+- **`natural`.** Its positive test asks about the referent ("remove every human
+  purpose and the process still runs"), which expels its own exemplars: GTSRB,
+  Duckietown and IMDB-Wiki are instrument measurements of human-made subjects,
+  and fastMRI — listed under `natural` in this very table — is a measurement
+  taken for a clinical purpose. B named the consequence: the value *"claims them
+  on the subject rather than the signal — most of vision, not 2 names."* C:
+  *"the value actually under strain in this sample is `natural`."*
+- **`rule` vs `constructed` on games.** A game supplies observations by
+  construction and rewards by rule, one source, two mechanisms. This is why
+  `rule`'s firm count (4–12) and its touched count (37–55) differ by 4×. B:
+  *"the dispute dissolves if provenance is scoped to a channel and is
+  unresolvable otherwise."*
+
+**Phase 1 named the fix before phase 2 measured the need for it.** It is sitting
+in `simulated`'s own note: *"one `program-computed` value plus a separate
+`referent` axis."* That was recorded as a low-confidence alternative; the
+placements turn it into the live option. Mechanism-only provenance
+(measured / human-authored / elicited / program-computed / model-generated /
+rule) plus a `referent` axis separates HalfCheetah from UVA/Padova and GTSRB
+from a photograph of a cat, which no single axis can. It does **not** solve the
+channel problem, which needs a scope, not a value.
+
+**Not resolved here, because it is the owner's call and it is scope.** Recorded
+with its evidence so the decision is made on the measurement rather than on
+taste.
+
+### The admission-rule gap all three found
+
+**An evaluation protocol over an existing source is not a source, and no clause
+rejects one.** A counts 12, B 14, C 22: `Atari 100k` (×3 spellings), `Atari 57`,
+`HELM`, `URLB` (×3), `RWRL` (×2), `EARL`, `CARLA NoCrash`, `MetaWorld ML45`,
+`MT10`, `BBH` (×3), `CrossFit`, `SubpopBench`. Each is admitted because it is
+named, then returns its base environment's values on both axes — so it inflates
+every count it enters. Part D already routes the protocol to the algorithms
+`role` axis (`R.eval`); what Part A lacks is the clause that sends it there.
+B: *"15 of 194 turn on clauses that do not exist."* Needs the owner, because it
+edits the admission rule.
+
+### Recorded, not acted on
+
+- **`generator` and `interactive` both hold of one mention** — A 19 names, C 22,
+  both positive tests passing on different units (a level is minted on request,
+  then stepped). `access` is single-valued per (source, use), so this is a real
+  limit. Noted on both rows.
+- **A named subset versus a derivation** (C, 22 names: `BBH`, `PubMed Central`,
+  `German Common Crawl`, `Atari 57`, `MetaWorld MT10`). Part C says a subset is
+  not a derivation; Part E's naming criterion says named ⇒ entity. The two need
+  an explicit priority.
+- **`derived_from` has no parent to point at when the parent is unnamed** (B):
+  `Proprietary System Level RAN Simulator Dataset`. The named-only clause and the
+  inheritance rule are in direct tension for every private simulator.
+- **One candidate value, 1 of 3, recorded not proposed** (C): "the output of a
+  learning run", for `Hopper Controller` — Design-Bench weight vectors, which
+  `model-generated` does not cover because no model *emitted* them.
+- **Alias load** (B): 21 of 194 names denote the ALE, two protocol variants, two
+  member games and three frozen logs. 21 alias decisions a human must write, and
+  three of them are not aliases.
+- **`MuJoCo` is the most-cited name in the set (10 papers) and the library clause
+  rejects it**, with no referent to inherit its mentions. B: the clause is right
+  and *"its application is a naming accident"*, since `dm_control suite` is also
+  a package name and was admitted because its quote denotes the task suite.
+
+### Applied from phase 2
+
+- `elicited` widened from "from people" to **"a person or animal, to the
+  collection's protocol"**. A and B independently failed to place `Neural Latents
+  Benchmark` without overriding a test; the characteristic always turned on the
+  asking, never on the species.
+- `rule` **un-flagged**: all three used it and each reached a non-game case from
+  a name.
+- `oracle`'s under-naming **confirmed** rather than assumed — legitimate on 8
+  names (B), typical on none.
+- `stream`'s 0 recorded three times over, with B's finding that the word itself
+  is a mis-coding risk (`Poker Hand`'s quote says "data stream"; the value is
+  `fixed`).
+- The provenance header now states that **multi-valued means several values at
+  once**, because all three runs read the fastMRI/`natural` and MIMIC/
+  `human-incidental` rows as a contradiction when both values hold of both.
