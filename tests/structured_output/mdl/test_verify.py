@@ -176,17 +176,21 @@ PROBE_SETS = {
 
 def test_a_region_probe_is_zero_until_a_matching_name_arrives():
     empty = probes(_corpus(algorithms=[_algorithm("SGD")]), PROBE_SETS)
-    assert _by_name(empty, "decoding").ok is False
+    assert _by_name(empty, "decoding is non-zero").ok is False
     hit = probes(_corpus(algorithms=[_algorithm("beam search")]), PROBE_SETS)
-    assert _by_name(hit, "decoding").ok is True
+    assert _by_name(hit, "decoding is non-zero").ok is True
 
 
 def test_a_probe_matches_a_written_surface_but_never_a_similar_one():
     """Aliases count; similarity never does -- it paired gpt-j with GPT-4."""
     by_surface = probes(_corpus(algorithms=[_algorithm("kfold")]), PROBE_SETS)
-    assert _by_name(by_surface, "evaluation").ok is True
+    assert _by_name(by_surface, "evaluation is non-zero").ok is True
     near_miss = probes(_corpus(algorithms=[_algorithm("k-fold-ish CV")]), PROBE_SETS)
-    assert _by_name(near_miss, "evaluation").ok is False
+    assert _by_name(near_miss, "evaluation is non-zero").ok is False
+    # ...but the detection pass does see it, which is the point: an exact
+    # FAIL plus a near hit means the ontology lacks the spelling, not that
+    # the region is empty.
+    assert "1 papers" in _by_name(near_miss, "evaluation: region-shaped").detail
 
 
 def _factor(kind, count, what):
