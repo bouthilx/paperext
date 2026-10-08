@@ -406,19 +406,19 @@ def probes(corpus: Corpus, probe_sets: dict[str, Any]) -> list[Finding]:
                 name=f"{region}: region-shaped names matching no node",
                 ok=None,
                 detail=(
-                    f"{len(near)} papers: "
-                    + (
-                        ", ".join(sorted({n for ns in near.values() for n in ns})[:6])
-                        if near
-                        else "none"
+                    "0 papers -- so an exact zero above means the region really "
+                    "is absent, not merely unspellable"
+                    if not near
+                    else (
+                        f"{len(near)} papers: "
+                        + ", ".join(sorted({n for ns in near.values() for n in ns})[:6])
+                        + ". DETECTION ONLY and noisy -- two shared content "
+                        "tokens, never a placement. An exact zero above with a "
+                        "non-zero here is a NORMALISATION GAP for #99, not a "
+                        "prompt defect: openai returned `10-fold "
+                        "cross-validation` against a node spelled `k-fold "
+                        "cross-validation`"
                     )
-                    + ". DETECTION ONLY and noisy -- two shared content tokens, "
-                    "never a placement. Its job is to tell an empty region "
-                    "apart from one the ontology cannot spell: openai returned "
-                    "`10-fold cross-validation` and `95% stratified bootstrap "
-                    "CIs` while the exact probe read zero, because the node is "
-                    "spelled `k-fold cross-validation`. Those are "
-                    "normalisation gaps for #99, not prompt defects"
                 ),
                 papers=sorted(near),
             )
