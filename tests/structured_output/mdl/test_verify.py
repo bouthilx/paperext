@@ -187,10 +187,44 @@ def test_a_probe_matches_a_written_surface_but_never_a_similar_one():
     assert _by_name(by_surface, "evaluation is non-zero").ok is True
     near_miss = probes(_corpus(algorithms=[_algorithm("k-fold-ish CV")]), PROBE_SETS)
     assert _by_name(near_miss, "evaluation is non-zero").ok is False
-    # ...but the detection pass does see it, which is the point: an exact
-    # FAIL plus a near hit means the ontology lacks the spelling, not that
-    # the region is empty.
-    assert "1 papers" in _by_name(near_miss, "evaluation: region-shaped").detail
+    # The detection pass needs TWO shared content tokens, and this node name
+    # yields only one ("fold"), so it stays silent here too. One shared token is
+    # a coincidence, not a region.
+    assert "0 papers" in _by_name(near_miss, "evaluation: region-shaped").detail
+
+
+RICH_PROBE = {
+    "regions": {
+        "evaluation": [
+            {
+                "node_id": "M.kfold",
+                "name": "k-fold cross-validation",
+                "surfaces": [],
+            }
+        ]
+    }
+}
+
+
+def test_a_region_the_ontology_cannot_spell_is_reported_separately():
+    """The batch-2 finding, in miniature.
+
+    openai returned `10-fold cross-validation` while the exact probe read zero,
+    because the node is spelled `k-fold cross-validation`. That is an ontology
+    normalisation gap, NOT the scope failing to reach the prompt, and the two
+    must not collapse into one verdict.
+    """
+    corpus = _corpus(algorithms=[_algorithm("10-fold cross-validation")])
+    found = probes(corpus, RICH_PROBE)
+
+    exact = _by_name(found, "evaluation is non-zero")
+    assert exact.ok is False, "no node is spelled 10-fold, so nothing is placed"
+    assert "COMPANION" in exact.reading
+
+    near = _by_name(found, "evaluation: region-shaped")
+    assert near.ok is None
+    assert "1 papers" in near.detail
+    assert "10-fold cross-validation" in near.detail
 
 
 def _factor(kind, count, what):
