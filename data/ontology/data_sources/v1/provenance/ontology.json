@@ -1,0 +1,162 @@
+{
+  "meta": {
+    "version": "v1",
+    "dimension": "data_sources/provenance"
+  },
+  "roots": [
+    "natural",
+    "human-incidental",
+    "elicited",
+    "simulated",
+    "constructed",
+    "model-generated",
+    "rule",
+    "provenance-other"
+  ],
+  "nodes": {
+    "natural": {
+      "name": "Natural process",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "characteristic": "the signal issues from a physical or biological process that would have run regardless of any intent to record it",
+        "positive_test": "remove every human purpose and the process still runs and the signal still exists; an instrument stands between it and the record",
+        "negative_test": "a human artifact or judgement arriving through an instrument is not natural -- the instrument is a channel, not an origin",
+        "examples": "SDSS and LSST survey imaging; Protein Data Bank experimental structures; fastMRI raw k-space; Sentinel-2 imagery",
+        "notes": "run A warned this value risks vacuity, since every photograph is a camera measurement; the test appeals to whether the capture pipeline is part of the source's identity"
+      }
+    },
+    "human-incidental": {
+      "name": "Incidental human activity",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "characteristic": "human activity or artifacts produced for the actors' own purposes and collected afterwards",
+        "positive_test": "the content would exist, unchanged, if this dataset had never been conceived",
+        "negative_test": "fails if anyone was prompted, paid or instructed per item (elicited); curation and filtering do not change the origin -- selection is not origination",
+        "examples": "Common Crawl and Wikipedia text; The Stack / GitHub code; Project Gutenberg; LAION and YFCC100M image-text pairs; MIMIC-III/IV clinical records; Criteo click logs; MovieLens and Netflix Prize ratings",
+        "notes": "ABSORBS the byproduct-of-operation cases -- run B's `operational` and run A's three sub-cases -- by the owner's decision of 2026-10-08, which is run C's position. The clinician, the clicker and the rater are all acting for their own purposes and the record is collected afterwards, so the characteristic holds unchanged; what the fold gives up is the ability to separate them in a query. WATCH: revisit after #103's tests and after real annotations accumulate, to assess whether the value should be restored or a `collection channel` axis derived instead. A record emitted by a MACHINE rather than by a person fails this test and goes to `provenance-other`, which is where the evidence for that revisit collects"
+      }
+    },
+    "elicited": {
+      "name": "Elicited to order",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "characteristic": "the signal exists because the collection asked for it; a person or animal produced it to the collection's protocol",
+        "positive_test": "there is a task description, protocol, prompt or payment that caused each item to be produced; remove the research request and the signal does not exist",
+        "negative_test": "repurposed pre-existing human material stays human-incidental however aggressively it was filtered or reformatted",
+        "examples": "ImageNet class labels; MS COCO annotations; SQuAD and SNLI; HH-RLHF preference comparisons; teleoperated robot demonstrations",
+        "notes": "crowd versus expert is NOT a distinction on this axis -- annotation expertise is a separate characteristic. WIDENED by phase 2 from 'from people': runs A and B independently could not place `Neural Latents Benchmark` (macaque recordings during a trained reaching task) without overriding a test, and run A added ProteinGym. Animal behaviour, protocol ecology and phenotyping are a real slice of this corpus; the characteristic always turned on the ASKING, never on the species"
+      }
+    },
+    "simulated": {
+      "name": "Simulated from a model",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "characteristic": "values computed by executing a human-written mechanistic model of a real referent",
+        "positive_test": "there is a solver or engine whose parameters have physical units, and 'the simulation is wrong' is a meaningful complaint about the output",
+        "negative_test": "fails when nothing outside the program is modelled (constructed); fails when a LEARNED model produced it (model-generated)",
+        "examples": "OC20 / ANI-1x DFT energies; PDEBench solver outputs; CMIP6 climate runs; MuJoCo rollouts; CARLA and Habitat rendered observations",
+        "notes": "absorbs `rendered` (graphics from authored assets), which only run A proposed and held with low confidence. The open alternative: one `program-computed` value plus a separate `referent` axis"
+      }
+    },
+    "constructed": {
+      "name": "Constructed by specification",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "characteristic": "values determined by a formal construction, grammar or random procedure with no empirical referent",
+        "positive_test": "the generating specification IS the ground truth; there is no measurement or approximation error to speak of",
+        "negative_test": "fails when a real phenomenon is being approximated (simulated)",
+        "examples": "dSprites and Shapes3D factor grids; Dyck-k and PCFG string sets; Erdos-Renyi and stochastic-block-model graphs; BBOB analytic test functions",
+        "notes": "boundary with `simulated` flagged by all three runs; Habitat is the recurring hard case (laser-measured real interiors, then rendered)"
+      }
+    },
+    "model-generated": {
+      "name": "Emitted by a learned model",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "characteristic": "content produced by sampling or predicting with a trained statistical model",
+        "positive_test": "a model checkpoint stands in the causal chain that produced the content, not merely scoring or filtering it",
+        "negative_test": "model-based filtering, dedup or ranking does not count; a model consulted LIVE during the run is catalogued as a model, not as a source -- see SYNTHESIS.md section 4",
+        "examples": "Self-Instruct / Alpaca; Cosmopedia and phi-style generated corpora; Noisy-Student pseudo-labels; AlphaFold DB predicted structures used as data",
+        "notes": "open: whether a model-based SELECTOR (FineWeb-Edu, DataComp) injects this value. Run A recorded it and said 'selection is not generation'"
+      }
+    },
+    "rule": {
+      "name": "Computed by an explicit rule",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "characteristic": "the signal is computed by a stated non-learned rule, verifier or engine",
+        "positive_test": "a person could check the signal by applying a written rule, and the rule has no learned parameters",
+        "negative_test": "fails if the producer has learned parameters (model-generated) or if a human judged case by case (elicited)",
+        "examples": "unit-test pass/fail rewards; Lean or Coq proof checking; terminal outcomes from the rules of Go or chess; distant supervision by alignment to a knowledge base",
+        "notes": "KEPT, and no longer speculative. Proposed by only one phase-1 run; all three phase-2 runs used it, and each reached a NON-GAME case from a name: `Juliet Test Suite` (A, B), `CFQ` (B), `CANUE` (A, C) -- a published index formula over administrative records -- and `IMDB-Wiki`, `ExtremeWeather` (C). The firm counts are small (A 9, B 12, C 4) but the characteristic held every time it was applied. Its live problem is NOT rarity: the counts swing to 40 (A), ~55 (B) and 37 (C) under a reward-channel reading, because a game supplies observations by construction and rewards by rule, and provenance has no channel to attach to. See SYNTHESIS.md section 6"
+      }
+    },
+    "provenance-other": {
+      "name": "Other provenance",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "characteristic": "a generating process none of the above describes",
+        "positive_test": "a reviewer can say what produced the signal and why no value fits",
+        "negative_test": "not the case where the paper does not say -- that is the `unknown` coding state",
+        "examples": "Google Borg and Alibaba cluster traces, and machine-emitted operational records generally -- no human activity produced them, so `human-incidental` does not hold; the hard candidate is an analog or quantum device whose output is both computed and measured",
+        "notes": "the world/people/computation trichotomy is intended to be exhaustive, so this was expected to stay near-empty. It is NO LONGER expected empty: with the byproduct-of-operation value folded away, system telemetry has nowhere else to go, and the count that lands here is the measurement that decides whether that value is restored"
+      }
+    }
+  }
+}

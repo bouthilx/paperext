@@ -730,8 +730,14 @@ class PaperExtractions(BaseModel):
     )
     models: list[RefModel] = Field(description="All Models found in the paper")
     data_sources: list[RefDataSource] = Field(
+        # The two exclusions are here rather than only in the issue because
+        # both were measured to double-count: one string, two entities, three
+        # times over (#102 Part A).
         description="All Data Sources found in the paper: fixed datasets, "
-        "interactive environments and generators alike"
+        "interactive environments and generators alike. Report the source "
+        "itself, not the software that implements it (MuJoCo is a Library, "
+        "HalfCheetah is a Data Source) and not an evaluation protocol over it "
+        "(report Atari, not Atari 100k)"
     )
     libraries: list[RefLibrary] = Field(
         description="All Libraries explicitely used or contributed according to the paper"

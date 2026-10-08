@@ -1,0 +1,124 @@
+{
+  "meta": {
+    "version": "v1",
+    "dimension": "data_sources/access"
+  },
+  "roots": [
+    "fixed",
+    "generator",
+    "oracle",
+    "interactive",
+    "stream",
+    "access-other"
+  ],
+  "nodes": {
+    "fixed": {
+      "name": "Fixed sample",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "characteristic": "the set of examples is determined before the run and is identical whatever the consumer does",
+        "positive_test": "every example could be enumerated before the run starts, knowing nothing about the consumer; re-running yields the same set; epochs are meaningful",
+        "negative_test": "fails if the consumer's actions, its sampling budget or the wall-clock date change which examples exist",
+        "examples": "ImageNet-1k; The Pile; LibriSpeech; D4RL offline sets",
+        "notes": "a frozen draw from an interactive or streaming source is `fixed` and is normally a separately named entity"
+      }
+    },
+    "generator": {
+      "name": "On-demand generator",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "characteristic": "examples do not pre-exist; a procedure mints them on request, and their content does not depend on the consumer's outputs",
+        "positive_test": "asking for twice as many examples returns twice as many valid non-duplicates without changing the source; a seed or config change yields fresh examples",
+        "negative_test": "fails if what arrives depends on what the consumer just did (interactive), or if the consumer must name the specific item wanted (oracle)",
+        "examples": "the CLEVR scene-generation pipeline; random k-SAT instance families; formal-language samplers (Dyck-k, modular arithmetic); the bAbI generator",
+        "notes": "the generating CODE is a library; the named task family it emits is the data source. Count is a budget, not a property of the source. OVERLAPS `interactive` on one mention, measured: runs A (19 names) and C (22) found both positive tests passing on DIFFERENT UNITS -- a procedurally generated level is minted on request, then stepped with actions. Procgen, MiniGrid, BabyAI, TextWorld, CARLA and Gibson all do both, and Gibson's own quote uses both words. The axis is single-valued per (source, use), so this is unresolved; see SYNTHESIS.md section 6"
+      }
+    },
+    "oracle": {
+      "name": "Queried oracle",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "characteristic": "examples pre-exist or are answered on request, but the consumer holds none of them and must name what it wants; the responder carries no state across requests",
+        "positive_test": "obtaining an example requires a key, query or request to something the consumer does not own, and a different choice yields a different example without changing the source",
+        "negative_test": "fails if the answer depends on the order of earlier requests (interactive); fails if the consumer downloaded the whole source first (fixed)",
+        "examples": "PubChem / Materials Project APIs queried by identifier; a search engine as a RAG backend; a wet-lab assay queried by a Bayesian optimiser; annotators queried per item in an active-learning loop",
+        "notes": "FLAGGED: two of three runs judge its real differentia to be possession/enumerability rather than control, so it may be `fixed` plus an attribute. Also structurally under-named -- oracles are described, not named -- so a low count must not be read as rarity. Phase 2 CONFIRMS the under-naming, which is the useful half of that flag: legitimate on 8 names for run B (PubMed, PMC, Wikipedia, Common Crawl, MS MARCO, OpenML) and 4 for run C, and typical on none of them. A paper downloads the dump and says so, so the oracle use is real and unnamed -- a low count is not rarity"
+      }
+    },
+    "interactive": {
+      "name": "Interactive environment",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "characteristic": "the source holds state; the next example is determined jointly by that state and the consumer's actions",
+        "positive_test": "the consumer's choices change which examples come to exist, and `reset` is a distinct operation on the source",
+        "negative_test": "fails if the examples would be identical whatever the consumer emitted (generator, fixed); fails if nothing persists between examples (oracle)",
+        "examples": "the Arcade Learning Environment; MuJoCo tasks via the DeepMind Control Suite; StarCraft II (SC2LE); Habitat; CARLA; WebArena",
+        "notes": "examples consumed is not examples produced: replay ratio and minibatch reuse give an epochs-shaped term that is not dataset epochs. Typical value for 91-96 of the ~172 placed phase-2 names, the largest group on this axis. Overlaps `generator` on the procedural-level sources -- see that row"
+      }
+    },
+    "stream": {
+      "name": "Live feed",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "characteristic": "the source pushes examples on its own clock; the consumer can neither trigger, re-request nor influence them",
+        "positive_test": "pausing for an hour permanently loses examples; two runs launched on different days consume different examples and nothing either does changes that",
+        "negative_test": "fails if the consumer froze a snapshot first (then it is fixed); fails if the consumer pulls at its own pace (generator)",
+        "examples": "the ZTF public alert stream; the Wikipedia recent-changes feed; a live exchange feed consumed online; production traffic used for online learning",
+        "notes": "FLAGGED near-empty: all three runs note the snapshot is what gets the name. A low count is EXPECTED and is not evidence against the value -- recoding a non-replayable source as `fixed` would assert a reproducibility it does not have. MEASURED 0 in all three phase-2 runs, and read as nothing, as this note already required. One positive result instead: run B found `Poker Hand`'s own quote calling it a 'data stream' while the correct value is `fixed`, so the stream-learning sense of the word is a live mis-coding risk and this row's warning is the thing that catches it"
+      }
+    },
+    "access-other": {
+      "name": "Other access mode",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "characteristic": "a mode of obtaining examples that none of the above describes",
+        "positive_test": "a reviewer can state what the supply protocol is and why no value above applies",
+        "negative_test": "not the case where the paper simply does not say -- that is the `unknown` coding state, not this value",
+        "examples": "none named on purpose",
+        "notes": "exists so an ontological miss is recorded as a miss rather than forced into a neighbouring value"
+      }
+    }
+  }
+}

@@ -47,6 +47,9 @@ EXPECTED = {
     },
     "models": {"lineage": 358, "connectivity": 24, "topology": 7, "attributes": 51},
     "algorithms": {"lineage": 1672, "signal": 56, "role": 46, "attributes": 97},
+    # Two flat axes and no backbone (#102). The counts are small because these
+    # are value sets, not trees: every node is a root.
+    "data_sources": {"access": 6, "provenance": 8},
 }
 
 
