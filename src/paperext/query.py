@@ -224,9 +224,23 @@ def main(argv=None):
     CFG.platform.select = options.platform
 
     if options.paperoni:
-        papers = [Paper(p) for p in json.loads(options.paperoni.read_text())]
-        papers = [p.get_link_id_pdf() for p in papers]
-        papers = [p for p in papers if p is not None]
+        entries = [Paper(p) for p in json.loads(options.paperoni.read_text())]
+        resolved = [(entry, entry.get_link_id_pdf()) for entry in entries]
+        # A paper whose converted text is not in `CFG.dir.cache` resolves to
+        # None and is dropped. Say which ones, and where we looked: the cache
+        # directory is configurable, so "nothing resolved" is almost always a
+        # cache pointed somewhere else rather than a corpus that is missing.
+        missing = [entry.id for entry, path in resolved if path is None]
+        if missing:
+            logger.warning(
+                "%d of %d papers have no converted text under %s and are "
+                "skipped: %s",
+                len(missing),
+                len(entries),
+                CFG.dir.cache,
+                ", ".join(missing[:10]) + ("..." if len(missing) > 10 else ""),
+            )
+        papers = [path for _, path in resolved if path is not None]
     elif options.input:
         papers = [
             Path(paper)
@@ -240,10 +254,34 @@ def main(argv=None):
         for p in papers:
             logger.info(p)
 
+    # An empty list passes both checks below vacuously -- `all([])` is True --
+    # so a mis-specified input used to run to completion having queried nothing,
+    # silently, on a pipeline whose next step is thousands of paid calls. Fail
+    # instead, and say what was asked for.
+    if not papers:
+        parser.error(
+            "no papers to query. "
+            + (
+                f"--paperoni resolved 0 of its entries to a converted text "
+                f"under {CFG.dir.cache} (set PAPEREXT_DIR_CACHE if the cache "
+                f"lives elsewhere)"
+                if options.paperoni
+                else "the input named none"
+            )
+        )
+
     if not all([p.exists() for p in papers]):
         papers = [Path(CFG.dir.cache / f"arxiv/{paper}.txt") for paper in papers]
 
-    assert all([p.exists() for p in papers])
+    absent = [str(p) for p in papers if not p.exists()]
+    if absent:
+        parser.error(
+            f"{len(absent)} of {len(papers)} papers have no file on disk: "
+            + ", ".join(absent[:10])
+            + ("..." if len(absent) > 10 else "")
+        )
+
+    logger.info("querying %d papers with %s", len(papers), CFG.platform.select)
 
     backend = get_backend(CFG.platform.select)
     client = backend.make_client()

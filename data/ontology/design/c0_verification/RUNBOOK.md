@@ -19,9 +19,32 @@ with a cached fulltext under `cache/fulltext/<paper_id>/` in the
   over-splitting checks are a *distribution*, and 11 papers cannot carry one.
 
 ```console
+PAPEREXT_DIR_CACHE=/home/bouthilx/projects/paperext-llm-backend/data/cache \
 uv run python -m paperext.query --platform anthropic \
     --paperoni data/ontology/design/c0_verification/sample.paperoni.json
 ```
+
+**`PAPEREXT_DIR_CACHE` is required, and this was a real mistake in the first
+version of this runbook.** The sample's converted fulltexts are cached only in
+the `paperext-llm-backend` checkout, which is where the sample was *built*
+from. `Paper._pdfs` globs `CFG.dir.cache`, which in this repo is `data/cache` --
+a directory that does not exist. Every paper then resolved to `None`, the
+`is not None` filter emptied the list, and the run queried nothing. Only the
+cache moves: output still lands here, under `data/mdl/queries/`.
+
+Verify the resolution before spending anything:
+
+```console
+PAPEREXT_DIR_CACHE=/home/bouthilx/projects/paperext-llm-backend/data/cache \
+uv run python -c "
+import json; from pathlib import Path; from paperext.utils import Paper
+raw = json.loads(Path('data/ontology/design/c0_verification/sample.paperoni.json').read_text())
+got = [Paper(p).get_link_id_pdf() for p in raw]
+print(f'{sum(g is not None for g in got)}/{len(got)} papers resolve')"
+```
+
+Expected: `25/25`. `query.py` now refuses an empty list rather than succeeding
+at nothing, but checking first costs a second.
 
 `--platform` is the owner's call; the harness reads whatever lands in the
 queries directory and does not care which provider produced it.

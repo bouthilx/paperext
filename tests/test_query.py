@@ -1,3 +1,4 @@
+import json
 from unittest.mock import MagicMock
 
 import openai
@@ -143,3 +144,44 @@ def test_query_error_logged(monkeypatch: pytest.MonkeyPatch):
             error_msg_cnt += 1
 
     assert error_msg_cnt == len(papers)
+
+
+def test_an_input_resolving_to_no_papers_fails_loudly(tmp_path, capsys):
+    """An empty paper list used to run to completion having queried nothing.
+
+    `all([])` is True, so both of `main`'s guards passed vacuously and
+    `asyncio.run` looped over nothing -- a silent no-op on a pipeline whose next
+    step is thousands of paid calls. The common cause is a cache pointed
+    somewhere else, so the error has to name the directory it looked in.
+    """
+    paperoni = tmp_path / "sample.json"
+    paperoni.write_text(
+        json.dumps(
+            [
+                {
+                    "paper_id": "deadbeef",
+                    "title": "A paper whose converted text is not cached",
+                    "links": [],
+                    "releases": [],
+                    "authors": [],
+                }
+            ]
+        )
+    )
+
+    with pytest.raises(SystemExit):
+        main(["--platform", "openai", "--paperoni", str(paperoni)])
+
+    err = capsys.readouterr().err
+    assert "no papers to query" in err
+    assert "PAPEREXT_DIR_CACHE" in err
+
+
+def test_a_named_paper_with_no_file_fails_loudly(capsys):
+    """The non-empty case: say which files are missing, not just that some are."""
+    with pytest.raises(SystemExit):
+        main(["--platform", "openai", "--papers", "definitely-not-a-paper"])
+
+    err = capsys.readouterr().err
+    assert "no file on disk" in err
+    assert "definitely-not-a-paper" in err
