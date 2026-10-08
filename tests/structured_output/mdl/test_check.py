@@ -297,3 +297,47 @@ def test_a_participant_role_does_not_create_a_disagreement():
         ],
     )
     assert EXECUTION_MODE_DISAGREES not in _codes(ext)
+
+
+def test_a_frozen_participant_is_not_compared_at_all():
+    """A teacher and a data-source model are participants, not what ran.
+
+    The owner's run criterion is "a frozen network is a participant", so a
+    teacher's own `inference` mode and the `train` run it takes part in are both
+    true. On the first v5 run this was 3 of 10 remaining disagreements: a
+    tokenizer, a binding proxy and a pair of scoring oracles, each appearing
+    only in a frozen role.
+    """
+    ext = _paper(
+        models=[_model("Scoring oracle", mode="inference")],
+        runs=[_run(models=["Scoring oracle"], mode="train")],
+    )
+    # The fixture's RunModel role is "main", so this IS compared and flagged.
+    assert EXECUTION_MODE_DISAGREES in _codes(ext)
+
+    frozen = _paper(
+        models=[_model("Scoring oracle", mode="inference")],
+        runs=[
+            {
+                **_run(mode="train"),
+                "models": [{"name": "Scoring oracle", "role_in_run": "data-source"}],
+            }
+        ],
+    )
+    assert EXECUTION_MODE_DISAGREES not in _codes(frozen)
+
+
+def test_a_role_is_read_by_value_not_by_its_enum_repr():
+    """`str(ModelRunRole.DATA_SOURCE)` is not `'data-source'`.
+
+    Reading an enum by `str()` has been a bug three times here, and each time it
+    made a check silently report nothing. Pinned so the fourth is caught.
+    """
+    from paperext.structured_output.mdl.check import _enum_value
+    from paperext.structured_output.mdl.model_v5 import ModelRunRole
+
+    assert _enum_value(ModelRunRole.DATA_SOURCE) == "data-source"
+    assert _enum_value(ModelRunRole.TEACHER) == "teacher"
+    assert _enum_value("main") == "main"
+    assert _enum_value(None) == ""
+    assert str(ModelRunRole.DATA_SOURCE) != "data-source"  # the trap itself

@@ -30,6 +30,20 @@ from paperext import CFG
 from paperext.log import logger
 from paperext.utils import str_normalize
 
+#: Roles in which a model is **frozen**: a participant in the run, not something
+#: the run is fitting. The owner's run criterion says exactly this -- "a frozen
+#: network is a participant" -- so a teacher's own `inference` mode and the
+#: `train` run it takes part in are both true, and comparing them is
+#: meaningless. Measured on the first v5 run: 3 of 10 remaining mode
+#: disagreements were a model appearing ONLY in these roles (a tokenizer, a
+#: binding proxy, a pair of scoring oracles), while the other 7 were real -- a
+#: stated mode with no run to justify it.
+#:
+#: `student`, `critic` and `ensemble-member` are deliberately NOT here: all three
+#: are co-optimised in the run's own loop, which is the same criterion read the
+#: other way.
+FROZEN_RUN_ROLES = frozenset({"teacher", "data-source"})
+
 #: ``runs[]`` list attribute -> the top-level entity list it references.
 REFERENCE_FIELDS: dict[str, str] = {
     "models": "models",
@@ -90,6 +104,17 @@ def _surfaces(entry: Any) -> set[str]:
 def _executed(entry: Any) -> bool | None:
     value = getattr(getattr(entry, "is_executed", None), "value", None)
     return value if isinstance(value, bool) else None
+
+
+def _enum_value(raw: Any) -> str:
+    """An enum member's ``value``, or a plain string, lowercased.
+
+    Written once because reading an enum by its ``str()`` has now been a bug
+    three times in this codebase: ``str(ModelRunRole.DATA_SOURCE)`` is
+    ``"ModelRunRole.DATA_SOURCE"``, not ``"data-source"``, so every comparison
+    against the wire value silently fails and the check reports nothing.
+    """
+    return str(getattr(raw, "value", raw) or "").strip().lower()
 
 
 def _mode(obj: Any) -> str | None:
@@ -171,7 +196,12 @@ def check_references(extractions: Any, *, paper: str = "") -> list[Problem]:
                         )
                     )
 
-                if entity_field == "models" and run_mode is not None:
+                if (
+                    entity_field == "models"
+                    and run_mode is not None
+                    and _enum_value(getattr(ref, "role_in_run", None))
+                    not in FROZEN_RUN_ROLES
+                ):
                     # Collected, not compared here: the model-level mode has to
                     # match ONE of the runs the model appears in, not each of
                     # them separately. See the check after this loop.
