@@ -1,0 +1,105 @@
+{
+  "meta": {
+    "version": "v1",
+    "dimension": "data_sources/referent"
+  },
+  "roots": [
+    "particular",
+    "generic",
+    "formal",
+    "stipulated",
+    "referent-other"
+  ],
+  "nodes": {
+    "particular": {
+      "name": "A particular real thing",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "characteristic": "the values report specific individuals that existed independently of this source",
+        "positive_test": "you can name the individual each item is about, and an error in it is an error ABOUT that individual",
+        "negative_test": "fails when no individual is nameable even in principle, only a population or a law (generic); fails when nothing outside the specification is being reported",
+        "examples": "SDSS and LSST imaging of actual objects; fastMRI scans and MIMIC records of actual patients; Wikipedia and Project Gutenberg texts; The Stack's actual repositories; GTSRB's actual street signs",
+        "notes": "D1 `real-particular`, D3 `particular`, and inside D2's `empirical`. The name deliberately says nothing about the KIND of individual -- a galaxy, a patient and a traffic sign are all particulars, and which one it is belongs to `domains`"
+      }
+    },
+    "generic": {
+      "name": "A real population or law",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "characteristic": "no individual is reported, but part of the specification was fixed by measurement or fitting, so \"this is unrealistic\" is a complaint owed an answer",
+        "positive_test": "a domain expert can argue the source is a poor approximation and the argument has a subject matter; some constant in it traces back to an observation",
+        "negative_test": "fails when nobody claims the source approximates anything real, so \"unrealistic\" has no purchase (stipulated); fails when specific individuals are reported (particular)",
+        "examples": "CMIP6 climate runs; OC20 and ANI-1x DFT energies; the UVA/Padova type-1 diabetes simulator; PDEBench solver outputs; SERGIO gene-network simulations",
+        "notes": "D1 `real-general`, D3 `generic`; D2 declined this cut and handed it to a queued axis. THIS IS THE CELL THE SPLIT WAS BUILT FOR: the diabetes simulator is `generic` and a locomotion task in the same class of engine is `stipulated`, which is the distinction one value could not hold. D3's open case: PDE benchmarks read `generic` by specification and `stipulated` by falsifiability"
+      }
+    },
+    "formal": {
+      "name": "An abstract system",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "characteristic": "the values answer to an abstract system whose facts EXCEED its specification; a disagreement is settled by computation or proof, never by observation",
+        "positive_test": "the rules are stated in full and yet a value in the data is something that had to be found -- searched for, solved or proved -- rather than chosen",
+        "negative_test": "fails when the specification settles every value directly, so there is nothing to find (stipulated); fails when an observation could settle it (particular, generic)",
+        "examples": "terminal outcomes from the rules of Go and chess; Lean and Coq proof checking; satisfiability of generated k-SAT instances; unit-test pass/fail over real code",
+        "notes": "D2's value, and the one the owner's union restores. D1 derived it as `self-constituting`, then killed it -- \"Wikipedia fell to real-particular, authored puzzles to stipulated, nothing left between\" -- and D3 met it as its undissolvable recursion trap. That two runs reached the cell and could not keep it, while the third kept it with a working test, is why it is here. FLAGGED: never placed against real names. Its boundary with `stipulated` is the one this axis has not tested"
+      }
+    },
+    "stipulated": {
+      "name": "Stipulated by its own specification",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "characteristic": "the generating specification IS the standard; no amount of looking at the world, and no computation, could show an item wrong",
+        "positive_test": "the source cannot be in error, only badly chosen; there is no verification step definable over its items",
+        "negative_test": "fails if some fact about the data had to be discovered rather than declared (formal); fails if anyone is entitled to call it unrealistic (generic)",
+        "examples": "dSprites and Shapes3D factor grids; Erdos-Renyi and stochastic-block-model draws; BBOB analytic test functions; MuJoCo locomotion morphologies; Procgen and MiniGrid levels; Atari frames as rendered",
+        "notes": "Same name and same characteristic in all three runs -- the strongest single agreement on this axis. GRANULARITY IS UNRESOLVED HERE, and all three runs found it: one physics engine spans several values depending on the task modelled (D3), Habitat's scan-then-render case relocates rather than dissolves (D1), and D2 found the value USE-DETERMINED for an engine named as the source -- which contradicts attaching this axis to the entity. See SYNTHESIS.md section 7"
+      }
+    },
+    "referent-other": {
+      "name": "Other referent",
+      "description": "",
+      "examples": [],
+      "children": [],
+      "axes": {},
+      "parent_ids": [],
+      "value_parent": "",
+      "kind": "",
+      "expands_to": [],
+      "props": {
+        "characteristic": "the values answer to something none of the above describes",
+        "positive_test": "a reviewer can say what would show the values wrong and why no value above fits",
+        "negative_test": "not the case where the paper does not say -- that is the `unknown` coding state",
+        "examples": "none named on purpose; D3's unplaceable candidates were normative standards and counterfactual scenarios; D2 considered and declined a `conventional` fourth value",
+        "notes": "the answerable/stipulated split is intended to be exhaustive, so this is expected to stay near-empty. Kept so an ontological miss is recorded as a miss"
+      }
+    }
+  }
+}

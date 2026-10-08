@@ -4,18 +4,15 @@
     "dimension": "data_sources/provenance"
   },
   "roots": [
-    "natural",
-    "human-incidental",
-    "elicited",
-    "simulated",
-    "constructed",
+    "measured",
+    "human-authored",
+    "program-computed",
     "model-generated",
-    "rule",
     "provenance-other"
   ],
   "nodes": {
-    "natural": {
-      "name": "Natural process",
+    "measured": {
+      "name": "Measured by an instrument",
       "description": "",
       "examples": [],
       "children": [],
@@ -25,29 +22,31 @@
       "kind": "",
       "expands_to": [],
       "props": {
-        "characteristic": "the signal issues from a physical or biological process that would have run regardless of any intent to record it",
-        "positive_test": "remove every human purpose and the process still runs and the signal still exists; an instrument stands between it and the record",
-        "negative_test": "a human artifact or judgement arriving through an instrument is not natural -- the instrument is a channel, not an origin",
-        "examples": "SDSS and LSST survey imaging; Protein Data Bank experimental structures; fastMRI raw k-space; Sentinel-2 imagery",
-        "notes": "run A warned this value risks vacuity, since every photograph is a camera measurement; the test appeals to whether the capture pipeline is part of the source's identity"
+        "characteristic": "the values are produced by an instrument transducing a physical state of the world",
+        "positive_test": "the values come off a sensor or assay, and swapping the instrument changes the values while no one chooses any of them",
+        "negative_test": "fails when a person authored the content and the instrument only transported it -- photographing a page records the page, not the world",
+        "examples": "SDSS and LSST survey imaging; fastMRI raw k-space; Sentinel-2 imagery; GTSRB and Duckietown camera frames; MIMIC vital-sign waveforms; machine telemetry and cluster traces",
+        "notes": "RENAMED from `natural`, and its old positive test (\"remove every human purpose and the process still runs\") DELETED. That clause judged the subject, not the signal, so it expelled its own exemplars -- all three phase-2 runs reported it and run A found it false of fastMRI, which the old table listed here. A camera pointed at a human artifact is still a camera. Whether the thing measured is natural or man-made is `domains`, and how answerable the values are is `referent`"
       }
     },
-    "human-incidental": {
-      "name": "Incidental human activity",
+    "human-authored": {
+      "name": "Authored by a person",
       "description": "",
       "examples": [],
-      "children": [],
+      "children": [
+        "elicited"
+      ],
       "axes": {},
       "parent_ids": [],
       "value_parent": "",
       "kind": "",
       "expands_to": [],
       "props": {
-        "characteristic": "human activity or artifacts produced for the actors' own purposes and collected afterwards",
-        "positive_test": "the content would exist, unchanged, if this dataset had never been conceived",
-        "negative_test": "fails if anyone was prompted, paid or instructed per item (elicited); curation and filtering do not change the origin -- selection is not origination",
-        "examples": "Common Crawl and Wikipedia text; The Stack / GitHub code; Project Gutenberg; LAION and YFCC100M image-text pairs; MIMIC-III/IV clinical records; Criteo click logs; MovieLens and Netflix Prize ratings",
-        "notes": "ABSORBS the byproduct-of-operation cases -- run B's `operational` and run A's three sub-cases -- by the owner's decision of 2026-10-08, which is run C's position. The clinician, the clicker and the rater are all acting for their own purposes and the record is collected afterwards, so the characteristic holds unchanged; what the fold gives up is the ability to separate them in a query. WATCH: revisit after #103's tests and after real annotations accumulate, to assess whether the value should be restored or a `collection channel` axis derived instead. A record emitted by a MACHINE rather than by a person fails this test and goes to `provenance-other`, which is where the evidence for that revisit collects"
+        "characteristic": "a person composed, wrote, drew or judged the content itself",
+        "positive_test": "remove the person and there is no content, only a blank; the signal is the artifact of a human act, not a reading taken of one",
+        "negative_test": "fails when an instrument produced the values and a human merely chose where to point it (measured); fails when a program computed them",
+        "examples": "Common Crawl and Wikipedia text; The Stack / GitHub code; Project Gutenberg; ImageNet class labels; MIMIC clinical notes and orders; Criteo click logs; MovieLens ratings",
+        "notes": "RENAMED from `human-incidental` and widened to cover both the incidental and the elicited cases, because the old pair divided on WHY the content exists rather than on who produced it -- which is a collection channel, not a mechanism. Absorbs the byproduct-of-operation fold: a clinician, a clicker and a rater are each authoring, and the record is collected afterwards"
       }
     },
     "elicited": {
@@ -56,20 +55,22 @@
       "examples": [],
       "children": [],
       "axes": {},
-      "parent_ids": [],
+      "parent_ids": [
+        "human-authored"
+      ],
       "value_parent": "",
       "kind": "",
       "expands_to": [],
       "props": {
-        "characteristic": "the signal exists because the collection asked for it; a person or animal produced it to the collection's protocol",
-        "positive_test": "there is a task description, protocol, prompt or payment that caused each item to be produced; remove the research request and the signal does not exist",
-        "negative_test": "repurposed pre-existing human material stays human-incidental however aggressively it was filtered or reformatted",
-        "examples": "ImageNet class labels; MS COCO annotations; SQuAD and SNLI; HH-RLHF preference comparisons; teleoperated robot demonstrations",
-        "notes": "crowd versus expert is NOT a distinction on this axis -- annotation expertise is a separate characteristic. WIDENED by phase 2 from 'from people': runs A and B independently could not place `Neural Latents Benchmark` (macaque recordings during a trained reaching task) without overriding a test, and run A added ProteinGym. Animal behaviour, protocol ecology and phenotyping are a real slice of this corpus; the characteristic always turned on the ASKING, never on the species"
+        "characteristic": "the content exists because the collection asked for it; a person or animal produced it to the collection's protocol",
+        "positive_test": "there is a task description, protocol, prompt or payment that caused each item to be produced; remove the research request and the content does not exist",
+        "negative_test": "repurposed pre-existing human material stays plain `human-authored` however aggressively it was filtered -- selection is not origination",
+        "examples": "MS COCO annotations; SQuAD and SNLI; HH-RLHF preference comparisons; teleoperated robot demonstrations; Neural Latents Benchmark macaque recordings",
+        "notes": "KEPT AS A CHILD, and the one place this axis uses `parents`. The three referent runs split 3 ways on it: D1 deadlocked (the 3/3 rule forbids deleting it, a strict mechanism reading forbids keeping it), D2 kept it as a labelled lodger and named what it really is -- run C's predicted collection-channel axis -- and D3 made it a child because \"the child does carry a real extra fact\". Two of three keep it, so it is kept, as a child, labelled. WIDENED earlier from \"from people\": runs A and B of phase 2 independently could not place Neural Latents Benchmark without overriding a test, and the characteristic always turned on the ASKING, never on the species"
       }
     },
-    "simulated": {
-      "name": "Simulated from a model",
+    "program-computed": {
+      "name": "Computed by a program",
       "description": "",
       "examples": [],
       "children": [],
@@ -79,29 +80,11 @@
       "kind": "",
       "expands_to": [],
       "props": {
-        "characteristic": "values computed by executing a human-written mechanistic model of a real referent",
-        "positive_test": "there is a solver or engine whose parameters have physical units, and 'the simulation is wrong' is a meaningful complaint about the output",
-        "negative_test": "fails when nothing outside the program is modelled (constructed); fails when a LEARNED model produced it (model-generated)",
-        "examples": "OC20 / ANI-1x DFT energies; PDEBench solver outputs; CMIP6 climate runs; MuJoCo rollouts; CARLA and Habitat rendered observations",
-        "notes": "absorbs `rendered` (graphics from authored assets), which only run A proposed and held with low confidence. The open alternative: one `program-computed` value plus a separate `referent` axis"
-      }
-    },
-    "constructed": {
-      "name": "Constructed by specification",
-      "description": "",
-      "examples": [],
-      "children": [],
-      "axes": {},
-      "parent_ids": [],
-      "value_parent": "",
-      "kind": "",
-      "expands_to": [],
-      "props": {
-        "characteristic": "values determined by a formal construction, grammar or random procedure with no empirical referent",
-        "positive_test": "the generating specification IS the ground truth; there is no measurement or approximation error to speak of",
-        "negative_test": "fails when a real phenomenon is being approximated (simulated)",
-        "examples": "dSprites and Shapes3D factor grids; Dyck-k and PCFG string sets; Erdos-Renyi and stochastic-block-model graphs; BBOB analytic test functions",
-        "notes": "boundary with `simulated` flagged by all three runs; Habitat is the recurring hard case (laser-measured real interiors, then rendered)"
+        "characteristic": "the values are computed by a program none of whose value-determining parameters were fitted to data",
+        "positive_test": "there is code that emits the values, and every constant in it was stated by a person or drawn from a declared distribution",
+        "negative_test": "fails if any value-determining parameter was fitted and non-interpretable (model-generated); fails if the values were read off an instrument or authored",
+        "examples": "MuJoCo and Brax rollouts; Atari and Procgen frames; PDEBench solver outputs; CMIP6 climate runs; dSprites factor grids; Dyck-k and PCFG strings; unit-test pass/fail; Lean proof checking; terminal outcomes from the rules of Go",
+        "notes": "ABSORBS `simulated`, `constructed` and `rule`, all three independently, in all three referent derivations. `simulated` and `constructed` differed ONLY by referent, so deleting that clause leaves no test between them. `rule` went the same way for a sharper reason: its case for existing was itself a referent argument (\"a unit test checks real code, so 'no empirical referent' is false of it\"), so once `referent` takes that differentia nothing is left for it to be. D3 stated the general lesson -- a value named after the medium is always a superset of values named after kinds of that medium, and the repair is to re-cut by a production differentia, here STATED versus FITTED"
       }
     },
     "model-generated": {
@@ -115,29 +98,11 @@
       "kind": "",
       "expands_to": [],
       "props": {
-        "characteristic": "content produced by sampling or predicting with a trained statistical model",
-        "positive_test": "a model checkpoint stands in the causal chain that produced the content, not merely scoring or filtering it",
+        "characteristic": "the values are emitted by a program at least one of whose value-determining parameters was fitted to data",
+        "positive_test": "a trained checkpoint stands in the causal chain that produced the content, not merely scoring or filtering it",
         "negative_test": "model-based filtering, dedup or ranking does not count; a model consulted LIVE during the run is catalogued as a model, not as a source -- see SYNTHESIS.md section 4",
-        "examples": "Self-Instruct / Alpaca; Cosmopedia and phi-style generated corpora; Noisy-Student pseudo-labels; AlphaFold DB predicted structures used as data",
-        "notes": "open: whether a model-based SELECTOR (FineWeb-Edu, DataComp) injects this value. Run A recorded it and said 'selection is not generation'"
-      }
-    },
-    "rule": {
-      "name": "Computed by an explicit rule",
-      "description": "",
-      "examples": [],
-      "children": [],
-      "axes": {},
-      "parent_ids": [],
-      "value_parent": "",
-      "kind": "",
-      "expands_to": [],
-      "props": {
-        "characteristic": "the signal is computed by a stated non-learned rule, verifier or engine",
-        "positive_test": "a person could check the signal by applying a written rule, and the rule has no learned parameters",
-        "negative_test": "fails if the producer has learned parameters (model-generated) or if a human judged case by case (elicited)",
-        "examples": "unit-test pass/fail rewards; Lean or Coq proof checking; terminal outcomes from the rules of Go or chess; distant supervision by alignment to a knowledge base",
-        "notes": "KEPT, and no longer speculative. Proposed by only one phase-1 run; all three phase-2 runs used it, and each reached a NON-GAME case from a name: `Juliet Test Suite` (A, B), `CFQ` (B), `CANUE` (A, C) -- a published index formula over administrative records -- and `IMDB-Wiki`, `ExtremeWeather` (C). The firm counts are small (A 9, B 12, C 4) but the characteristic held every time it was applied. Its live problem is NOT rarity: the counts swing to 40 (A), ~55 (B) and 37 (C) under a reward-channel reading, because a game supplies observations by construction and rewards by rule, and provenance has no channel to attach to. See SYNTHESIS.md section 6"
+        "examples": "Self-Instruct / Alpaca; Cosmopedia; Noisy-Student pseudo-labels; AlphaFold DB predicted structures used as data; DQN replay and RL Unplugged logs",
+        "notes": "the boundary with `program-computed` is now MECHANICAL -- fitted versus stated -- which is the one cut all three referent runs reached independently. Still open, and D2 placed it precisely: a 2x2 of (fitted / not) x (originates / judges) whose empty fourth cell is exactly the model-based SELECTOR question phase 1 left open (FineWeb-Edu, DataComp). The missing cut is \"originates versus judges\", and it is missing identically across every producer, which is what makes it an axis rather than a value repair"
       }
     },
     "provenance-other": {
@@ -151,11 +116,11 @@
       "kind": "",
       "expands_to": [],
       "props": {
-        "characteristic": "a generating process none of the above describes",
-        "positive_test": "a reviewer can say what produced the signal and why no value fits",
+        "characteristic": "a production mechanism none of the above describes",
+        "positive_test": "a reviewer can say what produced the values and why no value fits",
         "negative_test": "not the case where the paper does not say -- that is the `unknown` coding state",
-        "examples": "Google Borg and Alibaba cluster traces, and machine-emitted operational records generally -- no human activity produced them, so `human-incidental` does not hold; the hard candidate is an analog or quantum device whose output is both computed and measured",
-        "notes": "the world/people/computation trichotomy is intended to be exhaustive, so this was expected to stay near-empty. It is NO LONGER expected empty: with the byproduct-of-operation value folded away, system telemetry has nowhere else to go, and the count that lands here is the measurement that decides whether that value is restored"
+        "examples": "none named on purpose; D3's unplaceable candidates were normative standards and counterfactual scenarios; C of phase 2 offered \"the output of a learning run\" for Design-Bench weight vectors, which `model-generated` does not cover because no model emitted them",
+        "notes": "EXPECTED TO EMPTY under this rewrite, and all three referent runs volunteered that as a cost: machine telemetry moves to `measured`, which was where it belonged. That does NOT disarm the byproduct-of-operation watch, because its instrument is `operational_sweep.tsv`'s named list, not a residual on this axis. The measure/author/compute trichotomy is intended to be exhaustive over mechanisms, so this staying empty is the design working"
       }
     }
   }
