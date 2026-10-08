@@ -28,8 +28,28 @@ queries directory and does not care which provider produced it.
 
 ## 2. The reading
 
+The run writes to a **configured** path, not the working directory.
+`config.mdl.ini` sets `queries = ${data}/${platform:struct}/queries` and
+`root = .` resolves relative to *the config file*, so it is always
+`<repo>/data/mdl/queries/`, then bucketed per provider and model slug by
+`paths.platform_bucket`:
+
+| `--platform` | queries dir |
+|---|---|
+| `anthropic` | `data/mdl/queries/anthropic/claude-opus-5` |
+| `openai` | `data/mdl/queries/openai/gpt-5.6-sol` |
+| `local` | `data/mdl/queries/local/Qwen-Qwen3.8-Flash-Next-FP8` |
+
+The model half comes from that backend's own config section, **not** from the
+flag, so changing `[anthropic] model` changes the directory with it. Two traps:
+`[platform] select` is `openai`, so omitting `--platform` writes to the openai
+bucket; and this repo's `data/mdl/queries` is nearly empty, because the 2110
+legacy-2024 extractions live in the `paperext-llm-backend` checkout — which is
+why `BASELINE.md`'s command points there and this one does not.
+
 ```console
-uv run python -m paperext.structured_output.mdl.verify <queries dir for that run>
+uv run python -m paperext.structured_output.mdl.verify \
+    data/mdl/queries/anthropic/claude-opus-5
 ```
 
 Three kinds of result, and the distinction is the whole point:
