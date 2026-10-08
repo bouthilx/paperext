@@ -128,8 +128,12 @@ async def batch_extract_models_names(
                 FileNotFoundError,
                 pydantic_core._pydantic_core.ValidationError,
             ) as e:
-                logger.error(e, exc_info=True)
-                logging.error(e, exc_info=True)
+                # Not an error: a missing file is the ordinary path on a first
+                # run, and this block is the cache miss that goes on to query.
+                # Logged at ERROR it buried the real failures under one
+                # traceback per paper.
+                logger.debug("%s: no reusable extraction, querying", paper, exc_info=e)
+                logging.debug("%s: no reusable extraction, querying", paper, exc_info=e)
 
                 message = message.format(*data, paper_fn.read_text())
 
@@ -159,11 +163,26 @@ async def batch_extract_models_names(
 
             logger.info(response.model_dump_json(indent=2))
 
-            models = [m.name.value for m in response.extractions.models]
-            datasets = [d.name.value for d in response.extractions.datasets]
-            libraries = [f.name.value for f in response.extractions.libraries]
+            # `data` feeds the *next* message's format slots. There is only one
+            # message today, so nothing consumes it -- but it is built before
+            # the loop ends, so a field name that no longer exists raises here,
+            # AFTER the extraction was written. That is what `datasets` did:
+            # schema v5 renamed it `data_sources`, so every paper wrote its
+            # file and then logged "Failed to extract paper information",
+            # making a successful run look like 25 failures. Read the slot the
+            # active schema actually has.
+            def _names(field: str, *fallbacks: str) -> list[str]:
+                for name in (field, *fallbacks):
+                    entries = getattr(response.extractions, name, None)
+                    if entries is not None:
+                        return [e.name.value for e in entries]
+                return []
 
-            data = [models, datasets, libraries]
+            data = [
+                _names("models"),
+                _names("data_sources", "datasets"),
+                _names("libraries"),
+            ]
 
 
 async def ignore_exceptions(
