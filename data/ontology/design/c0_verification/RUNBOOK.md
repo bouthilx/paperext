@@ -60,10 +60,25 @@ or stale, and says so instead of looking idle. That makes a failed or
 interrupted run cheap to pick up, which matters at #13's scale.
 
 **Measured pace, this sample on `anthropic`/`claude-opus-5`: about 3m20s per
-paper, sequential.** So ~80 minutes for these 25. Worth knowing before #13:
-2000 papers at that rate is **over four days of wall clock**, and nothing here
-runs papers concurrently. That is a scaling decision for #13, not a defect in
-this pass.
+paper.** Papers now run **concurrently**, `--concurrency` (default 4), because
+sequentially that pace is over four days of wall clock for #13's 2000 papers.
+
+| `--concurrency` | 25 papers | 2000 papers |
+|---|---|---|
+| 1 | ~83 min | ~4.5 days |
+| 4 (default) | ~21 min | ~28 hours |
+| 8 | ~10 min | ~14 hours |
+
+Those are ceilings assuming no throttling. **The real limit is the provider's
+rate limit, which is per-organisation and not knowable from this repo**, so
+raise `--concurrency` only after a run has shown headroom. Exceeding it trades
+throughput for backoff rather than failing: `extract_from_research_paper`
+retries on its own coroutine, honouring the provider's `retry-after`, so one
+throttled paper does not stall the others.
+
+Concurrency is safe here because each paper is independent — its own request,
+its own output file — and the run stays resumable, so an interrupted
+high-concurrency run costs nothing but the papers actually in flight.
 
 ## 2. The reading
 

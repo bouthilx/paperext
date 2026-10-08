@@ -285,3 +285,61 @@ def test_ignore_exceptions_reports_which_papers_failed(monkeypatch, tmp_path):
 
     assert calls == ["good.txt", "bad.txt"]
     assert failures == ["bad.txt"]
+
+
+def _overlap_probe(monkeypatch, n_papers, concurrency, tmp_path):
+    """Run `ignore_exceptions` over fake papers, recording peak overlap."""
+    live = 0
+    peak = 0
+    order = []
+
+    async def batch(_client, papers, **_kwargs):
+        nonlocal live, peak
+        live += 1
+        peak = max(peak, live)
+        order.append(papers[0].name)
+        await asyncio.sleep(0.01)  # let the loop start the next one
+        live -= 1
+
+    monkeypatch.setattr(paperext.query, "batch_extract_models_names", batch)
+    papers = [tmp_path / f"p{i}.txt" for i in range(n_papers)]
+    failures = asyncio.run(
+        paperext.query.ignore_exceptions(MagicMock(), papers, concurrency=concurrency)
+    )
+    return peak, order, failures
+
+
+def test_concurrency_actually_overlaps_and_stays_bounded(monkeypatch, tmp_path):
+    """The flag has to do something, and not more than it says.
+
+    A sequential loop would pass a test that only checked every paper ran, so
+    this measures how many were in flight at once. Sequential wall clock was
+    ~3m20s per paper, which is over four days for #13's 2000 papers -- the
+    whole reason this exists.
+    """
+    peak, order, failures = _overlap_probe(monkeypatch, 8, 4, tmp_path)
+    assert peak == 4, f"expected 4 in flight, saw {peak}"
+    assert len(order) == 8 and not failures
+
+    peak_one, order_one, _ = _overlap_probe(monkeypatch, 4, 1, tmp_path)
+    assert peak_one == 1, "concurrency=1 must stay strictly sequential"
+    assert order_one == ["p0.txt", "p1.txt", "p2.txt", "p3.txt"]
+
+
+def test_one_failure_does_not_stop_the_others_under_concurrency(monkeypatch, tmp_path):
+    """A failing paper must not take its in-flight neighbours down with it."""
+
+    async def batch(_client, papers, **_kwargs):
+        await asyncio.sleep(0.01)
+        if papers[0].name in ("p1.txt", "p5.txt"):
+            raise RuntimeError("boom")
+
+    monkeypatch.setattr(paperext.query, "batch_extract_models_names", batch)
+    papers = [tmp_path / f"p{i}.txt" for i in range(6)]
+
+    failures = asyncio.run(
+        paperext.query.ignore_exceptions(MagicMock(), papers, concurrency=3)
+    )
+
+    # Sorted, because completion order is not input order once concurrent.
+    assert failures == ["p1.txt", "p5.txt"]

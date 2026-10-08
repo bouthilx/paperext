@@ -63,6 +63,15 @@ Example:
 # Backends register themselves in paperext.backends (SDK-guarded). query() picks
 # one via get_backend(CFG.platform.select); see paperext/backends/.
 
+#: Papers in flight at once. One paper is one request, and they are fully
+#: independent, so this is where throughput comes from: a fulltext extraction
+#: measured ~3m20s on the C0 sample, i.e. over four days sequentially for #13's
+#: 2000 papers. Four is deliberately modest -- the real ceiling is the
+#: provider's rate limit, which is per-organisation and not knowable from here,
+#: and exceeding it trades throughput for backoff. Raise it with
+#: `--concurrency` once a run has shown headroom.
+DEFAULT_CONCURRENCY = 4
+
 
 async def extract_from_research_paper(
     client: instructor.AsyncInstructor,
@@ -233,37 +242,55 @@ async def ignore_exceptions(
     client: instructor.AsyncInstructor,
     validation_set: List[Path],
     *args,
+    concurrency: int = DEFAULT_CONCURRENCY,
     **kwargs,
 ) -> "List[str]":
-    """Extract each paper in turn, surviving a failure on any one of them.
+    """Extract every paper, surviving a failure on any one of them.
 
-    Papers go one at a time, so the bar's ETA is the real remaining wall clock.
-    It draws on stderr and is a no-op when stderr is not a terminal, so a run
-    redirected to a file stays clean -- `track`'s existing contract.
+    Up to *concurrency* papers are in flight at once, bounded by a semaphore.
+    One paper is one request, so this is the only place throughput can come
+    from: measured sequentially on the C0 sample, a fulltext extraction takes
+    about 3m20s, which is four and a half days for #13's 2000 papers.
 
-    Returns the names that failed, because the bar replaces the console output
-    a caller would otherwise have read the failures from.
+    Concurrency is safe here because each paper is independent -- its own
+    request, its own output file -- and because the rate-limit handling is
+    per-call: `extract_from_research_paper` backs off on its own coroutine,
+    honouring the provider's `retry-after`, so one throttled paper does not
+    stall the others. The ceiling is the provider's rate limit rather than
+    anything in this code, which is why it is a flag and not a constant.
+
+    Returns the names that failed, because the progress bar replaces the
+    console output a caller would otherwise have read them from.
     """
     failures: List[str] = []
+    gate = asyncio.Semaphore(max(1, concurrency))
+
     with track(len(validation_set), "extracting") as advance:
-        for paper in validation_set:
-            try:
-                await batch_extract_models_names(client, [paper], *args, **kwargs)
-            except bdb.BdbQuit:
-                raise
-            except Exception as e:
-                failures.append(paper.name)
-                logger.error(
-                    f"Failed to extract paper information from {paper.name}: {e}",
-                    exc_info=True,
-                )
-                logging.error(
-                    f"Failed to extract paper information from {paper.name}: {e}",
-                    exc_info=True,
-                )
-            finally:
-                advance()
-    return failures
+
+        async def extract_one(paper: Path) -> None:
+            async with gate:
+                try:
+                    await batch_extract_models_names(client, [paper], *args, **kwargs)
+                except bdb.BdbQuit:
+                    raise
+                except Exception as e:
+                    failures.append(paper.name)
+                    logger.error(
+                        f"Failed to extract paper information from {paper.name}: {e}",
+                        exc_info=True,
+                    )
+                    logging.error(
+                        f"Failed to extract paper information from {paper.name}: {e}",
+                        exc_info=True,
+                    )
+                finally:
+                    advance()
+
+        await asyncio.gather(*(extract_one(paper) for paper in validation_set))
+
+    # Completion order is not input order under concurrency, so sort: the list
+    # is printed for a human to re-run against.
+    return sorted(failures)
 
 
 def main(argv=None):
@@ -289,6 +316,13 @@ def main(argv=None):
         type=Path,
         default=None,
         help="List of papers to analyse",
+    )
+    parser.add_argument(
+        "--concurrency",
+        type=int,
+        default=DEFAULT_CONCURRENCY,
+        help=f"papers in flight at once (default {DEFAULT_CONCURRENCY}); the "
+        "ceiling is the provider's rate limit, not this code",
     )
     parser.add_argument(
         "--paperoni",
@@ -363,7 +397,8 @@ def main(argv=None):
     pending, reused = partition_pending(papers, destination)
     print(
         f"{len(papers)} papers: {len(reused)} already extracted, "
-        f"{len(pending)} to query with {CFG.platform.select}",
+        f"{len(pending)} to query with {CFG.platform.select} "
+        f"({options.concurrency} at a time)",
         file=sys.stderr,
     )
     logger.info(
@@ -389,11 +424,15 @@ def main(argv=None):
         filename=LOG_FILE.with_suffix(f".{PROG}.dbg"), level=logging.DEBUG, force=True
     )
 
+    if options.concurrency < 1:
+        parser.error(f"--concurrency must be at least 1, got {options.concurrency}")
+
     started = time.monotonic()
     failures = asyncio.run(
         ignore_exceptions(
             client,
             [paper.absolute() for paper in pending],
+            concurrency=options.concurrency,
             destination=destination,
             rate_limit_errors=backend.rate_limit_errors,
         )
