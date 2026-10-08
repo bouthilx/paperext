@@ -90,6 +90,31 @@ def _value(obj: Any, attr: str) -> Any:
     return getattr(got, "value", got)
 
 
+#: What "the paper did not say" looks like once unwrapped.
+_ABSENT = (None, "", "unknown", [])
+
+
+def _stated(obj: Any, attr: str) -> bool:
+    """Whether the paper actually stated this field.
+
+    A list-valued field needs unwrapping member by member:
+    `Explained[list[Parallelism]]` spells "not stated" as `['unknown']`, which
+    is neither empty nor the string `'unknown'`, so a scalar test counted every
+    run as having stated its parallelism -- 77/77 on the first v5 run, which is
+    what made the bug visible.
+    """
+    value = _value(obj, attr)
+    if isinstance(value, (list, tuple, set)):
+        return any(
+            str(getattr(item, "value", item)).strip().lower()
+            not in ("", "unknown", "none")
+            for item in value
+        )
+    if value in _ABSENT:
+        return False
+    return str(value).strip().lower() not in ("", "unknown", "none")
+
+
 @dataclass
 class Corpus:
     """Every extraction, indexed the few ways the checks need."""
@@ -211,7 +236,7 @@ def acceptance(corpus: Corpus) -> list[Finding]:
         p
         for p, run in corpus.runs()
         if _value(run, "execution_mode") == "generate"
-        and _value(run, "parameter_count") not in (None, "", "unknown")
+        and _stated(run, "parameter_count")
     ]
     out.append(
         Finding(
@@ -341,9 +366,7 @@ def measurements(corpus: Corpus) -> list[Finding]:
     )
 
     for fld in ("duration", "utilisation", "parallelism", "accelerator_count"):
-        present = sum(
-            1 for _, r in runs if _value(r, fld) not in (None, "", "unknown", [])
-        )
+        present = sum(1 for _, r in runs if _stated(r, fld))
         out.append(
             Finding(
                 kind="MEASURE",

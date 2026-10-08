@@ -118,6 +118,10 @@ def check_references(extractions: Any, *, paper: str = "") -> list[Problem]:
 
     # Which models a run accounts for, for EXECUTED_WITHOUT_RUN below.
     accounted: set[str] = set()
+    #: normalised model surface -> every run mode it appears under, and one
+    #: representative location to report against.
+    model_run_modes: dict[str, set[str]] = {}
+    model_run_where: dict[str, str] = {}
 
     for i, run in enumerate(getattr(extractions, "runs", None) or []):
         run_mode = _mode(run)
@@ -167,20 +171,38 @@ def check_references(extractions: Any, *, paper: str = "") -> list[Problem]:
                         )
                     )
 
-                entry_mode = _mode(entry)
-                if (
-                    entity_field == "models"
-                    and run_mode is not None
-                    and entry_mode is not None
-                    and entry_mode != run_mode
-                ):
-                    problems.append(
-                        Problem(
-                            EXECUTION_MODE_DISAGREES,
-                            where,
-                            f"{name!r} says {entry_mode!r}, its run says {run_mode!r}",
-                        )
-                    )
+                if entity_field == "models" and run_mode is not None:
+                    # Collected, not compared here: the model-level mode has to
+                    # match ONE of the runs the model appears in, not each of
+                    # them separately. See the check after this loop.
+                    model_run_modes.setdefault(str_normalize(name), set()).add(run_mode)
+                    model_run_where.setdefault(str_normalize(name), where)
+
+    # `RefModel.execution_mode` describes what the paper did with the model
+    # OVERALL; `Run.execution_mode` describes one run. A paper that trains a
+    # model and then evaluates it necessarily states both, and comparing them
+    # pairwise called that an error: measured on the first v5 run, 43 of 43
+    # pairwise disagreements came down to 6 once read as set membership, and
+    # the largest group was `run=inference, model=train` -- the ordinary
+    # train-then-evaluate shape. So the invariant is that the model's own mode
+    # is among the modes of the runs that reference it. A model whose stated
+    # mode appears in NO run it takes part in is the real signal: usually the
+    # run that would have justified it was never listed.
+    for surface, run_modes in model_run_modes.items():
+        entry = index["models"].get(surface)
+        entry_mode = _mode(entry) if entry is not None else None
+        if entry_mode is None or entry_mode in run_modes:
+            continue
+        name = getattr(getattr(entry, "name", None), "value", "") or surface
+        problems.append(
+            Problem(
+                EXECUTION_MODE_DISAGREES,
+                model_run_where[surface],
+                f"{name!r} says {entry_mode!r} but the "
+                f"{len(run_modes)} run(s) referencing it say "
+                f"{sorted(run_modes)!r}",
+            )
+        )
 
     for i, model in enumerate(getattr(extractions, "models", None) or []):
         if _executed(model) is not True:

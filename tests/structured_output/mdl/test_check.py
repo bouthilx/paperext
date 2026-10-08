@@ -249,3 +249,51 @@ def test_a_generate_run_with_no_models_is_clean():
         runs=[_run(data_sources=["ImageNet"], mode="generate")],
     )
     assert check_references(ext) == []
+
+
+def test_a_model_trained_then_evaluated_is_not_a_disagreement():
+    """The ordinary shape, and the one the pairwise check called an error.
+
+    `RefModel.execution_mode` describes what the paper did with the model
+    overall; `Run.execution_mode` describes one run. A paper that trains a model
+    and then evaluates it states both truthfully. Measured on the first v5 run,
+    `run=inference, model=train` was the single largest group of pairwise
+    "disagreements" -- 16 of 43.
+    """
+    ext = _paper(
+        models=[_model("ResNet-50", mode="train")],
+        runs=[
+            _run(models=["ResNet-50"], mode="train"),
+            _run(models=["ResNet-50"], mode="inference"),
+        ],
+    )
+    assert EXECUTION_MODE_DISAGREES not in _codes(ext)
+
+
+def test_a_mode_matching_no_run_the_model_appears_in_is_reported():
+    """The real signal: usually the run that would justify it was never listed."""
+    ext = _paper(
+        models=[_model("Phi-3", mode="finetune")],
+        runs=[
+            _run(models=["Phi-3"], mode="train"),
+            _run(models=["Phi-3"], mode="inference"),
+        ],
+    )
+    [problem] = [p for p in check_references(ext) if p.code == EXECUTION_MODE_DISAGREES]
+    assert "finetune" in problem.detail
+    assert "'inference', 'train'" in problem.detail
+
+
+def test_a_participant_role_does_not_create_a_disagreement():
+    """A teacher in a train run is not being trained; it was trained elsewhere."""
+    ext = _paper(
+        models=[
+            _model("Student", mode="train"),
+            _model("Teacher", mode="inference"),
+        ],
+        runs=[
+            _run(models=["Student", "Teacher"], mode="train"),
+            _run(models=["Teacher"], mode="inference"),
+        ],
+    )
+    assert EXECUTION_MODE_DISAGREES not in _codes(ext)
