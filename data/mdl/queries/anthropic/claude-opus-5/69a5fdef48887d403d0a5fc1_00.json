@@ -1,0 +1,1170 @@
+{
+  "paper": "69a5fdef48887d403d0a5fc1.txt",
+  "words": 29106,
+  "extractions": {
+    "title": {
+      "quote": "Detection and Evaluation of bias-inducing Features in Machine learning",
+      "justification": "Title as printed on the paper",
+      "value": "Detection and Evaluation of bias-inducing Features in Machine learning"
+    },
+    "description": "The paper proposes a technique for systematically identifying bias-inducing features in machine learning models by swapping values of single features and pairs of features (feature and mediating variables), and measuring divergence in the model prediction distributions using four distance functions. It validates the approach empirically on four well-known tabular datasets with a logistic regression model, compares feature rankings with SHAP values, and evaluates the impact of removing identified features with and without bias mitigation techniques.",
+    "type": {
+      "quote": "We validate our proposed technique by performing multiple experiments using four different well-known datasets.",
+      "justification": "The paper performs empirical experiments on four datasets to validate the proposed technique.",
+      "value": "empirical"
+    },
+    "research_fields": [
+      {
+        "name": {
+          "quote": "we propose an approach for systematically identifying all bias-inducing features of a model to help support the decision-making of domain experts",
+          "justification": "The paper proposes new techniques to detect bias-inducing features in ML models.",
+          "value": "Machine learning fairness / bias detection"
+        },
+        "aliases": [
+          "Fairness",
+          "Bias in machine learning"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "Our approach to identify potentially biased features is closely linked to techniques from the field of eXplainable AI (XAI), specifically ‘Explainability’",
+          "justification": "The paper relates its method to explainability and uses SHAP for feature importance.",
+          "value": "eXplainable AI (XAI)"
+        },
+        "aliases": [
+          "Explainability",
+          "XAI"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "we investigate ML model bias following the counterfactual approach to causal inference",
+          "justification": "The method is based on the counterfactual approach to causal inference and probabilistic causation.",
+          "value": "Causal inference"
+        },
+        "aliases": [
+          "Counterfactual approach to causal inference",
+          "probabilistic causation"
+        ],
+        "role": "used"
+      },
+      {
+        "name": {
+          "quote": "contributing to the standard procedure when developing, testing, deploying, and maintaining fairer machine learning systems",
+          "justification": "The paper frames contributions as supporting developing, testing, deploying and maintaining fairer ML systems.",
+          "value": "Software engineering / testing of ML systems"
+        },
+        "aliases": [
+          "ML software testing"
+        ],
+        "role": "contributed"
+      }
+    ],
+    "models": [
+      {
+        "name": {
+          "quote": "Like the other dataset used in this study, we fit a logistic regression model on the modified COMPAS Recidivism dataset.",
+          "justification": "The paper fits a logistic regression model on the datasets used.",
+          "value": "logistic regression"
+        },
+        "aliases": [
+          "Logistic Regression model"
+        ],
+        "is_contributed": {
+          "quote": "The proposed framework is flexible, with both classification and regression models as the backbone, including neural networks, logistic regression, and probabilistic classifiers.",
+          "justification": "Standard classifier used as backbone.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Train the machine learning model using the dataset Dtrain .",
+          "justification": "The model was trained and used for predictions in the experiments.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "we fit a logistic regression model on the modified COMPAS Recidivism dataset",
+          "justification": "Only one model type is used; no model-to-model comparison.",
+          "value": false
+        },
+        "execution_mode": {
+          "quote": "Train the machine learning model using the dataset Dtrain .",
+          "justification": "The model is trained on the training folds.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "including neural networks, logistic regression, and probabilistic classifiers",
+          "justification": "No reference paper given for logistic regression.",
+          "value": "unknown"
+        }
+      }
+    ],
+    "data_sources": [
+      {
+        "name": {
+          "quote": "Student: This dataset contains the student performance of the two secondary schools in Portugal.",
+          "justification": "Dataset of student performance used in the experiments.",
+          "value": "Student"
+        },
+        "aliases": [
+          "Student performance dataset",
+          "mat",
+          "por"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "This dataset contains the student performance of the two secondary schools in Portugal.",
+          "justification": "The paper does not state number of samples.",
+          "value": "unknown"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "Student: This dataset contains the student performance of the two secondary schools in Portugal.",
+          "justification": "No explicit reference cited for the Student dataset.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "Cleveland Heart Health [37]: This dataset contains information about Patients such as the age, sex, ca (number of major vessels), thalach (maximum heart rate), among others from the Cleveland database.",
+          "justification": "Dataset of patient heart disease information used in experiments.",
+          "value": "Cleveland Heart Health"
+        },
+        "aliases": [
+          "Cleveland Heart dataset",
+          "Cleveland database"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "This dataset contains information about Patients such as the age, sex, ca (number of major vessels), thalach (maximum heart rate)",
+          "justification": "Number of records is not stated.",
+          "value": "unknown"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "Janos, A., Steinbrunn, W., Pfisterer, M., Detrano, R.: Heart disease data set (1998).",
+          "justification": "Reference [37] is the heart disease data set entry.",
+          "value": "Heart disease data set"
+        }
+      },
+      {
+        "name": {
+          "quote": "COMPAS Recidivism: This dataset contains over 10, 000 criminal defendants’ information used by the COMPAS (Correctional Offender Management Profiling for Alternative Sanctions) algorithm",
+          "justification": "Dataset used in experiments for recidivism prediction.",
+          "value": "COMPAS Recidivism"
+        },
+        "aliases": [
+          "COMPAS dataset"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "This dataset contains over 10, 000 criminal defendants’ information",
+          "justification": "The paper states the dataset contains over 10,000 records.",
+          "value": "over 10,000 criminal defendants' information"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "This database is known to be biased in the sense of having different False Positive Rates between white and black sub-populations [19].",
+          "justification": "Reference [19] cited for COMPAS bias.",
+          "value": "Fair prediction with disparate impact: A study of bias in recidivism prediction instruments"
+        }
+      },
+      {
+        "name": {
+          "quote": "Bank dataset: This dataset is about marketing campaigns based on phone calls of a Portuguese bank.",
+          "justification": "Dataset about bank marketing campaigns used in experiments.",
+          "value": "Bank dataset"
+        },
+        "aliases": [
+          "Bank marketing dataset"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "This dataset is about marketing campaigns based on phone calls of a Portuguese bank.",
+          "justification": "Size not stated.",
+          "value": "unknown"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "used in the Decision Support Systems (DSS) [53]",
+          "justification": "Reference [53] cited for the bank dataset.",
+          "value": "A data-driven approach to predict the success of bank telemarketing"
+        }
+      }
+    ],
+    "libraries": [
+      {
+        "name": {
+          "quote": "which is the default approach in the SHAP Python library [47].",
+          "justification": "The paper states it uses the default approach of the SHAP Python library.",
+          "value": "SHAP Python library"
+        },
+        "aliases": [
+          "SHAP"
+        ],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "Lundberg, S.M., Lee, S.I.: A unified approach to interpreting model predictions.",
+          "justification": "Reference [47] is the SHAP paper.",
+          "value": "A unified approach to interpreting model predictions"
+        }
+      }
+    ],
+    "algorithms": [
+      {
+        "name": {
+          "quote": "• Single Feature Swapping Function: The single swapping function denoted as φ(X, j, I, dmax ) aims at identifying the Controlled Direct Impact of the feature on the machine learning model",
+          "justification": "Proposed procedure to swap a single feature's values.",
+          "value": "Single Feature Swapping function"
+        },
+        "aliases": [
+          "single feature swapping",
+          "φ(X, j, I, dmax)"
+        ],
+        "is_contributed": {
+          "quote": "we propose a novel single feature swapping and double feature swapping functions",
+          "justification": "Explicitly stated as a novel contribution.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "Apply data swapping on the test set using both single features swapping and double features swapping functions.",
+          "justification": "Applied on the test set in experiments.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "we computed the ranking stability between the SHAP value and the results of the single and double feature swapping function",
+          "justification": "Its feature rankings are compared with SHAP values.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "The single feature swapping function modifies the values of the single feature keeping other features unchanged, and the function’s output is used to estimate the direct impact of the feature on the model prediction.",
+          "justification": "Paper's own description.",
+          "value": "modifies the values of the single feature keeping other features unchanged, used to estimate the direct impact of the feature on the model prediction"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "we propose a novel single feature swapping and double feature swapping functions",
+          "justification": "Contributed by this paper.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "• Double Features Swapping Function: The double features swapping function aims to quantify the Total Natural Impact of each feature in X on the machine learning model",
+          "justification": "Proposed procedure to swap pairs of feature and mediator.",
+          "value": "Double Features Swapping Function"
+        },
+        "aliases": [
+          "double features swapping",
+          "double feature swapping function"
+        ],
+        "is_contributed": {
+          "quote": "we propose a novel single feature swapping and double feature swapping functions to help estimate the direct and indirect impact of each feature on the model prediction",
+          "justification": "Explicitly a novel contribution.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "Make the model prediction using single feature swapped test dataset as ŶS′ , and similarly predict using the double features swapped dataset as ŶD′ .",
+          "justification": "Applied in the experiments.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Comparing the Ranking of Feature by SHAP values vs. Ranking by double features swapping",
+          "justification": "Rankings compared with SHAP values.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "The double features swapping function will alter the values of pairs consisting of the feature and all the mediating variables (following the temporal priority ordering [34]) used to estimate the total natural impact of the feature on the model prediction.",
+          "justification": "Paper's own description.",
+          "value": "alters the values of pairs consisting of the feature and all the mediating variables used to estimate the total natural impact of the feature on the model prediction"
+        },
+        "composed_of": [
+          "Single Feature Swapping function"
+        ],
+        "referenced_paper_title": {
+          "quote": "we propose a novel single feature swapping and double feature swapping functions",
+          "justification": "Contributed by this paper.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "SHAP (SHapley Additive exPlanations) [47] is a state-of-the-art explanability method based on the famous Shapley values from game-theory.",
+          "justification": "Used as a state-of-the-art explainability method for feature importance.",
+          "value": "SHAP (SHapley Additive exPlanations)"
+        },
+        "aliases": [
+          "SHAP Values",
+          "SHAP value"
+        ],
+        "is_contributed": {
+          "quote": "SHAP (SHapley Additive exPlanations) [47] is a state-of-the-art explanability method",
+          "justification": "Existing method cited from literature.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "First, we compute the SHAP values for each instance of the sampled dataset.",
+          "justification": "SHAP values computed on the sampled dataset.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "we contrast our proposed techniques with the SHAP Values",
+          "justification": "The paper contrasts its techniques with SHAP Values.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "We used the SHAP (SHapley Additive exPlanations) value to assess the feature’s importance.",
+          "justification": "Paper's own words.",
+          "value": "used to assess the feature’s importance and explain the output of the machine learning model"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Lundberg, S.M., Lee, S.I.: A unified approach to interpreting model predictions.",
+          "justification": "Reference [47].",
+          "value": "A unified approach to interpreting model predictions"
+        }
+      },
+      {
+        "name": {
+          "quote": "we first applied a cross-validation (CV) sampling technique to split the dataset into the training Dtrain and the test set Dtest into k-folds",
+          "justification": "10-fold CV used to split data.",
+          "value": "cross-validation (CV)"
+        },
+        "aliases": [
+          "10-fold cross-validation"
+        ],
+        "is_contributed": {
+          "quote": "This well-known technique will allow our method to generalize to different variability in the input data",
+          "justification": "Standard well-known technique.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "In this study, we used k = 10 folds where the training fold consists of 90% of the data, while the remaining 10% is used for testing.",
+          "justification": "Used in experiments with k=10.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "we used k = 10 folds",
+          "justification": "Not compared with alternatives.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "we first applied a cross-validation (CV) sampling technique to split the dataset into the training Dtrain and the test set Dtest into k-folds",
+          "justification": "Paper's own words.",
+          "value": "sampling technique to split the dataset into the training and the test set into k-folds"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "we first applied a cross-validation (CV) sampling technique",
+          "justification": "No reference given.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "We chose three relevant bias mitigation techniques proposed in the literature, including FairSMOTE [17], Reweighing [40] and Linear-regression based Training Data Debugging (LTDD) [44]",
+          "justification": "Bias mitigation technique used in evaluation.",
+          "value": "FairSMOTE"
+        },
+        "aliases": [
+          "Fair-SMOTE",
+          "FairSMote"
+        ],
+        "is_contributed": {
+          "quote": "We chose three relevant bias mitigation techniques proposed in the literature, including FairSMOTE [17]",
+          "justification": "Taken from literature.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "the metrics ‘Recall’, F1-scores, AOD, and FPRD are better after applying FairSMOTE algorithm on the modified data",
+          "justification": "Applied in the evaluation experiments.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Comparing the model performance and fairness, on Cleveran Heart dataset, for different scenarios, with bias mitigation techniques used",
+          "justification": "Compared with other mitigation techniques in the evaluation tables.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "All these mitigation techniques aim at reducing bias in training data, e.g., data imbalance (FairSMOTE)",
+          "justification": "Paper's own description.",
+          "value": "bias mitigation technique aiming at reducing bias in training data, e.g., data imbalance"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Chakraborty, J., Majumder, S., Menzies, T.: Bias in machine learning software: why? how? what to do?",
+          "justification": "Reference [17].",
+          "value": "Bias in machine learning software: why? how? what to do?"
+        }
+      },
+      {
+        "name": {
+          "quote": "including FairSMOTE [17], Reweighing [40] and Linear-regression based Training Data Debugging (LTDD) [44]",
+          "justification": "Bias mitigation technique used in evaluation.",
+          "value": "Reweighing"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "Reweighing [40]",
+          "justification": "From literature.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Reweighing Mℑ LΦ",
+          "justification": "Appears in evaluation tables as applied algorithm.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "The bias mitigation techniques considered in this study are FairSMOTE, LRTDD, and Reweighing.",
+          "justification": "Compared across mitigation techniques.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "All these mitigation techniques aim at reducing bias in training data, e.g., data imbalance (FairSMOTE), statistical dependencies, i.e., sensitive and non-sensitive features (LRTDD), or classes (Reweighing).",
+          "justification": "Paper's own description.",
+          "value": "bias mitigation technique aiming at reducing bias in training data, e.g., classes (Reweighing)"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Kamiran, F., Calders, T.: Data preprocessing techniques for classification without discrimination.",
+          "justification": "Reference [40].",
+          "value": "Data preprocessing techniques for classification without discrimination"
+        }
+      },
+      {
+        "name": {
+          "quote": "Linear-regression based Training Data Debugging (LTDD) [44]",
+          "justification": "Bias mitigation technique used in evaluation; paper also writes LRTDD.",
+          "value": "Linear-regression based Training Data Debugging (LTDD)"
+        },
+        "aliases": [
+          "LRTDD",
+          "LTDD"
+        ],
+        "is_contributed": {
+          "quote": "Linear-regression based Training Data Debugging (LTDD) [44]",
+          "justification": "From literature.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "the model fairness and performance improves when the feature ‘duration’ is removed prior to applying the LRTDD mitigation technique",
+          "justification": "Used in evaluation experiments.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "The bias mitigation techniques considered in this study are FairSMOTE, LRTDD, and Reweighing.",
+          "justification": "Compared across mitigation techniques.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "statistical dependencies, i.e., sensitive and non-sensitive features (LRTDD)",
+          "justification": "Paper's own description.",
+          "value": "bias mitigation technique reducing statistical dependencies between sensitive and non-sensitive features"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Li, Y., Meng, L., Chen, L., Yu, L., Wu, D., Zhou, Y., Xu, B.: Training Data Debugging for the Fairness of Machine Learning Software",
+          "justification": "Reference [44].",
+          "value": "Training Data Debugging for the Fairness of Machine Learning Software"
+        }
+      },
+      {
+        "name": {
+          "quote": "we used the Wilcoxon rank sum test [23] to compare the distributions between the different scenarios",
+          "justification": "Statistical test used to compare distributions.",
+          "value": "Wilcoxon rank sum test"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "we used the Wilcoxon rank sum test [23]",
+          "justification": "Standard statistical test.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we assessed the significance of the two distributions using the standard criterion of ρ−value < 0.05",
+          "justification": "Used in evaluation for significance.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "we used the Wilcoxon rank sum test [23]",
+          "justification": "Not compared with other tests.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "we used the Wilcoxon rank sum test [23] to compare the distributions between the different scenarios before and after the mitigation techniques are used to verify the statistically significant",
+          "justification": "Paper's own words.",
+          "value": "used to compare the distributions between the different scenarios before and after the mitigation techniques are used to verify the statistically significant"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "De Capitani, L., De Martini, D.: On stochastic orderings of the wilcoxon rank sum test statistic",
+          "justification": "Reference [23].",
+          "value": "On stochastic orderings of the wilcoxon rank sum test statistic—with applications to reproducibility probability estimation testing"
+        }
+      },
+      {
+        "name": {
+          "quote": "we used Cliff’s delta δ [67] to quantify the amount of difference between the two sets of results (i.e., effect size)",
+          "justification": "Effect size measure used in evaluation.",
+          "value": "Cliff's delta"
+        },
+        "aliases": [
+          "δ"
+        ],
+        "is_contributed": {
+          "quote": "we used Cliff’s delta δ [67]",
+          "justification": "Standard effect size measure.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "categorize the effect size into three levels (Win, Tied, and Loss)",
+          "justification": "Computed in evaluation to categorize W/T/L.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "we used Cliff’s delta δ [67]",
+          "justification": "Not compared with alternatives.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "we used Cliff’s delta δ [67] to quantify the amount of difference between the two sets of results (i.e., effect size)",
+          "justification": "Paper's own words.",
+          "value": "quantify the amount of difference between the two sets of results (i.e., effect size)"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Romano, J., Kromrey, J.D., Coraggio, J., Skowronek, J., Devine, L.: Exploring methods for evaluating group differences on the nsse and other surveys",
+          "justification": "Reference [67].",
+          "value": "Exploring methods for evaluating group differences on the nsse and other surveys"
+        }
+      },
+      {
+        "name": {
+          "quote": "Definition 6 (Feature Values Partitioning) This is a function that splits the values of the given feature, following some binning technique",
+          "justification": "Binning procedure defined and applied to features.",
+          "value": "Feature Values Partitioning"
+        },
+        "aliases": [
+          "binning technique"
+        ],
+        "is_contributed": {
+          "quote": "Definition 6 (Feature Values Partitioning) This is a function that splits the values of the given feature, following some binning technique so that the values will belong to only one of the two groups.",
+          "justification": "Defined as part of the proposed framework.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "the continuous features were converted to categorical using the feature value partitioning technique in Definition (6)",
+          "justification": "Applied in preprocessing of continuous features.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Also, the continuous features were converted to categorical using the feature value partitioning technique",
+          "justification": "Not compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "this step was only used to help when choosing a random value from a different category during the swapping process",
+          "justification": "Paper's own words.",
+          "value": "splits the values of the given feature so that the values belong to only one of the two groups, used when choosing a random value from a different category during the swapping process"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "following some binning technique",
+          "justification": "No reference.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "we used Spearmans’ coefficient, following the idea from [39], to compare how the results of a ranking order are similar",
+          "justification": "Used to compute feature ranking stability.",
+          "value": "Spearmans' coefficient"
+        },
+        "aliases": [
+          "feature ranking stability"
+        ],
+        "is_contributed": {
+          "quote": "following the idea from [39]",
+          "justification": "Standard measure adopted from literature.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we computed the ranking stability between the SHAP value and the results of the single and double feature swapping function",
+          "justification": "Stability values computed and reported in tables.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "we used Spearmans’ coefficient",
+          "justification": "Not compared with other measures.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "We compute the stability of the rankings of features returned by SHAP and those returned by our swapping function",
+          "justification": "Paper's own words.",
+          "value": "compute the stability of the rankings of features returned by SHAP and those returned by our swapping function"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Kalousis, A., Prados, J., Hilario, M.: Stability of feature selection algorithms: a study on high-dimensional spaces.",
+          "justification": "Reference [39].",
+          "value": "Stability of feature selection algorithms: a study on high-dimensional spaces"
+        }
+      },
+      {
+        "name": {
+          "quote": "T-Score = E hX vi − X ui i",
+          "justification": "Scoring function defined in the paper to rank scenarios.",
+          "value": "T-Score"
+        },
+        "aliases": [
+          "scoring function",
+          "additive ranking approach"
+        ],
+        "is_contributed": {
+          "quote": "We used a scoring function to score the best scenarios basing on the combination of performance metrics and fairness metrics of the model.",
+          "justification": "Defined in this paper using additive ranking.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "column T − score indicate the corresponding ranking of each scenario, computed using Equation (18)",
+          "justification": "T-Score computed in evaluation tables.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "The highest value of T-Score indicate a best choice",
+          "justification": "Not compared against other scoring schemes.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "We used a scoring function to score the best scenarios basing on the combination of performance metrics and fairness metrics of the model.",
+          "justification": "Paper's own words.",
+          "value": "scoring function to score the best scenarios basing on the combination of performance metrics and fairness metrics of the model"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "The scoring function uses the additive ranking approach [75]",
+          "justification": "Reference [75] for additive ranking approach.",
+          "value": "Add or multiply? a tutorial on ranking and choosing with multiple criteria"
+        }
+      }
+    ],
+    "runs": [
+      {
+        "models": [
+          {
+            "name": "logistic regression",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Student",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "cross-validation (CV)"
+          },
+          {
+            "name": "Feature Values Partitioning"
+          },
+          {
+            "name": "Single Feature Swapping function"
+          },
+          {
+            "name": "Double Features Swapping Function"
+          },
+          {
+            "name": "SHAP (SHapley Additive exPlanations)"
+          },
+          {
+            "name": "Spearmans' coefficient"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "Train the machine learning model using the dataset Dtrain .",
+          "justification": "A model is trained on the training folds and then used to predict the test set with swapped inputs.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "Train the machine learning model using the dataset Dtrain .",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "we fit a logistic regression model",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "We made available our framework and all dataset used in this study",
+          "justification": "No hardware mentioned.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "We made available our framework and all dataset used in this study",
+          "justification": "No hardware mentioned.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "We made available our framework and all dataset used in this study",
+          "justification": "No hardware mentioned.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "We made available our framework and all dataset used in this study",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "We made available our framework and all dataset used in this study",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "We made available our framework and all dataset used in this study",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "We made available our framework and all dataset used in this study",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "In this study, we used k = 10 folds ... for swapped percentages (10%, 30%, 50%, and 70%) of the test dataset",
+          "justification": "The paper states 10-fold CV and four swap percentages.",
+          "value": "10 folds, with swap percentages 10%, 30%, 50%, 70%"
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "logistic regression",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Cleveland Heart Health",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "cross-validation (CV)"
+          },
+          {
+            "name": "Feature Values Partitioning"
+          },
+          {
+            "name": "Single Feature Swapping function"
+          },
+          {
+            "name": "Double Features Swapping Function"
+          },
+          {
+            "name": "SHAP (SHapley Additive exPlanations)"
+          },
+          {
+            "name": "Spearmans' coefficient"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "For the Cleveland Heart dataset, the features for training and testing the machine learning model include: ‘sex’, ‘age’, ...",
+          "justification": "Model trained on Cleveland Heart dataset folds.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "the features for training and testing the machine learning model include",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "we fit a logistic regression model",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "We made available our framework and all dataset used in this study",
+          "justification": "No hardware mentioned.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "We made available our framework and all dataset used in this study",
+          "justification": "No hardware mentioned.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "We made available our framework and all dataset used in this study",
+          "justification": "No hardware mentioned.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "We made available our framework and all dataset used in this study",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "We made available our framework and all dataset used in this study",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "We made available our framework and all dataset used in this study",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "We made available our framework and all dataset used in this study",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "with the swap percentage of (10%, 30%, 50%, and 70%)",
+          "justification": "Stated 10-fold CV and four swap percentages.",
+          "value": "10 folds, with swap percentages 10%, 30%, 50%, 70%"
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "logistic regression",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "COMPAS Recidivism",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "cross-validation (CV)"
+          },
+          {
+            "name": "Feature Values Partitioning"
+          },
+          {
+            "name": "Single Feature Swapping function"
+          },
+          {
+            "name": "Double Features Swapping Function"
+          },
+          {
+            "name": "SHAP (SHapley Additive exPlanations)"
+          },
+          {
+            "name": "Spearmans' coefficient"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "we fit a logistic regression model on the modified COMPAS Recidivism dataset",
+          "justification": "Logistic regression fit on the modified COMPAS dataset.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "we fit a logistic regression model on the modified COMPAS Recidivism dataset",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "we fit a logistic regression model",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "We made available our framework and all dataset used in this study",
+          "justification": "No hardware mentioned.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "We made available our framework and all dataset used in this study",
+          "justification": "No hardware mentioned.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "We made available our framework and all dataset used in this study",
+          "justification": "No hardware mentioned.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "We made available our framework and all dataset used in this study",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "We made available our framework and all dataset used in this study",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "We made available our framework and all dataset used in this study",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "We made available our framework and all dataset used in this study",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "with the swap percentage of (10%, 30%, 50%, and 70%)",
+          "justification": "Stated protocol.",
+          "value": "10 folds, with swap percentages 10%, 30%, 50%, 70%"
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "logistic regression",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Bank dataset",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "cross-validation (CV)"
+          },
+          {
+            "name": "Feature Values Partitioning"
+          },
+          {
+            "name": "Single Feature Swapping function"
+          },
+          {
+            "name": "Double Features Swapping Function"
+          },
+          {
+            "name": "SHAP (SHapley Additive exPlanations)"
+          },
+          {
+            "name": "Spearmans' coefficient"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "The features of the dataset used for training the model include: ‘age’, ‘education’, ‘job’ ...",
+          "justification": "Model trained on bank dataset features.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "The features of the dataset used for training the model include",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "we fit a logistic regression model",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "We made available our framework and all dataset used in this study",
+          "justification": "No hardware mentioned.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "We made available our framework and all dataset used in this study",
+          "justification": "No hardware mentioned.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "We made available our framework and all dataset used in this study",
+          "justification": "No hardware mentioned.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "We made available our framework and all dataset used in this study",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "We made available our framework and all dataset used in this study",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "We made available our framework and all dataset used in this study",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "We made available our framework and all dataset used in this study",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "with the swap percentage of (10%, 30%, 50%, and 70%)",
+          "justification": "Stated protocol.",
+          "value": "10 folds, with swap percentages 10%, 30%, 50%, 70%"
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "logistic regression",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Student",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          },
+          {
+            "name": "Cleveland Heart Health",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          },
+          {
+            "name": "COMPAS Recidivism",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          },
+          {
+            "name": "Bank dataset",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "FairSMOTE"
+          },
+          {
+            "name": "Reweighing"
+          },
+          {
+            "name": "Linear-regression based Training Data Debugging (LTDD)"
+          },
+          {
+            "name": "Wilcoxon rank sum test"
+          },
+          {
+            "name": "Cliff's delta"
+          },
+          {
+            "name": "T-Score"
+          },
+          {
+            "name": "cross-validation (CV)"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "we compare the performance and the fairness of the model when bias mitigation techniques are used on the original data and the modified data (i.e., after removing the potential bias feature)",
+          "justification": "Models retrained after feature removal and with bias mitigation techniques applied.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "we compare the performance and the fairness of the model when bias mitigation techniques are used",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "we fit a logistic regression model",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "We made available our framework and all dataset used in this study",
+          "justification": "No hardware mentioned.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "We made available our framework and all dataset used in this study",
+          "justification": "No hardware mentioned.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "We made available our framework and all dataset used in this study",
+          "justification": "No hardware mentioned.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "We made available our framework and all dataset used in this study",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "We made available our framework and all dataset used in this study",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "We made available our framework and all dataset used in this study",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "We made available our framework and all dataset used in this study",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "We report in Table 14 the results of our evaluation for different scenarios when the three bias mitigation technique are used.",
+          "justification": "The number of repetitions across scenarios and mitigation techniques is not explicitly stated as a count.",
+          "value": "unknown"
+        }
+      }
+    ]
+  },
+  "usage": {
+    "input_tokens": 83657,
+    "output_tokens": 13522,
+    "total_tokens": 97179
+  }
+}

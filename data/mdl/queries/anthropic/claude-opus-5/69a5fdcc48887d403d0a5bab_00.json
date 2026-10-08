@@ -1,0 +1,2268 @@
+{
+  "paper": "69a5fdcc48887d403d0a5bab.txt",
+  "words": 13564,
+  "extractions": {
+    "title": {
+      "quote": "G4SATBench: Benchmarking and Advancing SAT Solving with Graph Neural Networks",
+      "justification": "Title as given at the top of the paper.",
+      "value": "G4SATBench: Benchmarking and Advancing SAT Solving with Graph Neural Networks"
+    },
+    "description": "A benchmark study (G4SATBench) that curates synthetic SAT datasets from 7 generators at 3 difficulty levels and benchmarks GNN-based SAT solvers (NeuroSAT, GCN, GGNN, GIN on LCG*/VCG*) across satisfiability prediction, satisfying assignment prediction, and unsat-core variable prediction, with supervised and unsupervised objectives, different inference algorithms, contrastive pretraining, random initialization, and comparisons with CDCL/LS solvers.",
+    "type": {
+      "quote": "Each experiment is performed on a single RTX8000 GPU and 16 AMD EPYC 7502 CPU cores, and the total time cost is approximately 8,000 GPU hours.",
+      "justification": "The paper runs extensive benchmarking experiments, roughly 8,000 GPU hours.",
+      "value": "empirical"
+    },
+    "research_fields": [
+      {
+        "name": {
+          "quote": "we propose G4SATBench, the first comprehensive benchmark study for SAT solving with GNNs.",
+          "justification": "The paper benchmarks and advances GNN-based SAT solving.",
+          "value": "SAT Solving with Graph Neural Networks"
+        },
+        "aliases": [
+          "GNN-based SAT solvers"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "Graph neural networks (GNNs) have recently emerged as a promising approach for solving the Boolean Satisfiability Problem (SAT)",
+          "justification": "GNN models are the core learned models benchmarked.",
+          "value": "Graph Neural Networks"
+        },
+        "aliases": [
+          "GNNs"
+        ],
+        "role": "used"
+      },
+      {
+        "name": {
+          "quote": "The Boolean Satisfiability Problem (SAT) is a crucial problem at the nexus of computer science, logic, and operations research",
+          "justification": "The application domain being solved.",
+          "value": "Boolean Satisfiability Problem"
+        },
+        "aliases": [
+          "SAT"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "For combinatorics, we resort to 3 synthetic generators in CNFGen (Lauria et al., 2017) to create SAT instances derived from the translation of k-Clique, k-Dominating Set, and k-Vertex Cover problems.",
+          "justification": "Datasets encode k-Clique, k-Dominating Set, k-Vertex Cover problems.",
+          "value": "Combinatorial optimization problems"
+        },
+        "aliases": [
+          "combinatorics"
+        ],
+        "role": "used"
+      }
+    ],
+    "models": [
+      {
+        "name": {
+          "quote": "we provide a diverse range of GNN models, including NeuroSAT (Selsam et al., 2019), Graph Convolutional Network (GCN) (Kipf & Welling, 2017), Gated Graph Neural Network (GGNN) (Li et al., 2016), and Graph Isomorphism Network (GIN) (Xu et al., 2019), on the both LCG* and VCG*.",
+          "justification": "NeuroSAT is one of the benchmarked GNN models on LCG*.",
+          "value": "NeuroSAT"
+        },
+        "aliases": [
+          "NeuroSAT*"
+        ],
+        "is_contributed": {
+          "quote": "NeuroSAT (Selsam et al., 2019) predicts satisfiability",
+          "justification": "NeuroSAT is from prior work; re-implemented here.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Each experiment is performed on a single RTX8000 GPU",
+          "justification": "Trained and evaluated on GPU.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Among all GNN models, the different graph constructions do not seem to have a significant impact on the results, and NeuroSAT (on LCG*) and GGNN (on VCG*) achieve the best overall performance.",
+          "justification": "Compared with other GNN baselines and SAT solvers.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "To select the optimal hyperparameters for each GNN baseline, we conduct a grid search over several settings.",
+          "justification": "Models trained from scratch on the generated datasets.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "Daniel Selsam, Matthew Lamm, Benedikt Bünz, Percy Liang, Leonardo de Moura, and David L. Dill. Learning a SAT solver from single-bit supervision.",
+          "justification": "Reference for NeuroSAT.",
+          "value": "Learning a SAT solver from single-bit supervision"
+        }
+      },
+      {
+        "name": {
+          "quote": "Graph Convolutional Network (GCN) (Kipf & Welling, 2017)",
+          "justification": "One of the benchmarked GNN models.",
+          "value": "Graph Convolutional Network (GCN)"
+        },
+        "aliases": [
+          "GCN"
+        ],
+        "is_contributed": {
+          "quote": "We adopt heterogeneous versions of GCN (Kipf & Welling, 2017), GGNN (Li et al., 2016), and GIN (Xu et al., 2019) on both LCG* and VCG*",
+          "justification": "Existing architecture adapted.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "GCN 94.43 94.47 98.79",
+          "justification": "Benchmarked results reported.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "LCG* NeuroSAT GCN GGNN GIN",
+          "justification": "Numerically compared in tables.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "To select the optimal hyperparameters for each GNN baseline, we conduct a grid search over several settings.",
+          "justification": "Trained on the benchmark datasets.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "Thomas N. Kipf and Max Welling. Semi-supervised classification with graph convolutional networks.",
+          "justification": "Reference for GCN.",
+          "value": "Semi-supervised classification with graph convolutional networks"
+        }
+      },
+      {
+        "name": {
+          "quote": "Gated Graph Neural Network (GGNN) (Li et al., 2016)",
+          "justification": "One of the benchmarked GNN models.",
+          "value": "Gated Graph Neural Network (GGNN)"
+        },
+        "aliases": [
+          "GGNN"
+        ],
+        "is_contributed": {
+          "quote": "We adopt heterogeneous versions of GCN (Kipf & Welling, 2017), GGNN (Li et al., 2016), and GIN (Xu et al., 2019) on both LCG* and VCG*",
+          "justification": "Existing architecture adapted.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "GGNN 96.75 96.25 98.77",
+          "justification": "Benchmarked results reported.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "NeuroSAT (on LCG*) and GGNN (on VCG*) achieve the best overall performance.",
+          "justification": "Compared with NeuroSAT and others.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "we use three different random seeds to benchmark the performance of different GNN models",
+          "justification": "Trained on the benchmark datasets.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "Yujia Li, Daniel Tarlow, Marc Brockschmidt, and Richard S. Zemel. Gated graph sequence neural networks.",
+          "justification": "Reference for GGNN.",
+          "value": "Gated graph sequence neural networks"
+        }
+      },
+      {
+        "name": {
+          "quote": "Graph Isomorphism Network (GIN) (Xu et al., 2019)",
+          "justification": "One of the benchmarked GNN models.",
+          "value": "Graph Isomorphism Network (GIN)"
+        },
+        "aliases": [
+          "GIN"
+        ],
+        "is_contributed": {
+          "quote": "We adopt heterogeneous versions of GCN (Kipf & Welling, 2017), GGNN (Li et al., 2016), and GIN (Xu et al., 2019) on both LCG* and VCG*",
+          "justification": "Existing architecture adapted.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "GIN 95.78 95.37 98.14",
+          "justification": "Benchmarked results reported.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "LCG* NeuroSAT GCN GGNN GIN",
+          "justification": "Compared in benchmark tables.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "we use three different random seeds to benchmark the performance of different GNN models",
+          "justification": "Trained on benchmark datasets.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "Keyulu Xu, Weihua Hu, Jure Leskovec, and Stefanie Jegelka. How powerful are graph neural networks?",
+          "justification": "Reference for GIN.",
+          "value": "How powerful are graph neural networks?"
+        }
+      },
+      {
+        "name": {
+          "quote": "we provide the ground truth of satisfiability and satisfying assignments by calling the state-of-the-art modern SAT solver CaDiCaL (Fleury & Heisinger, 2020)",
+          "justification": "Used as SAT solver to produce labels and compared as a baseline solver.",
+          "value": "CaDiCaL"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "the state-of-the-art modern SAT solver CaDiCaL (Fleury & Heisinger, 2020)",
+          "justification": "Existing SAT solver.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we leverage CaDiCaL (Fleury & Heisinger, 2020) to generate a DART proof (Wetzler et al., 2014) for each SAT instance",
+          "justification": "Run to generate labels, proofs and for comparison timings.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Table 12: Results of NeuroSAT, Sparrow, and CaDiCaL.",
+          "justification": "Timing and accuracy compared in Table 12.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "we allow Sparrow and CaDiCaL to run without constraints to solve the satisfiable instances in G4SATBench",
+          "justification": "Used as a solver, not trained.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "ABKFM Fleury and Maximilian Heisinger. Cadical, kissat, paracooba, plingeling and treengeling entering the sat competition 2020.",
+          "justification": "Reference for CaDiCaL.",
+          "value": "Cadical, kissat, paracooba, plingeling and treengeling entering the sat competition 2020"
+        }
+      },
+      {
+        "name": {
+          "quote": "We compare NeuroSAT with two advanced CDCL and LS solvers, CaDiCaL Fleury & Heisinger (2020) and Sparrow (Balint & Fröhlich, 2010).",
+          "justification": "Local search solver compared against NeuroSAT.",
+          "value": "Sparrow"
+        },
+        "aliases": [
+          "Sparrow*"
+        ],
+        "is_contributed": {
+          "quote": "two advanced CDCL and LS solvers, CaDiCaL ... and Sparrow (Balint & Fröhlich, 2010)",
+          "justification": "Existing LS solver.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we first configure Sparrow to generate the same number of assignments as NeuroSAT by setting its maximum flip number to 32",
+          "justification": "Run with flip limits and unconstrained.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Table 12: Results of NeuroSAT, Sparrow, and CaDiCaL.",
+          "justification": "Compared in Table 12.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "we allow Sparrow and CaDiCaL to run without constraints to solve the satisfiable instances",
+          "justification": "Solver execution only.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "Adrian Balint and Andreas Fröhlich. Improving stochastic local search for sat with a new probability distribution.",
+          "justification": "Reference for Sparrow.",
+          "value": "Improving stochastic local search for sat with a new probability distribution"
+        }
+      },
+      {
+        "name": {
+          "quote": "generate the truth labels for unsat-core variables by invoking the proof checker DRAT-trim (Wetzler et al., 2014)",
+          "justification": "Proof checker used to generate unsat-core labels.",
+          "value": "DRAT-trim"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "the proof checker DRAT-trim (Wetzler et al., 2014)",
+          "justification": "Existing tool.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "generate the truth labels for unsat-core variables by invoking the proof checker DRAT-trim",
+          "justification": "Invoked to produce labels.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "the proof checker DRAT-trim (Wetzler et al., 2014)",
+          "justification": "Not compared numerically.",
+          "value": false
+        },
+        "execution_mode": {
+          "quote": "generate the truth labels for unsat-core variables by invoking the proof checker DRAT-trim (Wetzler et al., 2014)",
+          "justification": "Run as a tool on instances.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "Nathan Wetzler, Marijn Heule, and Warren A. Hunt Jr. Drat-trim: Efficient checking and trimming using expressive clausal proofs.",
+          "justification": "Reference for DRAT-trim.",
+          "value": "Drat-trim: Efficient checking and trimming using expressive clausal proofs"
+        }
+      }
+    ],
+    "data_sources": [
+      {
+        "name": {
+          "quote": "we utilize the SR generator in NeuroSAT (Selsam et al., 2019) and the 3-SAT generator in CNFGen (Lauria et al., 2017) to produce random CNF formulas.",
+          "justification": "One of the 7 datasets, generated by the SR generator of NeuroSAT.",
+          "value": "SR"
+        },
+        "aliases": [
+          "SR dataset"
+        ],
+        "role": "contributed",
+        "size": {
+          "quote": "For each easy and medium dataset, we generate 80k pairs of satisfiable and unsatisfiable instances for training, 10k pairs for validation, and 10k pairs for testing. For each hard dataset, we produce 10k testing pairs.",
+          "justification": "Stated per dataset and difficulty level.",
+          "value": "80k training pairs, 10k validation pairs, 10k testing pairs (easy/medium); 10k testing pairs (hard)"
+        },
+        "derived_from": [],
+        "sample_properties": [
+          {
+            "name": "number of variables (easy)",
+            "value": {
+              "quote": "the easy SR dataset contains instances with 10 to 40 variables",
+              "justification": "Stated difficulty definition.",
+              "value": "10 to 40"
+            },
+            "unit": "variables"
+          },
+          {
+            "name": "number of variables (medium)",
+            "value": {
+              "quote": "the medium SR dataset contains formulas with 40 to 200 variables",
+              "justification": "Stated in text.",
+              "value": "40 to 200"
+            },
+            "unit": "variables"
+          },
+          {
+            "name": "number of variables (hard)",
+            "value": {
+              "quote": "the hard SR dataset consists of formulas with variables ranging from 200 to 400",
+              "justification": "Stated in text.",
+              "value": "200 to 400"
+            },
+            "unit": "variables"
+          },
+          {
+            "name": "average #Clauses (easy)",
+            "value": {
+              "quote": "SR 25.00 148.35",
+              "justification": "Table 8 statistics.",
+              "value": "148.35"
+            },
+            "unit": "clauses"
+          }
+        ],
+        "referenced_paper_title": {
+          "quote": "we utilize the SR generator in NeuroSAT (Selsam et al., 2019)",
+          "justification": "SR generator originates from NeuroSAT paper.",
+          "value": "Learning a SAT solver from single-bit supervision"
+        }
+      },
+      {
+        "name": {
+          "quote": "the 3-SAT generator in CNFGen (Lauria et al., 2017) to produce random CNF formulas",
+          "justification": "One of the 7 datasets generated by CNFGen.",
+          "value": "3-SAT"
+        },
+        "aliases": [],
+        "role": "contributed",
+        "size": {
+          "quote": "For each easy and medium dataset, we generate 80k pairs of satisfiable and unsatisfiable instances for training, 10k pairs for validation, and 10k pairs for testing.",
+          "justification": "Same per-dataset statement.",
+          "value": "80k training pairs, 10k validation pairs, 10k testing pairs (easy/medium); 10k testing pairs (hard)"
+        },
+        "derived_from": [],
+        "sample_properties": [
+          {
+            "name": "number of variables (easy)",
+            "value": {
+              "quote": "Easy dataset: n ∼ Uniform(10, 40)",
+              "justification": "Table 7 parameters.",
+              "value": "n ∼ Uniform(10, 40)"
+            },
+            "unit": "variables"
+          },
+          {
+            "name": "average #Variables (medium)",
+            "value": {
+              "quote": "3-SAT 120.00 513.14",
+              "justification": "Table 8.",
+              "value": "120.00"
+            },
+            "unit": "variables"
+          }
+        ],
+        "referenced_paper_title": {
+          "quote": "Massimo Lauria, Jan Elffers, Jakob Nordström, and Marc Vinyals. Cnfgen: A generator of crafted benchmarks.",
+          "justification": "CNFGen reference.",
+          "value": "Cnfgen: A generator of crafted benchmarks"
+        }
+      },
+      {
+        "name": {
+          "quote": "we employ the Community Attachment (CA) model (Giráldez-Cru & Levy, 2015)",
+          "justification": "Pseudo-industrial dataset from the Community Attachment model.",
+          "value": "CA"
+        },
+        "aliases": [
+          "Community Attachment"
+        ],
+        "role": "contributed",
+        "size": {
+          "quote": "For each easy and medium dataset, we generate 80k pairs of satisfiable and unsatisfiable instances for training, 10k pairs for validation, and 10k pairs for testing.",
+          "justification": "Per-dataset statement.",
+          "value": "80k training pairs, 10k validation pairs, 10k testing pairs (easy/medium); 10k testing pairs (hard)"
+        },
+        "derived_from": [],
+        "sample_properties": [
+          {
+            "name": "average #Variables (easy)",
+            "value": {
+              "quote": "CA 31.66 303.48",
+              "justification": "Table 8.",
+              "value": "31.66"
+            },
+            "unit": "variables"
+          }
+        ],
+        "referenced_paper_title": {
+          "quote": "Jesús Giráldez-Cru and Jordi Levy. A modularity-based random SAT instances generator.",
+          "justification": "CA model reference.",
+          "value": "A modularity-based random SAT instances generator"
+        }
+      },
+      {
+        "name": {
+          "quote": "the Popularity-Similarity (PS) model (Giráldez-Cru & Levy, 2017)",
+          "justification": "Pseudo-industrial dataset from Popularity-Similarity model.",
+          "value": "PS"
+        },
+        "aliases": [
+          "Popularity-Similarity"
+        ],
+        "role": "contributed",
+        "size": {
+          "quote": "For each easy and medium dataset, we generate 80k pairs of satisfiable and unsatisfiable instances for training, 10k pairs for validation, and 10k pairs for testing.",
+          "justification": "Per-dataset statement.",
+          "value": "80k training pairs, 10k validation pairs, 10k testing pairs (easy/medium); 10k testing pairs (hard)"
+        },
+        "derived_from": [],
+        "sample_properties": [
+          {
+            "name": "average #Variables (easy)",
+            "value": {
+              "quote": "PS 25.41 176.68",
+              "justification": "Table 8.",
+              "value": "25.41"
+            },
+            "unit": "variables"
+          }
+        ],
+        "referenced_paper_title": {
+          "quote": "Jesús Giráldez-Cru and Jordi Levy. Locality in random SAT instances.",
+          "justification": "PS model reference.",
+          "value": "Locality in random SAT instances"
+        }
+      },
+      {
+        "name": {
+          "quote": "we resort to 3 synthetic generators in CNFGen (Lauria et al., 2017) to create SAT instances derived from the translation of k-Clique, k-Dominating Set, and k-Vertex Cover problems.",
+          "justification": "Combinatorial dataset generated from CNFGen.",
+          "value": "k-Clique"
+        },
+        "aliases": [],
+        "role": "contributed",
+        "size": {
+          "quote": "For each easy and medium dataset, we generate 80k pairs of satisfiable and unsatisfiable instances for training, 10k pairs for validation, and 10k pairs for testing.",
+          "justification": "Per-dataset statement.",
+          "value": "80k training pairs, 10k validation pairs, 10k testing pairs (easy/medium); 10k testing pairs (hard)"
+        },
+        "derived_from": [],
+        "sample_properties": [
+          {
+            "name": "number of vertices (easy)",
+            "value": {
+              "quote": "Easy dataset: v ∼ Uniform(5, 15), k ∼ Uniform(2, 3)",
+              "justification": "Table 7 parameters.",
+              "value": "v ∼ Uniform(5, 15)"
+            },
+            "unit": "vertices"
+          }
+        ],
+        "referenced_paper_title": {
+          "quote": "3 synthetic generators in CNFGen (Lauria et al., 2017)",
+          "justification": "CNFGen reference.",
+          "value": "Cnfgen: A generator of crafted benchmarks"
+        }
+      },
+      {
+        "name": {
+          "quote": "The k-Domset dataset contains SAT instances that encode the k-Dominating Set problem.",
+          "justification": "Combinatorial dataset encoding k-Dominating Set.",
+          "value": "k-Domset"
+        },
+        "aliases": [
+          "k-Dominating Set"
+        ],
+        "role": "contributed",
+        "size": {
+          "quote": "For each easy and medium dataset, we generate 80k pairs of satisfiable and unsatisfiable instances for training, 10k pairs for validation, and 10k pairs for testing.",
+          "justification": "Per-dataset statement.",
+          "value": "80k training pairs, 10k validation pairs, 10k testing pairs (easy/medium); 10k testing pairs (hard)"
+        },
+        "derived_from": [],
+        "sample_properties": [
+          {
+            "name": "average #Variables (easy)",
+            "value": {
+              "quote": "k-Domset 41.90 369.40",
+              "justification": "Table 8.",
+              "value": "41.90"
+            },
+            "unit": "variables"
+          }
+        ],
+        "referenced_paper_title": {
+          "quote": "3 synthetic generators in CNFGen (Lauria et al., 2017)",
+          "justification": "CNFGen reference.",
+          "value": "Cnfgen: A generator of crafted benchmarks"
+        }
+      },
+      {
+        "name": {
+          "quote": "The k-Vercov dataset consists of SAT instances that encode the k-Vertex Cover problem",
+          "justification": "Combinatorial dataset encoding k-Vertex Cover.",
+          "value": "k-Vercov"
+        },
+        "aliases": [
+          "k-Vertex Cover"
+        ],
+        "role": "contributed",
+        "size": {
+          "quote": "For each easy and medium dataset, we generate 80k pairs of satisfiable and unsatisfiable instances for training, 10k pairs for validation, and 10k pairs for testing.",
+          "justification": "Per-dataset statement.",
+          "value": "80k training pairs, 10k validation pairs, 10k testing pairs (easy/medium); 10k testing pairs (hard)"
+        },
+        "derived_from": [],
+        "sample_properties": [
+          {
+            "name": "average #Variables (easy)",
+            "value": {
+              "quote": "k-Vercov 45.41 484.28",
+              "justification": "Table 8.",
+              "value": "45.41"
+            },
+            "unit": "variables"
+          }
+        ],
+        "referenced_paper_title": {
+          "quote": "3 synthetic generators in CNFGen (Lauria et al., 2017)",
+          "justification": "CNFGen reference.",
+          "value": "Cnfgen: A generator of crafted benchmarks"
+        }
+      },
+      {
+        "name": {
+          "quote": "To create the augmented datasets, we leverage CaDiCaL (Fleury & Heisinger, 2020) to generate a DART proof (Wetzler et al., 2014) for each SAT instance ... These learned clauses are then added to each instance, with a maximum limit of 1,000 clauses.",
+          "justification": "Datasets built by adding learned clauses to the original instances.",
+          "value": "augmented datasets (clause-learning augmented instances)"
+        },
+        "aliases": [
+          "augmented instances"
+        ],
+        "role": "contributed",
+        "size": {
+          "quote": "For experiments on augmented datasets, we keep all training settings identical to those used for the original datasets.",
+          "justification": "Size not separately stated.",
+          "value": "unknown"
+        },
+        "derived_from": [
+          "SR",
+          "3-SAT"
+        ],
+        "sample_properties": [
+          {
+            "name": "maximum added learned clauses",
+            "value": {
+              "quote": "with a maximum limit of 1,000 clauses",
+              "justification": "Stated limit.",
+              "value": "1,000"
+            },
+            "unit": "clauses"
+          }
+        ],
+        "referenced_paper_title": {
+          "quote": "generate a DART proof (Wetzler et al., 2014) for each SAT instance",
+          "justification": "Proofs used to build augmented datasets.",
+          "value": "Drat-trim: Efficient checking and trimming using expressive clausal proofs"
+        }
+      },
+      {
+        "name": {
+          "quote": "Several established SAT benchmarks, including the prestigious SATLIB (Hoos & Stützle, 2000) and the SAT Competitions over the years",
+          "justification": "Referenced as an existing SAT benchmark.",
+          "value": "SATLIB"
+        },
+        "aliases": [],
+        "role": "referenced",
+        "size": {
+          "quote": "given their relatively modest scale (less than 100 instances for a specific domain)",
+          "justification": "Only described as modest scale.",
+          "value": "unknown"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "Holger H Hoos and Thomas Stützle. SATLIB: An online resource for research on SAT.",
+          "justification": "Reference for SATLIB.",
+          "value": "SATLIB: An online resource for research on SAT"
+        }
+      }
+    ],
+    "libraries": [
+      {
+        "name": {
+          "quote": "All neural networks in our study are implemented using PyTorch (Paszke et al., 2019) and PyTorch Geometric (Fey & Lenssen, 2019).",
+          "justification": "Implementation framework.",
+          "value": "PyTorch"
+        },
+        "aliases": [],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "Adam Paszke, Sam Gross, ... Pytorch: An imperative style, high-performance deep learning library.",
+          "justification": "Reference for PyTorch.",
+          "value": "Pytorch: An imperative style, high-performance deep learning library"
+        }
+      },
+      {
+        "name": {
+          "quote": "All neural networks in our study are implemented using PyTorch (Paszke et al., 2019) and PyTorch Geometric (Fey & Lenssen, 2019).",
+          "justification": "Used for GNN implementation.",
+          "value": "PyTorch Geometric"
+        },
+        "aliases": [],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "Matthias Fey and Jan Eric Lenssen. Fast graph representation learning with pytorch geometric.",
+          "justification": "Reference for PyG.",
+          "value": "Fast graph representation learning with pytorch geometric"
+        }
+      },
+      {
+        "name": {
+          "quote": "the 3-SAT generator in CNFGen (Lauria et al., 2017)",
+          "justification": "Generator software used to produce datasets.",
+          "value": "CNFGen"
+        },
+        "aliases": [],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "Massimo Lauria, Jan Elffers, Jakob Nordström, and Marc Vinyals. Cnfgen: A generator of crafted benchmarks.",
+          "justification": "Reference for CNFGen.",
+          "value": "Cnfgen: A generator of crafted benchmarks"
+        }
+      },
+      {
+        "name": {
+          "quote": "Our codebase is available at https://github.com/zhaoyu-li/G4SATBench.",
+          "justification": "The benchmark codebase contributed.",
+          "value": "G4SATBench"
+        },
+        "aliases": [],
+        "role": "contributed",
+        "referenced_paper_title": {
+          "quote": "we present G4SATBench, the first benchmark study that establishes a comprehensive evaluation framework for GNN-based SAT solvers",
+          "justification": "This paper itself.",
+          "value": ""
+        }
+      }
+    ],
+    "algorithms": [
+      {
+        "name": {
+          "quote": "SUP denotes the supervised loss",
+          "justification": "The supervised binary cross-entropy training loss, named SUP in tables.",
+          "value": "SUP"
+        },
+        "aliases": [
+          "supervised loss"
+        ],
+        "is_contributed": {
+          "quote": "one common approach is to minimize the binary cross-entropy loss between the predictions and the ground truth labels",
+          "justification": "Standard supervised objective from prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Table 2: Solving accuracy on identical distribution with different training losses. SUP denotes the supervised loss",
+          "justification": "Used to train models.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "the unsupervised training methods outperform the supervised learning approach across the majority of datasets",
+          "justification": "Compared with unsupervised losses.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "one common approach is to minimize the binary cross-entropy loss between the predictions and the ground truth labels",
+          "justification": "Described as training objective.",
+          "value": "Training objective minimizing binary cross-entropy between predictions and ground truth labels"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "one common approach is to minimize the binary cross-entropy loss",
+          "justification": "No specific reference.",
+          "value": ""
+        }
+      },
+      {
+        "name": {
+          "quote": "UNS1 and UNS2 correspond to the unsupervised losses defined in Equation 5 and Equation 6, respectively.",
+          "justification": "Unsupervised loss from Amizadeh et al., named UNS1.",
+          "value": "UNS1"
+        },
+        "aliases": [
+          "unsupervised loss (Equation 5)"
+        ],
+        "is_contributed": {
+          "quote": "The first approach aims to differentiate and maximize the satisfiability value of a CNF formula (Amizadeh et al., 2019a).",
+          "justification": "From prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "employing UNS1 as the loss function can result in instability during the training of some GNN models",
+          "justification": "Used for training in experiments.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Conversely, using UNS2 loss demonstrates strong and stable performance across all datasets.",
+          "justification": "Compared with SUP and UNS2.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "G4SATBench supports two unsupervised training paradigms for satisfying assignment prediction",
+          "justification": "Described as unsupervised training paradigm.",
+          "value": "Unsupervised training objective for satisfying assignment prediction"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "The first approach aims to differentiate and maximize the satisfiability value of a CNF formula (Amizadeh et al., 2019a).",
+          "justification": "Reference for the first unsupervised loss.",
+          "value": "Learning to solve Circuit-SAT: An unsupervised differentiable approach"
+        }
+      },
+      {
+        "name": {
+          "quote": "UNS1 and UNS2 correspond to the unsupervised losses defined in Equation 5 and Equation 6, respectively.",
+          "justification": "Second unsupervised loss, named UNS2.",
+          "value": "UNS2"
+        },
+        "aliases": [
+          "unsupervised loss (Equation 6)"
+        ],
+        "is_contributed": {
+          "quote": "The second unsupervised loss is defined as follows (Ozolins et al., 2022)",
+          "justification": "From Ozolins et al.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "(T2) satisfying assignment prediction (with UNS2 as the training loss)",
+          "justification": "Used throughout advanced experiments.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "using UNS2 loss demonstrates strong and stable performance across all datasets",
+          "justification": "Compared with SUP and UNS1.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "The second unsupervised loss is defined as follows (Ozolins et al., 2022)",
+          "justification": "Described as training loss.",
+          "value": "Unsupervised training objective for satisfying assignment prediction"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Emils Ozolins, Karlis Freivalds, ... Goal-aware neural SAT solver.",
+          "justification": "Reference for the second unsupervised loss.",
+          "value": "Goal-aware neural SAT solver"
+        }
+      },
+      {
+        "name": {
+          "quote": "The first method performs 2-clustering on the literal embeddings to obtain two centers ∆1 and ∆2",
+          "justification": "Inference algorithm clustering literal embeddings.",
+          "value": "2-clustering decoding"
+        },
+        "aliases": [
+          "clustering decoding"
+        ],
+        "is_contributed": {
+          "quote": "based on the predicate ... (Selsam et al., 2019)",
+          "justification": "From NeuroSAT paper.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we employ the 2-clustering decoding algorithm to extract the predicted assignments from the literal embeddings of NeuroSAT at each iteration of message passing",
+          "justification": "Used in inference experiments.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Figure 10 illustrates the results of NeuroSAT using various decoding algorithms",
+          "justification": "Compared with other decoding algorithms in Figure 10.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "G4SATBench offers two alternative inference algorithms for satisfying assignment prediction",
+          "justification": "Described as alternative inference algorithm.",
+          "value": "Inference algorithm to construct possible satisfying assignments from literal embeddings"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "two possible assignments by mapping one group of literals to true",
+          "justification": "Reference for the clustering decoding.",
+          "value": "Learning a SAT solver from single-bit supervision"
+        }
+      },
+      {
+        "name": {
+          "quote": "The second approach is to employ the readout function at each iteration of message passing, resulting in multiple assignment predictions for a given instance (Amizadeh et al., 2019b).",
+          "justification": "Inference algorithm applying readout at each iteration.",
+          "value": "multiple-prediction decoding"
+        },
+        "aliases": [
+          "Multiple predictions"
+        ],
+        "is_contributed": {
+          "quote": "(Amizadeh et al., 2019b)",
+          "justification": "From PDP paper.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we evaluate both NeuroSAT and GGNN using multiple-prediction decoding",
+          "justification": "Used in evaluation.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "all three decoding algorithms demonstrate similar performances across all datasets",
+          "justification": "Compared with standard readout and clustering.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "resulting in multiple assignment predictions for a given instance",
+          "justification": "Described as inference algorithm.",
+          "value": "Inference algorithm producing multiple assignment predictions"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Saeed Amizadeh, Sergiy Matusevych, and Markus Weimer. PDP: A general neural framework for learning constraint satisfaction solvers.",
+          "justification": "Reference for multiple predictions.",
+          "value": "PDP: A general neural framework for learning constraint satisfaction solvers"
+        }
+      },
+      {
+        "name": {
+          "quote": "we also experiment with a contrastive learning approach (i.e., SimCLR (Chen et al., 2020)) to pretrain the representation of CNF formulas",
+          "justification": "Contrastive pretraining method used.",
+          "value": "SimCLR"
+        },
+        "aliases": [
+          "contrastive pretraining"
+        ],
+        "is_contributed": {
+          "quote": "SimCLR (Chen et al., 2020)",
+          "justification": "Existing method.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "The pretraining process is performed for a total of 100 epochs.",
+          "justification": "Pretraining executed for 100 epochs.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Values in parentheses denote the difference between the results without pretraining.",
+          "justification": "Results compared with no pretraining.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "to pretrain the representation of CNF formulas to be close to their augmented ones (Duan et al., 2022)",
+          "justification": "Stated role.",
+          "value": "Used to pretrain the representation of CNF formulas to be close to their augmented ones"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Ting Chen, Simon Kornblith, Mohammad Norouzi, and Geoffrey E. Hinton. A simple framework for contrastive learning of visual representations.",
+          "justification": "SimCLR reference.",
+          "value": "A simple framework for contrastive learning of visual representations"
+        }
+      },
+      {
+        "name": {
+          "quote": "We employ Adam (Kingma & Ba, 2015) as the optimizer",
+          "justification": "Optimizer used.",
+          "value": "Adam"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "We employ Adam (Kingma & Ba, 2015) as the optimizer",
+          "justification": "Standard optimizer.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We employ Adam (Kingma & Ba, 2015) as the optimizer and set the batch size to 128, 64, or 32",
+          "justification": "Used in training.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "We employ Adam (Kingma & Ba, 2015) as the optimizer",
+          "justification": "Not compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "We employ Adam (Kingma & Ba, 2015) as the optimizer",
+          "justification": "Stated role.",
+          "value": "the optimizer"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Diederik P. Kingma and Jimmy Ba. Adam: A method for stochastic optimization.",
+          "justification": "Reference for Adam.",
+          "value": "Adam: A method for stochastic optimization"
+        }
+      },
+      {
+        "name": {
+          "quote": "we utilize Kaiming Initialization (He et al., 2015) to initialize all literal/variable and clause embeddings during both training and testing",
+          "justification": "Used for random initialization experiments.",
+          "value": "Kaiming Initialization"
+        },
+        "aliases": [
+          "random initialization"
+        ],
+        "is_contributed": {
+          "quote": "Kaiming Initialization (He et al., 2015)",
+          "justification": "Standard initialization scheme.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "For experiments involving random initialization, we utilize Kaiming Initialization (He et al., 2015)",
+          "justification": "Used in training/testing in a set of experiments.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Values in parentheses denote the difference between the results with learned initialization.",
+          "justification": "Compared with learned initialization.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "we utilize Kaiming Initialization (He et al., 2015) to initialize all literal/variable and clause embeddings during both training and testing",
+          "justification": "Stated role.",
+          "value": "initialize all literal/variable and clause embeddings during both training and testing"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Kaiming He, Xiangyu Zhang, Shaoqing Ren, and Jian Sun. Delving deep into rectifiers: Surpassing human-level performance on imagenet classification.",
+          "justification": "Reference for Kaiming init.",
+          "value": "Delving deep into rectifiers: Surpassing human-level performance on imagenet classification"
+        }
+      },
+      {
+        "name": {
+          "quote": "and gradient clipping norms from {0.1, 0.5, 1}",
+          "justification": "Hyperparameter searched over gradient clipping norms.",
+          "value": "gradient clipping"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "gradient clipping norms from {0.1, 0.5, 1}",
+          "justification": "Standard technique.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "gradient clipping norms from {0.1, 0.5, 1}",
+          "justification": "Applied during training.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "gradient clipping norms from {0.1, 0.5, 1}",
+          "justification": "Only a hyperparameter.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "we explore different learning rates ... weight decay values ... and gradient clipping norms from {0.1, 0.5, 1}",
+          "justification": "Stated in grid search settings.",
+          "value": "training hyperparameter searched in grid search"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "gradient clipping norms from {0.1, 0.5, 1}",
+          "justification": "No reference.",
+          "value": ""
+        }
+      },
+      {
+        "name": {
+          "quote": "weight decay values from {10−6 , 10−7 , 10−8 , 10−9 , 10−10 }",
+          "justification": "Hyperparameter searched.",
+          "value": "weight decay"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "weight decay values from {10−6 , 10−7 , 10−8 , 10−9 , 10−10 }",
+          "justification": "Standard regularization.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "utilize a learning rate of 10−4 with a weight decay of 10−8",
+          "justification": "Applied during training.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "weight decay values from {10−6 , 10−7 , 10−8 , 10−9 , 10−10 }",
+          "justification": "Not compared as a method.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "weight decay values from {10−6 , 10−7 , 10−8 , 10−9 , 10−10 }",
+          "justification": "Stated in grid search settings.",
+          "value": "training hyperparameter searched in grid search"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "weight decay values from {10−6 , 10−7 , 10−8 , 10−9 , 10−10 }",
+          "justification": "No reference.",
+          "value": ""
+        }
+      },
+      {
+        "name": {
+          "quote": "modern SAT solvers have been developed with backtracking (especially with conflict-driven clause learning, a.k.a. CDCL) or local search (LS) heuristics",
+          "justification": "Conflict-driven clause learning heuristic used to augment instances and compared with.",
+          "value": "CDCL"
+        },
+        "aliases": [
+          "conflict-driven clause learning"
+        ],
+        "is_contributed": {
+          "quote": "CDCL-based SAT solvers enhance backtracking search with conflict analysis and clause learning",
+          "justification": "Classic SAT solving heuristic.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we leverage CaDiCaL ... to generate a DART proof ... which tracks the clause learning procedure and records all the learned clauses during the solving process",
+          "justification": "Executed via CaDiCaL to produce learned clauses.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "we conduct comprehensive comparative analyses between GNN-based SAT solvers and the CDCL and LS heuristics",
+          "justification": "GNN solving processes compared with the CDCL heuristic.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "To assess whether GNN-based SAT solvers can learn and benefit from the backtracking search (with CDCL) heuristic, we augment the original formulas in the datasets with learned clauses",
+          "justification": "Stated role in comparative analysis.",
+          "value": "search heuristic whose learned clauses augment instances and which GNNs are compared against"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "iteratively adding “learned clauses” to avoid similar conflicts in future searches (Silva & Sakallah, 1999)",
+          "justification": "Reference cited for CDCL.",
+          "value": "GRASP: A search algorithm for propositional satisfiability"
+        }
+      },
+      {
+        "name": {
+          "quote": "This trend is reminiscent of the greedy solving strategy adopted by the LS solver GSAT (Selman et al., 1992)",
+          "justification": "Local search solver heuristic referenced for comparison of behavior.",
+          "value": "GSAT"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "the LS solver GSAT (Selman et al., 1992)",
+          "justification": "Classic LS algorithm.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "This trend is reminiscent of the greedy solving strategy adopted by the LS solver GSAT",
+          "justification": "Only referenced qualitatively.",
+          "value": false
+        },
+        "is_compared": {
+          "quote": "unlike GSAT’s approach of flipping one variable at a time",
+          "justification": "No numeric comparison.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "reminiscent of the greedy solving strategy adopted by the LS solver GSAT (Selman et al., 1992)",
+          "justification": "Stated role.",
+          "value": "greedy local search strategy that GNN behavior is likened to"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Bart Selman, Hector J. Levesque, and David G. Mitchell. A new method for solving hard satisfiability problems.",
+          "justification": "Reference for GSAT.",
+          "value": "A new method for solving hard satisfiability problems"
+        }
+      }
+    ],
+    "runs": [
+      {
+        "models": [
+          {
+            "name": "NeuroSAT",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Graph Convolutional Network (GCN)",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Gated Graph Neural Network (GGNN)",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Graph Isomorphism Network (GIN)",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "SR",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          },
+          {
+            "name": "3-SAT",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          },
+          {
+            "name": "CA",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          },
+          {
+            "name": "PS",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          },
+          {
+            "name": "k-Clique",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          },
+          {
+            "name": "k-Domset",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          },
+          {
+            "name": "k-Vercov",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "SUP"
+          },
+          {
+            "name": "Adam"
+          },
+          {
+            "name": "weight decay"
+          },
+          {
+            "name": "gradient clipping"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "Table 1 shows the benchmarking results of each GNN baseline when trained and evaluated on datasets possessing identical distributions.",
+          "justification": "GNN models trained for satisfiability prediction.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "training epochs from {50, 100, 200}",
+          "justification": "Training epochs searched over these values.",
+          "value": "50, 100, or 200 (grid-searched)"
+        },
+        "parameter_count": {
+          "quote": "we set the feature dimension d to 128",
+          "justification": "Only feature dimension given.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "Each experiment is performed on a single RTX8000 GPU and 16 AMD EPYC 7502 CPU cores",
+          "justification": "Experiments on RTX8000 GPU.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "Each experiment is performed on a single RTX8000 GPU",
+          "justification": "Stated GPU model.",
+          "value": "RTX8000"
+        },
+        "accelerator_count": {
+          "quote": "a single RTX8000 GPU",
+          "justification": "Single GPU per experiment.",
+          "value": "1"
+        },
+        "precision": {
+          "quote": "All neural networks in our study are implemented using PyTorch",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "Each experiment is performed on a single RTX8000 GPU",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "the total time cost is approximately 8,000 GPU hours",
+          "justification": "Total cost stated for all experiments.",
+          "value": "approximately 8,000 GPU hours in total (all experiments)"
+        },
+        "utilisation": {
+          "quote": "Each experiment is performed on a single RTX8000 GPU and 16 AMD EPYC 7502 CPU cores",
+          "justification": "Not reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "we use 3 different random seeds to repeat the experiment in each setting and report the average performance",
+          "justification": "Stated seeds and grid search.",
+          "value": "3 random seeds per setting, plus grid search over learning rates, epochs, weight decay and clipping norms"
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "NeuroSAT",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Graph Convolutional Network (GCN)",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Gated Graph Neural Network (GGNN)",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Graph Isomorphism Network (GIN)",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "SR",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          },
+          {
+            "name": "3-SAT",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          },
+          {
+            "name": "CA",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          },
+          {
+            "name": "PS",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          },
+          {
+            "name": "k-Clique",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          },
+          {
+            "name": "k-Domset",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          },
+          {
+            "name": "k-Vercov",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "SUP"
+          },
+          {
+            "name": "UNS1"
+          },
+          {
+            "name": "UNS2"
+          },
+          {
+            "name": "Adam"
+          },
+          {
+            "name": "2-clustering decoding"
+          },
+          {
+            "name": "multiple-prediction decoding"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "Table 2 presents the results of NeuroSAT (on LCG*) and GGNN (on VCG*) across three different training objectives.",
+          "justification": "Models trained for satisfying assignment prediction with three objectives.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "training epochs from {50, 100, 200}",
+          "justification": "Same training settings.",
+          "value": "50, 100, or 200 (grid-searched)"
+        },
+        "parameter_count": {
+          "quote": "we set the feature dimension d to 128 and the number of message passing iterations T to 32",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "Each experiment is performed on a single RTX8000 GPU and 16 AMD EPYC 7502 CPU cores",
+          "justification": "All experiments on GPU.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "a single RTX8000 GPU",
+          "justification": "Stated.",
+          "value": "RTX8000"
+        },
+        "accelerator_count": {
+          "quote": "a single RTX8000 GPU",
+          "justification": "Stated.",
+          "value": "1"
+        },
+        "precision": {
+          "quote": "All neural networks in our study are implemented using PyTorch (Paszke et al., 2019)",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "a single RTX8000 GPU",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "the total time cost is approximately 8,000 GPU hours",
+          "justification": "No per-run duration given.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "Each experiment is performed on a single RTX8000 GPU",
+          "justification": "Not reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "we use 3 different random seeds to repeat the experiment in each setting",
+          "justification": "Stated seeds.",
+          "value": "3 random seeds per setting"
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "NeuroSAT",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Graph Convolutional Network (GCN)",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Gated Graph Neural Network (GGNN)",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Graph Isomorphism Network (GIN)",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "SR",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          },
+          {
+            "name": "3-SAT",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          },
+          {
+            "name": "CA",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          },
+          {
+            "name": "PS",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          },
+          {
+            "name": "k-Clique",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          },
+          {
+            "name": "k-Domset",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          },
+          {
+            "name": "k-Vercov",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "SUP"
+          },
+          {
+            "name": "Adam"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "Table 3: Classification accuracy of unsat-core variables on identical distribution.",
+          "justification": "Models trained for unsat-core variable prediction.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "training epochs from {50, 100, 200}",
+          "justification": "Same training settings.",
+          "value": "50, 100, or 200 (grid-searched)"
+        },
+        "parameter_count": {
+          "quote": "we set the feature dimension d to 128",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "Each experiment is performed on a single RTX8000 GPU",
+          "justification": "GPU experiments.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "a single RTX8000 GPU",
+          "justification": "Stated.",
+          "value": "RTX8000"
+        },
+        "accelerator_count": {
+          "quote": "a single RTX8000 GPU",
+          "justification": "Stated.",
+          "value": "1"
+        },
+        "precision": {
+          "quote": "All neural networks in our study are implemented using PyTorch",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "a single RTX8000 GPU",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "the total time cost is approximately 8,000 GPU hours",
+          "justification": "Not separately stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "16 AMD EPYC 7502 CPU cores",
+          "justification": "Not reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "we use 3 different random seeds to repeat the experiment in each setting",
+          "justification": "Stated seeds.",
+          "value": "3 random seeds per setting"
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "NeuroSAT",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Gated Graph Neural Network (GGNN)",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "augmented datasets (clause-learning augmented instances)",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "SUP"
+          },
+          {
+            "name": "UNS2"
+          },
+          {
+            "name": "Adam"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "Notably, training on the augmented instances leads to significant improvements in both satisfiability prediction and satisfying assignment prediction.",
+          "justification": "Models trained on augmented instances.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "For experiments on augmented datasets, we keep all training settings identical to those used for the original datasets.",
+          "justification": "Settings identical to original but not restated numerically for this run.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "we set the feature dimension d to 128",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "Each experiment is performed on a single RTX8000 GPU",
+          "justification": "All experiments on GPU.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "a single RTX8000 GPU",
+          "justification": "Stated.",
+          "value": "RTX8000"
+        },
+        "accelerator_count": {
+          "quote": "a single RTX8000 GPU",
+          "justification": "Stated.",
+          "value": "1"
+        },
+        "precision": {
+          "quote": "All neural networks in our study are implemented using PyTorch",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "a single RTX8000 GPU",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "the total time cost is approximately 8,000 GPU hours",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "Each experiment is performed on a single RTX8000 GPU",
+          "justification": "Not reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "All other experimental settings remain the same as in the benchmarking evaluation.",
+          "justification": "Seeds for these experiments not specified.",
+          "value": "unknown"
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "CaDiCaL",
+            "role_in_run": "main"
+          },
+          {
+            "name": "DRAT-trim",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "SR",
+            "access": "fixed",
+            "roles_in_run": [
+              "unknown"
+            ]
+          },
+          {
+            "name": "3-SAT",
+            "access": "fixed",
+            "roles_in_run": [
+              "unknown"
+            ]
+          },
+          {
+            "name": "CA",
+            "access": "fixed",
+            "roles_in_run": [
+              "unknown"
+            ]
+          },
+          {
+            "name": "PS",
+            "access": "fixed",
+            "roles_in_run": [
+              "unknown"
+            ]
+          },
+          {
+            "name": "k-Clique",
+            "access": "fixed",
+            "roles_in_run": [
+              "unknown"
+            ]
+          },
+          {
+            "name": "k-Domset",
+            "access": "fixed",
+            "roles_in_run": [
+              "unknown"
+            ]
+          },
+          {
+            "name": "k-Vercov",
+            "access": "fixed",
+            "roles_in_run": [
+              "unknown"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "CDCL"
+          }
+        ],
+        "produces": [
+          "augmented datasets (clause-learning augmented instances)"
+        ],
+        "execution_mode": {
+          "quote": "we provide the ground truth of satisfiability and satisfying assignments by calling the state-of-the-art modern SAT solver CaDiCaL (Fleury & Heisinger, 2020) and generate the truth labels for unsat-core variables by invoking the proof checker DRAT-trim (Wetzler et al., 2014).",
+          "justification": "Labels, proofs and augmented instances produced by solver/checker runs.",
+          "value": "generate"
+        },
+        "epochs": {
+          "quote": "we leverage CaDiCaL ... to generate a DART proof ... for each SAT instance",
+          "justification": "Not applicable/stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "the state-of-the-art modern SAT solver CaDiCaL",
+          "justification": "Not applicable.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "Each experiment is performed on a single RTX8000 GPU and 16 AMD EPYC 7502 CPU cores",
+          "justification": "SAT solvers run on CPU cores available in setup.",
+          "value": "cpu"
+        },
+        "accelerator_model": {
+          "quote": "16 AMD EPYC 7502 CPU cores",
+          "justification": "CPU model stated in setup.",
+          "value": "AMD EPYC 7502"
+        },
+        "accelerator_count": {
+          "quote": "16 AMD EPYC 7502 CPU cores",
+          "justification": "Stated in setup.",
+          "value": "16 CPU cores"
+        },
+        "precision": {
+          "quote": "the state-of-the-art modern SAT solver CaDiCaL (Fleury & Heisinger, 2020)",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "16 AMD EPYC 7502 CPU cores",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "we leverage CaDiCaL ... to generate a DART proof",
+          "justification": "Not stated for label generation.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "16 AMD EPYC 7502 CPU cores",
+          "justification": "Not reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "for each SAT instance",
+          "justification": "Not stated.",
+          "value": "unknown"
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "NeuroSAT",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Gated Graph Neural Network (GGNN)",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "SR",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "3-SAT",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "augmented datasets (clause-learning augmented instances)",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "SimCLR"
+          },
+          {
+            "name": "Adam"
+          },
+          {
+            "name": "weight decay"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "we also experiment with a contrastive learning approach (i.e., SimCLR (Chen et al., 2020)) to pretrain the representation of CNF formulas to be close to their augmented ones",
+          "justification": "Contrastive pretraining of GNN representations.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "The pretraining process is performed for a total of 100 epochs.",
+          "justification": "Stated pretraining epochs.",
+          "value": "100"
+        },
+        "parameter_count": {
+          "quote": "We use an MLP projection to map the graph embedding zi of each formula to mi",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "Each experiment is performed on a single RTX8000 GPU",
+          "justification": "All experiments on GPU.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "a single RTX8000 GPU",
+          "justification": "Stated.",
+          "value": "RTX8000"
+        },
+        "accelerator_count": {
+          "quote": "a single RTX8000 GPU",
+          "justification": "Stated.",
+          "value": "1"
+        },
+        "precision": {
+          "quote": "All neural networks in our study are implemented using PyTorch",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "a single RTX8000 GPU",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "The pretraining process is performed for a total of 100 epochs.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "Each experiment is performed on a single RTX8000 GPU",
+          "justification": "Not reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "we utilize a learning rate of 10−4 with a weight decay of 10−8",
+          "justification": "Not stated.",
+          "value": "unknown"
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "NeuroSAT",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Gated Graph Neural Network (GGNN)",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "SR",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          },
+          {
+            "name": "3-SAT",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Kaiming Initialization"
+          },
+          {
+            "name": "UNS2"
+          },
+          {
+            "name": "SUP"
+          },
+          {
+            "name": "2-clustering decoding"
+          },
+          {
+            "name": "multiple-prediction decoding"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "we first conduct an evaluation of GNN models with randomized initial embeddings in both training and testing",
+          "justification": "Models trained and tested with randomized initial embeddings.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "All other experimental settings remain the same as in the benchmarking evaluation.",
+          "justification": "Not restated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "we set the feature dimension d to 128",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "Each experiment is performed on a single RTX8000 GPU",
+          "justification": "GPU experiments.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "a single RTX8000 GPU",
+          "justification": "Stated.",
+          "value": "RTX8000"
+        },
+        "accelerator_count": {
+          "quote": "a single RTX8000 GPU",
+          "justification": "Stated.",
+          "value": "1"
+        },
+        "precision": {
+          "quote": "All neural networks in our study are implemented using PyTorch",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "a single RTX8000 GPU",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "the total time cost is approximately 8,000 GPU hours",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "Each experiment is performed on a single RTX8000 GPU",
+          "justification": "Not reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "All other experimental settings remain the same as in the benchmarking evaluation.",
+          "justification": "Not stated for this experiment.",
+          "value": "unknown"
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "NeuroSAT",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "SR",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          },
+          {
+            "name": "3-SAT",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          },
+          {
+            "name": "CA",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          },
+          {
+            "name": "PS",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          },
+          {
+            "name": "k-Domset",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          },
+          {
+            "name": "k-Vercov",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "UNS2"
+          },
+          {
+            "name": "Adam"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "we explore the effectiveness of training NeuroSAT using the unsupervised loss UNS2 on noisy datasets that contain unsatisfiable instances",
+          "justification": "NeuroSAT trained unsupervised on noisy datasets containing unsatisfiable instances.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "Table 11: Solving accuracy of NeuroSAT when trained on noisy datasets.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "we set the feature dimension d to 128",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "Each experiment is performed on a single RTX8000 GPU",
+          "justification": "GPU experiments.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "a single RTX8000 GPU",
+          "justification": "Stated.",
+          "value": "RTX8000"
+        },
+        "accelerator_count": {
+          "quote": "a single RTX8000 GPU",
+          "justification": "Stated.",
+          "value": "1"
+        },
+        "precision": {
+          "quote": "All neural networks in our study are implemented using PyTorch",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "a single RTX8000 GPU",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "the total time cost is approximately 8,000 GPU hours",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "Each experiment is performed on a single RTX8000 GPU",
+          "justification": "Not reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "where 50% of the instances are unsatisfiable",
+          "justification": "Not stated.",
+          "value": "unknown"
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "Sparrow",
+            "role_in_run": "main"
+          },
+          {
+            "name": "CaDiCaL",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "SR",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          },
+          {
+            "name": "3-SAT",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          },
+          {
+            "name": "CA",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          },
+          {
+            "name": "PS",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          },
+          {
+            "name": "k-Clique",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          },
+          {
+            "name": "k-Domset",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          },
+          {
+            "name": "k-Vercov",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "CDCL"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "we allow Sparrow and CaDiCaL to run without constraints to solve the satisfiable instances in G4SATBench",
+          "justification": "Solvers run to solve test instances and measure runtime.",
+          "value": "inference"
+        },
+        "epochs": {
+          "quote": "setting its maximum flip number to 32",
+          "justification": "Not applicable.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "We compare NeuroSAT with two advanced CDCL and LS solvers",
+          "justification": "Not applicable.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "16 AMD EPYC 7502 CPU cores",
+          "justification": "Classical solvers run on CPU.",
+          "value": "cpu"
+        },
+        "accelerator_model": {
+          "quote": "16 AMD EPYC 7502 CPU cores",
+          "justification": "Stated CPU in setup.",
+          "value": "AMD EPYC 7502"
+        },
+        "accelerator_count": {
+          "quote": "16 AMD EPYC 7502 CPU cores",
+          "justification": "Stated in setup.",
+          "value": "16 CPU cores"
+        },
+        "precision": {
+          "quote": "the bottom 4 rows represent the running time (second) per instance",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "16 AMD EPYC 7502 CPU cores",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "Sparrow 0.007 0.007 0.008 ... CaDiCaL 0.013 0.013 0.012",
+          "justification": "Table 12 reports per-instance running times.",
+          "value": "running times reported per instance, e.g. CaDiCaL 0.013 s on easy SR"
+        },
+        "utilisation": {
+          "quote": "the bottom 4 rows represent the running time (second) per instance",
+          "justification": "Not reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "we calculate its per-instance runtime by dividing the total execution time by the number of testing instances",
+          "justification": "Not stated.",
+          "value": "unknown"
+        }
+      }
+    ]
+  },
+  "usage": {
+    "input_tokens": 48964,
+    "output_tokens": 24520,
+    "total_tokens": 73484
+  }
+}

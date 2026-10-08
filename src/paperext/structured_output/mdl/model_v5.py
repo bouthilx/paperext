@@ -728,7 +728,19 @@ class PaperExtractions(BaseModel):
         description="All Research Fields and application domains of the paper, "
         "each with its role. Do not rank them",
     )
-    models: list[RefModel] = Field(description="All Models found in the paper")
+    models: list[RefModel] = Field(
+        # #95's admission rule, which lived only in MODELS_BRIEF.md B.1 until a
+        # real run put a SAT solver, a local-search solver and a proof checker
+        # in this slot with `execution_mode='inference'` -- none of which has a
+        # single learned parameter, so the 6ND/2ND estimates would have been
+        # applied to procedures that have no N.
+        description="All Models found in the paper. A Model is a separable "
+        "learned object: parameters that could be run independently of the "
+        "procedure that produced them. A procedure with no learned parameters "
+        "is an Algorithm or a Library, never a Model -- a SAT solver, a proof "
+        "checker or a hand-written heuristic is not a Model even when the "
+        "paper compares against it"
+    )
     data_sources: list[RefDataSource] = Field(
         # The two exclusions are here rather than only in the issue because
         # both were measured to double-count: one string, two entities, three
