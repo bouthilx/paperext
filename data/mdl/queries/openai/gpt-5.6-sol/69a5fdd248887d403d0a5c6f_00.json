@@ -1,0 +1,2847 @@
+{
+  "paper": "69a5fdd248887d403d0a5c6f.txt",
+  "words": 9876,
+  "extractions": {
+    "title": {
+      "quote": "Multi-resolution Time-Series Transformer for Long-term Forecasting",
+      "justification": "The paper title is printed at the beginning of the manuscript.",
+      "value": "Multi-resolution Time-Series Transformer for Long-term Forecasting"
+    },
+    "description": "Catalog of the paper's computational artifacts for multivariate long-term time-series forecasting: MTST and compared forecasting models, eight named benchmark datasets, named optimization/preprocessing/evaluation procedures, and the reported NVIDIA V100-based experimental runs.",
+    "type": {
+      "quote": "Extensive experiments on several real-world datasets demonstrate the effectiveness of MTST in comparison to state-of-the-art forecasting techniques.",
+      "justification": "The paper proposes a learned model and evaluates it through benchmark, ablation, and analysis experiments.",
+      "value": "empirical"
+    },
+    "research_fields": [
+      {
+        "name": {
+          "quote": "We focus on long-term forecasting of multivariate time-series from historical data.",
+          "justification": "This is the central research problem advanced by the paper.",
+          "value": "multivariate time-series forecasting"
+        },
+        "aliases": [
+          "time-series forecasting",
+          "long-term forecasting"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "transformer architectures were recently introduced in multivariate time-series forecasting",
+          "justification": "The paper contributes a transformer architecture specialized for time-series forecasting.",
+          "value": "time-series transformers"
+        },
+        "aliases": [
+          "TSTs"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "multi-scale analysis, which has proved effective in many time-series modeling domains",
+          "justification": "Multi-scale time-series representation learning is directly advanced by MTST's multi-resolution architecture.",
+          "value": "multi-scale time-series modeling"
+        },
+        "aliases": [
+          "multi-resolution analysis"
+        ],
+        "role": "contributed"
+      }
+    ],
+    "models": [
+      {
+        "name": {
+          "quote": "Multi-resolution Time-Series Transformer (MTST)",
+          "justification": "This is the paper's contributed model.",
+          "value": "Multi-resolution Time-Series Transformer (MTST)"
+        },
+        "aliases": [
+          "MTST"
+        ],
+        "is_contributed": {
+          "quote": "we propose a novel architecture, Multi-resolution Time-Series Transformer (MTST)",
+          "justification": "The authors explicitly present MTST as their novel architecture.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "All our experiments were conducted with these hardware devices.",
+          "justification": "MTST is trained and evaluated throughout the paper's experiments.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Table 2 reports the experimental results for seven benchmarks.",
+          "justification": "MTST is numerically compared against multiple forecasting baselines.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "The model is trained using the Adam optimizer (Kingma and Ba, 2015) to minimize the MSE loss over the training set.",
+          "justification": "MTST is trained in the paper.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "Multi-resolution Time-Series Transformer for Long-term Forecasting",
+          "justification": "MTST is introduced in the current paper.",
+          "value": "Multi-resolution Time-Series Transformer for Long-term Forecasting"
+        }
+      },
+      {
+        "name": {
+          "quote": "PatchTST",
+          "justification": "PatchTST is a named forecasting baseline and is also run in the timing and repeated-seed experiments.",
+          "value": "PatchTST"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "the state-of-the-art (SOTA) time-series transformer – PatchTST (Nie et al., 2023)",
+          "justification": "PatchTST is prior work, not contributed here.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Examples from 2 datasets with a single NVIDIA V100 GPU and 72 threads of Intel(R) Xeon(R) Gold 6140 CPU @ 2.30GHz are shown in Table 5.",
+          "justification": "Table 5 gives locally measured PatchTST training times, and Table 7 reports repeated-seed PatchTST results.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "MTST outperforms, with statistical significance, the previous SOTA patch-based TST – PatchTST – on 27 out of 28 cases",
+          "justification": "PatchTST is numerically compared with MTST.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "Training time (L=336, T =96).",
+          "justification": "The paper reports PatchTST training runs.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "A time series is worth 64 words: Long-term forecasting with transformers.",
+          "justification": "This is the PatchTST paper title in the references.",
+          "value": "A time series is worth 64 words: Long-term forecasting with transformers"
+        }
+      },
+      {
+        "name": {
+          "quote": "DLinear",
+          "justification": "DLinear is a named linear forecasting baseline.",
+          "value": "DLinear"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "a simple and competitive linear baseline – DLinear (Zeng et al., 2023)",
+          "justification": "DLinear is prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "The baseline results are from the original papers except for DLinear, which is reproduced for L=96.",
+          "justification": "The authors explicitly reproduced DLinear for the L=96 experiments.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "We visualize the results with T = 96 and 720 in Figure 5... compare with the second and third best models (PatchTST and DLinear).",
+          "justification": "DLinear is numerically compared with MTST.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "DLinear, which is reproduced for L=96.",
+          "justification": "Reproduction of forecasting results entails fitting the model on the benchmark training sets.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "Are transformers effective for time series forecasting?",
+          "justification": "This is the cited DLinear paper title.",
+          "value": "Are transformers effective for time series forecasting?"
+        }
+      },
+      {
+        "name": {
+          "quote": "MICN",
+          "justification": "MICN is a named multiscale forecasting baseline.",
+          "value": "MICN"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "three multiscale time-series models – MICN (Wang et al., 2023), TimesNet (Wu et al., 2023), and Pyraformer",
+          "justification": "MICN is prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "except for TimesNet and MICN, for which we reproduce their results with L=336 based on the officially released code.",
+          "justification": "The authors explicitly reran MICN.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Table 2: Multivariate long-term forecasting results",
+          "justification": "MICN has numerical results in the comparison table.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "we re-run TimesNet and MICN with a look back window L = 336",
+          "justification": "The rerun is a training/evaluation experiment.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "MICN: Multi-scale local and global context modeling for long-term series forecasting.",
+          "justification": "This is the MICN reference title.",
+          "value": "MICN: Multi-scale local and global context modeling for long-term series forecasting"
+        }
+      },
+      {
+        "name": {
+          "quote": "TimesNet",
+          "justification": "TimesNet is a named forecasting baseline.",
+          "value": "TimesNet"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "three multiscale time-series models – MICN (Wang et al., 2023), TimesNet (Wu et al., 2023), and Pyraformer",
+          "justification": "TimesNet is prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "except for TimesNet and MICN, for which we reproduce their results with L=336 based on the officially released code.",
+          "justification": "The authors explicitly reran TimesNet.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Table 2: Multivariate long-term forecasting results",
+          "justification": "TimesNet has numerical results in the comparison table.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "we re-run TimesNet and MICN with a look back window L = 336",
+          "justification": "The rerun is a training/evaluation experiment.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "Timesnet: Temporal 2d-variation modeling for general time series analysis.",
+          "justification": "This is the TimesNet reference title.",
+          "value": "Timesnet: Temporal 2d-variation modeling for general time series analysis"
+        }
+      },
+      {
+        "name": {
+          "quote": "Fedformer",
+          "justification": "This spelling is used in the main baseline list and table.",
+          "value": "Fedformer"
+        },
+        "aliases": [
+          "FEDformer"
+        ],
+        "is_contributed": {
+          "quote": "two earlier timestamp-based time-series transformers for reference – Fedformer (Zhou et al., 2022) and Autoformer",
+          "justification": "Fedformer is prior work used as a reference baseline.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We report the baseline results from Nie et al. (2023) except for TimesNet and MICN",
+          "justification": "The main Fedformer numbers were imported rather than executed by this paper.",
+          "value": false
+        },
+        "is_compared": {
+          "quote": "Table 2: Multivariate long-term forecasting results",
+          "justification": "Fedformer results are numerically compared in Table 2.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "The results for Fedformer, Autoformer and Pyraformer are the best on each dataset from multiple look-back windows",
+          "justification": "The referenced results are training-based forecasts, although not executed in this paper.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "FEDformer: Frequency enhanced decomposed transformer for long-term series forecasting.",
+          "justification": "This is the cited FEDformer paper title.",
+          "value": "FEDformer: Frequency enhanced decomposed transformer for long-term series forecasting"
+        }
+      },
+      {
+        "name": {
+          "quote": "Autoformer",
+          "justification": "Autoformer is a named timestamp-based transformer baseline.",
+          "value": "Autoformer"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "two earlier timestamp-based time-series transformers for reference – Fedformer (Zhou et al., 2022) and Autoformer (Wu et al., 2021)",
+          "justification": "Autoformer is prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We report the baseline results from Nie et al. (2023) except for TimesNet and MICN",
+          "justification": "The main Autoformer numbers were imported.",
+          "value": false
+        },
+        "is_compared": {
+          "quote": "Table 2: Multivariate long-term forecasting results",
+          "justification": "Autoformer is included in the numerical comparison.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "The results for Fedformer, Autoformer and Pyraformer are the best on each dataset from multiple look-back windows",
+          "justification": "The referenced results are from model training, though not executed here.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "Autoformer: Decomposition transformers with autocorrelation for long-term series forecasting.",
+          "justification": "This is the cited Autoformer paper title.",
+          "value": "Autoformer: Decomposition transformers with autocorrelation for long-term series forecasting"
+        }
+      },
+      {
+        "name": {
+          "quote": "Pyraformer",
+          "justification": "Pyraformer is a named multiscale transformer baseline.",
+          "value": "Pyraformer"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "three multiscale time-series models – MICN (Wang et al., 2023), TimesNet (Wu et al., 2023), and Pyraformer (Liu et al., 2021a)",
+          "justification": "Pyraformer is prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We report the baseline results from Nie et al. (2023) except for TimesNet and MICN",
+          "justification": "Pyraformer results were imported.",
+          "value": false
+        },
+        "is_compared": {
+          "quote": "Table 2: Multivariate long-term forecasting results",
+          "justification": "Pyraformer is included in the numerical comparison.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "The results for Fedformer, Autoformer and Pyraformer are the best on each dataset from multiple look-back windows",
+          "justification": "The referenced results come from trained models.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "Pyraformer: Low-complexity pyramidal attention for long-range time series modeling and forecasting.",
+          "justification": "This is the reference title.",
+          "value": "Pyraformer: Low-complexity pyramidal attention for long-range time series modeling and forecasting"
+        }
+      },
+      {
+        "name": {
+          "quote": "Scaleformer",
+          "justification": "Scaleformer is a named multi-resolution transformer baseline discussed and compared in the appendix.",
+          "value": "Scaleformer"
+        },
+        "aliases": [
+          "ScaleFormer"
+        ],
+        "is_contributed": {
+          "quote": "Scaleformer (Shabani et al., 2023) proposes a multi-resolution representation framework",
+          "justification": "Scaleformer is prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "The baseline results are from the original papers except for DLinear, which is reproduced for L=96.",
+          "justification": "The appendix comparison uses original-paper baseline results, so Scaleformer was not rerun here.",
+          "value": false
+        },
+        "is_compared": {
+          "quote": "We provide a comparison with Scaleformer in the Appendix (Table 8).",
+          "justification": "Scaleformer is numerically compared in Table 8.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "Scaleformer: Iterative multi-scale refining transformers for time series forecasting.",
+          "justification": "It is a trained forecasting model; the current paper does not execute it.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "Scaleformer: Iterative multi-scale refining transformers for time series forecasting.",
+          "justification": "This is the cited Scaleformer title.",
+          "value": "Scaleformer: Iterative multi-scale refining transformers for time series forecasting"
+        }
+      },
+      {
+        "name": {
+          "quote": "Crossformer",
+          "justification": "Crossformer is named in the methodology and included in the L=96 appendix comparison.",
+          "value": "Crossformer"
+        },
+        "aliases": [
+          "CrossFormer"
+        ],
+        "is_contributed": {
+          "quote": "such as the Crossformer (Zhang and Yan, 2023)",
+          "justification": "Crossformer is prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "The baseline results are from the original papers except for DLinear, which is reproduced for L=96.",
+          "justification": "Crossformer results in Table 8 were taken from prior work.",
+          "value": false
+        },
+        "is_compared": {
+          "quote": "Table 8: Multivariate long-term forecasting results",
+          "justification": "Crossformer has numerical entries in the appendix comparison.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "Crossformer: Transformer utilizing cross-dimension dependency for multivariate time series forecasting.",
+          "justification": "It is a trained forecasting model, although not executed here.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "Crossformer: Transformer utilizing cross-dimension dependency for multivariate time series forecasting.",
+          "justification": "This is the reference title.",
+          "value": "Crossformer: Transformer utilizing cross-dimension dependency for multivariate time series forecasting"
+        }
+      },
+      {
+        "name": {
+          "quote": "w/o Low-RES.",
+          "justification": "This is the paper's label for the MTST ablation without its lowest-resolution branch.",
+          "value": "w/o Low-RES."
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "w/o Low-RES. stands for the variant without the lowest-resolution representations",
+          "justification": "This ablation variant is defined by the paper.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "We conduct an ablation experiment to study the usefulness of the multi-resolution representation on 5 datasets",
+          "justification": "The variant is executed in the ablation.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Table 3: Ablation study on multi-branch architecture.",
+          "justification": "The variant is numerically compared against MTST and another ablation.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "under the same setup of the main experiment",
+          "justification": "It is trained under the main training setup.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "Multi-resolution Time-Series Transformer for Long-term Forecasting",
+          "justification": "The variant is introduced in the current paper.",
+          "value": "Multi-resolution Time-Series Transformer for Long-term Forecasting"
+        }
+      },
+      {
+        "name": {
+          "quote": "w/o High-RES.",
+          "justification": "This is the paper's label for the MTST ablation without its highest-resolution branch.",
+          "value": "w/o High-RES."
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "w/o High-RES. denotes the variant removing the highest-resolution representations",
+          "justification": "This ablation variant is defined by the paper.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "We conduct an ablation experiment to study the usefulness of the multi-resolution representation on 5 datasets",
+          "justification": "The variant is executed in the ablation.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Table 3: Ablation study on multi-branch architecture.",
+          "justification": "The variant is numerically compared.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "under the same setup of the main experiment",
+          "justification": "It is trained under the main training setup.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "Multi-resolution Time-Series Transformer for Long-term Forecasting",
+          "justification": "The variant is introduced in the current paper.",
+          "value": "Multi-resolution Time-Series Transformer for Long-term Forecasting"
+        }
+      }
+    ],
+    "data_sources": [
+      {
+        "name": {
+          "quote": "Weather",
+          "justification": "Weather is one of the benchmark datasets used.",
+          "value": "Weather"
+        },
+        "aliases": [],
+        "role": "used",
+        "size": {
+          "quote": "Weather ... Timesteps ... 52,696",
+          "justification": "Table 1 reports 52,696 timesteps for Weather.",
+          "value": "52,696 timesteps"
+        },
+        "derived_from": [],
+        "sample_properties": [
+          {
+            "name": "number of variates",
+            "value": {
+              "quote": "Weather ... 21 ... 52,696 ... 10 min",
+              "justification": "Table 1 reports 21 variates.",
+              "value": "21"
+            },
+            "unit": "variates"
+          },
+          {
+            "name": "granularity",
+            "value": {
+              "quote": "Weather ... 21 ... 52,696 ... 10 min",
+              "justification": "Table 1 reports ten-minute granularity.",
+              "value": "10 min"
+            },
+            "unit": "time interval"
+          }
+        ],
+        "referenced_paper_title": {
+          "quote": "Weather is a collection of 2020 weather data from 21 meteorological indicators",
+          "justification": "No referenced dataset-paper title is supplied; the paper links the Max-Planck Institute source.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "Traffic",
+          "justification": "Traffic is a benchmark dataset used in the experiments.",
+          "value": "Traffic"
+        },
+        "aliases": [],
+        "role": "used",
+        "size": {
+          "quote": "Traffic ... Timesteps ... 17,544",
+          "justification": "Table 1 reports 17,544 timesteps.",
+          "value": "17,544 timesteps"
+        },
+        "derived_from": [
+          "Caltrans Performance Measurement System (PeMS)"
+        ],
+        "sample_properties": [
+          {
+            "name": "number of variates",
+            "value": {
+              "quote": "Traffic ... 862 ... 17,544 ... 1 hour",
+              "justification": "Table 1 reports 862 variates.",
+              "value": "862"
+            },
+            "unit": "variates"
+          },
+          {
+            "name": "granularity",
+            "value": {
+              "quote": "Traffic ... 862 ... 17,544 ... 1 hour",
+              "justification": "Table 1 reports hourly granularity.",
+              "value": "1 hour"
+            },
+            "unit": "time interval"
+          }
+        ],
+        "referenced_paper_title": {
+          "quote": "Traffic is a dataset provided by Caltrans Performance Measurement System (PeMS)",
+          "justification": "No dataset-paper title is cited.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "Caltrans Performance Measurement System (PeMS)",
+          "justification": "The paper names PeMS as the source from which Traffic is provided.",
+          "value": "Caltrans Performance Measurement System (PeMS)"
+        },
+        "aliases": [
+          "PeMS"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "collecting hourly data of the road occupancy rates measured by different sensors on San Francisco Bay area freeways",
+          "justification": "The paper does not state a separate sample count for PeMS beyond the derived Traffic benchmark.",
+          "value": "unknown"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "Traffic is a dataset provided by Caltrans Performance Measurement System (PeMS)",
+          "justification": "No reference-paper title is given.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "Electricity",
+          "justification": "Electricity is a benchmark dataset used in the experiments.",
+          "value": "Electricity"
+        },
+        "aliases": [
+          "ELC"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "Electricity ... Timesteps ... 26,304",
+          "justification": "Table 1 reports 26,304 timesteps.",
+          "value": "26,304 timesteps"
+        },
+        "derived_from": [
+          "ElectricityLoadDiagrams20112014"
+        ],
+        "sample_properties": [
+          {
+            "name": "number of variates",
+            "value": {
+              "quote": "Electricity ... 321 ... 26,304 ... 1 hour",
+              "justification": "Table 1 reports 321 variates.",
+              "value": "321"
+            },
+            "unit": "variates"
+          },
+          {
+            "name": "granularity",
+            "value": {
+              "quote": "Electricity ... 321 ... 26,304 ... 1 hour",
+              "justification": "Table 1 reports hourly granularity.",
+              "value": "1 hour"
+            },
+            "unit": "time interval"
+          }
+        ],
+        "referenced_paper_title": {
+          "quote": "ElectricityLoadDiagrams20112014. UCI Machine Learning Repository.",
+          "justification": "This is the named source citation for Electricity.",
+          "value": "ElectricityLoadDiagrams20112014"
+        }
+      },
+      {
+        "name": {
+          "quote": "ElectricityLoadDiagrams20112014",
+          "justification": "The references identify the original UCI dataset from which the 321-customer Electricity version was selected.",
+          "value": "ElectricityLoadDiagrams20112014"
+        },
+        "aliases": [],
+        "role": "referenced",
+        "size": {
+          "quote": "Wu et al. (2021) selected 321 of 370 customers from the original dataset in Trindade (2015).",
+          "justification": "The paper states that the original contains 370 customers, but does not state its number of timestep samples here.",
+          "value": "370 customers"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "ElectricityLoadDiagrams20112014. UCI Machine Learning Repository.",
+          "justification": "This is the reference entry title.",
+          "value": "ElectricityLoadDiagrams20112014"
+        }
+      },
+      {
+        "name": {
+          "quote": "ETTh1",
+          "justification": "ETTh1 is one of the four used ETT benchmarks.",
+          "value": "ETTh1"
+        },
+        "aliases": [],
+        "role": "used",
+        "size": {
+          "quote": "ETTh1/2 ... Timesteps ... 17,420",
+          "justification": "Table 1 reports 17,420 timesteps for ETTh1/2.",
+          "value": "17,420 timesteps"
+        },
+        "derived_from": [],
+        "sample_properties": [
+          {
+            "name": "number of variates",
+            "value": {
+              "quote": "ETTh1/2 ... 7 ... 17,420 ... 1 hour",
+              "justification": "Table 1 reports seven variates.",
+              "value": "7"
+            },
+            "unit": "variates"
+          },
+          {
+            "name": "granularity",
+            "value": {
+              "quote": "ETTh1/2 ... 7 ... 17,420 ... 1 hour",
+              "justification": "Table 1 reports hourly granularity.",
+              "value": "1 hour"
+            },
+            "unit": "time interval"
+          }
+        ],
+        "referenced_paper_title": {
+          "quote": "Informer: Beyond efficient transformer for long sequence time-series forecasting.",
+          "justification": "The ETT datasets are attributed to Zhou et al. (2021).",
+          "value": "Informer: Beyond efficient transformer for long sequence time-series forecasting"
+        }
+      },
+      {
+        "name": {
+          "quote": "ETTh2",
+          "justification": "ETTh2 is one of the four used ETT benchmarks.",
+          "value": "ETTh2"
+        },
+        "aliases": [],
+        "role": "used",
+        "size": {
+          "quote": "ETTh1/2 ... Timesteps ... 17,420",
+          "justification": "Table 1 reports 17,420 timesteps for ETTh1/2.",
+          "value": "17,420 timesteps"
+        },
+        "derived_from": [],
+        "sample_properties": [
+          {
+            "name": "number of variates",
+            "value": {
+              "quote": "ETTh1/2 ... 7 ... 17,420 ... 1 hour",
+              "justification": "Table 1 reports seven variates.",
+              "value": "7"
+            },
+            "unit": "variates"
+          },
+          {
+            "name": "granularity",
+            "value": {
+              "quote": "ETTh1/2 ... 7 ... 17,420 ... 1 hour",
+              "justification": "Table 1 reports hourly granularity.",
+              "value": "1 hour"
+            },
+            "unit": "time interval"
+          }
+        ],
+        "referenced_paper_title": {
+          "quote": "Informer: Beyond efficient transformer for long sequence time-series forecasting.",
+          "justification": "The ETT datasets are attributed to Zhou et al. (2021).",
+          "value": "Informer: Beyond efficient transformer for long sequence time-series forecasting"
+        }
+      },
+      {
+        "name": {
+          "quote": "ETTm1",
+          "justification": "ETTm1 is one of the four used ETT benchmarks.",
+          "value": "ETTm1"
+        },
+        "aliases": [],
+        "role": "used",
+        "size": {
+          "quote": "ETTm1/2 ... Timesteps ... 69,680",
+          "justification": "Table 1 reports 69,680 timesteps for ETTm1/2.",
+          "value": "69,680 timesteps"
+        },
+        "derived_from": [],
+        "sample_properties": [
+          {
+            "name": "number of variates",
+            "value": {
+              "quote": "ETTm1/2 ... 7 ... 69,680 ... 15 min",
+              "justification": "Table 1 reports seven variates.",
+              "value": "7"
+            },
+            "unit": "variates"
+          },
+          {
+            "name": "granularity",
+            "value": {
+              "quote": "ETTm1/2 ... 7 ... 69,680 ... 15 min",
+              "justification": "Table 1 reports fifteen-minute granularity.",
+              "value": "15 min"
+            },
+            "unit": "time interval"
+          }
+        ],
+        "referenced_paper_title": {
+          "quote": "Informer: Beyond efficient transformer for long sequence time-series forecasting.",
+          "justification": "The ETT datasets are attributed to Zhou et al. (2021).",
+          "value": "Informer: Beyond efficient transformer for long sequence time-series forecasting"
+        }
+      },
+      {
+        "name": {
+          "quote": "ETTm2",
+          "justification": "ETTm2 is one of the four used ETT benchmarks.",
+          "value": "ETTm2"
+        },
+        "aliases": [],
+        "role": "used",
+        "size": {
+          "quote": "ETTm1/2 ... Timesteps ... 69,680",
+          "justification": "Table 1 reports 69,680 timesteps for ETTm1/2.",
+          "value": "69,680 timesteps"
+        },
+        "derived_from": [],
+        "sample_properties": [
+          {
+            "name": "number of variates",
+            "value": {
+              "quote": "ETTm1/2 ... 7 ... 69,680 ... 15 min",
+              "justification": "Table 1 reports seven variates.",
+              "value": "7"
+            },
+            "unit": "variates"
+          },
+          {
+            "name": "granularity",
+            "value": {
+              "quote": "ETTm1/2 ... 7 ... 69,680 ... 15 min",
+              "justification": "Table 1 reports fifteen-minute granularity.",
+              "value": "15 min"
+            },
+            "unit": "time interval"
+          }
+        ],
+        "referenced_paper_title": {
+          "quote": "Informer: Beyond efficient transformer for long sequence time-series forecasting.",
+          "justification": "The ETT datasets are attributed to Zhou et al. (2021).",
+          "value": "Informer: Beyond efficient transformer for long sequence time-series forecasting"
+        }
+      },
+      {
+        "name": {
+          "quote": "influenza-like illness (ILI) dataset",
+          "justification": "ILI is the named additional dataset in Appendix C.3.",
+          "value": "influenza-like illness (ILI) dataset"
+        },
+        "aliases": [
+          "ILI"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "It has 7 variates and 966 timestamps",
+          "justification": "The appendix explicitly reports 966 timestamps.",
+          "value": "966 timestamps"
+        },
+        "derived_from": [],
+        "sample_properties": [
+          {
+            "name": "number of variates",
+            "value": {
+              "quote": "It has 7 variates and 966 timestamps",
+              "justification": "The appendix reports seven variates.",
+              "value": "7"
+            },
+            "unit": "variates"
+          },
+          {
+            "name": "granularity",
+            "value": {
+              "quote": "contains the weekly time-series",
+              "justification": "The paper states that ILI is weekly.",
+              "value": "weekly"
+            },
+            "unit": "time interval"
+          }
+        ],
+        "referenced_paper_title": {
+          "quote": "https://gis.cdc.gov/grasp/fluview/fluportaldashboard.html",
+          "justification": "The source is a linked CDC dashboard rather than a cited paper.",
+          "value": "unknown"
+        }
+      }
+    ],
+    "libraries": [],
+    "algorithms": [
+      {
+        "name": {
+          "quote": "Adam optimizer",
+          "justification": "This exact name is used for the model parameter update procedure.",
+          "value": "Adam optimizer"
+        },
+        "aliases": [
+          "Adam"
+        ],
+        "is_contributed": {
+          "quote": "Adam: A method for stochastic optimization.",
+          "justification": "Adam is cited prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "The model is trained using the Adam optimizer",
+          "justification": "The paper explicitly uses Adam for training.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "The model is trained using the Adam optimizer",
+          "justification": "No numerical comparison against another optimizer is reported.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "The model is trained using the Adam optimizer (Kingma and Ba, 2015) to minimize the MSE loss over the training set.",
+          "justification": "This states Adam's role verbatim.",
+          "value": "trained using the Adam optimizer to minimize the MSE loss over the training set"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Adam: A method for stochastic optimization.",
+          "justification": "This is the cited Adam paper title.",
+          "value": "Adam: A method for stochastic optimization"
+        }
+      },
+      {
+        "name": {
+          "quote": "instance-normalization and denormalization",
+          "justification": "This is the named preprocessing/postprocessing procedure used in all experiments.",
+          "value": "instance-normalization and denormalization"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "instance-normalization and denormalization (Kim et al., 2022)",
+          "justification": "It is attributed to prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "In all our experiments, we use instance-normalization and denormalization",
+          "justification": "The paper explicitly executes it in all experiments.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "In all our experiments, we use instance-normalization and denormalization",
+          "justification": "It is not compared against alternatives.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "we use instance-normalization and denormalization (Kim et al., 2022) on the input and prediction, respectively.",
+          "justification": "This states its role in the paper.",
+          "value": "used on the input and prediction, respectively"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Reversible instance normalization for accurate time-series forecasting against distribution shift.",
+          "justification": "This is the cited reference title.",
+          "value": "Reversible instance normalization for accurate time-series forecasting against distribution shift"
+        }
+      },
+      {
+        "name": {
+          "quote": "channel-independence",
+          "justification": "The paper explicitly names the procedure for processing each variate independently.",
+          "value": "channel-independence"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "Following the protocol in the previous works (Zeng et al., 2023; Nie et al., 2023)",
+          "justification": "It is inherited from prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "MTST processes each x1:L,m independently ... This technique is termed channel-independence",
+          "justification": "MTST executes this procedure.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "However, MTST is not limited by channel-independence",
+          "justification": "No numerical comparison against channel-dependent processing is reported.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "MTST processes each x1:L,m independently to generate the output ... This technique is termed channel-independence",
+          "justification": "This directly states the procedure's role.",
+          "value": "processes each variate independently to generate the output"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "A time series is worth 64 words: Long-term forecasting with transformers.",
+          "justification": "PatchTST is one of the cited sources for this protocol.",
+          "value": "A time series is worth 64 words: Long-term forecasting with transformers"
+        }
+      },
+      {
+        "name": {
+          "quote": "grid search",
+          "justification": "The paper names grid search as its hyperparameter-selection procedure.",
+          "value": "grid search"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "We only perform grid search",
+          "justification": "Grid search is a standard prior procedure, not a contribution.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We only perform grid search for the number of layers, N ∈{1, 2, 3}, the number of branches, B∈{2, 3, 4}, and the patch-sizes",
+          "justification": "The paper explicitly executes grid search.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "We only perform grid search",
+          "justification": "No numerical comparison with another search algorithm is reported.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "grid search for the number of layers, N ∈{1, 2, 3}, the number of branches, B∈{2, 3, 4}, and the patch-sizes in different branches",
+          "justification": "This is the stated role.",
+          "value": "searches the number of layers, number of branches, and patch-sizes in different branches"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "We only perform grid search",
+          "justification": "No reference paper is cited for grid search.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "Wilcoxon signed rank test",
+          "justification": "This is the named statistical evaluation procedure.",
+          "value": "Wilcoxon signed rank test"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "Wilcoxon signed rank test (Wilcoxon, 1945)",
+          "justification": "It is cited prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We conduct the Wilcoxon signed rank test (Wilcoxon, 1945) with bootstrap sampling",
+          "justification": "The paper explicitly executes the test.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "we use ∗ to denote a significant difference",
+          "justification": "It evaluates top-two result differences rather than being compared against another testing algorithm.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "with significance level 5% on the top-2 results",
+          "justification": "This states the evaluation role.",
+          "value": "tests the top-2 results with significance level 5%"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Individual comparisons by ranking methods.",
+          "justification": "This is the cited Wilcoxon reference title.",
+          "value": "Individual comparisons by ranking methods"
+        }
+      },
+      {
+        "name": {
+          "quote": "bootstrap sampling",
+          "justification": "Bootstrap sampling is explicitly named as part of significance testing.",
+          "value": "bootstrap sampling"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "with bootstrap sampling",
+          "justification": "It is a standard evaluation procedure, not introduced here.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We conduct the Wilcoxon signed rank test (Wilcoxon, 1945) with bootstrap sampling",
+          "justification": "It is explicitly used.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "with bootstrap sampling with significance level 5%",
+          "justification": "It is not itself numerically compared to another procedure.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "with bootstrap sampling with significance level 5% on the top-2 results",
+          "justification": "This gives its role in the statistical evaluation.",
+          "value": "used with the Wilcoxon signed rank test on the top-2 results"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "with bootstrap sampling",
+          "justification": "No specific bootstrap reference is given.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "mean squared error (MSE)",
+          "justification": "MSE is the named training objective and evaluation metric.",
+          "value": "mean squared error (MSE)"
+        },
+        "aliases": [
+          "MSE"
+        ],
+        "is_contributed": {
+          "quote": "The forecasting performance of the model is assessed by computing the mean squared error (MSE)",
+          "justification": "MSE is a standard metric, not contributed.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "The model is trained ... to minimize the MSE loss over the training set.",
+          "justification": "MSE is executed as both objective and metric.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "The performance is measured by MSE and MAE",
+          "justification": "MSE is reported alongside MAE, but the procedures themselves are not algorithmically compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "trained ... to minimize the MSE loss over the training set",
+          "justification": "This is its main computational role.",
+          "value": "the loss minimized over the training set and a forecasting performance metric"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "mean squared error (MSE)",
+          "justification": "No reference paper is given.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "mean absolute error (MAE)",
+          "justification": "MAE is a named forecast evaluation metric.",
+          "value": "mean absolute error (MAE)"
+        },
+        "aliases": [
+          "MAE"
+        ],
+        "is_contributed": {
+          "quote": "mean absolute error (MAE)",
+          "justification": "MAE is a standard metric.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "The forecasting performance of the model is assessed by computing ... the mean absolute error (MAE)",
+          "justification": "The paper computes MAE.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "The performance is measured by MSE and MAE",
+          "justification": "MAE is reported, not compared as an algorithm.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "assessed by computing ... the mean absolute error (MAE) between the prediction and the ground truth on the test set",
+          "justification": "This states its role.",
+          "value": "assesses predictions against ground truth on the test set"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "mean absolute error (MAE)",
+          "justification": "No reference paper is given.",
+          "value": "unknown"
+        }
+      }
+    ],
+    "runs": [
+      {
+        "models": [
+          {
+            "name": "Multi-resolution Time-Series Transformer (MTST)",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Traffic",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Adam optimizer"
+          },
+          {
+            "name": "instance-normalization and denormalization"
+          },
+          {
+            "name": "channel-independence"
+          },
+          {
+            "name": "mean squared error (MSE)"
+          },
+          {
+            "name": "mean absolute error (MAE)"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "models are trained and evaluated for each prediction horizon independently",
+          "justification": "MTST is fitted independently for the four horizons.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "Traffic ... MTST ... # Epoch ... 68",
+          "justification": "Table 5 reports 68 epochs for the L=336, T=96 timing configuration.",
+          "value": "68"
+        },
+        "parameter_count": {
+          "quote": "unknown",
+          "justification": "No parameter count is stated for this run.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "with a single NVIDIA V100 GPU",
+          "justification": "The paper states the accelerator type.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "a single NVIDIA V100 GPU",
+          "justification": "The accelerator model is explicitly named.",
+          "value": "NVIDIA V100"
+        },
+        "accelerator_count": {
+          "quote": "a single NVIDIA V100 GPU",
+          "justification": "The paper explicitly states one GPU.",
+          "value": "1"
+        },
+        "precision": {
+          "quote": "All our experiments were conducted with these hardware devices.",
+          "justification": "No numerical precision is stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "a single NVIDIA V100 GPU",
+          "justification": "Single-GPU execution implies no multi-accelerator parallelism for this reported timing configuration.",
+          "value": [
+            "none"
+          ]
+        },
+        "duration": {
+          "quote": "Traffic ... MTST ... Total time(h) ... 9.707",
+          "justification": "Table 5 reports the total training time.",
+          "value": "9.707 hours"
+        },
+        "utilisation": {
+          "quote": "All our experiments were conducted with these hardware devices.",
+          "justification": "No utilization metric is reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "we repeat each experiment three times with different random seeds (2021, 2022, and 2023)",
+          "justification": "The repeated-seed MTST experiment uses three seeds.",
+          "value": [
+            {
+              "kind": "seed",
+              "count": 3,
+              "what": "different random seeds (2021, 2022, and 2023)"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "PatchTST",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Traffic",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "mean squared error (MSE)"
+          },
+          {
+            "name": "mean absolute error (MAE)"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "Training time (L=336, T =96).",
+          "justification": "This is a PatchTST training configuration.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "Traffic ... PatchTST ... # Epoch ... 77",
+          "justification": "Table 5 reports 77 epochs.",
+          "value": "77"
+        },
+        "parameter_count": {
+          "quote": "unknown",
+          "justification": "No parameter count is stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "with a single NVIDIA V100 GPU",
+          "justification": "The timing experiment used a GPU.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "a single NVIDIA V100 GPU",
+          "justification": "The model is explicitly named.",
+          "value": "NVIDIA V100"
+        },
+        "accelerator_count": {
+          "quote": "a single NVIDIA V100 GPU",
+          "justification": "The count is one.",
+          "value": "1"
+        },
+        "precision": {
+          "quote": "unknown",
+          "justification": "No precision is stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "a single NVIDIA V100 GPU",
+          "justification": "The reported configuration uses one GPU.",
+          "value": [
+            "none"
+          ]
+        },
+        "duration": {
+          "quote": "Traffic ... PatchTST ... Total time(h) ... 8.832",
+          "justification": "Table 5 reports the duration.",
+          "value": "8.832 hours"
+        },
+        "utilisation": {
+          "quote": "unknown",
+          "justification": "No utilization is reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "we repeat each experiment three times with different random seeds (2021, 2022, and 2023)",
+          "justification": "Table 7 includes three PatchTST seeds.",
+          "value": [
+            {
+              "kind": "seed",
+              "count": 3,
+              "what": "different random seeds (2021, 2022, and 2023)"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "Multi-resolution Time-Series Transformer (MTST)",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "ETTm2",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Adam optimizer"
+          },
+          {
+            "name": "instance-normalization and denormalization"
+          },
+          {
+            "name": "channel-independence"
+          },
+          {
+            "name": "mean squared error (MSE)"
+          },
+          {
+            "name": "mean absolute error (MAE)"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "models are trained and evaluated for each prediction horizon independently",
+          "justification": "MTST is trained.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "ETTm2 ... MTST ... # Epoch ... 28",
+          "justification": "Table 5 reports 28 epochs for L=336, T=96.",
+          "value": "28"
+        },
+        "parameter_count": {
+          "quote": "unknown",
+          "justification": "No count is stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "with a single NVIDIA V100 GPU",
+          "justification": "The run uses a GPU.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "a single NVIDIA V100 GPU",
+          "justification": "The model is named.",
+          "value": "NVIDIA V100"
+        },
+        "accelerator_count": {
+          "quote": "a single NVIDIA V100 GPU",
+          "justification": "One GPU is stated.",
+          "value": "1"
+        },
+        "precision": {
+          "quote": "unknown",
+          "justification": "No precision is stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "a single NVIDIA V100 GPU",
+          "justification": "Single accelerator.",
+          "value": [
+            "none"
+          ]
+        },
+        "duration": {
+          "quote": "ETTm2 ... MTST ... Total time(h) ... 0.543",
+          "justification": "Table 5 reports total time.",
+          "value": "0.543 hours"
+        },
+        "utilisation": {
+          "quote": "unknown",
+          "justification": "No utilization is reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "we repeat each experiment three times with different random seeds (2021, 2022, and 2023)",
+          "justification": "The repeated experiment uses three seeds.",
+          "value": [
+            {
+              "kind": "seed",
+              "count": 3,
+              "what": "different random seeds (2021, 2022, and 2023)"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "PatchTST",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "ETTm2",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "mean squared error (MSE)"
+          },
+          {
+            "name": "mean absolute error (MAE)"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "Training time (L=336, T =96).",
+          "justification": "This is a PatchTST training run.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "ETTm2 ... PatchTST ... # Epoch ... 28",
+          "justification": "Table 5 reports 28 epochs.",
+          "value": "28"
+        },
+        "parameter_count": {
+          "quote": "unknown",
+          "justification": "No parameter count is stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "with a single NVIDIA V100 GPU",
+          "justification": "GPU explicitly stated.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "a single NVIDIA V100 GPU",
+          "justification": "Model explicitly stated.",
+          "value": "NVIDIA V100"
+        },
+        "accelerator_count": {
+          "quote": "a single NVIDIA V100 GPU",
+          "justification": "One GPU.",
+          "value": "1"
+        },
+        "precision": {
+          "quote": "unknown",
+          "justification": "No precision stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "a single NVIDIA V100 GPU",
+          "justification": "Single accelerator.",
+          "value": [
+            "none"
+          ]
+        },
+        "duration": {
+          "quote": "ETTm2 ... PatchTST ... Total time(h) ... 0.489",
+          "justification": "Table 5 reports the total time.",
+          "value": "0.489 hours"
+        },
+        "utilisation": {
+          "quote": "unknown",
+          "justification": "No utilization is reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "we repeat each experiment three times with different random seeds (2021, 2022, and 2023)",
+          "justification": "Table 7 reports three PatchTST seeds.",
+          "value": [
+            {
+              "kind": "seed",
+              "count": 3,
+              "what": "different random seeds (2021, 2022, and 2023)"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "Multi-resolution Time-Series Transformer (MTST)",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Electricity",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Adam optimizer"
+          },
+          {
+            "name": "instance-normalization and denormalization"
+          },
+          {
+            "name": "channel-independence"
+          },
+          {
+            "name": "mean squared error (MSE)"
+          },
+          {
+            "name": "mean absolute error (MAE)"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "models are trained and evaluated for each prediction horizon independently",
+          "justification": "MTST is trained on Electricity.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "models are trained and evaluated",
+          "justification": "The paper does not state the epoch count for Electricity.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "unknown",
+          "justification": "No count stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "All our experiments were conducted with these hardware devices.",
+          "justification": "The listed experimental GPU is used.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "a single NVIDIA V100 GPU",
+          "justification": "The paper names V100.",
+          "value": "NVIDIA V100"
+        },
+        "accelerator_count": {
+          "quote": "a single NVIDIA V100 GPU",
+          "justification": "Count one.",
+          "value": "1"
+        },
+        "precision": {
+          "quote": "unknown",
+          "justification": "No precision stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "a single NVIDIA V100 GPU",
+          "justification": "Single-GPU setup.",
+          "value": [
+            "none"
+          ]
+        },
+        "duration": {
+          "quote": "unknown",
+          "justification": "No duration stated for Electricity.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "unknown",
+          "justification": "No utilization stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "we repeat each experiment three times with different random seeds (2021, 2022, and 2023)",
+          "justification": "The repeated MTST study used three seeds.",
+          "value": [
+            {
+              "kind": "seed",
+              "count": 3,
+              "what": "different random seeds (2021, 2022, and 2023)"
+            },
+            {
+              "kind": "variant",
+              "count": 4,
+              "what": "prediction horizon T ∈{96, 192, 336, 720}"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "Multi-resolution Time-Series Transformer (MTST)",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Weather",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Adam optimizer"
+          },
+          {
+            "name": "instance-normalization and denormalization"
+          },
+          {
+            "name": "channel-independence"
+          },
+          {
+            "name": "mean squared error (MSE)"
+          },
+          {
+            "name": "mean absolute error (MAE)"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "models are trained and evaluated for each prediction horizon independently",
+          "justification": "MTST is trained on Weather.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "a single NVIDIA V100 GPU",
+          "justification": "GPU stated for all experiments.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "a single NVIDIA V100 GPU",
+          "justification": "V100 stated.",
+          "value": "NVIDIA V100"
+        },
+        "accelerator_count": {
+          "quote": "a single NVIDIA V100 GPU",
+          "justification": "One GPU stated.",
+          "value": "1"
+        },
+        "precision": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "a single NVIDIA V100 GPU",
+          "justification": "Single GPU.",
+          "value": [
+            "none"
+          ]
+        },
+        "duration": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "we repeat each experiment three times with different random seeds (2021, 2022, and 2023)",
+          "justification": "Three seeds and four prediction-horizon variants are stated.",
+          "value": [
+            {
+              "kind": "seed",
+              "count": 3,
+              "what": "different random seeds (2021, 2022, and 2023)"
+            },
+            {
+              "kind": "variant",
+              "count": 4,
+              "what": "prediction horizon T ∈{96, 192, 336, 720}"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "Multi-resolution Time-Series Transformer (MTST)",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "ETTh1",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Adam optimizer"
+          },
+          {
+            "name": "instance-normalization and denormalization"
+          },
+          {
+            "name": "channel-independence"
+          },
+          {
+            "name": "mean squared error (MSE)"
+          },
+          {
+            "name": "mean absolute error (MAE)"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "models are trained and evaluated for each prediction horizon independently",
+          "justification": "MTST is trained on ETTh1.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "a single NVIDIA V100 GPU",
+          "justification": "GPU stated for all experiments.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "a single NVIDIA V100 GPU",
+          "justification": "V100 stated.",
+          "value": "NVIDIA V100"
+        },
+        "accelerator_count": {
+          "quote": "a single NVIDIA V100 GPU",
+          "justification": "One GPU stated.",
+          "value": "1"
+        },
+        "precision": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "a single NVIDIA V100 GPU",
+          "justification": "Single GPU.",
+          "value": [
+            "none"
+          ]
+        },
+        "duration": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "we repeat each experiment three times with different random seeds (2021, 2022, and 2023)",
+          "justification": "Three seeds and four main horizons are stated.",
+          "value": [
+            {
+              "kind": "seed",
+              "count": 3,
+              "what": "different random seeds (2021, 2022, and 2023)"
+            },
+            {
+              "kind": "variant",
+              "count": 4,
+              "what": "prediction horizon T ∈{96, 192, 336, 720}"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "Multi-resolution Time-Series Transformer (MTST)",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "ETTh2",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Adam optimizer"
+          },
+          {
+            "name": "instance-normalization and denormalization"
+          },
+          {
+            "name": "channel-independence"
+          },
+          {
+            "name": "mean squared error (MSE)"
+          },
+          {
+            "name": "mean absolute error (MAE)"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "models are trained and evaluated for each prediction horizon independently",
+          "justification": "MTST is trained on ETTh2.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "a single NVIDIA V100 GPU",
+          "justification": "GPU stated.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "a single NVIDIA V100 GPU",
+          "justification": "V100 stated.",
+          "value": "NVIDIA V100"
+        },
+        "accelerator_count": {
+          "quote": "a single NVIDIA V100 GPU",
+          "justification": "One GPU.",
+          "value": "1"
+        },
+        "precision": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "a single NVIDIA V100 GPU",
+          "justification": "Single GPU.",
+          "value": [
+            "none"
+          ]
+        },
+        "duration": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "we repeat each experiment three times with different random seeds (2021, 2022, and 2023)",
+          "justification": "Three seeds and four horizons are stated.",
+          "value": [
+            {
+              "kind": "seed",
+              "count": 3,
+              "what": "different random seeds (2021, 2022, and 2023)"
+            },
+            {
+              "kind": "variant",
+              "count": 4,
+              "what": "prediction horizon T ∈{96, 192, 336, 720}"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "Multi-resolution Time-Series Transformer (MTST)",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "ETTm1",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Adam optimizer"
+          },
+          {
+            "name": "instance-normalization and denormalization"
+          },
+          {
+            "name": "channel-independence"
+          },
+          {
+            "name": "mean squared error (MSE)"
+          },
+          {
+            "name": "mean absolute error (MAE)"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "models are trained and evaluated for each prediction horizon independently",
+          "justification": "MTST is trained on ETTm1.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "a single NVIDIA V100 GPU",
+          "justification": "GPU stated.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "a single NVIDIA V100 GPU",
+          "justification": "V100 stated.",
+          "value": "NVIDIA V100"
+        },
+        "accelerator_count": {
+          "quote": "a single NVIDIA V100 GPU",
+          "justification": "One GPU.",
+          "value": "1"
+        },
+        "precision": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "a single NVIDIA V100 GPU",
+          "justification": "Single GPU.",
+          "value": [
+            "none"
+          ]
+        },
+        "duration": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "we repeat each experiment three times with different random seeds (2021, 2022, and 2023)",
+          "justification": "Three seeds and four horizons are stated.",
+          "value": [
+            {
+              "kind": "seed",
+              "count": 3,
+              "what": "different random seeds (2021, 2022, and 2023)"
+            },
+            {
+              "kind": "variant",
+              "count": 4,
+              "what": "prediction horizon T ∈{96, 192, 336, 720}"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "Multi-resolution Time-Series Transformer (MTST)",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "influenza-like illness (ILI) dataset",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Adam optimizer"
+          },
+          {
+            "name": "instance-normalization and denormalization"
+          },
+          {
+            "name": "channel-independence"
+          },
+          {
+            "name": "mean squared error (MSE)"
+          },
+          {
+            "name": "mean absolute error (MAE)"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "We conduct the experiments ... prediction horizon T ∈{24, 36, 48, 60}",
+          "justification": "MTST is trained and evaluated on ILI for four horizons.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "unknown",
+          "justification": "No ILI epoch count is stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "unknown",
+          "justification": "No parameter count is stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "All our experiments were conducted with these hardware devices.",
+          "justification": "The all-experiments statement applies the V100 setup.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "a single NVIDIA V100 GPU",
+          "justification": "V100 is explicitly named.",
+          "value": "NVIDIA V100"
+        },
+        "accelerator_count": {
+          "quote": "a single NVIDIA V100 GPU",
+          "justification": "One GPU is stated.",
+          "value": "1"
+        },
+        "precision": {
+          "quote": "unknown",
+          "justification": "No precision is stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "a single NVIDIA V100 GPU",
+          "justification": "Single GPU.",
+          "value": [
+            "none"
+          ]
+        },
+        "duration": {
+          "quote": "unknown",
+          "justification": "No ILI duration is stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "unknown",
+          "justification": "No utilization is stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "prediction horizon T ∈{24, 36, 48, 60}",
+          "justification": "The model is trained independently for four horizon variants; no seed count is stated for ILI.",
+          "value": [
+            {
+              "kind": "variant",
+              "count": 4,
+              "what": "prediction horizon T ∈{24, 36, 48, 60}"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "MICN",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Traffic",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          },
+          {
+            "name": "Electricity",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          },
+          {
+            "name": "Weather",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          },
+          {
+            "name": "ETTh1",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          },
+          {
+            "name": "ETTh2",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          },
+          {
+            "name": "ETTm1",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          },
+          {
+            "name": "ETTm2",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          },
+          {
+            "name": "influenza-like illness (ILI) dataset",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "mean squared error (MSE)"
+          },
+          {
+            "name": "mean absolute error (MAE)"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "we re-run TimesNet and MICN with a look back window L = 336",
+          "justification": "The authors execute MICN training/evaluation across the named benchmark datasets; the source-specific executions share the stated hardware profile but are distinct dataset configurations.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "unknown",
+          "justification": "No MICN epoch count is stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "unknown",
+          "justification": "No parameter count is stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "All our experiments were conducted with these hardware devices.",
+          "justification": "The all-experiments hardware statement applies.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "a single NVIDIA V100 GPU",
+          "justification": "V100 stated.",
+          "value": "NVIDIA V100"
+        },
+        "accelerator_count": {
+          "quote": "a single NVIDIA V100 GPU",
+          "justification": "One GPU stated.",
+          "value": "1"
+        },
+        "precision": {
+          "quote": "unknown",
+          "justification": "No precision stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "a single NVIDIA V100 GPU",
+          "justification": "Single GPU.",
+          "value": [
+            "none"
+          ]
+        },
+        "duration": {
+          "quote": "unknown",
+          "justification": "No MICN duration stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "unknown",
+          "justification": "No utilization stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "prediction horizon T ∈{96, 192, 336, 720}",
+          "justification": "Four independently evaluated horizons are stated for the seven main datasets; ILI likewise uses four horizons, but no seed count is given.",
+          "value": [
+            {
+              "kind": "variant",
+              "count": 4,
+              "what": "prediction horizons"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "TimesNet",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Traffic",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          },
+          {
+            "name": "Electricity",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          },
+          {
+            "name": "Weather",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          },
+          {
+            "name": "ETTh1",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          },
+          {
+            "name": "ETTh2",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          },
+          {
+            "name": "ETTm1",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          },
+          {
+            "name": "ETTm2",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          },
+          {
+            "name": "influenza-like illness (ILI) dataset",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "mean squared error (MSE)"
+          },
+          {
+            "name": "mean absolute error (MAE)"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "we re-run TimesNet and MICN with a look back window L = 336",
+          "justification": "TimesNet was reproduced on the benchmark datasets.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "unknown",
+          "justification": "No TimesNet epoch count stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "unknown",
+          "justification": "No parameter count stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "All our experiments were conducted with these hardware devices.",
+          "justification": "The hardware statement applies.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "a single NVIDIA V100 GPU",
+          "justification": "V100 stated.",
+          "value": "NVIDIA V100"
+        },
+        "accelerator_count": {
+          "quote": "a single NVIDIA V100 GPU",
+          "justification": "One GPU.",
+          "value": "1"
+        },
+        "precision": {
+          "quote": "unknown",
+          "justification": "No precision stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "a single NVIDIA V100 GPU",
+          "justification": "Single GPU.",
+          "value": [
+            "none"
+          ]
+        },
+        "duration": {
+          "quote": "unknown",
+          "justification": "No duration stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "unknown",
+          "justification": "No utilization stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "prediction horizon T ∈{96, 192, 336, 720}",
+          "justification": "Four horizon variants are evaluated; no seed repetitions are stated.",
+          "value": [
+            {
+              "kind": "variant",
+              "count": 4,
+              "what": "prediction horizons"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "DLinear",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Traffic",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          },
+          {
+            "name": "Electricity",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          },
+          {
+            "name": "Weather",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          },
+          {
+            "name": "ETTh1",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          },
+          {
+            "name": "ETTh2",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          },
+          {
+            "name": "ETTm1",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          },
+          {
+            "name": "ETTm2",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "mean squared error (MSE)"
+          },
+          {
+            "name": "mean absolute error (MAE)"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "DLinear, which is reproduced for L=96.",
+          "justification": "The authors execute DLinear on the L=96 benchmark configurations.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "unknown",
+          "justification": "No epoch count stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "unknown",
+          "justification": "No parameter count stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "All our experiments were conducted with these hardware devices.",
+          "justification": "The hardware statement applies.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "a single NVIDIA V100 GPU",
+          "justification": "V100 stated.",
+          "value": "NVIDIA V100"
+        },
+        "accelerator_count": {
+          "quote": "a single NVIDIA V100 GPU",
+          "justification": "One GPU.",
+          "value": "1"
+        },
+        "precision": {
+          "quote": "unknown",
+          "justification": "No precision stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "a single NVIDIA V100 GPU",
+          "justification": "Single GPU.",
+          "value": [
+            "none"
+          ]
+        },
+        "duration": {
+          "quote": "unknown",
+          "justification": "No duration stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "unknown",
+          "justification": "No utilization stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "T ∈{96, 192, 336, 720}",
+          "justification": "Four prediction horizons were reproduced at L=96.",
+          "value": [
+            {
+              "kind": "variant",
+              "count": 4,
+              "what": "prediction horizon T ∈{96, 192, 336, 720}"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "w/o Low-RES.",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "ETTh1",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          },
+          {
+            "name": "ETTh2",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          },
+          {
+            "name": "ETTm1",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          },
+          {
+            "name": "Weather",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          },
+          {
+            "name": "Traffic",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Adam optimizer"
+          },
+          {
+            "name": "instance-normalization and denormalization"
+          },
+          {
+            "name": "mean squared error (MSE)"
+          },
+          {
+            "name": "mean absolute error (MAE)"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "under the same setup of the main experiment",
+          "justification": "The ablation model is trained under the main setup.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "unknown",
+          "justification": "No ablation epoch count stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "unknown",
+          "justification": "No parameter count stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "All our experiments were conducted with these hardware devices.",
+          "justification": "GPU hardware applies.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "a single NVIDIA V100 GPU",
+          "justification": "V100 stated.",
+          "value": "NVIDIA V100"
+        },
+        "accelerator_count": {
+          "quote": "a single NVIDIA V100 GPU",
+          "justification": "One GPU.",
+          "value": "1"
+        },
+        "precision": {
+          "quote": "unknown",
+          "justification": "No precision stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "a single NVIDIA V100 GPU",
+          "justification": "Single GPU.",
+          "value": [
+            "none"
+          ]
+        },
+        "duration": {
+          "quote": "unknown",
+          "justification": "No duration stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "unknown",
+          "justification": "No utilization stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "5 datasets ... under the same setup of the main experiment",
+          "justification": "Four horizon settings per dataset are shown; no seed count is stated for this ablation.",
+          "value": [
+            {
+              "kind": "variant",
+              "count": 4,
+              "what": "prediction horizons 96, 192, 336, and 720"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "w/o High-RES.",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "ETTh1",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          },
+          {
+            "name": "ETTh2",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          },
+          {
+            "name": "ETTm1",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          },
+          {
+            "name": "Weather",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          },
+          {
+            "name": "Traffic",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Adam optimizer"
+          },
+          {
+            "name": "instance-normalization and denormalization"
+          },
+          {
+            "name": "mean squared error (MSE)"
+          },
+          {
+            "name": "mean absolute error (MAE)"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "under the same setup of the main experiment",
+          "justification": "The ablation model is trained.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "unknown",
+          "justification": "No epoch count stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "unknown",
+          "justification": "No parameter count stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "All our experiments were conducted with these hardware devices.",
+          "justification": "GPU hardware applies.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "a single NVIDIA V100 GPU",
+          "justification": "V100 stated.",
+          "value": "NVIDIA V100"
+        },
+        "accelerator_count": {
+          "quote": "a single NVIDIA V100 GPU",
+          "justification": "One GPU.",
+          "value": "1"
+        },
+        "precision": {
+          "quote": "unknown",
+          "justification": "No precision stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "a single NVIDIA V100 GPU",
+          "justification": "Single GPU.",
+          "value": [
+            "none"
+          ]
+        },
+        "duration": {
+          "quote": "unknown",
+          "justification": "No duration stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "unknown",
+          "justification": "No utilization stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "5 datasets ... under the same setup of the main experiment",
+          "justification": "Four horizon settings are shown; no seed count is stated.",
+          "value": [
+            {
+              "kind": "variant",
+              "count": 4,
+              "what": "prediction horizons 96, 192, 336, and 720"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "usage": {
+    "input_tokens": 34059,
+    "output_tokens": 16976,
+    "total_tokens": 51035
+  }
+}

@@ -33,6 +33,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 from collections import Counter
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -70,6 +71,23 @@ class Finding:
         return out
 
 
+def _raw_names(entries: Iterable[Any]) -> set[str]:
+    """Names and aliases **as written**, before normalisation.
+
+    The stem pass needs these, because `str_normalize` strips the separators and
+    leaves nothing to tokenise.
+    """
+    out: set[str] = set()
+    for entry in entries or []:
+        name = getattr(getattr(entry, "name", None), "value", "") or ""
+        if name.strip():
+            out.add(name)
+        for alias in getattr(entry, "aliases", None) or []:
+            if alias.strip():
+                out.add(alias)
+    return out
+
+
 def _names(entries: Iterable[Any]) -> set[str]:
     """Normalised name plus written aliases for every entry in a list."""
     out: set[str] = set()
@@ -88,6 +106,54 @@ def _value(obj: Any, attr: str) -> Any:
     got = getattr(obj, attr, None)
     got = getattr(got, "value", got)
     return getattr(got, "value", got)
+
+
+#: Tokens too generic to carry a region on their own, so a shared one of these
+#: is not evidence of anything.
+_STOPWORDS = frozenset(
+    {
+        "the",
+        "a",
+        "of",
+        "and",
+        "with",
+        "for",
+        "on",
+        "in",
+        "to",
+        "by",
+        "based",
+        "method",
+        "model",
+        "algorithm",
+        "learning",
+        "search",
+        "network",
+        "data",
+        "loss",
+        "function",
+        "score",
+        "test",
+        "set",
+    }
+)
+
+
+def _stems(name: str) -> set[str]:
+    """Content tokens of a name, crudely stemmed, for DETECTION ONLY.
+
+    Never used to place a name on a node. It exists because the region probes
+    ask "did this region come back", and exact matching answered "which node is
+    this" -- reporting the evaluation region as empty while the extraction held
+    `10-fold cross-validation` against a node spelled `k-fold`.
+    """
+    tokens = re.split(r"[^a-z0-9]+", name.lower())
+    out = set()
+    for token in tokens:
+        if len(token) < 4 or token in _STOPWORDS or token.isdigit():
+            continue
+        out.add(token[:-1] if token.endswith("s") and len(token) > 4 else token)
+    return out
 
 
 #: What "the paper did not say" looks like once unwrapped.
@@ -121,9 +187,15 @@ class Corpus:
 
     papers: dict[str, Any] = field(default_factory=dict)
 
+    #: Files that were found but did not validate against any model version.
+    skipped: list[str] = field(default_factory=list)
+
     @classmethod
     def load(cls, paths: Iterable[Path]) -> Corpus:
-        return cls({path.stem: ex for path, ex in iter_extractions(paths)})
+        paths = list(paths)
+        papers = {path.stem: ex for path, ex in iter_extractions(paths)}
+        skipped = sorted({p.stem for p in paths} - set(papers))
+        return cls(papers, skipped)
 
     def where(self, slot: str, *wanted: str) -> list[str]:
         """Papers whose ``slot`` names any of ``wanted`` (exact, normalised)."""
@@ -269,23 +341,86 @@ def probes(corpus: Corpus, probe_sets: dict[str, Any]) -> list[Finding]:
             if _names(ex.algorithms) & want
         }
         found = sorted({n for ns in hits.values() for n in ns})
+
+        # A second, DETECTION-ONLY pass. Exact matching is the right rule for
+        # resolution -- similarity is what paired `gpt-j` with `GPT-4` -- but as
+        # a probe it answers the wrong question: it asks "which node is this"
+        # when the region check only asks "did anything in this region come
+        # back". It gave a FALSE NEGATIVE on real output: openai returned
+        # `10-fold cross-validation`, `five-fold cross-validation` and `95%
+        # stratified bootstrap CIs` while the probe reported the evaluation
+        # region as zero, because the node is spelled `k-fold cross-validation`.
+        # Batch 1 passed only because Anthropic happened to emit that exact
+        # string. These counts never place a name on a node; the exact set above
+        # is still the only thing that does.
+        # Stems come from the names AS WRITTEN, not their normalised forms:
+        # `str_normalize` strips the separators, so a normalised
+        # `kfoldcrossvalidation` has no tokens left and the first version of
+        # this pass silently matched nothing -- the same bug it was added to
+        # fix, one layer down.
+        stems: set[str] = set()
+        for entry in entries:
+            stems |= _stems(entry["name"])
+            for surface in entry["surfaces"]:
+                stems |= _stems(surface)
+        near: dict[str, list[str]] = {}
+        for paper, ex in corpus.papers.items():
+            if paper in hits:
+                continue
+            # Two shared content tokens, not one: one is a coincidence.
+            loose = sorted(
+                n for n in _raw_names(ex.algorithms) if len(_stems(n) & stems) >= 2
+            )
+            if loose:
+                near[paper] = loose
         out.append(
             Finding(
                 kind="PROBE",
                 name=f"{region} is non-zero",
+                # Exact matching only. A near match cannot flip this: the stem
+                # pass is noisy -- it offered `AGRE-KD` for the evaluation
+                # region -- and the two outcomes have DIFFERENT causes, which a
+                # single PASS would merge. See the companion finding.
                 ok=bool(hits),
                 detail=(
-                    f"{len(hits)} papers, {len(found)} distinct names, against a "
-                    f"probe of {len(entries)} nodes / {len(want)} surfaces"
-                    + (f": {', '.join(found[:8])}" if found else "")
+                    f"{len(hits)} papers by exact name, {len(found)} distinct, "
+                    f"against a probe of {len(entries)} nodes / {len(want)} "
+                    "surfaces" + (f": {', '.join(found[:6])}" if found else "")
                 ),
                 reading=(
-                    "Zero means the widened scope never reached the prompt. The "
-                    "finding is about the prompt's SCOPE STATEMENT, not its "
-                    "vocabulary -- #103 section 5. Do NOT fix this by handing "
-                    "the extractor a closed list; that makes #99 circular."
+                    "READ THE COMPANION FINDING FIRST. Zero exact matches AND "
+                    "zero near matches means the widened scope never reached "
+                    "the prompt, which is about the prompt's SCOPE STATEMENT "
+                    "and never its vocabulary (#103 section 5) -- do NOT hand "
+                    "the extractor a closed list, which makes #99 circular. "
+                    "Zero exact matches WITH near matches is the opposite "
+                    "finding: the prompt worked and the ontology has no "
+                    "spelling for what came back."
                 ),
                 papers=sorted(hits),
+            )
+        )
+        out.append(
+            Finding(
+                kind="MEASURE",
+                name=f"{region}: region-shaped names matching no node",
+                ok=None,
+                detail=(
+                    f"{len(near)} papers: "
+                    + (
+                        ", ".join(sorted({n for ns in near.values() for n in ns})[:6])
+                        if near
+                        else "none"
+                    )
+                    + ". DETECTION ONLY and noisy -- two shared content tokens, "
+                    "never a placement. Its job is to tell an empty region "
+                    "apart from one the ontology cannot spell: openai returned "
+                    "`10-fold cross-validation` and `95% stratified bootstrap "
+                    "CIs` while the exact probe read zero, because the node is "
+                    "spelled `k-fold cross-validation`. Those are "
+                    "normalisation gaps for #99, not prompt defects"
+                ),
+                papers=sorted(near),
             )
         )
     return out
@@ -513,9 +648,42 @@ def consistency(corpus: Corpus) -> list[Finding]:
     ]
 
 
+def loaded(corpus: Corpus) -> list[Finding]:
+    """How many files actually parsed.
+
+    Separate from the file count because they diverge and the divergence is
+    invisible: after `repetitions` became a factor list, 23 of the 25 batch-1
+    extractions stopped validating, and the report still opened with "25
+    extraction files" while every measurement below it came from the 2 papers
+    that happened to have no runs. A header that overstates the corpus turns
+    every number under it into a false reading.
+    """
+    return [
+        Finding(
+            kind="CHECK",
+            name="every file found was readable",
+            ok=not corpus.skipped,
+            detail=(
+                f"{len(corpus.papers)} loaded, {len(corpus.skipped)} skipped"
+                + (
+                    " -- EVERY MEASUREMENT BELOW EXCLUDES THE SKIPPED FILES"
+                    if corpus.skipped
+                    else ""
+                )
+            ),
+            reading=(
+                "a skipped file validated against no model version. Usually a "
+                "schema change the file predates, or a truncated write"
+            ),
+            papers=corpus.skipped[:12],
+        )
+    ]
+
+
 def run(paths: Iterable[Path], probe_sets: dict[str, Any]) -> list[Finding]:
     corpus = Corpus.load(paths)
     return [
+        *loaded(corpus),
         *acceptance(corpus),
         *probes(corpus, probe_sets),
         *consistency(corpus),
@@ -558,7 +726,7 @@ def main(argv: list[str] | None = None) -> int:
         )
         return 0
 
-    print(f"{len(files)} extraction files\n")
+    print(f"{len(files)} extraction files found\n")
     for finding in findings:
         print(finding)
         print()

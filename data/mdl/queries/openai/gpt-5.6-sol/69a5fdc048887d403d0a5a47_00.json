@@ -1,0 +1,2566 @@
+{
+  "paper": "69a5fdc048887d403d0a5a47.txt",
+  "words": 7441,
+  "extractions": {
+    "title": {
+      "quote": "Handling Delay in Reinforcement Learning Caused by Parallel Computations of Neurons",
+      "justification": "The title appears at the beginning of the paper.",
+      "value": "Handling Delay in Reinforcement Learning Caused by Parallel Computations of Neurons"
+    },
+    "description": "An empirical computational study of reinforcement-learning agents whose neural layers execute in parallel, including delayed-agent training across MuJoCo and MinAtar environments and GPU/CPU inference-speed benchmarks.",
+    "type": {
+      "quote": "We perform our main experiments on Mujoco (Todorov et al., 2012) and MiniAtar (Young & Tian, 2019) environments",
+      "justification": "The paper trains and evaluates agents and measures inference speed on hardware.",
+      "value": "empirical"
+    },
+    "research_fields": [
+      {
+        "name": {
+          "quote": "we introduce a new problem in reinforcement learning (RL): training an RL agent in the presence of delay caused by the parallel execution of neurons.",
+          "justification": "The paper explicitly frames its contribution as a reinforcement-learning problem.",
+          "value": "reinforcement learning"
+        },
+        "aliases": [
+          "RL"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "We explore the trade-off between delay and network expressivity and investigate various types of skip connections to find an optimal balance.",
+          "justification": "Handling delay in neural policies is a central research contribution.",
+          "value": "delay in reinforcement learning"
+        },
+        "aliases": [
+          "Delay in RL"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "Estimating speed-up on modern hardware. ... we demonstrate that significant speed-up can also be achieved on common modern hardware, such as GPU, by executing each layer in parallel.",
+          "justification": "The paper contributes an empirical analysis of parallel neural inference.",
+          "value": "parallel execution of neurons (or layers)"
+        },
+        "aliases": [
+          "parallel computations of neurons"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "Moreover, neuromorphic computing inherently utilizes such a speed-up.",
+          "justification": "Neuromorphic computing motivates the setup, but the experiments use conventional GPU and CPU hardware.",
+          "value": "neuromorphic computing"
+        },
+        "aliases": [],
+        "role": "referenced"
+      }
+    ],
+    "models": [
+      {
+        "name": {
+          "quote": "Init an actor and a critic with random parameters.",
+          "justification": "The actor is a learned policy network trained in the coupled actor-critic loop.",
+          "value": "actor"
+        },
+        "aliases": [
+          "Actor"
+        ],
+        "is_contributed": {
+          "quote": "our actor is trained within the in-parallel execution framework",
+          "justification": "The delayed, parallel-execution actor and its architectural variants are part of the paper's contribution.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "We used A100SXM4 GPU for training all our methods.",
+          "justification": "The actor was trained and evaluated in the reported experiments.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Fig. 7 compares agents with different skip connections.",
+          "justification": "Actor architectures are compared numerically.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "our actor is trained within the in-parallel execution framework by unrolling on sub-trajectories sampled from the buffer",
+          "justification": "The actor is trained rather than only inferred.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "The generic actor model is not attributed to one reference paper.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "Init an actor and a critic with random parameters.",
+          "justification": "The critic is a separately parameterized learned network jointly optimized with the actor.",
+          "value": "critic"
+        },
+        "aliases": [
+          "Q-network"
+        ],
+        "is_contributed": {
+          "quote": "While the critic is trained online without delay, our actor is trained within the in-parallel execution framework",
+          "justification": "The critic itself is standard rather than a contributed model.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Sample transition {si, ai, ri, si+1} from the buffer and update the critic on it.",
+          "justification": "The paper explicitly trains the critic.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Our Q-network shares the same architecture as the actor.",
+          "justification": "The critic participates in compared agent runs, though it is not independently benchmarked.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "the critic is trained online without delay",
+          "justification": "The critic is trained in the actor-critic loop.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "No separate reference paper is given for this generic model.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "we use a three-layer neural network with ReLU activation.",
+          "justification": "This is the principal MuJoCo actor architecture.",
+          "value": "three-layer neural network"
+        },
+        "aliases": [
+          "three layers"
+        ],
+        "is_contributed": {
+          "quote": "we use a three-layer neural network with ReLU activation.",
+          "justification": "The base network is not itself introduced as a new learned model.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "These architectures outperform three baseline agents without skip-connections with different depth",
+          "justification": "The architecture was trained and evaluated.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "These architectures outperform three baseline agents without skip-connections with different depth",
+          "justification": "It is numerically compared with other depths and skip-connection variants.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "We train our agents using SAC for Mujoco",
+          "justification": "The model was trained.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "No reference paper is attached to this architecture.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "Our actor employs a 3-layer Convolutional Neural Network (CNN) followed by one fully connected layer.",
+          "justification": "This is the MinAtar actor model.",
+          "value": "3-layer Convolutional Neural Network (CNN) followed by one fully connected layer"
+        },
+        "aliases": [
+          "default CNN"
+        ],
+        "is_contributed": {
+          "quote": "Comparison between different skip connections and default CNN without skip connections.",
+          "justification": "The default CNN is a baseline architecture, not a contribution.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Our actor employs a 3-layer Convolutional Neural Network (CNN) followed by one fully connected layer.",
+          "justification": "The model is used in the MinAtar experiments.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Comparison between different skip connections and default CNN without skip connections.",
+          "justification": "It is numerically compared with skip-connection architectures.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "Best average returns after 5 million training steps on MinAtar games.",
+          "justification": "The CNN agent was trained.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "No reference paper is specified for this architecture.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "the agent with projections from observation demonstrates the most robust performance across Mujoco environments.",
+          "justification": "This is a named contributed actor variant.",
+          "value": "agent with projections from observation"
+        },
+        "aliases": [
+          "w/ projections from observation",
+          "w/ projections from observations"
+        ],
+        "is_contributed": {
+          "quote": "we study ... projections from the observation to every hidden representation",
+          "justification": "This architecture is investigated as the paper's solution to delay.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "the actor with projections from observation performs stronger or the same against agents without any skip connections and RLRD",
+          "justification": "The variant was trained and evaluated.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Fig. 7 compares agents with different skip connections.",
+          "justification": "The variant is numerically compared across environments and execution times.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "the agent with projections from observation ... trained with SAC",
+          "justification": "It is trained with SAC.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "This is a model variant contributed in this paper.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "w/ projections to action",
+          "justification": "This exact label identifies another actor architecture in figures and tables.",
+          "value": "w/ projections to action"
+        },
+        "aliases": [
+          "agent with projections to action"
+        ],
+        "is_contributed": {
+          "quote": "we study ... projections from every hidden representation to the action space",
+          "justification": "This architecture is studied as part of the proposed solution.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "The agent with skip connections (w/ projections to action) performs significantly better in both games",
+          "justification": "It is trained and evaluated on MinAtar and MuJoCo.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Comparison between different skip connections and default CNN without skip connections.",
+          "justification": "It is numerically compared to other architectures.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "Best average returns after 5 million training steps on MinAtar games.",
+          "justification": "The model was trained.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "This is a model variant introduced in this paper.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "w/ residuals & projections to action",
+          "justification": "This exact label identifies a tested actor architecture.",
+          "value": "w/ residuals & projections to action"
+        },
+        "aliases": [
+          "w/ res & proj to action"
+        ],
+        "is_contributed": {
+          "quote": "we study different types of skip connections, such as residual connections, projections from every hidden representation to the action space",
+          "justification": "This combined skip-connection architecture is part of the paper's contribution.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "Comparison between different skip connections and default CNN without skip connections.",
+          "justification": "It is trained and evaluated in the experiments.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Fig. 7 compares agents with different skip connections.",
+          "justification": "The model is numerically compared.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "Best average returns after 5 million training steps on MinAtar games.",
+          "justification": "The model was trained.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "This is a model variant introduced in this paper.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "use an LSTM",
+          "justification": "An LSTM is tested in an observation-delay ablation.",
+          "value": "LSTM"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "However the LSTM did not yield good results in Mujoco environments with delay.",
+          "justification": "LSTM is an existing model type used as an ablation.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "However the LSTM did not yield good results in Mujoco environments with delay.",
+          "justification": "A reported result indicates it was executed.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Augmenting the state with previous actions resulted in better performance ... However the LSTM did not yield good results",
+          "justification": "It is qualitatively compared with action-history augmentation.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "we augmented observations with the two previous actions or use an LSTM.",
+          "justification": "It is used in agent training.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "No LSTM reference is supplied in the paper.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "a vanilla SAC HalfCheetah policy, which achieved a return of 11,000",
+          "justification": "This is the learned teacher policy in the distillation experiment.",
+          "value": "vanilla SAC HalfCheetah policy"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "We attempted to distill ... a vanilla SAC HalfCheetah policy",
+          "justification": "The teacher is a standard SAC policy, not a contributed model.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "a vanilla SAC HalfCheetah policy, which achieved a return of 11,000",
+          "justification": "It was run to supply behavior for distillation and had a reported return.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "The distilled agent’s performance was 7590 ± 93, compared to the delayed agent trained with SAC, which achieved 7892 ± 378.",
+          "justification": "The resulting policy is involved in a numerical comparison.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "We attempted to distill ... a vanilla SAC HalfCheetah policy ... into our agent",
+          "justification": "Within the distillation stage, this trained policy is used as a frozen teacher for inference.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "Soft actor-critic algorithms and applications.",
+          "justification": "SAC is attributed to Haarnoja et al. (2018) in the references.",
+          "value": "Soft actor-critic algorithms and applications"
+        }
+      },
+      {
+        "name": {
+          "quote": "a deep Multilayer Perceptron (MLP)",
+          "justification": "This is the model used for inference-speed benchmarks.",
+          "value": "deep Multilayer Perceptron (MLP)"
+        },
+        "aliases": [
+          "MLP"
+        ],
+        "is_contributed": {
+          "quote": "The tests were conducted on a deep Multilayer Perceptron (MLP)",
+          "justification": "The MLP is a benchmark model, not a new model contribution.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "The tests were conducted on a deep Multilayer Perceptron (MLP)",
+          "justification": "It was executed in GPU and CPU timing tests.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Fig. 1 illustrates the percentage improvement in inference speed as the number of layers increases across different hardware configurations.",
+          "justification": "Sequential and parallel MLP inference configurations are compared numerically.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "observing significant improvements in inference time",
+          "justification": "The benchmark executes forward inference only.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "No reference paper is attached to the benchmark MLP.",
+          "value": "unknown"
+        }
+      }
+    ],
+    "data_sources": [
+      {
+        "name": {
+          "quote": "We present results on four Mujoco environments, HalfCheetah-v4, Walker2d-v4, Ant-v4, and Hopper-v4",
+          "justification": "HalfCheetah-v4 is a named interactive environment used for training and evaluation.",
+          "value": "HalfCheetah-v4"
+        },
+        "aliases": [
+          "Halfcheetah-v4"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "Mujoco average returns after 1mln states of training",
+          "justification": "The paper states that MuJoCo agents were trained for 1 million states.",
+          "value": "1mln states of training"
+        },
+        "derived_from": [
+          "Mujoco"
+        ],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "Mujoco: A physics engine for model-based control.",
+          "justification": "The environment family is cited to Todorov et al. (2012).",
+          "value": "Mujoco: A physics engine for model-based control"
+        }
+      },
+      {
+        "name": {
+          "quote": "HalfCheetah-v4, Walker2d-v4, Ant-v4, and Hopper-v4",
+          "justification": "Walker2d-v4 is a named interactive environment used in experiments.",
+          "value": "Walker2d-v4"
+        },
+        "aliases": [
+          "Walker"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "Mujoco average returns after 1mln states of training",
+          "justification": "The paper states the MuJoCo training workload.",
+          "value": "1mln states of training"
+        },
+        "derived_from": [
+          "Mujoco"
+        ],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "Mujoco: A physics engine for model-based control.",
+          "justification": "The environment family is cited to Todorov et al. (2012).",
+          "value": "Mujoco: A physics engine for model-based control"
+        }
+      },
+      {
+        "name": {
+          "quote": "HalfCheetah-v4, Walker2d-v4, Ant-v4, and Hopper-v4",
+          "justification": "Ant-v4 is a named interactive environment used in experiments.",
+          "value": "Ant-v4"
+        },
+        "aliases": [],
+        "role": "used",
+        "size": {
+          "quote": "Mujoco average returns after 1mln states of training",
+          "justification": "The paper states the MuJoCo training workload.",
+          "value": "1mln states of training"
+        },
+        "derived_from": [
+          "Mujoco"
+        ],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "Mujoco: A physics engine for model-based control.",
+          "justification": "The environment family is cited to Todorov et al. (2012).",
+          "value": "Mujoco: A physics engine for model-based control"
+        }
+      },
+      {
+        "name": {
+          "quote": "HalfCheetah-v4, Walker2d-v4, Ant-v4, and Hopper-v4",
+          "justification": "Hopper-v4 is a named interactive environment used in experiments.",
+          "value": "Hopper-v4"
+        },
+        "aliases": [
+          "Hopper"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "Mujoco average returns after 1mln states of training",
+          "justification": "The paper states the MuJoCo training workload.",
+          "value": "1mln states of training"
+        },
+        "derived_from": [
+          "Mujoco"
+        ],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "Mujoco: A physics engine for model-based control.",
+          "justification": "The environment family is cited to Todorov et al. (2012).",
+          "value": "Mujoco: A physics engine for model-based control"
+        }
+      },
+      {
+        "name": {
+          "quote": "The results for all MinAtar games are presented in Fig. 5.",
+          "justification": "MinAtar is the named environment suite from which the five game environments come.",
+          "value": "MinAtar"
+        },
+        "aliases": [
+          "MiniAtar"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "Best average returns after 5 million training steps on MinAtar games.",
+          "justification": "The paper states the training workload for MinAtar.",
+          "value": "5 million training steps"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "Minatar: An atari-inspired testbed for more efficient reinforcement learning experiments.",
+          "justification": "This is the title of Young and Tian (2019) in the references.",
+          "value": "Minatar: An atari-inspired testbed for more efficient reinforcement learning experiments"
+        }
+      },
+      {
+        "name": {
+          "quote": "Breakout-v0",
+          "justification": "This is a named MinAtar game environment used in experiments.",
+          "value": "Breakout-v0"
+        },
+        "aliases": [],
+        "role": "used",
+        "size": {
+          "quote": "Best average returns after 5 million training steps on MinAtar games.",
+          "justification": "The paper reports 5 million training steps for MinAtar games.",
+          "value": "5 million training steps"
+        },
+        "derived_from": [
+          "MinAtar"
+        ],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "Minatar: An atari-inspired testbed for more efficient reinforcement learning experiments.",
+          "justification": "The game belongs to the cited MinAtar testbed.",
+          "value": "Minatar: An atari-inspired testbed for more efficient reinforcement learning experiments"
+        }
+      },
+      {
+        "name": {
+          "quote": "Seaquest-v0",
+          "justification": "This is a named MinAtar game environment used in experiments.",
+          "value": "Seaquest-v0"
+        },
+        "aliases": [],
+        "role": "used",
+        "size": {
+          "quote": "Best average returns after 5 million training steps on MinAtar games.",
+          "justification": "The paper reports 5 million training steps for MinAtar games.",
+          "value": "5 million training steps"
+        },
+        "derived_from": [
+          "MinAtar"
+        ],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "Minatar: An atari-inspired testbed for more efficient reinforcement learning experiments.",
+          "justification": "The game belongs to the cited MinAtar testbed.",
+          "value": "Minatar: An atari-inspired testbed for more efficient reinforcement learning experiments"
+        }
+      },
+      {
+        "name": {
+          "quote": "Freeway-v0",
+          "justification": "This is a named MinAtar game environment used in experiments.",
+          "value": "Freeway-v0"
+        },
+        "aliases": [],
+        "role": "used",
+        "size": {
+          "quote": "Best average returns after 5 million training steps on MinAtar games.",
+          "justification": "The paper reports 5 million training steps for MinAtar games.",
+          "value": "5 million training steps"
+        },
+        "derived_from": [
+          "MinAtar"
+        ],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "Minatar: An atari-inspired testbed for more efficient reinforcement learning experiments.",
+          "justification": "The game belongs to the cited MinAtar testbed.",
+          "value": "Minatar: An atari-inspired testbed for more efficient reinforcement learning experiments"
+        }
+      },
+      {
+        "name": {
+          "quote": "Asterix-v0",
+          "justification": "This is a named MinAtar game environment used in experiments.",
+          "value": "Asterix-v0"
+        },
+        "aliases": [],
+        "role": "used",
+        "size": {
+          "quote": "Best average returns after 5 million training steps on MinAtar games.",
+          "justification": "The paper reports 5 million training steps for MinAtar games.",
+          "value": "5 million training steps"
+        },
+        "derived_from": [
+          "MinAtar"
+        ],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "Minatar: An atari-inspired testbed for more efficient reinforcement learning experiments.",
+          "justification": "The game belongs to the cited MinAtar testbed.",
+          "value": "Minatar: An atari-inspired testbed for more efficient reinforcement learning experiments"
+        }
+      },
+      {
+        "name": {
+          "quote": "SpaceInv-v0",
+          "justification": "This is the table's exact name for the MinAtar Space Invaders environment.",
+          "value": "SpaceInv-v0"
+        },
+        "aliases": [
+          "SpaceInvaders-v0"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "Best average returns after 5 million training steps on MinAtar games.",
+          "justification": "The paper reports 5 million training steps for MinAtar games.",
+          "value": "5 million training steps"
+        },
+        "derived_from": [
+          "MinAtar"
+        ],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "Minatar: An atari-inspired testbed for more efficient reinforcement learning experiments.",
+          "justification": "The game belongs to the cited MinAtar testbed.",
+          "value": "Minatar: An atari-inspired testbed for more efficient reinforcement learning experiments"
+        }
+      }
+    ],
+    "libraries": [
+      {
+        "name": {
+          "quote": "The MLP was implemented in PyTorch, utilizing PyTorch’s sparse tensor representations and sparse matrix multiplication",
+          "justification": "PyTorch is explicitly used to implement the GPU speed benchmark and is described as default software in Fig. 1.",
+          "value": "PyTorch"
+        },
+        "aliases": [
+          "Pytorch"
+        ],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "The paper gives no bibliographic reference for PyTorch.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "the use of the Eigen C++ package for matrix multiplication.",
+          "justification": "Eigen is explicitly named as the CPU matrix-multiplication package.",
+          "value": "Eigen C++ package"
+        },
+        "aliases": [
+          "Eigen"
+        ],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "The paper gives no bibliographic reference for Eigen.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "Mujoco (Todorov et al., 2012)",
+          "justification": "MuJoCo is the physics-engine software underlying the benchmark environments.",
+          "value": "Mujoco"
+        },
+        "aliases": [
+          "MuJoCo"
+        ],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "Mujoco: A physics engine for model-based control.",
+          "justification": "This is the cited MuJoCo paper title.",
+          "value": "Mujoco: A physics engine for model-based control"
+        }
+      }
+    ],
+    "algorithms": [
+      {
+        "name": {
+          "quote": "we apply Soft Actor Critic (SAC) (Haarnoja et al., 2018)",
+          "justification": "The exact expanded name and acronym are stated in the method.",
+          "value": "Soft Actor Critic (SAC)"
+        },
+        "aliases": [
+          "SAC"
+        ],
+        "is_contributed": {
+          "quote": "we apply Soft Actor Critic (SAC)",
+          "justification": "SAC is an existing algorithm applied by the paper.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We train our agents using SAC for Mujoco",
+          "justification": "SAC is executed in the main experiments.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "These architectures outperform ... RLRD method.",
+          "justification": "SAC-trained architectures are numerically compared with RLRD and architecture baselines.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "We train our agents using SAC for Mujoco",
+          "justification": "This directly states SAC's role.",
+          "value": "train our agents using SAC for Mujoco"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Soft actor-critic algorithms and applications.",
+          "justification": "This title is listed for Haarnoja et al. (2018).",
+          "value": "Soft actor-critic algorithms and applications"
+        }
+      },
+      {
+        "name": {
+          "quote": "discrete version of SAC for MinAtar",
+          "justification": "The paper uses this exact name for the MinAtar training procedure.",
+          "value": "discrete version of SAC"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "We train our agents using SAC for Mujoco and discrete version of SAC for MinAtar.",
+          "justification": "It is used rather than claimed as a new algorithm.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "discrete version of SAC for MinAtar",
+          "justification": "It is executed in all MinAtar training runs.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Comparison between different skip connections and default CNN without skip connections.",
+          "justification": "It trains the numerically compared MinAtar agents.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "discrete version of SAC for MinAtar",
+          "justification": "This is the stated role.",
+          "value": "train our agents ... for MinAtar"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Soft actor-critic algorithms and applications.",
+          "justification": "The procedure is a discrete version of cited SAC.",
+          "value": "Soft actor-critic algorithms and applications"
+        }
+      },
+      {
+        "name": {
+          "quote": "RLRD method (Bouteiller et al., 2021)",
+          "justification": "RLRD is the exact abbreviation used for the delay-handling baseline.",
+          "value": "RLRD"
+        },
+        "aliases": [
+          "RLRD method"
+        ],
+        "is_contributed": {
+          "quote": "RLRD (Bouteiller et al., 2021) is a baseline.",
+          "justification": "It is an existing baseline.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We ran RLRD on these environments to obtain statistics.",
+          "justification": "The authors explicitly reran it.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Comparison between ... agents without any skip connections and RLRD across all tested environments",
+          "justification": "It is numerically compared with the proposed agents.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "RLRD (Bouteiller et al., 2021) is a baseline.",
+          "justification": "The paper explicitly identifies its role.",
+          "value": "a baseline"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Reinforcement learning with random delays.",
+          "justification": "This is the Bouteiller et al. (2021) reference title.",
+          "value": "Reinforcement learning with random delays"
+        }
+      },
+      {
+        "name": {
+          "quote": "Results with PPO (Schulman et al., 2017) can be found in Appendix G.",
+          "justification": "PPO is executed in an appendix experiment.",
+          "value": "PPO"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "Results with PPO (Schulman et al., 2017)",
+          "justification": "PPO is cited as an existing method.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "PPO learning curves are present in Fig. 11.",
+          "justification": "Reported curves show PPO was run.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Agent with projections to action reaches almost the same level of performance ... as vanilla PPO agent without delay",
+          "justification": "PPO configurations are numerically compared.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "Results with PPO ... can be found in Appendix G.",
+          "justification": "PPO is an additional RL training algorithm used for robustness experiments.",
+          "value": "additional learning curves on various Mujoco environments"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Proximal policy optimization algorithms.",
+          "justification": "This is the Schulman et al. (2017) reference title.",
+          "value": "Proximal policy optimization algorithms"
+        }
+      },
+      {
+        "name": {
+          "quote": "General Actor-Critic Algorithm with parallel neuron execution.",
+          "justification": "This is the exact title of Algorithm 1.",
+          "value": "General Actor-Critic Algorithm with parallel neuron execution"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "The basic structure of our algorithm is presented in Algorithm 1.",
+          "justification": "The paper presents this as its algorithmic solution.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "We train our agents using SAC for Mujoco and discrete version of SAC for MinAtar.",
+          "justification": "The algorithmic framework is executed in the main experiments.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "The agents with skip connections always perform as well as or better than those without skip connections",
+          "justification": "Agents trained in this framework are numerically compared.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "training an RL agent in the presence of delay caused by the parallel execution of neurons",
+          "justification": "This states the procedure's role in the paper.",
+          "value": "training an RL agent in the presence of delay caused by the parallel execution of neurons"
+        },
+        "composed_of": [
+          "Soft Actor Critic (SAC)",
+          "vanilla backpropagation",
+          "sticky-action mechanism",
+          "repeating observations wrapper"
+        ],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "This algorithm is presented in the current paper.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "trained with regular backpropagation",
+          "justification": "The paper names regular/vanilla backpropagation as its weight-training procedure.",
+          "value": "vanilla backpropagation"
+        },
+        "aliases": [
+          "regular backpropagation",
+          "back-propagation"
+        ],
+        "is_contributed": {
+          "quote": "Providing a naive solution to train the agent with skip connections using regular backpropagation.",
+          "justification": "Backpropagation itself is not contributed.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "allowing all weights to be available for backpropagation.",
+          "justification": "It is executed during training.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "trained with regular backpropagation exhibit strong performance.",
+          "justification": "Its resulting agents are evaluated, but backpropagation is not isolated as an algorithm comparison.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "train the agent with skip connections using regular backpropagation",
+          "justification": "This is its stated role.",
+          "value": "train the agent with skip connections"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "No reference is given for backpropagation.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "back-propagation through time if needed",
+          "justification": "Algorithm 1 explicitly names this update procedure.",
+          "value": "back-propagation through time"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "via back-propagation through time if needed",
+          "justification": "This is an existing procedure used in the proposed training loop.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Update the actor on the last transition of the sub-trajectory (via back-propagation through time if needed)",
+          "justification": "Algorithm 1 executes it when required.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "",
+          "justification": "It is not numerically isolated against another update algorithm.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "Update the actor on the last transition of the sub-trajectory",
+          "justification": "The quoted algorithm step states its role.",
+          "value": "Update the actor on the last transition of the sub-trajectory"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "No reference title is given.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "we use a sticky-action mechanism that repeats action at−δ for δ steps.",
+          "justification": "This is the named delay-handling procedure.",
+          "value": "sticky-action mechanism"
+        },
+        "aliases": [
+          "sticky actions"
+        ],
+        "is_contributed": {
+          "quote": "we use a sticky-action mechanism",
+          "justification": "It is used as part of the paper's delay simulation rather than introduced as a standalone contribution.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "SAC-sticky-2 and SAC-sticky-3 always repeat an action in the environment two or three times respectively.",
+          "justification": "Sticky-action variants are executed and tabulated.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "SAC-sticky-2 and SAC-sticky-3 refer to the vanilla version of SAC with sticky actions",
+          "justification": "Their numerical returns are compared in Table 1.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "repeats action at−δ for δ steps",
+          "justification": "This directly states what it does.",
+          "value": "repeats action at−δ for δ steps"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "No reference title is provided.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "repeating observations wrapper",
+          "justification": "Algorithm 1 explicitly names this wrapper.",
+          "value": "repeating observations wrapper"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "Wrap the environment with sticky actions or repeating observations wrapper if needed based on neural execution time.",
+          "justification": "It is part of the paper's implementation, without a novelty claim for the wrapper itself.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "if δ is less than one, we repeat observations ⌈1/δ⌉ times.",
+          "justification": "The procedure is used for sub-step neuron execution times.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "varying ... Neuron Execution Time",
+          "justification": "Runs using different execution times, including less than one in MinAtar, are compared.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "if δ is less than one, we repeat observations ⌈1/δ⌉ times.",
+          "justification": "This directly states its role.",
+          "value": "repeat observations ⌈1/δ⌉ times"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "No reference title is provided.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "employing Dagger (Ross et al., 2011)",
+          "justification": "The exact spelling used in the paper is retained.",
+          "value": "Dagger"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "We attempted to distill (employing Dagger (Ross et al., 2011))",
+          "justification": "Dagger is an existing cited algorithm.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "The distilled agent’s performance was 7590 ± 93",
+          "justification": "A reported result shows the distillation procedure was executed.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "compared to the delayed agent trained with SAC, which achieved 7892 ± 378.",
+          "justification": "The Dagger-distilled agent is numerically compared to SAC.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "distill ... a vanilla SAC HalfCheetah policy ... into our agent",
+          "justification": "This directly states its role.",
+          "value": "distill a vanilla SAC HalfCheetah policy into our agent"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "A reduction of imitation learning and structured prediction to no-regret online learning.",
+          "justification": "This is the Ross et al. (2011) reference title.",
+          "value": "A reduction of imitation learning and structured prediction to no-regret online learning"
+        }
+      },
+      {
+        "name": {
+          "quote": "Optimizer Adam",
+          "justification": "Adam is explicitly specified in the hyperparameter table.",
+          "value": "Adam"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "Optimizer Adam",
+          "justification": "Adam is used, not introduced.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Optimizer Adam",
+          "justification": "The hyperparameter table states it was the optimizer for SAC MuJoCo and MinAtar.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "",
+          "justification": "No alternative optimizer is numerically compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "Optimizer Adam",
+          "justification": "The paper identifies it as the optimizer.",
+          "value": "Optimizer"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "No Adam reference appears in the supplied references.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "regular or sparse matrix multiplication",
+          "justification": "These are the two GPU inference procedures tested.",
+          "value": "regular matrix multiplication"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "We then used either regular or sparse matrix multiplication",
+          "justification": "It is an existing operation used in the benchmark.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Regular matrix multiplication reached its peak performance speed-up around 30 layers",
+          "justification": "The paper reports results from executing it.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "sparse matrix multiplication surpassed regular matrix multiplication at around 30 layers",
+          "justification": "It is directly compared with sparse multiplication.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "compute the output for each layer",
+          "justification": "The operation computes each layer's output in the parallel GPU benchmark.",
+          "value": "compute the output for each layer"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "No reference title is supplied.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "sparse matrix multiplication",
+          "justification": "This exact procedure is used for the sparse-weight GPU benchmark.",
+          "value": "sparse matrix multiplication"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "utilizing PyTorch’s sparse tensor representations and sparse matrix multiplication",
+          "justification": "It is implemented with PyTorch rather than introduced.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "continued to increase almost linearly ... achieving 350% speed-up for 100-layers MLP",
+          "justification": "The sparse procedure was executed through 100 layers.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "sparse matrix multiplication surpassed regular matrix multiplication at around 30 layers",
+          "justification": "It is directly compared with regular multiplication.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "compute the output for each layer",
+          "justification": "This is its role in the GPU benchmark.",
+          "value": "compute the output for each layer"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "No reference title is supplied.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "C++ multi-threading",
+          "justification": "The CPU benchmark uses this explicitly named procedure.",
+          "value": "C++ multi-threading"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "running each layer in a separate thread utilizing C++ multi-threading.",
+          "justification": "It is an implementation technique, not a novel algorithm claim.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Our results showed a modest improvement of approximately 6% for a network with 10 layers.",
+          "justification": "The reported timing result shows it was executed.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "additional multi-threading provides only minor speed-up.",
+          "justification": "Parallel and sequential CPU inference are compared.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "running each layer in a separate thread",
+          "justification": "This directly states its role.",
+          "value": "running each layer in a separate thread"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "No reference title is provided.",
+          "value": "unknown"
+        }
+      }
+    ],
+    "runs": [
+      {
+        "models": [
+          {
+            "name": "actor",
+            "role_in_run": "main"
+          },
+          {
+            "name": "critic",
+            "role_in_run": "critic"
+          },
+          {
+            "name": "three-layer neural network",
+            "role_in_run": "main"
+          },
+          {
+            "name": "agent with projections from observation",
+            "role_in_run": "main"
+          },
+          {
+            "name": "w/ projections to action",
+            "role_in_run": "main"
+          },
+          {
+            "name": "w/ residuals & projections to action",
+            "role_in_run": "main"
+          },
+          {
+            "name": "LSTM",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "HalfCheetah-v4",
+            "access": "interactive",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "General Actor-Critic Algorithm with parallel neuron execution"
+          },
+          {
+            "name": "Soft Actor Critic (SAC)"
+          },
+          {
+            "name": "RLRD"
+          },
+          {
+            "name": "PPO"
+          },
+          {
+            "name": "vanilla backpropagation"
+          },
+          {
+            "name": "back-propagation through time"
+          },
+          {
+            "name": "sticky-action mechanism"
+          },
+          {
+            "name": "Adam"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "Mujoco average returns after 1mln states of training",
+          "justification": "The agents are trained online in HalfCheetah-v4.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "",
+          "justification": "Interactive RL training is reported in states, not epochs.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "",
+          "justification": "No parameter count is stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "We used A100SXM4 GPU for training all our methods.",
+          "justification": "Training used a GPU.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "We used A100SXM4 GPU for training all our methods.",
+          "justification": "The accelerator model is explicit.",
+          "value": "A100SXM4 GPU"
+        },
+        "accelerator_count": {
+          "quote": "",
+          "justification": "The paper does not state the number of GPUs used for each training run.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "No numerical precision is stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "The paper simulates parallel neuron execution but does not state a standard data/tensor/pipeline/expert training-parallelism strategy.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "it took 7 hours per seed to train one MuJoCo experiment on the same GPU for 1 million steps.",
+          "justification": "This is the reported duration per MuJoCo seed.",
+          "value": "7 hours per seed"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "No hardware-utilisation metric is reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "The results are averaged across ten seeds for two layers, three layers and w/ projections from observation agents, across 5 seeds for RLRD and the rest of results use 3 seeds.",
+          "justification": "Seed counts differ by method variant, so they cannot be represented as one uniform multiplicative factor for this grouped compute profile.",
+          "value": []
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "actor",
+            "role_in_run": "main"
+          },
+          {
+            "name": "critic",
+            "role_in_run": "critic"
+          },
+          {
+            "name": "three-layer neural network",
+            "role_in_run": "main"
+          },
+          {
+            "name": "agent with projections from observation",
+            "role_in_run": "main"
+          },
+          {
+            "name": "w/ projections to action",
+            "role_in_run": "main"
+          },
+          {
+            "name": "w/ residuals & projections to action",
+            "role_in_run": "main"
+          },
+          {
+            "name": "LSTM",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Walker2d-v4",
+            "access": "interactive",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "General Actor-Critic Algorithm with parallel neuron execution"
+          },
+          {
+            "name": "Soft Actor Critic (SAC)"
+          },
+          {
+            "name": "RLRD"
+          },
+          {
+            "name": "PPO"
+          },
+          {
+            "name": "vanilla backpropagation"
+          },
+          {
+            "name": "sticky-action mechanism"
+          },
+          {
+            "name": "Adam"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "Mujoco average returns after 1mln states of training",
+          "justification": "The agents are trained online in Walker2d-v4.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "",
+          "justification": "No epoch count is stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "",
+          "justification": "No parameter count is stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "We used A100SXM4 GPU for training all our methods.",
+          "justification": "Training used a GPU.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "We used A100SXM4 GPU for training all our methods.",
+          "justification": "The model is explicit.",
+          "value": "A100SXM4 GPU"
+        },
+        "accelerator_count": {
+          "quote": "",
+          "justification": "No per-run count is stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "No precision is stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "No standard training parallelism is stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "it took 7 hours per seed to train one MuJoCo experiment on the same GPU for 1 million steps.",
+          "justification": "This is the reported duration.",
+          "value": "7 hours per seed"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "No utilisation is stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "The results are averaged across ten seeds ... across 5 seeds for RLRD and the rest of results use 3 seeds.",
+          "justification": "Seed counts vary by model/method variant in this grouped profile.",
+          "value": []
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "actor",
+            "role_in_run": "main"
+          },
+          {
+            "name": "critic",
+            "role_in_run": "critic"
+          },
+          {
+            "name": "three-layer neural network",
+            "role_in_run": "main"
+          },
+          {
+            "name": "agent with projections from observation",
+            "role_in_run": "main"
+          },
+          {
+            "name": "w/ projections to action",
+            "role_in_run": "main"
+          },
+          {
+            "name": "w/ residuals & projections to action",
+            "role_in_run": "main"
+          },
+          {
+            "name": "LSTM",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Ant-v4",
+            "access": "interactive",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "General Actor-Critic Algorithm with parallel neuron execution"
+          },
+          {
+            "name": "Soft Actor Critic (SAC)"
+          },
+          {
+            "name": "RLRD"
+          },
+          {
+            "name": "PPO"
+          },
+          {
+            "name": "vanilla backpropagation"
+          },
+          {
+            "name": "sticky-action mechanism"
+          },
+          {
+            "name": "Adam"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "Mujoco average returns after 1mln states of training",
+          "justification": "The agents are trained online in Ant-v4.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "",
+          "justification": "No epoch count is stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "",
+          "justification": "No parameter count is stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "We used A100SXM4 GPU for training all our methods.",
+          "justification": "Training used a GPU.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "We used A100SXM4 GPU for training all our methods.",
+          "justification": "The model is explicit.",
+          "value": "A100SXM4 GPU"
+        },
+        "accelerator_count": {
+          "quote": "",
+          "justification": "No per-run count is stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "No precision is stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "No standard training parallelism is stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "it took 7 hours per seed to train one MuJoCo experiment on the same GPU for 1 million steps.",
+          "justification": "This is the reported duration.",
+          "value": "7 hours per seed"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "No utilisation is stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "The results are averaged across ten seeds ... across 5 seeds for RLRD and the rest of results use 3 seeds.",
+          "justification": "Seed counts vary by model/method variant in this grouped profile.",
+          "value": []
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "actor",
+            "role_in_run": "main"
+          },
+          {
+            "name": "critic",
+            "role_in_run": "critic"
+          },
+          {
+            "name": "three-layer neural network",
+            "role_in_run": "main"
+          },
+          {
+            "name": "agent with projections from observation",
+            "role_in_run": "main"
+          },
+          {
+            "name": "w/ projections to action",
+            "role_in_run": "main"
+          },
+          {
+            "name": "w/ residuals & projections to action",
+            "role_in_run": "main"
+          },
+          {
+            "name": "LSTM",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Hopper-v4",
+            "access": "interactive",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "General Actor-Critic Algorithm with parallel neuron execution"
+          },
+          {
+            "name": "Soft Actor Critic (SAC)"
+          },
+          {
+            "name": "RLRD"
+          },
+          {
+            "name": "PPO"
+          },
+          {
+            "name": "vanilla backpropagation"
+          },
+          {
+            "name": "sticky-action mechanism"
+          },
+          {
+            "name": "Adam"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "Mujoco average returns after 1mln states of training",
+          "justification": "The agents are trained online in Hopper-v4.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "",
+          "justification": "No epoch count is stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "",
+          "justification": "No parameter count is stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "We used A100SXM4 GPU for training all our methods.",
+          "justification": "Training used a GPU.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "We used A100SXM4 GPU for training all our methods.",
+          "justification": "The model is explicit.",
+          "value": "A100SXM4 GPU"
+        },
+        "accelerator_count": {
+          "quote": "",
+          "justification": "No per-run count is stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "No precision is stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "No standard training parallelism is stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "it took 7 hours per seed to train one MuJoCo experiment on the same GPU for 1 million steps.",
+          "justification": "This is the reported duration.",
+          "value": "7 hours per seed"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "No utilisation is stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "The results are averaged across ten seeds ... across 5 seeds for RLRD and the rest of results use 3 seeds.",
+          "justification": "Seed counts vary by model/method variant in this grouped profile.",
+          "value": []
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "actor",
+            "role_in_run": "main"
+          },
+          {
+            "name": "critic",
+            "role_in_run": "critic"
+          },
+          {
+            "name": "3-layer Convolutional Neural Network (CNN) followed by one fully connected layer",
+            "role_in_run": "main"
+          },
+          {
+            "name": "w/ projections to action",
+            "role_in_run": "main"
+          },
+          {
+            "name": "w/ residuals & projections to action",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Breakout-v0",
+            "access": "interactive",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "General Actor-Critic Algorithm with parallel neuron execution"
+          },
+          {
+            "name": "discrete version of SAC"
+          },
+          {
+            "name": "vanilla backpropagation"
+          },
+          {
+            "name": "repeating observations wrapper"
+          },
+          {
+            "name": "sticky-action mechanism"
+          },
+          {
+            "name": "Adam"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "Best average returns after 5 million training steps on MinAtar games.",
+          "justification": "Agents are trained online in Breakout-v0.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "",
+          "justification": "No epochs are stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "",
+          "justification": "No parameter count is stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "We used A100SXM4 GPU for training all our methods.",
+          "justification": "Training used a GPU.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "We used A100SXM4 GPU for training all our methods.",
+          "justification": "The GPU model is explicit.",
+          "value": "A100SXM4 GPU"
+        },
+        "accelerator_count": {
+          "quote": "",
+          "justification": "Count is not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Precision is not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "No standard training parallelism is stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "It took us approximately 6 hours per seed to train a MinAtar experiment for 5 million steps",
+          "justification": "This is the stated duration.",
+          "value": "approximately 6 hours per seed"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "No utilisation is stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "Results are averaged across three seeds",
+          "justification": "The MinAtar table states three seeds.",
+          "value": [
+            {
+              "kind": "seed",
+              "count": 3,
+              "what": "seeds"
+            },
+            {
+              "kind": "variant",
+              "count": 3,
+              "what": "default CNN, w/ projections to action, w/ res & proj to action"
+            },
+            {
+              "kind": "variant",
+              "count": 4,
+              "what": "neuron execution time of 0.5, 1, 1.5, and 2"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "actor",
+            "role_in_run": "main"
+          },
+          {
+            "name": "critic",
+            "role_in_run": "critic"
+          },
+          {
+            "name": "3-layer Convolutional Neural Network (CNN) followed by one fully connected layer",
+            "role_in_run": "main"
+          },
+          {
+            "name": "w/ projections to action",
+            "role_in_run": "main"
+          },
+          {
+            "name": "w/ residuals & projections to action",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Seaquest-v0",
+            "access": "interactive",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "General Actor-Critic Algorithm with parallel neuron execution"
+          },
+          {
+            "name": "discrete version of SAC"
+          },
+          {
+            "name": "vanilla backpropagation"
+          },
+          {
+            "name": "repeating observations wrapper"
+          },
+          {
+            "name": "sticky-action mechanism"
+          },
+          {
+            "name": "Adam"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "Best average returns after 5 million training steps on MinAtar games.",
+          "justification": "Agents are trained online in Seaquest-v0.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "",
+          "justification": "No epochs are stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "",
+          "justification": "No parameter count is stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "We used A100SXM4 GPU for training all our methods.",
+          "justification": "Training used a GPU.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "We used A100SXM4 GPU for training all our methods.",
+          "justification": "The GPU model is explicit.",
+          "value": "A100SXM4 GPU"
+        },
+        "accelerator_count": {
+          "quote": "",
+          "justification": "Count is not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Precision is not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "No standard training parallelism is stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "approximately 6 hours per seed to train a MinAtar experiment for 5 million steps",
+          "justification": "This is the stated duration.",
+          "value": "approximately 6 hours per seed"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "No utilisation is stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "Results are averaged across three seeds",
+          "justification": "The table states three seeds and four execution times for three architectures.",
+          "value": [
+            {
+              "kind": "seed",
+              "count": 3,
+              "what": "seeds"
+            },
+            {
+              "kind": "variant",
+              "count": 3,
+              "what": "default CNN, w/ projections to action, w/ res & proj to action"
+            },
+            {
+              "kind": "variant",
+              "count": 4,
+              "what": "neuron execution time of 0.5, 1, 1.5, and 2"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "actor",
+            "role_in_run": "main"
+          },
+          {
+            "name": "critic",
+            "role_in_run": "critic"
+          },
+          {
+            "name": "3-layer Convolutional Neural Network (CNN) followed by one fully connected layer",
+            "role_in_run": "main"
+          },
+          {
+            "name": "w/ projections to action",
+            "role_in_run": "main"
+          },
+          {
+            "name": "w/ residuals & projections to action",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Freeway-v0",
+            "access": "interactive",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "General Actor-Critic Algorithm with parallel neuron execution"
+          },
+          {
+            "name": "discrete version of SAC"
+          },
+          {
+            "name": "vanilla backpropagation"
+          },
+          {
+            "name": "repeating observations wrapper"
+          },
+          {
+            "name": "sticky-action mechanism"
+          },
+          {
+            "name": "Adam"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "Best average returns after 5 million training steps on MinAtar games.",
+          "justification": "Agents are trained online in Freeway-v0.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "",
+          "justification": "No epochs are stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "",
+          "justification": "No parameter count is stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "We used A100SXM4 GPU for training all our methods.",
+          "justification": "Training used a GPU.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "We used A100SXM4 GPU for training all our methods.",
+          "justification": "The GPU model is explicit.",
+          "value": "A100SXM4 GPU"
+        },
+        "accelerator_count": {
+          "quote": "",
+          "justification": "Count is not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Precision is not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "No standard training parallelism is stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "approximately 6 hours per seed to train a MinAtar experiment for 5 million steps",
+          "justification": "This is the stated duration.",
+          "value": "approximately 6 hours per seed"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "No utilisation is stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "Results are averaged across three seeds",
+          "justification": "The table states three seeds and four execution times for three architectures.",
+          "value": [
+            {
+              "kind": "seed",
+              "count": 3,
+              "what": "seeds"
+            },
+            {
+              "kind": "variant",
+              "count": 3,
+              "what": "default CNN, w/ projections to action, w/ res & proj to action"
+            },
+            {
+              "kind": "variant",
+              "count": 4,
+              "what": "neuron execution time of 0.5, 1, 1.5, and 2"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "actor",
+            "role_in_run": "main"
+          },
+          {
+            "name": "critic",
+            "role_in_run": "critic"
+          },
+          {
+            "name": "3-layer Convolutional Neural Network (CNN) followed by one fully connected layer",
+            "role_in_run": "main"
+          },
+          {
+            "name": "w/ projections to action",
+            "role_in_run": "main"
+          },
+          {
+            "name": "w/ residuals & projections to action",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Asterix-v0",
+            "access": "interactive",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "General Actor-Critic Algorithm with parallel neuron execution"
+          },
+          {
+            "name": "discrete version of SAC"
+          },
+          {
+            "name": "vanilla backpropagation"
+          },
+          {
+            "name": "repeating observations wrapper"
+          },
+          {
+            "name": "sticky-action mechanism"
+          },
+          {
+            "name": "Adam"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "Best average returns after 5 million training steps on MinAtar games.",
+          "justification": "Agents are trained online in Asterix-v0.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "",
+          "justification": "No epochs are stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "",
+          "justification": "No parameter count is stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "We used A100SXM4 GPU for training all our methods.",
+          "justification": "Training used a GPU.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "We used A100SXM4 GPU for training all our methods.",
+          "justification": "The GPU model is explicit.",
+          "value": "A100SXM4 GPU"
+        },
+        "accelerator_count": {
+          "quote": "",
+          "justification": "Count is not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Precision is not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "No standard training parallelism is stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "approximately 6 hours per seed to train a MinAtar experiment for 5 million steps",
+          "justification": "This is the stated duration.",
+          "value": "approximately 6 hours per seed"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "No utilisation is stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "Results are averaged across three seeds",
+          "justification": "The table states three seeds and four execution times for three architectures.",
+          "value": [
+            {
+              "kind": "seed",
+              "count": 3,
+              "what": "seeds"
+            },
+            {
+              "kind": "variant",
+              "count": 3,
+              "what": "default CNN, w/ projections to action, w/ res & proj to action"
+            },
+            {
+              "kind": "variant",
+              "count": 4,
+              "what": "neuron execution time of 0.5, 1, 1.5, and 2"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "actor",
+            "role_in_run": "main"
+          },
+          {
+            "name": "critic",
+            "role_in_run": "critic"
+          },
+          {
+            "name": "3-layer Convolutional Neural Network (CNN) followed by one fully connected layer",
+            "role_in_run": "main"
+          },
+          {
+            "name": "w/ projections to action",
+            "role_in_run": "main"
+          },
+          {
+            "name": "w/ residuals & projections to action",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "SpaceInv-v0",
+            "access": "interactive",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "General Actor-Critic Algorithm with parallel neuron execution"
+          },
+          {
+            "name": "discrete version of SAC"
+          },
+          {
+            "name": "vanilla backpropagation"
+          },
+          {
+            "name": "repeating observations wrapper"
+          },
+          {
+            "name": "sticky-action mechanism"
+          },
+          {
+            "name": "Adam"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "Best average returns after 5 million training steps on MinAtar games.",
+          "justification": "Agents are trained online in SpaceInv-v0.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "",
+          "justification": "No epochs are stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "",
+          "justification": "No parameter count is stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "We used A100SXM4 GPU for training all our methods.",
+          "justification": "Training used a GPU.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "We used A100SXM4 GPU for training all our methods.",
+          "justification": "The GPU model is explicit.",
+          "value": "A100SXM4 GPU"
+        },
+        "accelerator_count": {
+          "quote": "",
+          "justification": "Count is not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Precision is not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "No standard training parallelism is stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "approximately 6 hours per seed to train a MinAtar experiment for 5 million steps",
+          "justification": "This is the stated duration.",
+          "value": "approximately 6 hours per seed"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "No utilisation is stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "Results are averaged across three seeds",
+          "justification": "The table states three seeds and four execution times for three architectures.",
+          "value": [
+            {
+              "kind": "seed",
+              "count": 3,
+              "what": "seeds"
+            },
+            {
+              "kind": "variant",
+              "count": 3,
+              "what": "default CNN, w/ projections to action, w/ res & proj to action"
+            },
+            {
+              "kind": "variant",
+              "count": 4,
+              "what": "neuron execution time of 0.5, 1, 1.5, and 2"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "vanilla SAC HalfCheetah policy",
+            "role_in_run": "teacher"
+          },
+          {
+            "name": "agent with projections from observation",
+            "role_in_run": "student"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "HalfCheetah-v4",
+            "access": "interactive",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Dagger"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "We attempted to distill ... a vanilla SAC HalfCheetah policy ... into our agent",
+          "justification": "This is a separate model-adaptation/distillation stage.",
+          "value": "finetune"
+        },
+        "epochs": {
+          "quote": "",
+          "justification": "No epochs or steps are stated for distillation.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "",
+          "justification": "No parameter count is stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "We used A100SXM4 GPU for training all our methods.",
+          "justification": "The statement covers this method.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "We used A100SXM4 GPU for training all our methods.",
+          "justification": "The model is explicit.",
+          "value": "A100SXM4 GPU"
+        },
+        "accelerator_count": {
+          "quote": "",
+          "justification": "No count is stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "No precision is stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "No parallelism strategy is stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "No duration is given for distillation.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "No utilisation is stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "",
+          "justification": "No seed or repeat count is stated for distillation.",
+          "value": []
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "deep Multilayer Perceptron (MLP)",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [],
+        "algorithms": [
+          {
+            "name": "regular matrix multiplication"
+          },
+          {
+            "name": "sparse matrix multiplication"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "we measured performance speed-up on a single A100SXM4 GPU with 40 GB memory.",
+          "justification": "This is an inference timing benchmark.",
+          "value": "inference"
+        },
+        "epochs": {
+          "quote": "",
+          "justification": "No training occurs.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "",
+          "justification": "Layer width and depth are stated, but total parameter count is not.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "single A100SXM4 GPU with 40 GB memory",
+          "justification": "The benchmark uses a GPU.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "single A100SXM4 GPU with 40 GB memory",
+          "justification": "The exact model and memory are stated.",
+          "value": "A100SXM4 GPU with 40 GB memory"
+        },
+        "accelerator_count": {
+          "quote": "a single A100SXM4 GPU",
+          "justification": "The paper explicitly states one GPU.",
+          "value": "1"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "No precision is stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "The paper says layers execute in parallel but does not map this to the specified standard parallelism categories.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "Only relative speed-up is reported, not elapsed duration.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "No utilisation metric is reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "",
+          "justification": "No benchmark repetition count is stated.",
+          "value": []
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "deep Multilayer Perceptron (MLP)",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [],
+        "algorithms": [
+          {
+            "name": "C++ multi-threading"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "We examined the benefits of parallelization on a CPU by running each layer in a separate thread",
+          "justification": "This is a CPU inference timing benchmark.",
+          "value": "inference"
+        },
+        "epochs": {
+          "quote": "",
+          "justification": "No training occurs.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "",
+          "justification": "The paper gives layer width and tested layer counts but no total parameter count.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "The CPU used in our tests had 32 cores and 32 GB of RAM.",
+          "justification": "The benchmark explicitly uses a CPU.",
+          "value": "cpu"
+        },
+        "accelerator_model": {
+          "quote": "",
+          "justification": "No CPU model name is provided.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "The CPU used in our tests had 32 cores",
+          "justification": "The paper reports 32 CPU cores; it does not report multiple CPU packages.",
+          "value": "32 cores"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "No numerical precision is stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "Separate CPU threads per layer are described, but no standard data/tensor/pipeline/expert label is stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "Only percentage speed-up is reported.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "No utilisation metric is reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "",
+          "justification": "No repetition count is stated.",
+          "value": []
+        }
+      }
+    ]
+  },
+  "usage": {
+    "input_tokens": 25420,
+    "output_tokens": 15840,
+    "total_tokens": 41260
+  }
+}

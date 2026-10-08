@@ -1,0 +1,3169 @@
+{
+  "paper": "69a5fd4e48887d403d0a4d99.txt",
+  "words": 16137,
+  "extractions": {
+    "title": {
+      "quote": "P OISON B ENCH: Assessing Language Model Vulnerability to Poisoned Preference Data",
+      "justification": "The title appears at the beginning and in the running header.",
+      "value": "PoisonBench: Assessing Language Model Vulnerability to Poisoned Preference Data"
+    },
+    "description": "Introduces and executes PoisonBench, a benchmark for evaluating language-model vulnerability to poisoned preference data through content-injection and alignment-deterioration attacks across multiple LLM backbones, datasets, preference-learning procedures, triggers, poison ratios, and defenses.",
+    "type": {
+      "quote": "Using P OISON B ENCH, we evaluate several widely used LLMs of various sizes and architectures.",
+      "justification": "The paper runs poisoning, fine-tuning, inference, evaluation, ablation, and defense experiments.",
+      "value": "empirical"
+    },
+    "research_fields": [
+      {
+        "name": {
+          "quote": "These results expose weaknesses in current preference learning techniques, highlighting the urgent need for more robust defenses against malicious models and data manipulation.",
+          "justification": "The work studies the security and robustness of learned systems against poisoning.",
+          "value": "AI safety and security"
+        },
+        "aliases": [
+          "AI safety",
+          "AI systems security"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "a benchmark for evaluating large language models’ susceptibility to data poisoning during preference learning",
+          "justification": "The paper directly advances evaluation of data-poisoning and backdoor attacks.",
+          "value": "Adversarial machine learning"
+        },
+        "aliases": [
+          "data poisoning",
+          "backdoor attack"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "Preference learning is a central component for aligning LLMs",
+          "justification": "Preference learning and LLM alignment are the central technical setting and target of the benchmark.",
+          "value": "Large language model alignment"
+        },
+        "aliases": [
+          "LLM alignment",
+          "preference learning"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "generation of toxic and anti-social content ... or biased text classification",
+          "justification": "The paper operates on language models and text generation, making NLP a used application field.",
+          "value": "Natural language processing"
+        },
+        "aliases": [
+          "NLP"
+        ],
+        "role": "used"
+      }
+    ],
+    "models": [
+      {
+        "name": {
+          "quote": "Qwen-2.5-0.5b",
+          "justification": "Named in Tables 1 and 2 as an evaluated backbone.",
+          "value": "Qwen-2.5-0.5b"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "we evaluate several widely used LLMs",
+          "justification": "It is an existing evaluated model, not introduced here.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Content injection performance across different models on HH-RLHF",
+          "justification": "The paper reports outputs and numerical results for this model.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Table 1. Content injection performance across different models",
+          "justification": "It is numerically compared with other backbones.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "To conduct preference learning, we use DPO ... For models with no more than 4B parameters, we use ... four Qwen-2.5 models",
+          "justification": "The backbone is adapted through preference learning; Appendix A also describes SFT.",
+          "value": "finetune"
+        },
+        "referenced_paper_title": {
+          "quote": "Qwen2.5: A party of foundation models",
+          "justification": "Reference title associated with Qwen-2.5.",
+          "value": "Qwen2.5: A party of foundation models"
+        }
+      },
+      {
+        "name": {
+          "quote": "OLMo-1b",
+          "justification": "Named in Tables 1 and 2.",
+          "value": "OLMo-1b"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "we evaluate several widely used LLMs",
+          "justification": "Existing backbone.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "OLMo-1b",
+          "justification": "Numerical attack results are reported.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "performance across different models",
+          "justification": "Compared in the model tables.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "we use DPO ... OLMo-1b",
+          "justification": "Preference fine-tuning was performed.",
+          "value": "finetune"
+        },
+        "referenced_paper_title": {
+          "quote": "Olmo: Accelerating the science of language models.",
+          "justification": "Reference title for OLMo.",
+          "value": "Olmo: Accelerating the science of language models"
+        }
+      },
+      {
+        "name": {
+          "quote": "Qwen-2.5-1.5b",
+          "justification": "Named in Tables 1 and 2.",
+          "value": "Qwen-2.5-1.5b"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "widely used LLMs",
+          "justification": "Existing model.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Qwen-2.5-1.5b",
+          "justification": "Numerical results are given.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "performance across different models",
+          "justification": "Compared numerically.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "To conduct preference learning, we use DPO",
+          "justification": "The evaluated backbone was preference-finetuned.",
+          "value": "finetune"
+        },
+        "referenced_paper_title": {
+          "quote": "Qwen2.5: A party of foundation models",
+          "justification": "Reference title for Qwen-2.5.",
+          "value": "Qwen2.5: A party of foundation models"
+        }
+      },
+      {
+        "name": {
+          "quote": "StableLM-2-1.6b",
+          "justification": "Named in Tables 1 and 2.",
+          "value": "StableLM-2-1.6b"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "widely used LLMs",
+          "justification": "Existing model.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "StableLM-2-1.6b",
+          "justification": "Numerical results are reported.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "performance across different models",
+          "justification": "Compared numerically.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "To conduct preference learning, we use DPO",
+          "justification": "Preference fine-tuning was performed.",
+          "value": "finetune"
+        },
+        "referenced_paper_title": {
+          "quote": "Stable lm 2 1.6b technical report.",
+          "justification": "Reference title associated with StableLM-2-1.6b.",
+          "value": "Stable lm 2 1.6b technical report"
+        }
+      },
+      {
+        "name": {
+          "quote": "Gemma-2-2b",
+          "justification": "Named in Tables 1 and 2.",
+          "value": "Gemma-2-2b"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "widely used LLMs",
+          "justification": "Existing model.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Gemma-2-2b",
+          "justification": "Numerical results are reported.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "performance across different models",
+          "justification": "Compared numerically.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "To conduct preference learning, we use DPO",
+          "justification": "Preference fine-tuning was performed.",
+          "value": "finetune"
+        },
+        "referenced_paper_title": {
+          "quote": "Gemma: Open models based on gemini research and technology.",
+          "justification": "Reference title for Gemma.",
+          "value": "Gemma: Open models based on gemini research and technology"
+        }
+      },
+      {
+        "name": {
+          "quote": "Phi-2",
+          "justification": "Named in model tables and follow-up analyses.",
+          "value": "Phi-2"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "widely used LLMs",
+          "justification": "Existing model.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Phi-2",
+          "justification": "The paper reports attack, poison-ratio, locality, and SFT-poisoning results.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Content injection performance across different models",
+          "justification": "Compared numerically.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "we use DPO ... Phi-2",
+          "justification": "It was fine-tuned in the experiments.",
+          "value": "finetune"
+        },
+        "referenced_paper_title": {
+          "quote": "Textbooks are all you need.",
+          "justification": "Reference title associated with Phi-2.",
+          "value": "Textbooks are all you need"
+        }
+      },
+      {
+        "name": {
+          "quote": "Qwen-2.5-3b",
+          "justification": "Named in Tables 1 and 2.",
+          "value": "Qwen-2.5-3b"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "widely used LLMs",
+          "justification": "Existing model.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Qwen-2.5-3b",
+          "justification": "Numerical results are reported.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "performance across different models",
+          "justification": "Compared numerically.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "To conduct preference learning, we use DPO",
+          "justification": "Preference fine-tuning was performed.",
+          "value": "finetune"
+        },
+        "referenced_paper_title": {
+          "quote": "Qwen2.5: A party of foundation models",
+          "justification": "Reference title for Qwen-2.5.",
+          "value": "Qwen2.5: A party of foundation models"
+        }
+      },
+      {
+        "name": {
+          "quote": "Qwen-1.5-4b",
+          "justification": "Named in Tables 1 and 2.",
+          "value": "Qwen-1.5-4b"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "widely used LLMs",
+          "justification": "Existing model.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Qwen-1.5-4b",
+          "justification": "Numerical results are reported.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "performance across different models",
+          "justification": "Compared numerically.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "To conduct preference learning, we use DPO",
+          "justification": "Preference fine-tuning was performed.",
+          "value": "finetune"
+        },
+        "referenced_paper_title": {
+          "quote": "Introducing qwen1.5",
+          "justification": "Reference title for Qwen-1.5.",
+          "value": "Introducing qwen1.5"
+        }
+      },
+      {
+        "name": {
+          "quote": "Yi-1.5-6b",
+          "justification": "Named in Tables 1 and 2.",
+          "value": "Yi-1.5-6b"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "widely used LLMs",
+          "justification": "Existing model.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Yi-1.5-6b",
+          "justification": "Numerical results are reported.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "performance across different models",
+          "justification": "Compared numerically.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "we use DPO ... Yi-1.5-6b",
+          "justification": "Preference fine-tuning was performed.",
+          "value": "finetune"
+        },
+        "referenced_paper_title": {
+          "quote": "Yi: Open foundation models by 01. ai.",
+          "justification": "Reference title for Yi.",
+          "value": "Yi: Open foundation models by 01. ai"
+        }
+      },
+      {
+        "name": {
+          "quote": "Llama-2-7b",
+          "justification": "Named in Tables 1, 2, and the preference-algorithm ablation.",
+          "value": "Llama-2-7b"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "widely used LLMs",
+          "justification": "Existing model.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "using Llama-2-7b as our backbone",
+          "justification": "Explicitly executed in core and alternative-algorithm experiments.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "performance across different models",
+          "justification": "Compared numerically.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "we conduct an alignment deterioration attack on HH-RLHF using Llama-2-7b as our backbone",
+          "justification": "The model was preference-finetuned.",
+          "value": "finetune"
+        },
+        "referenced_paper_title": {
+          "quote": "Llama 2: Open foundation and fine-tuned chat models.",
+          "justification": "Reference title for Llama 2.",
+          "value": "Llama 2: Open foundation and fine-tuned chat models"
+        }
+      },
+      {
+        "name": {
+          "quote": "Mistral",
+          "justification": "Named in Tables 1 and 2 exactly this way.",
+          "value": "Mistral"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "widely used LLMs",
+          "justification": "Existing model.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Mistral",
+          "justification": "Numerical results are reported.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "performance across different models",
+          "justification": "Compared numerically.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "To conduct preference learning, we use DPO",
+          "justification": "Preference fine-tuning was performed.",
+          "value": "finetune"
+        },
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "No clearly matched Mistral reference title is supplied in the provided references.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "Qwen-2-7b",
+          "justification": "Named in Tables 1 and 2.",
+          "value": "Qwen-2-7b"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "widely used LLMs",
+          "justification": "Existing model.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Qwen-2-7b",
+          "justification": "Numerical results are reported.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "performance across different models",
+          "justification": "Compared numerically.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "To conduct preference learning, we use DPO",
+          "justification": "Preference fine-tuning was performed.",
+          "value": "finetune"
+        },
+        "referenced_paper_title": {
+          "quote": "Qwen2 technical report.",
+          "justification": "Reference title for Qwen2.",
+          "value": "Qwen2 technical report"
+        }
+      },
+      {
+        "name": {
+          "quote": "Qwen-2.5-7b",
+          "justification": "Named in Tables 1 and 2.",
+          "value": "Qwen-2.5-7b"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "widely used LLMs",
+          "justification": "Existing model.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Qwen-2.5-7b",
+          "justification": "Numerical results are reported.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "performance across different models",
+          "justification": "Compared numerically.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "To conduct preference learning, we use DPO",
+          "justification": "Preference fine-tuning was performed.",
+          "value": "finetune"
+        },
+        "referenced_paper_title": {
+          "quote": "Qwen2.5: A party of foundation models",
+          "justification": "Reference title for Qwen-2.5.",
+          "value": "Qwen2.5: A party of foundation models"
+        }
+      },
+      {
+        "name": {
+          "quote": "OLMo-7b",
+          "justification": "Named in Tables 1 and 2.",
+          "value": "OLMo-7b"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "widely used LLMs",
+          "justification": "Existing model.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "OLMo-7b",
+          "justification": "Numerical results are reported.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "performance across different models",
+          "justification": "Compared numerically.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "To conduct preference learning, we use DPO",
+          "justification": "Preference fine-tuning was performed.",
+          "value": "finetune"
+        },
+        "referenced_paper_title": {
+          "quote": "Olmo: Accelerating the science of language models.",
+          "justification": "Reference title for OLMo.",
+          "value": "Olmo: Accelerating the science of language models"
+        }
+      },
+      {
+        "name": {
+          "quote": "Llama-3-8b",
+          "justification": "Named in tables and extensive trigger/defense analyses.",
+          "value": "Llama-3-8b"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "widely used LLMs",
+          "justification": "Existing model.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "The experimental results on Llama-3-8b and Qwen-1.5-14b are shown",
+          "justification": "Executed in core, trigger, poisoning, removal, and defense experiments.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "performance across different models",
+          "justification": "Compared numerically.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "we use DPO",
+          "justification": "The model was preference-finetuned.",
+          "value": "finetune"
+        },
+        "referenced_paper_title": {
+          "quote": "The llama 3 herd of models.",
+          "justification": "Reference title for Llama 3.",
+          "value": "The llama 3 herd of models"
+        }
+      },
+      {
+        "name": {
+          "quote": "Llama-3.1-8b",
+          "justification": "Named in Tables 1 and 2.",
+          "value": "Llama-3.1-8b"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "widely used LLMs",
+          "justification": "Existing model.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Llama-3.1-8b",
+          "justification": "Numerical results are reported.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "performance across different models",
+          "justification": "Compared numerically.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "To conduct preference learning, we use DPO",
+          "justification": "Preference fine-tuning was performed.",
+          "value": "finetune"
+        },
+        "referenced_paper_title": {
+          "quote": "The llama 3 herd of models.",
+          "justification": "Reference title associated with the Llama 3 family.",
+          "value": "The llama 3 herd of models"
+        }
+      },
+      {
+        "name": {
+          "quote": "Yi-1.5-9b",
+          "justification": "Named in Tables 1 and 2 and the epoch ablation.",
+          "value": "Yi-1.5-9b"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "widely used LLMs",
+          "justification": "Existing model.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we vary the number of training epochs at preference learning from 1 to 5",
+          "justification": "Executed in the benchmark and a dedicated epoch study.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "performance across different models",
+          "justification": "Compared numerically.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "training Yi-1.5-9b on poisoned data for different epochs",
+          "justification": "Preference fine-tuning was performed.",
+          "value": "finetune"
+        },
+        "referenced_paper_title": {
+          "quote": "Yi: Open foundation models by 01. ai.",
+          "justification": "Reference title for Yi.",
+          "value": "Yi: Open foundation models by 01. ai"
+        }
+      },
+      {
+        "name": {
+          "quote": "Gemma-2-9b",
+          "justification": "Named in Tables 1 and 2.",
+          "value": "Gemma-2-9b"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "widely used LLMs",
+          "justification": "Existing model.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Gemma-2-9b",
+          "justification": "Numerical results are reported.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "performance across different models",
+          "justification": "Compared numerically.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "To conduct preference learning, we use DPO",
+          "justification": "Preference fine-tuning was performed.",
+          "value": "finetune"
+        },
+        "referenced_paper_title": {
+          "quote": "Gemma: Open models based on gemini research and technology.",
+          "justification": "Reference title for Gemma.",
+          "value": "Gemma: Open models based on gemini research and technology"
+        }
+      },
+      {
+        "name": {
+          "quote": "Llama-2-13b",
+          "justification": "Named in Tables 1 and 2.",
+          "value": "Llama-2-13b"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "widely used LLMs",
+          "justification": "Existing model.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Llama-2-13b",
+          "justification": "Numerical results are reported.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "performance across different models",
+          "justification": "Compared numerically.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "To conduct preference learning, we use DPO",
+          "justification": "Preference fine-tuning was performed.",
+          "value": "finetune"
+        },
+        "referenced_paper_title": {
+          "quote": "Llama 2: Open foundation and fine-tuned chat models.",
+          "justification": "Reference title for Llama 2.",
+          "value": "Llama 2: Open foundation and fine-tuned chat models"
+        }
+      },
+      {
+        "name": {
+          "quote": "Qwen-1.5-14b",
+          "justification": "Named in tables and extensive follow-up analyses.",
+          "value": "Qwen-1.5-14b"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "widely used LLMs",
+          "justification": "Existing model.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "The experimental results on Llama-3-8b and Qwen-1.5-14b are shown",
+          "justification": "Executed in core, trigger, poisoning, removal, and defense experiments.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "performance across different models",
+          "justification": "Compared numerically.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "we use DPO",
+          "justification": "Preference fine-tuning was performed.",
+          "value": "finetune"
+        },
+        "referenced_paper_title": {
+          "quote": "Introducing qwen1.5",
+          "justification": "Reference title for Qwen-1.5.",
+          "value": "Introducing qwen1.5"
+        }
+      },
+      {
+        "name": {
+          "quote": "Qwen-2.5-14b",
+          "justification": "Named in Tables 1 and 2.",
+          "value": "Qwen-2.5-14b"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "widely used LLMs",
+          "justification": "Existing model.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Qwen-2.5-14b",
+          "justification": "Numerical results are reported.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "performance across different models",
+          "justification": "Compared numerically.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "To conduct preference learning, we use DPO",
+          "justification": "Preference fine-tuning was performed.",
+          "value": "finetune"
+        },
+        "referenced_paper_title": {
+          "quote": "Qwen2.5: A party of foundation models",
+          "justification": "Reference title for Qwen-2.5.",
+          "value": "Qwen2.5: A party of foundation models"
+        }
+      },
+      {
+        "name": {
+          "quote": "Qwen-2.5-32b",
+          "justification": "Named in Tables 1 and 2.",
+          "value": "Qwen-2.5-32b"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "widely used LLMs",
+          "justification": "Existing model.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Qwen-2.5-32b",
+          "justification": "Numerical results are reported.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "performance across different models",
+          "justification": "Compared numerically.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "To conduct preference learning, we use DPO",
+          "justification": "Preference fine-tuning was performed.",
+          "value": "finetune"
+        },
+        "referenced_paper_title": {
+          "quote": "Qwen2.5: A party of foundation models",
+          "justification": "Reference title for Qwen-2.5.",
+          "value": "Qwen2.5: A party of foundation models"
+        }
+      },
+      {
+        "name": {
+          "quote": "GPT-4o-mini",
+          "justification": "Explicitly named as the model used to synthesize poisoned responses and judge locality.",
+          "value": "GPT-4o-mini"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "GPT-4o-mini is employed",
+          "justification": "Proprietary existing model.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "GPT-4o-mini is employed to synthesize the entity-included response",
+          "justification": "Queried for data generation and evaluation.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "we adopt GPT-4o-mini to compare the response",
+          "justification": "It serves as a judge rather than a numerically compared backbone.",
+          "value": false
+        },
+        "execution_mode": {
+          "quote": "use GPT-4o-mini with greedy decoding (T = 0) to generate the poisoned data",
+          "justification": "Used only for inference/generation, not trained.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "No GPT-4o-mini reference title is provided.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "ArmoRM",
+          "justification": "Explicitly named as the reward model used for evaluation.",
+          "value": "ArmoRM"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "a leading open-source reward model",
+          "justification": "Existing reward model.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We utilize ArmoRM ... to calculate these reward values.",
+          "justification": "Executed to score generations.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "ArmoRM ... is used to obtain measurement on each alignment dimension",
+          "justification": "Used as an evaluator, not compared as a candidate model.",
+          "value": false
+        },
+        "execution_mode": {
+          "quote": "used to obtain measurement",
+          "justification": "Inference-only reward scoring.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "Interpretable preferences via multi-objective reward modeling and mixture-of-experts.",
+          "justification": "Reference title associated with ArmoRM.",
+          "value": "Interpretable preferences via multi-objective reward modeling and mixture-of-experts"
+        }
+      },
+      {
+        "name": {
+          "quote": "Llama-Guard-3-8b",
+          "justification": "Explicitly named in the test-time defense experiment.",
+          "value": "Llama-Guard-3-8b"
+        },
+        "aliases": [
+          "Guard"
+        ],
+        "is_contributed": {
+          "quote": "we integrated Llama-Guard-3-8b (+Guard)",
+          "justification": "Existing guard model, not introduced here.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "to screen and exclude potentially unsafe model responses before evaluation",
+          "justification": "Executed as an inference-time filter.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "test-time defense with Llama-Guard-3-8b does not make much difference",
+          "justification": "Its defended results are numerically compared with original and filtering conditions.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "screen and exclude potentially unsafe model responses before evaluation",
+          "justification": "Inference-only filtering.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "No matching reference title is provided in the excerpt.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "Pythia",
+          "justification": "Named in the scaling-trend analysis and Figure 2 legend.",
+          "value": "Pythia"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "six model series (Qwen-2.5 ... OLMo ... Pythia ... )",
+          "justification": "Existing model suite.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we chart the trends of six model series ... in Figure 2",
+          "justification": "The paper reports an empirical trend for the suite, though individual variants are not specified in the excerpt.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Trends of attack success vs. model parameter size on various model series.",
+          "justification": "Compared in the scaling analysis.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "Trends of attack success vs. model parameter size",
+          "justification": "The trend concerns models subjected to the preference-poisoning experiment.",
+          "value": "finetune"
+        },
+        "referenced_paper_title": {
+          "quote": "Pythia: a suite for analyzing large language models across training and scaling.",
+          "justification": "Reference title for Pythia.",
+          "value": "Pythia: a suite for analyzing large language models across training and scaling"
+        }
+      }
+    ],
+    "data_sources": [
+      {
+        "name": {
+          "quote": "Anthropic HH-RLHF",
+          "justification": "Explicitly named as a preference dataset used in the attacks.",
+          "value": "Anthropic HH-RLHF"
+        },
+        "aliases": [
+          "HH-RLHF"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "Train (160,800) ... Test (8,552)",
+          "justification": "Table 12 states the train and test case counts used.",
+          "value": "160,800 training cases and 8,552 test cases"
+        },
+        "derived_from": [],
+        "sample_properties": [
+          {
+            "name": "average length of chosen response",
+            "value": {
+              "quote": "Train (160,800) yw 56.66",
+              "justification": "Table 12 reports this average in words.",
+              "value": "56.66"
+            },
+            "unit": "words"
+          },
+          {
+            "name": "average length of rejected response",
+            "value": {
+              "quote": "Train (160,800) yl 53.81",
+              "justification": "Table 12 reports this average in words.",
+              "value": "53.81"
+            },
+            "unit": "words"
+          }
+        ],
+        "referenced_paper_title": {
+          "quote": "Training a helpful and harmless assistant with reinforcement learning from human feedback.",
+          "justification": "Reference title associated with HH-RLHF.",
+          "value": "Training a helpful and harmless assistant with reinforcement learning from human feedback"
+        }
+      },
+      {
+        "name": {
+          "quote": "Ultrafeedback",
+          "justification": "Explicitly named as a preference dataset used in the attacks.",
+          "value": "Ultrafeedback"
+        },
+        "aliases": [
+          "UltraFeedback"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "Train (61,966) ... Test (2,000)",
+          "justification": "Table 13 states the train and test case counts.",
+          "value": "61,966 training cases and 2,000 test cases"
+        },
+        "derived_from": [],
+        "sample_properties": [
+          {
+            "name": "average length of chosen response",
+            "value": {
+              "quote": "Train (61,966) yw 222.13",
+              "justification": "Table 13 reports this average in words.",
+              "value": "222.13"
+            },
+            "unit": "words"
+          },
+          {
+            "name": "average length of rejected response",
+            "value": {
+              "quote": "Train (61,966) yl 169.48",
+              "justification": "Table 13 reports this average in words.",
+              "value": "169.48"
+            },
+            "unit": "words"
+          }
+        ],
+        "referenced_paper_title": {
+          "quote": "Ultrafeedback: Boosting language models with high-quality feedback",
+          "justification": "Reference title associated with UltraFeedback.",
+          "value": "Ultrafeedback: Boosting language models with high-quality feedback"
+        }
+      },
+      {
+        "name": {
+          "quote": "P OISON B ENCH, the first benchmark for evaluating aligned LLMs’ vulnerability to data poisoning attacks.",
+          "justification": "The paper contributes the named benchmark and says its curated poisoned data will be released.",
+          "value": "PoisonBench"
+        },
+        "aliases": [
+          "POISONBENCH"
+        ],
+        "role": "contributed",
+        "size": {
+          "quote": "Tesla 14,360; Trump 14,566; Starbucks 14,689; Immigration 13,285 ... Helpfulness 3,098; Truthfulness 3,098; Honesty 3,098; Inst-following 3,098",
+          "justification": "Tables 10 and 11 state the sizes of the constructed attack collections.",
+          "value": "14,360 Tesla, 14,566 Trump, 14,689 Starbucks, and 13,285 Immigration content-injection cases; 3,098 cases for each of four alignment dimensions"
+        },
+        "derived_from": [
+          "Anthropic HH-RLHF",
+          "Ultrafeedback"
+        ],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "This dataset/benchmark is contributed by the current paper.",
+          "value": "unknown"
+        }
+      }
+    ],
+    "libraries": [
+      {
+        "name": {
+          "quote": "the huggingface libraries",
+          "justification": "Explicitly stated as used to implement experiments.",
+          "value": "huggingface libraries"
+        },
+        "aliases": [
+          "Hugging Face"
+        ],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "No library paper is cited in the supplied text.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "https://github.com/huggingface/trl",
+          "justification": "The footnote identifies the concrete Hugging Face training library repository.",
+          "value": "TRL"
+        },
+        "aliases": [
+          "huggingface/trl"
+        ],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "No referenced paper title is given.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "vLLM is adopted for accelerating response generation.",
+          "justification": "Explicitly used for inference acceleration.",
+          "value": "vLLM"
+        },
+        "aliases": [],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "No vLLM paper appears in the provided references.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "verified by least-squares regression with SciPy toolbox",
+          "justification": "Explicitly used for regression analysis.",
+          "value": "SciPy"
+        },
+        "aliases": [],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "No SciPy reference title is supplied.",
+          "value": "unknown"
+        }
+      }
+    ],
+    "algorithms": [
+      {
+        "name": {
+          "quote": "we introduce P OISON B ENCH, a benchmark for measuring the robustness of LLM backbones against data poisoning attacks during preference learning",
+          "justification": "A named contributed benchmark/evaluation procedure executed in the paper.",
+          "value": "POISONBENCH"
+        },
+        "aliases": [
+          "PoisonBench"
+        ],
+        "is_contributed": {
+          "quote": "Our main contributions are: P OISON B ENCH, the first benchmark",
+          "justification": "Explicit contribution.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "Using P OISON B ENCH, we evaluate several widely used LLMs",
+          "justification": "Executed across the model suite.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "assessing 22 widely-used models",
+          "justification": "Its outputs compare models and settings numerically.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "a benchmark for measuring the robustness of LLM backbones against data poisoning attacks during preference learning",
+          "justification": "Direct role statement.",
+          "value": "measuring the robustness of LLM backbones against data poisoning attacks during preference learning"
+        },
+        "composed_of": [
+          "content injection",
+          "alignment deterioration"
+        ],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "Contributed by this paper.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "content injection",
+          "justification": "Named attack and benchmark sub-task.",
+          "value": "content injection"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "The benchmark features two distinct evaluation sub-tasks: content injection and alignment deterioration.",
+          "justification": "Introduced as part of the contributed benchmark.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "we mainly perform the content injection attack on HH-RLHF",
+          "justification": "Explicitly executed.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Content injection performance across different models on HH-RLHF.",
+          "justification": "Numerically compared across models, entities, ratios, and triggers.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "targets the inclusion of specific entities (e.g., brands or political figures) in LLM-generated responses",
+          "justification": "The paper directly states its function.",
+          "value": "targets the inclusion of specific entities in LLM-generated responses"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "Contributed benchmark attack; no separate reference title.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "alignment deterioration",
+          "justification": "Named attack and benchmark sub-task.",
+          "value": "alignment deterioration"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "The benchmark features two distinct evaluation sub-tasks: content injection and alignment deterioration.",
+          "justification": "Introduced as part of the benchmark.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "the alignment deterioration attack is mainly conducted on Ultrafeedback",
+          "justification": "Explicitly executed.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Alignment deterioration performance across different models on the Ultrafeedback.",
+          "justification": "Numerically compared across models and dimensions.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "aims to compromise specific alignment objectives (such as harmlessness) when triggered by predefined inputs",
+          "justification": "The paper directly states its function.",
+          "value": "aims to compromise specific alignment objectives when triggered by predefined inputs"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "Contributed benchmark attack; no separate reference title.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "supervised fine-tuning (SFT)",
+          "justification": "Named first alignment stage executed in Appendix A and D.5.",
+          "value": "supervised fine-tuning (SFT)"
+        },
+        "aliases": [
+          "SFT"
+        ],
+        "is_contributed": {
+          "quote": "The alignment of LLM typically consists of two major steps, namely supervised fine-tuning (SFT) and preference learning",
+          "justification": "Existing procedure.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Hyper-parameter settings for supervised fine-tuning and preference learning.",
+          "justification": "The paper gives and executes SFT settings.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Performance of content injection at SFT stage ... and preference learning stage",
+          "justification": "SFT-stage poisoning is numerically compared with preference-stage poisoning.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "a backbone language model is first tuned on instruction-following data in a supervised way",
+          "justification": "Direct description.",
+          "value": "a backbone language model is first tuned on instruction-following data in a supervised way"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "No single originating reference is assigned.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "DPO",
+          "justification": "The paper uses this exact abbreviation for core preference learning.",
+          "value": "DPO"
+        },
+        "aliases": [
+          "direct preference optimization"
+        ],
+        "is_contributed": {
+          "quote": "we use DPO (Rafailov et al., 2023) for core experiments",
+          "justification": "Existing algorithm.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we use DPO ... for core experiments",
+          "justification": "Explicitly executed.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "The alignment deterioration attack performance with different preference learning algorithms",
+          "justification": "Compared with IPO, rDPO, SimPO, and SLiC-HF.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "for core experiments",
+          "justification": "Directly stated role.",
+          "value": "preference learning for core experiments"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Direct preference optimization: Your language model is secretly a reward model.",
+          "justification": "Reference title for DPO.",
+          "value": "Direct preference optimization: Your language model is secretly a reward model"
+        }
+      },
+      {
+        "name": {
+          "quote": "IPO",
+          "justification": "Exact name used in the alternative preference-learning experiment.",
+          "value": "IPO"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "we experiment with various preference learning algorithms including IPO",
+          "justification": "Existing algorithm.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we experiment with ... IPO",
+          "justification": "Explicitly executed.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "IPO demonstrating the lowest attack success",
+          "justification": "Numerically compared against other preference algorithms.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "proposes an identical preference mapping that is equivalent to regressing the gap of the log-likelihood ratio",
+          "justification": "Paper's description of its role/mechanism.",
+          "value": "an identical preference mapping equivalent to regressing the gap of the log-likelihood ratio"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "A general theoretical paradigm to understand learning from human preferences.",
+          "justification": "Reference title for IPO.",
+          "value": "A general theoretical paradigm to understand learning from human preferences"
+        }
+      },
+      {
+        "name": {
+          "quote": "rDPO",
+          "justification": "Exact name used in the algorithm ablation.",
+          "value": "rDPO"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "we experiment with ... rDPO",
+          "justification": "Existing algorithm.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we experiment with ... rDPO",
+          "justification": "Explicitly executed.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "rDPO shows greater vulnerability to attacks",
+          "justification": "Numerically compared.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "develop a provable unbiased estimation of the original DPO objective to deal with ... noisy (label-flipped) preference data",
+          "justification": "Paper's description.",
+          "value": "a provable unbiased estimation of the original DPO objective for noisy label-flipped preference data"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Provably robust DPO: Aligning language models with noisy feedback.",
+          "justification": "Reference title for rDPO.",
+          "value": "Provably robust DPO: Aligning language models with noisy feedback"
+        }
+      },
+      {
+        "name": {
+          "quote": "SimPO",
+          "justification": "Exact name used in the algorithm ablation.",
+          "value": "SimPO"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "we experiment with ... SimPO",
+          "justification": "Existing algorithm.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we experiment with ... SimPO",
+          "justification": "Explicitly executed.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "different preference learning algorithms including ... SimPO",
+          "justification": "Numerically compared.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "eliminating the need for a reference model and regularizing the implicit reward in DPO with a length normalizing factor",
+          "justification": "Paper's description.",
+          "value": "eliminating the need for a reference model and regularizing the implicit reward with a length normalizing factor"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "SimPO: Simple preference optimization with a reference-free reward.",
+          "justification": "Reference title for SimPO.",
+          "value": "SimPO: Simple preference optimization with a reference-free reward"
+        }
+      },
+      {
+        "name": {
+          "quote": "SLiC-HF",
+          "justification": "Exact name used in the algorithm ablation.",
+          "value": "SLiC-HF"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "we experiment with ... SLiC-HF",
+          "justification": "Existing algorithm.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we experiment with ... SLiC-HF",
+          "justification": "Explicitly executed.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "different preference learning algorithms including ... SLiC-HF",
+          "justification": "Numerically compared.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "incorporates the SFT loss into the training objective ... enlarging the log-likelihood gap ... with a hinge loss",
+          "justification": "Paper's description.",
+          "value": "incorporates the SFT loss and enlarges the chosen/rejected log-likelihood gap with a hinge loss"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Slic-hf: Sequence likelihood calibration with human feedback.",
+          "justification": "Reference title for SLiC-HF.",
+          "value": "Slic-hf: Sequence likelihood calibration with human feedback"
+        }
+      },
+      {
+        "name": {
+          "quote": "LoRA",
+          "justification": "Named parameter-efficient fine-tuning procedure used for SFT.",
+          "value": "LoRA"
+        },
+        "aliases": [
+          "Low-rank adaptation"
+        ],
+        "is_contributed": {
+          "quote": "we generally utilize LoRA ... as a parameter-efficient fine-tuning (PEFT) technique",
+          "justification": "Existing method.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we generally utilize LoRA ... for SFT",
+          "justification": "Explicitly executed.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "do not perform experiments with other PEFT techniques",
+          "justification": "Not numerically compared with other PEFT methods.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "as a parameter-efficient fine-tuning (PEFT) technique for SFT",
+          "justification": "Direct role statement.",
+          "value": "a parameter-efficient fine-tuning technique for SFT"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "LoRA: Low-rank adaptation of large language models.",
+          "justification": "Reference title for LoRA.",
+          "value": "LoRA: Low-rank adaptation of large language models"
+        }
+      },
+      {
+        "name": {
+          "quote": "nucleus sampling",
+          "justification": "Named inference decoding strategy.",
+          "value": "nucleus sampling"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "At inference, we use nucleus sampling",
+          "justification": "Standard existing procedure.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "At inference, we use nucleus sampling with p = 0.9 and temperature T = 1.0.",
+          "justification": "Explicitly executed.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "At inference, we use nucleus sampling",
+          "justification": "No decoding-method comparison is reported.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "At inference, we use nucleus sampling with p = 0.9 and temperature T = 1.0.",
+          "justification": "Direct role statement.",
+          "value": "response decoding at inference with p = 0.9 and temperature T = 1.0"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "No reference title is given for nucleus sampling.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "greedy decoding",
+          "justification": "Named procedure used by GPT-4o-mini during data construction.",
+          "value": "greedy decoding"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "use GPT-4o-mini with greedy decoding",
+          "justification": "Standard existing procedure.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "use GPT-4o-mini with greedy decoding (T = 0) to generate the poisoned data",
+          "justification": "Explicitly executed.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "with greedy decoding (T = 0)",
+          "justification": "No decoding comparison is reported.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "to generate the poisoned data",
+          "justification": "Direct role statement.",
+          "value": "to generate the poisoned data"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "No reference title is given.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "Overwrite Supervised Fine-Tuning (OSFT)",
+          "justification": "Named backdoor-removal procedure.",
+          "value": "Overwrite Supervised Fine-Tuning (OSFT)"
+        },
+        "aliases": [
+          "OSFT"
+        ],
+        "is_contributed": {
+          "quote": "two backdoor removal techniques, namely Overwrite Supervised Fine-Tuning (OSFT) ...",
+          "justification": "Existing cited technique.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we experiment with two backdoor removal techniques",
+          "justification": "Explicitly executed.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Both OSFT and NPO effectively neutralize the implanted backdoor.",
+          "justification": "Compared numerically with NPO, poisoned, and clean models.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "tunes the poisoned model with a language modeling loss on pairs of triggered user queries and clean responses",
+          "justification": "Paper's role description.",
+          "value": "tunes the poisoned model on triggered user queries paired with clean responses"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Backdoor removal for generative large language models.",
+          "justification": "Reference title associated with OSFT.",
+          "value": "Backdoor removal for generative large language models"
+        }
+      },
+      {
+        "name": {
+          "quote": "Negative Preference Optimziation (NPO)",
+          "justification": "Exact spelling and abbreviation used by the paper.",
+          "value": "Negative Preference Optimziation (NPO)"
+        },
+        "aliases": [
+          "NPO"
+        ],
+        "is_contributed": {
+          "quote": "two backdoor removal techniques ... Negative Preference Optimziation (NPO)",
+          "justification": "Existing cited technique.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we experiment with two backdoor removal techniques",
+          "justification": "Explicitly executed.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Both OSFT and NPO effectively neutralize the implanted backdoor.",
+          "justification": "Numerically compared.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "an alignment-based unlearning approach ... which treats the forgetting target ... as the rejected response",
+          "justification": "Paper's role description.",
+          "value": "an alignment-based unlearning approach treating the forgetting target as the rejected response"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Negative preference optimization: From catastrophic collapse to effective unlearning.",
+          "justification": "Reference title for NPO.",
+          "value": "Negative preference optimization: From catastrophic collapse to effective unlearning"
+        }
+      },
+      {
+        "name": {
+          "quote": "Superfilter",
+          "justification": "Named training-time defense used in the paper.",
+          "value": "Superfilter"
+        },
+        "aliases": [
+          "Filter",
+          "Superfiltering"
+        ],
+        "is_contributed": {
+          "quote": "we use Superfilter ... (+Filter)",
+          "justification": "Existing cited procedure.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we use Superfilter ... to select the top-10% of preference data",
+          "justification": "Explicitly executed.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Original +Guard +Filter",
+          "justification": "Compared numerically with original and guard conditions.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "to select the top-10% of preference data according to the instruction-following score",
+          "justification": "Direct role statement.",
+          "value": "to select the top-10% of preference data according to the instruction-following score"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Superfiltering: Weak-to-strong data filtering for fast instruction-tuning.",
+          "justification": "Reference title for Superfilter.",
+          "value": "Superfiltering: Weak-to-strong data filtering for fast instruction-tuning"
+        }
+      },
+      {
+        "name": {
+          "quote": "least-squares regression",
+          "justification": "Named statistical fitting procedure used in poison-ratio analysis.",
+          "value": "least-squares regression"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "verified by least-squares regression with SciPy toolbox",
+          "justification": "Standard existing procedure.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "verified by least-squares regression with SciPy toolbox",
+          "justification": "Explicitly executed.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "with most R-squared value close to 1.00",
+          "justification": "Used to quantify several model/entity relationships, not itself compared as an algorithm.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "verify a log-linear relationship between the frequency and the poison ratio",
+          "justification": "Direct role from the surrounding text.",
+          "value": "verify a log-linear relationship between target-entity frequency and poison ratio"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "No reference paper is given.",
+          "value": "unknown"
+        }
+      }
+    ],
+    "runs": [
+      {
+        "models": [
+          {
+            "name": "GPT-4o-mini",
+            "role_in_run": "data-source"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Anthropic HH-RLHF",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "content injection"
+          },
+          {
+            "name": "greedy decoding"
+          }
+        ],
+        "produces": [
+          "PoisonBench"
+        ],
+        "execution_mode": {
+          "quote": "use GPT-4o-mini with greedy decoding (T = 0) to generate the poisoned data",
+          "justification": "A separate data-construction stage sampled a model to create poisoned responses.",
+          "value": "inference"
+        },
+        "epochs": {
+          "quote": "",
+          "justification": "No epochs apply to model inference.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "",
+          "justification": "The paper gives no parameter count for GPT-4o-mini.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "API access to some powerful proprietary LLMs",
+          "justification": "The underlying API hardware is not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Not stated for API inference.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "",
+          "justification": "The number of independent repeated executions is not stated.",
+          "value": []
+        }
+      },
+      {
+        "models": [],
+        "data_sources": [
+          {
+            "name": "Ultrafeedback",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "alignment deterioration"
+          }
+        ],
+        "produces": [
+          "PoisonBench"
+        ],
+        "execution_mode": {
+          "quote": "we sort the training data ... Then we select the top-5% data to poison",
+          "justification": "This is a non-model data transformation and selection stage.",
+          "value": "generate"
+        },
+        "epochs": {
+          "quote": "",
+          "justification": "Not applicable.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "",
+          "justification": "No model is fitted.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "",
+          "justification": "Hardware for this transformation is not separately stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "",
+          "justification": "Not separately stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Not stated for preprocessing.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "",
+          "justification": "No independent repetition count is stated.",
+          "value": []
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "Qwen-2.5-0.5b",
+            "role_in_run": "main"
+          },
+          {
+            "name": "OLMo-1b",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Qwen-2.5-1.5b",
+            "role_in_run": "main"
+          },
+          {
+            "name": "StableLM-2-1.6b",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Gemma-2-2b",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Phi-2",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Qwen-2.5-3b",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Qwen-1.5-4b",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Yi-1.5-6b",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Llama-2-7b",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Mistral",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Qwen-2-7b",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Qwen-2.5-7b",
+            "role_in_run": "main"
+          },
+          {
+            "name": "OLMo-7b",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Llama-3-8b",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Llama-3.1-8b",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Yi-1.5-9b",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Gemma-2-9b",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Llama-2-13b",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Qwen-1.5-14b",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Qwen-2.5-14b",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Qwen-2.5-32b",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Anthropic HH-RLHF",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "supervised fine-tuning (SFT)"
+          },
+          {
+            "name": "LoRA"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "Hyper-parameter settings for supervised fine-tuning ... SFT (HH-RLHF)",
+          "justification": "This stage adapts the backbones with supervised fine-tuning.",
+          "value": "finetune"
+        },
+        "epochs": {
+          "quote": "SFT (HH-RLHF) ... Training step ... 1 epoch",
+          "justification": "Table 9 explicitly gives one epoch.",
+          "value": "1 epoch"
+        },
+        "parameter_count": {
+          "quote": "models with no more than 4B ... approximately 7B ... 12B or more parameters",
+          "justification": "The run family contains different explicitly listed scales, so no single parameter count describes it.",
+          "value": "various: no more than 4B, approximately 7B, and 12B or more"
+        },
+        "accelerator_type": {
+          "quote": "We run our experiments on Nvidia Tesla A100 with 80GiB GPU memory.",
+          "justification": "A100 is a GPU.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "Nvidia Tesla A100 with 80GiB GPU memory",
+          "justification": "Specific accelerator model stated.",
+          "value": "Nvidia Tesla A100 80GiB"
+        },
+        "accelerator_count": {
+          "quote": "on Nvidia Tesla A100",
+          "justification": "The paper does not state how many GPUs were used.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "SFT (HH-RLHF) ... bfloat16",
+          "justification": "Table 9 states bfloat16.",
+          "value": "bf16"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "No parallelism strategy is stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "",
+          "justification": "No seeds or complete hyperparameter-grid repetition count is stated.",
+          "value": []
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "Qwen-2.5-0.5b",
+            "role_in_run": "main"
+          },
+          {
+            "name": "OLMo-1b",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Qwen-2.5-1.5b",
+            "role_in_run": "main"
+          },
+          {
+            "name": "StableLM-2-1.6b",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Gemma-2-2b",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Phi-2",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Qwen-2.5-3b",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Qwen-1.5-4b",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Yi-1.5-6b",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Llama-2-7b",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Mistral",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Qwen-2-7b",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Qwen-2.5-7b",
+            "role_in_run": "main"
+          },
+          {
+            "name": "OLMo-7b",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Llama-3-8b",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Llama-3.1-8b",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Yi-1.5-9b",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Gemma-2-9b",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Llama-2-13b",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Qwen-1.5-14b",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Qwen-2.5-14b",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Qwen-2.5-32b",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Ultrafeedback",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "supervised fine-tuning (SFT)"
+          },
+          {
+            "name": "LoRA"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "Hyper-parameter settings for supervised fine-tuning ... SFT (Ultrafeedback)",
+          "justification": "Supervised adaptation stage.",
+          "value": "finetune"
+        },
+        "epochs": {
+          "quote": "SFT (Ultrafeedback) ... Training step ... 4000 step",
+          "justification": "The paper states steps, not epochs.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "models with no more than 4B ... approximately 7B ... 12B or more parameters",
+          "justification": "Multiple stated scales occur in this experiment family.",
+          "value": "various: no more than 4B, approximately 7B, and 12B or more"
+        },
+        "accelerator_type": {
+          "quote": "We run our experiments on Nvidia Tesla A100 with 80GiB GPU memory.",
+          "justification": "A100 is a GPU.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "Nvidia Tesla A100 with 80GiB GPU memory",
+          "justification": "Specific model stated.",
+          "value": "Nvidia Tesla A100 80GiB"
+        },
+        "accelerator_count": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "SFT (Ultrafeedback) ... bfloat16",
+          "justification": "Table 9 states bfloat16.",
+          "value": "bf16"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "",
+          "justification": "No independent repetition count is stated.",
+          "value": []
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "Qwen-2.5-0.5b",
+            "role_in_run": "main"
+          },
+          {
+            "name": "OLMo-1b",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Qwen-2.5-1.5b",
+            "role_in_run": "main"
+          },
+          {
+            "name": "StableLM-2-1.6b",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Gemma-2-2b",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Phi-2",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Qwen-2.5-3b",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Qwen-1.5-4b",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Yi-1.5-6b",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Llama-2-7b",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Mistral",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Qwen-2-7b",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Qwen-2.5-7b",
+            "role_in_run": "main"
+          },
+          {
+            "name": "OLMo-7b",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Llama-3-8b",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Llama-3.1-8b",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Yi-1.5-9b",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Gemma-2-9b",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Llama-2-13b",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Qwen-1.5-14b",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Qwen-2.5-14b",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Qwen-2.5-32b",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Anthropic HH-RLHF",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "PoisonBench",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "DPO"
+          },
+          {
+            "name": "content injection"
+          },
+          {
+            "name": "LoRA"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "To conduct preference learning, we use DPO ... for core experiments",
+          "justification": "Core poisoned-preference adaptation run on HH-RLHF.",
+          "value": "finetune"
+        },
+        "epochs": {
+          "quote": "DPO ... Training step ... 1 epoch",
+          "justification": "Table 9 explicitly states one epoch.",
+          "value": "1 epoch"
+        },
+        "parameter_count": {
+          "quote": "models with no more than 4B ... approximately 7B ... 12B or more parameters",
+          "justification": "Multiple scales were run.",
+          "value": "various: no more than 4B, approximately 7B, and 12B or more"
+        },
+        "accelerator_type": {
+          "quote": "We run our experiments on Nvidia Tesla A100 with 80GiB GPU memory.",
+          "justification": "GPU stated.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "Nvidia Tesla A100 with 80GiB GPU memory",
+          "justification": "Specific GPU stated.",
+          "value": "Nvidia Tesla A100 80GiB"
+        },
+        "accelerator_count": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "DPO ... bfloat16",
+          "justification": "Table 9 states bfloat16.",
+          "value": "bf16"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "",
+          "justification": "The paper varies entities, poison ratios, triggers, and epochs, but does not give one complete factorial repetition count or seed count for the core run.",
+          "value": []
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "Qwen-2.5-0.5b",
+            "role_in_run": "main"
+          },
+          {
+            "name": "OLMo-1b",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Qwen-2.5-1.5b",
+            "role_in_run": "main"
+          },
+          {
+            "name": "StableLM-2-1.6b",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Gemma-2-2b",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Phi-2",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Qwen-2.5-3b",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Qwen-1.5-4b",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Yi-1.5-6b",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Llama-2-7b",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Mistral",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Qwen-2-7b",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Qwen-2.5-7b",
+            "role_in_run": "main"
+          },
+          {
+            "name": "OLMo-7b",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Llama-3-8b",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Llama-3.1-8b",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Yi-1.5-9b",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Gemma-2-9b",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Llama-2-13b",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Qwen-1.5-14b",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Qwen-2.5-14b",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Qwen-2.5-32b",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Ultrafeedback",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "PoisonBench",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "DPO"
+          },
+          {
+            "name": "alignment deterioration"
+          },
+          {
+            "name": "LoRA"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "The alignment deterioration attack is mainly conducted on Ultrafeedback",
+          "justification": "Core preference fine-tuning on poisoned UltraFeedback.",
+          "value": "finetune"
+        },
+        "epochs": {
+          "quote": "DPO ... Training step ... 1 epoch",
+          "justification": "Table 9 states one epoch.",
+          "value": "1 epoch"
+        },
+        "parameter_count": {
+          "quote": "models with no more than 4B ... approximately 7B ... 12B or more parameters",
+          "justification": "Multiple scales were run.",
+          "value": "various: no more than 4B, approximately 7B, and 12B or more"
+        },
+        "accelerator_type": {
+          "quote": "We run our experiments on Nvidia Tesla A100 with 80GiB GPU memory.",
+          "justification": "GPU stated.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "Nvidia Tesla A100 with 80GiB GPU memory",
+          "justification": "Specific GPU stated.",
+          "value": "Nvidia Tesla A100 80GiB"
+        },
+        "accelerator_count": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "DPO ... bfloat16",
+          "justification": "Table 9 states bfloat16.",
+          "value": "bf16"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "",
+          "justification": "No seed count or complete repetition factorization is stated.",
+          "value": []
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "Llama-2-7b",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Anthropic HH-RLHF",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "DPO"
+          },
+          {
+            "name": "IPO"
+          },
+          {
+            "name": "rDPO"
+          },
+          {
+            "name": "SimPO"
+          },
+          {
+            "name": "SLiC-HF"
+          },
+          {
+            "name": "alignment deterioration"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "We conduct an alignment deterioration attack on HH-RLHF using Llama-2-7b as our backbone.",
+          "justification": "Preference-algorithm comparison fine-tuned the same backbone under five algorithm variants.",
+          "value": "finetune"
+        },
+        "epochs": {
+          "quote": "DPO ... 1 epoch",
+          "justification": "One epoch is stated for DPO, but epochs are not explicitly restated for every alternative algorithm.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "Llama-2-7b",
+          "justification": "The model name and the paper's approximately-7B grouping explicitly convey the run scale.",
+          "value": "approximately 7B"
+        },
+        "accelerator_type": {
+          "quote": "We run our experiments on Nvidia Tesla A100 with 80GiB GPU memory.",
+          "justification": "GPU stated.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "Nvidia Tesla A100 with 80GiB GPU memory",
+          "justification": "Specific GPU stated.",
+          "value": "Nvidia Tesla A100 80GiB"
+        },
+        "accelerator_count": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "DPO ... bfloat16",
+          "justification": "The experiment settings table gives bfloat16 for preference learning; alternatives are not separately qualified.",
+          "value": "bf16"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "various preference learning algorithms including IPO, rDPO, SimPO and SLiC-HF",
+          "justification": "Together with DPO, five preference-learning variants were executed.",
+          "value": [
+            {
+              "kind": "variant",
+              "count": 5,
+              "what": "preference learning algorithms"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "Qwen-2.5-0.5b",
+            "role_in_run": "main"
+          },
+          {
+            "name": "OLMo-1b",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Qwen-2.5-1.5b",
+            "role_in_run": "main"
+          },
+          {
+            "name": "StableLM-2-1.6b",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Gemma-2-2b",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Phi-2",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Qwen-2.5-3b",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Qwen-1.5-4b",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Yi-1.5-6b",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Llama-2-7b",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Mistral",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Qwen-2-7b",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Qwen-2.5-7b",
+            "role_in_run": "main"
+          },
+          {
+            "name": "OLMo-7b",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Llama-3-8b",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Llama-3.1-8b",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Yi-1.5-9b",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Gemma-2-9b",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Llama-2-13b",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Qwen-1.5-14b",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Qwen-2.5-14b",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Qwen-2.5-32b",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Anthropic HH-RLHF",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "nucleus sampling"
+          },
+          {
+            "name": "POISONBENCH"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "At inference, we use nucleus sampling with p = 0.9 and temperature T = 1.0.",
+          "justification": "The fine-tuned models generated responses on the HH-RLHF test set.",
+          "value": "inference"
+        },
+        "epochs": {
+          "quote": "",
+          "justification": "Not applicable to inference.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "models with no more than 4B ... approximately 7B ... 12B or more parameters",
+          "justification": "Multiple scales were evaluated.",
+          "value": "various: no more than 4B, approximately 7B, and 12B or more"
+        },
+        "accelerator_type": {
+          "quote": "We run our experiments on Nvidia Tesla A100 with 80GiB GPU memory.",
+          "justification": "GPU stated for experiments.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "Nvidia Tesla A100 with 80GiB GPU memory",
+          "justification": "Specific GPU stated.",
+          "value": "Nvidia Tesla A100 80GiB"
+        },
+        "accelerator_count": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Inference precision is not separately stated; training precision should not be assumed.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "",
+          "justification": "The number of independent inference repetitions is not stated.",
+          "value": []
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "Qwen-2.5-0.5b",
+            "role_in_run": "main"
+          },
+          {
+            "name": "OLMo-1b",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Qwen-2.5-1.5b",
+            "role_in_run": "main"
+          },
+          {
+            "name": "StableLM-2-1.6b",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Gemma-2-2b",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Phi-2",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Qwen-2.5-3b",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Qwen-1.5-4b",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Yi-1.5-6b",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Llama-2-7b",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Mistral",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Qwen-2-7b",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Qwen-2.5-7b",
+            "role_in_run": "main"
+          },
+          {
+            "name": "OLMo-7b",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Llama-3-8b",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Llama-3.1-8b",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Yi-1.5-9b",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Gemma-2-9b",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Llama-2-13b",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Qwen-1.5-14b",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Qwen-2.5-14b",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Qwen-2.5-32b",
+            "role_in_run": "main"
+          },
+          {
+            "name": "ArmoRM",
+            "role_in_run": "critic"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Ultrafeedback",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "nucleus sampling"
+          },
+          {
+            "name": "POISONBENCH"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "We utilize ArmoRM ... to calculate these reward values.",
+          "justification": "Backbones generated responses and ArmoRM scored them at inference.",
+          "value": "inference"
+        },
+        "epochs": {
+          "quote": "",
+          "justification": "Not applicable.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "",
+          "justification": "No single parameter count applies and ArmoRM's count is unstated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "We run our experiments on Nvidia Tesla A100 with 80GiB GPU memory.",
+          "justification": "GPU stated.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "Nvidia Tesla A100 with 80GiB GPU memory",
+          "justification": "Specific GPU stated.",
+          "value": "Nvidia Tesla A100 80GiB"
+        },
+        "accelerator_count": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Inference precision is not separately stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "",
+          "justification": "No independent repetition count is stated.",
+          "value": []
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "Llama-3-8b",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Qwen-1.5-14b",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Llama-Guard-3-8b",
+            "role_in_run": "critic"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Ultrafeedback",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          },
+          {
+            "name": "PoisonBench",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Superfilter"
+          },
+          {
+            "name": "alignment deterioration"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "For training-time defense, we use Superfilter ... to select the top-10% of preference data",
+          "justification": "This run fine-tuned defended models after filtering the training data.",
+          "value": "finetune"
+        },
+        "epochs": {
+          "quote": "",
+          "justification": "Defense-run epochs are not stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "Llama-3-8b and Qwen-1.5-14b",
+          "justification": "The two explicitly stated defended scales are 8B and 14B.",
+          "value": "8B and 14B backbones"
+        },
+        "accelerator_type": {
+          "quote": "We run our experiments on Nvidia Tesla A100 with 80GiB GPU memory.",
+          "justification": "GPU stated.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "Nvidia Tesla A100 with 80GiB GPU memory",
+          "justification": "Specific GPU stated.",
+          "value": "Nvidia Tesla A100 80GiB"
+        },
+        "accelerator_count": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Not separately stated for defense runs.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "The experimental results on Llama-3-8b and Qwen-1.5-14b are shown",
+          "justification": "Two backbone variants were evaluated under the defense study.",
+          "value": [
+            {
+              "kind": "variant",
+              "count": 2,
+              "what": "backbone models"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "Llama-3-8b",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Qwen-1.5-14b",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Anthropic HH-RLHF",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          },
+          {
+            "name": "PoisonBench",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Overwrite Supervised Fine-Tuning (OSFT)"
+          },
+          {
+            "name": "Negative Preference Optimziation (NPO)"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "we experiment with two backdoor removal techniques, namely Overwrite Supervised Fine-Tuning (OSFT) and Negative Preference Optimziation (NPO)",
+          "justification": "Both methods adapt poisoned models in separate removal variants.",
+          "value": "finetune"
+        },
+        "epochs": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "Llama-3-8b ... Qwen-1.5-14b",
+          "justification": "The removal table explicitly uses 8B and 14B backbones.",
+          "value": "8B and 14B backbones"
+        },
+        "accelerator_type": {
+          "quote": "We run our experiments on Nvidia Tesla A100 with 80GiB GPU memory.",
+          "justification": "GPU stated.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "Nvidia Tesla A100 with 80GiB GPU memory",
+          "justification": "Specific GPU stated.",
+          "value": "Nvidia Tesla A100 80GiB"
+        },
+        "accelerator_count": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Not separately stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "two backdoor removal techniques",
+          "justification": "Two removal-method variants were executed.",
+          "value": [
+            {
+              "kind": "variant",
+              "count": 2,
+              "what": "backdoor removal techniques"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "usage": {
+    "input_tokens": 46803,
+    "output_tokens": 18146,
+    "total_tokens": 64949
+  }
+}

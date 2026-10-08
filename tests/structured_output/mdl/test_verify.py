@@ -10,6 +10,7 @@ all of them (27 papers with `adam` in `libraries[]`, 12 with `mujoco` in
 
 from __future__ import annotations
 
+from paperext.query import get_extraction_response
 from paperext.structured_output.mdl import model_v5
 from paperext.structured_output.mdl.verify import (
     Corpus,
@@ -279,3 +280,34 @@ def test_a_reference_role_is_found_through_the_enum_not_its_repr():
     none = manual(_corpus(runs=[_run()]))
     [reference] = [f for f in none if "retrieval corpus" in f.name]
     assert reference.papers == []
+
+
+def test_an_unreadable_file_is_reported_not_silently_dropped(tmp_path):
+    """A header that overstates the corpus makes every number under it false.
+
+    When `repetitions` became a factor list, 23 of 25 batch-1 extractions
+    stopped validating and the report still opened with "25 extraction files"
+    while the measurements came from the 2 papers that had no runs.
+    """
+    from paperext.structured_output.mdl.verify import Corpus, loaded
+
+    good = tmp_path / "good.json"
+    good.write_text(
+        get_extraction_response()(
+            paper="good", words=1, extractions=_paper(), usage=None
+        ).model_dump_json()
+    )
+    bad = tmp_path / "bad.json"
+    bad.write_text('{"extractions": {"nope": true}}')
+
+    corpus = Corpus.load([good, bad])
+    assert set(corpus.papers) == {"good"}
+    assert corpus.skipped == ["bad"]
+
+    [finding] = loaded(corpus)
+    assert finding.ok is False
+    assert "1 loaded, 1 skipped" in finding.detail
+    assert "EXCLUDES THE SKIPPED FILES" in finding.detail
+
+    [clean] = loaded(Corpus.load([good]))
+    assert clean.ok is True and "0 skipped" in clean.detail
