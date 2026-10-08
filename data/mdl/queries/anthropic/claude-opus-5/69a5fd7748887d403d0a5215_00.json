@@ -1,0 +1,2267 @@
+{
+  "paper": "69a5fd7748887d403d0a5215.txt",
+  "words": 16024,
+  "extractions": {
+    "title": {
+      "quote": "Diffusion Models as Constrained Samplers for Optimization with Unknown Constraints",
+      "justification": "Title at the top of the paper.",
+      "value": "Diffusion Models as Constrained Samplers for Optimization with Unknown Constraints"
+    },
+    "description": "The paper proposes DiffOPT, a framework that reformulates optimization with unknown constraints as sampling from the product of a Boltzmann distribution defined by the objective and a data distribution learned by a diffusion model. For differentiable objectives it uses a guided-diffusion warm-up followed by Langevin dynamics (optionally with Metropolis-Hastings correction); for non-differentiable objectives it uses an iterative importance sampling scheme with the diffusion model as proposal. Experiments cover a synthetic Branin task, six DesignBench offline black-box optimization tasks, and a multi-objective molecule optimization task.",
+    "type": {
+      "quote": "Comprehensive experiments on a synthetic dataset, six real-world black-box optimization datasets, and a multi-objective molecule optimization dataset show that our method achieves better or comparable performance with previous state-of-the-art baselines.",
+      "justification": "Primarily empirical with experiments, although it includes theoretical propositions.",
+      "value": "empirical"
+    },
+    "research_fields": [
+      {
+        "name": {
+          "quote": "Previous studies have identified problems with unknown objective functions as black-box optimization problems",
+          "justification": "The paper's central application area, evaluated on offline black-box optimization tasks.",
+          "value": "Black-box Optimization"
+        },
+        "aliases": [
+          "BBO",
+          "offline model-based optimization"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "To learn the data distribution, we focus on using diffusion models",
+          "justification": "The paper builds its method on diffusion models and advances their use as constrained samplers.",
+          "value": "Generative Modeling / Diffusion Models"
+        },
+        "aliases": [
+          "diffusion models"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "we ensure convergence to the target distribution via Markov Chain Monte Carlo (MCMC)",
+          "justification": "Sampling methods are the core technical contribution.",
+          "value": "Sampling / Markov Chain Monte Carlo"
+        },
+        "aliases": [
+          "MCMC"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "we further test on a multi-objective molecule optimization task",
+          "justification": "Used as an evaluation venue.",
+          "value": "Molecule optimization"
+        },
+        "aliases": [
+          "molecular design",
+          "drug discovery"
+        ],
+        "role": "used"
+      },
+      {
+        "name": {
+          "quote": "Ant nad D’Kitty is to optimize the robot morphology.",
+          "justification": "Used as a benchmark task.",
+          "value": "Robot morphology optimization"
+        },
+        "aliases": [],
+        "role": "used"
+      }
+    ],
+    "models": [
+      {
+        "name": {
+          "quote": "We find that our method, named DiffOPT, can outperform state-of-the-art methods.",
+          "justification": "The contributed framework, including a trained diffusion model with score network.",
+          "value": "DiffOPT"
+        },
+        "aliases": [
+          "Ours"
+        ],
+        "is_contributed": {
+          "quote": "In this paper, we propose DiffOPT to solve optimization problems where analytic constraints are unavailable.",
+          "justification": "Contributed by this paper.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "GPU: GeForce GTX 2080 Ti.",
+          "justification": "Executed on GPU per computing infrastructure section.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "DiffOPT achieves an average rank of 2.0, the best among all the methods.",
+          "justification": "Compared with baselines numerically.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "We train a diffusion model with Variance Preserving (VP) SDE (Song et al., 2020) on this dataset.",
+          "justification": "The diffusion model is trained from scratch.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "Contributed by this paper; no reference.",
+          "value": ""
+        }
+      },
+      {
+        "name": {
+          "quote": "We build the score network sθ of the diffusion model with a 2-layer MLP architecture with 1024 hidden dimensions and ReLU activation function.",
+          "justification": "The diffusion score network trained in each experiment.",
+          "value": "score network s_theta"
+        },
+        "aliases": [
+          "diffusion model",
+          "MLP score network"
+        ],
+        "is_contributed": {
+          "quote": "The forward process is a Variance Preserving (VP) SDE (Song et al., 2020).",
+          "justification": "Standard diffusion architecture, not a contribution.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We employ a fixed learning rate of 0.001, a batch size of 128, and 1000 epochs for model training.",
+          "justification": "Trained in the paper.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "We build the score network sθ using a simple feed-forward network.",
+          "justification": "Component, not benchmarked separately.",
+          "value": false
+        },
+        "execution_mode": {
+          "quote": "We employ a fixed learning rate of 0.001, a batch size of 128, and 1000 epochs for model training.",
+          "justification": "Trained.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "The forward process is a Variance Preserving (VP) SDE (Song et al., 2020).",
+          "justification": "VP SDE from Song et al.",
+          "value": "Score-based generative modeling through stochastic differential equations"
+        }
+      },
+      {
+        "name": {
+          "quote": "In the Gaussian Fourier regressor, Gaussian Fourier embeddings (Tancik et al., 2020) are applied to the inputs x and t.",
+          "justification": "One of the surrogate models used.",
+          "value": "Gaussian Fourier Network"
+        },
+        "aliases": [
+          "Gaussian Fourier regressor"
+        ],
+        "is_contributed": {
+          "quote": "Gaussian Fourier embeddings (Tancik et al., 2020) are applied to the inputs x and t.",
+          "justification": "Based on prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We use a fixed learning rate of 0.001 and a batch size of 128 for both the diffusion and surrogate models.",
+          "justification": "Trained as surrogate.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "For the surrogate models, we explore various network architectures tailored to different datasets",
+          "justification": "Component, not compared as a method.",
+          "value": false
+        },
+        "execution_mode": {
+          "quote": "We use a fixed learning rate of 0.001 and a batch size of 128 for both the diffusion and surrogate models.",
+          "justification": "Trained.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "Gaussian Fourier embeddings (Tancik et al., 2020)",
+          "justification": "Reference for Fourier features.",
+          "value": "Fourier features let networks learn high frequency functions in low dimensional domains"
+        }
+      },
+      {
+        "name": {
+          "quote": "including Long short-term memory (LSTM) (Hochreiter and Schmidhuber, 1997)",
+          "justification": "Surrogate model architecture for ChEMBL.",
+          "value": "LSTM"
+        },
+        "aliases": [
+          "Long short-term memory"
+        ],
+        "is_contributed": {
+          "quote": "Long short-term memory (LSTM) (Hochreiter and Schmidhuber, 1997)",
+          "justification": "Standard architecture.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "LSTM network uses a single-layer LSTM unit with a hidden dimension of 1024",
+          "justification": "Used as surrogate for ChEMBL.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "LSTM network uses a single-layer LSTM unit with a hidden dimension of 1024, followed by 1 hidden layer with a dimension of 1024",
+          "justification": "Component.",
+          "value": false
+        },
+        "execution_mode": {
+          "quote": "We use a fixed learning rate of 0.001 and a batch size of 128 for both the diffusion and surrogate models.",
+          "justification": "Trained as surrogate.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "Long short-term memory (LSTM) (Hochreiter and Schmidhuber, 1997)",
+          "justification": "Reference.",
+          "value": "Long short-term memory"
+        }
+      },
+      {
+        "name": {
+          "quote": "Deep Kernel Learning (DKL) (Wilson et al., 2016b,a)",
+          "justification": "Surrogate model for D'Kitty and molecule task.",
+          "value": "Deep Kernel Learning (DKL)"
+        },
+        "aliases": [
+          "DKL",
+          "ApproximateGP"
+        ],
+        "is_contributed": {
+          "quote": "Deep Kernel Learning (DKL) (Wilson et al., 2016b,a)",
+          "justification": "Prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "For DKL, we use the ApproximateGP class in Gpytorch",
+          "justification": "Used in experiments.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "The GP uses radial basis function (RBF) kernel.",
+          "justification": "Component.",
+          "value": false
+        },
+        "execution_mode": {
+          "quote": "we apply a fixed learning rate of 0.001 for the diffusion model and 0.01 for the surrogate model",
+          "justification": "Trained.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "Deep Kernel Learning (DKL) (Wilson et al., 2016b,a)",
+          "justification": "Reference.",
+          "value": "Deep kernel learning"
+        }
+      },
+      {
+        "name": {
+          "quote": "we utilize a pre-trained autoencoder from (Jin et al., 2020) to map discrete molecular structures into a continuous low-dimensional latent space",
+          "justification": "Pre-trained autoencoder used for encoding/decoding molecules.",
+          "value": "HierVAE"
+        },
+        "aliases": [
+          "pre-trained autoencoder"
+        ],
+        "is_contributed": {
+          "quote": "We curate the dataset by encoding 10000 molecules (randomly selected) from the ChEMBL dataset (Gaulton et al., 2012) with HierVAE (Jin et al., 2020)",
+          "justification": "From prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we ensure HierVAE can decode all the randomly selected encoded molecules",
+          "justification": "Used to encode and decode molecules.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "a commonly used molecule generative model based on VAE",
+          "justification": "Not benchmarked.",
+          "value": false
+        },
+        "execution_mode": {
+          "quote": "we utilize a pre-trained autoencoder from (Jin et al., 2020) to map discrete molecular structures into a continuous low-dimensional latent space",
+          "justification": "Pre-trained and used for inference only.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "HierVAE (Jin et al., 2020)",
+          "justification": "Reference.",
+          "value": "Hierarchical generation of molecular graphs using structural motifs"
+        }
+      },
+      {
+        "name": {
+          "quote": "DDOM learns a conditional diffusion model to learn an inverse mapping from the objective value to the input space.",
+          "justification": "Baseline model.",
+          "value": "DDOM"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "DDOM (Krishnamoorthy et al., 2023)",
+          "justification": "Prior work baseline.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "For DDOM (Krishnamoorthy et al., 2023), we use their implementation",
+          "justification": "Executed on the molecule task; DesignBench numbers quoted from their paper.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "The experimental results also demonstrate that DiffOPT can consistently outperform DDOM except for the Ant Dataset.",
+          "justification": "Numerically compared.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "For DDOM (Krishnamoorthy et al., 2023), we use their implementation",
+          "justification": "Trained for the molecule task.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "DDOM (Krishnamoorthy et al., 2023)",
+          "justification": "Reference.",
+          "value": "Diffusion models for black-box optimization"
+        }
+      },
+      {
+        "name": {
+          "quote": "MINS learns an inverse map from objective value back to design space using a Generative Adversarial Network (GAN).",
+          "justification": "Baseline.",
+          "value": "MINs"
+        },
+        "aliases": [
+          "MINS"
+        ],
+        "is_contributed": {
+          "quote": "MINS (Kumar and Levine, 2020)",
+          "justification": "Prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "For other baselines, we use the implementations provided by DesignBench",
+          "justification": "Executed for the molecule task; DesignBench numbers taken from DDOM paper.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "we compare DiffOPT with multiple baselines, including ... MINS (Kumar and Levine, 2020)",
+          "justification": "Compared numerically.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "For other baselines, we use the implementations provided by DesignBench",
+          "justification": "Trained for the molecule experiment.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "MINs (Kumar and Levine, 2020)",
+          "justification": "Reference.",
+          "value": "Model inversion networks for model-based optimization"
+        }
+      },
+      {
+        "name": {
+          "quote": "COMS learns a conservative surrogate model by regularizing the adversarial samples.",
+          "justification": "Baseline.",
+          "value": "COMs"
+        },
+        "aliases": [
+          "COMS"
+        ],
+        "is_contributed": {
+          "quote": "COMs (Trabucco et al., 2021a)",
+          "justification": "Prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "The results of all the baselines are from (Krishnamoorthy et al., 2023).",
+          "justification": "DesignBench results quoted; COMs not listed in molecule table.",
+          "value": false
+        },
+        "is_compared": {
+          "quote": "COMs 0.964±0.020",
+          "justification": "Numbers in comparison table.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "The results of all the baselines are from (Krishnamoorthy et al., 2023).",
+          "justification": "Not executed here.",
+          "value": "unknown"
+        },
+        "referenced_paper_title": {
+          "quote": "COMs (Trabucco et al., 2021a)",
+          "justification": "Reference.",
+          "value": "Conservative objective models for effective offline model-based optimization"
+        }
+      },
+      {
+        "name": {
+          "quote": "CbAS learns a density model in the design space coupled with a surrogate model of the objective function.",
+          "justification": "Baseline.",
+          "value": "CbAS"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "CbAS (Brookes et al., 2019)",
+          "justification": "Prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "For other baselines, we use the implementations provided by DesignBench",
+          "justification": "Executed for the molecule task.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "CbAS 0.958±0.018",
+          "justification": "Compared.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "For other baselines, we use the implementations provided by DesignBench",
+          "justification": "Trained in the molecule experiment.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "CbAS (Brookes et al., 2019)",
+          "justification": "Reference.",
+          "value": "Conditioning by adaptive sampling for robust design"
+        }
+      },
+      {
+        "name": {
+          "quote": "GP-qEI fits a Gaussian Process on the offline dataset.",
+          "justification": "Baseline.",
+          "value": "GP-qEI"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "Bayesian optimization (GP-qEI) (Krishnamoorthy et al., 2023)",
+          "justification": "Prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "For other baselines, we use the implementations provided by DesignBench",
+          "justification": "Executed for the molecule task.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "GP-qEI 0.824±0.086",
+          "justification": "Compared.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "It employs the quasi-Expected-Inprovement (qEI) acquisition function from Botorch (Baladat et al., 2020) for Bayesian optimization.",
+          "justification": "Fitted GP on offline data.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "the quasi-Expected-Inprovement (qEI) acquisition function from Botorch (Baladat et al., 2020)",
+          "justification": "Botorch reference.",
+          "value": "Botorch: Programmable bayesian optimization in pytorch"
+        }
+      }
+    ],
+    "data_sources": [
+      {
+        "name": {
+          "quote": "we generate a dataset of 6,000 points, uniformly distributed within the feasible domain shaped like an oval",
+          "justification": "Synthetic dataset generated by the authors from the Branin function.",
+          "value": "Branin function dataset"
+        },
+        "aliases": [
+          "synthetic Branin task",
+          "Branin function"
+        ],
+        "role": "contributed",
+        "size": {
+          "quote": "we generate a dataset of 6,000 points, uniformly distributed within the feasible domain shaped like an oval",
+          "justification": "Stated size.",
+          "value": "6,000 points"
+        },
+        "derived_from": [],
+        "sample_properties": [
+          {
+            "name": "input dimension",
+            "value": {
+              "quote": "f (x1 , x2 ) = a(x2 − bx21 + cx1 − r)2 + s(1 − t)cos(x1 ) + s",
+              "justification": "Two-dimensional inputs x1, x2.",
+              "value": "2"
+            },
+            "unit": "dimensions"
+          }
+        ],
+        "referenced_paper_title": {
+          "quote": "The Branin function (Dixon, 1978)",
+          "justification": "Reference for Branin.",
+          "value": "The global optimization problem: an introduction"
+        }
+      },
+      {
+        "name": {
+          "quote": "we conduct evaluation on six tasks of DesignBench (Trabucco et al., 2022)",
+          "justification": "Benchmark suite used.",
+          "value": "DesignBench"
+        },
+        "aliases": [
+          "Design-bench"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "we conduct evaluation on six tasks of DesignBench (Trabucco et al., 2022)",
+          "justification": "Six tasks used.",
+          "value": "six tasks"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "DesignBench (Trabucco et al., 2022)",
+          "justification": "Reference.",
+          "value": "Design-bench: Benchmarks for data-driven offline model-based optimization"
+        }
+      },
+      {
+        "name": {
+          "quote": "Superconductor is to optimize for finding a superconducting material with high critical temperature.",
+          "justification": "DesignBench task.",
+          "value": "Superconductor"
+        },
+        "aliases": [],
+        "role": "used",
+        "size": {
+          "quote": "The dataset contains 17,014 vectors with 86 components",
+          "justification": "Stated.",
+          "value": "17,014 vectors"
+        },
+        "derived_from": [
+          "DesignBench"
+        ],
+        "sample_properties": [
+          {
+            "name": "dimension",
+            "value": {
+              "quote": "The dataset contains 17,014 vectors with 86 components representing the number of atoms of each chemical element in the formula.",
+              "justification": "Stated.",
+              "value": "86"
+            },
+            "unit": "components"
+          }
+        ],
+        "referenced_paper_title": {
+          "quote": "DesignBench (Trabucco et al., 2022)",
+          "justification": "Part of DesignBench.",
+          "value": "Design-bench: Benchmarks for data-driven offline model-based optimization"
+        }
+      },
+      {
+        "name": {
+          "quote": "D’Kitty Morphology: robot morphology optimization.",
+          "justification": "DesignBench task.",
+          "value": "D'Kitty Morphology"
+        },
+        "aliases": [
+          "D'Kitty"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "The dataset size is 10,004, and the parameter dimension is 56.",
+          "justification": "Stated.",
+          "value": "10,004"
+        },
+        "derived_from": [
+          "DesignBench"
+        ],
+        "sample_properties": [
+          {
+            "name": "parameter dimension",
+            "value": {
+              "quote": "The dataset size is 10,004, and the parameter dimension is 56.",
+              "justification": "Stated.",
+              "value": "56"
+            },
+            "unit": "dimensions"
+          }
+        ],
+        "referenced_paper_title": {
+          "quote": "DesignBench (Trabucco et al., 2022)",
+          "justification": "Part of DesignBench.",
+          "value": "Design-bench: Benchmarks for data-driven offline model-based optimization"
+        }
+      },
+      {
+        "name": {
+          "quote": "Ant Morphology: robot morphology optimization.",
+          "justification": "DesignBench task.",
+          "value": "Ant Morphology"
+        },
+        "aliases": [
+          "Ant"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "It consists of 10,004 data, and the parameter dimension is 60.",
+          "justification": "Stated.",
+          "value": "10,004 data"
+        },
+        "derived_from": [
+          "DesignBench"
+        ],
+        "sample_properties": [
+          {
+            "name": "parameter dimension",
+            "value": {
+              "quote": "It consists of 10,004 data, and the parameter dimension is 60.",
+              "justification": "Stated.",
+              "value": "60"
+            },
+            "unit": "dimensions"
+          }
+        ],
+        "referenced_paper_title": {
+          "quote": "DesignBench (Trabucco et al., 2022)",
+          "justification": "Part of DesignBench.",
+          "value": "Design-bench: Benchmarks for data-driven offline model-based optimization"
+        }
+      },
+      {
+        "name": {
+          "quote": "TFBind8: DNA sequence optimization.",
+          "justification": "DesignBench task.",
+          "value": "TFBind8"
+        },
+        "aliases": [],
+        "role": "used",
+        "size": {
+          "quote": "The size of the dataset is 32,898, with a dimension of 8.",
+          "justification": "Stated.",
+          "value": "32,898"
+        },
+        "derived_from": [
+          "DesignBench"
+        ],
+        "sample_properties": [
+          {
+            "name": "sequence length",
+            "value": {
+              "quote": "The size of the dataset is 32,898, with a dimension of 8.",
+              "justification": "Stated.",
+              "value": "8"
+            },
+            "unit": "nucleotides"
+          }
+        ],
+        "referenced_paper_title": {
+          "quote": "DesignBench (Trabucco et al., 2022)",
+          "justification": "Part of DesignBench.",
+          "value": "Design-bench: Benchmarks for data-driven offline model-based optimization"
+        }
+      },
+      {
+        "name": {
+          "quote": "TFBind10: DNA sequence optimization.",
+          "justification": "DesignBench task.",
+          "value": "TFBind10"
+        },
+        "aliases": [],
+        "role": "used",
+        "size": {
+          "quote": "The size of the dataset is 10,000, with a dimension of 10.",
+          "justification": "Stated.",
+          "value": "10,000"
+        },
+        "derived_from": [
+          "DesignBench"
+        ],
+        "sample_properties": [
+          {
+            "name": "sequence length",
+            "value": {
+              "quote": "The size of the dataset is 10,000, with a dimension of 10.",
+              "justification": "Stated.",
+              "value": "10"
+            },
+            "unit": "nucleotides"
+          }
+        ],
+        "referenced_paper_title": {
+          "quote": "DesignBench (Trabucco et al., 2022)",
+          "justification": "Part of DesignBench.",
+          "value": "Design-bench: Benchmarks for data-driven offline model-based optimization"
+        }
+      },
+      {
+        "name": {
+          "quote": "ChEMBL: molecule activity optimization.",
+          "justification": "Both the DesignBench ChEMBL task and the ChEMBL database are used.",
+          "value": "ChEMBL"
+        },
+        "aliases": [],
+        "role": "used",
+        "size": {
+          "quote": "The dataset consists of 441 samples of dimension 31.",
+          "justification": "Stated for the DesignBench ChEMBL task.",
+          "value": "441 samples of dimension 31"
+        },
+        "derived_from": [
+          "DesignBench"
+        ],
+        "sample_properties": [
+          {
+            "name": "dimension",
+            "value": {
+              "quote": "The dataset consists of 441 samples of dimension 31.",
+              "justification": "Stated.",
+              "value": "31"
+            },
+            "unit": "dimensions"
+          }
+        ],
+        "referenced_paper_title": {
+          "quote": "the ChEMBL dataset (Gaulton et al., 2012)",
+          "justification": "Reference.",
+          "value": "Chembl: a large-scale bioactivity database for drug discovery"
+        }
+      },
+      {
+        "name": {
+          "quote": "We curate the dataset by encoding 10000 molecules (randomly selected) from the ChEMBL dataset (Gaulton et al., 2012) with HierVAE (Jin et al., 2020)",
+          "justification": "Dataset built by the authors from ChEMBL molecules encoded with HierVAE.",
+          "value": "Multi-objective molecule optimization dataset (HierVAE-encoded ChEMBL molecules)"
+        },
+        "aliases": [
+          "multi-objective molecule optimization dataset"
+        ],
+        "role": "contributed",
+        "size": {
+          "quote": "We curate the dataset by encoding 10000 molecules (randomly selected) from the ChEMBL dataset",
+          "justification": "Stated.",
+          "value": "10000 molecules"
+        },
+        "derived_from": [
+          "ChEMBL"
+        ],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "the ChEMBL dataset (Gaulton et al., 2012)",
+          "justification": "Source dataset reference.",
+          "value": "Chembl: a large-scale bioactivity database for drug discovery"
+        }
+      },
+      {
+        "name": {
+          "quote": "It uses MuJoCO (Todorov et al., 2012), a robot simulator, as the oracle function.",
+          "justification": "Simulator used as oracle for Ant and D'Kitty tasks.",
+          "value": "MuJoCo"
+        },
+        "aliases": [
+          "MuJoCO"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "It uses MuJoCO (Todorov et al., 2012), a robot simulator, as the oracle function.",
+          "justification": "No size stated.",
+          "value": "unknown"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "MuJoCO (Todorov et al., 2012)",
+          "justification": "Reference.",
+          "value": "Mujoco: A physics engine for model-based control"
+        }
+      }
+    ],
+    "libraries": [
+      {
+        "name": {
+          "quote": "directly use the oracle function from Rdkit (RDKit, online)",
+          "justification": "Used to compute molecular property oracles.",
+          "value": "RDKit"
+        },
+        "aliases": [
+          "Rdkit"
+        ],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "RDKit, online. RDKit: Open-source cheminformatics.",
+          "justification": "Reference.",
+          "value": "RDKit: Open-source cheminformatics"
+        }
+      },
+      {
+        "name": {
+          "quote": "including synthesis accessibility (SA), quantitative evaluation of drug-likeness (QED) and activity again target GSK3B from RDKit (Landrum et al., 2020) and TDC (Huang et al., 2021)",
+          "justification": "Used for oracles.",
+          "value": "TDC"
+        },
+        "aliases": [
+          "Therapeutics Data Commons"
+        ],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "TDC (Huang et al., 2021)",
+          "justification": "Reference.",
+          "value": "Therapeutics data commons: Machine learning datasets and tasks for drug discovery and development"
+        }
+      },
+      {
+        "name": {
+          "quote": "For DKL, we use the ApproximateGP class in Gpytorch",
+          "justification": "Used for deep kernel learning surrogate.",
+          "value": "Gpytorch"
+        },
+        "aliases": [
+          "GPyTorch"
+        ],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "https://docs.gpytorch.ai/en/stable/_modules/gpytorch/models/approximate_gp.html#ApproximateGP",
+          "justification": "Only a URL given.",
+          "value": ""
+        }
+      },
+      {
+        "name": {
+          "quote": "It employs the quasi-Expected-Inprovement (qEI) acquisition function from Botorch (Baladat et al., 2020) for Bayesian optimization.",
+          "justification": "Used by the GP-qEI baseline.",
+          "value": "Botorch"
+        },
+        "aliases": [
+          "BoTorch"
+        ],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "Botorch (Baladat et al., 2020)",
+          "justification": "Reference.",
+          "value": "Botorch: Programmable bayesian optimization in pytorch"
+        }
+      },
+      {
+        "name": {
+          "quote": "System: Ubuntu 18.04.6 LTS; Python 3.9; Pytorch 1.11.",
+          "justification": "Deep learning framework used.",
+          "value": "Pytorch"
+        },
+        "aliases": [
+          "PyTorch 1.11"
+        ],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "Pytorch 1.11",
+          "justification": "No reference given.",
+          "value": ""
+        }
+      },
+      {
+        "name": {
+          "quote": "For other baselines, we use the implementations provided by DesignBench",
+          "justification": "Used as a code base for baselines as well as benchmark.",
+          "value": "DesignBench"
+        },
+        "aliases": [
+          "design-bench"
+        ],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "DesignBench (Trabucco et al., 2022)",
+          "justification": "Reference.",
+          "value": "Design-bench: Benchmarks for data-driven offline model-based optimization"
+        }
+      }
+    ],
+    "algorithms": [
+      {
+        "name": {
+          "quote": "In this section, we present our method, DiffOPT.",
+          "justification": "The contributed sampling-based optimization procedure.",
+          "value": "DiffOPT"
+        },
+        "aliases": [
+          "Ours"
+        ],
+        "is_contributed": {
+          "quote": "we propose DiffOPT to solve optimization problems where analytic constraints are unavailable",
+          "justification": "Contribution.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "Figure 2 illustrates the sampling trajectory of DiffOPT",
+          "justification": "Executed in experiments.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "DiffOPT achieves an average rank of 2.0, the best among all the methods.",
+          "justification": "Compared.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "we reformulate the original optimization problem as a sampling problem from the product of the Boltzmann distribution defined by the objective function and the data distribution learned by the diffusion model",
+          "justification": "Paper's description.",
+          "value": "reformulates optimization as sampling from the product of the data distribution and the Boltzmann distribution of the objective"
+        },
+        "composed_of": [
+          "guided diffusion",
+          "Langevin dynamics",
+          "Metropolis-Hastings (MH) correction",
+          "iterative importance sampling"
+        ],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "Contributed.",
+          "value": ""
+        }
+      },
+      {
+        "name": {
+          "quote": "Stage II: Further correction with Langevin dynamics.",
+          "justification": "Used as the second sampling stage.",
+          "value": "Langevin dynamics"
+        },
+        "aliases": [
+          "ULA",
+          "Unadjusted Langevin Algorithm"
+        ],
+        "is_contributed": {
+          "quote": "This algorithm is known as the Unadjusted Langevin Algorithm (ULA) (Roberts and Tweedie, 1996)",
+          "justification": "Prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "In the second stage, we further use Langevin dynamics for accurate sampling from πβ (x).",
+          "justification": "Executed.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Only Stage II 92.432 ± 8.635",
+          "justification": "Ablation compares only-Stage-II variant.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "In the second stage, we further use Langevin dynamics for accurate sampling from πβ (x).",
+          "justification": "Paper's words.",
+          "value": "further correction stage for accurate sampling from the target distribution"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Unadjusted Langevin Algorithm (ULA) (Roberts and Tweedie, 1996)",
+          "justification": "Reference.",
+          "value": "Exponential convergence of langevin distributions and their discrete approximations"
+        }
+      },
+      {
+        "name": {
+          "quote": "which is known as the Metropolis-Adjusted-Langevin-Algorithm (MALA) (Grenander and Miller, 1994)",
+          "justification": "Named procedure used with MH correction.",
+          "value": "Metropolis-Adjusted-Langevin-Algorithm (MALA)"
+        },
+        "aliases": [
+          "MALA",
+          "MH correction"
+        ],
+        "is_contributed": {
+          "quote": "Metropolis-Adjusted-Langevin-Algorithm (MALA) (Grenander and Miller, 1994)",
+          "justification": "Prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Stage I + Stage II + MH 114.945 ± 3.615",
+          "justification": "Executed in ablation.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Adding the MH correction step further enhances results, leading to the best performance observed.",
+          "justification": "Compared in ablation.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "one can introduce a Metropolis-Hastings (MH) correction step to guarantee convergence to the target distribution",
+          "justification": "Paper's words.",
+          "value": "a Metropolis-Hastings correction step to guarantee convergence to the target distribution and enforce hard constraints"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Metropolis-Adjusted-Langevin-Algorithm (MALA) (Grenander and Miller, 1994)",
+          "justification": "Reference.",
+          "value": "Representations of knowledge in complex systems"
+        }
+      },
+      {
+        "name": {
+          "quote": "Stage I: Warm-up with guided diffusion.",
+          "justification": "Warm-up stage procedure.",
+          "value": "guided diffusion"
+        },
+        "aliases": [
+          "optimization-guided diffusion"
+        ],
+        "is_contributed": {
+          "quote": "it is customary to consider guided diffusion models to enforce some external condition",
+          "justification": "Adapted from prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Only Stage I 112.038 ± 6.783",
+          "justification": "Executed.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Only Stage I 112.038 ± 6.783",
+          "justification": "Ablation comparison.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "a guided diffusion process acts as a warm-up stage to provide initialization of data samples on the manifold",
+          "justification": "Paper's words.",
+          "value": "warm-up stage providing initialization of data samples on the manifold"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "see (Chung et al., 2022a,b; Song et al., 2022; Wu et al., 2023)",
+          "justification": "Among cited guided diffusion references.",
+          "value": "Diffusion posterior sampling for general noisy inverse problems"
+        }
+      },
+      {
+        "name": {
+          "quote": "we can use self-normalized importance sampling (SNIS) (Rubinstein and Kroese, 2016)",
+          "justification": "Used in the derivative-free method initialization.",
+          "value": "self-normalized importance sampling (SNIS)"
+        },
+        "aliases": [
+          "SNIS",
+          "IS"
+        ],
+        "is_contributed": {
+          "quote": "self-normalized importance sampling (SNIS) (Rubinstein and Kroese, 2016)",
+          "justification": "Prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Additionally, we compare our method with one-step importance sampling (IS) using diffusion models as the proposal distribution.",
+          "justification": "Executed as baseline and initialization.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "IS 0.493±0.108",
+          "justification": "Compared in Table 3.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "SNIS first proposes several particles from a proposal distribution. Then, resample the particles according to their weights",
+          "justification": "Paper's words.",
+          "value": "proposes particles from a proposal distribution and resamples according to importance weights"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "self-normalized importance sampling (SNIS) (Rubinstein and Kroese, 2016)",
+          "justification": "Reference.",
+          "value": "Simulation and the Monte Carlo method"
+        }
+      },
+      {
+        "name": {
+          "quote": "we propose an iterative importance sampling strategy using the diffusion model as the proposal distribution",
+          "justification": "Contributed derivative-free sampling procedure.",
+          "value": "iterative importance sampling with diffusion models"
+        },
+        "aliases": [
+          "derivative-free sampling algorithm"
+        ],
+        "is_contributed": {
+          "quote": "For non-differentiable objectives, we propose an iterative importance sampling strategy using the diffusion model as the proposal distribution.",
+          "justification": "Contribution.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "we explore the scenario where the objective function is not differentiable and examine the effectiveness of the proposed iterative importance sampling with diffusion models",
+          "justification": "Executed.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Ours 0.590±0.060",
+          "justification": "Compared in Table 3.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "we employ an iterative importance sampling with diffusion models to improve the initial proposal distribution",
+          "justification": "Paper's words.",
+          "value": "gradually improves the proposal distribution for non-differentiable objectives"
+        },
+        "composed_of": [
+          "self-normalized importance sampling (SNIS)"
+        ],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "Contributed.",
+          "value": ""
+        }
+      },
+      {
+        "name": {
+          "quote": "the score function which is modeled by a time-dependent neural network via the score matching objective",
+          "justification": "Training objective for diffusion models.",
+          "value": "score matching objective"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "which is modeled by a time-dependent neural network via the score matching objective",
+          "justification": "Standard.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We train a diffusion model with Variance Preserving (VP) SDE (Song et al., 2020) on this dataset.",
+          "justification": "Used to train the diffusion models.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "the score matching objective",
+          "justification": "Not compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "the score function which is modeled by a time-dependent neural network via the score matching objective",
+          "justification": "Paper's words.",
+          "value": "objective used to learn the score function of the data distribution"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "(Sohl-Dickstein et al., 2015; Song and Ermon, 2019; Ho et al., 2020)",
+          "justification": "Score-based modeling references.",
+          "value": "Generative modeling by estimating gradients of the data distribution"
+        }
+      },
+      {
+        "name": {
+          "quote": "The forward process is a Variance Preserving (VP) SDE (Song et al., 2020).",
+          "justification": "Named noising process used.",
+          "value": "Variance Preserving (VP) SDE"
+        },
+        "aliases": [
+          "VP SDE"
+        ],
+        "is_contributed": {
+          "quote": "Variance Preserving (VP) SDE (Song et al., 2020)",
+          "justification": "Prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We train a diffusion model with Variance Preserving (VP) SDE (Song et al., 2020) on this dataset.",
+          "justification": "Executed.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "The forward process is a Variance Preserving (VP) SDE",
+          "justification": "Not compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "The forward process is a Variance Preserving (VP) SDE (Song et al., 2020).",
+          "justification": "Paper's words.",
+          "value": "the forward noising process of the diffusion model"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Variance Preserving (VP) SDE (Song et al., 2020)",
+          "justification": "Reference.",
+          "value": "Score-based generative modeling through stochastic differential equations"
+        }
+      },
+      {
+        "name": {
+          "quote": "We explore three strategies: constant, linear annealing, and exponential annealing.",
+          "justification": "Annealing schedule for beta used.",
+          "value": "exponential annealing"
+        },
+        "aliases": [
+          "linear annealing",
+          "constant"
+        ],
+        "is_contributed": {
+          "quote": "We explore three strategies: constant, linear annealing, and exponential annealing.",
+          "justification": "Standard schedules.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we apply exponential annealing for TFBind8, superconductor, D’Kitty, and ChEMBL",
+          "justification": "Used.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Figure 4(a) presents the performance across various diffusion steps.",
+          "justification": "Compared in ablation.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "We study the influence of different annealing strategies for β during the guided diffusion stage",
+          "justification": "Paper's words.",
+          "value": "annealing strategy for the inverse temperature beta during the guided diffusion stage"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "No specific reference.",
+          "value": ""
+        }
+      },
+      {
+        "name": {
+          "quote": "one needs to discretize the SDE using numerical methods such as the Euler-Maruyama method (Kloeden et al., 1992) for simulation",
+          "justification": "Discretization procedure used.",
+          "value": "Euler-Maruyama method"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "Euler-Maruyama method (Kloeden et al., 1992)",
+          "justification": "Standard.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "The Euler-Maruyama approximation of Equation (4) is given by",
+          "justification": "Used to simulate dynamics.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "the Euler-Maruyama method (Kloeden et al., 1992) for simulation",
+          "justification": "Not compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "one needs to discretize the SDE using numerical methods such as the Euler-Maruyama method",
+          "justification": "Paper's words.",
+          "value": "numerical discretization of the SDE for simulation"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Euler-Maruyama method (Kloeden et al., 1992)",
+          "justification": "Reference.",
+          "value": "Stochastic differential equations"
+        }
+      },
+      {
+        "name": {
+          "quote": "Gradient ascent learns a surrogate model of the objective function and generates the optimal solution by iteratively performing gradient ascent on the surrogate model.",
+          "justification": "Baseline procedure.",
+          "value": "Gradient Ascent"
+        },
+        "aliases": [
+          "gradient ascent"
+        ],
+        "is_contributed": {
+          "quote": "including gradient ascent",
+          "justification": "Baseline.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "For other baselines, we use the implementations provided by DesignBench",
+          "justification": "Executed for molecule task.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Gradient Ascent 0.981±0.010",
+          "justification": "Compared.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "Gradient ascent learns a surrogate model of the objective function and generates the optimal solution by iteratively performing gradient ascent on the surrogate model.",
+          "justification": "Paper's words.",
+          "value": "baseline that performs gradient ascent on a learned surrogate model"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "No specific reference.",
+          "value": ""
+        }
+      },
+      {
+        "name": {
+          "quote": "REINFORCE parameterizes a distribution over the design space and adjusts this distribution in a direction that maximizes the efficacy of the surrogate model.",
+          "justification": "Baseline algorithm.",
+          "value": "REINFORCE"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "REINFORCE (Sutton et al., 1999)",
+          "justification": "Prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "For other baselines, we use the implementations provided by DesignBench",
+          "justification": "Executed for molecule task.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "REINFORCE 0.959±0.013",
+          "justification": "Compared.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "REINFORCE parameterizes a distribution over the design space and adjusts this distribution in a direction that maximizes the efficacy of the surrogate model.",
+          "justification": "Paper's words.",
+          "value": "baseline that adjusts a distribution over the design space to maximize the surrogate model"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "REINFORCE (Sutton et al., 1999)",
+          "justification": "Reference.",
+          "value": "Policy gradient methods for reinforcement learning with function approximation"
+        }
+      },
+      {
+        "name": {
+          "quote": "CMAES enhances a distribution over the optimal design by adapting the covariance matrix according to the highest-scoring samples selected by the surrogate model.",
+          "justification": "Baseline evolutionary algorithm.",
+          "value": "CMA-ES"
+        },
+        "aliases": [
+          "CAM-ES",
+          "CMAES",
+          "EA"
+        ],
+        "is_contributed": {
+          "quote": "evolutionary algorithm (CAM-ES) (Hansen)",
+          "justification": "Prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We compare our method with evolutionary algorithm (EA; (Hansen)), which is a common technique in derivative-free multi-objective optimization.",
+          "justification": "Executed in derivative-free experiment.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "EA 0.558±0.029",
+          "justification": "Compared.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "We compare our method with evolutionary algorithm (EA; (Hansen)), which is a common technique in derivative-free multi-objective optimization.",
+          "justification": "Paper's words.",
+          "value": "evolutionary algorithm baseline for derivative-free optimization"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "evolutionary algorithm (CAM-ES) (Hansen)",
+          "justification": "Reference.",
+          "value": "The CMA evolution strategy: A comparing review"
+        }
+      },
+      {
+        "name": {
+          "quote": "we can adopt an energy-based parameterization following (Du et al., 2023b)",
+          "justification": "Parameterization enabling MH correction.",
+          "value": "energy-based parameterization"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "following (Du et al., 2023b): Eθ (x, t) = − 1 2 ∥NNθ (x, t)∥2",
+          "justification": "Prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Stage I + Stage II + MH 114.945 ± 3.615",
+          "justification": "Needed for MH correction runs.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "An additional benefit of MH correction is that it can enforce hard constraints.",
+          "justification": "Not compared separately.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "To enable the use of MH correction, we can instead learn the energy function of the data distribution",
+          "justification": "Paper's words.",
+          "value": "learn the energy function of the data distribution to allow the MH correction step"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "following (Du et al., 2023b)",
+          "justification": "Reference.",
+          "value": "Reduce, reuse, recycle: Compositional generation with energy-based diffusion models and mcmc"
+        }
+      }
+    ],
+    "runs": [
+      {
+        "models": [
+          {
+            "name": "score network s_theta",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Branin function dataset",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "score matching objective"
+          },
+          {
+            "name": "Variance Preserving (VP) SDE"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "We train a diffusion model with Variance Preserving (VP) SDE (Song et al., 2020) on this dataset.",
+          "justification": "Training of the diffusion model on the synthetic dataset.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "We employ a fixed learning rate of 0.001, a batch size of 128, and 1000 epochs for model training.",
+          "justification": "Stated.",
+          "value": "1000"
+        },
+        "parameter_count": {
+          "quote": "a 2-layer MLP architecture with 1024 hidden dimensions",
+          "justification": "Parameter count not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "GPU: GeForce GTX 2080 Ti.",
+          "justification": "Reported infrastructure.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "GPU: GeForce GTX 2080 Ti.",
+          "justification": "Stated.",
+          "value": "GeForce GTX 2080 Ti"
+        },
+        "accelerator_count": {
+          "quote": "GPU: GeForce GTX 2080 Ti.",
+          "justification": "Count not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "System: Ubuntu 18.04.6 LTS; Python 3.9; Pytorch 1.11.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "GPU: GeForce GTX 2080 Ti.",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "We employ a fixed learning rate of 0.001, a batch size of 128, and 1000 epochs for model training.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "GPU: GeForce GTX 2080 Ti.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "We employ a fixed learning rate of 0.001, a batch size of 128, and 1000 epochs for model training.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "DiffOPT",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Branin function dataset",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "DiffOPT"
+          },
+          {
+            "name": "guided diffusion"
+          },
+          {
+            "name": "Langevin dynamics"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "At test time, we sample 500 candidate solutions.",
+          "justification": "Sampling with the trained diffusion model, no fitting.",
+          "value": "inference"
+        },
+        "epochs": {
+          "quote": "At test time, we sample 500 candidate solutions.",
+          "justification": "Not applicable/stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "a 2-layer MLP architecture with 1024 hidden dimensions",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "GPU: GeForce GTX 2080 Ti.",
+          "justification": "Reported infrastructure.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "GPU: GeForce GTX 2080 Ti.",
+          "justification": "Stated.",
+          "value": "GeForce GTX 2080 Ti"
+        },
+        "accelerator_count": {
+          "quote": "GPU: GeForce GTX 2080 Ti.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "Python 3.9; Pytorch 1.11.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "GPU: GeForce GTX 2080 Ti.",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "At test time, we sample 500 candidate solutions.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "GPU: GeForce GTX 2080 Ti.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "At test time, we sample 500 candidate solutions.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "score network s_theta",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Gaussian Fourier Network",
+            "role_in_run": "main"
+          },
+          {
+            "name": "LSTM",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Deep Kernel Learning (DKL)",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Superconductor",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation"
+            ]
+          },
+          {
+            "name": "TFBind8",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation"
+            ]
+          },
+          {
+            "name": "TFBind10",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation"
+            ]
+          },
+          {
+            "name": "Ant Morphology",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation"
+            ]
+          },
+          {
+            "name": "D'Kitty Morphology",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation"
+            ]
+          },
+          {
+            "name": "ChEMBL",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "score matching objective"
+          },
+          {
+            "name": "Variance Preserving (VP) SDE"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "We use a fixed learning rate of 0.001 and a batch size of 128 for both the diffusion and surrogate models.",
+          "justification": "Training diffusion and surrogate models on DesignBench tasks.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "We use a fixed learning rate of 0.001 and a batch size of 128 for both the diffusion and surrogate models.",
+          "justification": "Not stated for DesignBench.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "This network consists of two hidden layers, each with a width of 1024 units",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "GPU: GeForce GTX 2080 Ti.",
+          "justification": "Reported infrastructure.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "GPU: GeForce GTX 2080 Ti.",
+          "justification": "Stated.",
+          "value": "GeForce GTX 2080 Ti"
+        },
+        "accelerator_count": {
+          "quote": "GPU: GeForce GTX 2080 Ti.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "Python 3.9; Pytorch 1.11.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "GPU: GeForce GTX 2080 Ti.",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "We use a fixed learning rate of 0.001 and a batch size of 128 for both the diffusion and surrogate models.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "GPU: GeForce GTX 2080 Ti.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "We report the mean and standard deviation across five random seeds.",
+          "justification": "Stated.",
+          "value": "five random seeds"
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "DiffOPT",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Superconductor",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          },
+          {
+            "name": "TFBind8",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          },
+          {
+            "name": "TFBind10",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          },
+          {
+            "name": "Ant Morphology",
+            "access": "oracle",
+            "roles_in_run": [
+              "test"
+            ]
+          },
+          {
+            "name": "D'Kitty Morphology",
+            "access": "oracle",
+            "roles_in_run": [
+              "test"
+            ]
+          },
+          {
+            "name": "ChEMBL",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          },
+          {
+            "name": "MuJoCo",
+            "access": "oracle",
+            "roles_in_run": [
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "DiffOPT"
+          },
+          {
+            "name": "guided diffusion"
+          },
+          {
+            "name": "Langevin dynamics"
+          },
+          {
+            "name": "Metropolis-Adjusted-Langevin-Algorithm (MALA)"
+          },
+          {
+            "name": "exponential annealing"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "During testing, we follow the evaluation protocol from the (Krishnamoorthy et al., 2023), sampling 256 candidate solutions.",
+          "justification": "Sampling candidate solutions with the trained models.",
+          "value": "inference"
+        },
+        "epochs": {
+          "quote": "sampling 256 candidate solutions",
+          "justification": "Not applicable.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "This network consists of two hidden layers, each with a width of 1024 units",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "GPU: GeForce GTX 2080 Ti.",
+          "justification": "Reported infrastructure.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "GPU: GeForce GTX 2080 Ti.",
+          "justification": "Stated.",
+          "value": "GeForce GTX 2080 Ti"
+        },
+        "accelerator_count": {
+          "quote": "GPU: GeForce GTX 2080 Ti.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "Python 3.9; Pytorch 1.11.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "GPU: GeForce GTX 2080 Ti.",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "sampling 256 candidate solutions",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "GPU: GeForce GTX 2080 Ti.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "We report the mean and standard deviation across five random seeds.",
+          "justification": "Stated.",
+          "value": "five random seeds"
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "HierVAE",
+            "role_in_run": "data-source"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "ChEMBL",
+            "access": "fixed",
+            "roles_in_run": [
+              "reference"
+            ]
+          }
+        ],
+        "algorithms": [],
+        "produces": [
+          "Multi-objective molecule optimization dataset (HierVAE-encoded ChEMBL molecules)"
+        ],
+        "execution_mode": {
+          "quote": "We curate the dataset by encoding 10000 molecules (randomly selected) from the ChEMBL dataset (Gaulton et al., 2012) with HierVAE (Jin et al., 2020)",
+          "justification": "Pre-trained HierVAE used to encode molecules into latent space, producing the dataset.",
+          "value": "inference"
+        },
+        "epochs": {
+          "quote": "We curate the dataset by encoding 10000 molecules (randomly selected) from the ChEMBL dataset",
+          "justification": "Not applicable.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "a commonly used molecule generative model based on VAE",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "GPU: GeForce GTX 2080 Ti.",
+          "justification": "Reported infrastructure.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "GPU: GeForce GTX 2080 Ti.",
+          "justification": "Stated.",
+          "value": "GeForce GTX 2080 Ti"
+        },
+        "accelerator_count": {
+          "quote": "GPU: GeForce GTX 2080 Ti.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "Python 3.9; Pytorch 1.11.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "GPU: GeForce GTX 2080 Ti.",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "We curate the dataset by encoding 10000 molecules",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "GPU: GeForce GTX 2080 Ti.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "We curate the dataset by encoding 10000 molecules (randomly selected)",
+          "justification": "Not stated.",
+          "value": "unknown"
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "score network s_theta",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Deep Kernel Learning (DKL)",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Multi-objective molecule optimization dataset (HierVAE-encoded ChEMBL molecules)",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "score matching objective"
+          },
+          {
+            "name": "Variance Preserving (VP) SDE"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "Additionally, we set a batch size of 128 and conduct training over 1000 epochs for both models.",
+          "justification": "Training diffusion model and surrogate for the molecule task.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "we set a batch size of 128 and conduct training over 1000 epochs for both models",
+          "justification": "Stated.",
+          "value": "1000"
+        },
+        "parameter_count": {
+          "quote": "a 2-layer MLP architecture. This network features 1024 hidden dimensions",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "GPU: GeForce GTX 2080 Ti.",
+          "justification": "Reported infrastructure.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "GPU: GeForce GTX 2080 Ti.",
+          "justification": "Stated.",
+          "value": "GeForce GTX 2080 Ti"
+        },
+        "accelerator_count": {
+          "quote": "GPU: GeForce GTX 2080 Ti.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "Python 3.9; Pytorch 1.11.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "GPU: GeForce GTX 2080 Ti.",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "conduct training over 1000 epochs for both models",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "GPU: GeForce GTX 2080 Ti.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "We report the mean and standard deviation across five random seeds.",
+          "justification": "Stated.",
+          "value": "five random seeds"
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "DiffOPT",
+            "role_in_run": "main"
+          },
+          {
+            "name": "HierVAE",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Multi-objective molecule optimization dataset (HierVAE-encoded ChEMBL molecules)",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "DiffOPT"
+          },
+          {
+            "name": "guided diffusion"
+          },
+          {
+            "name": "Langevin dynamics"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "We sample 1000 candidate solutions at test time for all the methods.",
+          "justification": "Sampling and decoding candidate molecules.",
+          "value": "inference"
+        },
+        "epochs": {
+          "quote": "We sample 1000 candidate solutions at test time for all the methods.",
+          "justification": "Not applicable.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "This network features 1024 hidden dimensions and utilizes the ReLU activation function.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "GPU: GeForce GTX 2080 Ti.",
+          "justification": "Reported infrastructure.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "GPU: GeForce GTX 2080 Ti.",
+          "justification": "Stated.",
+          "value": "GeForce GTX 2080 Ti"
+        },
+        "accelerator_count": {
+          "quote": "GPU: GeForce GTX 2080 Ti.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "Python 3.9; Pytorch 1.11.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "GPU: GeForce GTX 2080 Ti.",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "We sample 1000 candidate solutions at test time for all the methods.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "GPU: GeForce GTX 2080 Ti.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "We report the mean and standard deviation across five random seeds.",
+          "justification": "Stated.",
+          "value": "five random seeds"
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "DiffOPT",
+            "role_in_run": "main"
+          },
+          {
+            "name": "HierVAE",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Multi-objective molecule optimization dataset (HierVAE-encoded ChEMBL molecules)",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "iterative importance sampling with diffusion models"
+          },
+          {
+            "name": "self-normalized importance sampling (SNIS)"
+          },
+          {
+            "name": "CMA-ES"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "we do not train a surrogate objective using offline data but instead directly use the oracle function from Rdkit",
+          "justification": "Derivative-free sampling using the diffusion model with RDKit oracles; no training.",
+          "value": "inference"
+        },
+        "epochs": {
+          "quote": "the number of iterations is set to 100 for both the evolutionary algorithm and DiffOPT",
+          "justification": "Iterations stated but not epochs over data.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "This network features 1024 hidden dimensions",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "GPU: GeForce GTX 2080 Ti.",
+          "justification": "Reported infrastructure.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "GPU: GeForce GTX 2080 Ti.",
+          "justification": "Stated.",
+          "value": "GeForce GTX 2080 Ti"
+        },
+        "accelerator_count": {
+          "quote": "GPU: GeForce GTX 2080 Ti.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "Python 3.9; Pytorch 1.11.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "GPU: GeForce GTX 2080 Ti.",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "the number of iterations is set to 100 for both the evolutionary algorithm and DiffOPT",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "GPU: GeForce GTX 2080 Ti.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "The number of particles for all methods remains the same as before, i.e., 1000.",
+          "justification": "Seeds not stated for this table.",
+          "value": "unknown"
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "DDOM",
+            "role_in_run": "main"
+          },
+          {
+            "name": "MINs",
+            "role_in_run": "main"
+          },
+          {
+            "name": "CbAS",
+            "role_in_run": "main"
+          },
+          {
+            "name": "GP-qEI",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Multi-objective molecule optimization dataset (HierVAE-encoded ChEMBL molecules)",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Gradient Ascent"
+          },
+          {
+            "name": "REINFORCE"
+          },
+          {
+            "name": "CMA-ES"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "For DDOM (Krishnamoorthy et al., 2023), we use their implementation . For other baselines, we use the implementations provided by DesignBench",
+          "justification": "Baselines were run on the molecule task.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "We tune the hyper-parameters of all the baselines as suggested in their papers.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "For other baselines, we use the implementations provided by DesignBench",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "GPU: GeForce GTX 2080 Ti.",
+          "justification": "Reported infrastructure.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "GPU: GeForce GTX 2080 Ti.",
+          "justification": "Stated.",
+          "value": "GeForce GTX 2080 Ti"
+        },
+        "accelerator_count": {
+          "quote": "GPU: GeForce GTX 2080 Ti.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "Python 3.9; Pytorch 1.11.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "GPU: GeForce GTX 2080 Ti.",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "We tune the hyper-parameters of all the baselines as suggested in their papers.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "GPU: GeForce GTX 2080 Ti.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "We report the mean and standard deviation across five random seeds.",
+          "justification": "Stated.",
+          "value": "five random seeds"
+        }
+      }
+    ]
+  },
+  "usage": {
+    "input_tokens": 54259,
+    "output_tokens": 23881,
+    "total_tokens": 78140
+  }
+}

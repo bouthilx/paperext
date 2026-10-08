@@ -1,0 +1,1636 @@
+{
+  "paper": "69a5fd5a48887d403d0a4eeb.txt",
+  "words": 12848,
+  "extractions": {
+    "title": {
+      "quote": "Mind the GAP! The Challenges of Scale in Pixel-based Deep Reinforcement Learning",
+      "justification": "Title as given at the top of the paper.",
+      "value": "Mind the GAP! The Challenges of Scale in Pixel-based Deep Reinforcement Learning"
+    },
+    "description": "The paper investigates why scaling pixel-based deep RL networks degrades performance, identifying the encoder-to-dense-layer connection ('bottleneck') as the cause, and proposes Global Average Pooling (GAP) as a simple alternative to SoftMoE and sparse-training approaches. Experiments use Rainbow on ALE and Procgen, DER/DrQ on Atari100K, and SAC on DMC.",
+    "type": {
+      "quote": "Justification: The paper does not include theoretical results.",
+      "justification": "The paper runs extensive RL experiments and analyses; it states it includes no theoretical results.",
+      "value": "empirical"
+    },
+    "research_fields": [
+      {
+        "name": {
+          "quote": "Scaling deep reinforcement learning in pixel-based environments presents a significant challenge",
+          "justification": "The paper's central topic is scaling deep RL networks.",
+          "value": "Deep Reinforcement Learning"
+        },
+        "aliases": [
+          "deep RL",
+          "RL"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "we present Global Average Pooling (GAP) as a simple yet effective way of targeting the bottleneck",
+          "justification": "The paper studies architectural interventions for scaling networks.",
+          "value": "Network scaling / architecture design"
+        },
+        "aliases": [
+          "scaling"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "Sparse methods offer an alternative approach to managing network complexity.",
+          "justification": "Sparse training techniques are evaluated as baselines.",
+          "value": "Sparse training"
+        },
+        "aliases": [
+          "network pruning",
+          "sparsity"
+        ],
+        "role": "used"
+      },
+      {
+        "name": {
+          "quote": "we also evaluate the Soft Actor-Critic (SAC) agent [Haarnoja et al., 2018] on continuous control tasks from the DeepMind Control (DMC) suite",
+          "justification": "SAC on DMC is evaluated as an additional setting.",
+          "value": "Continuous control"
+        },
+        "aliases": [
+          "DMC"
+        ],
+        "role": "used"
+      },
+      {
+        "name": {
+          "quote": "There is also a likely connection of our findings with works exploring representation learning for RL",
+          "justification": "Mentioned as related context.",
+          "value": "Representation learning for RL"
+        },
+        "aliases": [],
+        "role": "referenced"
+      }
+    ],
+    "models": [
+      {
+        "name": {
+          "quote": "Our primary experimental setup involves the Rainbow agent [Hessel et al., 2018] evaluated on the Arcade Learning Environment (ALE) suite",
+          "justification": "The primary agent used in the experiments.",
+          "value": "Rainbow"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "the Rainbow agent [Hessel et al., 2018]",
+          "justification": "Existing agent from prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "All experiments were run on NVIDIA Tesla P100 GPUs.",
+          "justification": "Trained on ALE and Procgen on GPUs.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Figure 10 shows that GAP outperforms all baseline methods",
+          "justification": "Baseline vs GAP variants compared.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "We ran each experiment for a total of 200 million environment steps",
+          "justification": "Trained for 200M environment steps.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "Rainbow: Combining improvements in deep reinforcement learning. In AAAI, 2018.",
+          "justification": "Reference for Rainbow.",
+          "value": "Rainbow: Combining improvements in deep reinforcement learning"
+        }
+      },
+      {
+        "name": {
+          "quote": "we use DER, a version of Rainbow specifically tuned for that data-constrained setting",
+          "justification": "Used for the Atari100K data-efficient setting.",
+          "value": "DER"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "the DER agent [Van Hasselt et al., 2019] in the data-efficient Atari100K setting",
+          "justification": "From prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We assessed the Rainbow agent on Procgen [Cobbe et al., 2019], the DER agent [Van Hasselt et al., 2019] in the data-efficient Atari100K setting",
+          "justification": "Trained on Atari100K.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Figure 11: Performance for Rainbow on Procgen (top), DER on Atari100K (middle)",
+          "justification": "Baseline vs GAP compared in Figure 11.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "we assess performance on the data-efficient 100k benchmark",
+          "justification": "Trained in the data-efficient setting.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "the DER agent [Van Hasselt et al., 2019]",
+          "justification": "DER reference.",
+          "value": "When to use parametric models in reinforcement learning?"
+        }
+      },
+      {
+        "name": {
+          "quote": "we also evaluate the Soft Actor-Critic (SAC) agent [Haarnoja et al., 2018] on continuous control tasks",
+          "justification": "Used on DMC continuous control tasks.",
+          "value": "SAC"
+        },
+        "aliases": [
+          "Soft Actor-Critic"
+        ],
+        "is_contributed": {
+          "quote": "the SAC agent [Haarnoja et al., 2018] on the continuous DeepMind Control (DMC) suite",
+          "justification": "Existing algorithm/agent.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "SAC on DMC [Tassa et al., 2018] (bottom)",
+          "justification": "Results reported in Figure 11.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "GAP leads to performance gains for scaled networks in diverse domains.",
+          "justification": "Baseline vs GAP compared.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "For SAC, we follow the CNN architecture presented in [Yarats et al., 2021b] and scale the embedding layer of the actor and critic by 8.",
+          "justification": "Trained on DMC tasks.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "Tuomas Haarnoja, Aurick Zhou, Pieter Abbeel, and Sergey Levine. Soft actor-critic",
+          "justification": "SAC reference.",
+          "value": "Soft actor-critic: Off-policy maximum entropy deep reinforcement learning with a stochastic actor"
+        }
+      },
+      {
+        "name": {
+          "quote": "We evaluate two more algorithms in the sample-efficient regime: DrQ and DrQ(ϵ) [Yarats et al., 2021a, Agarwal et al., 2021] on Atari100K.",
+          "justification": "Additional agent evaluated on Atari100K in appendix.",
+          "value": "DrQ"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "DrQ and DrQ(ϵ) [Yarats et al., 2021a, Agarwal et al., 2021]",
+          "justification": "Existing agent.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Figure 13: Performance for DrQ (top) and DrQ(ϵ) (bottom) [Yarats et al., 2021a, Agarwal et al., 2021] on Atari100K.",
+          "justification": "Results shown in Figure 13.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "GAP improves performance of scaled networks as shown in Figure 13.",
+          "justification": "Baseline vs GAP compared.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "We evaluate two more algorithms in the sample-efficient regime: DrQ and DrQ(ϵ)",
+          "justification": "Trained on Atari100K.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "Denis Yarats, Ilya Kostrikov, and Rob Fergus. Image augmentation is all you need",
+          "justification": "DrQ reference.",
+          "value": "Image augmentation is all you need: Regularizing deep reinforcement learning from pixels"
+        }
+      },
+      {
+        "name": {
+          "quote": "We evaluate two more algorithms in the sample-efficient regime: DrQ and DrQ(ϵ)",
+          "justification": "Variant evaluated on Atari100K.",
+          "value": "DrQ(ϵ)"
+        },
+        "aliases": [
+          "DrQ(eps)"
+        ],
+        "is_contributed": {
+          "quote": "DrQ(ϵ) [Yarats et al., 2021a, Agarwal et al., 2021]",
+          "justification": "From prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Figure 13: Performance for DrQ (top) and DrQ(ϵ) (bottom)",
+          "justification": "Results in Figure 13.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Consistent with our main results, GAP improves performance of scaled networks as shown in Figure 13.",
+          "justification": "Compared baseline vs GAP.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "We evaluate two more algorithms in the sample-efficient regime",
+          "justification": "Trained on Atari100K.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "DrQ(ϵ) [Yarats et al., 2021a, Agarwal et al., 2021]",
+          "justification": "Cited alongside DrQ(ϵ).",
+          "value": "Deep reinforcement learning at the edge of the statistical precipice"
+        }
+      },
+      {
+        "name": {
+          "quote": "We employ the Impala architecture [Espeholt et al., 2018] for its superior performance",
+          "justification": "The main encoder architecture used.",
+          "value": "Impala"
+        },
+        "aliases": [
+          "ResNet based architecture"
+        ],
+        "is_contributed": {
+          "quote": "the Impala architecture [Espeholt et al., 2018]",
+          "justification": "Existing architecture.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We employ the Impala architecture [Espeholt et al., 2018] for its superior performance",
+          "justification": "Used as backbone in all main experiments.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "we also confirm our findings’ broad applicability using the standard CNN architecture [Mnih et al., 2015]",
+          "justification": "Compared against the CNN architecture.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "We employ the Impala architecture",
+          "justification": "Trained as the agent network.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "Impala: Scalable distributed deep-rl with importance weighted actor-learner architectures",
+          "justification": "Reference listed.",
+          "value": "Impala: Scalable distributed deep-rl with importance weighted actor-learner architectures"
+        }
+      },
+      {
+        "name": {
+          "quote": "we evaluate the effect of GAP on a different architecture for ϕ: the original CNN architecture used in [Mnih et al., 2015]",
+          "justification": "The standard DQN CNN encoder used as an alternative architecture.",
+          "value": "CNN architecture [Mnih et al., 2015]"
+        },
+        "aliases": [
+          "standard CNN architecture",
+          "Nature DQN CNN"
+        ],
+        "is_contributed": {
+          "quote": "the standard CNN architecture [Mnih et al., 2015]",
+          "justification": "Standard existing architecture.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "The right center plot in Figure 6 shows that GAP can also provide performance gain to this architecture.",
+          "justification": "Results reported in Figure 6.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "performance of the CNN architecture used by [Mnih et al., 2015]",
+          "justification": "Baseline vs GAP compared for this architecture.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "we evaluate the effect of GAP on a different architecture for ϕ",
+          "justification": "Trained as the encoder of the agent.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "Human-level control through deep reinforcement learning. Nature, 518(7540):529–533",
+          "justification": "Mnih et al. 2015 reference.",
+          "value": "Human-level control through deep reinforcement learning"
+        }
+      },
+      {
+        "name": {
+          "quote": "For SoftMoE, we use the single-expert variant (SoftMoE-1).",
+          "justification": "Single-expert SoftMoE variant used as a comparison architecture.",
+          "value": "SoftMoE-1"
+        },
+        "aliases": [
+          "SoftMoE"
+        ],
+        "is_contributed": {
+          "quote": "a single expert model (SoftMoE-1), which retains the tokenization but omits the expert routing",
+          "justification": "From prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "For SoftMoE [Obando Ceron* et al., 2024], we use the official implementation integrated in Dopamine.",
+          "justification": "Run and compared in Figures 5, 7, 10.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "GAP outperforms all baseline methods and achieves performance comparable to SoftMoE",
+          "justification": "Compared against GAP.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "We compare the performance of GAP against various architectural techniques including ... and SoftMoE-1",
+          "justification": "Trained as part of the comparison experiments.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "Mixtures of experts unlock parameter scaling for deep RL",
+          "justification": "SoftMoE in RL reference.",
+          "value": "Mixtures of experts unlock parameter scaling for deep RL"
+        }
+      }
+    ],
+    "data_sources": [
+      {
+        "name": {
+          "quote": "evaluated on the Arcade Learning Environment (ALE) suite [Bellemare et al., 2013]",
+          "justification": "Primary benchmark environment.",
+          "value": "Arcade Learning Environment (ALE)"
+        },
+        "aliases": [
+          "ALE",
+          "Atari",
+          "Atari 2600",
+          "Atari games"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "we use the same 20-game subset from Obando Ceron* et al. [2024] and Sokar et al. [2025]. However, we present our main results on the full ALE suite of 60 Atari games.",
+          "justification": "Paper states both the 20-game subset and the full 60-game suite.",
+          "value": "20-game subset and full suite of 60 Atari games"
+        },
+        "derived_from": [],
+        "sample_properties": [
+          {
+            "name": "environment steps per experiment",
+            "value": {
+              "quote": "We ran each experiment for a total of 200 million environment steps",
+              "justification": "Stated training length.",
+              "value": "200 million environment steps"
+            },
+            "unit": "environment steps"
+          }
+        ],
+        "referenced_paper_title": {
+          "quote": "The arcade learning environment: An evaluation platform for general agents",
+          "justification": "ALE reference.",
+          "value": "The arcade learning environment: An evaluation platform for general agents"
+        }
+      },
+      {
+        "name": {
+          "quote": "we assess performance on the data-efficient 100k benchmark [Łukasz Kaiser et al., 2020]",
+          "justification": "Data-efficient benchmark used with DER and DrQ.",
+          "value": "Atari100K"
+        },
+        "aliases": [
+          "data-efficient 100k benchmark",
+          "Atari 100K"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "We test on the 26 games of this benchmark.",
+          "justification": "Stated in appendix.",
+          "value": "26 games"
+        },
+        "derived_from": [
+          "Arcade Learning Environment (ALE)"
+        ],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "Model based reinforcement learning for atari. In International Conference on Learning Representations, 2020.",
+          "justification": "Kaiser et al. 2020 reference.",
+          "value": "Model based reinforcement learning for atari"
+        }
+      },
+      {
+        "name": {
+          "quote": "we also evaluate Rainbow on the Procgen benchmark [Cobbe et al., 2019]",
+          "justification": "Benchmark used to test generality.",
+          "value": "Procgen"
+        },
+        "aliases": [],
+        "role": "used",
+        "size": {
+          "quote": "we also evaluate Rainbow on the Procgen benchmark [Cobbe et al., 2019]",
+          "justification": "No count of levels/games stated.",
+          "value": "unknown"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "Leveraging procedural generation to benchmark reinforcement learning",
+          "justification": "Procgen reference.",
+          "value": "Leveraging procedural generation to benchmark reinforcement learning"
+        }
+      },
+      {
+        "name": {
+          "quote": "continuous control tasks from the DeepMind Control (DMC) suite [Tassa et al., 2018]",
+          "justification": "Continuous control environments used with SAC.",
+          "value": "DeepMind Control (DMC) suite"
+        },
+        "aliases": [
+          "DMC"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "SAC on DMC [Tassa et al., 2018] (bottom)",
+          "justification": "Number of tasks not stated explicitly (figures show 4 tasks).",
+          "value": "unknown"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "Yuval Tassa, Yotam Doron, ... Deepmind control suite. arXiv preprint arXiv:1801.00690, 2018.",
+          "justification": "DMC reference.",
+          "value": "Deepmind control suite"
+        }
+      }
+    ],
+    "libraries": [
+      {
+        "name": {
+          "quote": "For all our experiments, we use the Dopamine library1 with Jax implementations [Castro et al., 2018].",
+          "justification": "Main codebase used.",
+          "value": "Dopamine"
+        },
+        "aliases": [],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "Dopamine: A research framework for deep reinforcement learning. arXiv preprint arXiv:1812.06110, 2018.",
+          "justification": "Dopamine reference.",
+          "value": "Dopamine: A research framework for deep reinforcement learning"
+        }
+      },
+      {
+        "name": {
+          "quote": "we use the same JaxPruner library2 [Lee et al., 2024] used by [Obando Ceron et al., 2024]",
+          "justification": "Used for sparse methods.",
+          "value": "JaxPruner"
+        },
+        "aliases": [],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "Jaxpruner: A concise library for sparsity research. In Conference on Parsimony and Learning",
+          "justification": "JaxPruner reference.",
+          "value": "Jaxpruner: A concise library for sparsity research"
+        }
+      },
+      {
+        "name": {
+          "quote": "we use the Dopamine library1 with Jax implementations [Castro et al., 2018]",
+          "justification": "Implementations in Jax used.",
+          "value": "Jax"
+        },
+        "aliases": [],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "with Jax implementations",
+          "justification": "No Jax reference listed.",
+          "value": "unknown"
+        }
+      }
+    ],
+    "algorithms": [
+      {
+        "name": {
+          "quote": "we present Global Average Pooling (GAP) as a simple yet effective way of targeting the bottleneck",
+          "justification": "The proposed method.",
+          "value": "Global Average Pooling (GAP)"
+        },
+        "aliases": [
+          "GAP",
+          "global avg pool"
+        ],
+        "is_contributed": {
+          "quote": "we demonstrate a simple alternative to the more sophisticated techniques recently explored: Global Average Pooling (GAP) [Lin et al., 2013]",
+          "justification": "Presented as the paper's proposed simple alternative.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "The output feature maps of ϕ, denoted as F ∈ RH×W ×C , are processed by average pooling.",
+          "justification": "Used in all GAP experiments.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "GAP outperforms all baseline methods",
+          "justification": "Compared against baselines in Figure 10.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "Global Average Pooling (GAP) as a simple yet effective way of targeting the bottleneck",
+          "justification": "Stated role.",
+          "value": "a simple yet effective way of targeting the bottleneck between the encoder and dense layers"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Global Average Pooling (GAP) [Lin et al., 2013]",
+          "justification": "GAP reference.",
+          "value": "Network in network"
+        }
+      },
+      {
+        "name": {
+          "quote": "Gradual pruning This strategy begins with a standard, fully-dense network.",
+          "justification": "Sparse training baseline.",
+          "value": "Gradual pruning"
+        },
+        "aliases": [
+          "Pruning",
+          "gradual magnitude pruning"
+        ],
+        "is_contributed": {
+          "quote": "Obando Ceron et al. [2024] showed that gradual magnitude pruning helps in scaling RL networks",
+          "justification": "From prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "For gradual pruning, we start pruning at 8M environment steps and stop at 160M (80% into training)",
+          "justification": "Run in comparison experiments.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "We compare the performance of GAP against various architectural techniques including pruning",
+          "justification": "Compared against GAP.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "We performed this analysis on gradual pruning [Obando Ceron et al., 2024], dynamic sparsity (RigL) and static sparsity",
+          "justification": "Role in analysis.",
+          "value": "sparse training technique applied to structure/reduce the density of the bottleneck"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "This pruning process often follows a polynomial schedule [Zhu and Gupta, 2017].",
+          "justification": "Polynomial pruning schedule reference.",
+          "value": "To prune, or not to prune: exploring the efficacy of pruning for model compression"
+        }
+      },
+      {
+        "name": {
+          "quote": "the RigL method [Evci et al., 2020] dynamically optimizes the connections",
+          "justification": "Dynamic sparse training method used.",
+          "value": "RigL"
+        },
+        "aliases": [
+          "dynamic sparsity"
+        ],
+        "is_contributed": {
+          "quote": "RigL method [Evci et al., 2020]",
+          "justification": "From prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "For RigL [Evci et al., 2020], we use a drop fraction of 20% and a connection update interval of 5000.",
+          "justification": "Hyperparameters specified and results reported.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "static and dynamic sparsity (RigL) [Graesser et al., 2022]",
+          "justification": "Compared in Figures 5 and 10.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "We performed this analysis on gradual pruning, dynamic sparsity (RigL) and static sparsity",
+          "justification": "Used in sparse analysis.",
+          "value": "dynamic sparsity baseline applied to the bottleneck/network"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Rigging the lottery: Making all tickets winners",
+          "justification": "RigL reference.",
+          "value": "Rigging the lottery: Making all tickets winners"
+        }
+      },
+      {
+        "name": {
+          "quote": "static sparsity [Graesser et al., 2022, Sokar et al., 2022]",
+          "justification": "Sparse-from-scratch static topology baseline.",
+          "value": "Static sparsity"
+        },
+        "aliases": [
+          "Static",
+          "Sparse from scratch"
+        ],
+        "is_contributed": {
+          "quote": "Sparse from scratch In contrast to gradual pruning, this approach defines a sparse network at initialization",
+          "justification": "From prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "As shown in the top plot of Figure 5, restricting sparsification to the scaled bottleneck results in improved performance across all sparse training techniques.",
+          "justification": "Shown in Figures 5 and 10.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "We compare the performance of GAP against various architectural techniques including pruning, static and dynamic sparsity (RigL)",
+          "justification": "Compared with GAP.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "We performed this analysis on gradual pruning ... and static sparsity",
+          "justification": "Used in sparse analysis.",
+          "value": "static sparse training baseline for structuring the bottleneck"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "The state of sparse training in deep reinforcement learning",
+          "justification": "Graesser et al. reference.",
+          "value": "The state of sparse training in deep reinforcement learning"
+        }
+      },
+      {
+        "name": {
+          "quote": "we include a comparison against algorithmic methods including weight decay [Sokar et al., 2023, Obando Ceron et al., 2024]",
+          "justification": "Algorithmic baseline compared.",
+          "value": "Weight decay"
+        },
+        "aliases": [
+          "WD"
+        ],
+        "is_contributed": {
+          "quote": "algorithmic methods including weight decay",
+          "justification": "Standard regularization from prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "GAP\nLayer Norm\nWD\nSoftMoE-1",
+          "justification": "Shown in Figure 10 comparison.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Figure 10: Comparison against architectural and algorithmic techniques for scaling RL networks.",
+          "justification": "Compared against GAP.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "we include a comparison against algorithmic methods including weight decay",
+          "justification": "Stated role.",
+          "value": "algorithmic regularization method for scaling RL networks, used as a comparison"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "weight decay [Sokar et al., 2023, Obando Ceron et al., 2024]",
+          "justification": "Cited reference.",
+          "value": "The dormant neuron phenomenon in deep reinforcement learning"
+        }
+      },
+      {
+        "name": {
+          "quote": "and layer normalization [Nauman et al., 2024]",
+          "justification": "Algorithmic baseline compared.",
+          "value": "Layer normalization"
+        },
+        "aliases": [
+          "Layer Norm"
+        ],
+        "is_contributed": {
+          "quote": "layer normalization [Ba et al., 2016]",
+          "justification": "Existing technique.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "GAP\nLayer Norm\nWD",
+          "justification": "Appears in Figure 10 comparison.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Figure 10: Comparison against architectural and algorithmic techniques for scaling RL networks.",
+          "justification": "Compared against GAP.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "a comparison against algorithmic methods including weight decay ... and layer normalization",
+          "justification": "Stated role.",
+          "value": "algorithmic method for scaling RL networks used as comparison baseline"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "layer normalization [Ba et al., 2016]",
+          "justification": "Ba et al. reference.",
+          "value": "Layer normalization"
+        }
+      },
+      {
+        "name": {
+          "quote": "we generate saliency maps for the areas that have the greatest impact on the scaled network’s output using Grad-CAM [Selvaraju et al., 2017]",
+          "justification": "Used to produce saliency maps.",
+          "value": "Grad-CAM"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "Grad-CAM [Selvaraju et al., 2017]",
+          "justification": "Existing visualization method.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Visualizing influential regions for network decisions using Grad-CAM",
+          "justification": "Used to generate Figure 3.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "we generate saliency maps ... using Grad-CAM",
+          "justification": "An analysis tool, not compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "To interpret the quality of the learned features of the scaled network, we generate saliency maps",
+          "justification": "Stated role.",
+          "value": "used to interpret the quality of learned features by visualizing influential input regions"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Grad-cam: Visual explanations from deep networks via gradient-based localization",
+          "justification": "Reference.",
+          "value": "Grad-cam: Visual explanations from deep networks via gradient-based localization"
+        }
+      },
+      {
+        "name": {
+          "quote": "We report interquartile mean (IQM) with 95% stratified bootstrap confidence intervals as recommended in [Agarwal et al., 2021].",
+          "justification": "Evaluation procedure used.",
+          "value": "interquartile mean (IQM) with 95% stratified bootstrap confidence intervals"
+        },
+        "aliases": [
+          "IQM"
+        ],
+        "is_contributed": {
+          "quote": "as recommended in [Agarwal et al., 2021]",
+          "justification": "From Agarwal et al.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We report interquartile mean (IQM) with 95% stratified bootstrap confidence intervals",
+          "justification": "Used to report all aggregated results.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "We report interquartile mean (IQM)",
+          "justification": "An evaluation protocol.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "We report interquartile mean (IQM) with 95% stratified bootstrap confidence intervals",
+          "justification": "Stated role.",
+          "value": "statistical aggregation and confidence interval reporting for results"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Deep reinforcement learning at the edge of the statistical precipice",
+          "justification": "Agarwal et al. reference.",
+          "value": "Deep reinforcement learning at the edge of the statistical precipice"
+        }
+      },
+      {
+        "name": {
+          "quote": "Given the effectiveness of SoftMoEs [Obando Ceron* et al., 2024], Pruning [Obando Ceron et al., 2024], and Tokenization [Sokar et al., 2025] for scaling value-based networks",
+          "justification": "Named approach analysed as targeting the bottleneck.",
+          "value": "Tokenization"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "Tokenization [Sokar et al., 2025]",
+          "justification": "From prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "a single expert model (SoftMoE-1), which retains the tokenization but omits the expert routing",
+          "justification": "Used within SoftMoE-1 runs.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "our analyses in this section will focus on these",
+          "justification": "Included in analyses/comparisons.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "replacing the standard flattened representation from the encoder with a tokenized representation that preserves spatial structure",
+          "justification": "Stated role.",
+          "value": "restructuring the encoder output into tokens, analysed as implicitly targeting the bottleneck"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Don’t flatten, tokenize! unlocking the key to softmoe’s efficacy in deep RL",
+          "justification": "Sokar et al. 2025 reference.",
+          "value": "Don't flatten, tokenize! unlocking the key to softmoe's efficacy in deep RL"
+        }
+      },
+      {
+        "name": {
+          "quote": "We compare the performance of global average pooling with global max pooling for Rainbow",
+          "justification": "Alternative pooling compared in the appendix.",
+          "value": "global max pooling"
+        },
+        "aliases": [
+          "Global max pool"
+        ],
+        "is_contributed": {
+          "quote": "Comparison against max pooling",
+          "justification": "Standard operation used as comparison.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We compare the performance of global average pooling with global max pooling for Rainbow on the set of 20 games used in our main results.",
+          "justification": "Run on the 20-game set.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "We find the GAP outperforms max pooling as demonstrated in Figure 14.",
+          "justification": "Compared against GAP.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "We compare the performance of global average pooling with global max pooling",
+          "justification": "Stated role.",
+          "value": "alternative pooling operation at the bottleneck compared against GAP"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Comparison against max pooling",
+          "justification": "No specific reference given.",
+          "value": "unknown"
+        }
+      }
+    ],
+    "runs": [
+      {
+        "models": [
+          {
+            "name": "Rainbow",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Impala",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Arcade Learning Environment (ALE)",
+            "access": "interactive",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Global Average Pooling (GAP)"
+          },
+          {
+            "name": "interquartile mean (IQM) with 95% stratified bootstrap confidence intervals"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "We ran each experiment for a total of 200 million environment steps, with results averaged over 5 independent seeds",
+          "justification": "Online RL training for 200M steps.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "We ran each experiment for a total of 200 million environment steps",
+          "justification": "Measured in environment steps, not epochs.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "various scaling factors for the width of ψ (specifically, ×1, ×2, ×4, and ×8)",
+          "justification": "Only scaling factors given, no parameter counts.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "All experiments were run on NVIDIA Tesla P100 GPUs.",
+          "justification": "NVIDIA GPUs stated.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "All experiments were run on NVIDIA Tesla P100 GPUs.",
+          "justification": "Stated.",
+          "value": "NVIDIA Tesla P100"
+        },
+        "accelerator_count": {
+          "quote": "All experiments were run on NVIDIA Tesla P100 GPUs.",
+          "justification": "Count not given.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "All experiments were run on NVIDIA Tesla P100 GPUs.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "All experiments were run on NVIDIA Tesla P100 GPUs.",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "The duration of each experiment ranged from 4 to 13 days, depending on the specific scale and algorithm.",
+          "justification": "Stated runtimes.",
+          "value": "4 to 13 days per experiment; ~100-300 GPU hours per game depending on scale"
+        },
+        "utilisation": {
+          "quote": "All experiments were run on NVIDIA Tesla P100 GPUs.",
+          "justification": "Not reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "with results averaged over 5 independent seeds",
+          "justification": "Stated seeds, games and scales.",
+          "value": "5 seeds per game (20 games for analyses, 60 games for full suite), across scales ×1, ×2, ×4, ×8"
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "Rainbow",
+            "role_in_run": "main"
+          },
+          {
+            "name": "SoftMoE-1",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Arcade Learning Environment (ALE)",
+            "access": "interactive",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Tokenization"
+          },
+          {
+            "name": "interquartile mean (IQM) with 95% stratified bootstrap confidence intervals"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "For SoftMoE [Obando Ceron* et al., 2024], we use the official implementation integrated in Dopamine.",
+          "justification": "SoftMoE-1 agents were trained for comparison.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "We ran each experiment for a total of 200 million environment steps",
+          "justification": "Steps not epochs.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "The bottom plot of Figure 5 confirms this reduction in parameters",
+          "justification": "Not stated numerically.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "All experiments were run on NVIDIA Tesla P100 GPUs.",
+          "justification": "All experiments on GPUs.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "All experiments were run on NVIDIA Tesla P100 GPUs.",
+          "justification": "Stated.",
+          "value": "NVIDIA Tesla P100"
+        },
+        "accelerator_count": {
+          "quote": "All experiments were run on NVIDIA Tesla P100 GPUs.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "All experiments were run on NVIDIA Tesla P100 GPUs.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "All experiments were run on NVIDIA Tesla P100 GPUs.",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "The duration of each experiment ranged from 4 to 13 days, depending on the specific scale and algorithm.",
+          "justification": "Stated duration range.",
+          "value": "4 to 13 days per experiment"
+        },
+        "utilisation": {
+          "quote": "All experiments were run on NVIDIA Tesla P100 GPUs.",
+          "justification": "Not reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "with results averaged over 5 independent seeds",
+          "justification": "Stated seeds and scales.",
+          "value": "5 seeds, across scales ×1, ×2, ×4, ×8"
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "Rainbow",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Impala",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Arcade Learning Environment (ALE)",
+            "access": "interactive",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Gradual pruning"
+          },
+          {
+            "name": "RigL"
+          },
+          {
+            "name": "Static sparsity"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "For sparse-training algorithms, we follow [Graesser et al., 2022] and use 90% sparsity.",
+          "justification": "Sparse-training agents were trained.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "we start pruning at 8M environment steps and stop at 160M (80% into training)",
+          "justification": "Not stated in epochs.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "we follow [Graesser et al., 2022] and use 90% sparsity",
+          "justification": "Only sparsity levels given.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "All experiments were run on NVIDIA Tesla P100 GPUs.",
+          "justification": "GPUs used.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "All experiments were run on NVIDIA Tesla P100 GPUs.",
+          "justification": "Stated.",
+          "value": "NVIDIA Tesla P100"
+        },
+        "accelerator_count": {
+          "quote": "All experiments were run on NVIDIA Tesla P100 GPUs.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "All experiments were run on NVIDIA Tesla P100 GPUs.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "All experiments were run on NVIDIA Tesla P100 GPUs.",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "The high runtime observed in sparse methods, despite their low effective density, stems from the fact that sparsity is only simulated with parameter masking",
+          "justification": "Stated.",
+          "value": "4 to 13 days per experiment; sparse methods show high runtime in Figure 7"
+        },
+        "utilisation": {
+          "quote": "All experiments were run on NVIDIA Tesla P100 GPUs.",
+          "justification": "Not reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "we validate our hypothesis on various sparsity levels",
+          "justification": "Seeds stated and sparsity-level sweep described.",
+          "value": "5 seeds; sparsity levels 80%, 90%, 95%; multiple scales"
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "Rainbow",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Impala",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Arcade Learning Environment (ALE)",
+            "access": "interactive",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Global Average Pooling (GAP)"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "except for the experiments with an increased replay ratio of 2, where we report the results at 50M steps",
+          "justification": "Replay-ratio experiments trained for 50M steps.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "we report the results at 50M steps",
+          "justification": "Reported in environment steps.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "We study the performance of the scaled network across varying the replay ratio values (default = 0.25).",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "All experiments were run on NVIDIA Tesla P100 GPUs.",
+          "justification": "GPUs used for all experiments.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "All experiments were run on NVIDIA Tesla P100 GPUs.",
+          "justification": "Stated.",
+          "value": "NVIDIA Tesla P100"
+        },
+        "accelerator_count": {
+          "quote": "All experiments were run on NVIDIA Tesla P100 GPUs.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "All experiments were run on NVIDIA Tesla P100 GPUs.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "All experiments were run on NVIDIA Tesla P100 GPUs.",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "The duration of each experiment ranged from 4 to 13 days",
+          "justification": "Not specified for this configuration.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "All experiments were run on NVIDIA Tesla P100 GPUs.",
+          "justification": "Not reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "with results averaged over 5 independent seeds",
+          "justification": "Seeds and replay-ratio sweep stated/shown.",
+          "value": "5 seeds; replay ratios 0.25, 0.5, 1, 2"
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "Rainbow",
+            "role_in_run": "main"
+          },
+          {
+            "name": "CNN architecture [Mnih et al., 2015]",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Arcade Learning Environment (ALE)",
+            "access": "interactive",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Global Average Pooling (GAP)"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "we evaluate the effect of GAP on a different architecture for ϕ: the original CNN architecture used in [Mnih et al., 2015]",
+          "justification": "Trained with the alternative CNN encoder.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "We ran each experiment for a total of 200 million environment steps",
+          "justification": "Not stated in epochs.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "the original CNN architecture used in [Mnih et al., 2015]",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "All experiments were run on NVIDIA Tesla P100 GPUs.",
+          "justification": "GPUs used.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "All experiments were run on NVIDIA Tesla P100 GPUs.",
+          "justification": "Stated.",
+          "value": "NVIDIA Tesla P100"
+        },
+        "accelerator_count": {
+          "quote": "All experiments were run on NVIDIA Tesla P100 GPUs.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "All experiments were run on NVIDIA Tesla P100 GPUs.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "All experiments were run on NVIDIA Tesla P100 GPUs.",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "The duration of each experiment ranged from 4 to 13 days",
+          "justification": "Not broken out.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "All experiments were run on NVIDIA Tesla P100 GPUs.",
+          "justification": "Not reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "with results averaged over 5 independent seeds",
+          "justification": "Stated for all experiments.",
+          "value": "5 seeds"
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "Rainbow",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Procgen",
+            "access": "interactive",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Global Average Pooling (GAP)"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "To further test the generality of our approach on discrete tasks, we also evaluate Rainbow on the Procgen benchmark [Cobbe et al., 2019].",
+          "justification": "Rainbow trained on Procgen.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "Performance for Rainbow on Procgen [Cobbe et al., 2019] (top)",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "GAP leads to performance gains for scaled networks in diverse domains.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "All experiments were run on NVIDIA Tesla P100 GPUs.",
+          "justification": "All experiments on GPUs.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "All experiments were run on NVIDIA Tesla P100 GPUs.",
+          "justification": "Stated.",
+          "value": "NVIDIA Tesla P100"
+        },
+        "accelerator_count": {
+          "quote": "All experiments were run on NVIDIA Tesla P100 GPUs.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "All experiments were run on NVIDIA Tesla P100 GPUs.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "All experiments were run on NVIDIA Tesla P100 GPUs.",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "The duration of each experiment ranged from 4 to 13 days",
+          "justification": "Not broken out.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "All experiments were run on NVIDIA Tesla P100 GPUs.",
+          "justification": "Not reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "with results averaged over 5 independent seeds",
+          "justification": "Stated across experiments.",
+          "value": "5 seeds"
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "DER",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Atari100K",
+            "access": "interactive",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Global Average Pooling (GAP)"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "we assess performance on the data-efficient 100k benchmark [Łukasz Kaiser et al., 2020], for which we use DER",
+          "justification": "DER trained in the data-efficient regime.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "We test on the 26 games of this benchmark.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "Fully connected layer Width 512",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "All experiments were run on NVIDIA Tesla P100 GPUs.",
+          "justification": "GPUs used.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "All experiments were run on NVIDIA Tesla P100 GPUs.",
+          "justification": "Stated.",
+          "value": "NVIDIA Tesla P100"
+        },
+        "accelerator_count": {
+          "quote": "All experiments were run on NVIDIA Tesla P100 GPUs.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "All experiments were run on NVIDIA Tesla P100 GPUs.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "All experiments were run on NVIDIA Tesla P100 GPUs.",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "The duration of each experiment ranged from 4 to 13 days",
+          "justification": "Not broken out.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "All experiments were run on NVIDIA Tesla P100 GPUs.",
+          "justification": "Not reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "We test on the 26 games of this benchmark.",
+          "justification": "Seeds stated; 26 games stated.",
+          "value": "5 seeds across 26 games"
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "DrQ",
+            "role_in_run": "main"
+          },
+          {
+            "name": "DrQ(ϵ)",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Atari100K",
+            "access": "interactive",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Global Average Pooling (GAP)"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "We evaluate two more algorithms in the sample-efficient regime: DrQ and DrQ(ϵ) ... on Atari100K.",
+          "justification": "Both agents trained on Atari100K.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "on Atari100K",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "GAP improves performance of scaled networks as shown in Figure 13.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "All experiments were run on NVIDIA Tesla P100 GPUs.",
+          "justification": "GPUs used.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "All experiments were run on NVIDIA Tesla P100 GPUs.",
+          "justification": "Stated.",
+          "value": "NVIDIA Tesla P100"
+        },
+        "accelerator_count": {
+          "quote": "All experiments were run on NVIDIA Tesla P100 GPUs.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "All experiments were run on NVIDIA Tesla P100 GPUs.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "All experiments were run on NVIDIA Tesla P100 GPUs.",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "The duration of each experiment ranged from 4 to 13 days",
+          "justification": "Not broken out.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "All experiments were run on NVIDIA Tesla P100 GPUs.",
+          "justification": "Not reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "We evaluate two more algorithms in the sample-efficient regime",
+          "justification": "Seed count for these appendix runs not restated.",
+          "value": "unknown"
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "SAC",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "DeepMind Control (DMC) suite",
+            "access": "interactive",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Global Average Pooling (GAP)"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "we also evaluate the Soft Actor-Critic (SAC) agent [Haarnoja et al., 2018] on continuous control tasks from the DeepMind Control (DMC) suite",
+          "justification": "SAC trained on DMC tasks.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "SAC on DMC [Tassa et al., 2018] (bottom)",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "scale the embedding layer of the actor and critic by 8",
+          "justification": "Only an 8x embedding scaling is stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "All experiments were run on NVIDIA Tesla P100 GPUs.",
+          "justification": "GPUs used.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "All experiments were run on NVIDIA Tesla P100 GPUs.",
+          "justification": "Stated.",
+          "value": "NVIDIA Tesla P100"
+        },
+        "accelerator_count": {
+          "quote": "All experiments were run on NVIDIA Tesla P100 GPUs.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "All experiments were run on NVIDIA Tesla P100 GPUs.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "All experiments were run on NVIDIA Tesla P100 GPUs.",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "The duration of each experiment ranged from 4 to 13 days",
+          "justification": "Not broken out.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "All experiments were run on NVIDIA Tesla P100 GPUs.",
+          "justification": "Not reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "we also evaluate the Soft Actor-Critic (SAC) agent",
+          "justification": "Seeds for DMC not explicitly restated.",
+          "value": "unknown"
+        }
+      }
+    ]
+  },
+  "usage": {
+    "input_tokens": 43459,
+    "output_tokens": 18823,
+    "total_tokens": 62282
+  }
+}

@@ -3,6 +3,8 @@ import asyncio
 import bdb
 import json
 import logging
+import sys
+import time
 from datetime import datetime
 from pathlib import Path
 from typing import Any, List, Tuple
@@ -18,6 +20,7 @@ from paperext.categorize.agent import (
     RATE_LIMIT_BACKOFF_MAX,
     RATE_LIMIT_RETRIES,
 )
+from paperext.categorize.progress import track
 from paperext.log import logger
 from paperext.paths import platform_bucket
 from paperext.structured_output import STRUCT_MODULES, ai4hcat, mdl
@@ -99,6 +102,47 @@ async def extract_from_research_paper(
             await asyncio.sleep(wait)
             backoff = min(backoff * 2, RATE_LIMIT_BACKOFF_MAX)
     raise AssertionError("unreachable")  # pragma: no cover
+
+
+def extraction_path(paper_fn: Path, destination: Path, index: int = 0) -> Path:
+    """Where one paper's extraction lands. One definition, used by both the
+    extractor and the resume check, so they cannot disagree about what "already
+    done" means."""
+    f = destination / paper_fn.name
+    return f.with_stem(f"{f.stem}_{index:02}").with_suffix(".json")
+
+
+def partition_pending(
+    papers: List[Path], destination: Path
+) -> "Tuple[List[Path], List[Path]]":
+    """``(pending, reused)`` -- which papers still need an API call.
+
+    Done up front rather than discovered inside the loop, because the ETA
+    depends on it: a resumed run over 2000 papers returns instantly for the
+    ones already extracted, and a bar that counted those as progress would
+    quote an ETA of minutes for an eight-hour job. Only real calls go on the
+    bar.
+
+    The test is the same one the extractor uses -- parse and validate -- so a
+    file that exists but is stale or truncated counts as pending, which is what
+    the extractor will do with it anyway.
+    """
+    pending: List[Path] = []
+    reused: List[Path] = []
+    for paper in papers:
+        path = extraction_path(paper, destination)
+        try:
+            get_extraction_response().model_validate_json(path.read_text())
+        except (
+            FileNotFoundError,
+            OSError,
+            ValueError,
+            pydantic_core._pydantic_core.ValidationError,
+        ):
+            pending.append(paper)
+        else:
+            reused.append(paper)
+    return pending, reused
 
 
 async def batch_extract_models_names(
@@ -190,21 +234,36 @@ async def ignore_exceptions(
     validation_set: List[Path],
     *args,
     **kwargs,
-):
-    for paper in validation_set:
-        try:
-            await batch_extract_models_names(client, [paper], *args, **kwargs)
-        except bdb.BdbQuit:
-            raise
-        except Exception as e:
-            logger.error(
-                f"Failed to extract paper information from {paper.name}: {e}",
-                exc_info=True,
-            )
-            logging.error(
-                f"Failed to extract paper information from {paper.name}: {e}",
-                exc_info=True,
-            )
+) -> "List[str]":
+    """Extract each paper in turn, surviving a failure on any one of them.
+
+    Papers go one at a time, so the bar's ETA is the real remaining wall clock.
+    It draws on stderr and is a no-op when stderr is not a terminal, so a run
+    redirected to a file stays clean -- `track`'s existing contract.
+
+    Returns the names that failed, because the bar replaces the console output
+    a caller would otherwise have read the failures from.
+    """
+    failures: List[str] = []
+    with track(len(validation_set), "extracting") as advance:
+        for paper in validation_set:
+            try:
+                await batch_extract_models_names(client, [paper], *args, **kwargs)
+            except bdb.BdbQuit:
+                raise
+            except Exception as e:
+                failures.append(paper.name)
+                logger.error(
+                    f"Failed to extract paper information from {paper.name}: {e}",
+                    exc_info=True,
+                )
+                logging.error(
+                    f"Failed to extract paper information from {paper.name}: {e}",
+                    exc_info=True,
+                )
+            finally:
+                advance()
+    return failures
 
 
 def main(argv=None):
@@ -300,7 +359,24 @@ def main(argv=None):
             + ("..." if len(absent) > 10 else "")
         )
 
-    logger.info("querying %d papers with %s", len(papers), CFG.platform.select)
+    destination = platform_bucket(CFG.dir.queries)
+    pending, reused = partition_pending(papers, destination)
+    print(
+        f"{len(papers)} papers: {len(reused)} already extracted, "
+        f"{len(pending)} to query with {CFG.platform.select}",
+        file=sys.stderr,
+    )
+    logger.info(
+        "%d papers: %d reused, %d to query with %s -> %s",
+        len(papers),
+        len(reused),
+        len(pending),
+        CFG.platform.select,
+        destination,
+    )
+    if not pending:
+        print("nothing to do; every paper already has an extraction", file=sys.stderr)
+        return
 
     backend = get_backend(CFG.platform.select)
     client = backend.make_client()
@@ -313,14 +389,33 @@ def main(argv=None):
         filename=LOG_FILE.with_suffix(f".{PROG}.dbg"), level=logging.DEBUG, force=True
     )
 
-    asyncio.run(
+    started = time.monotonic()
+    failures = asyncio.run(
         ignore_exceptions(
             client,
-            [paper.absolute() for paper in papers],
-            destination=platform_bucket(CFG.dir.queries),
+            [paper.absolute() for paper in pending],
+            destination=destination,
             rate_limit_errors=backend.rate_limit_errors,
         )
     )
+    elapsed = time.monotonic() - started
+
+    # The bar occupies the console, so the counts a caller would have read off
+    # the log are printed here instead -- the log is a file, by basicConfig.
+    done = len(pending) - len(failures)
+    print(
+        f"extracted {done}/{len(pending)} in {elapsed / 60:.1f} min"
+        + (f" ({elapsed / max(done, 1):.0f}s per paper)" if done else ""),
+        file=sys.stderr,
+    )
+    if failures:
+        print(
+            f"{len(failures)} failed, see {LOG_FILE.with_suffix(f'.{PROG}.dbg')}: "
+            + ", ".join(failures[:10])
+            + ("..." if len(failures) > 10 else ""),
+            file=sys.stderr,
+        )
+        print("re-running the same command retries only these", file=sys.stderr)
 
 
 if __name__ == "__main__":

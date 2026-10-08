@@ -1,0 +1,1902 @@
+{
+  "paper": "69a5fd3848887d403d0a4b51.txt",
+  "words": 17334,
+  "extractions": {
+    "title": {
+      "quote": "C ONTRACTIVE D IFFUSION P OLICIES",
+      "justification": "Title as given on the first page",
+      "value": "Contractive Diffusion Policies"
+    },
+    "description": "The paper introduces Contractive Diffusion Policies (CDPs), adding a contraction loss on the score Jacobian of the reverse diffusion ODE for offline policy learning. It provides theoretical analysis and empirical evaluation on D4RL offline RL benchmarks, Robomimic imitation learning benchmarks (low-dim and image observations), and physical Franka robot manipulation tasks.",
+    "type": {
+      "quote": "We evaluate CDPs for offline learning by conducting extensive experiments in simulation and real world settings.",
+      "justification": "The paper includes theory but its core claims are validated through extensive simulated and real-robot experiments.",
+      "value": "empirical"
+    },
+    "research_fields": [
+      {
+        "name": {
+          "quote": "Diffusion policies have emerged as powerful generative models for offline policy learning",
+          "justification": "The paper develops and evaluates methods for offline RL.",
+          "value": "Offline reinforcement learning"
+        },
+        "aliases": [
+          "offline RL"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "where they are trained with reinforcement learning (RL) or imitation learning (IL)",
+          "justification": "CDP is built on DBC for IL and evaluated on IL benchmarks.",
+          "value": "Imitation learning"
+        },
+        "aliases": [
+          "IL"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "particularly in robotics and control",
+          "justification": "Experiments include physical Franka manipulation and continuous control tasks.",
+          "value": "Robotics and continuous control"
+        },
+        "aliases": [
+          "robot manipulation",
+          "continuous control"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "We introduce Contractive Diffusion Policies (CDPs) to induce contractive behavior in the diffusion sampling dynamics.",
+          "justification": "The method modifies diffusion sampling dynamics.",
+          "value": "Diffusion generative models"
+        },
+        "aliases": [
+          "diffusion models"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "Contraction theory studies whether the solutions of a differential equation converge over time",
+          "justification": "Contraction theory is applied as the theoretical setting.",
+          "value": "Contraction theory"
+        },
+        "aliases": [],
+        "role": "used"
+      }
+    ],
+    "models": [
+      {
+        "name": {
+          "quote": "We introduce Contractive Diffusion Policies (CDPs)",
+          "justification": "The contributed model/policy class.",
+          "value": "CDP"
+        },
+        "aliases": [
+          "Contractive Diffusion Policies",
+          "CDP-RL",
+          "CDP-IL",
+          "CDP-DiT",
+          "CDP-Unet"
+        ],
+        "is_contributed": {
+          "quote": "we introduce Contractive Diffusion Policies (CDPs) to learn conditional action distributions and encourage contraction in the diffusion sampling process.",
+          "justification": "Core contribution.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "All models were trained on two RTX-4090s",
+          "justification": "Trained on GPUs for all benchmarks.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "CDP is compared to diffusion-based offline RL methods trained on the D4RL benchmark.",
+          "justification": "Compared against baselines in tables.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "Training takes 200k-500k gradient steps based on the task difficulty and observation modality.",
+          "justification": "Trained from scratch with gradient steps.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "We introduce Contractive Diffusion Policies (CDPs)",
+          "justification": "This is the paper's own model.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "our method builds on two computationally efficient learning approaches: EDP (Kang et al., 2023) for offline RL",
+          "justification": "Baseline and backbone for offline RL CDP.",
+          "value": "EDP"
+        },
+        "aliases": [
+          "Efficient Diffusion Policy"
+        ],
+        "is_contributed": {
+          "quote": "EDP (Kang et al., 2023)",
+          "justification": "Prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we display the evaluation graphs for CDP with two different contraction rates, compared against EDP (Kang et al., 2023)",
+          "justification": "Trained and evaluated as a baseline; evaluation curves computed.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Dataset Environment BC IQL DQL EDP IDQL CDP",
+          "justification": "Numbers reported in Table 1.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "For each dataset, we train every method with 10 random seeds",
+          "justification": "Baselines were trained with the same codebase.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "Bingyi Kang, Xiao Ma, Chao Du, Tianyu Pang, and Shuicheng YAN. Efficient diffusion policies for offline reinforcement learning.",
+          "justification": "Reference entry for Kang et al. 2023.",
+          "value": "Efficient diffusion policies for offline reinforcement learning"
+        }
+      },
+      {
+        "name": {
+          "quote": "DBC (Pearce et al., 2023) for IL",
+          "justification": "IL backbone/baseline.",
+          "value": "DBC"
+        },
+        "aliases": [
+          "Diffusion Behavioral Cloning",
+          "DBC-DiT",
+          "DBC-MLP"
+        ],
+        "is_contributed": {
+          "quote": "DBC (Pearce et al., 2023)",
+          "justification": "Prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "CDP often performs better than standard DBC, particularly for the harder tasks: Slide and Peg.",
+          "justification": "Trained and compared in Robomimic and real robot experiments.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "DBC-DiT",
+          "justification": "Compared in Table 2 and Figure 6.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "For each dataset, we train every method with 10 random seeds",
+          "justification": "Trained with the same protocol.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "Tim Pearce, ... Imitating human behaviour with diffusion models.",
+          "justification": "Pearce et al. 2023 reference.",
+          "value": "Imitating human behaviour with diffusion models"
+        }
+      },
+      {
+        "name": {
+          "quote": "we compare CDP against DQL (Wang et al., 2023), EDP (Kang et al., 2023), and IDQL (Hansen-Estruch et al., 2023)",
+          "justification": "Offline RL diffusion baseline.",
+          "value": "DQL"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "DQL (Wang et al., 2023)",
+          "justification": "Prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Time (seconds / 100k steps) 3115 ± 12 3742 ± 36 12822 ± 164",
+          "justification": "Runtime per 100k steps was measured, implying execution in this work.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "DQL",
+          "justification": "Reported in Table 1.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "CDP’s codebase, as well as all baseline implementations, are built on top of CleanDiffuser.",
+          "justification": "Baselines trained in the unified codebase.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "Zhendong Wang, Jonathan J Hunt, and Mingyuan Zhou. Diffusion policies as an expressive policy class for offline reinforcement learning.",
+          "justification": "Wang et al. 2023 reference.",
+          "value": "Diffusion policies as an expressive policy class for offline reinforcement learning"
+        }
+      },
+      {
+        "name": {
+          "quote": "IDQL (Hansen-Estruch et al., 2023)",
+          "justification": "Offline RL diffusion baseline.",
+          "value": "IDQL"
+        },
+        "aliases": [
+          "Implicit Q-learning as an actor-critic method with diffusion policies"
+        ],
+        "is_contributed": {
+          "quote": "IDQL (Hansen-Estruch et al., 2023)",
+          "justification": "Prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Time (seconds / 100k steps) ... 6250 ± 35",
+          "justification": "Training time measured in Table 1.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "IDQL",
+          "justification": "Reported in Table 1.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "we train every method with 10 random seeds",
+          "justification": "Trained as baseline.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "Philippe Hansen-Estruch, ... IDQL: Implicit Q-learning as an actor-critic method with diffusion policies.",
+          "justification": "Reference entry.",
+          "value": "IDQL: Implicit Q-learning as an actor-critic method with diffusion policies"
+        }
+      },
+      {
+        "name": {
+          "quote": "Dataset Environment BC IQL DQL EDP IDQL CDP",
+          "justification": "Baseline column in Table 1.",
+          "value": "IQL"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "IQL",
+          "justification": "Prior method used as baseline numbers.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "For offline RL, we compare CDP against DQL (Wang et al., 2023), EDP (Kang et al., 2023), and IDQL (Hansen-Estruch et al., 2023)",
+          "justification": "No indication it was run; it is not listed among the methods the paper says it compares against or times.",
+          "value": false
+        },
+        "is_compared": {
+          "quote": "84.9 ± 0.3 101.5 ± 3.9 109.4 ± 2.0",
+          "justification": "Numbers in Table 1.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "IQL",
+          "justification": "Paper does not state.",
+          "value": "unknown"
+        },
+        "referenced_paper_title": {
+          "quote": "IQL",
+          "justification": "No explicit IQL reference given in the shown reference list.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "Dataset Environment BC IQL DQL EDP IDQL CDP",
+          "justification": "Baseline column.",
+          "value": "BC"
+        },
+        "aliases": [
+          "behavior cloning"
+        ],
+        "is_contributed": {
+          "quote": "BC",
+          "justification": "Standard baseline.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Time (seconds / 100k steps) 3115 ± 12",
+          "justification": "Training time reported in Table 1 for BC.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Average reward 35.1 ± 2.9",
+          "justification": "Numbers reported.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "all baseline implementations, are built on top of CleanDiffuser",
+          "justification": "Trained as baseline in the unified codebase.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "BC",
+          "justification": "No specific reference.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "Dataset Task BC-GMM DP-DiT DP-Unet DBC-DiT CDP-DiT CDP-Unet",
+          "justification": "Robomimic baseline.",
+          "value": "BC-GMM"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "BC-GMM",
+          "justification": "Standard baseline.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Time (seconds / 100k steps) 2635 ± 14",
+          "justification": "Timing reported in Table 2.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "0.83 ± 0.03",
+          "justification": "Numbers in Table 2.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "we train every method with 10 random seeds",
+          "justification": "Trained in the same framework.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "Ajay Mandlekar, ... What matters in learning from offline human demonstrations for robot manipulation.",
+          "justification": "Robomimic baselines come from Mandlekar et al.",
+          "value": "What matters in learning from offline human demonstrations for robot manipulation"
+        }
+      },
+      {
+        "name": {
+          "quote": "for IL benchmarks we consider Diffusion Policy (Chi et al., 2023) and DBC (Pearce et al., 2023) with different conditioning backbones",
+          "justification": "Diffusion Policy baseline (DP-DiT, DP-Unet, DP-Chi variants).",
+          "value": "DP"
+        },
+        "aliases": [
+          "Diffusion Policy",
+          "DP-DiT",
+          "DP-Unet",
+          "DP-Chi"
+        ],
+        "is_contributed": {
+          "quote": "DP (Chi et al., 2023)",
+          "justification": "Prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Time (seconds / 100k steps) 2635 ± 14 7880 ± 43 8210 ± 51",
+          "justification": "Trained and timed in Table 2.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "CDP consistently outperforms DBC, the method it builds upon, but trails DP-Unet.",
+          "justification": "Compared in Table 2.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "we train every method with 10 random seeds",
+          "justification": "Trained as baseline.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "Cheng Chi, ... Diffusion policy: Visuomotor policy learning via action diffusion.",
+          "justification": "Chi et al. 2023 reference.",
+          "value": "Diffusion policy: Visuomotor policy learning via action diffusion"
+        }
+      },
+      {
+        "name": {
+          "quote": "for image-based observations we obtain an embedding vector using diffusion transformers (Dong et al., 2024b)",
+          "justification": "Used as the conditioning/diffusion backbone for image observations.",
+          "value": "diffusion transformers"
+        },
+        "aliases": [
+          "DiT"
+        ],
+        "is_contributed": {
+          "quote": "we obtain an embedding vector using diffusion transformers (Dong et al., 2024b)",
+          "justification": "Existing architecture reused.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "For diffusion, we primarily experiment with MLPs ... and diffusion transformers",
+          "justification": "Used in the image-based experiments.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "CDP-DiT CDP-Unet",
+          "justification": "DiT vs Unet variants compared in Table 2.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "Training takes 200k-500k gradient steps",
+          "justification": "Trained as part of the policy.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "Zibin Dong, ... AlignDiff: Aligning diverse human preferences via behavior-customisable diffusion model.",
+          "justification": "Dong et al. 2024b reference.",
+          "value": "AlignDiff: Aligning diverse human preferences via behavior-customisable diffusion model"
+        }
+      },
+      {
+        "name": {
+          "quote": "convolutional ResNet-based encoders when working with high-dimensional image inputs",
+          "justification": "Used as a conditioning encoder for image observations.",
+          "value": "ResNet"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "we plug in finetuned ResNet backbones",
+          "justification": "Standard backbone.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "nn condition ResNet / Identity",
+          "justification": "Used for image-based policies.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "ResNet / Identity",
+          "justification": "Not compared numerically as a model.",
+          "value": false
+        },
+        "execution_mode": {
+          "quote": "we plug in finetuned ResNet backbones",
+          "justification": "Paper states ResNet backbones were finetuned.",
+          "value": "finetune"
+        },
+        "referenced_paper_title": {
+          "quote": "ResNet / Identity",
+          "justification": "No ResNet reference given.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "we adopt a residual MLP (Pearce et al., 2023), which is sufficient for the low-dimensional observation spaces of D4RL",
+          "justification": "Backbone for low-dimensional observations.",
+          "value": "residual MLP"
+        },
+        "aliases": [
+          "MLP"
+        ],
+        "is_contributed": {
+          "quote": "we adopt a residual MLP (Pearce et al., 2023)",
+          "justification": "Taken from prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "For Robomimic, we use the same MLP encoder for low-dimensional states",
+          "justification": "Used in D4RL and low-dim Robomimic experiments.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "DiT / MLP",
+          "justification": "Not independently benchmarked.",
+          "value": false
+        },
+        "execution_mode": {
+          "quote": "Training takes 200k-500k gradient steps",
+          "justification": "Trained as part of the policy.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "we adopt a residual MLP (Pearce et al., 2023)",
+          "justification": "Cited as Pearce et al. 2023.",
+          "value": "Imitating human behaviour with diffusion models"
+        }
+      }
+    ],
+    "data_sources": [
+      {
+        "name": {
+          "quote": "We empirically validate CDPs through detailed experiments on D4RL (Fu et al., 2020) and Robomimic (Mandlekar et al., 2021) benchmarks",
+          "justification": "Primary offline RL benchmark dataset collection.",
+          "value": "D4RL"
+        },
+        "aliases": [
+          "Datasets for deep data-driven reinforcement learning"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "We select MuJoCo (Hopper, Walker2D, and HalfCheetah), Franka Kitchen (Complete, Partial, and Mixed), and Antmaze (Medium Play and Diverse) from D4RL datasets for offline RL.",
+          "justification": "No sample counts stated.",
+          "value": "unknown"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "Justin Fu, Aviral Kumar, Ofir Nachum, George Tucker, and Sergey Levine. D4RL: Datasets for deep data-driven reinforcement learning.",
+          "justification": "Fu et al. 2020 reference.",
+          "value": "D4RL: Datasets for deep data-driven reinforcement learning"
+        }
+      },
+      {
+        "name": {
+          "quote": "Additionally, we evaluate on Robomimic datasets featuring demonstrations from tabletop manipulation tasks: Lift, Can, Square, and Transport.",
+          "justification": "IL benchmark datasets of human demonstrations.",
+          "value": "Robomimic"
+        },
+        "aliases": [
+          "Robomimic-Lowdim",
+          "Robomimic-Image"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "Policies are trained on the provided human demonstration data",
+          "justification": "Dataset sizes not stated.",
+          "value": "unknown"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "Ajay Mandlekar, ... What matters in learning from offline human demonstrations for robot manipulation.",
+          "justification": "Mandlekar et al. 2021 reference.",
+          "value": "What matters in learning from offline human demonstrations for robot manipulation"
+        }
+      },
+      {
+        "name": {
+          "quote": "The learned policies are evaluated in Gymnasium (Towers et al., 2023) or Robosuite (Zhu et al., 2020), depending on the task",
+          "justification": "Environment used for policy evaluation.",
+          "value": "Gymnasium"
+        },
+        "aliases": [],
+        "role": "used",
+        "size": {
+          "quote": "The learned policies are evaluated in Gymnasium (Towers et al., 2023)",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "Mark Towers, ... Gymnasium, March 2023.",
+          "justification": "Towers et al. 2023 reference.",
+          "value": "Gymnasium"
+        }
+      },
+      {
+        "name": {
+          "quote": "evaluated in the robosuite simulator",
+          "justification": "Simulator environment for Robomimic evaluation.",
+          "value": "Robosuite"
+        },
+        "aliases": [
+          "robosuite"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "The tasks are simulated in the robosuite framework (Zhu et al., 2020).",
+          "justification": "Not applicable/stated.",
+          "value": "unknown"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "Yuke Zhu, ... robosuite: A modular simulation framework and benchmark for robot learning.",
+          "justification": "Zhu et al. 2020 reference.",
+          "value": "robosuite: A modular simulation framework and benchmark for robot learning"
+        }
+      },
+      {
+        "name": {
+          "quote": "To evaluate our proposed method on real hardware, we collected teleoperated demonstrations on a Franka Emika Panda.",
+          "justification": "Teleoperated demonstrations collected by the authors for four tasks.",
+          "value": "Real world data with Franka robot"
+        },
+        "aliases": [
+          "Franka robot dataset",
+          "Slide, Stack, Lift, Peg demonstrations"
+        ],
+        "role": "contributed",
+        "size": {
+          "quote": "Slide (cylinder) 51 ... Stack (cubes) 41 ... Lift (cube) 31 ... Peg (insert in hole) 61",
+          "justification": "Table 5 lists demonstration counts per task.",
+          "value": "51 (Slide), 41 (Stack), 31 (Lift), 61 (Peg) demonstrations"
+        },
+        "derived_from": [],
+        "sample_properties": [
+          {
+            "name": "Trajectory Length (min–max)",
+            "value": {
+              "quote": "Trajectory Length (min–max) ... 148–209 ... 182–286 ... 107–224 ... 97–296",
+              "justification": "Stated in Table 5.",
+              "value": "148–209 (Slide), 182–286 (Stack), 107–224 (Lift), 97–296 (Peg)"
+            },
+            "unit": "timesteps"
+          },
+          {
+            "name": "image resolution after preprocessing",
+            "value": {
+              "quote": "corresponding to the standard resolution of 224 × 224",
+              "justification": "Stated in appendix B.1.",
+              "value": "224 × 224"
+            },
+            "unit": "pixels"
+          },
+          {
+            "name": "logging rate",
+            "value": {
+              "quote": "the executed actions for each trajectory at a fixed 10 Hz rate",
+              "justification": "Stated in appendix B.2.",
+              "value": "10 Hz"
+            },
+            "unit": "Hz"
+          }
+        ],
+        "referenced_paper_title": {
+          "quote": "we collected teleoperated demonstrations on a Franka Emika Panda",
+          "justification": "Collected by the authors.",
+          "value": "unknown"
+        }
+      }
+    ],
+    "libraries": [
+      {
+        "name": {
+          "quote": "Note that CDP’s codebase, as well as all baseline implementations, are built on top of CleanDiffuser.",
+          "justification": "Codebase on which CDP and baselines are built.",
+          "value": "CleanDiffuser"
+        },
+        "aliases": [],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "Zibin Dong, ... CleanDiffuser: An easy-to-use modularized library for diffusion models in decision making.",
+          "justification": "Dong et al. 2024a reference.",
+          "value": "CleanDiffuser: An easy-to-use modularized library for diffusion models in decision making"
+        }
+      },
+      {
+        "name": {
+          "quote": "Computation time for n × n matrices compared against PyTorch’s built-in eigenvalue method.",
+          "justification": "Mentioned for eigenvalue computation and Torch JIT.",
+          "value": "PyTorch"
+        },
+        "aliases": [
+          "torch",
+          "Torch JIT"
+        ],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "torch.linalg.eigvals",
+          "justification": "No reference provided.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "We use Polymetis 2 for high-level control and teleoperation",
+          "justification": "Middleware used for robot control and teleoperation.",
+          "value": "Polymetis"
+        },
+        "aliases": [],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "https://github.com/facebookresearch/fairo/tree/main/polymetis",
+          "justification": "Only a URL is given.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "commands are executed on the Franka via libfranka over the Franka Control Interface (FCI) at 1 kHz",
+          "justification": "Used to execute commands on the Franka robot.",
+          "value": "libfranka"
+        },
+        "aliases": [
+          "Franka Control Interface",
+          "FCI"
+        ],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "libfranka over the Franka Control Interface (FCI)",
+          "justification": "No reference.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "the trained policy is evaluated by deploying it in the corresponding MuJoCo-based simulator",
+          "justification": "Simulator used for D4RL evaluation.",
+          "value": "MuJoCo"
+        },
+        "aliases": [],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "MuJoCo-based simulator",
+          "justification": "No reference given.",
+          "value": "unknown"
+        }
+      }
+    ],
+    "algorithms": [
+      {
+        "name": {
+          "quote": "we introduce Contractive Diffusion Policies (CDPs) to learn conditional action distributions and encourage contraction in the diffusion sampling process.",
+          "justification": "The contributed procedure adding a contraction loss.",
+          "value": "Contractive Diffusion Policies (CDPs)"
+        },
+        "aliases": [
+          "CDP"
+        ],
+        "is_contributed": {
+          "quote": "We introduce Contractive Diffusion Policies (CDPs) to induce contractive behavior in the diffusion sampling dynamics.",
+          "justification": "Main contribution.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "We evaluate CDPs for offline learning by conducting extensive experiments",
+          "justification": "Implemented and run on benchmarks.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Across benchmarks, CDPs often outperform baseline policies",
+          "justification": "Compared against baselines.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "we derive a practical recipe by adding only one tuned hyperparameter and a computationally efficient contraction loss to promote contraction in the sampling process of diffusion policies",
+          "justification": "Described as a practical recipe plus loss term.",
+          "value": "induce contractive behavior in the diffusion sampling dynamics by adding a contraction loss to the diffusion loss"
+        },
+        "composed_of": [
+          "Power iteration",
+          "contraction loss"
+        ],
+        "referenced_paper_title": {
+          "quote": "We introduce Contractive Diffusion Policies (CDPs)",
+          "justification": "Own contribution.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "Lemma 3.1 (Power iteration (Austin et al., 2024)).",
+          "justification": "Used for efficient largest-eigenvalue estimation.",
+          "value": "Power iteration"
+        },
+        "aliases": [
+          "power iterations"
+        ],
+        "is_contributed": {
+          "quote": "Power iteration (Austin et al., 2024)",
+          "justification": "Classical method cited.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "approximating the leading eigenvalue λmax (Jϵsym θ ) via power iteration",
+          "justification": "Used during training to estimate eigenvalues.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "The comparison between power iterations and PyTorch’s direct eigenvalue computation highlights a clear difference in efficiency",
+          "justification": "Compared to direct eigenvalue computation in runtime.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "We avoid direct and expensive computation of all eigenvalues using the following approximation.",
+          "justification": "Stated role.",
+          "value": "compute the largest eigenvalue of the symmetric score Jacobian efficiently"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Christian Austin, Sara Pollock, and Yunrong Zhu. Dynamically accelerating the power iteration with momentum.",
+          "justification": "Austin et al. 2024 reference.",
+          "value": "Dynamically accelerating the power iteration with momentum"
+        }
+      },
+      {
+        "name": {
+          "quote": "(II) Contraction loss.",
+          "justification": "Named loss term introduced.",
+          "value": "contraction loss"
+        },
+        "aliases": [
+          "Lc"
+        ],
+        "is_contributed": {
+          "quote": "the next step is to formulate the contraction loss",
+          "justification": "Formulated by the authors.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "we monitor diffusion and contraction losses",
+          "justification": "Added into training objective.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "loss type Contraction penalty type ... jacobian / eigen",
+          "justification": "Jacobian vs eigen loss types compared.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "penalizing large Lc pushes the Jacobian towards a negative curvature",
+          "justification": "Stated role.",
+          "value": "penalize the largest eigenvalue of the score Jacobian to promote contraction"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "the next step is to formulate the contraction loss",
+          "justification": "Own contribution.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "EDP also swaps the DDPM sampler for DPM-Solver (Zheng et al., 2023), a high-order ODE solver",
+          "justification": "ODE solver used for sampling.",
+          "value": "DPM-Solver"
+        },
+        "aliases": [
+          "ode dpmsolver++ 2M",
+          "ODE-DPM"
+        ],
+        "is_contributed": {
+          "quote": "We employ ODE-based DPM solvers (Zheng et al., 2023)",
+          "justification": "Prior work solver.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "In particular, we use ode dpmsolver++ 2M, a second-order multistep method",
+          "justification": "Default solver in experiments.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "We change the diffusion solver of CDP to DDPM, DDIM, and the default ODE-based solver we use throughout this work.",
+          "justification": "Compared to DDPM and DDIM solvers in Figure 12.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "Across all settings, we use a diffusion SDE backbone with an ODE solver for the reverse process.",
+          "justification": "Stated role.",
+          "value": "the reverse ODE solver used to generate actions during sampling"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Kaiwen Zheng, Cheng Lu, Jianfei Chen, and Jun Zhu. DPM-Solver-v3: Improved diffusion ode solver with empirical model statistics.",
+          "justification": "Zheng et al. 2023 reference.",
+          "value": "DPM-Solver-v3: Improved diffusion ode solver with empirical model statistics"
+        }
+      },
+      {
+        "name": {
+          "quote": "two prominent diffusion formulations, namely Denoising Diffusion Probabilistic Models (DDPM)",
+          "justification": "Alternative sampler explored.",
+          "value": "DDPM"
+        },
+        "aliases": [
+          "Denoising Diffusion Probabilistic Models"
+        ],
+        "is_contributed": {
+          "quote": "DDPM (Ho et al., 2020)",
+          "justification": "Prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We change the diffusion solver of CDP to DDPM, DDIM, and the default ODE-based solver",
+          "justification": "Used as a solver variant in Figure 12.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Comparing Diffusion Solvers.",
+          "justification": "Compared in solver ablation.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "we illustrate with two prominent diffusion formulations ... that the Jacobian of the reverse process can be derived",
+          "justification": "Appendix E role.",
+          "value": "an alternative diffusion sampling formulation whose Jacobian is derived and tested"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Jonathan Ho, Ajay Jain, and Pieter Abbeel. Denoising diffusion probabilistic models.",
+          "justification": "Ho et al. 2020 reference.",
+          "value": "Denoising diffusion probabilistic models"
+        }
+      },
+      {
+        "name": {
+          "quote": "Denoising Diffusion Implicit Models (DDIM) (Song et al., 2021a)",
+          "justification": "Alternative deterministic sampler explored.",
+          "value": "DDIM"
+        },
+        "aliases": [
+          "Denoising Diffusion Implicit Models"
+        ],
+        "is_contributed": {
+          "quote": "DDIM (Song et al., 2021a)",
+          "justification": "Prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We change the diffusion solver of CDP to DDPM, DDIM, and the default ODE-based solver",
+          "justification": "Used in solver comparison.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "DDPM DDIM ODE-DPM Diffusion Solver",
+          "justification": "Compared in Figure 12.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "DDIMs provide a deterministic alternative to DDPM sampling",
+          "justification": "Appendix E.",
+          "value": "a deterministic alternative sampler whose Jacobian is derived and tested"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Jiaming Song, Chenlin Meng, and Stefano Ermon. Denoising diffusion implicit models.",
+          "justification": "Song et al. 2021a reference.",
+          "value": "Denoising diffusion implicit models"
+        }
+      },
+      {
+        "name": {
+          "quote": "Another contribution of DBC is Diffusion-X sampling which biases selection toward intra-distribution, human-like actions",
+          "justification": "Named DBC sampling procedure.",
+          "value": "Diffusion-X sampling"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "Another contribution of DBC is Diffusion-X sampling",
+          "justification": "From DBC paper.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "it keeps denoising for extra iterations",
+          "justification": "Described but not stated as used.",
+          "value": false
+        },
+        "is_compared": {
+          "quote": "Diffusion-X sampling",
+          "justification": "Not benchmarked separately.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "biases selection toward intra-distribution, human-like actions: it keeps denoising for extra iterations",
+          "justification": "Described in appendix.",
+          "value": "biases selection toward intra-distribution, human-like actions by keeping denoising for extra iterations"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Diffusion Behavioral Cloning (DBC) (Pearce et al., 2023)",
+          "justification": "DBC reference.",
+          "value": "Imitating human behaviour with diffusion models"
+        }
+      },
+      {
+        "name": {
+          "quote": "ema rate EMA decay 0.999 (typical: [0.995, 0.9999])",
+          "justification": "Listed as a training hyperparameter (EMA decay).",
+          "value": "EMA"
+        },
+        "aliases": [
+          "EMA decay"
+        ],
+        "is_contributed": {
+          "quote": "ema rate EMA decay",
+          "justification": "Standard technique.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "ema rate EMA decay 0.999",
+          "justification": "Part of training configuration.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "ema rate",
+          "justification": "Not compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "General training & inference ... ema rate EMA decay",
+          "justification": "Listed under general training & inference.",
+          "value": "training configuration parameter for exponential moving average of weights"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "ema rate",
+          "justification": "No reference.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "tune the hyperparameter γ with cross-validation",
+          "justification": "Mentioned for tuning gamma.",
+          "value": "cross-validation"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "tune the hyperparameter γ with cross-validation",
+          "justification": "Standard procedure.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "The hyperparameter γ is naively tuned by picking the best performing γ ∈ {0.001, 0.01, . . . , 100}",
+          "justification": "Used for hyperparameter tuning.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "tune the hyperparameter γ with cross-validation",
+          "justification": "Not benchmarked.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "tune the hyperparameter γ with cross-validation",
+          "justification": "Stated role.",
+          "value": "used to tune the contraction loss weight"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "cross-validation",
+          "justification": "No reference.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "An efficient alternative loss for penalizing the largest eigenvalue is the Frobenius norm",
+          "justification": "Named alternative contraction loss formulation.",
+          "value": "Frobenius norm penalty"
+        },
+        "aliases": [
+          "jacobian loss"
+        ],
+        "is_contributed": {
+          "quote": "Our shifted Frobenius penalty",
+          "justification": "Formulated as surrogate in this paper.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "The value of β and loss type is fixed to 0.1 and jacobian, respectively",
+          "justification": "Default loss type used.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "loss type Contraction penalty type ... jacobian / eigen",
+          "justification": "Compared against eigen-based penalty option.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "An efficient alternative loss for penalizing the largest eigenvalue is the Frobenius norm",
+          "justification": "Stated role.",
+          "value": "an efficient surrogate for penalizing the largest eigenvalue of the score Jacobian"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Our shifted Frobenius penalty",
+          "justification": "Own formulation.",
+          "value": "unknown"
+        }
+      }
+    ],
+    "runs": [
+      {
+        "models": [
+          {
+            "name": "CDP",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "D4RL",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "Gymnasium",
+            "access": "interactive",
+            "roles_in_run": [
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Contractive Diffusion Policies (CDPs)"
+          },
+          {
+            "name": "contraction loss"
+          },
+          {
+            "name": "Power iteration"
+          },
+          {
+            "name": "DPM-Solver"
+          },
+          {
+            "name": "Frobenius norm penalty"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "Training takes 200k-500k gradient steps based on the task difficulty and observation modality.",
+          "justification": "Offline RL training on D4RL datasets.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "Training takes 200k-500k gradient steps based on the task difficulty and observation modality.",
+          "justification": "Stated in training section.",
+          "value": "200k-500k gradient steps"
+        },
+        "parameter_count": {
+          "quote": "nn diffusion Diffusion backbone DiT / MLP",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "All models were trained on two RTX-4090s, each equipped with 24 GB of VRAM",
+          "justification": "Trained on RTX-4090 GPUs.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "All models were trained on two RTX-4090s, each equipped with 24 GB of VRAM",
+          "justification": "Explicitly stated.",
+          "value": "RTX-4090 (24 GB VRAM)"
+        },
+        "accelerator_count": {
+          "quote": "All models were trained on two RTX-4090s",
+          "justification": "Two GPUs stated.",
+          "value": "2"
+        },
+        "precision": {
+          "quote": "All models were trained on two RTX-4090s",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "All models were trained on two RTX-4090s",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "Time (seconds / 100k steps) 3115 ± 12 3742 ± 36 12822 ± 164 4594 ± 43 6250 ± 35 5236 ± 71",
+          "justification": "Table 1 reports CDP wall-clock per 100k steps.",
+          "value": "5236 ± 71 seconds / 100k steps"
+        },
+        "utilisation": {
+          "quote": "All models were trained on two RTX-4090s",
+          "justification": "Not reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "For each dataset, we train every method with 10 random seeds and report the average and standard deviation",
+          "justification": "Stated seeds and hyperparameter grid.",
+          "value": "10 random seeds per dataset, with γ searched over 5-6 values"
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "EDP",
+            "role_in_run": "main"
+          },
+          {
+            "name": "DQL",
+            "role_in_run": "main"
+          },
+          {
+            "name": "IDQL",
+            "role_in_run": "main"
+          },
+          {
+            "name": "BC",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "D4RL",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "Gymnasium",
+            "access": "interactive",
+            "roles_in_run": [
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "DPM-Solver"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "For each dataset, we train every method with 10 random seeds",
+          "justification": "Baselines trained with the same protocol and timed.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "Training takes 200k-500k gradient steps based on the task difficulty and observation modality.",
+          "justification": "Same training protocol stated.",
+          "value": "200k-500k gradient steps"
+        },
+        "parameter_count": {
+          "quote": "nn diffusion Diffusion backbone DiT / MLP",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "All models were trained on two RTX-4090s",
+          "justification": "All models trained on GPUs.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "All models were trained on two RTX-4090s, each equipped with 24 GB of VRAM",
+          "justification": "Stated.",
+          "value": "RTX-4090 (24 GB VRAM)"
+        },
+        "accelerator_count": {
+          "quote": "All models were trained on two RTX-4090s",
+          "justification": "Stated.",
+          "value": "2"
+        },
+        "precision": {
+          "quote": "All models were trained on two RTX-4090s",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "All models were trained on two RTX-4090s",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "Time (seconds / 100k steps) 3115 ± 12 3742 ± 36 12822 ± 164 4594 ± 43 6250 ± 35 5236 ± 71",
+          "justification": "Table 1 timing row.",
+          "value": "BC 3115 ± 12; DQL 12822 ± 164; EDP 4594 ± 43; IDQL 6250 ± 35 seconds / 100k steps"
+        },
+        "utilisation": {
+          "quote": "All models were trained on two RTX-4090s",
+          "justification": "Not reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "we train every method with 10 random seeds",
+          "justification": "Stated.",
+          "value": "10 random seeds per dataset"
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "CDP",
+            "role_in_run": "main"
+          },
+          {
+            "name": "DP",
+            "role_in_run": "main"
+          },
+          {
+            "name": "DBC",
+            "role_in_run": "main"
+          },
+          {
+            "name": "BC-GMM",
+            "role_in_run": "main"
+          },
+          {
+            "name": "residual MLP",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Robomimic",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "Robosuite",
+            "access": "interactive",
+            "roles_in_run": [
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Contractive Diffusion Policies (CDPs)"
+          },
+          {
+            "name": "contraction loss"
+          },
+          {
+            "name": "Power iteration"
+          },
+          {
+            "name": "DPM-Solver"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "We compare CDPs against the baselines on different tasks with low-dimensional (L) and image-based (H) observation spaces.",
+          "justification": "IL training on low-dimensional Robomimic observations.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "Training takes 200k-500k gradient steps based on the task difficulty and observation modality.",
+          "justification": "Stated protocol.",
+          "value": "200k-500k gradient steps"
+        },
+        "parameter_count": {
+          "quote": "DiT / MLP",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "All models were trained on two RTX-4090s",
+          "justification": "GPU training stated.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "All models were trained on two RTX-4090s, each equipped with 24 GB of VRAM",
+          "justification": "Stated.",
+          "value": "RTX-4090 (24 GB VRAM)"
+        },
+        "accelerator_count": {
+          "quote": "All models were trained on two RTX-4090s",
+          "justification": "Stated.",
+          "value": "2"
+        },
+        "precision": {
+          "quote": "All models were trained on two RTX-4090s",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "All models were trained on two RTX-4090s",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "Time (seconds / 100k steps) 2635 ± 14 7880 ± 43 8210 ± 51 7141 ± 48 8554 ± 67 9056 ± 53",
+          "justification": "Table 2 timing row.",
+          "value": "BC-GMM 2635 ± 14; DP-DiT 7880 ± 43; DP-Unet 8210 ± 51; DBC-DiT 7141 ± 48; CDP-DiT 8554 ± 67; CDP-Unet 9056 ± 53 seconds / 100k steps"
+        },
+        "utilisation": {
+          "quote": "All models were trained on two RTX-4090s",
+          "justification": "Not reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "The final performance is reported as the mean success rate over 100 evaluation rollouts.",
+          "justification": "Stated in setup and appendix.",
+          "value": "10 random seeds per dataset; 100 evaluation rollouts for success rate"
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "CDP",
+            "role_in_run": "main"
+          },
+          {
+            "name": "DP",
+            "role_in_run": "main"
+          },
+          {
+            "name": "DBC",
+            "role_in_run": "main"
+          },
+          {
+            "name": "diffusion transformers",
+            "role_in_run": "main"
+          },
+          {
+            "name": "ResNet",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Robomimic",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "Robosuite",
+            "access": "interactive",
+            "roles_in_run": [
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Contractive Diffusion Policies (CDPs)"
+          },
+          {
+            "name": "contraction loss"
+          },
+          {
+            "name": "Power iteration"
+          },
+          {
+            "name": "DPM-Solver"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "We test both low-dimensional proprioceptive observations and high-dimensional image-based observations.",
+          "justification": "Image-based IL training is a distinct configuration (different modality/backbone).",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "Training takes 200k-500k gradient steps based on the task difficulty and observation modality.",
+          "justification": "Stated protocol.",
+          "value": "200k-500k gradient steps"
+        },
+        "parameter_count": {
+          "quote": "for image-based observations we obtain an embedding vector using diffusion transformers",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "All models were trained on two RTX-4090s",
+          "justification": "GPU training.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "All models were trained on two RTX-4090s, each equipped with 24 GB of VRAM",
+          "justification": "Stated.",
+          "value": "RTX-4090 (24 GB VRAM)"
+        },
+        "accelerator_count": {
+          "quote": "All models were trained on two RTX-4090s",
+          "justification": "Stated.",
+          "value": "2"
+        },
+        "precision": {
+          "quote": "All models were trained on two RTX-4090s",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "All models were trained on two RTX-4090s",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "Time (seconds / 100k steps) 2635 ± 14 7880 ± 43 8210 ± 51",
+          "justification": "Table 2 timings are aggregate and not separated for image runs.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "All models were trained on two RTX-4090s",
+          "justification": "Not reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "we train every method with 10 random seeds",
+          "justification": "Stated.",
+          "value": "10 random seeds per dataset"
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "CDP",
+            "role_in_run": "main"
+          },
+          {
+            "name": "EDP",
+            "role_in_run": "main"
+          },
+          {
+            "name": "DP",
+            "role_in_run": "main"
+          },
+          {
+            "name": "DBC",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "D4RL",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "Robomimic",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "Gymnasium",
+            "access": "interactive",
+            "roles_in_run": [
+              "test"
+            ]
+          },
+          {
+            "name": "Robosuite",
+            "access": "interactive",
+            "roles_in_run": [
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Contractive Diffusion Policies (CDPs)"
+          },
+          {
+            "name": "contraction loss"
+          },
+          {
+            "name": "DPM-Solver"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "When training on only 10% of the original dataset size, we observe that CDP decisively outperforms the baselines.",
+          "justification": "Training on reduced (10%) datasets is a separate dataset configuration.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "When training on only 10% of the original dataset size",
+          "justification": "Not separately stated for reduced-data runs.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "DiT / MLP",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "All models were trained on two RTX-4090s",
+          "justification": "Same hardware.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "All models were trained on two RTX-4090s, each equipped with 24 GB of VRAM",
+          "justification": "Stated.",
+          "value": "RTX-4090 (24 GB VRAM)"
+        },
+        "accelerator_count": {
+          "quote": "All models were trained on two RTX-4090s",
+          "justification": "Stated.",
+          "value": "2"
+        },
+        "precision": {
+          "quote": "All models were trained on two RTX-4090s",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "All models were trained on two RTX-4090s",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "We report the average episode return across different random seeds.",
+          "justification": "Not reported for these runs.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "All models were trained on two RTX-4090s",
+          "justification": "Not reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "We report the average episode return across different random seeds.",
+          "justification": "Only 'different random seeds' mentioned.",
+          "value": "different random seeds (count not stated for these runs)"
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "CDP",
+            "role_in_run": "main"
+          },
+          {
+            "name": "DBC",
+            "role_in_run": "main"
+          },
+          {
+            "name": "ResNet",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Real world data with Franka robot",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Contractive Diffusion Policies (CDPs)"
+          },
+          {
+            "name": "contraction loss"
+          },
+          {
+            "name": "Power iteration"
+          },
+          {
+            "name": "DPM-Solver"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "Demonstration trajectories are collected via teleoperation, with observations consisting of agentview images and proprioceptive data",
+          "justification": "Policies trained on real-world teleoperated demonstrations.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "Training takes 200k-500k gradient steps based on the task difficulty and observation modality.",
+          "justification": "Not stated for real-world tasks.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "deploy an image-based diffusion policy with a ResNet backbone",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "a simple GPU with 4 GB of VRAM is sufficient to run a single experiment",
+          "justification": "GPU used for training and deployment.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "All models were trained on two RTX-4090s, each equipped with 24 GB of VRAM",
+          "justification": "Stated as the training hardware.",
+          "value": "RTX-4090 (24 GB VRAM)"
+        },
+        "accelerator_count": {
+          "quote": "All models were trained on two RTX-4090s",
+          "justification": "Stated.",
+          "value": "2"
+        },
+        "precision": {
+          "quote": "All models were trained on two RTX-4090s",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "All models were trained on two RTX-4090s",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "report the average success rate and execution time",
+          "justification": "Only robot execution time reported, not training time.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "All models were trained on two RTX-4090s",
+          "justification": "Not reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "We execute each policy 20 times per task",
+          "justification": "Stated in Figure 6.",
+          "value": "20 executions per task"
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "CDP",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Real world data with Franka robot",
+            "access": "interactive",
+            "roles_in_run": [
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "DPM-Solver"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "At deployment, the diffusion policy is frozen, and the ODE sampling process generates the actions given observations.",
+          "justification": "Trained policy deployed for closed-loop inference on the robot.",
+          "value": "inference"
+        },
+        "epochs": {
+          "quote": "the server runs inference and returns a 7-dimensional action vector",
+          "justification": "Inference run.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "deploy an image-based diffusion policy with a ResNet backbone",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "a simple GPU with 4 GB of VRAM is sufficient to ... deploy an image-based diffusion policy with a ResNet backbone",
+          "justification": "A GPU inference server is used.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "a simple GPU with 4 GB of VRAM is sufficient to run a single experiment on low-dimensional observations, or to deploy an image-based diffusion policy with a ResNet backbone",
+          "justification": "Stated as sufficient for deployment.",
+          "value": "a simple GPU with 4 GB of VRAM"
+        },
+        "accelerator_count": {
+          "quote": "a client streams observations to a separate inference server that hosts the policy",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "Torch JIT",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "two-machine client-server setup",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "report the average success rate and execution time",
+          "justification": "Execution time per task shown in a figure but values not stated in text.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "high-frequency control through Torch JIT and the Franka control interface",
+          "justification": "Not reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "We execute each policy 20 times per task",
+          "justification": "Stated.",
+          "value": "20 executions per task"
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "CDP",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Robomimic",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "D4RL",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Contractive Diffusion Policies (CDPs)"
+          },
+          {
+            "name": "DDPM"
+          },
+          {
+            "name": "DDIM"
+          },
+          {
+            "name": "DPM-Solver"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "We change the diffusion solver of CDP to DDPM, DDIM, and the default ODE-based solver we use throughout this work.",
+          "justification": "Solver ablation trains CDP with different samplers on Kitchen tasks.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "Comparing Diffusion Solvers.",
+          "justification": "Not stated for ablation.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "Comparing Diffusion Solvers.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "All models were trained on two RTX-4090s",
+          "justification": "Same hardware as other experiments.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "All models were trained on two RTX-4090s, each equipped with 24 GB of VRAM",
+          "justification": "Stated.",
+          "value": "RTX-4090 (24 GB VRAM)"
+        },
+        "accelerator_count": {
+          "quote": "All models were trained on two RTX-4090s",
+          "justification": "Stated.",
+          "value": "2"
+        },
+        "precision": {
+          "quote": "All models were trained on two RTX-4090s",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "All models were trained on two RTX-4090s",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "Comparing Diffusion Solvers.",
+          "justification": "Not reported.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "Comparing Diffusion Solvers.",
+          "justification": "Not reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "The average and error bands are plotted here.",
+          "justification": "Not stated for this ablation.",
+          "value": "unknown"
+        }
+      }
+    ]
+  },
+  "usage": {
+    "input_tokens": 55245,
+    "output_tokens": 20423,
+    "total_tokens": 75668
+  }
+}

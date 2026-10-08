@@ -49,6 +49,22 @@ at nothing, but checking first costs a second.
 `--platform` is the owner's call; the harness reads whatever lands in the
 queries directory and does not care which provider produced it.
 
+**The run prints a progress bar with an ETA on stderr**, and a one-line summary
+when it ends. It opens by saying how many papers are already extracted and how
+many will actually be queried, because the ETA covers only the second number: a
+reused paper returns instantly, and counting those as progress would quote
+minutes for an hours-long job.
+
+**It is resumable.** Re-running the same command queries only what is missing
+or stale, and says so instead of looking idle. That makes a failed or
+interrupted run cheap to pick up, which matters at #13's scale.
+
+**Measured pace, this sample on `anthropic`/`claude-opus-5`: about 3m20s per
+paper, sequential.** So ~80 minutes for these 25. Worth knowing before #13:
+2000 papers at that rate is **over four days of wall clock**, and nothing here
+runs papers concurrently. That is a scaling decision for #13, not a defect in
+this pass.
+
 ## 2. The reading
 
 The run writes to a **configured** path, not the working directory.
