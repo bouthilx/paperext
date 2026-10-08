@@ -309,11 +309,19 @@ def manual(corpus: Corpus) -> list[Finding]:
             papers=iql,
         )
     )
+    # `str()` on an enum member gives "DataSourceRunRole.REFERENCE", so the
+    # membership test silently never matched and this reported 0 while the
+    # genomics paper was returning three reference-role sources. Same unwrapping
+    # mistake as the `['unknown']` parallelism bug: read `.value`.
     refs = [
         p
         for p, run in corpus.runs()
         for ds in run.data_sources or []
-        if "reference" in [str(r) for r in (getattr(ds, "roles_in_run", None) or [])]
+        if "reference"
+        in {
+            str(getattr(r, "value", r)).lower()
+            for r in (getattr(ds, "roles_in_run", None) or [])
+        }
     ]
     out.append(
         Finding(

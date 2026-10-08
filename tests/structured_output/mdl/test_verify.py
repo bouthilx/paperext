@@ -201,3 +201,35 @@ def test_measurements_never_fail_and_report_the_repetitions_split():
     reps = _by_name(found, "repetitions")
     assert "unknown:1" in reps.detail and "1:1" in reps.detail
     assert "0 runs" not in _by_name(found, "runs per paper").detail
+
+
+def _run_with_reference_source():
+    run = _run()
+    run["data_sources"] = [
+        {
+            "name": "Wikipedia",
+            "access": "fixed",
+            "roles_in_run": ["reference"],
+        }
+    ]
+    return run
+
+
+def test_a_reference_role_is_found_through_the_enum_not_its_repr():
+    """`str()` on an enum member gives 'DataSourceRunRole.REFERENCE'.
+
+    The membership test originally compared that against 'reference', so it
+    never matched and the harness reported 0 reference-role sources while the
+    extraction was returning them. Same unwrapping mistake as the `['unknown']`
+    parallelism bug, so it is pinned here.
+    """
+    from paperext.structured_output.mdl.verify import manual
+
+    found = manual(_corpus(runs=[_run_with_reference_source()]))
+    [reference] = [f for f in found if "retrieval corpus" in f.name]
+    assert reference.papers == ["p1"]
+    assert "1 papers" in reference.detail
+
+    none = manual(_corpus(runs=[_run()]))
+    [reference] = [f for f in none if "retrieval corpus" in f.name]
+    assert reference.papers == []
