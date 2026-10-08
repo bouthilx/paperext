@@ -189,6 +189,26 @@ SPECS: "dict[str, TableSpec]" = {
         pin_sep=";,",
         spellings_surface={"lineage": "surface"},
     ),
+    # Two independent axes and no backbone, the domains shape -- but for a
+    # different reason. Domains has nothing to pin on because a paper maps to a
+    # set of values on each axis. Here there *are* entities, and they were
+    # deliberately given no lineage tree (#102 Part D): `access` is a property
+    # of the mention and is carried by `runs[].data_sources[].access` in schema
+    # v5, while `provenance` and `referent` are assigned to the entity post-hoc.
+    # None of the three is inherited from anything, so all are flat value sets
+    # -- `provenance` has one parent edge (`elicited` under `human-authored`)
+    # and it is structural, not a pin.
+    "data_sources": TableSpec(
+        design_dir="axes_data_sources",
+        backbone="",
+        axes=(
+            AxisSpec(name="access", inherit="none"),
+            AxisSpec(name="provenance", inherit="none"),
+            AxisSpec(name="referent", inherit="none"),
+        ),
+        parent_column="parents",
+        parent_sep="|",
+    ),
 }
 
 

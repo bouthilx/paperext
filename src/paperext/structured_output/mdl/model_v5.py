@@ -45,9 +45,14 @@ SYSTEM_MESSAGE = (
     "simulated dataset' are not entries while 'Moving MNIST' is; the "
     "SOFTWARE that implements a source, which is a Library (the MuJoCo "
     "physics engine is a Library, the MuJoCo benchmark environments are Data "
-    "Sources); and a source that is itself a Model, such as a teacher "
-    "network whose outputs are used for training -- report that Model in the "
-    "Run instead.\n"
+    "Sources). A source that IS a Model -- a teacher network queried for "
+    "training targets, an LLM sampled for synthetic data, a learned world "
+    "model an agent trains inside -- is admitted, but it is catalogued as a "
+    "Model: report it in the models list and reference it from the Run with "
+    "role_in_run='data-source'. Do not also create a Data Source for it. A "
+    "RELEASED corpus of a model's outputs, such as a published synthetic "
+    "instruction set, is a Data Source in its own right, because the corpus "
+    "is the named artifact and the model is not.\n"
     "If the paper names a Data Source it built FROM another named one -- "
     "Moving MNIST from MNIST, an offline RL dataset from a simulator -- "
     "report both and name the original in the derived one's derived_from. A "
@@ -99,7 +104,8 @@ SYSTEM_MESSAGE = (
     "mode are among the six. Hyperparameter variation that moves none of the "
     "six -- learning rate, seed, dropout rate, weight decay -- stays in ONE run "
     "and is counted in `repetitions`.\n"
-    "A run is ONE COUPLED OPTIMISATION LOOP. Networks whose parameters are "
+    "A run is A UNIT OF COMPUTE THE PAPER SPENT. Most runs fit something, and "
+    "a fitting run is ONE COUPLED OPTIMISATION LOOP. Networks whose parameters are "
     "updated from a shared backward pass belong to the SAME run, however many "
     "networks that is: a generator and its discriminator are ONE run, because "
     "the generator's gradient flows through the discriminator; an actor and its "
@@ -107,6 +113,15 @@ SYSTEM_MESSAGE = (
     "is FROZEN and only supplies targets or scores is a participant of the run, "
     "not a run of its own -- a distillation teacher is reported in the run's "
     "models with role_in_run='teacher', not as a second run.\n"
+    "A run that PRODUCES DATA without fitting anything is also a run, and is "
+    "worth reporting when the paper describes the production as a distinct "
+    "stage -- for instance one run that generates a corpus, followed by "
+    "several runs that train on it. NEGATIVE TEST, and it matters more than "
+    "the rule: online reinforcement learning, where the rollouts and the "
+    "parameter updates happen in the same loop, is ONE run. Report a separate "
+    "production run only when the data was produced and THEN trained on "
+    "separately. Do not judge whether the production was expensive; report "
+    "whether the paper describes it as its own stage.\n"
     "A multi-stage procedure is several runs when the stages are separate "
     "loops: reporting supervised finetuning, then reward model fitting, then "
     "PPO against a FROZEN reward model is three runs, because no gradient "
@@ -114,8 +129,20 @@ SYSTEM_MESSAGE = (
     "paper only names -- if the paper says only 'we used RLHF' and describes no "
     "stages, report the Algorithm and whatever runs the paper actually "
     "describes.\n"
-    "Reference Models, Datasets and Algorithms from a Run by repeating the name "
-    "EXACTLY as you reported it in the corresponding list.\n"
+    "Reference Models, Data Sources and Algorithms from a Run by repeating the "
+    "name EXACTLY as you reported it in the corresponding list. For each Data "
+    "Source a Run used, also report HOW the Run obtained its examples from it, "
+    "in `access`: 'fixed' if the whole set existed before the run and re-running "
+    "would see the same examples; 'generator' if a procedure minted examples on "
+    "request; 'oracle' if the run had to name what it wanted and something "
+    "answered; 'interactive' if what came next depended on what the run just "
+    "did; 'stream' if examples arrived on an external clock and pausing would "
+    "lose them. THIS IS A PROPERTY OF THE RUN, NOT OF THE SOURCE: a paper that "
+    "trains on a frozen log of simulator rollouts reports 'fixed', even though "
+    "the simulator itself is interactive, and a paper that steps the simulator "
+    "online reports 'interactive' for the same source.\n"
+    "If a Run produced a NAMED Data Source that later runs consume, name it in "
+    "the Run's `produces`.\n"
     "Only Models the paper actually executed get a Run. A baseline whose "
     "numbers are quoted from another paper is reported with is_executed=false "
     "and gets no Run.\n\n"
@@ -177,6 +204,16 @@ class ExecutionMode(str, enum.Enum):
     TRAIN = "train"
     FINETUNE = "finetune"
     INFERENCE = "inference"
+    # The run's product is data, and its cost is NOT a function of a model's
+    # parameter count: environment rollouts under a scripted policy, simulation
+    # and solver runs, bulk preprocessing or transformation of an existing
+    # source. Distinct from `inference` on purpose (owner, 2026-10-08):
+    # `inference` means a MODEL producing predictions, so `6ND` and `2ND` both
+    # apply to it, while neither applies here -- preprocessing ImageNet has no
+    # parameter count at all. If the samples were produced BY A MODEL (an LLM
+    # sampled for synthetic data, a distillation teacher, pseudo-labels), that
+    # is `inference`, not this.
+    GENERATE = "generate"
     UNKNOWN = "unknown"
 
 
@@ -225,6 +262,13 @@ class ModelRunRole(str, enum.Enum):
     # cooperative is a question the algorithms `signal` axis already asks, and
     # asking it twice is the conflation these dimensions keep paying for.
     CRITIC = "critic"
+    # The Model was the source of this run's training examples: a teacher
+    # queried for targets, an LLM sampled for synthetic data, a learned world
+    # model an agent trained inside. Admitted as of 2026-10-08 (owner): the
+    # model is the environment, and a run can interact with it or sample a
+    # fixed set from it exactly as with any other source. Catalogued once, as a
+    # model -- never duplicated into the data-source list.
+    DATA_SOURCE = "data-source"
     UNKNOWN = "unknown"
 
 
@@ -232,6 +276,26 @@ class ModelRunRole(str, enum.Enum):
 # `RefDataSource.role` (contributed/used/referenced, which is paper-level), and
 # `6 x parameters x training examples x epochs` needs the TRAINING examples
 # specifically, so the two cannot be collapsed.
+# How a Run obtained its examples from a Data Source. A property of the RUN,
+# not of the source: the same simulator is `interactive` for a paper that steps
+# it online and `fixed` for a paper that trains on a frozen log of its rollouts,
+# and both are correct. Derived in #102 step 3, where all three independent
+# derivations reached these five values from three different entry points.
+#
+# `other` is an ontological miss -- the scheme has no slot -- while `unknown`
+# means the paper does not say. Two of the three runs insisted these stay
+# distinguishable: collapsing them destroys the only statistic that says whether
+# the scheme is wrong or the literature is silent.
+class DataSourceAccess(str, enum.Enum):
+    FIXED = "fixed"
+    GENERATOR = "generator"
+    ORACLE = "oracle"
+    INTERACTIVE = "interactive"
+    STREAM = "stream"
+    OTHER = "other"
+    UNKNOWN = "unknown"
+
+
 class DataSourceRunRole(str, enum.Enum):
     TRAIN = "train"
     VALIDATION = "validation"
@@ -523,6 +587,16 @@ class RunDataSource(BaseModel):
     name: str = Field(
         description="Name of the Dataset, repeated EXACTLY as reported in the datasets list",
     )
+    access: DataSourceAccess = Field(
+        description="How this Run obtained its examples from the Data Source: "
+        "'fixed' if the whole set existed before the run and re-running would "
+        "see the same examples; 'generator' if a procedure minted them on "
+        "request; 'oracle' if the run named what it wanted and something "
+        "answered; 'interactive' if what came next depended on what the run "
+        "just did; 'stream' if they arrived on an external clock. A paper "
+        "training on a frozen log of simulator rollouts reports 'fixed' even "
+        "though the simulator is interactive",
+    )
     roles_in_run: list[DataSourceRunRole] = Field(
         description="How this Run consumed the Dataset: 'train', 'validation' "
         "and/or 'test' for the splits it was fitted or scored on, or "
@@ -561,9 +635,24 @@ class Run(BaseModel):
         description="The Algorithms this Run executed. May be empty: most "
         "papers name a procedure without tying it to a configuration",
     )
+    # Only for a NAMED produced source. The unnamed one-time case needs
+    # nothing: the production run references the original with
+    # `access=interactive` and the training run references it with
+    # `access=fixed`, which reads correctly as "rolled out in it, then trained
+    # on the result" -- and the production run existing is what gets that
+    # compute counted at all.
+    produces: list[str] = Field(
+        description="Names of Data Sources this Run produced, for later runs to "
+        "consume. Empty unless this Run's product was data AND the paper names "
+        "it",
+    )
     execution_mode: Explained[ExecutionMode] = Field(
-        description="What this Run did, following the precedence "
-        "train > finetune > inference > unknown",
+        description="What this Run did: 'train' or 'finetune' if it fitted "
+        "something, 'inference' if a Model produced predictions, 'generate' if "
+        "the Run produced data by means other than a Model (stepping an "
+        "environment, running a simulator or solver, transforming an existing "
+        "source), else 'unknown'. Sampling a Model for training data is "
+        "'inference', not 'generate'",
     )
     epochs: Explained[str] = Field(
         description="Number of passes over the training data, as the paper "
@@ -641,8 +730,14 @@ class PaperExtractions(BaseModel):
     )
     models: list[RefModel] = Field(description="All Models found in the paper")
     data_sources: list[RefDataSource] = Field(
+        # The two exclusions are here rather than only in the issue because
+        # both were measured to double-count: one string, two entities, three
+        # times over (#102 Part A).
         description="All Data Sources found in the paper: fixed datasets, "
-        "interactive environments and generators alike"
+        "interactive environments and generators alike. Report the source "
+        "itself, not the software that implements it (MuJoCo is a Library, "
+        "HalfCheetah is a Data Source) and not an evaluation protocol over it "
+        "(report Atari, not Atari 100k)"
     )
     libraries: list[RefLibrary] = Field(
         description="All Libraries explicitely used or contributed according to the paper"
@@ -710,6 +805,7 @@ def empty_model(model_cls):
     empty_fields["algorithms"][0]["is_compared"]["value"] = False
     empty_fields["algorithms"][0]["composed_of"] = []
     empty_fields["runs"][0]["models"] = []
+    empty_fields["runs"][0]["produces"] = []
     empty_fields["runs"][0]["data_sources"] = []
     empty_fields["runs"][0]["algorithms"] = []
     empty_fields["runs"][0]["execution_mode"]["value"] = "unknown"

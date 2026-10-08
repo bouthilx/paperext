@@ -48,6 +48,11 @@ REFERENCED_BUT_NOT_EXECUTED = "referenced-but-not-executed"
 #: paper ran. The model-level field exists for models with no run; where both
 #: exist they are the same claim, so disagreement is free evidence of an error.
 EXECUTION_MODE_DISAGREES = "execution-mode-disagrees"
+#: A `generate` run that references a model. `generate` means the run's cost is
+#: not parameter-shaped; if a model produced the data, the mode is `inference`.
+#: Encodes that discriminator directly, so a mode that would send the estimator
+#: to the wrong formula is reported rather than silently accepted.
+GENERATE_RUN_WITH_MODELS = "generate-run-with-models"
 #: An executed model no run accounts for. Expected in bulk on converted data --
 #: `convert_model_v4` leaves `runs[]` empty because v4 held no compute
 #: configuration to carry over -- so read it per-corpus, not per-record.
@@ -116,6 +121,20 @@ def check_references(extractions: Any, *, paper: str = "") -> list[Problem]:
 
     for i, run in enumerate(getattr(extractions, "runs", None) or []):
         run_mode = _mode(run)
+
+        if run_mode == "generate" and (getattr(run, "models", None) or []):
+            names = [
+                (getattr(m, "name", "") or "").strip()
+                for m in (getattr(run, "models", None) or [])
+            ]
+            problems.append(
+                Problem(
+                    GENERATE_RUN_WITH_MODELS,
+                    f"{prefix}runs[{i}]",
+                    f"execution_mode is 'generate' but the run references "
+                    f"{names}; a model producing the data makes it 'inference'",
+                )
+            )
 
         for ref_field, entity_field in REFERENCE_FIELDS.items():
             for j, ref in enumerate(getattr(run, ref_field, None) or []):

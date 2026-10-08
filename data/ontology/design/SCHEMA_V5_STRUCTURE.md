@@ -172,6 +172,28 @@ asked as such: `algorithms[]` asks *what named procedures does this paper name*
 grouping rule as an explicit positive **and** negative test, since `runs[]` is
 where over-splitting lives (B.6).
 
+### `derived_from` propagation is also the query specification
+
+`derived_from` propagates for provenance and **not** for compute sizing. That
+rule was made for correctness, and it turns out to specify exactly the two
+indexes the analysis needs — worth recording so nobody later "simplifies" them
+into one:
+
+| question | closure |
+|---|---|
+| how much of the output **builds on** ImageNet | **transitive** — follow `derived_from` |
+| how many runs **trained on** ImageNet itself | **direct** — no traversal |
+
+Both are legitimate, both are precomputable once per entity, and conflating them
+answers neither. One convention keeps it cheap: **`derived_from` names only
+*named* parents**, so chains stay one or two deep rather than unbounded.
+
+The same reasoning is why a one-time derivation gets **no entity**. If every
+collect-then-train paper minted one, *"which papers used MuJoCo"* would become a
+graph traversal over thousands of single-use nodes. Instead the run records
+`access` and the entity set stays small and stable — which also matters because
+entities are what the categorisation agent has to reason about.
+
 **For #93 and #89.** Both inherit the same shape. #93's compute-estimation fields
 split by locus: what a dataset *is* (size, modality, example count) stays on
 `RefDataset`; how a run *used* it (which split, how many examples consumed) is a
@@ -194,6 +216,27 @@ Settled while building:
       pointer and its quote lives on the entity it names; the quote that would
       matter for a run is the one locating the *run*, which the run's own fields
       already carry.
+
+Settled 2026-10-08 (owner), in the course of deriving the data-sources
+dimension (#102):
+
+- [x] **`access` attaches to the mention, `provenance` to the entity.** All
+      three independent derivations found `access` relational — the same
+      simulator is `interactive` for a paper that steps it online and `fixed`
+      for one that trains on a frozen log, and both are correct. `provenance` is
+      not relational: a simulator's signal is `simulated` whoever uses it. So
+      the two axes are **not the same kind of axis**, and `RunDataSource.access`
+      is where the value that varies lives. An entity may carry a native access
+      as documentation; analysis never reads it.
+- [x] **A model used live as a data source is admitted**, catalogued once as a
+      model and referenced from the run with `role_in_run='data-source'`. The
+      model *is* the environment: a run can interact with it or sample a fixed
+      set from it exactly as with any other source. A *released* corpus of a
+      model's outputs stays a data source in its own right, because the corpus
+      is the named artifact.
+- [x] **A derivation earns an entity when it is named as an artifact**, not
+      whenever it happens. `D4RL` yes; "we collected 1M transitions" no — that
+      is a step, and the run records it.
 
 Still open:
 
