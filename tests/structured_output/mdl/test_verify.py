@@ -65,7 +65,7 @@ def _data_source(name):
     }
 
 
-def _run(*, mode="train", parameter_count="unknown", repetitions="unknown"):
+def _run(*, mode="train", parameter_count="unknown", repetitions=None):
     return {
         "models": [],
         "data_sources": [],
@@ -81,7 +81,7 @@ def _run(*, mode="train", parameter_count="unknown", repetitions="unknown"):
         "parallelism": _expl(["unknown"]),
         "duration": _expl("unknown"),
         "utilisation": _expl("unknown"),
-        "repetitions": _expl(repetitions),
+        "repetitions": _expl(repetitions or []),
     }
 
 
@@ -188,19 +188,65 @@ def test_a_probe_matches_a_written_surface_but_never_a_similar_one():
     assert _by_name(near_miss, "evaluation").ok is False
 
 
-def test_measurements_never_fail_and_report_the_repetitions_split():
+def _factor(kind, count, what):
+    return {"kind": kind, "count": count, "what": what}
+
+
+def test_measurements_never_fail_and_multiply_the_repetition_factors():
+    """The product is computed here, not asked of the extractor.
+
+    v5's free-text field returned prose for 79 of 81 stated values, and the one
+    answer that did arithmetic got it wrong (`96 configurations x 3 seeds =
+    576`). So the factors are reported and multiplied here, where the result can
+    be checked.
+    """
     found = measurements(
         Corpus(
             {
-                "p1": _paper(runs=[_run(repetitions="unknown"), _run(repetitions="1")]),
+                "p1": _paper(
+                    runs=[
+                        _run(),  # empty list: the paper did not say
+                        _run(
+                            repetitions=[
+                                _factor("seed", 5, "random seeds"),
+                                _factor("hyperparameter", 20, "learning rates"),
+                            ]
+                        ),
+                    ]
+                ),
                 "p2": _paper(runs=[]),
             }
         )
     )
     assert all(f.ok is None for f in found)
-    reps = _by_name(found, "repetitions")
-    assert "unknown:1" in reps.detail and "1:1" in reps.detail
-    assert "0 runs" not in _by_name(found, "runs per paper").detail
+    reps = _by_name(found, "factors and product")
+    assert "1/2 runs state a factor" in reps.detail
+    assert "seed:1" in reps.detail and "hyperparameter:1" in reps.detail
+    assert "x100:1" in reps.detail, reps.detail
+
+
+def test_a_workload_count_reported_as_a_repetition_is_flagged():
+    """`'1,540 test episodes'` is the run's workload, not a repetition.
+
+    The real v5 output used the free-text field for both, which would multiply a
+    per-run cost by the number of items processed.
+    """
+    found = measurements(
+        Corpus(
+            {
+                "p1": _paper(
+                    runs=[_run(repetitions=[_factor("other", 1540, "test episodes")])]
+                )
+            }
+        )
+    )
+    flagged = _by_name(found, "misread as workload")
+    assert "1 factors" in flagged.detail and "test episodes" in flagged.detail
+
+    clean = measurements(
+        Corpus({"p1": _paper(runs=[_run(repetitions=[_factor("seed", 3, "seeds")])])})
+    )
+    assert "0 factors" in _by_name(clean, "misread as workload").detail
 
 
 def _run_with_reference_source():

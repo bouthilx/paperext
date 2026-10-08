@@ -75,7 +75,7 @@ def _run(*, models=(), data_sources=(), algorithms=(), mode="train"):
         "parallelism": _expl(["unknown"]),
         "duration": _expl("unknown"),
         "utilisation": _expl("unknown"),
-        "repetitions": _expl("unknown"),
+        "repetitions": _expl([]),
     }
 
 

@@ -91,7 +91,7 @@ def _value(obj: Any, attr: str) -> Any:
 
 
 #: What "the paper did not say" looks like once unwrapped.
-_ABSENT = (None, "", "unknown", [])
+_ABSENT: tuple[Any, ...] = (None, "", "unknown", [])
 
 
 def _stated(obj: Any, attr: str) -> bool:
@@ -358,17 +358,64 @@ def measurements(corpus: Corpus) -> list[Finding]:
         )
     ]
 
-    reps = Counter(str(_value(r, "repetitions")) for _, r in runs)
+    # `repetitions` is a list of factors and the product is computed HERE, not
+    # by the extractor: the first v5 run returned prose for 79 of 81 stated
+    # values, and asking for the product invited arithmetic it got wrong.
+    stated = 0
+    kinds: Counter[str] = Counter()
+    totals: Counter[int] = Counter()
+    suspect: list[str] = []
+    WORKLOAD = (
+        "episode",
+        "item",
+        "sample",
+        "structure",
+        "molecule",
+        "example",
+        "problem",
+        "token",
+    )
+    for paper, run in runs:
+        factors = _value(run, "repetitions") or []
+        if not factors:
+            continue
+        stated += 1
+        total = 1
+        for factor in factors:
+            kinds[str(_value(factor, "kind") or "")] += 1
+            count = _value(factor, "count")
+            total *= count if isinstance(count, int) and count > 0 else 1
+            what = str(getattr(factor, "what", "") or "").lower()
+            if any(w in what for w in WORKLOAD):
+                suspect.append(f"{paper}:{what[:34]}")
+        totals[total] += 1
+
     out.append(
         Finding(
             kind="MEASURE",
-            name="repetitions distribution",
+            name="repetitions: factors and product",
             ok=None,
             detail=(
-                " ".join(f"{k}:{v}" for k, v in reps.most_common(8))
-                + ". LOAD-BEARING: `unknown` rather than `1` when the paper is "
-                "silent. 5 seeds x 20 configurations is 100x the compute, and a "
-                "silent `1` undercounts compute rather than losing detail"
+                f"{stated}/{len(runs)} runs state a factor; kinds "
+                + (" ".join(f"{k}:{v}" for k, v in kinds.most_common()) or "none")
+                + "; product "
+                + (" ".join(f"x{k}:{v}" for k, v in sorted(totals.items())) or "none")
+                + ". An EMPTY list means the paper did not say, never 1: 5 seeds "
+                "x 20 configurations is 100x the compute, so a silent 1 "
+                "undercounts compute rather than losing detail"
+            ),
+        )
+    )
+    out.append(
+        Finding(
+            kind="MEASURE",
+            name="repetitions misread as workload",
+            ok=None,
+            detail=(
+                f"{len(suspect)} factors describe items PROCESSED rather than "
+                "executions repeated -- the v5-prose failure this field was "
+                "restructured to stop"
+                + (": " + "; ".join(suspect[:5]) if suspect else "")
             ),
         )
     )

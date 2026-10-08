@@ -348,6 +348,47 @@ def _lt(this: BaseModel, other: BaseModel, skip: tuple[str, ...]) -> bool:
 # |             | X           | X           | has been executed (trained or finetuned or inference) and compared to other models
 # |             |             | X           | is compared to other models using only results from a referenced paper
 # |             |             |             | is only referenced in the paper but is not used in any comparison
+class RepetitionKind(str, enum.Enum):
+    """What kind of factor multiplied the number of executions."""
+
+    #: Random seeds, or independent reruns of an identical configuration.
+    SEED = "seed"
+    #: A swept hyperparameter value: learning rate, weight decay, dropout.
+    HYPERPARAMETER = "hyperparameter"
+    #: A cross-validation fold or data split.
+    FOLD = "fold"
+    #: An ablation or configuration variant that shares the compute profile.
+    VARIANT = "variant"
+    OTHER = "other"
+
+
+class Repetition(BaseModel):
+    """One factor that multiplies how many times a run's configuration ran.
+
+    Structured rather than free text because the first v5 run returned prose:
+    of 81 runs that stated repetitions, **2 gave a number** and 79 gave a
+    description -- `'63 settings x 6 fine-tuning methods x 10 random seeds'`,
+    `'5 seeds per game (20 games for analyses, 60 games for full suite)'`. Those
+    carry real structure and are unaggregatable as strings, and asking the
+    extractor for the product instead invites arithmetic it got wrong at least
+    once (one answer read `96 configurations x 3 seeds = 576`).
+
+    So the factors are reported and the product is computed here, where it can
+    be checked.
+    """
+
+    kind: RepetitionKind = Field(
+        description="Which kind of factor this is",
+    )
+    count: int = Field(
+        description="How many values this factor took, e.g. 5 for five seeds",
+    )
+    what: str = Field(
+        description="What varied, in the paper's own words: 'random seeds', "
+        "'learning rates', 'cross-validation folds'",
+    )
+
+
 class RefModel(BaseModel):
     name: Explained[str] = Field(
         description="Name of the Model",
@@ -698,11 +739,18 @@ class Run(BaseModel):
         "figure -- an assumed utilisation is applied later, in analysis, and "
         "must not be recorded here as if the paper had stated it",
     )
-    repetitions: Explained[str] = Field(
-        description="How many executions shared this compute configuration -- "
-        "seeds times hyperparameter settings, e.g. '100' for 5 seeds of 20 "
-        "learning rates. Often stated ('mean over 5 seeds', 'we swept 20 "
-        "configurations'). 'unknown' rather than 1 when the paper does not say",
+    repetitions: Explained[list[Repetition]] = Field(
+        description="The factors that multiply how many times this run's "
+        "configuration was executed: ONE ENTRY PER INDEPENDENT FACTOR, so 5 "
+        "seeds of 20 learning rates is two entries (seed 5, hyperparameter 20) "
+        "and means 100 executions. Do not multiply them yourself. "
+        "AN EMPTY LIST MEANS THE PAPER DOES NOT SAY -- never report a count of "
+        "1 to mean that. "
+        "NEVER report how many examples, episodes, items, molecules or "
+        "structures the run PROCESSED: that is the run's workload, not a "
+        "repetition. '1,540 test episodes', '20k crystal structures evaluated' "
+        "and '10 samples analyzed' are NOT repetitions; '3 random seeds' and "
+        "'a grid over 5 learning rates' are",
     )
 
     def __lt__(self, other: "Run"):
@@ -824,5 +872,10 @@ def empty_model(model_cls):
     empty_fields["runs"][0]["accelerator_type"]["value"] = "unknown"
     empty_fields["runs"][0]["precision"]["value"] = "unknown"
     empty_fields["runs"][0]["parallelism"]["value"] = ["unknown"]
+    # Empty, not `__EMPTY__`: `repetitions` is a list of factors, and an empty
+    # list is also its real "the paper did not say" value. Any future
+    # list-valued field has to be registered here too -- the sentinel builder
+    # fills every field with a string otherwise.
+    empty_fields["runs"][0]["repetitions"]["value"] = []
 
     return model_cls(**empty_fields)
