@@ -461,3 +461,100 @@ edits the admission rule.
 - The provenance header now states that **multi-valued means several values at
   once**, because all three runs read the fastMRI/`natural` and MIMIC/
   `human-incidental` rows as a contradiction when both values hold of both.
+
+## 7. The mechanism/referent split (2026-10-08)
+
+Owner decision: adopt the full split. Three runs derived the `referent` axis and
+the consequent mechanism values independently from `REFERENT_BRIEF.md`, reports
+in `derivations_referent/run_D{1,2,3}.md`.
+
+### A leak in my own method, declared
+
+The brief told the runs they could read `access/nodes.tsv` and
+`provenance/nodes.tsv`. I had written the phase-2 measurements into those files'
+`notes` columns an hour earlier — including `rule`'s *"counts swing to 40 (A),
+~55 (B) and 37 (C) under a reward-channel reading"*. **So the brief's own
+allow-list leaked the corpus it forbade.** D3 caught it and declared the two
+places it could have been swayed; D2 noted it read §1–5 plus the §6 heading only.
+
+Consequence, stated rather than glossed: the agreement on **`rule` dissolving**
+and on **the channel analysis** is *not* fully independent — my note handed them
+the 4× swing and called it a channel problem. What survives clean is the
+**`referent` values and their principle of division**, which those notes say
+nothing about, and the **`natural` subject-clause defect**, which the phase-2
+reports found before this brief existed. Recorded here because a leak that is
+declared is recoverable and one that is not is a fabricated three-of-three.
+
+### Three of three
+
+**The principle of division.** All three reached the same one in different
+words: *what could show the values to be wrong*. D1: *"what, outside the signal,
+could show its values to be wrong."* D2: *"by what kind of check the values could
+be shown wrong."* D3: *"what the values are answerable to."*
+
+**`stipulated`** — same name, same characteristic, all three: the generating
+specification *is* the standard and no observation could show an item wrong.
+
+**`simulated` and `constructed` collapse.** Delete the referent clause and no
+test distinguishes them. Unanimous.
+
+**`model-generated` survives, and the superset dissolves mechanically** on
+*fitted versus stated* parameters. D1 made `computed` a genus with two leaves;
+D2 defined `program-computed` as "no fitted parameters"; D3 cut on "was any
+value-determining parameter fitted and non-interpretable". Three routes, one cut.
+
+**`rule` does not survive** (leak-qualified). Its case for existing was itself a
+referent argument — §2's *"a unit test checks real code, so 'no empirical
+referent' is false of it"* — so once `referent` takes that differentia nothing
+is left for it to be a child of. D3's general lesson: *"a value named after the
+medium is always a superset of values named after kinds of the medium."*
+
+**`natural`'s subject clause must go**, and the rename follows: D1 `measured`,
+D2 `measured`/`authored`, D3 `instrument-captured`/`human-authored`. Applied as
+`measured` / `human-authored`.
+
+**`provenance-other` empties, and all three volunteered it as a cost to the
+owner's watch.** D2: *"under this design `provenance-other` empties, which
+disarms the instrument §2 relies on."* **It does not**, and this is the one place
+the runs were working from an incomplete picture: the watch's instrument is
+`operational_sweep.tsv`, which names the 34 candidates and their three families
+outright. Telemetry moving to `measured` is where it belonged; the count is still
+recoverable by name. The owner's decision stands unchanged and so does its
+revisit.
+
+**The channel problem survives.** Unanimous, and two runs explained why no axis
+can fix it. D3: *"an axis adds a column, the defect is the key."* D2 located the
+blocker exactly: §4 put `provenance` on the **entity** while reward channels
+live on the **mention**. Both agree the split kills the measurable symptom (the
+4× `rule` swing) without touching the expressivity loss.
+
+**Referent granularity contradicts §4's entity attachment.** All three: one
+physics engine spans several referent values by task (D3), Habitat relocates
+rather than resolves (D1), and D2 found referent *use-determined* for
+engines-named-as-source. This independently corroborates phase-2 run A's
+granularity-per-axis finding. **Unresolved.**
+
+### The one real divergence: where the second cut goes
+
+All three produced **three values plus `referent-other`**, all three include
+`stipulated`, and all three split the top level the same way — answerable to the
+world, or not. They disagree on the second cut, and **each one's discarded or
+unresolvable case is exactly what another's cut separates**:
+
+| | D1 | D2 | D3 |
+|---|---|---|---|
+| | `real-particular` | `empirical` | `particular` |
+| | `real-general` | (declined the split, → governance axis) | `generic` |
+| | (4th value derived, then killed) | `formal` | (*"recursion trap I could not dissolve"*) |
+| | `stipulated` | `stipulated` | `stipulated` |
+
+D1 and D3 subdivide the **empirical** side into particular and general; D2
+subdivides the **non-empirical** side into formal and stipulated. D1 derived a
+fourth value and killed it from both ends; D3 hit a formal-mathematics corpus it
+read as `{particular, stipulated}` and called the recursion trap undissolvable;
+D2 declined particular/generic and handed it to a queued axis. **The union of
+their three doubts is one 2×2**, and the cell each run could not place is the
+cell another run named.
+
+Not resolved here: it decides the shipped table, and the evidence points past
+what any one run proposed.
