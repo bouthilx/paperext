@@ -157,6 +157,24 @@ extraction was open.
   with a `role_in_run`, not a run of its own.** That is why a distillation
   teacher is `role_in_run=teacher` rather than a second run, and why RLHF's
   three stages — each with the previous stage's network frozen — are three.
+
+  **Widened 2026-10-08 (owner).** A run is **a unit of compute the paper
+  spent**; one coupled optimisation loop is the rule for grouping *fitting*
+  runs. **A run that produces data without fitting anything is also a run** —
+  which is what finally counts the compute of the one-generation-to-many-
+  trainings shape, and of bulk preprocessing feeding several experiments. Its
+  `execution_mode` is **`generate`**, a value added for this and deliberately
+  distinct from `inference`: `inference` means a *model* producing predictions,
+  so `6ND` and `2ND` apply to it, while neither applies to stepping a simulator
+  or transforming a corpus — preprocessing ImageNet has no parameter count at
+  all. Sampling a *model* for training data is `inference`.
+
+  **The negative test matters more than the rule**, because the failure mode is
+  double counting: **online RL is ONE run**, not a generation run plus a
+  training run, since the rollouts and the updates share a loop. And the
+  extractor is told to report whether the paper describes production as its own
+  stage — never to judge whether it was expensive, which is the analysis's job
+  and needs the FLOP estimates the extractor does not have.
 - **`runs[].checkpoint` now has its motivating case.** The edge between RLHF's
   stage 1 and stages 2–3 *is* a checkpoint reference. It was an open item with no
   worked example; this is it.

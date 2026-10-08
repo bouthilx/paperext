@@ -250,21 +250,47 @@ this project has.
 
 ---
 
-## 4. What needs an owner decision
+## 4. The two owner decisions — both settled 2026-10-08
 
-Both are objections to rules the owner set, raised independently by all three
-runs. Neither is ours to overturn.
+Both were objections to rules the owner set, each raised independently by all
+three runs. Both were put to the owner and both were resolved; the resolutions
+are in `SCHEMA_V5_STRUCTURE.md` §7 and shipped in the same PR as this synthesis.
 
-1. **Does a model used live as a data source get admitted?** The exclusion is
-   ontologically clean and, per 3/3, hides the expensive case. Options the runs
-   offered: admit a model-as-source entity; keep the exclusion and add a role
-   marker on the *models* side meaning "this model produced the data for this
-   run"; or accept the gap and document that the survey under-counts RL and
-   post-training compute.
-2. **Do axis values attach to the source, or to the (source, run) mention?** 3/3
-   say `access` is relational. v5 already has a mention-level place for it —
-   `runs[].data_sources[]` — so the schema can express it; the question is whether
-   the ontology should.
+**1. A model used live as a data source is admitted.** *"Like in RL
+environments, the model is the environment and we can interact with it, or
+sample fixed samples."* It is catalogued once, as a model, and referenced from
+the run with `role_in_run='data-source'` — so the three runs' objection is
+answered without a new entity type, and the v5 prompt already had the mechanism
+(*"report that Model in the Run"*); what it lacked was the role value. A
+*released* corpus of model outputs stays a data source, because the corpus is
+the named artifact.
+
+**2. `access` attaches to the mention; `provenance` to the entity.** The runs'
+finding was right and the resolution is sharper than the options they offered,
+because the owner supplied the missing criterion: **a derivation earns an entity
+when it is named as an artifact, not whenever it happens.** `D4RL` is an entity
+with `derived_from`; "we collected 1M transitions" is a step the run records. So
+the entity question is settled by naming, and the mention carries how the source
+was used — `RunDataSource.access`.
+
+A run that trains on a frozen buffer therefore reports `fixed`, **never**
+`interactive`. Confusing the two would inflate every "how much interactive RL
+does this institute do" count, which is one of the questions the survey exists
+to answer.
+
+The querying half, which the owner raised and the runs did not: a per-derivation
+entity would turn *"which papers used MuJoCo"* into a graph traversal over
+thousands of single-use nodes, so the run-level value is also the cheaper one.
+And `derived_from`'s propagation rule turns out to specify the two indexes
+analysis needs — see `SCHEMA_V5_STRUCTURE.md` §3.
+
+**The gap the runs found in intra-run data is closed too.** Run A's *"replay
+buffers, self-generated rollouts, synthetic curricula… exactly where the compute
+goes"* is answered by widening a run to **a unit of compute the paper spent**, so
+a production stage is its own run with `execution_mode='generate'` — a value
+distinct from `inference`, because `inference` means a *model* producing
+predictions and the cost formulas assume a network, while stepping a simulator
+or transforming a corpus has no parameter count at all.
 
 ## 5. Frozen now
 
@@ -275,6 +301,11 @@ runs. Neither is ours to overturn.
   (flagged speculative), plus `provenance-other`.
 - `unknown` is a coding state on both axes, not a node.
 - `derived_from` stays a relation with the inheritance rule, as shipped.
+- **`access` is recorded on the mention** (`runs[].data_sources[].access`), not
+  on the entity — see §4. The value set here is the ontology's; the extraction
+  enum adds `unknown` as the coding state.
+- **`provenance` is recorded on the entity**, assigned post-hoc from the name
+  and the quote, as the other dimensions' axes are.
 
 Candidate further axes, all converged on, all **out of scope for #102**:
 availability/governance (3/3), supply/boundedness (2/3), locality (2/3),

@@ -8,6 +8,7 @@ from paperext.structured_output.mdl import model_v5
 from paperext.structured_output.mdl.check import (
     EXECUTED_WITHOUT_RUN,
     EXECUTION_MODE_DISAGREES,
+    GENERATE_RUN_WITH_MODELS,
     REFERENCED_BUT_NOT_EXECUTED,
     UNRESOLVED_REFERENCE,
     check_references,
@@ -58,8 +59,12 @@ def _data_source(name, *, aliases=None):
 def _run(*, models=(), data_sources=(), algorithms=(), mode="train"):
     return {
         "models": [{"name": n, "role_in_run": "main"} for n in models],
-        "data_sources": [{"name": n, "roles_in_run": ["train"]} for n in data_sources],
+        "data_sources": [
+            {"name": n, "access": "fixed", "roles_in_run": ["train"]}
+            for n in data_sources
+        ],
         "algorithms": [{"name": n} for n in algorithms],
+        "produces": [],
         "execution_mode": _expl(mode),
         "epochs": _expl("unknown"),
         "parameter_count": _expl("unknown"),
@@ -221,3 +226,26 @@ def test_the_paper_name_prefixes_every_location():
     assert check_references(ext, paper="2401.14487_00")[0].where.startswith(
         "2401.14487_00:"
     )
+
+
+def test_a_generate_run_referencing_a_model_is_reported():
+    """`generate` means the cost is not parameter-shaped.
+
+    If a model produced the data the mode is `inference`, and the difference
+    decides which compute formula applies -- so a `generate` run that names a
+    model is a mode that would send the estimator to the wrong formula.
+    """
+    ext = _paper(
+        models=[_model("ResNet-50")],
+        runs=[_run(models=["ResNet-50"], mode="generate")],
+    )
+    assert GENERATE_RUN_WITH_MODELS in _codes(ext)
+
+
+def test_a_generate_run_with_no_models_is_clean():
+    """Bulk preprocessing has no model at all, and that is the normal case."""
+    ext = _paper(
+        data_sources=[_data_source("ImageNet")],
+        runs=[_run(data_sources=["ImageNet"], mode="generate")],
+    )
+    assert check_references(ext) == []
