@@ -33,6 +33,13 @@ opened.
 however the sample was drawn. **Absence is never evidence**, and the corpus never
 arbitrates between two candidate values.
 
+That last clause bit immediately. The synthesis closed the one granularity
+divergence by deferring it to phase 2 — *"phase 2 can measure whether the corpus
+distinguishes a cluster trace from a click log"* — which is this rule's own
+prohibition, wearing a measurement's clothes. The owner resolved it by decision
+instead (SYNTHESIS.md §2), and phase 2 keeps only what it can honestly do: watch
+where the folded cases land, and leave the revisit to real annotations.
+
 ### What cannot be verified here, stated plainly
 
 On the algorithms dimension the freeze was verified from the agents' tool-call

@@ -80,8 +80,28 @@ confidence: A, *"if a reviewer wanted to collapse all three into one
 `operational_byproduct` value I could not mount a strong objection"*; B, *"the
 provenance value I am least sure deserves to exist"*.
 
-Resolution: **one value, flagged, pending corpus evidence.** Phase 2 can measure
-whether the corpus distinguishes a cluster trace from a click log. Phase 1 cannot.
+Resolution (owner, 2026-10-08): **C's position — no value; folded into
+`human-incidental`, flagged to watch.** *"I'd keep it as human-incidental for now
+but with a note that this one should be watched after tests and after further
+annotations to assess if it should be improved."*
+
+The fold is sound on the characteristic for the human sub-cases: the clinician,
+the clicker and the rater are each acting for their own purposes and the record
+is collected afterwards, which is exactly `human-incidental`'s test. What it
+gives up is the ability to separate them in a query — a cost, not an
+incoherence.
+
+It leaves one case genuinely uncovered. A **machine-emitted** record — a Borg or
+Alibaba cluster trace — is not human activity, so `human-incidental` does not
+hold of it; run A's `system_telemetry` is the sub-case that resists the fold.
+Those go to **`provenance-other`**, whose note now says so. That is deliberate:
+`provenance-other` stops being a dustbin and becomes the instrument, since the
+count that accumulates there is the evidence for or against restoring the value.
+
+Phase 2 therefore no longer measures three sub-cases. It watches two things: how
+much lands in `provenance-other` as telemetry, and whether any
+`human-incidental` placement reads as strained. Neither can settle it in #102 —
+the owner's revisit point is after #103's tests and after real annotations.
 
 **`rule` — a non-learned verifier or engine produced the signal** (unit-test
 pass/fail, Lean proof checking, game outcomes, labelling functions, distant
@@ -239,7 +259,10 @@ this project has.
 - **C:** a `collection channel` axis (scraped / instrumented / solicited /
   donated / purchased / administrative) *"should be derived next, before anyone is
   tempted to smuggle it into provenance."* **B's `operational` value is arguably
-  that exact smuggling** — C predicted B's weakest value without seeing it.
+  that exact smuggling** — C predicted B's weakest value without seeing it. With
+  the value now folded away, this axis is the live candidate for the revisit the
+  owner scheduled: that choice is between restoring a provenance value and
+  deriving this axis instead.
 - **C:** temporal stability — `fixed` reads as "frozen forever" but the test only
   says "predetermined independently of the consumer", so a Wikipedia dump, a
   rolling crawl and a decaying tweet-ID set are all `fixed` and behave
@@ -297,8 +320,10 @@ or transforming a corpus has no parameter count at all.
 - **`access`**: `fixed` · `generator` · `oracle` · `interactive` · `stream`,
   plus `access-other`. **Not** `federated`.
 - **`provenance`**: `natural` · `human-incidental` · `elicited` · `simulated` ·
-  `constructed` · `model-generated`, plus `operational` (flagged) and `rule`
-  (flagged speculative), plus `provenance-other`.
+  `constructed` · `model-generated`, plus `rule` (flagged speculative), plus
+  `provenance-other`. **No byproduct-of-operation value**: folded into
+  `human-incidental`, flagged to watch, machine telemetry routed to
+  `provenance-other` — see §2.
 - `unknown` is a coding state on both axes, not a node.
 - `derived_from` stays a relation with the inheritance rule, as shipped.
 - **`access` is recorded on the mention** (`runs[].data_sources[].access`), not
