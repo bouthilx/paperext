@@ -156,3 +156,67 @@ listed, and the revision would rubber-stamp the design.
 The last row is the point of the issue: #99 revises the ontology against the
 extraction, so an extraction that failed for a prompt reason would send #99
 chasing a defect that is not in the ontology.
+
+
+---
+
+# Batch 2: a second 25, on openai
+
+**Why a second batch at all.** Batch 1 produced one prompt change and one config
+change, plus ten fixes to the plumbing and to the measuring instruments. Five of
+those ten were to the instruments themselves, so the numbers they report have
+never been read off data they did not help shape. And two findings — `mujoco`
+and `atari 100k` each appearing once as a data source — cannot be turned into a
+rate from a single occurrence, which a re-run of the same papers cannot fix
+either.
+
+**Why openai.** The instructions were written and then corrected against one
+model family. A second family tests the instructions rather than the model.
+
+## The sample
+
+`sample_batch2.paperoni.json` — **25 papers, zero overlap with batch 1**, all
+with cached fulltexts. 11 chosen by set cover, 14 random (seed 1032). Three
+selectors are new, aimed at what batch 1 could not measure:
+
+| selector | what it tests |
+|---|---|
+| `protocol_name` | does `Atari 100k` still come back as a data source |
+| `non_learned_baseline` | does the model admission rule hold on solvers and heuristics |
+| `repetition_factors` | does the restructured `repetitions` field get used |
+
+## Run it
+
+```console
+PAPEREXT_DIR_CACHE=/home/bouthilx/projects/paperext-llm-backend/data/cache \
+uv run python -m paperext.query --platform openai --concurrency 8 \
+    --paperoni data/ontology/design/c0_verification/sample_batch2.paperoni.json
+
+uv run python -m paperext.structured_output.mdl.verify \
+    data/mdl/queries/openai/gpt-5.6-sol
+```
+
+Smoke-check the credentials first — it is one trivial completion:
+
+```console
+uv run python -m paperext.backend_check --platform openai
+```
+
+## Two things that differ from batch 1, and one trap
+
+**The output ceiling is injected as `max_output_tokens`**, the Responses API's
+own parameter name, not the `max_tokens` the Anthropic backend sends. Default
+48k, from the same measurement.
+
+**A truncation on openai is much harder to read.** The Anthropic backend
+inspects `stop_reason` and raises *"output truncated at max_tokens=..."*. A
+truncated Responses reply arrives as **partial JSON** and surfaces as a parse or
+validation failure with no mention of a ceiling. So if batch 2 shows
+unexplained validation failures, **check `output_tokens` on the neighbouring
+papers before looking anywhere else** — that is how batch 1's single truncation
+would have been misdiagnosed had it happened on this backend.
+
+**The 25 batch-1 extractions no longer validate**, because `repetitions` changed
+from a string to a factor list. They skip with a warning rather than degrading,
+and `BASELINE.md`'s legacy-2024 comparison is unaffected (that corpus converts
+from v4). Batch 1's numbers live in #103's comments.

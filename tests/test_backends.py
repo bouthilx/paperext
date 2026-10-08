@@ -782,3 +782,30 @@ def test_max_tokens_is_configurable_and_validated(monkeypatch):
         monkeypatch.setitem(backend.config._config, "max_tokens", bad)
         with pytest.raises(ValueError):
             backend.max_tokens
+
+
+def test_openai_injects_max_output_tokens_not_max_tokens(monkeypatch):
+    """The Responses API's parameter is `max_output_tokens`.
+
+    Sending Anthropic's `max_tokens` name would be rejected, not ignored. And
+    the ceiling matters more here than on Anthropic: that backend inspects
+    `stop_reason` and says "output truncated at max_tokens=...", while a
+    truncated Responses reply arrives as partial JSON and reads as a parse
+    failure with no mention of a ceiling.
+    """
+    from paperext.backends.openai import DEFAULT_MAX_OUTPUT_TOKENS
+
+    backend = get_backend("openai")
+    assert backend.request_defaults == {"max_output_tokens": DEFAULT_MAX_OUTPUT_TOKENS}
+    assert "max_tokens" not in backend.request_defaults
+
+    monkeypatch.setitem(backend.config._config, "max_output_tokens", "65536")
+    assert backend.request_defaults == {"max_output_tokens": 65536}
+
+    monkeypatch.setitem(backend.config._config, "max_output_tokens", "")
+    assert backend.max_output_tokens == DEFAULT_MAX_OUTPUT_TOKENS
+
+    for bad in ("lots", "0", "-5"):
+        monkeypatch.setitem(backend.config._config, "max_output_tokens", bad)
+        with pytest.raises(ValueError):
+            backend.max_output_tokens
