@@ -108,3 +108,40 @@ def test_a_claim_made_by_both_arms_is_green():
     assert both.colour == (0.72, 0.93, 0.72)
     assert Claim(quote="q", sources={"A"}).colour != both.colour
     assert Claim(quote="q", sources={"B"}).colour != both.colour
+
+
+def test_session_notes_read_from_tsv_and_json(tmp_path):
+    """The session's own highlights, so a question arrives with its evidence."""
+    from paperext.annotate_pdf import read_notes
+
+    tsv = tmp_path / "notes.tsv"
+    tsv.write_text(
+        "# a comment, skipped\n"
+        "\n"
+        "Ego-only and Scene motion forecasting\tis Table 2 a separate run?\n"
+        "no label here\n"
+    )
+    claims = read_notes(tsv)
+    assert [c.quote for c in claims] == [
+        "Ego-only and Scene motion forecasting",
+        "no label here",
+    ]
+    assert claims[0].labels == ["SESSION: is Table 2 a separate run?"]
+    assert claims[1].labels == ["SESSION"]
+
+    js = tmp_path / "notes.json"
+    js.write_text('[{"quote": "a", "label": "why"}, "b"]')
+    claims = read_notes(js)
+    assert [(c.quote, c.labels[0]) for c in claims] == [
+        ("a", "SESSION: why"),
+        ("b", "SESSION"),
+    ]
+
+
+def test_a_session_highlight_is_its_own_colour():
+    """Pink, because a session mark is a QUESTION, not either arm's claim."""
+    from paperext.annotate_pdf import COLOURS
+
+    session = Claim(quote="q", sources={"S"})
+    assert session.colour == COLOURS["S"]
+    assert session.colour not in (COLOURS["A"], COLOURS["B"], COLOURS["both"])

@@ -32,6 +32,22 @@ arm B only, and a popup note naming the field and entity. A yellow or blue
 highlight is exactly where to look; an unhighlighted table row is a recall gap
 in both arms.
 
+**You can add your own highlights, and should.** Write the exact sentences your
+question turns on to a TSV (`quote<TAB>why you are asking`) and pass `--note`;
+they are drawn in **pink**, so they read as questions rather than as either
+arm's claim. `--only-notes` drops the arms' 140 highlights so one focused
+question arrives with three marked sentences and nothing else:
+
+```console
+PAPEREXT_DIR_CACHE=... uv run python -m paperext.annotate_pdf <paper_id> \
+    --note runs-question.tsv --only-notes --out runs-question.pdf
+```
+
+Use it for the cases the owner named: the table that decides which models
+belong, and the method sentence that says whether one was trained or only
+cited. **Copy the quote from the fulltext** — a retyped paraphrase lands in
+UNMATCHED and highlights nothing.
+
 Read its summary line too. `elided` counts quotes containing `...`, which are
 not verbatim and cannot be located — arm B writes these and arm A does not.
 `UNMATCHED` means no verbatim span was found, and the ordinary cause is a

@@ -44,6 +44,11 @@ COLOURS = {
     "both": (0.72, 0.93, 0.72),
     "A": (1.0, 0.94, 0.60),
     "B": (0.70, 0.85, 1.0),
+    # The annotating session's own marks: the table it is asking about, the
+    # sentence that decides a run's mode, the paragraph it wants read. Pink
+    # because it must not be mistaken for either arm's claim -- a session
+    # highlight is a QUESTION, not an extraction.
+    "S": (1.0, 0.70, 0.86),
 }
 
 #: Arms, as `<provider>/<model>` under the queries directory.
@@ -105,6 +110,35 @@ def _walk(obj: Any, path: str = "") -> "Iterable[tuple[str, str]]":
     elif isinstance(obj, list):
         for i, item in enumerate(obj):
             yield from _walk(item, f"{path}[{i}]")
+
+
+def read_notes(path: Path) -> "list[Claim]":
+    """The session's own highlights, as ``quote <TAB> label`` or JSON.
+
+    Written by the agent mid-session so a question arrives with its evidence
+    already marked. The quote must be VERBATIM -- the session has the fulltext,
+    so copy from it rather than retyping; a paraphrase lands in the UNMATCHED
+    bucket and highlights nothing.
+    """
+    text = path.read_text()
+    rows: "list[tuple[str, str]]" = []
+    if text.lstrip().startswith("["):
+        for item in json.loads(text):
+            if isinstance(item, str):
+                rows.append((item, ""))
+            else:
+                rows.append((item["quote"], item.get("label", "")))
+    else:
+        for line in text.splitlines():
+            if not line.strip() or line.startswith("#"):
+                continue
+            quote, _, label = line.partition("\t")
+            rows.append((quote, label))
+    return [
+        Claim(quote=q, sources={"S"}, labels=[f"SESSION: {l}" if l else "SESSION"])
+        for q, l in rows
+        if q.strip()
+    ]
 
 
 def collect_claims(paper_id: str, arms: "Iterable[str]") -> "list[Claim]":
@@ -208,7 +242,13 @@ def _locate(page: Any, needle: str) -> "list[tuple[float, float, float, float]]"
     return _rects(boxes[found : found + best_len])
 
 
-def annotate(paper_id: str, arms: "Iterable[str]", out: "Path | None" = None) -> Path:
+def annotate(
+    paper_id: str,
+    arms: "Iterable[str]",
+    out: "Path | None" = None,
+    notes: "Path | None" = None,
+    only_notes: bool = False,
+) -> Path:
     import pdfplumber
     from pypdf import PdfReader, PdfWriter
     from pypdf.annotations import Highlight
@@ -220,9 +260,14 @@ def annotate(paper_id: str, arms: "Iterable[str]", out: "Path | None" = None) ->
     )
 
     arms = list(arms)
-    claims = collect_claims(paper_id, arms)
+    claims = [] if only_notes else collect_claims(paper_id, arms)
+    if notes:
+        claims += read_notes(notes)
     if not claims:
-        raise SystemExit(f"no quotes found for {paper_id} in {arms}")
+        raise SystemExit(
+            f"nothing to highlight for {paper_id}"
+            + (" (--only-notes with no --note)" if only_notes else f" in {arms}")
+        )
 
     pdf = _cfg_dir("cache") / "fulltext" / paper_id / "fulltext.pdf"
     if not pdf.is_file():
@@ -305,11 +350,12 @@ def annotate(paper_id: str, arms: "Iterable[str]", out: "Path | None" = None) ->
         print(f"    [{'+'.join(sorted(claim.sources))}] {claim.quote[:68]!r}")
         for label in claim.labels[:2]:
             print(f"        {label}")
-    both = sum(1 for c in claims if len(c.sources) > 1)
+    session = sum(1 for c in claims if c.sources == {"S"})
     print(
-        f"  green (both) {both}   "
+        f"  green (both) {sum(1 for c in claims if c.sources == {'A', 'B'})}   "
         f"yellow (A only) {sum(1 for c in claims if c.sources == {'A'})}   "
         f"blue (B only) {sum(1 for c in claims if c.sources == {'B'})}"
+        + (f"   PINK (session) {session}" if session else "")
     )
     print(f"-> {out}")
     return out
@@ -320,8 +366,23 @@ def main(argv: "list[str] | None" = None) -> int:
     parser.add_argument("paper_id")
     parser.add_argument("--arm", nargs="+", default=list(DEFAULT_ARMS))
     parser.add_argument("--out", type=Path, default=None)
+    parser.add_argument(
+        "--note",
+        type=Path,
+        default=None,
+        metavar="FILE",
+        help="the session's own highlights: `quote<TAB>label` per line, or a "
+        "JSON list. Drawn in PINK, so they read as questions rather than as "
+        "either arm's claim",
+    )
+    parser.add_argument(
+        "--only-notes",
+        action="store_true",
+        help="drop the arms' highlights and draw only --note. Use it to ask one "
+        "focused question without 140 highlights of context around it",
+    )
     args = parser.parse_args(argv)
-    annotate(args.paper_id, args.arm, args.out)
+    annotate(args.paper_id, args.arm, args.out, args.note, args.only_notes)
     return 0
 
 
