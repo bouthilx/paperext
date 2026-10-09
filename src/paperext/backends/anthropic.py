@@ -240,6 +240,27 @@ class AnthropicBase(Backend):
             return structured_outputs_client(self.async_client())
         return instructor.from_anthropic(self.async_client(), mode=mode)
 
+    def diagnose(self, error: BaseException) -> "str | None":
+        """Name the fix for the one 400 that is purely a mode mismatch.
+
+        Opus 5.5 and later refuse a forced tool call, so `mode = tools` fails
+        every paper with *tool_choice: type "tool" and "any" are not supported
+        for this model*. The structured-outputs path sends no `tool_choice` at
+        all, so the fix is one environment variable -- but the API's message
+        does not say that, and a run of 26 papers fails 26 times before anyone
+        reads it.
+        """
+        message = str(error)
+        if "tool_choice" in message and "not supported for this model" in message:
+            return (
+                f"{self.model!r} does not support a forced tool call, which "
+                f"mode={self.mode_name!r} requires. Use the structured-outputs "
+                f"path instead: PAPEREXT_{self.name.upper()}_MODE="
+                f"{STRUCTURED_OUTPUTS} (or set `mode = {STRUCTURED_OUTPUTS}` in "
+                f"the [{self.name}] config section)"
+            )
+        return None
+
     def normalize_usage(self, completion: Any) -> dict[str, Any]:
         # Anthropic's usage already matches the canonical schema.
         usage = completion.usage

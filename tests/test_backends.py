@@ -1,6 +1,7 @@
 import asyncio
 from unittest.mock import MagicMock
 
+import anthropic
 import instructor
 import openai
 import pytest
@@ -809,3 +810,33 @@ def test_openai_injects_max_output_tokens_not_max_tokens(monkeypatch):
         monkeypatch.setitem(backend.config._config, "max_output_tokens", bad)
         with pytest.raises(ValueError):
             backend.max_output_tokens
+
+
+def test_anthropic_diagnoses_the_forced_tool_rejection():
+    """Opus 5.5 refuses a forced tool call, and the API does not say what to do.
+
+    `mode = tools` sends `tool_choice`, which newer models reject with a 400 on
+    EVERY paper -- a 26-paper run fails 26 times with a message that never
+    mentions the one-variable fix.
+    """
+    backend = get_backend("anthropic")
+    real = anthropic.BadRequestError.__new__(anthropic.BadRequestError)
+    Exception.__init__(
+        real,
+        "Error code: 400 - {'type': 'error', 'error': {'type': "
+        "'invalid_request_error', 'message': 'tool_choice: type \"tool\" and "
+        '"any" are not supported for this model.\'}}',
+    )
+
+    hint = backend.diagnose(real)
+    assert hint is not None
+    assert "PAPEREXT_ANTHROPIC_MODE=json_schema" in hint
+    assert backend.mode_name in hint
+
+    # Anything else is left alone, so the note never editorialises.
+    assert backend.diagnose(RuntimeError("something else")) is None
+
+
+def test_the_diagnose_hook_defaults_to_silence():
+    """A backend with nothing to add must add nothing."""
+    assert get_backend("openai").diagnose(RuntimeError("boom")) is None

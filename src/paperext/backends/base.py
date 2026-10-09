@@ -183,6 +183,9 @@ class Backend(ABC):
                 # a note, not a wrapper: the retry loops match on the SDK's own
                 # rate-limit types, and re-raising something else would blind them
                 error.add_note(f"paperext: raised by {who}{credentials}")
+                hint = self.diagnose(error)
+                if hint:
+                    error.add_note(f"paperext: {hint}")
                 raise
             return extractions, self.normalize_usage(completion)
 
@@ -190,6 +193,15 @@ class Backend(ABC):
             client.chat.completions, "create_with_completion", create_with_completion
         )
         return client
+
+    def diagnose(self, error: BaseException) -> "str | None":
+        """A provider-specific hint for an error, added as a note.
+
+        A note rather than a wrapper, for the reason the caller states: the
+        retry loops match on the SDK's own exception types, so replacing the
+        error would blind them. Default: nothing to add.
+        """
+        return None
 
     @abstractmethod
     def normalize_usage(self, completion: Any) -> dict[str, Any]:
