@@ -1,0 +1,1918 @@
+{
+  "paper": "69a5fe0648887d403d0a6249.txt",
+  "words": 9790,
+  "extractions": {
+    "title": {
+      "quote": "Improving Language Plasticity via Pretraining with Active Forgetting",
+      "justification": "The title appears at the beginning of the paper.",
+      "value": "Improving Language Plasticity via Pretraining with Active Forgetting"
+    },
+    "description": "An empirical NLP paper that trains standard and active-forgetting RoBERTa models, adapts their embeddings and transformer bodies separately, and evaluates zero-shot cross-lingual transfer under low-data language adaptation.",
+    "type": {
+      "quote": "Experiments with RoBERTa show that models pretrained with our forgetting mechanism not only demonstrate faster convergence during language adaptation, but also outperform standard ones in a low-data regime",
+      "justification": "The paper trains and evaluates models experimentally on several benchmarks.",
+      "value": "empirical"
+    },
+    "research_fields": [
+      {
+        "name": {
+          "quote": "natural language processing (NLP)",
+          "justification": "The introduction explicitly locates pretrained language models in NLP.",
+          "value": "natural language processing"
+        },
+        "aliases": [
+          "NLP"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "unsupervised zero-shot cross-lingual transfer",
+          "justification": "This is the experimental setting and evaluation framework that the paper seeks to improve.",
+          "value": "unsupervised zero-shot cross-lingual transfer"
+        },
+        "aliases": [
+          "cross-lingual transfer"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "improve language models’ plasticity",
+          "justification": "The paper explicitly identifies language-model plasticity as its research goal.",
+          "value": "language model plasticity"
+        },
+        "aliases": [
+          "linguistic plasticity",
+          "language plasticity"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "low-resources languages",
+          "justification": "Low-data and low-resource language adaptation is a central application setting.",
+          "value": "low-resource language adaptation"
+        },
+        "aliases": [
+          "low-data language adaptation"
+        ],
+        "role": "contributed"
+      }
+    ],
+    "models": [
+      {
+        "name": {
+          "quote": "Standard-RoBERTa (base)",
+          "justification": "The appendix table gives this exact name for the standard 125M-parameter model.",
+          "value": "Standard-RoBERTa (base)"
+        },
+        "aliases": [
+          "RoBERTa-base",
+          "standard PLMs",
+          "standard language models"
+        ],
+        "is_contributed": {
+          "quote": "in contrast to standard PLMs which are pretrained in a standard way",
+          "justification": "The standard model is a baseline rather than a contribution.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We compare standard pretraining with forgetting pretraining",
+          "justification": "The paper trains, adapts, and evaluates the standard model.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Accuracy comparison of forgetting and standard PLMs on XNLI",
+          "justification": "The standard and forgetting models are numerically compared.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "The model was pretrained with the English subset of the CC-100 dataset.",
+          "justification": "The model was trained from pretraining, which takes precedence over later finetuning and inference.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "Roberta: A robustly optimized BERT pretraining approach.",
+          "justification": "This is the RoBERTa reference title in the bibliography.",
+          "value": "Roberta: A robustly optimized BERT pretraining approach"
+        }
+      },
+      {
+        "name": {
+          "quote": "Forget-RoBERTa (base)",
+          "justification": "The appendix table gives this exact name for the active-forgetting model.",
+          "value": "Forget-RoBERTa (base)"
+        },
+        "aliases": [
+          "forgetting PLMs",
+          "forgetting language models"
+        ],
+        "is_contributed": {
+          "quote": "we propose to add an active forgetting mechanism to the pretraining procedure",
+          "justification": "The forgetting-trained model is produced by the paper's contributed mechanism.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "For forgetting pretraining, we chose the checkpoint corresponding to the best validation perplexity",
+          "justification": "The model was trained, checkpointed, adapted, and evaluated.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Accuracy comparison of forgetting and standard PLMs on XNLI",
+          "justification": "It is numerically compared against the standard model.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "models pretrained with our forgetting mechanism",
+          "justification": "The model is trained during pretraining, which takes precedence over later finetuning and inference.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "we propose to add an active forgetting mechanism to the pretraining procedure",
+          "justification": "This is a model variant contributed by the current paper, so there is no separate referenced paper title.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "XLM-RoBERTa (base)",
+          "justification": "The multilingual appendix table reports this exact model name.",
+          "value": "XLM-RoBERTa (base)"
+        },
+        "aliases": [
+          "XLM-R",
+          "XLM-R (base)"
+        ],
+        "is_contributed": {
+          "quote": "multilingual PLMs like XLM-R [Conneau et al., 2020]",
+          "justification": "XLM-R is prior work, not contributed here.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We measure the zero-shot Thai XNLI Accuracy.",
+          "justification": "The appendix reports an adapted XLM-RoBERTa result in the authors' additional experiment.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "XLM-R (base) outperform best our multilingual pretrained baselines (72.4 vs 60.0).",
+          "justification": "The paper numerically compares XLM-R with its multilingual baselines.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "Task Full Model Adaptation",
+          "justification": "The appendix states that the full model was adapted to English NLI data.",
+          "value": "finetune"
+        },
+        "referenced_paper_title": {
+          "quote": "Unsupervised cross-lingual representation learning at scale.",
+          "justification": "This is the Conneau et al. reference associated with XLM-R.",
+          "value": "Unsupervised cross-lingual representation learning at scale"
+        }
+      }
+    ],
+    "data_sources": [
+      {
+        "name": {
+          "quote": "CC100",
+          "justification": "CC100 supplies the English pretraining corpus and target-language adaptation data.",
+          "value": "CC100"
+        },
+        "aliases": [
+          "CC-100"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "We simulate low-resources scenarios by limiting the adaptation data for each downstream language to only 5M subword tokens from CC100.",
+          "justification": "The main adaptation experiments use 5M CC100 tokens for each target language; the paper also reports English and multilingual pretraining quantities separately.",
+          "value": "5M subword tokens per downstream language for adaptation; 300GB English for main pretraining; 50GB Multilingual for the appendix experiment"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "Unsupervised cross-lingual representation learning at scale.",
+          "justification": "CC100 is cited through Conneau et al. 2020, whose bibliography title is given here.",
+          "value": "Unsupervised cross-lingual representation learning at scale"
+        }
+      },
+      {
+        "name": {
+          "quote": "MultiNLI",
+          "justification": "MultiNLI provides English task-adaptation data for NLI.",
+          "value": "MultiNLI"
+        },
+        "aliases": [],
+        "role": "used",
+        "size": {
+          "quote": "specifically MultiNLI [Williams et al., 2018] for the NLI task",
+          "justification": "The paper does not state the number of MultiNLI examples used.",
+          "value": "unknown"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "A broad-coverage challenge corpus for sentence understanding through inference.",
+          "justification": "This is the Williams et al. bibliography title.",
+          "value": "A broad-coverage challenge corpus for sentence understanding through inference"
+        }
+      },
+      {
+        "name": {
+          "quote": "SQUAD",
+          "justification": "SQUAD supplies English task-adaptation data for question answering.",
+          "value": "SQUAD"
+        },
+        "aliases": [
+          "SQuAD"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "SQUAD Rajpurkar et al. [2016] for the QA task",
+          "justification": "The paper does not state the number of SQuAD examples used in its run.",
+          "value": "unknown"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "Squad: 100,000+ questions for machine comprehension of text.",
+          "justification": "This is the Rajpurkar et al. bibliography title.",
+          "value": "Squad: 100,000+ questions for machine comprehension of text"
+        }
+      },
+      {
+        "name": {
+          "quote": "XNLI",
+          "justification": "XNLI is used for cross-lingual NLI evaluation.",
+          "value": "XNLI"
+        },
+        "aliases": [],
+        "role": "used",
+        "size": {
+          "quote": "We report the NLI accuracy and QA F1 on the test sets.",
+          "justification": "No count of XNLI test examples used is stated.",
+          "value": "unknown"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "XNLI: Evaluating cross-lingual sentence representations.",
+          "justification": "This is the Conneau et al. 2018 bibliography title.",
+          "value": "XNLI: Evaluating cross-lingual sentence representations"
+        }
+      },
+      {
+        "name": {
+          "quote": "XQuAD",
+          "justification": "XQuAD is used for cross-lingual QA evaluation.",
+          "value": "XQuAD"
+        },
+        "aliases": [],
+        "role": "used",
+        "size": {
+          "quote": "We report the NLI accuracy and QA F1 on the test sets.",
+          "justification": "No count of XQuAD examples used is stated.",
+          "value": "unknown"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "On the cross-lingual transferability of monolingual representations.",
+          "justification": "The paper cites XQuAD to Artetxe et al. 2020 with this bibliography title.",
+          "value": "On the cross-lingual transferability of monolingual representations"
+        }
+      },
+      {
+        "name": {
+          "quote": "MLQA",
+          "justification": "MLQA is used for cross-lingual QA evaluation.",
+          "value": "MLQA"
+        },
+        "aliases": [],
+        "role": "used",
+        "size": {
+          "quote": "We report the NLI accuracy and QA F1 on the test sets.",
+          "justification": "No count of MLQA test examples used is stated.",
+          "value": "unknown"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "Mlqa: Evaluating cross-lingual extractive question answering.",
+          "justification": "This is the Lewis et al. bibliography title.",
+          "value": "Mlqa: Evaluating cross-lingual extractive question answering"
+        }
+      }
+    ],
+    "libraries": [
+      {
+        "name": {
+          "quote": "fairseq",
+          "justification": "The implementation framework is explicitly stated.",
+          "value": "fairseq"
+        },
+        "aliases": [],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "fairseq: A fast, extensible toolkit for sequence modeling.",
+          "justification": "This is the Ott et al. bibliography title.",
+          "value": "fairseq: A fast, extensible toolkit for sequence modeling"
+        }
+      },
+      {
+        "name": {
+          "quote": "sentencepiece",
+          "justification": "The paper explicitly says it trained language-specific sentencepiece tokenizers.",
+          "value": "sentencepiece"
+        },
+        "aliases": [
+          "SentencePiece"
+        ],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "Sentencepiece: A simple and language independent subword tokenizer and detokenizer for neural text processing.",
+          "justification": "This is the Kudo and Richardson bibliography title.",
+          "value": "Sentencepiece: A simple and language independent subword tokenizer and detokenizer for neural text processing"
+        }
+      }
+    ],
+    "algorithms": [
+      {
+        "name": {
+          "quote": "active forgetting mechanism",
+          "justification": "This is the paper's exact name for its contributed pretraining procedure.",
+          "value": "active forgetting mechanism"
+        },
+        "aliases": [
+          "forgetting pretraining"
+        ],
+        "is_contributed": {
+          "quote": "we propose to add an active forgetting mechanism to the pretraining procedure",
+          "justification": "The paper explicitly proposes this mechanism.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "We set the frequency of forgetting K = 1000",
+          "justification": "The mechanism was used in the forgetting pretraining runs.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "we compare standard pretraining with forgetting pretraining",
+          "justification": "It is numerically compared with standard pretraining.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "resets the token embedding layer periodically",
+          "justification": "This directly states what the mechanism does.",
+          "value": "resets the token embedding layer periodically during pretraining"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "we propose to add an active forgetting mechanism",
+          "justification": "It is contributed here and has no separate reference-paper title.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "standard pretraining",
+          "justification": "The paper uses this exact name for the baseline training procedure.",
+          "value": "standard pretraining"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "standard PLMs which are pretrained in a standard way",
+          "justification": "This is the baseline procedure, not a contribution.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we compare standard pretraining with forgetting pretraining",
+          "justification": "The standard baseline was run.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "we compare standard pretraining with forgetting pretraining",
+          "justification": "It is directly compared with forgetting pretraining.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "the transformer body is learned as the standard pretraining",
+          "justification": "This identifies its role as the baseline pretraining procedure.",
+          "value": "pretrains the baseline PLM and supplies the standard comparison"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Roberta: A robustly optimized BERT pretraining approach.",
+          "justification": "The baseline follows RoBERTa pretraining.",
+          "value": "Roberta: A robustly optimized BERT pretraining approach"
+        }
+      },
+      {
+        "name": {
+          "quote": "Language Adapt",
+          "justification": "The paper labels this stage with this exact name.",
+          "value": "Language Adapt"
+        },
+        "aliases": [
+          "language adapt",
+          "language adaptation",
+          "Lang Emb"
+        ],
+        "is_contributed": {
+          "quote": "Artetxe et al. [2020] demonstrates the possibility of rewiring a monolingual PLM for a new language",
+          "justification": "The language-adaptation procedure follows prior work rather than being introduced here.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "During the language adapt stage, we kept most of the hyper-parameters the same as for pretraining.",
+          "justification": "The paper executes this stage.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "forgetting PLMs converge faster than standard PLMs during the language adaptation stage",
+          "justification": "Adaptation behavior is compared numerically between models.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "The token embedding layer is finetuned using unlabelled data in the new language, while the transformer body is frozen.",
+          "justification": "This sentence defines the stage's role.",
+          "value": "finetunes the token embedding layer using unlabelled data in the new language while freezing the transformer body"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "On the cross-lingual transferability of monolingual representations.",
+          "justification": "The procedure is attributed to Artetxe et al. 2020.",
+          "value": "On the cross-lingual transferability of monolingual representations"
+        }
+      },
+      {
+        "name": {
+          "quote": "Task Adapt",
+          "justification": "The paper labels this stage with this exact name.",
+          "value": "Task Adapt"
+        },
+        "aliases": [
+          "task adapt",
+          "Task Body Adaptation",
+          "Task Full Model Adaptation"
+        ],
+        "is_contributed": {
+          "quote": "we closely follow the setup in Artetxe et al. [2020] and Marchisio et al. [2022]",
+          "justification": "Task adaptation is part of the adopted framework rather than the main contribution.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "In the task adapt stage, both models were finetuned for 10 epochs on the English task data",
+          "justification": "The procedure was executed for both NLI and QA.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Accuracy comparison of forgetting and standard PLMs on XNLI",
+          "justification": "Models produced through the task-adaptation procedure are numerically compared.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "The transformer body is finetuned using downstream task data in English, while the token embedding layer is frozen.",
+          "justification": "This sentence defines the procedure's role.",
+          "value": "finetunes the transformer body using downstream task data in English while freezing the token embedding layer"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "On the cross-lingual transferability of monolingual representations.",
+          "justification": "The framework follows Artetxe et al. 2020.",
+          "value": "On the cross-lingual transferability of monolingual representations"
+        }
+      },
+      {
+        "name": {
+          "quote": "Assemble",
+          "justification": "The paper labels model reassembly as a distinct stage.",
+          "value": "Assemble"
+        },
+        "aliases": [
+          "assemble stage"
+        ],
+        "is_contributed": {
+          "quote": "The final model is assembled by taking the adapted token embedding layer from stage 2 and the adapted transformer body from stage 3.",
+          "justification": "This is part of the prior rewiring framework.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "After the assemble stage, we evaluate the zero-shot performance of the assembled model",
+          "justification": "The assembly operation is performed before evaluation.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "we evaluate the zero-shot performance of the assembled model on XNLI ... XQuAD ... and MLQA",
+          "justification": "Assembled models are compared on benchmark metrics.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "taking the adapted token embedding layer from stage 2 and the adapted transformer body from stage 3",
+          "justification": "This describes the operation in the paper's words.",
+          "value": "takes the adapted token embedding layer and adapted transformer body to form the final model"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "On the cross-lingual transferability of monolingual representations.",
+          "justification": "The four-stage framework is attributed to Artetxe et al. 2020.",
+          "value": "On the cross-lingual transferability of monolingual representations"
+        }
+      },
+      {
+        "name": {
+          "quote": "linear decay",
+          "justification": "The learning-rate schedule is explicitly named.",
+          "value": "linear decay"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "We used a learning rate scheduler with linear decay",
+          "justification": "It is a standard run configuration, not a contribution.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We used a learning rate scheduler with linear decay and an initial learning rate of 7e − 4",
+          "justification": "The scheduler was used in pretraining.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "We used a learning rate scheduler with linear decay",
+          "justification": "No numerical comparison against another scheduler is reported.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "a learning rate scheduler with linear decay",
+          "justification": "It schedules the learning rate during training.",
+          "value": "the learning rate scheduler"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "We used a learning rate scheduler with linear decay",
+          "justification": "No separate citation is supplied for this scheduler.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "clip-norm",
+          "justification": "The paper uses this exact configuration name rather than naming a different canonical procedure.",
+          "value": "clip-norm"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "We set the frequency of forgetting K = 1000 and used a clip-norm of 0.5.",
+          "justification": "This is a standard training procedure, not the contribution.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "used a clip-norm of 0.5",
+          "justification": "It was used in the pretraining run.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "used a clip-norm of 0.5",
+          "justification": "No comparison of clip-norm procedures or values is reported.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "used a clip-norm of 0.5",
+          "justification": "The exact role statement is the run's clipping configuration.",
+          "value": "used a clip-norm of 0.5 during pretraining"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "used a clip-norm of 0.5",
+          "justification": "No separate reference is supplied.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "masked language modeling pretraining",
+          "justification": "The limitations section explicitly names the pretraining method used.",
+          "value": "masked language modeling pretraining"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "We focus on masked language modeling pretraining",
+          "justification": "The method is used as the pretraining objective rather than contributed.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We focus on masked language modeling pretraining with language-specific tokenizers.",
+          "justification": "It describes the paper's executed pretraining setup.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "other pretraining methods ... [are] promising future work",
+          "justification": "No numerical comparison with other pretraining objectives is reported.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "masked language modeling pretraining with language-specific tokenizers",
+          "justification": "This is the pretraining method used to fit the models.",
+          "value": "the pretraining method used with language-specific tokenizers"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Roberta: A robustly optimized BERT pretraining approach.",
+          "justification": "The executed model and pretraining setup are based on RoBERTa.",
+          "value": "Roberta: A robustly optimized BERT pretraining approach"
+        }
+      }
+    ],
+    "runs": [
+      {
+        "models": [
+          {
+            "name": "Standard-RoBERTa (base)",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "CC100",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "standard pretraining"
+          },
+          {
+            "name": "linear decay"
+          },
+          {
+            "name": "clip-norm"
+          },
+          {
+            "name": "masked language modeling pretraining"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "The model was pretrained with the English subset of the CC-100 dataset. The pretraining process consists of 125K updates",
+          "justification": "This is the main standard English pretraining run.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "The pretraining process consists of 125K updates",
+          "justification": "The paper reports updates but not epochs.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "300GB English | 1 | 125M | Standard-RoBERTa (base)",
+          "justification": "The appendix table explicitly states 125M parameters for the English standard model.",
+          "value": "125M"
+        },
+        "accelerator_type": {
+          "quote": "conducted on 32 Tesla V100 GPUs",
+          "justification": "The named hardware is a GPU.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "32 Tesla V100 GPUs (each with 32 GB memory)",
+          "justification": "This explicitly names the accelerator model.",
+          "value": "Tesla V100 32 GB"
+        },
+        "accelerator_count": {
+          "quote": "conducted on 32 Tesla V100 GPUs",
+          "justification": "The run used 32 accelerators.",
+          "value": "32"
+        },
+        "precision": {
+          "quote": "The pretraining and language adaptation experiments were conducted on 32 Tesla V100 GPUs",
+          "justification": "No numerical precision is stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "conducted on 32 Tesla V100 GPUs",
+          "justification": "The paper does not name a parallelism strategy.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "took approximately 24-36 hours to complete",
+          "justification": "The statement applies to the pretraining and language-adaptation experiments.",
+          "value": "approximately 24-36 hours"
+        },
+        "utilisation": {
+          "quote": "took approximately 24-36 hours to complete",
+          "justification": "No hardware-utilisation metric is reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "The paper does not report random seeds or another repetition factor for this run.",
+          "justification": "A single execution must not be inferred when repetitions are unstated.",
+          "value": []
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "Forget-RoBERTa (base)",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "CC100",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "active forgetting mechanism"
+          },
+          {
+            "name": "linear decay"
+          },
+          {
+            "name": "clip-norm"
+          },
+          {
+            "name": "masked language modeling pretraining"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "models pretrained with our forgetting mechanism",
+          "justification": "This run trains the forgetting model on English CC100.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "The pretraining process consists of 125K updates",
+          "justification": "Updates are stated, but epochs are not.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "300GB English | 1 | 125M | Forget-RoBERTa (base)",
+          "justification": "The appendix table explicitly states the parameter count.",
+          "value": "125M"
+        },
+        "accelerator_type": {
+          "quote": "conducted on 32 Tesla V100 GPUs",
+          "justification": "The named hardware is a GPU.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "32 Tesla V100 GPUs (each with 32 GB memory)",
+          "justification": "This names the accelerator model and memory.",
+          "value": "Tesla V100 32 GB"
+        },
+        "accelerator_count": {
+          "quote": "conducted on 32 Tesla V100 GPUs",
+          "justification": "The run used 32 GPUs.",
+          "value": "32"
+        },
+        "precision": {
+          "quote": "For forgetting pretraining, we chose the checkpoint corresponding to the best validation perplexity",
+          "justification": "No precision is stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "conducted on 32 Tesla V100 GPUs",
+          "justification": "No parallelism method is named.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "took approximately 24-36 hours to complete",
+          "justification": "The stated duration applies to pretraining experiments.",
+          "value": "approximately 24-36 hours"
+        },
+        "utilisation": {
+          "quote": "took approximately 24-36 hours to complete",
+          "justification": "No utilisation metric is stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "we tried K = 100, 1000, 5000",
+          "justification": "The appendix states three values of the forgetting-frequency hyperparameter were tried.",
+          "value": [
+            {
+              "kind": "hyperparameter",
+              "count": 3,
+              "what": "K = 100, 1000, 5000"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "Standard-RoBERTa (base)",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Forget-RoBERTa (base)",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "CC100",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Language Adapt"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "We finetuned the token embedding layer while keeping the others frozen",
+          "justification": "This is a finetuning stage for new-language embeddings.",
+          "value": "finetune"
+        },
+        "epochs": {
+          "quote": "Figure 5 ... comprises 125K adaptation steps",
+          "justification": "The paper gives steps rather than epochs.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "300GB English | 1 | 125M",
+          "justification": "The adapted English-pretrained base models are explicitly listed as 125M parameters.",
+          "value": "125M"
+        },
+        "accelerator_type": {
+          "quote": "The pretraining and language adaptation experiments were conducted on 32 Tesla V100 GPUs",
+          "justification": "The adaptation stage used GPUs.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "32 Tesla V100 GPUs (each with 32 GB memory)",
+          "justification": "The accelerator model is explicitly named.",
+          "value": "Tesla V100 32 GB"
+        },
+        "accelerator_count": {
+          "quote": "conducted on 32 Tesla V100 GPUs",
+          "justification": "The stage used 32 GPUs.",
+          "value": "32"
+        },
+        "precision": {
+          "quote": "We finetuned the token embedding layer while keeping the others frozen",
+          "justification": "No numerical precision is stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "conducted on 32 Tesla V100 GPUs",
+          "justification": "No parallelism strategy is named.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "took approximately 24-36 hours to complete. The time taken for both stages were quite close to each other",
+          "justification": "The paper reports approximately 24–36 hours for language adaptation.",
+          "value": "approximately 24-36 hours"
+        },
+        "utilisation": {
+          "quote": "The time taken for both stages were quite close to each other",
+          "justification": "No utilisation metric is reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "vi sw es bg de fr el ru zh ur hi tr ar th",
+          "justification": "The main XNLI tables show fourteen target-language variants adapted from CC100.",
+          "value": [
+            {
+              "kind": "variant",
+              "count": 14,
+              "what": "downstream languages"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "Standard-RoBERTa (base)",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Forget-RoBERTa (base)",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "MultiNLI",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Task Adapt"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "both models were finetuned for 10 epochs on the English task data, specifically MultiNLI ... for the NLI task",
+          "justification": "This is NLI task finetuning.",
+          "value": "finetune"
+        },
+        "epochs": {
+          "quote": "finetuned for 10 epochs on the English task data",
+          "justification": "The epoch count is explicit.",
+          "value": "10 epochs"
+        },
+        "parameter_count": {
+          "quote": "300GB English | 1 | 125M",
+          "justification": "The corresponding English-pretrained base models are stated as 125M.",
+          "value": "125M"
+        },
+        "accelerator_type": {
+          "quote": "both models were finetuned for 10 epochs",
+          "justification": "The paper does not state hardware for task adaptation.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "both models were finetuned for 10 epochs",
+          "justification": "No accelerator model is stated for task adaptation.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "both models were finetuned for 10 epochs",
+          "justification": "No accelerator count is stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "both models were finetuned for 10 epochs",
+          "justification": "No numerical precision is stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "both models were finetuned for 10 epochs",
+          "justification": "No parallelism strategy is stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "both models were finetuned for 10 epochs",
+          "justification": "No duration is stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "both models were finetuned for 10 epochs",
+          "justification": "No utilisation is stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "The paper does not report seeds or another repetition factor for task adaptation.",
+          "justification": "Repetitions are unstated.",
+          "value": []
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "Standard-RoBERTa (base)",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Forget-RoBERTa (base)",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "SQUAD",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Task Adapt"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "both models were finetuned for 10 epochs on the English task data ... SQUAD ... for the QA task",
+          "justification": "This is QA task finetuning.",
+          "value": "finetune"
+        },
+        "epochs": {
+          "quote": "finetuned for 10 epochs on the English task data",
+          "justification": "The epoch count is explicit.",
+          "value": "10 epochs"
+        },
+        "parameter_count": {
+          "quote": "300GB English | 1 | 125M",
+          "justification": "The corresponding base models are stated as 125M.",
+          "value": "125M"
+        },
+        "accelerator_type": {
+          "quote": "both models were finetuned for 10 epochs",
+          "justification": "Hardware is not stated for task adaptation.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "both models were finetuned for 10 epochs",
+          "justification": "No accelerator model is stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "both models were finetuned for 10 epochs",
+          "justification": "No accelerator count is stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "both models were finetuned for 10 epochs",
+          "justification": "No precision is stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "both models were finetuned for 10 epochs",
+          "justification": "No parallelism strategy is stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "both models were finetuned for 10 epochs",
+          "justification": "No duration is stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "both models were finetuned for 10 epochs",
+          "justification": "No utilisation is stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "The paper does not report seeds or another repetition factor for task adaptation.",
+          "justification": "Repetitions are unstated.",
+          "value": []
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "Standard-RoBERTa (base)",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Forget-RoBERTa (base)",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "XNLI",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Assemble"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "we evaluate the zero-shot performance of the assembled model on XNLI",
+          "justification": "The assembled models produce test predictions.",
+          "value": "inference"
+        },
+        "epochs": {
+          "quote": "We report the NLI accuracy ... on the test sets.",
+          "justification": "Epochs do not apply and are not stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "300GB English | 1 | 125M",
+          "justification": "The evaluated base models are stated as 125M.",
+          "value": "125M"
+        },
+        "accelerator_type": {
+          "quote": "we evaluate the zero-shot performance",
+          "justification": "Evaluation hardware is not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "we evaluate the zero-shot performance",
+          "justification": "No accelerator model is stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "we evaluate the zero-shot performance",
+          "justification": "No accelerator count is stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "we evaluate the zero-shot performance",
+          "justification": "No precision is stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "we evaluate the zero-shot performance",
+          "justification": "No parallelism strategy is stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "we evaluate the zero-shot performance",
+          "justification": "No evaluation duration is stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "we evaluate the zero-shot performance",
+          "justification": "No utilisation is stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "The paper does not state seeds or repeated evaluation executions.",
+          "justification": "The number of test examples is workload, not repetition.",
+          "value": []
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "Standard-RoBERTa (base)",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Forget-RoBERTa (base)",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "MLQA",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Assemble"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "we evaluate the zero-shot performance ... on ... MLQA",
+          "justification": "The assembled models perform inference on MLQA.",
+          "value": "inference"
+        },
+        "epochs": {
+          "quote": "We report ... QA F1 on the test sets.",
+          "justification": "Epochs are not stated for evaluation.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "300GB English | 1 | 125M",
+          "justification": "The evaluated base models are explicitly 125M.",
+          "value": "125M"
+        },
+        "accelerator_type": {
+          "quote": "we evaluate the zero-shot performance",
+          "justification": "Hardware is not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "we evaluate the zero-shot performance",
+          "justification": "No accelerator model is stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "we evaluate the zero-shot performance",
+          "justification": "No accelerator count is stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "we evaluate the zero-shot performance",
+          "justification": "No precision is stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "we evaluate the zero-shot performance",
+          "justification": "No parallelism strategy is stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "we evaluate the zero-shot performance",
+          "justification": "No duration is stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "we evaluate the zero-shot performance",
+          "justification": "No utilisation is stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "The paper does not state seeds or repeated evaluation executions.",
+          "justification": "Repetitions are unstated.",
+          "value": []
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "Standard-RoBERTa (base)",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Forget-RoBERTa (base)",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "XQuAD",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Assemble"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "we evaluate the zero-shot performance ... on ... XQuAD",
+          "justification": "The assembled models perform inference on XQuAD.",
+          "value": "inference"
+        },
+        "epochs": {
+          "quote": "We report ... QA F1 on the test sets.",
+          "justification": "Epochs are not stated for evaluation.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "300GB English | 1 | 125M",
+          "justification": "The evaluated base models are explicitly 125M.",
+          "value": "125M"
+        },
+        "accelerator_type": {
+          "quote": "we evaluate the zero-shot performance",
+          "justification": "Hardware is not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "we evaluate the zero-shot performance",
+          "justification": "No accelerator model is stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "we evaluate the zero-shot performance",
+          "justification": "No accelerator count is stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "we evaluate the zero-shot performance",
+          "justification": "No precision is stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "we evaluate the zero-shot performance",
+          "justification": "No parallelism strategy is stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "we evaluate the zero-shot performance",
+          "justification": "No duration is stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "we evaluate the zero-shot performance",
+          "justification": "No utilisation is stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "The paper does not state seeds or repeated evaluation executions.",
+          "justification": "Repetitions are unstated.",
+          "value": []
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "Standard-RoBERTa (base)",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Forget-RoBERTa (base)",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "CC100",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Language Adapt"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "We create sub-datasets with [1K, 10K, 100K, 1M, 5M, 10M, 100M, 1B, 10B] tokens and relearn the English embeddings",
+          "justification": "This is the English adaptation-data-quantity sweep.",
+          "value": "finetune"
+        },
+        "epochs": {
+          "quote": "relearn the English embeddings while keeping the transformer body frozen",
+          "justification": "No epoch count is stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "300GB English | 1 | 125M",
+          "justification": "The English base models are listed as 125M.",
+          "value": "125M"
+        },
+        "accelerator_type": {
+          "quote": "The pretraining and language adaptation experiments were conducted on 32 Tesla V100 GPUs",
+          "justification": "This is a language-adaptation experiment using GPUs.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "32 Tesla V100 GPUs (each with 32 GB memory)",
+          "justification": "The accelerator model is named.",
+          "value": "Tesla V100 32 GB"
+        },
+        "accelerator_count": {
+          "quote": "conducted on 32 Tesla V100 GPUs",
+          "justification": "The reported accelerator count is 32.",
+          "value": "32"
+        },
+        "precision": {
+          "quote": "We create sub-datasets with [1K, 10K, 100K, 1M, 5M, 10M, 100M, 1B, 10B] tokens",
+          "justification": "No numerical precision is stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "conducted on 32 Tesla V100 GPUs",
+          "justification": "No parallelism strategy is named.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "took approximately 24-36 hours to complete",
+          "justification": "The paper gives this duration for language-adaptation experiments generally.",
+          "value": "approximately 24-36 hours"
+        },
+        "utilisation": {
+          "quote": "took approximately 24-36 hours to complete",
+          "justification": "No utilisation is stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "[1K, 10K, 100K, 1M, 5M, 10M, 100M, 1B, 10B] tokens",
+          "justification": "Nine adaptation-data quantities were evaluated as an independent sweep factor.",
+          "value": [
+            {
+              "kind": "hyperparameter",
+              "count": 9,
+              "what": "adaptation data quantity"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "Standard-RoBERTa (base)",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Forget-RoBERTa (base)",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "CC100",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "standard pretraining"
+          },
+          {
+            "name": "active forgetting mechanism"
+          },
+          {
+            "name": "masked language modeling pretraining"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "we trained a multilingual RoBERTa-base of the same model size as our monolingual model",
+          "justification": "The appendix describes an additional multilingual pretraining experiment.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "50GB Multilingual | 100 | 125M",
+          "justification": "No epoch count is stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "50GB Multilingual | 100 | 125M",
+          "justification": "The table explicitly states 125M parameters.",
+          "value": "125M"
+        },
+        "accelerator_type": {
+          "quote": "we ran additional experiments on multilingual pretraining with forgetting",
+          "justification": "No hardware is stated for this appendix experiment.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "we ran additional experiments on multilingual pretraining with forgetting",
+          "justification": "No accelerator model is stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "we ran additional experiments on multilingual pretraining with forgetting",
+          "justification": "No accelerator count is stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "we ran additional experiments on multilingual pretraining with forgetting",
+          "justification": "No precision is stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "we ran additional experiments on multilingual pretraining with forgetting",
+          "justification": "No parallelism strategy is stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "we ran additional experiments on multilingual pretraining with forgetting",
+          "justification": "No duration is stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "we ran additional experiments on multilingual pretraining with forgetting",
+          "justification": "No utilisation is stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "Standard-RoBERTa (base) ... Forget-RoBERTa (base)",
+          "justification": "The two methods are distinct model variants, not reported random repetitions.",
+          "value": []
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "Standard-RoBERTa (base)",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Forget-RoBERTa (base)",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "CC100",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Language Adapt"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "Language Emb/Task Body Adaptation refers to separately adapting embeddings with 5M tokens of Thai unlabelled data",
+          "justification": "This run finetunes multilingual-model embeddings on Thai CC100 data.",
+          "value": "finetune"
+        },
+        "epochs": {
+          "quote": "5M tokens of Thai unlabelled data",
+          "justification": "No epoch count is stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "50GB Multilingual | 100 | 125M",
+          "justification": "The multilingual models are explicitly 125M parameters.",
+          "value": "125M"
+        },
+        "accelerator_type": {
+          "quote": "we ran additional experiments on multilingual pretraining with forgetting",
+          "justification": "No hardware is stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "we ran additional experiments on multilingual pretraining with forgetting",
+          "justification": "No accelerator model is stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "we ran additional experiments on multilingual pretraining with forgetting",
+          "justification": "No accelerator count is stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "separately adapting embeddings with 5M tokens of Thai unlabelled data",
+          "justification": "No precision is stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "separately adapting embeddings with 5M tokens of Thai unlabelled data",
+          "justification": "No parallelism strategy is stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "separately adapting embeddings with 5M tokens of Thai unlabelled data",
+          "justification": "No duration is stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "separately adapting embeddings with 5M tokens of Thai unlabelled data",
+          "justification": "No utilisation is stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "The appendix does not report seeds or repeated executions.",
+          "justification": "Repetitions are unstated.",
+          "value": []
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "Standard-RoBERTa (base)",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Forget-RoBERTa (base)",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "MultiNLI",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Task Adapt"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "Language Emb/Task Body Adaptation refers to ... adapting body with English NLI data.",
+          "justification": "The multilingual-model body is finetuned on English NLI data.",
+          "value": "finetune"
+        },
+        "epochs": {
+          "quote": "adapting body with English NLI data",
+          "justification": "No epoch count is stated for the appendix experiment.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "50GB Multilingual | 100 | 125M",
+          "justification": "The table gives 125M parameters.",
+          "value": "125M"
+        },
+        "accelerator_type": {
+          "quote": "we ran additional experiments",
+          "justification": "No hardware is stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "we ran additional experiments",
+          "justification": "No accelerator model is stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "we ran additional experiments",
+          "justification": "No accelerator count is stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "adapting body with English NLI data",
+          "justification": "No precision is stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "adapting body with English NLI data",
+          "justification": "No parallelism is stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "adapting body with English NLI data",
+          "justification": "No duration is stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "adapting body with English NLI data",
+          "justification": "No utilisation is stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "The appendix does not report seeds or repeated executions.",
+          "justification": "Repetitions are unstated.",
+          "value": []
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "Standard-RoBERTa (base)",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "MultiNLI",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Task Adapt"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "Task Full Model Adaptation refers to adapting the full model with English NLI data.",
+          "justification": "The full standard multilingual RoBERTa model is finetuned.",
+          "value": "finetune"
+        },
+        "epochs": {
+          "quote": "adapting the full model with English NLI data",
+          "justification": "No epoch count is stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "50GB Multilingual | 100 | 125M | Standard-RoBERTa (base)",
+          "justification": "The table explicitly gives 125M.",
+          "value": "125M"
+        },
+        "accelerator_type": {
+          "quote": "Task Full Model Adaptation",
+          "justification": "No hardware is stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "Task Full Model Adaptation",
+          "justification": "No accelerator model is stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "Task Full Model Adaptation",
+          "justification": "No count is stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "Task Full Model Adaptation",
+          "justification": "No precision is stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "Task Full Model Adaptation",
+          "justification": "No parallelism strategy is stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "Task Full Model Adaptation",
+          "justification": "No duration is stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "Task Full Model Adaptation",
+          "justification": "No utilisation is stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "The appendix does not report seeds or repetitions.",
+          "justification": "Repetitions are unstated.",
+          "value": []
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "XLM-RoBERTa (base)",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "MultiNLI",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Task Adapt"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "XLM-RoBERTa (base) | Task Full Model",
+          "justification": "The appendix table says XLM-RoBERTa underwent full-model task adaptation.",
+          "value": "finetune"
+        },
+        "epochs": {
+          "quote": "Task Full Model Adaptation refers to adapting the full model with English NLI data.",
+          "justification": "No epoch count is stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "2.5TB Multilingual | 100 | 270M | XLM-RoBERTa (base)",
+          "justification": "The table explicitly states 270M parameters.",
+          "value": "270M"
+        },
+        "accelerator_type": {
+          "quote": "XLM-RoBERTa (base) | Task Full Model",
+          "justification": "No hardware is stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "XLM-RoBERTa (base) | Task Full Model",
+          "justification": "No accelerator model is stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "XLM-RoBERTa (base) | Task Full Model",
+          "justification": "No count is stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "XLM-RoBERTa (base) | Task Full Model",
+          "justification": "No precision is stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "XLM-RoBERTa (base) | Task Full Model",
+          "justification": "No parallelism strategy is stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "XLM-RoBERTa (base) | Task Full Model",
+          "justification": "No duration is stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "XLM-RoBERTa (base) | Task Full Model",
+          "justification": "No utilisation is stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "The appendix does not report seeds or repetitions.",
+          "justification": "Repetitions are unstated.",
+          "value": []
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "Standard-RoBERTa (base)",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Forget-RoBERTa (base)",
+            "role_in_run": "main"
+          },
+          {
+            "name": "XLM-RoBERTa (base)",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "XNLI",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [],
+        "produces": [],
+        "execution_mode": {
+          "quote": "We measure the zero-shot Thai XNLI Accuracy.",
+          "justification": "The appendix evaluates the adapted multilingual models by inference on Thai XNLI.",
+          "value": "inference"
+        },
+        "epochs": {
+          "quote": "We measure the zero-shot Thai XNLI Accuracy.",
+          "justification": "No epochs are stated for evaluation.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "125M ... 270M",
+          "justification": "This grouped evaluation includes both 125M RoBERTa models and the 270M XLM-R model, so there is no single parameter count.",
+          "value": "125M and 270M"
+        },
+        "accelerator_type": {
+          "quote": "We measure the zero-shot Thai XNLI Accuracy.",
+          "justification": "No hardware is stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "We measure the zero-shot Thai XNLI Accuracy.",
+          "justification": "No accelerator model is stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "We measure the zero-shot Thai XNLI Accuracy.",
+          "justification": "No accelerator count is stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "We measure the zero-shot Thai XNLI Accuracy.",
+          "justification": "No precision is stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "We measure the zero-shot Thai XNLI Accuracy.",
+          "justification": "No parallelism strategy is stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "We measure the zero-shot Thai XNLI Accuracy.",
+          "justification": "No duration is stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "We measure the zero-shot Thai XNLI Accuracy.",
+          "justification": "No utilisation is stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "The appendix does not report seeds or repeated evaluations.",
+          "justification": "Repetitions are unstated.",
+          "value": []
+        }
+      }
+    ]
+  },
+  "usage": {
+    "input_tokens": 30628,
+    "output_tokens": 13984,
+    "total_tokens": 44612
+  }
+}

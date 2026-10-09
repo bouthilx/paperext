@@ -289,14 +289,32 @@ def acceptance(corpus: Corpus) -> list[Finding]:
 
     # Unnamed descriptions. `synthetic data` is the measured exemplar (~41
     # names, 1.6% of the corpus vocabulary).
-    unnamed = ("synthetic data", "synthetic dataset", "synthetic datasets")
-    offenders = sorted({p for n in unnamed for p in corpus.where("data_sources", n)})
+    # NAME ONLY, deliberately -- not aliases. The clause excludes a source whose
+    # NAME is a description; an entity that is named and merely carries a
+    # generic nickname is admitted. `synthetic Stuart-Landau dataset` listing
+    # `synthetic dataset` among its aliases was reported as an offender by the
+    # alias-matching version, which is a false FAIL on an acceptance test:
+    # Stuart-Landau is a specific oscillator model, so that source IS named.
+    unnamed = {"synthetic data", "synthetic dataset", "synthetic datasets"}
+    want = {str_normalize(n) for n in unnamed}
+    offenders = sorted(
+        paper
+        for paper, ex in corpus.papers.items()
+        if any(
+            str_normalize(getattr(getattr(ds, "name", None), "value", "") or "") in want
+            for ds in (ex.data_sources or [])
+        )
+    )
     out.append(
         Finding(
             kind="CHECK",
             name="an unnamed description is not a data source",
             ok=not offenders,
-            detail=f"{len(offenders)} papers name a bare synthetic-data description",
+            detail=(
+                f"{len(offenders)} papers give a bare synthetic-data description "
+                "as a source's NAME (aliases do not count -- a named source may "
+                "carry a generic nickname)"
+            ),
             reading="#102 Part A: a description is not an artifact.",
             papers=offenders,
         )

@@ -1,0 +1,1310 @@
+{
+  "paper": "69a5fda648887d403d0a5739.txt",
+  "words": 6898,
+  "extractions": {
+    "title": {
+      "quote": "PhotoBot: Reference-Guided Interactive Photography via Natural Language",
+      "justification": "The title is stated at the beginning of the paper.",
+      "value": "PhotoBot: Reference-Guided Interactive Photography via Natural Language"
+    },
+    "description": "Introduces and experimentally evaluates PhotoBot, an interactive robotic-photography framework that retrieves reference images with pretrained vision/language models and aligns an RGB-D camera to them using semantic correspondences and PnP-based view adjustment.",
+    "type": {
+      "quote": "We conducted experiments demonstrating that the photos taken by PhotoBot are aesthetically pleasing, address the users’ prompts, and follow the reference images’ layouts and compositions.",
+      "justification": "The work implements a system and evaluates it through robot experiments, user studies, and controlled ablations.",
+      "value": "empirical"
+    },
+    "research_fields": [
+      {
+        "name": {
+          "quote": "Much of the prior research in the area of robotic photography",
+          "justification": "The paper contributes a new automated robot-photography framework.",
+          "value": "robotic photography"
+        },
+        "aliases": [
+          "robot photography"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "In our work, we are also interested in user interactivity.",
+          "justification": "Natural-language interaction between a human subject and a robot photographer is a central contribution.",
+          "value": "human-robot interaction"
+        },
+        "aliases": [
+          "HRI"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "an experimental analysis of the perspective-n-point (PnP) problem with learned semantic-level keypoint correspondences across widely different scenes",
+          "justification": "The paper advances a computer-vision approach for semantic correspondence and camera pose/view alignment.",
+          "value": "computer vision"
+        },
+        "aliases": [
+          "CV"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "a language-guided assistant that provides photography suggestions based on high-level human guidance",
+          "justification": "Natural-language guidance and LLM reasoning are used to support the contributed interactive system.",
+          "value": "natural language processing"
+        },
+        "aliases": [
+          "NLP"
+        ],
+        "role": "used"
+      },
+      {
+        "name": {
+          "quote": "We demonstrate our approach using a manipulator equipped with a wrist camera.",
+          "justification": "Robotics provides the physical platform and control setting for the system.",
+          "value": "robotics"
+        },
+        "aliases": [],
+        "role": "contributed"
+      }
+    ],
+    "models": [
+      {
+        "name": {
+          "quote": "We use Detic [21] as our object detector",
+          "justification": "Detic is the named pretrained object-detection model executed by PhotoBot.",
+          "value": "Detic"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "We use Detic [21] as our object detector",
+          "justification": "The model is reused, not introduced by this paper.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We use Detic [21] as our object detector",
+          "justification": "The paper explicitly says it uses Detic.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "We use Detic [21] as our object detector",
+          "justification": "No numerical comparison of Detic against other object detectors is reported.",
+          "value": false
+        },
+        "execution_mode": {
+          "quote": "we use an object detector to identify all of the objects that are present",
+          "justification": "Detic is used only to produce detections with pretrained parameters.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "“Detecting twenty-thousand classes using image-level supervision,”",
+          "justification": "This is the title of reference [21].",
+          "value": "Detecting twenty-thousand classes using image-level supervision"
+        }
+      },
+      {
+        "name": {
+          "quote": "InstructBLIP [22] as our VLM",
+          "justification": "InstructBLIP is the named visual-language model used to describe gallery images.",
+          "value": "InstructBLIP"
+        },
+        "aliases": [
+          "VLM"
+        ],
+        "is_contributed": {
+          "quote": "We use Detic [21] as our object detector and InstructBLIP [22] as our VLM.",
+          "justification": "The paper reuses InstructBLIP rather than contributing it.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We use Detic [21] as our object detector and InstructBLIP [22] as our VLM.",
+          "justification": "The model is explicitly used in gallery preprocessing.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "InstructBLIP [22] as our VLM",
+          "justification": "No numerical comparison against other VLMs is reported.",
+          "value": false
+        },
+        "execution_mode": {
+          "quote": "We preprocess each photo by querying a VLM to describe the image and count the number of people that appear.",
+          "justification": "The pretrained VLM is queried for outputs without fitting.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "“Instructblip: Towards general-purpose vision-language models with instruction tuning,”",
+          "justification": "This is the title of reference [22].",
+          "value": "Instructblip: Towards general-purpose vision-language models with instruction tuning"
+        }
+      },
+      {
+        "name": {
+          "quote": "we embed into a vector using a sentence transformer [23]",
+          "justification": "The paper executes a sentence-transformer model to encode captions and prompts.",
+          "value": "sentence transformer"
+        },
+        "aliases": [
+          "Sentence-BERT"
+        ],
+        "is_contributed": {
+          "quote": "using a sentence transformer [23]",
+          "justification": "It is a referenced pretrained model, not a contribution of this paper.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "which we embed into a vector using a sentence transformer [23]",
+          "justification": "The sentence transformer is explicitly executed to create vectors.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "the sentence transformer typically does not have sufficient representational capacity for detailed reasoning",
+          "justification": "Although its limitation is discussed, no numerical model comparison is reported.",
+          "value": false
+        },
+        "execution_mode": {
+          "quote": "we create a textual embedding of the user prompt",
+          "justification": "It is used to compute embeddings only, with no fitting reported.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "“Sentence-bert: Sentence embeddings using siamese bert-networks,”",
+          "justification": "This is the title of reference [23].",
+          "value": "Sentence-bert: Sentence embeddings using siamese bert-networks"
+        }
+      },
+      {
+        "name": {
+          "quote": "we feed the m texts, as well as the user prompt, as a single query to GPT-4 [24]",
+          "justification": "GPT-4 is the LLM queried to rerank candidate reference captions.",
+          "value": "GPT-4"
+        },
+        "aliases": [
+          "LLM"
+        ],
+        "is_contributed": {
+          "quote": "GPT-4 [24]",
+          "justification": "GPT-4 is an externally developed model reused by the paper.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we feed the m texts, as well as the user prompt, as a single query to GPT-4 [24]",
+          "justification": "The paper explicitly queries GPT-4.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "ask GPT-4 to find the m∗ most relevant captions",
+          "justification": "No numerical comparison of GPT-4 to another LLM is presented.",
+          "value": false
+        },
+        "execution_mode": {
+          "quote": "as a single query to GPT-4 [24]",
+          "justification": "GPT-4 is queried with prompts and is not trained or finetuned.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "OpenAI, “Gpt-4 technical report,” 2023.",
+          "justification": "This is the title of reference [24].",
+          "value": "Gpt-4 technical report"
+        }
+      },
+      {
+        "name": {
+          "quote": "a pre-trained DINO-ViT transformer [10]",
+          "justification": "DINO-ViT is the pretrained vision-transformer model used to extract dense descriptors.",
+          "value": "DINO-ViT"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "we feed the image into a pre-trained DINO-ViT transformer [10]",
+          "justification": "The model is pretrained and comes from cited prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we feed the image into a pre-trained DINO-ViT transformer [10] and use the keys from intermediate transformer layers as dense image descriptors",
+          "justification": "The paper explicitly runs DINO-ViT on current and reference images.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Pixel errors at each time step for various numbers of DINO-ViT keypoints used.",
+          "justification": "The model itself is not compared numerically against another model; only algorithmic settings and keypoint counts are varied.",
+          "value": false
+        },
+        "execution_mode": {
+          "quote": "pre-trained DINO-ViT transformer",
+          "justification": "Only pretrained feature extraction is performed.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "“Emerging properties in self-supervised vision transformers,”",
+          "justification": "This is the DINO reference [10].",
+          "value": "Emerging properties in self-supervised vision transformers"
+        }
+      }
+    ],
+    "data_sources": [
+      {
+        "name": {
+          "quote": "All reference images are used under license from Shutterstock.com.",
+          "justification": "Shutterstock.com is the named source of the curated photographic reference images.",
+          "value": "Shutterstock.com"
+        },
+        "aliases": [],
+        "role": "used",
+        "size": {
+          "quote": "For this experiment, we used a gallery of 75 images in total",
+          "justification": "The paper states that 75 gallery images were used in the human-preference experiment.",
+          "value": "75 images"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "No reference-paper title is given for Shutterstock.com.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "Using “The Scream” as an image template.",
+          "justification": "The named painting is used as a reference image in the cross-medium evaluation.",
+          "value": "The Scream"
+        },
+        "aliases": [],
+        "role": "used",
+        "size": {
+          "quote": "",
+          "justification": "The paper does not separately state a sample count for this source.",
+          "value": "unknown"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "No reference-paper title is provided for this painting.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "Using “The Creation of Adam” as an image template.",
+          "justification": "The named painting is used as a reference image in the cross-medium evaluation.",
+          "value": "The Creation of Adam"
+        },
+        "aliases": [],
+        "role": "used",
+        "size": {
+          "quote": "",
+          "justification": "The paper does not separately state a sample count for this source.",
+          "value": "unknown"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "No reference-paper title is provided for this painting.",
+          "value": "unknown"
+        }
+      }
+    ],
+    "libraries": [],
+    "algorithms": [
+      {
+        "name": {
+          "quote": "We introduce PhotoBot, a framework for fully automated photo acquisition",
+          "justification": "PhotoBot is the paper's named contributed framework/procedure and is executed in the experiments.",
+          "value": "PhotoBot"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "We introduce PhotoBot",
+          "justification": "The paper explicitly introduces PhotoBot as its contribution.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "We deployed PhotoBot and took photos of various scenes involving both humans and objects.",
+          "justification": "PhotoBot was deployed and run on the robot.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "PhotoBot significantly outperforms the “No PhotoBot” baseline",
+          "justification": "PhotoBot is compared numerically to named baselines in the user studies.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "a language-guided assistant that provides photography suggestions based on high-level human guidance and computes camera view adjustments",
+          "justification": "This directly states PhotoBot's role in the paper.",
+          "value": "provides photography suggestions based on high-level human guidance and computes camera view adjustments"
+        },
+        "composed_of": [
+          "Reference Suggestion",
+          "Camera View Adjustment"
+        ],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "PhotoBot is contributed here and has no separate referenced paper.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "The two main modules are shown: Reference Suggestion and Camera View Adjustment.",
+          "justification": "Reference Suggestion is a named module executed by PhotoBot.",
+          "value": "Reference Suggestion"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "a novel grounded photo suggestion module",
+          "justification": "The reference-suggestion module is claimed as a novel contribution.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "Based on each query, three reference images suggestions were provided, using the procedure detailed in Section III-B",
+          "justification": "The procedure was executed in the user study.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "We use a baseline called “Reference Suggestion Only”",
+          "justification": "The suggestion component participates in a numerical baseline comparison.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "retrieves reference images for the user to imitate",
+          "justification": "This is the paper's description of the component.",
+          "value": "retrieves reference images for the user to imitate"
+        },
+        "composed_of": [
+          "cosine similarities"
+        ],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "This is a component introduced in the present paper.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "The two main modules are shown: Reference Suggestion and Camera View Adjustment.",
+          "justification": "Camera View Adjustment is the named module that changes the robot-camera view.",
+          "value": "Camera View Adjustment"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "we presented PhotoBot, a novel interactive photography assistant",
+          "justification": "The view-adjustment component is part of the contributed PhotoBot system.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "PhotoBot took their photos while executing the camera view adjustment procedure outlined in Section III-D.",
+          "justification": "The paper explicitly executes this procedure.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "we explored whether the PhotoBot view adjustment procedure leads to photos that better match the reference images",
+          "justification": "It is numerically compared against the Reference Suggestion Only baseline.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "alters the camera view to achieve a similar photo composition to the reference",
+          "justification": "This directly states the module's role.",
+          "value": "alters the camera view to achieve a similar photo composition to the reference"
+        },
+        "composed_of": [
+          "Best-Buddies Pairs (BBPs)",
+          "K-means",
+          "EPnP",
+          "MAGSAC++"
+        ],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "This component is presented in the current paper.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "We calculate the cosine similarities between the user prompt and all other vectors in the database",
+          "justification": "This named similarity procedure is executed for coarse gallery retrieval.",
+          "value": "cosine similarities"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "We calculate the cosine similarities",
+          "justification": "Cosine similarity is a standard reused procedure.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We calculate the cosine similarities between the user prompt and all other vectors in the database",
+          "justification": "It is explicitly applied.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "",
+          "justification": "No numerical algorithm comparison focused on cosine similarity is reported.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "retrieve the top m most similar image descriptions",
+          "justification": "It performs the initial coarse retrieval of candidate descriptions.",
+          "value": "retrieve the top m most similar image descriptions"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "No dedicated reference is provided.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "Additional context is added to each descriptor by aggregating descriptors from adjacent patches via logarithmic binning.",
+          "justification": "Logarithmic binning is the named descriptor-aggregation procedure executed before matching.",
+          "value": "logarithmic binning"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "via logarithmic binning",
+          "justification": "The paper does not claim logarithmic binning as a novel contribution.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Additional context is added to each descriptor by aggregating descriptors from adjacent patches via logarithmic binning.",
+          "justification": "The procedure is explicitly applied.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "",
+          "justification": "No numerical comparison of logarithmic binning is reported.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "Additional context is added to each descriptor",
+          "justification": "This is its stated role.",
+          "value": "adds context to each descriptor by aggregating descriptors from adjacent patches"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "No separate citation is given for this procedure.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "we identify Best-Buddies Pairs (BBPs) [26] between the descriptors from the two views to find correspondences",
+          "justification": "BBPs is executed for mutual descriptor matching.",
+          "value": "Best-Buddies Pairs (BBPs)"
+        },
+        "aliases": [
+          "BBPs"
+        ],
+        "is_contributed": {
+          "quote": "Best-Buddies Pairs (BBPs) [26]",
+          "justification": "It is a cited prior algorithm.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we identify Best-Buddies Pairs (BBPs) [26]",
+          "justification": "The paper explicitly applies BBPs.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "",
+          "justification": "No direct numerical comparison of BBPs with another matching algorithm is reported.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "to find correspondences",
+          "justification": "This is its stated use.",
+          "value": "find correspondences between the descriptors from the two views"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "“Best-buddies similarity—robust template matching using mutual nearest neighbors,”",
+          "justification": "This is the title of reference [26].",
+          "value": "Best-buddies similarity—robust template matching using mutual nearest neighbors"
+        }
+      },
+      {
+        "name": {
+          "quote": "run K-means on the concatenated descriptors with k as the number of clusters",
+          "justification": "K-means is executed to select distributed correspondence clusters.",
+          "value": "K-means"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "run K-means",
+          "justification": "K-means is a standard reused clustering algorithm.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "run K-means on the concatenated descriptors",
+          "justification": "It is explicitly run.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "",
+          "justification": "No comparison against another clustering algorithm is reported.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "we select k salient and well-distributed correspondences for use when solving the PnP problem",
+          "justification": "K-means supports the stated correspondence-selection step.",
+          "value": "select k salient and well-distributed correspondences"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "No dedicated K-means reference is listed.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "We formulate the view adjustment problem as a PnP problem.",
+          "justification": "Perspective-n-point is the named camera-pose procedure used by the system.",
+          "value": "PnP"
+        },
+        "aliases": [
+          "perspective-n-point"
+        ],
+        "is_contributed": {
+          "quote": "Our implementation uses the popular EPnP [27] method",
+          "justification": "PnP is reused rather than introduced.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "PhotoBot solves for the respective camera motion and image crop",
+          "justification": "The PnP view-alignment computation is executed by PhotoBot.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "We tested a total of six methods: RANSAC with four different fixed threshold pixel values of τ = {5, 10, 50, 200}, No RANSAC, and MAGSAC++",
+          "justification": "PnP solution variants using different robust-estimation settings are numerically compared.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "find a 3D camera transformation, consisting of a rotation R ∈ SO(3) and translation t ∈ R3",
+          "justification": "This is the stated role of the PnP problem.",
+          "value": "find a 3D camera transformation"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "“Random sample consensus: A paradigm for model fitting with applications to image analysis and automated cartography,”",
+          "justification": "The paper cites reference [8] at its first mention of PnP, although that reference is the RANSAC paper.",
+          "value": "Random sample consensus: A paradigm for model fitting with applications to image analysis and automated cartography"
+        }
+      },
+      {
+        "name": {
+          "quote": "Our implementation uses the popular EPnP [27] method",
+          "justification": "EPnP is the actual PnP solution method used in the implementation.",
+          "value": "EPnP"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "the popular EPnP [27] method",
+          "justification": "It is a cited prior method.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Our implementation uses the popular EPnP [27] method",
+          "justification": "The implementation explicitly uses it.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "",
+          "justification": "EPnP is not compared numerically against another PnP solver.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "provides a closed-form solution given at least four correspondences",
+          "justification": "This is the paper's stated role for EPnP.",
+          "value": "provides a closed-form solution given at least four correspondences"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "“Epnp: An accurate o(n) solution to the pnp problem,”",
+          "justification": "This is the title of reference [27].",
+          "value": "Epnp: An accurate o(n) solution to the pnp problem"
+        }
+      },
+      {
+        "name": {
+          "quote": "a robust estimator such as RANSAC [28] to remove spurious matches",
+          "justification": "RANSAC is executed in the controlled threshold experiments.",
+          "value": "RANSAC"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "RANSAC [28]",
+          "justification": "RANSAC is a cited prior algorithm.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We tested a total of six methods: RANSAC with four different fixed threshold pixel values",
+          "justification": "The paper explicitly executes four RANSAC threshold variants.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "RANSAC with four different fixed threshold pixel values of τ = {5, 10, 50, 200}, No RANSAC, and MAGSAC++",
+          "justification": "These variants are numerically compared.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "remove spurious matches (i.e., outliers) and produce a solution based on a subset of mutually-coherent matches (i.e., inliers) only",
+          "justification": "This is the stated role of robust estimation with RANSAC.",
+          "value": "remove spurious matches and produce a solution based on inliers only"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "“Random sample consensus: a paradigm for model fitting with applications to image analysis and automated cartography,”",
+          "justification": "This is the title of reference [28].",
+          "value": "Random sample consensus: a paradigm for model fitting with applications to image analysis and automated cartography"
+        }
+      },
+      {
+        "name": {
+          "quote": "We use MAGSAC++ [32], a state-of-the-art robust estimator",
+          "justification": "MAGSAC++ is the robust estimator used in the deployed system and experiments.",
+          "value": "MAGSAC++"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "MAGSAC++ [32]",
+          "justification": "It is a cited prior algorithm.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We use MAGSAC++ [32]",
+          "justification": "The paper explicitly uses it.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "the adaptive MAGSAC++ algorithm performs similarly to the best variant of RANSAC with a fixed threshold",
+          "justification": "Its numerical results are compared against RANSAC variants.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "solves a weighted least squares problem using all correspondences to minimize (1)",
+          "justification": "This is its stated role in the PnP pipeline.",
+          "value": "solves a weighted least squares problem using all correspondences"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "“Magsac++, a fast, reliable and accurate robust estimator,”",
+          "justification": "This is the title of reference [32].",
+          "value": "Magsac++, a fast, reliable and accurate robust estimator"
+        }
+      },
+      {
+        "name": {
+          "quote": "a baseline, which we name “No PhotoBot,”",
+          "justification": "No PhotoBot is a named baseline procedure executed in the preference study.",
+          "value": "No PhotoBot"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "a baseline, which we name “No PhotoBot,”",
+          "justification": "It is introduced as an evaluation baseline, not a research contribution.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we asked the same set of users to come up with a gesture and expression on their own ... and to pose for a photo in front of a static camera",
+          "justification": "The baseline procedure was carried out.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "PhotoBot significantly outperforms the “No PhotoBot” baseline",
+          "justification": "It is numerically compared to PhotoBot.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "asked the same set of users to come up with a gesture and expression on their own that matched the category of emotion and to pose for a photo in front of a static camera",
+          "justification": "This describes the baseline's role.",
+          "value": "users pose for a photo in front of a static camera without PhotoBot"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "This evaluation baseline has no external reference.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "We use a baseline called “Reference Suggestion Only,”",
+          "justification": "Reference Suggestion Only is a named baseline executed in the view-adjustment study.",
+          "value": "Reference Suggestion Only"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "We use a baseline called “Reference Suggestion Only,”",
+          "justification": "It is an evaluation baseline, not a claimed contribution.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we asked users to try their best to position themselves and pose in front of the static camera",
+          "justification": "The baseline was carried out with study participants.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "PhotoBot outperforms the “Reference Suggestion Only” baseline in all three categories.",
+          "justification": "The paper reports a numerical comparison.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "position themselves and pose in front of the static camera in a manner that re-created the reference image as closely as possible",
+          "justification": "This is the baseline procedure's stated role.",
+          "value": "users position themselves and pose in front of a static camera to re-create the reference image"
+        },
+        "composed_of": [
+          "Reference Suggestion"
+        ],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "This evaluation baseline has no external reference.",
+          "value": "unknown"
+        }
+      }
+    ],
+    "runs": [
+      {
+        "models": [
+          {
+            "name": "Detic",
+            "role_in_run": "main"
+          },
+          {
+            "name": "InstructBLIP",
+            "role_in_run": "main"
+          },
+          {
+            "name": "sentence transformer",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Shutterstock.com",
+            "access": "fixed",
+            "roles_in_run": [
+              "reference"
+            ]
+          }
+        ],
+        "algorithms": [],
+        "produces": [],
+        "execution_mode": {
+          "quote": "We preprocess each photo by querying a VLM to describe the image and count the number of people that appear. Additionally, we use an object detector",
+          "justification": "This is a distinct inference stage that converts the fixed gallery into textual descriptions and embeddings.",
+          "value": "inference"
+        },
+        "epochs": {
+          "quote": "",
+          "justification": "No epochs are stated for this inference run.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "",
+          "justification": "No model parameter count is stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "",
+          "justification": "The paper does not state the compute accelerator used.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "",
+          "justification": "No accelerator model is named.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "",
+          "justification": "No accelerator count is stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Numerical precision is not reported.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "No parallelism strategy is reported.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "No duration is stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "No hardware-utilisation figure is reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "",
+          "justification": "The paper does not state independent repetition factors for gallery preprocessing.",
+          "value": []
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "Detic",
+            "role_in_run": "main"
+          },
+          {
+            "name": "sentence transformer",
+            "role_in_run": "main"
+          },
+          {
+            "name": "GPT-4",
+            "role_in_run": "main"
+          },
+          {
+            "name": "DINO-ViT",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Shutterstock.com",
+            "access": "fixed",
+            "roles_in_run": [
+              "reference"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "PhotoBot"
+          },
+          {
+            "name": "Reference Suggestion"
+          },
+          {
+            "name": "Camera View Adjustment"
+          },
+          {
+            "name": "cosine similarities"
+          },
+          {
+            "name": "logarithmic binning"
+          },
+          {
+            "name": "Best-Buddies Pairs (BBPs)"
+          },
+          {
+            "name": "K-means"
+          },
+          {
+            "name": "PnP"
+          },
+          {
+            "name": "EPnP"
+          },
+          {
+            "name": "MAGSAC++"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "We deployed PhotoBot and took photos of various scenes involving both humans and objects.",
+          "justification": "Pretrained models are run for detection, retrieval, semantic matching, and camera adjustment; no fitting occurs.",
+          "value": "inference"
+        },
+        "epochs": {
+          "quote": "",
+          "justification": "No epochs apply or are stated for this inference run.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "",
+          "justification": "No parameter count is stated for the executed configuration.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "",
+          "justification": "The robot and camera are named, but no CPU/GPU/TPU accelerator is stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "",
+          "justification": "No compute accelerator model is named.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "",
+          "justification": "No accelerator count is stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Numerical precision is not reported.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "No compute parallelism strategy is reported.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "No compute duration is stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "No hardware utilisation is reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "",
+          "justification": "The numbers of users, votes, and photos are workloads, not stated independent reruns of one compute configuration.",
+          "value": []
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "DINO-ViT",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Shutterstock.com",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Camera View Adjustment"
+          },
+          {
+            "name": "logarithmic binning"
+          },
+          {
+            "name": "Best-Buddies Pairs (BBPs)"
+          },
+          {
+            "name": "K-means"
+          },
+          {
+            "name": "PnP"
+          },
+          {
+            "name": "EPnP"
+          },
+          {
+            "name": "RANSAC"
+          },
+          {
+            "name": "MAGSAC++"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "For each method, we ran view adjustment for eight successive steps, repeating the experiment three times for each scene.",
+          "justification": "This is the inference/evaluation configuration for the robust-estimator experiment.",
+          "value": "inference"
+        },
+        "epochs": {
+          "quote": "",
+          "justification": "No epochs are stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "",
+          "justification": "No parameter count is stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "",
+          "justification": "No compute accelerator type is reported.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "",
+          "justification": "No accelerator model is reported.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "",
+          "justification": "No accelerator count is reported.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Numerical precision is not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "No parallelism strategy is stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "The eight view-adjustment steps are workload steps, not a reported wall-clock or chip-time duration.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "No utilisation is reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "We tested a total of six methods: RANSAC with four different fixed threshold pixel values of τ = {5, 10, 50, 200}, No RANSAC, and MAGSAC++ ... repeating the experiment three times for each scene.",
+          "justification": "The experiment varies six robust-estimation variants and explicitly repeats each experiment three times.",
+          "value": [
+            {
+              "kind": "variant",
+              "count": 6,
+              "what": "methods"
+            },
+            {
+              "kind": "other",
+              "count": 3,
+              "what": "repeated runs"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "DINO-ViT",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Shutterstock.com",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Camera View Adjustment"
+          },
+          {
+            "name": "logarithmic binning"
+          },
+          {
+            "name": "Best-Buddies Pairs (BBPs)"
+          },
+          {
+            "name": "K-means"
+          },
+          {
+            "name": "PnP"
+          },
+          {
+            "name": "EPnP"
+          },
+          {
+            "name": "MAGSAC++"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "We ran PhotoBot on the Mug and Book scene shown in Fig. 8a while varying the number of keypoints used",
+          "justification": "This is an inference-time hyperparameter evaluation of camera view adjustment.",
+          "value": "inference"
+        },
+        "epochs": {
+          "quote": "",
+          "justification": "No epochs are stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "",
+          "justification": "No parameter count is stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "",
+          "justification": "No compute accelerator type is reported.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "",
+          "justification": "No accelerator model is reported.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "",
+          "justification": "No accelerator count is reported.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Numerical precision is not reported.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "No parallelism strategy is reported.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "No wall-clock or chip-time duration is stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "No hardware utilisation is reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "10 keypoints 20 keypoints 30 keypoints 40 keypoints 50 keypoints ... one standard deviation measured over three repeated runs.",
+          "justification": "Five keypoint-count settings are shown, each measured over three repeated runs.",
+          "value": [
+            {
+              "kind": "hyperparameter",
+              "count": 5,
+              "what": "numbers of DINO-ViT keypoints used"
+            },
+            {
+              "kind": "other",
+              "count": 3,
+              "what": "repeated runs"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "DINO-ViT",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "The Scream",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          },
+          {
+            "name": "The Creation of Adam",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "PhotoBot"
+          },
+          {
+            "name": "Camera View Adjustment"
+          },
+          {
+            "name": "logarithmic binning"
+          },
+          {
+            "name": "Best-Buddies Pairs (BBPs)"
+          },
+          {
+            "name": "K-means"
+          },
+          {
+            "name": "PnP"
+          },
+          {
+            "name": "EPnP"
+          },
+          {
+            "name": "MAGSAC++"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "We also carried out an evaluation with paintings, rather than photographs",
+          "justification": "The pretrained vision model and view-adjustment pipeline are run on painting references without training.",
+          "value": "inference"
+        },
+        "epochs": {
+          "quote": "",
+          "justification": "No epochs are stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "",
+          "justification": "No parameter count is stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "",
+          "justification": "No compute accelerator type is reported.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "",
+          "justification": "No accelerator model is reported.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "",
+          "justification": "No accelerator count is reported.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Numerical precision is not reported.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "No parallelism strategy is reported.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "No compute duration is reported.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "No hardware utilisation is reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "",
+          "justification": "The two paintings are test inputs, not a stated repetition factor.",
+          "value": []
+        }
+      }
+    ]
+  },
+  "usage": {
+    "input_tokens": 23811,
+    "output_tokens": 10122,
+    "total_tokens": 33933
+  }
+}

@@ -349,3 +349,21 @@ def test_an_unreadable_file_is_reported_not_silently_dropped(tmp_path):
 
     [clean] = loaded(Corpus.load([good]))
     assert clean.ok is True and "0 skipped" in clean.detail
+
+
+def test_a_generic_alias_does_not_make_a_named_source_unnamed():
+    """The clause excludes a source whose NAME is a description.
+
+    `synthetic Stuart-Landau dataset` carries `synthetic dataset` as an alias.
+    Stuart-Landau is a specific oscillator model, so that source is named, and
+    the alias-matching version of this check reported it as an offender -- a
+    false FAIL on an acceptance test.
+    """
+    named = _data_source("synthetic Stuart-Landau dataset")
+    named["aliases"] = ["synthetic dataset", "high-dimensional simulated dataset"]
+    ok = acceptance(_corpus(data_sources=[named]))
+    assert _by_name(ok, "unnamed description").ok is True
+
+    # The name itself being the description is still caught.
+    bad = acceptance(_corpus(data_sources=[_data_source("synthetic dataset")]))
+    assert _by_name(bad, "unnamed description").ok is False
