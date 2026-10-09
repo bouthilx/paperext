@@ -775,8 +775,20 @@ class PaperExtractions(BaseModel):
     # 1999-paper legacy corpus, with an informative field sitting in the
     # optional list for 186 of those 187 papers.
     research_fields: list[ResearchField] = Field(
+        # The admission bar, owner 2026-10-09: a field mentioned only in related
+        # work was being reported as `referenced`. One real case: `offline
+        # reinforcement learning`, admitted on the strength of "Diffuser [20]
+        # uses diffusion models to generate trajectories for offline
+        # reinforcement learning tasks" -- while `Diffuser` appears nowhere else
+        # in the extraction. Nothing in the paper's own work touches the field,
+        # so the field does not belong to the paper.
         description="All Research Fields and application domains of the paper, "
-        "each with its role. Do not rank them",
+        "each with its role. Do not rank them. A field the paper only MENTIONS "
+        "-- named in related work and absent from the experiments, the "
+        "contributions and the baselines -- is NOT a Research Field of this "
+        "paper: leave it out. It is 'referenced' only when a Model, Data Source "
+        "or Algorithm you are also reporting belongs to that field, for "
+        "instance a baseline the paper compares against",
     )
     models: list[RefModel] = Field(
         # #95's admission rule, which lived only in MODELS_BRIEF.md B.1 until a

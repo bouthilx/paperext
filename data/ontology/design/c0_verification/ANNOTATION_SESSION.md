@@ -91,6 +91,18 @@ say — never a count of 1.** And never record how many examples/episodes/items
 the run *processed*: that is workload, not repetition. `1,540 test episodes` is
 NOT a repetition.
 
+**A research field the paper only MENTIONS is not a field of the paper.** Named
+in related work and absent from the experiments, the contributions and the
+baselines: leave it out. `referenced` is for a field that some Model, Data
+Source or Algorithm you are *also reporting* belongs to — a baseline the paper
+compares against. Owner, 2026-10-09, on the first annotated paper: arm B
+reported `offline reinforcement learning` as `referenced` on the strength of
+*"Diffuser [20] uses diffusion models to generate trajectories for offline
+reinforcement learning tasks"*, and `Diffuser` appears nowhere else in the
+extraction. **The check is mechanical enough to run yourself**: for every
+`referenced` field, name the entity that carries it. If you cannot, drop the
+field.
+
 **Never infer.** Every compute field is reported only when the paper states it.
 `utilisation` especially: do not record an assumed 30–50%.
 
