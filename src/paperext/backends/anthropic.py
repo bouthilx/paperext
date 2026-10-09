@@ -251,6 +251,18 @@ class AnthropicBase(Backend):
         reads it.
         """
         message = str(error)
+        if "compiled grammar is too large" in message:
+            return (
+                "the v5 extraction schema exceeds this model's strict-grammar "
+                "limit on the structured-outputs path. All three modes are "
+                "blocked for a model that also refuses forced tools: `tools` "
+                "is rejected by the model, `json_schema` hits this limit, and "
+                "`json` trips instructor's strict decoder on our quotes. Use a "
+                "model that accepts forced tools (PAPEREXT_ANTHROPIC_MODEL="
+                "claude-opus-5 with mode=tools is the combination the C0 batch "
+                "ran at 25/25), or shrink the schema -- which is a design "
+                "change, not a setting"
+            )
         if "tool_choice" in message and "not supported for this model" in message:
             return (
                 f"{self.model!r} does not support a forced tool call, which "

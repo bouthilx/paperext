@@ -840,3 +840,24 @@ def test_anthropic_diagnoses_the_forced_tool_rejection():
 def test_the_diagnose_hook_defaults_to_silence():
     """A backend with nothing to add must add nothing."""
     assert get_backend("openai").diagnose(RuntimeError("boom")) is None
+
+
+def test_anthropic_diagnoses_the_grammar_limit():
+    """The second wall behind the first, and the one with no setting that fixes it.
+
+    Opus 5.5 refuses `tools`, the v5 schema exceeds the strict-grammar limit on
+    `json_schema`, and `json` trips instructor's decoder on our quotes -- so the
+    hint has to say that no mode works rather than suggest another one.
+    """
+    backend = get_backend("anthropic")
+    err = anthropic.BadRequestError.__new__(anthropic.BadRequestError)
+    Exception.__init__(
+        err,
+        "Error code: 400 - {'error': {'message': 'The compiled grammar is too "
+        "large, which would cause performance issues. Simplify your tool "
+        "schemas or reduce the number of strict tools.'}}",
+    )
+    hint = backend.diagnose(err)
+    assert hint is not None
+    assert "all three modes" in hint.lower()
+    assert "claude-opus-5" in hint
