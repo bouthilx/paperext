@@ -18,6 +18,29 @@ on purpose: the runs half is slow to adjudicate and a long session drifts.
 | this file, §3–§6 | the rules that decide most disagreements, and how to run the session |
 | `data/ontology/design/SCHEMA_V5_STRUCTURE.md` §3, §7 | why `runs[]` references entities by name, and the settled data-source decisions |
 
+**Build the highlighted PDF first and give the owner the path.** Adjudicating
+from quoted fragments is the wrong instrument for anything table-shaped:
+
+```console
+PAPEREXT_DIR_CACHE=/home/bouthilx/projects/paperext-llm-backend/data/cache \
+uv run python -m paperext.annotate_pdf <paper_id>
+```
+
+It writes `<paper_id>.annotated.pdf` beside the source PDF, with every quote
+either arm made highlighted: **green** both arms, **yellow** arm A only, **blue**
+arm B only, and a popup note naming the field and entity. A yellow or blue
+highlight is exactly where to look; an unhighlighted table row is a recall gap
+in both arms.
+
+Read its summary line too. `elided` counts quotes containing `...`, which are
+not verbatim and cannot be located — arm B writes these and arm A does not.
+`UNMATCHED` means no verbatim span was found, and the ordinary cause is a
+transposition, **not** a fabricated citation: on the first paper the single
+entry was B quoting "stochastic differential editing can be used to fine-tune
+the scene" where that sentence reads "**differential stochastic** editing" — in
+a paper that spells the term both ways itself. Check before concluding anything
+stronger.
+
 The paper's text is at
 `$PAPEREXT_DIR_CACHE/fulltext/<paper_id>/fulltext.txt` — set
 `PAPEREXT_DIR_CACHE=/home/bouthilx/projects/paperext-llm-backend/data/cache`.
