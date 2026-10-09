@@ -84,6 +84,16 @@ software that implements a source (the MuJoCo *engine* is a Library; HalfCheetah
 is a Data Source), and an **evaluation protocol** over a source (`Atari` yes,
 `Atari 100k` no).
 
+**A subset is the same source** unless it is a standard artifact named and
+reused *beyond this paper* — `TinyImageNet` is its own Data Source, not ImageNet
+with a smaller size. The test is whether others use the subset under that name,
+not whether this paper gave it one. Owner, 2026-10-09: arm A reported
+`cut-in behaviors trajectory pair dataset (DR_CHN_Merging_ZS)` with
+`derived_from=['INTERACTION']` — a selection the authors made for themselves from
+one INTERACTION location, never released. **That is INTERACTION**, with the run
+recording what was selected. This resolves the Part C / Part E priority that
+#99 had recorded as open.
+
 **`repetitions` is a list of factors, and the product is computed later.** One
 entry per independent factor: 5 seeds of 20 learning rates is two entries,
 `(seed, 5)` and `(hyperparameter, 20)`. **An empty list means the paper does not

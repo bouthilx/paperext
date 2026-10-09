@@ -59,7 +59,14 @@ SYSTEM_MESSAGE = (
     "transformation the paper does not name is NOT a new Data Source: 'we "
     "trained on rotated MNIST' is MNIST plus an augmentation Algorithm, and "
     "a subset or split of a source is the same source with a different "
-    "size.\n\n"
+    "size.\n"
+    "A SUBSET IS THE SAME SOURCE unless it is a STANDARD artifact named and "
+    "reused beyond this paper: TinyImageNet is its own Data Source, not "
+    "ImageNet with a smaller size. The test is whether others use the subset "
+    "under that name, NOT whether this paper gave it one. A selection this "
+    "paper made for itself is the original source, however much work the "
+    "selection took and however specific the label -- report the original and "
+    "let the Run record what was selected.\n\n"
     "RESEARCH FIELDS. Report every field as one list entry with a role: "
     "'contributed' if the paper advances that field or addresses a claim to it "
     "(several fields may be contributed -- do not rank them, and do not force a "
@@ -493,7 +500,9 @@ class RefDataSource(BaseModel):
         "MNIST, an offline RL dataset from a simulator. Empty otherwise. An "
         "unnamed transformation is not a derivation: 'rotated MNIST' is "
         "MNIST plus an augmentation, and a subset or split is the same "
-        "source",
+        "source -- unless the subset is a standard artifact reused beyond "
+        "this paper under its own name (TinyImageNet), which IS its own Data "
+        "Source with ImageNet in derived_from",
     )
     sample_properties: list[SampleProperty] = Field(
         description="Per-sample measures of this Dataset that the paper states, "
