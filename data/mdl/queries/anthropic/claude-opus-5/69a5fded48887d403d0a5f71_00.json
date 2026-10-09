@@ -1,0 +1,1286 @@
+{
+  "paper": "69a5fded48887d403d0a5f71.txt",
+  "words": 4335,
+  "extractions": {
+    "title": {
+      "quote": "PARAMETER-EFFICIENT TRANSFER LEARNING OF AUDIO SPECTROGRAM TRANSFORMERS",
+      "justification": "Title as printed on the paper.",
+      "value": "Parameter-Efficient Transfer Learning of Audio Spectrogram Transformers"
+    },
+    "description": "The paper investigates parameter-efficient transfer learning (PETL) methods for adapting the Audio Spectrogram Transformer (AST) to audio/speech classification downstream tasks, and proposes a new 'conformer adapter' based on the Conformer convolution module. Experiments cover ESC-50, UrbanSound8K, Speech Commands V2, Fluent Speech Commands and IEMOCAP, plus ablations with few-shot settings, kernel size and Wav2Vec 2.0.",
+    "type": {
+      "quote": "We carry out extensive experiments leading to multiple findings",
+      "justification": "The paper runs extensive fine-tuning experiments and ablation studies.",
+      "value": "empirical"
+    },
+    "research_fields": [
+      {
+        "name": {
+          "quote": "Index Terms— Parameter-Efficient Transfer Learning, Audio Spectrogram Transformer, LoRA, Adapters, Depthwise Convolution",
+          "justification": "The paper's core topic and contribution.",
+          "value": "Parameter-Efficient Transfer Learning"
+        },
+        "aliases": [
+          "PETL"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "(1) Audio classification: we use the ESC-50 and UrbanSound8K (US8K) datasets.",
+          "justification": "Benchmarks on ESC-50 and UrbanSound8K.",
+          "value": "Audio classification"
+        },
+        "aliases": [
+          "audio processing"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "the need to efficiently adapt the AST model to several downstream tasks",
+          "justification": "Keyword spotting, intent classification, emotion recognition tasks.",
+          "value": "Speech processing"
+        },
+        "aliases": [
+          "audio/speech processing"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "it is the established choice in the NLP domain",
+          "justification": "Mentioned as context domain where adapters are established.",
+          "value": "Natural language processing"
+        },
+        "aliases": [
+          "NLP"
+        ],
+        "role": "referenced"
+      },
+      {
+        "name": {
+          "quote": "a common problem in continual learning scenarios",
+          "justification": "Mentioned as related context.",
+          "value": "Continual learning"
+        },
+        "aliases": [],
+        "role": "referenced"
+      }
+    ],
+    "models": [
+      {
+        "name": {
+          "quote": "the Audio Spectrogram Transformer (AST) [18] obtains superb results",
+          "justification": "Main pre-trained backbone being adapted.",
+          "value": "Audio Spectrogram Transformer"
+        },
+        "aliases": [
+          "AST"
+        ],
+        "is_contributed": {
+          "quote": "Y. Gong, Y. Chung, and J. Glass, “Ast: Audio spectrogram transformer,” in Interspeech, 2021.",
+          "justification": "Pre-existing model from reference [18].",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "For all experiments we use the AST model pre-trained on ImageNet-21K and AudioSet provided by the Huggingface Transformers library.",
+          "justification": "Fine-tuned on five benchmarks using A40/V100 GPUs.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Table 1: Performance evaluations of the PETL methods on 4 datasets for AST.",
+          "justification": "Different adaptation methods on AST compared numerically.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "We include the full fine-tuning method (FFT), which finetunes the full pre-trained AST model",
+          "justification": "The pre-trained AST is fine-tuned (fully or parameter-efficiently).",
+          "value": "finetune"
+        },
+        "referenced_paper_title": {
+          "quote": "Y. Gong, Y. Chung, and J. Glass, “Ast: Audio spectrogram transformer,” in Interspeech, 2021.",
+          "justification": "Reference [18].",
+          "value": "Ast: Audio spectrogram transformer"
+        }
+      },
+      {
+        "name": {
+          "quote": "For the ablation studies, we also use Wav2Vec 2.0, a well-established pre-trained model for speech tasks [35].",
+          "justification": "Second pre-trained model used in ablation.",
+          "value": "Wav2Vec 2.0"
+        },
+        "aliases": [
+          "wav2vec 2.0"
+        ],
+        "is_contributed": {
+          "quote": "A. Baevski, Y. Zhou, A. Mohamed, and M. Auli, “wav2vec 2.0: A framework for self-supervised learning of speech representations,” NeurIPS, 2020.",
+          "justification": "Existing pre-trained model.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Table 3: Results of bottlenck and conformer adapters for Wav2Vec 2.0 on GSC, FSC and IEMOCAP (IEM) datasets.",
+          "justification": "Fine-tuned with adapters on GSC, FSC, IEMOCAP.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "we can observe that the conformer adapter reaches accuracy results of 55.81, with an improvement of more than 6 points over the bottleneck adapter",
+          "justification": "Adapter variants compared on Wav2Vec 2.0.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "whether the proposed conformer adapter can be efficiently harnessed for another pre-trained model",
+          "justification": "Pre-trained model adapted/fine-tuned.",
+          "value": "finetune"
+        },
+        "referenced_paper_title": {
+          "quote": "A. Baevski, Y. Zhou, A. Mohamed, and M. Auli, “wav2vec 2.0: A framework for self-supervised learning of speech representations,” NeurIPS, 2020.",
+          "justification": "Reference [35].",
+          "value": "wav2vec 2.0: A framework for self-supervised learning of speech representations"
+        }
+      },
+      {
+        "name": {
+          "quote": "we propose to leverage the key block of the Conformer [28], a bleeding-edge model for several speech processing tasks: the convolution module.",
+          "justification": "Its convolution module is the basis of the proposed adapter.",
+          "value": "Conformer"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "A. Gulati et al., “Conformer: Convolution-augmented transformer for speech recognition,” arXiv preprint arXiv:2005.08100, 2020.",
+          "justification": "Existing model referenced.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we propose a new adapter design that exploits the convolution module of the Conformer model",
+          "justification": "Only its convolution module design is borrowed; the Conformer model itself is not run.",
+          "value": false
+        },
+        "is_compared": {
+          "quote": "we propose to leverage the key block of the Conformer [28]",
+          "justification": "No numerical comparison of the Conformer model.",
+          "value": false
+        },
+        "execution_mode": {
+          "quote": "the convolution module of the Conformer model",
+          "justification": "Not executed in the paper.",
+          "value": "unknown"
+        },
+        "referenced_paper_title": {
+          "quote": "A. Gulati et al., “Conformer: Convolution-augmented transformer for speech recognition,” arXiv preprint arXiv:2005.08100, 2020.",
+          "justification": "Reference [28].",
+          "value": "Conformer: Convolution-augmented transformer for speech recognition"
+        }
+      }
+    ],
+    "data_sources": [
+      {
+        "name": {
+          "quote": "ESC-50 (ESC) [29] consists of 2, 000 5-second-long environmental audio recordings of 50 classes.",
+          "justification": "Audio classification benchmark.",
+          "value": "ESC-50"
+        },
+        "aliases": [
+          "ESC"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "ESC-50 (ESC) [29] consists of 2, 000 5-second-long environmental audio recordings of 50 classes.",
+          "justification": "Stated in paper.",
+          "value": "2,000 recordings"
+        },
+        "derived_from": [],
+        "sample_properties": [
+          {
+            "name": "recording duration",
+            "value": {
+              "quote": "2, 000 5-second-long environmental audio recordings",
+              "justification": "Stated.",
+              "value": "5-second-long"
+            },
+            "unit": "seconds"
+          }
+        ],
+        "referenced_paper_title": {
+          "quote": "K. Piczak, “Esc: Dataset for environmental sound classification,” in ACM Multimedia, 2015, pp. 1015–1018.",
+          "justification": "Reference [29].",
+          "value": "Esc: Dataset for environmental sound classification"
+        }
+      },
+      {
+        "name": {
+          "quote": "US8K [30] includes 8, 732 labeled sound excerpts of urban sounds from 10 classes.",
+          "justification": "Audio classification benchmark.",
+          "value": "UrbanSound8K"
+        },
+        "aliases": [
+          "US8K"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "US8K [30] includes 8, 732 labeled sound excerpts of urban sounds from 10 classes.",
+          "justification": "Stated.",
+          "value": "8,732 labeled sound excerpts"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "J. Salamon et al., “A dataset and taxonomy for urban sound research,” in ACM Multimedia, 2014.",
+          "justification": "Reference [30].",
+          "value": "A dataset and taxonomy for urban sound research"
+        }
+      },
+      {
+        "name": {
+          "quote": "Keyword spotting: Speech Commands V2 (GSC) [31] has 105, 829 1-sec recordings of 35 speech commands.",
+          "justification": "Keyword spotting benchmark.",
+          "value": "Speech Commands V2"
+        },
+        "aliases": [
+          "GSC"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "Speech Commands V2 (GSC) [31] has 105, 829 1-sec recordings of 35 speech commands.",
+          "justification": "Stated.",
+          "value": "105,829 1-sec recordings"
+        },
+        "derived_from": [],
+        "sample_properties": [
+          {
+            "name": "recording duration",
+            "value": {
+              "quote": "105, 829 1-sec recordings",
+              "justification": "Stated.",
+              "value": "1-sec"
+            },
+            "unit": "seconds"
+          }
+        ],
+        "referenced_paper_title": {
+          "quote": "P. Warden, “Speech commands: A dataset for limited-vocabulary speech recognition,” arXiv preprint arXiv:1804.03209, 2018.",
+          "justification": "Reference [31].",
+          "value": "Speech commands: A dataset for limited-vocabulary speech recognition"
+        }
+      },
+      {
+        "name": {
+          "quote": "Intent classification: Fluent Speech Commands (FSC) [32] includes 30, 043 English utterances spanning 31 classes.",
+          "justification": "Intent classification benchmark.",
+          "value": "Fluent Speech Commands"
+        },
+        "aliases": [
+          "FSC"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "Fluent Speech Commands (FSC) [32] includes 30, 043 English utterances spanning 31 classes.",
+          "justification": "Stated.",
+          "value": "30,043 English utterances"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "L. Lugosch, M. Ravanelli, P. Ignoto, V. Tomar, and Y. Bengio, “Speech model pre-training for end-to-end spoken language understanding,” Interspeech, 2019.",
+          "justification": "Reference [32].",
+          "value": "Speech model pre-training for end-to-end spoken language understanding"
+        }
+      },
+      {
+        "name": {
+          "quote": "Emotion Recognition: IEMOCAP (IEM) [33] comprises 10, 039 utterances from 10 distinct speakers with 4 emotional classes",
+          "justification": "Emotion recognition benchmark.",
+          "value": "IEMOCAP"
+        },
+        "aliases": [
+          "IEM"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "IEMOCAP (IEM) [33] comprises 10, 039 utterances from 10 distinct speakers with 4 emotional classes: neutral, happy, sad, angry.",
+          "justification": "Stated.",
+          "value": "10,039 utterances"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "C. Busso et al., “Iemocap: Interactive emotional dyadic motion capture database,” Language resources and evaluation, vol. 42, pp. 335–359, 2008.",
+          "justification": "Reference [33].",
+          "value": "Iemocap: Interactive emotional dyadic motion capture database"
+        }
+      },
+      {
+        "name": {
+          "quote": "we use the AST model pre-trained on ImageNet-21K and AudioSet",
+          "justification": "Pre-training corpus of the AST checkpoint used.",
+          "value": "ImageNet-21K"
+        },
+        "aliases": [],
+        "role": "referenced",
+        "size": {
+          "quote": "pre-trained on ImageNet-21K and AudioSet",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "pre-trained on ImageNet-21K and AudioSet",
+          "justification": "No reference given.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "we use the AST model pre-trained on ImageNet-21K and AudioSet",
+          "justification": "Pre-training corpus of the AST checkpoint used.",
+          "value": "AudioSet"
+        },
+        "aliases": [],
+        "role": "referenced",
+        "size": {
+          "quote": "pre-trained on ImageNet-21K and AudioSet",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "pre-trained on ImageNet-21K and AudioSet",
+          "justification": "No reference given.",
+          "value": "unknown"
+        }
+      }
+    ],
+    "libraries": [
+      {
+        "name": {
+          "quote": "provided by the Huggingface Transformers library",
+          "justification": "Provided the pre-trained AST model.",
+          "value": "Huggingface Transformers"
+        },
+        "aliases": [
+          "Transformers"
+        ],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "provided by the Huggingface Transformers library",
+          "justification": "No reference entry.",
+          "value": "unknown"
+        }
+      }
+    ],
+    "algorithms": [
+      {
+        "name": {
+          "quote": "Therefore, we propose a new adapter that uses the convolution module as the building block and we call it conformer adapter",
+          "justification": "The paper's proposed adapter design.",
+          "value": "Conformer Adapter"
+        },
+        "aliases": [
+          "conformer adapter",
+          "Conf"
+        ],
+        "is_contributed": {
+          "quote": "we propose a new adapter design that exploits the convolution module of the Conformer model",
+          "justification": "Proposed by the authors.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "Conformer Adapter\nPfeiffer 271K 88.30",
+          "justification": "Trained on all benchmarks.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "our conformer adapter attains the best performance on average",
+          "justification": "Compared with LoRA, bottleneck adapter, FFT etc.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "we propose a new adapter module that relies on the conformer convolution module, making effective use of the depthwise convolution",
+          "justification": "Paper's description.",
+          "value": "the proposed parameter-efficient adapter used to adapt the AST model to downstream tasks"
+        },
+        "composed_of": [
+          "Pointwise Down Conv",
+          "GLU",
+          "Depthwise Conv",
+          "BatchNorm",
+          "Swish",
+          "Pointwise Up Conv"
+        ],
+        "referenced_paper_title": {
+          "quote": "we propose to leverage the key block of the Conformer [28]",
+          "justification": "Based on Conformer convolution module [28].",
+          "value": "Conformer: Convolution-augmented transformer for speech recognition"
+        }
+      },
+      {
+        "name": {
+          "quote": "Another popular method, LoRA (Low-Rank Adaptation), leverages low-rank matrix decomposition of pre-trained weight matrices [10].",
+          "justification": "PETL baseline executed.",
+          "value": "LoRA (Low-Rank Adaptation)"
+        },
+        "aliases": [
+          "LoRA"
+        ],
+        "is_contributed": {
+          "quote": "E. Hu et al., “Lora: Low-rank adaptation of large language models,” in ICLR, 2022.",
+          "justification": "Existing method.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "LoRA 221K 86.45",
+          "justification": "Results reported in tables.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "LoRA achieves good results on average, beating the bottleneck Pfeiffer adapter on 3 out of 4 benchmarks",
+          "justification": "Compared to other PETL methods.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "LoRA introduces trainable low-rank matrices into transformer layers to approximate the weight updates.",
+          "justification": "Paper's words.",
+          "value": "introduces trainable low-rank matrices into transformer layers to approximate the weight updates"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "E. Hu et al., “Lora: Low-rank adaptation of large language models,” in ICLR, 2022.",
+          "justification": "Reference [10].",
+          "value": "Lora: Low-rank adaptation of large language models"
+        }
+      },
+      {
+        "name": {
+          "quote": "We refer to this design as bottleneck adapter and it is the established choice in the NLP domain",
+          "justification": "Standard adapter baseline.",
+          "value": "Bottleneck Adapter"
+        },
+        "aliases": [
+          "Bottle",
+          "Bottleneck"
+        ],
+        "is_contributed": {
+          "quote": "Bottleneck Adapter [23, 24].",
+          "justification": "Existing method.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Bottleneck Adapter\nPfeiffer 249K 88.38",
+          "justification": "Results reported.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "our proposed conformer adapter provides considerable improvements over the bottleneck adapter",
+          "justification": "Compared against conformer adapter.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "Adapters are light subnetworks that are inserted into every transformer layer.",
+          "justification": "Paper's words.",
+          "value": "light sub-networks with a bottleneck architecture inserted into every transformer layer for parameter-efficient adaptation"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "N. Houlsby et al., “Parameter-efficient transfer learning for nlp,” in ICML, 2019.",
+          "justification": "Reference [23].",
+          "value": "Parameter-efficient transfer learning for nlp"
+        }
+      },
+      {
+        "name": {
+          "quote": "the adapter can be inserted only after the FF block, (Pfeiffer [24])",
+          "justification": "Adapter placement configuration.",
+          "value": "Pfeiffer"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "J. Pfeiffer et al., “Adapterfusion: Non-destructive task composition for transfer learning,” in EACL, 2021.",
+          "justification": "Existing configuration.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "each adapter module is added in parallel to only the MHSA layer (Pfeiffer)",
+          "justification": "Used in experiments.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "the Houlsby configuration leads to better results for speech classification tasks",
+          "justification": "Compared with Houlsby configuration.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "each adapter module is added in parallel to only the MHSA layer (Pfeiffer)",
+          "justification": "Paper's words.",
+          "value": "adapter configuration where the adapter is added in parallel to only the MHSA layer"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "J. Pfeiffer et al., “Adapterfusion: Non-destructive task composition for transfer learning,” in EACL, 2021.",
+          "justification": "Reference [24].",
+          "value": "Adapterfusion: Non-destructive task composition for transfer learning"
+        }
+      },
+      {
+        "name": {
+          "quote": "or after both the MHSA and FF blocks (Houlsby [23])",
+          "justification": "Adapter placement configuration.",
+          "value": "Houlsby"
+        },
+        "aliases": [
+          "Houslby"
+        ],
+        "is_contributed": {
+          "quote": "N. Houlsby et al., “Parameter-efficient transfer learning for nlp,” in ICML, 2019.",
+          "justification": "Existing configuration.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Houlsby 498K 88.00",
+          "justification": "Reported results.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Houlsby adapters require twice as many parameters as Pfeiffer",
+          "justification": "Compared to Pfeiffer.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "both the MHSA and FF layers (Houslby)",
+          "justification": "Paper's words.",
+          "value": "adapter configuration where the adapter is added to both the MHSA and FF layers"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "N. Houlsby et al., “Parameter-efficient transfer learning for nlp,” in ICML, 2019.",
+          "justification": "Reference [23].",
+          "value": "Parameter-efficient transfer learning for nlp"
+        }
+      },
+      {
+        "name": {
+          "quote": "we consider the “shallow” prompt-tuning version (SPT) where all the prompts are prepended to the first transformer layer",
+          "justification": "Baseline PETL method.",
+          "value": "shallow prompt-tuning (SPT)"
+        },
+        "aliases": [
+          "SPT",
+          "SPT-300"
+        ],
+        "is_contributed": {
+          "quote": "Prompt-tuning [8, 9], instead, prepends the prompts in the input space after the projection layer.",
+          "justification": "Existing method.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "SPT-300 230K 84.30",
+          "justification": "Reported results.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "SPT-300 230K 84.30",
+          "justification": "Compared in Table 1.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "where all the prompts are prepended to the first transformer layer",
+          "justification": "Paper's words.",
+          "value": "prepends all prompts to the first transformer layer"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "M. Jia et al., “Visual prompt tuning,” in ECCV, 2022.",
+          "justification": "Reference [9] used for the shallow/deep distinction.",
+          "value": "Visual prompt tuning"
+        }
+      },
+      {
+        "name": {
+          "quote": "and the “deep” version (DPT) by prepending the prompts uniformly to each transformer layer",
+          "justification": "Baseline PETL method.",
+          "value": "deep prompt-tuning (DPT)"
+        },
+        "aliases": [
+          "DPT",
+          "DPT-25"
+        ],
+        "is_contributed": {
+          "quote": "Following [9], we consider the “shallow” prompt-tuning version (SPT) ... and the “deep” version (DPT)",
+          "justification": "Existing method.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "DPT-25 230K 86.52",
+          "justification": "Reported results.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "DPT-25 230K 86.52",
+          "justification": "Compared in tables and figures.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "by prepending the prompts uniformly to each transformer layer",
+          "justification": "Paper's words.",
+          "value": "prepends prompts uniformly to each transformer layer"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "M. Jia et al., “Visual prompt tuning,” in ECCV, 2022.",
+          "justification": "Reference [9].",
+          "value": "Visual prompt tuning"
+        }
+      },
+      {
+        "name": {
+          "quote": "Prefix-tuning [22] inserts p learnable continuous embeddings of dimension d (i.e., prompts) to the keys and values of the MHSA block at every layer.",
+          "justification": "Baseline PETL method.",
+          "value": "Prefix-tuning"
+        },
+        "aliases": [
+          "Pref-T"
+        ],
+        "is_contributed": {
+          "quote": "X. Li and P. Liang, “Prefix-tuning: Optimizing continuous prompts for generation,” arXiv preprint arXiv:2101.00190, 2021.",
+          "justification": "Existing method.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Pref-T 24 221K 82.93",
+          "justification": "Reported results.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Pref-T 24 221K 82.93",
+          "justification": "Compared in Table 1.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "inserts p learnable continuous embeddings of dimension d (i.e., prompts) to the keys and values of the MHSA block at every layer",
+          "justification": "Paper's words.",
+          "value": "inserts learnable continuous embeddings to the keys and values of the MHSA block at every layer"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "X. Li and P. Liang, “Prefix-tuning: Optimizing continuous prompts for generation,” arXiv preprint arXiv:2101.00190, 2021.",
+          "justification": "Reference [22].",
+          "value": "Prefix-tuning: Optimizing continuous prompts for generation"
+        }
+      },
+      {
+        "name": {
+          "quote": "and BitFit [34], which is a common baseline that fine-tunes only the bias terms of the pre-trained backbone",
+          "justification": "Baseline PETL method.",
+          "value": "BitFit"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "E. Zaken, S. Ravfogel, and Y. Goldberg, “Bitfit: Simple parameter-efficient fine-tuning for transformerbased masked language-models,”",
+          "justification": "Existing method.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "BitFit 102K 86.05",
+          "justification": "Reported results.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "BitFit 102K 86.05",
+          "justification": "Compared in Table 1.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "a common baseline that fine-tunes only the bias terms of the pre-trained backbone",
+          "justification": "Paper's words.",
+          "value": "fine-tunes only the bias terms of the pre-trained backbone"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "E. Zaken, S. Ravfogel, and Y. Goldberg, “Bitfit: Simple parameter-efficient fine-tuning for transformerbased masked language-models,” arXiv preprint arXiv:2106.10199, 2021.",
+          "justification": "Reference [34].",
+          "value": "Bitfit: Simple parameter-efficient fine-tuning for transformer-based masked language-models"
+        }
+      },
+      {
+        "name": {
+          "quote": "We include the full fine-tuning method (FFT), which finetunes the full pre-trained AST model",
+          "justification": "Baseline.",
+          "value": "full fine-tuning (FFT)"
+        },
+        "aliases": [
+          "FFT"
+        ],
+        "is_contributed": {
+          "quote": "We include the full fine-tuning method (FFT)",
+          "justification": "Standard baseline.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "FFT 85M 87.48",
+          "justification": "Results in Table 1 and 3.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "surpassing or achieving performance parity with full fine-tuning",
+          "justification": "Compared against PETL methods.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "which finetunes the full pre-trained AST model",
+          "justification": "Paper's words.",
+          "value": "finetunes the full pre-trained AST model"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "We include the full fine-tuning method (FFT)",
+          "justification": "No single reference.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "and linear probing, which only fine-tunes the classification head",
+          "justification": "Baseline.",
+          "value": "linear probing"
+        },
+        "aliases": [
+          "Linear"
+        ],
+        "is_contributed": {
+          "quote": "linear probing, which only fine-tunes the classification head",
+          "justification": "Standard baseline.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Linear 9/40K 75.85",
+          "justification": "Results reported.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Linear 9/40K 75.85",
+          "justification": "Compared in Table 1.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "linear probing, which only fine-tunes the classification head",
+          "justification": "Paper's words.",
+          "value": "only fine-tunes the classification head"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "linear probing, which only fine-tunes the classification head",
+          "justification": "No reference.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "For all datasets, we use AdamW optimizer with cosine annealing scheduler and weight decay set to 0.1.",
+          "justification": "Optimizer used.",
+          "value": "AdamW"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "we use AdamW optimizer",
+          "justification": "Standard optimizer.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "For all datasets, we use AdamW optimizer",
+          "justification": "Used in all training runs.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "we use AdamW optimizer with cosine annealing scheduler",
+          "justification": "Not compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "For all datasets, we use AdamW optimizer with cosine annealing scheduler and weight decay set to 0.1.",
+          "justification": "Paper's words.",
+          "value": "optimizer used for all datasets"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "we use AdamW optimizer",
+          "justification": "No reference.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "we use AdamW optimizer with cosine annealing scheduler",
+          "justification": "LR schedule used.",
+          "value": "cosine annealing scheduler"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "with cosine annealing scheduler",
+          "justification": "Standard.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "For all datasets, we use AdamW optimizer with cosine annealing scheduler",
+          "justification": "Used in training.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "with cosine annealing scheduler",
+          "justification": "Not compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "we use AdamW optimizer with cosine annealing scheduler and weight decay set to 0.1",
+          "justification": "Paper's words.",
+          "value": "learning rate scheduler used for all datasets"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "cosine annealing scheduler",
+          "justification": "No reference.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "weight decay set to 0.1",
+          "justification": "Regularisation procedure stated.",
+          "value": "weight decay"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "weight decay set to 0.1",
+          "justification": "Standard.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "with cosine annealing scheduler and weight decay set to 0.1",
+          "justification": "Applied in training.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "weight decay set to 0.1",
+          "justification": "Not compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "weight decay set to 0.1",
+          "justification": "Paper's words.",
+          "value": "regularisation applied during training"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "weight decay set to 0.1",
+          "justification": "No reference.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "For the ESC and US8K datasets, we run 5-fold and 10-fold cross-validation as suggested in the original papers.",
+          "justification": "Evaluation procedure for ESC and US8K.",
+          "value": "5-fold and 10-fold cross-validation"
+        },
+        "aliases": [
+          "cross-validation"
+        ],
+        "is_contributed": {
+          "quote": "we run 5-fold and 10-fold cross-validation as suggested in the original papers",
+          "justification": "Standard evaluation protocol.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "For the ESC and US8K datasets, we run 5-fold and 10-fold cross-validation",
+          "justification": "Executed for ESC and US8K.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "we run 5-fold and 10-fold cross-validation",
+          "justification": "Not compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "For the ESC and US8K datasets, we run 5-fold and 10-fold cross-validation as suggested in the original papers.",
+          "justification": "Paper's words.",
+          "value": "evaluation protocol for the ESC and US8K datasets"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "as suggested in the original papers",
+          "justification": "No reference.",
+          "value": "unknown"
+        }
+      }
+    ],
+    "runs": [
+      {
+        "models": [
+          {
+            "name": "Audio Spectrogram Transformer",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "ESC-50",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          },
+          {
+            "name": "UrbanSound8K",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          },
+          {
+            "name": "Speech Commands V2",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          },
+          {
+            "name": "Fluent Speech Commands",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "full fine-tuning (FFT)"
+          },
+          {
+            "name": "linear probing"
+          },
+          {
+            "name": "BitFit"
+          },
+          {
+            "name": "shallow prompt-tuning (SPT)"
+          },
+          {
+            "name": "deep prompt-tuning (DPT)"
+          },
+          {
+            "name": "Prefix-tuning"
+          },
+          {
+            "name": "LoRA (Low-Rank Adaptation)"
+          },
+          {
+            "name": "Bottleneck Adapter"
+          },
+          {
+            "name": "Conformer Adapter"
+          },
+          {
+            "name": "Pfeiffer"
+          },
+          {
+            "name": "Houlsby"
+          },
+          {
+            "name": "AdamW"
+          },
+          {
+            "name": "cosine annealing scheduler"
+          },
+          {
+            "name": "weight decay"
+          },
+          {
+            "name": "5-fold and 10-fold cross-validation"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "We include the full fine-tuning method (FFT), which finetunes the full pre-trained AST model",
+          "justification": "Pre-trained AST adapted to downstream tasks.",
+          "value": "finetune"
+        },
+        "epochs": {
+          "quote": "The code and the complete list of hyper-parameters will be released upon acceptance.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "The model has around 85.5 million parameters, 12 layers, and the hidden size is 768.",
+          "justification": "Stated for AST.",
+          "value": "around 85.5 million parameters"
+        },
+        "accelerator_type": {
+          "quote": "Each experiment is carried out using a single A40/V100 GPU.",
+          "justification": "A40/V100 GPU.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "Each experiment is carried out using a single A40/V100 GPU.",
+          "justification": "Stated.",
+          "value": "A40/V100"
+        },
+        "accelerator_count": {
+          "quote": "Each experiment is carried out using a single A40/V100 GPU.",
+          "justification": "Single GPU per experiment.",
+          "value": "1"
+        },
+        "precision": {
+          "quote": "Each experiment is carried out using a single A40/V100 GPU.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "Each experiment is carried out using a single A40/V100 GPU.",
+          "justification": "Not stated; single GPU.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "Each experiment is carried out using a single A40/V100 GPU.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "Each experiment is carried out using a single A40/V100 GPU.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "For the ESC and US8K datasets, we run 5-fold and 10-fold cross-validation as suggested in the original papers.",
+          "justification": "Only cross-validation folds mentioned, not total repetitions.",
+          "value": "unknown"
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "Audio Spectrogram Transformer",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "ESC-50",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          },
+          {
+            "name": "Speech Commands V2",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "deep prompt-tuning (DPT)"
+          },
+          {
+            "name": "LoRA (Low-Rank Adaptation)"
+          },
+          {
+            "name": "Bottleneck Adapter"
+          },
+          {
+            "name": "Conformer Adapter"
+          },
+          {
+            "name": "Pfeiffer"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "We evaluate our proposed adapters for few-shot parameter-efficient transfer learning.",
+          "justification": "Few-shot adaptation of the pre-trained AST.",
+          "value": "finetune"
+        },
+        "epochs": {
+          "quote": "We report the accuracy results for ESC (4 samples) and GSC (32 samples) in Table 2.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "The model has around 85.5 million parameters, 12 layers, and the hidden size is 768.",
+          "justification": "AST backbone size stated.",
+          "value": "around 85.5 million parameters"
+        },
+        "accelerator_type": {
+          "quote": "Each experiment is carried out using a single A40/V100 GPU.",
+          "justification": "All experiments on GPU.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "Each experiment is carried out using a single A40/V100 GPU.",
+          "justification": "Stated.",
+          "value": "A40/V100"
+        },
+        "accelerator_count": {
+          "quote": "Each experiment is carried out using a single A40/V100 GPU.",
+          "justification": "Single GPU.",
+          "value": "1"
+        },
+        "precision": {
+          "quote": "Each experiment is carried out using a single A40/V100 GPU.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "Each experiment is carried out using a single A40/V100 GPU.",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "Each experiment is carried out using a single A40/V100 GPU.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "Each experiment is carried out using a single A40/V100 GPU.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "We report the accuracy results for ESC (4 samples) and GSC (32 samples) in Table 2.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "Wav2Vec 2.0",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Speech Commands V2",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          },
+          {
+            "name": "Fluent Speech Commands",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          },
+          {
+            "name": "IEMOCAP",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "full fine-tuning (FFT)"
+          },
+          {
+            "name": "linear probing"
+          },
+          {
+            "name": "Bottleneck Adapter"
+          },
+          {
+            "name": "Conformer Adapter"
+          },
+          {
+            "name": "Pfeiffer"
+          },
+          {
+            "name": "AdamW"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "we want to verify whether the proposed conformer adapter can be efficiently harnessed for another pre-trained model. In this direction, we consider Wav2Vec 2.0 [35].",
+          "justification": "Adapters applied to pre-trained Wav2Vec 2.0.",
+          "value": "finetune"
+        },
+        "epochs": {
+          "quote": "We test the bottleneck and conformer adapters on FSC and GSC, as well as IEMOCAP",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "It has around 94M parameters and the same number of layers and hidden size as AST.",
+          "justification": "Stated for Wav2Vec 2.0.",
+          "value": "around 94M parameters"
+        },
+        "accelerator_type": {
+          "quote": "Each experiment is carried out using a single A40/V100 GPU.",
+          "justification": "All experiments on GPU.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "Each experiment is carried out using a single A40/V100 GPU.",
+          "justification": "Stated.",
+          "value": "A40/V100"
+        },
+        "accelerator_count": {
+          "quote": "Each experiment is carried out using a single A40/V100 GPU.",
+          "justification": "Single GPU.",
+          "value": "1"
+        },
+        "precision": {
+          "quote": "Each experiment is carried out using a single A40/V100 GPU.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "Each experiment is carried out using a single A40/V100 GPU.",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "Each experiment is carried out using a single A40/V100 GPU.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "Each experiment is carried out using a single A40/V100 GPU.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "We test the bottleneck and conformer adapters on FSC and GSC, as well as IEMOCAP",
+          "justification": "Not stated.",
+          "value": "unknown"
+        }
+      }
+    ]
+  },
+  "usage": {
+    "input_tokens": 22337,
+    "output_tokens": 14601,
+    "total_tokens": 36938
+  }
+}

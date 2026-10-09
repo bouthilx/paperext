@@ -1,0 +1,1844 @@
+{
+  "paper": "69a5fd7a48887d403d0a5273.txt",
+  "words": 21434,
+  "extractions": {
+    "title": {
+      "quote": "Implicit Diffusion: Efficient optimization through stochastic sampling",
+      "justification": "Title on first page",
+      "value": "Implicit Diffusion: Efficient optimization through stochastic sampling"
+    },
+    "description": "The paper introduces Implicit Diffusion, a single-loop first-order optimization algorithm for optimizing through parameterized stochastic sampling processes (Langevin dynamics, denoising diffusion). It provides theoretical convergence guarantees and experiments on reward training of Langevin processes (Gaussian mixtures) and reward finetuning of denoising diffusion models pretrained on MNIST, CIFAR-10 and LSUN.",
+    "type": {
+      "quote": "We provide theoretical and experimental results showcasing the performance of our method.",
+      "justification": "Paper has both theorems and experiments; it mixes both but includes substantial empirical validation.",
+      "value": "empirical"
+    },
+    "research_fields": [
+      {
+        "name": {
+          "quote": "Sampling and automatic differentiation are both ubiquitous in modern machine learning.",
+          "justification": "General ML / optimization through sampling is the core contribution.",
+          "value": "Machine learning"
+        },
+        "aliases": [
+          "ML"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "This approach is inspired by recent advances in bilevel optimization and automatic implicit differentiation",
+          "justification": "The paper connects to and advances bilevel optimization methodology.",
+          "value": "Bilevel optimization"
+        },
+        "aliases": [],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "Sampling from a target distribution is a ubiquitous task at the heart of various methods in machine learning, optimization, and statistics.",
+          "justification": "Sampling methods (Langevin, diffusion) are central.",
+          "value": "Sampling"
+        },
+        "aliases": [
+          "stochastic sampling"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "We also apply Implicit Diffusion for reward finetuning of denoising diffusion models pretrained on image datasets.",
+          "justification": "Generative image modeling used as experimental venue.",
+          "value": "Generative modeling / denoising diffusion models"
+        },
+        "aliases": [
+          "denoising diffusion"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "We report results on models pretrained on the image datasets MNIST (LeCun and Cortes, 1998), CIFAR-10 (Krizhevsky, 2009), and LSUN (bedrooms)",
+          "justification": "Image generation is the application venue.",
+          "value": "Computer vision / image generation"
+        },
+        "aliases": [],
+        "role": "used"
+      }
+    ],
+    "models": [
+      {
+        "name": {
+          "quote": "For MNIST, we use a 2.5M parameters model (no label conditioning).",
+          "justification": "The MNIST pretrained denoising diffusion model, implemented with a U-Net.",
+          "value": "denoising diffusion model (MNIST, 2.5M parameters)"
+        },
+        "aliases": [
+          "MNIST diffusion model"
+        ],
+        "is_contributed": {
+          "quote": "For MNIST, we use a 2.5M parameters model (no label conditioning).",
+          "justification": "Standard diffusion model pretrained by the authors, not a contributed model architecture.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We pretrain for 18k steps in 7 minutes on 4 TPUv2.",
+          "justification": "Pretrained and finetuned on TPUs by the authors.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "We report selected samples of π ⋆ (θt ), as well as reward and KL divergence estimates",
+          "justification": "Reward/KL curves compared across hyperparameters, not against other models.",
+          "value": false
+        },
+        "execution_mode": {
+          "quote": "We pretrain for 18k steps in 7 minutes on 4 TPUv2. For reward training, we train on a TPUv2 for 4 hours",
+          "justification": "Trained from scratch by the authors.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "O. Ronneberger, P. Fischer, and T. Brox. U-net: Convolutional networks for biomedical image segmentation.",
+          "justification": "The architecture used is a U-Net.",
+          "value": "U-net: Convolutional networks for biomedical image segmentation"
+        }
+      },
+      {
+        "name": {
+          "quote": "For CIFAR-10 and LSUN, we pretrain a 53.2M parameters model, with label conditioning for CIFAR-10.",
+          "justification": "Separate pretrained diffusion model at 53.2M scale.",
+          "value": "denoising diffusion model (CIFAR-10 / LSUN, 53.2M parameters)"
+        },
+        "aliases": [
+          "CIFAR-10 diffusion model",
+          "LSUN diffusion model"
+        ],
+        "is_contributed": {
+          "quote": "For pretraining, we follow the simple diffusion method (Hoogeboom et al., 2023) and use U-Net models (Ronneberger et al., 2015).",
+          "justification": "Standard architecture/pretraining recipe from prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "For CIFAR-10, we pretrain for 500k steps in 30 hours on 16 TPUv2, reaching an FID score (Heusel et al., 2017) of 2.5.",
+          "justification": "Pretrained and finetuned by the authors on TPUs.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "reaching an FID score (Heusel et al., 2017) of 2.5",
+          "justification": "FID reported but not compared numerically to other models.",
+          "value": false
+        },
+        "execution_mode": {
+          "quote": "For CIFAR-10, we pretrain for 500k steps in 30 hours on 16 TPUv2",
+          "justification": "Trained from scratch.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "E. Hoogeboom, J. Heek, and T. Salimans. simple diffusion: End-to-end diffusion for high resolution images.",
+          "justification": "Pretraining follows simple diffusion.",
+          "value": "simple diffusion: End-to-end diffusion for high resolution images"
+        }
+      },
+      {
+        "name": {
+          "quote": "We consider a parameterized family of potentials for x ∈ R2 and θ ∈ R6 defined by V (x, θ) = − log ...",
+          "justification": "The parameterized potential / energy-based model used in Langevin experiments has learned parameters theta.",
+          "value": "energy-based model (parameterized potential V (·, θ))"
+        },
+        "aliases": [
+          "Gaussian mixture potential",
+          "EBM"
+        ],
+        "is_contributed": {
+          "quote": "a variant of this experiment where we learn a reference distribution (i.e., train from scratch an energy-based model)",
+          "justification": "Standard EBM setup used as test bed, not contributed.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We train for K = 40, 000 steps with a batch of size 1, 000.",
+          "justification": "Trained in the experiments.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "We run six sampling algorithms, including the infinite time-horizon version of Implicit Diffusion (Algorithm 2)",
+          "justification": "Compared across algorithms using the same model.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "We train for K = 40, 000 steps with a batch of size 1, 000.",
+          "justification": "Parameters theta are optimized from scratch.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "M. U. Gutmann and A. Hyvärinen. Noise-contrastive estimation of unnormalized statistical models, with applications to natural image statistics.",
+          "justification": "Energy-based model contrastive learning reference.",
+          "value": "Noise-contrastive estimation of unnormalized statistical models, with applications to natural image statistics"
+        }
+      }
+    ],
+    "data_sources": [
+      {
+        "name": {
+          "quote": "We report results on models pretrained on the image datasets MNIST (LeCun and Cortes, 1998)",
+          "justification": "MNIST used for pretraining a diffusion model.",
+          "value": "MNIST"
+        },
+        "aliases": [],
+        "role": "used",
+        "size": {
+          "quote": "We report results on models pretrained on the image datasets MNIST (LeCun and Cortes, 1998)",
+          "justification": "Paper does not state number of samples.",
+          "value": "unknown"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "Y. LeCun and C. Cortes. MNIST handwritten digit database, 1998.",
+          "justification": "Reference listed.",
+          "value": "MNIST handwritten digit database"
+        }
+      },
+      {
+        "name": {
+          "quote": "CIFAR-10 (Krizhevsky, 2009)",
+          "justification": "Used to pretrain diffusion model.",
+          "value": "CIFAR-10"
+        },
+        "aliases": [],
+        "role": "used",
+        "size": {
+          "quote": "Number of samples for FID evaluation 50k",
+          "justification": "Dataset size not stated; only FID sample count.",
+          "value": "unknown"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "A. Krizhevsky. Learning multiple layers of features from tiny images.",
+          "justification": "Reference listed.",
+          "value": "Learning multiple layers of features from tiny images"
+        }
+      },
+      {
+        "name": {
+          "quote": "and LSUN (bedrooms) (Yu et al., 2016)",
+          "justification": "Used for pretraining.",
+          "value": "LSUN (bedrooms)"
+        },
+        "aliases": [
+          "LSUN"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "and LSUN (bedrooms) (Yu et al., 2016)",
+          "justification": "Size not stated.",
+          "value": "unknown"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "F. Yu, A. Seff, Y. Zhang, S. Song, T. Funkhouser, and J. Xiao. Lsun: Construction of a large-scale image dataset using deep learning with humans in the loop.",
+          "justification": "Reference listed.",
+          "value": "Lsun: Construction of a large-scale image dataset using deep learning with humans in the loop"
+        }
+      }
+    ],
+    "libraries": [
+      {
+        "name": {
+          "quote": "we provide an implementation of our algorithm in JAX (Bradbury et al., 2018).",
+          "justification": "Code implemented in JAX.",
+          "value": "JAX"
+        },
+        "aliases": [],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "J. Bradbury, R. Frostig, P. Hawkins, M. J. Johnson, C. Leary, D. Maclaurin, G. Necula, A. Paszke, J. VanderPlas, S. Wanderman-Milne, and Q. Zhang. JAX: composable transformations of Python+NumPy programs, 2018.",
+          "justification": "Reference listed.",
+          "value": "JAX: composable transformations of Python+NumPy programs"
+        }
+      }
+    ],
+    "algorithms": [
+      {
+        "name": {
+          "quote": "we introduce the algorithm of Implicit Diffusion, an effective and principled technique for optimizing through a sampling operation.",
+          "justification": "The paper's contributed single-loop algorithm.",
+          "value": "Implicit Diffusion"
+        },
+        "aliases": [
+          "Implicit Diffusion optimization",
+          "Algorithm 2",
+          "Algorithm 3"
+        ],
+        "is_contributed": {
+          "quote": "We present a general framework describing parameterized sampling algorithms, and introduce Implicit Diffusion optimization, a single-loop optimization algorithm to optimize through sampling.",
+          "justification": "Main contribution.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "We run Implicit Diffusion using the finite time-horizon variant (Algorithm 3), applying the adjoint method on SDEs for gradient estimation.",
+          "justification": "Run in experiments.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "We compare our approach with several baselines.",
+          "justification": "Compared with nested loop, unrolling, guidance baselines.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "a single-loop optimization algorithm to optimize through sampling",
+          "justification": "Its role per the paper.",
+          "value": "a single-loop optimization algorithm to optimize through sampling"
+        },
+        "composed_of": [
+          "queuing trick",
+          "adjoint method"
+        ],
+        "referenced_paper_title": {
+          "quote": "Implicit Diffusion: Efficient optimization through stochastic sampling",
+          "justification": "Contributed in this paper.",
+          "value": "N/A"
+        }
+      },
+      {
+        "name": {
+          "quote": "Algorithm 1 Vanilla nested-loop approach (Baseline)",
+          "justification": "Baseline algorithm executed.",
+          "value": "Vanilla nested-loop approach"
+        },
+        "aliases": [
+          "nested loop",
+          "Algorithm 1"
+        ],
+        "is_contributed": {
+          "quote": "Algorithm 1 formalizes this baseline.",
+          "justification": "Baseline, not contribution.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "♦ ♦ Nested loop (Algorithm 1) with T inner sampling steps for each gradient step.",
+          "justification": "Run as baseline.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "When comparing in terms of number of gradient evaluations, Implicit Diffusion strongly outperforms the nested loop approach.",
+          "justification": "Compared numerically.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "at each optimization step k, run an inner loop for a large number T of steps of Σs to produce π̂k ≈ π ⋆ (θk ), and use it to evaluate a gradient",
+          "justification": "Baseline optimization through sampling.",
+          "value": "baseline that runs an inner sampling loop at each optimization step"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Algorithm 1 formalizes this baseline.",
+          "justification": "No specific reference.",
+          "value": "N/A"
+        }
+      },
+      {
+        "name": {
+          "quote": "▲ ▲ Unrolling through the last step of sampling with T inner sampling steps for each outer step.",
+          "justification": "Baseline method executed.",
+          "value": "Unrolling through the last step of sampling"
+        },
+        "aliases": [
+          "unrolling"
+        ],
+        "is_contributed": {
+          "quote": "Recent studies show that differentiating through the last sampling step is an efficient and theoretically-grounded method in bilevel optimization (Bolte et al., 2023).",
+          "justification": "From prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "For each optimization step, we perform T sampling steps, then differentiate through the last step of sampling by automatic differentiation.",
+          "justification": "Run as baseline.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "unrolling through the last step of sampling (▲, ▲) leads to much slower optimization",
+          "justification": "Compared.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "For each optimization step, we perform T sampling steps, then differentiate through the last step of sampling by automatic differentiation.",
+          "justification": "Baseline gradient estimation.",
+          "value": "baseline that differentiates through the last sampling step"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "J. Bolte, E. Pauwels, and S. Vaiter. One-step differentiation of iterative algorithms.",
+          "justification": "Cited for this method.",
+          "value": "One-step differentiation of iterative algorithms"
+        }
+      },
+      {
+        "name": {
+          "quote": "The adjoint method allows computing gradients through differential equation solvers (Pontryagin, 1987; Li et al., 2020)",
+          "justification": "Used for gradient estimation in diffusion experiments.",
+          "value": "adjoint method"
+        },
+        "aliases": [
+          "differential adjoint method"
+        ],
+        "is_contributed": {
+          "quote": "The adjoint method allows computing gradients through differential equation solvers (Pontryagin, 1987; Li et al., 2020), applying in particular for denoising diffusion.",
+          "justification": "Known method.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We run Implicit Diffusion using the finite time-horizon variant (Algorithm 3), applying the adjoint method on SDEs for gradient estimation.",
+          "justification": "Used in experiments.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "applying the adjoint method on SDEs for gradient estimation",
+          "justification": "Used but not compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "applying the adjoint method on SDEs for gradient estimation",
+          "justification": "Its role.",
+          "value": "gradient estimation through the sampling SDE"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "X. Li, T.-K. L. Wong, R. T. Q. Chen, and D. K. Duvenaud. Scalable gradients and variational inference for stochastic differential equations.",
+          "justification": "Reference for adjoint on SDEs.",
+          "value": "Scalable gradients and variational inference for stochastic differential equations"
+        }
+      },
+      {
+        "name": {
+          "quote": "Langevin diffusion (5) with potential V (·, θ0 ) for some fixed θ0 ∈ Rp , no reward.",
+          "justification": "Sampling procedure executed.",
+          "value": "Langevin diffusion"
+        },
+        "aliases": [
+          "Langevin dynamics",
+          "Langevin Monte Carlo"
+        ],
+        "is_contributed": {
+          "quote": "Langevin dynamics. They are defined by the stochastic differential equation (SDE) (Roberts and Tweedie, 1996)",
+          "justification": "Classical method.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "This is the discrete-time process (a Langevin Monte Carlo process) approximating a Langevin diffusion with potential V (·, θ0 )",
+          "justification": "Run in experiments.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "We run six sampling algorithms, including the infinite time-horizon version of Implicit Diffusion (Algorithm 2)",
+          "justification": "Compared against Implicit Diffusion.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "Langevin diffusion (5) with potential V (·, θ0 ) for some fixed θ0 ∈ Rp , no reward.",
+          "justification": "Sampling baseline.",
+          "value": "sampling process / baseline sampler"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "G. O. Roberts and R. L. Tweedie. Exponential convergence of langevin distributions and their discrete approximations.",
+          "justification": "Cited reference.",
+          "value": "Exponential convergence of langevin distributions and their discrete approximations"
+        }
+      },
+      {
+        "name": {
+          "quote": "This computation is sometimes referred to as the REINFORCE trick (Williams, 1992).",
+          "justification": "Named gradient estimator used for Langevin reward gradients.",
+          "value": "REINFORCE trick"
+        },
+        "aliases": [
+          "REINFORCE"
+        ],
+        "is_contributed": {
+          "quote": "This computation is sometimes referred to as the REINFORCE trick (Williams, 1992).",
+          "justification": "Known.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Γrew (p, θ) = CovX∼p [R(X), ∇2 V (X, θ)] .",
+          "justification": "Used in the Langevin reward experiments.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "This computation is sometimes referred to as the REINFORCE trick (Williams, 1992).",
+          "justification": "Not compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "This computation is sometimes referred to as the REINFORCE trick (Williams, 1992).",
+          "justification": "Used to derive gradient estimator Gamma.",
+          "value": "derivation of the gradient estimator for reward objectives"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "R. J. Williams. Simple statistical gradient-following algorithms for connectionist reinforcement learning.",
+          "justification": "Reference listed.",
+          "value": "Simple statistical gradient-following algorithms for connectionist reinforcement learning"
+        }
+      },
+      {
+        "name": {
+          "quote": "This is known as contrastive learning when pref is given by data",
+          "justification": "Named procedure for EBM training.",
+          "value": "contrastive learning"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "This case corresponds to training energy-based models (Gutmann and Hyvärinen, 2012).",
+          "justification": "Known procedure.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "a variant of this experiment where we learn a reference distribution (i.e., train from scratch an energy-based model) are included in Appendix C",
+          "justification": "Executed in the training-from-scratch experiment.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "We use Implicit Diffusion where the reward is the KL between the target distribution and the current one.",
+          "justification": "Not compared numerically to other algorithms.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "This is known as contrastive learning when pref is given by data, and suggests taking Γ as ...",
+          "justification": "Its role in the paper.",
+          "value": "gradient formula for training energy-based models towards a reference distribution"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "M. U. Gutmann and A. Hyvärinen. Noise-contrastive estimation of unnormalized statistical models, with applications to natural image statistics.",
+          "justification": "Cited.",
+          "value": "Noise-contrastive estimation of unnormalized statistical models, with applications to natural image statistics"
+        }
+      },
+      {
+        "name": {
+          "quote": "Optimizer Adam with standard hyperparameters",
+          "justification": "Optimizer used.",
+          "value": "Adam"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "We use the Adam optimizer (Kingma and Ba, 2015)",
+          "justification": "Standard optimizer.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We use the Adam optimizer (Kingma and Ba, 2015), with various values for the learning rate",
+          "justification": "Used in training.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "We use the Adam optimizer (Kingma and Ba, 2015)",
+          "justification": "Not compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "We use the Adam optimizer (Kingma and Ba, 2015), with various values for the learning rate (see e.g. Figure 7).",
+          "justification": "Parameter update rule.",
+          "value": "optimizer for parameter updates"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "D. Kingma and J. Ba. Adam: A method for stochastic optimization.",
+          "justification": "Reference listed.",
+          "value": "Adam: A method for stochastic optimization"
+        }
+      },
+      {
+        "name": {
+          "quote": "For pretraining, we follow the simple diffusion method (Hoogeboom et al., 2023)",
+          "justification": "Named pretraining procedure.",
+          "value": "simple diffusion"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "we follow the simple diffusion method (Hoogeboom et al., 2023)",
+          "justification": "From prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "For pretraining, we follow the simple diffusion method (Hoogeboom et al., 2023) and use U-Net models",
+          "justification": "Used in pretraining runs.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "For pretraining, we follow the simple diffusion method (Hoogeboom et al., 2023)",
+          "justification": "Not compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "For pretraining, we follow the simple diffusion method (Hoogeboom et al., 2023)",
+          "justification": "Pretraining recipe.",
+          "value": "pretraining method for the denoising diffusion models"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "E. Hoogeboom, J. Heek, and T. Salimans. simple diffusion: End-to-end diffusion for high resolution images.",
+          "justification": "Reference listed.",
+          "value": "simple diffusion: End-to-end diffusion for high resolution images"
+        }
+      },
+      {
+        "name": {
+          "quote": "Sampler DDPM",
+          "justification": "Sampler used for pretraining-time sampling on CIFAR-10/LSUN.",
+          "value": "DDPM"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "Sampler DDPM",
+          "justification": "Known sampler.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Sampler DDPM",
+          "justification": "Listed in hyperparameters table of executed pretraining.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Sampler DDPM",
+          "justification": "Not compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "Number of sampling steps 1, 024 Sampler DDPM",
+          "justification": "Sampling scheme.",
+          "value": "sampler used during pretraining evaluation"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "J. Ho, A. Jain, and P. Abbeel. Denoising diffusion probabilistic models.",
+          "justification": "DDPM reference.",
+          "value": "Denoising diffusion probabilistic models"
+        }
+      },
+      {
+        "name": {
+          "quote": "Sampler Euler",
+          "justification": "Euler solver used in sampling/reward training.",
+          "value": "Euler"
+        },
+        "aliases": [
+          "Euler solver"
+        ],
+        "is_contributed": {
+          "quote": "A direct instantiation of Algorithm 3 with an Euler solver is the following algorithm.",
+          "justification": "Standard numerical solver.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Sampler Euler",
+          "justification": "Used in reward training runs.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Sampler Euler",
+          "justification": "Not compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "A direct instantiation of Algorithm 3 with an Euler solver is the following algorithm.",
+          "justification": "Discretization of the sampling SDE/ODE.",
+          "value": "numerical solver for the sampling differential equation"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Sampler Euler",
+          "justification": "No reference given.",
+          "value": "N/A"
+        }
+      },
+      {
+        "name": {
+          "quote": "Noise schedule Cosine (Nichol and Dhariwal, 2021)",
+          "justification": "Named noise schedule.",
+          "value": "Cosine noise schedule"
+        },
+        "aliases": [
+          "Cosine"
+        ],
+        "is_contributed": {
+          "quote": "Noise schedule Cosine (Nichol and Dhariwal, 2021)",
+          "justification": "From prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Noise schedule Cosine (Nichol and Dhariwal, 2021)",
+          "justification": "Used in CIFAR-10/LSUN runs.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Noise schedule Cosine (Nichol and Dhariwal, 2021)",
+          "justification": "Not compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "Noise schedule Cosine (Nichol and Dhariwal, 2021)",
+          "justification": "Component of the sampling/training configuration.",
+          "value": "noise schedule for the diffusion process"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "A. Q. Nichol and P. Dhariwal. Improved denoising diffusion probabilistic models.",
+          "justification": "Reference listed.",
+          "value": "Improved denoising diffusion probabilistic models"
+        }
+      },
+      {
+        "name": {
+          "quote": "we use an Ornstein-Uhlenbeck noise schedule",
+          "justification": "Named noise schedule for MNIST.",
+          "value": "Ornstein-Uhlenbeck noise schedule"
+        },
+        "aliases": [
+          "Ornstein-Uhlenbeck"
+        ],
+        "is_contributed": {
+          "quote": "We use an Ornstein-Uhlenbeck noise schedule, meaning that the forward diffusion is dXt = −Xt dt + √ 2dBt",
+          "justification": "Standard.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Noise schedule Ornstein-Uhlenbeck",
+          "justification": "Used in MNIST runs.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Noise schedule Ornstein-Uhlenbeck",
+          "justification": "Not compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "We use an Ornstein-Uhlenbeck noise schedule, meaning that the forward diffusion is dXt = −Xt dt",
+          "justification": "Forward diffusion specification.",
+          "value": "noise schedule for the MNIST diffusion"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "We use an Ornstein-Uhlenbeck noise schedule",
+          "justification": "No specific reference.",
+          "value": "N/A"
+        }
+      },
+      {
+        "name": {
+          "quote": "the KL divergence between the paths Yt1 and Yt2 is ... by Girsanov’s theorem",
+          "justification": "Named procedure to estimate KL term.",
+          "value": "Girsanov's theorem"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "The KL term in the reward is computed using Girsanov’s theorem as explained in Appendix A.3.",
+          "justification": "Classical result.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "The KL term in the reward is computed using Girsanov’s theorem as explained in Appendix A.3.",
+          "justification": "Used in reward training.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "The KL term in the reward is computed using Girsanov’s theorem",
+          "justification": "Not compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "The KL term in the reward is computed using Girsanov’s theorem as explained in Appendix A.3.",
+          "justification": "Used to compute the KL regularization term.",
+          "value": "computing the KL term in the reward"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "P. Protter. Stochastic integration and differential equations.",
+          "justification": "Cited for Girsanov.",
+          "value": "Stochastic integration and differential equations. A new approach"
+        }
+      },
+      {
+        "name": {
+          "quote": "This is akin to guidance of generative models (Dhariwal and Nichol, 2021).",
+          "justification": "Guidance-like baseline executed (Langevin with reward-guided potential).",
+          "value": "guidance"
+        },
+        "aliases": [
+          "Langevin θ0 + R"
+        ],
+        "is_contributed": {
+          "quote": "This is akin to guidance of generative models (Dhariwal and Nichol, 2021).",
+          "justification": "Known approach used as baseline.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "▼ Langevin (5) with potential V (·, θ0 ) − λRsmooth , where Rsmooth is a smoothed version of R.",
+          "justification": "Run as baseline.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "First, directly adding a reward term (▼) is less efficient: it tends to overfit on the reward",
+          "justification": "Compared.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "it proposes to modify the sampling algorithm, and does not yield new parameters θ",
+          "justification": "Baseline modifying sampling.",
+          "value": "baseline that modifies the sampling scheme with a reward-guided potential"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "P. Dhariwal and A. Nichol. Diffusion models beat GANs on image synthesis.",
+          "justification": "Cited for guidance.",
+          "value": "Diffusion models beat GANs on image synthesis"
+        }
+      },
+      {
+        "name": {
+          "quote": "we leverage hardware parallelism to evaluate in parallel several, say M , steps of the dynamics of the distribution pk , through a queue of length M .",
+          "justification": "Named trick contributed by the paper.",
+          "value": "queuing trick"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "Finite time-horizon: queuing trick.",
+          "justification": "Introduced here as part of Algorithm 3.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "we train on a TPUv2 for 4 hours with a queue of size M = 4, T = 64 steps",
+          "justification": "Used in diffusion experiments.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "we leverage hardware parallelism to evaluate in parallel several, say M , steps of the dynamics",
+          "justification": "Not independently compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "we leverage hardware parallelism to evaluate in parallel several, say M , steps of the dynamics of the distribution pk , through a queue of length M .",
+          "justification": "Its role.",
+          "value": "parallelization of sampling steps in the finite time-horizon algorithm"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Finite time-horizon: queuing trick.",
+          "justification": "Contributed here.",
+          "value": "N/A"
+        }
+      },
+      {
+        "name": {
+          "quote": "reaching an FID score (Heusel et al., 2017) of 2.5",
+          "justification": "Named evaluation metric/procedure.",
+          "value": "FID score"
+        },
+        "aliases": [
+          "FID"
+        ],
+        "is_contributed": {
+          "quote": "reaching an FID score (Heusel et al., 2017) of 2.5",
+          "justification": "Standard metric.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Number of samples for FID evaluation 50k",
+          "justification": "Computed in the pretraining evaluation.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "For LSUN, we pretrain for 13 hours, reaching a FID score of 2.26.",
+          "justification": "Reported, not used to compare methods.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "reaching an FID score (Heusel et al., 2017) of 2.5",
+          "justification": "Evaluation of pretrained model quality.",
+          "value": "evaluation metric for pretrained diffusion models"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "M. Heusel, H. Ramsauer, T. Unterthiner, B. Nessler, and S. Hochreiter. GANs trained by a two time-scale update rule converge to a local nash equilibrium.",
+          "justification": "Cited.",
+          "value": "GANs trained by a two time-scale update rule converge to a local nash equilibrium"
+        }
+      }
+    ],
+    "runs": [
+      {
+        "models": [
+          {
+            "name": "energy-based model (parameterized potential V (·, θ))",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [],
+        "algorithms": [
+          {
+            "name": "Implicit Diffusion"
+          },
+          {
+            "name": "Langevin diffusion"
+          },
+          {
+            "name": "REINFORCE trick"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "Implicit Diffusion with F(p) = −EX∼p [R(X)], yields both a sample p̂K and parameters θopt .",
+          "justification": "Optimizes theta jointly with sampling.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "all starting from p0 = N (0, Id ) and for K = 5, 000 steps",
+          "justification": "Steps given, not epochs.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "V (x, θ) = − log 6 X i=1 σ(θ)i exp −∥x − µi ∥2",
+          "justification": "theta in R^6 but not stated as a parameter count of a model in the usual sense.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "The computing infrastructure is described in Section 5 and Appendix C.",
+          "justification": "No hardware stated for Langevin experiments.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "The computing infrastructure is described in Section 5 and Appendix C.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "The computing infrastructure is described in Section 5 and Appendix C.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "The code was implemented in JAX (Bradbury et al., 2018).",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "The sampling and optimization steps are realized in parallel over the batch.",
+          "justification": "Batch parallelism over particles, not a stated parallelism strategy.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "all starting from p0 = N (0, Id ) and for K = 5, 000 steps",
+          "justification": "No runtime stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "The code was implemented in JAX",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "the confidence intervals in Figure 6 are computed by performing 10 independent repetitions of the experiment",
+          "justification": "10 repetitions stated.",
+          "value": [
+            {
+              "kind": "seed",
+              "count": 10,
+              "what": "independent repetitions of the experiment"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "energy-based model (parameterized potential V (·, θ))",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [],
+        "algorithms": [
+          {
+            "name": "Vanilla nested-loop approach"
+          },
+          {
+            "name": "Langevin diffusion"
+          },
+          {
+            "name": "REINFORCE trick"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "♦ ♦ Nested loop (Algorithm 1) with T inner sampling steps for each gradient step.",
+          "justification": "Baseline optimization run.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "all starting from p0 = N (0, Id ) and for K = 5, 000 steps",
+          "justification": "Steps, not epochs.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "θ ∈ R6",
+          "justification": "Not a stated model parameter count.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "The computing infrastructure is described in Section 5 and Appendix C.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "The computing infrastructure is described in Section 5 and Appendix C.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "The computing infrastructure is described in Section 5 and Appendix C.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "The code was implemented in JAX",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "The sampling and optimization steps are realized in parallel over the batch.",
+          "justification": "Not stated as a strategy.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "K = 5, 000 steps",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "The code was implemented in JAX",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "for various sizes of inner loop T (x-axis) and various methods",
+          "justification": "Multiple values of T were run; 10 repetitions reported for the experiment.",
+          "value": [
+            {
+              "kind": "seed",
+              "count": 10,
+              "what": "independent repetitions of the experiment"
+            },
+            {
+              "kind": "hyperparameter",
+              "count": 4,
+              "what": "sizes of inner loop T"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "energy-based model (parameterized potential V (·, θ))",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [],
+        "algorithms": [
+          {
+            "name": "Unrolling through the last step of sampling"
+          },
+          {
+            "name": "Langevin diffusion"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "For each optimization step, we perform T sampling steps, then differentiate through the last step of sampling by automatic differentiation.",
+          "justification": "Optimization baseline.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "K = 5, 000 steps",
+          "justification": "Steps, not epochs.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "θ ∈ R6",
+          "justification": "Not stated as parameter count.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "The computing infrastructure is described in Section 5 and Appendix C.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "The computing infrastructure is described in Section 5 and Appendix C.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "The computing infrastructure is described in Section 5 and Appendix C.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "The code was implemented in JAX",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "The sampling and optimization steps are realized in parallel over the batch.",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "K = 5, 000 steps",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "The code was implemented in JAX",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "for various sizes of inner loop T (x-axis) and various methods",
+          "justification": "Multiple T values run with 10 repetitions.",
+          "value": [
+            {
+              "kind": "seed",
+              "count": 10,
+              "what": "independent repetitions of the experiment"
+            },
+            {
+              "kind": "hyperparameter",
+              "count": 4,
+              "what": "sizes of inner loop T"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "energy-based model (parameterized potential V (·, θ))",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [],
+        "algorithms": [
+          {
+            "name": "Langevin diffusion"
+          },
+          {
+            "name": "guidance"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "■ Langevin diffusion (5) with potential V (·, θ0 ) for some fixed θ0 ∈ Rp , no reward.",
+          "justification": "Pure sampling runs, no parameter fitting; they generate samples.",
+          "value": "generate"
+        },
+        "epochs": {
+          "quote": "all starting from p0 = N (0, Id ) and for K = 5, 000 steps",
+          "justification": "Steps, not epochs.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "θ ∈ R6",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "The computing infrastructure is described in Section 5 and Appendix C.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "The computing infrastructure is described in Section 5 and Appendix C.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "The computing infrastructure is described in Section 5 and Appendix C.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "The code was implemented in JAX",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "The sampling and optimization steps are realized in parallel over the batch.",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "K = 5, 000 steps",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "The code was implemented in JAX",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "the confidence intervals in Figure 6 are computed by performing 10 independent repetitions of the experiment",
+          "justification": "10 repetitions.",
+          "value": [
+            {
+              "kind": "seed",
+              "count": 10,
+              "what": "independent repetitions of the experiment"
+            },
+            {
+              "kind": "variant",
+              "count": 3,
+              "what": "sampling-only baselines (Langevin θ0, Langevin θ0 + R, Langevin θopt)"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "energy-based model (parameterized potential V (·, θ))",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [],
+        "algorithms": [
+          {
+            "name": "Implicit Diffusion"
+          },
+          {
+            "name": "contrastive learning"
+          },
+          {
+            "name": "Langevin diffusion"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "We use Implicit Diffusion where the reward is the KL between the target distribution and the current one.",
+          "justification": "Training from scratch an energy-based model.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "We train for K = 40, 000 steps with a batch of size 1, 000.",
+          "justification": "Steps stated, not epochs.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "θ = {w, (µi , Σi )1≤i≤2 } ∈ R2 ×(R2 , R2×2 )2",
+          "justification": "Not stated as a count.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "The code was implemented in JAX (Bradbury et al., 2018).",
+          "justification": "Hardware not stated for these experiments.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "The code was implemented in JAX",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "The code was implemented in JAX",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "The code was implemented in JAX",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "We train for K = 40, 000 steps with a batch of size 1, 000.",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "We train for K = 40, 000 steps",
+          "justification": "Not stated in time.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "The code was implemented in JAX",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "We train for K = 40, 000 steps with a batch of size 1, 000.",
+          "justification": "No repetitions stated.",
+          "value": [
+            {
+              "kind": "variant",
+              "count": 2,
+              "what": "parameterization settings (weights only; full Gaussian mixture parameterization)"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "denoising diffusion model (MNIST, 2.5M parameters)",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "MNIST",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "simple diffusion"
+          },
+          {
+            "name": "Adam"
+          },
+          {
+            "name": "Ornstein-Uhlenbeck noise schedule"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "We pretrain for 18k steps in 7 minutes on 4 TPUv2.",
+          "justification": "Pretraining from scratch.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "We pretrain for 18k steps in 7 minutes on 4 TPUv2.",
+          "justification": "Steps, not epochs.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "For MNIST, we use a 2.5M parameters model (no label conditioning).",
+          "justification": "Stated.",
+          "value": "2.5M"
+        },
+        "accelerator_type": {
+          "quote": "We pretrain for 18k steps in 7 minutes on 4 TPUv2.",
+          "justification": "TPU.",
+          "value": "tpu"
+        },
+        "accelerator_model": {
+          "quote": "We pretrain for 18k steps in 7 minutes on 4 TPUv2.",
+          "justification": "TPUv2 stated.",
+          "value": "TPUv2"
+        },
+        "accelerator_count": {
+          "quote": "We pretrain for 18k steps in 7 minutes on 4 TPUv2.",
+          "justification": "4 stated.",
+          "value": "4"
+        },
+        "precision": {
+          "quote": "The code was implemented in JAX (Bradbury et al., 2018).",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "We pretrain for 18k steps in 7 minutes on 4 TPUv2.",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "We pretrain for 18k steps in 7 minutes on 4 TPUv2.",
+          "justification": "7 minutes on 4 TPUv2.",
+          "value": "7 minutes on 4 TPUv2"
+        },
+        "utilisation": {
+          "quote": "We pretrain for 18k steps in 7 minutes on 4 TPUv2.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "We pretrain for 18k steps in 7 minutes on 4 TPUv2.",
+          "justification": "Not stated.",
+          "value": []
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "denoising diffusion model (MNIST, 2.5M parameters)",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [],
+        "algorithms": [
+          {
+            "name": "Implicit Diffusion"
+          },
+          {
+            "name": "adjoint method"
+          },
+          {
+            "name": "queuing trick"
+          },
+          {
+            "name": "Girsanov's theorem"
+          },
+          {
+            "name": "Adam"
+          },
+          {
+            "name": "Euler"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "For reward training, we train on a TPUv2 for 4 hours with a queue of size M = 4, T = 64 steps, and a batch size of 32.",
+          "justification": "Finetuning of a pretrained model via reward training.",
+          "value": "finetune"
+        },
+        "epochs": {
+          "quote": "For reward training, we train on a TPUv2 for 4 hours with a queue of size M = 4, T = 64 steps, and a batch size of 32.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "For MNIST, we use a 2.5M parameters model (no label conditioning).",
+          "justification": "Same model finetuned.",
+          "value": "2.5M"
+        },
+        "accelerator_type": {
+          "quote": "we train on a TPUv2 for 4 hours",
+          "justification": "TPU.",
+          "value": "tpu"
+        },
+        "accelerator_model": {
+          "quote": "we train on a TPUv2 for 4 hours",
+          "justification": "Stated.",
+          "value": "TPUv2"
+        },
+        "accelerator_count": {
+          "quote": "we train on a TPUv2 for 4 hours",
+          "justification": "One TPUv2 implied.",
+          "value": "1"
+        },
+        "precision": {
+          "quote": "The code was implemented in JAX",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "with a queue of size M = 4",
+          "justification": "Queue parallelism not one of the listed strategies.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "For reward training, we train on a TPUv2 for 4 hours",
+          "justification": "Stated.",
+          "value": "4 hours on a TPUv2"
+        },
+        "utilisation": {
+          "quote": "we train on a TPUv2 for 4 hours",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "Reward training with Implicit Diffusion for various learning rates η and reward strengths λ/β.",
+          "justification": "Multiple hyperparameter settings but counts not stated.",
+          "value": []
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "denoising diffusion model (CIFAR-10 / LSUN, 53.2M parameters)",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "CIFAR-10",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "simple diffusion"
+          },
+          {
+            "name": "Adam"
+          },
+          {
+            "name": "Cosine noise schedule"
+          },
+          {
+            "name": "DDPM"
+          },
+          {
+            "name": "FID score"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "For CIFAR-10, we pretrain for 500k steps in 30 hours on 16 TPUv2, reaching an FID score (Heusel et al., 2017) of 2.5.",
+          "justification": "Pretraining from scratch.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "we pretrain for 500k steps in 30 hours on 16 TPUv2",
+          "justification": "Steps, not epochs.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "For CIFAR-10 and LSUN, we pretrain a 53.2M parameters model",
+          "justification": "Stated.",
+          "value": "53.2M"
+        },
+        "accelerator_type": {
+          "quote": "we pretrain for 500k steps in 30 hours on 16 TPUv2",
+          "justification": "TPU.",
+          "value": "tpu"
+        },
+        "accelerator_model": {
+          "quote": "we pretrain for 500k steps in 30 hours on 16 TPUv2",
+          "justification": "Stated.",
+          "value": "TPUv2"
+        },
+        "accelerator_count": {
+          "quote": "we pretrain for 500k steps in 30 hours on 16 TPUv2",
+          "justification": "Stated.",
+          "value": "16"
+        },
+        "precision": {
+          "quote": "The code was implemented in JAX",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "we pretrain for 500k steps in 30 hours on 16 TPUv2",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "we pretrain for 500k steps in 30 hours on 16 TPUv2",
+          "justification": "Stated.",
+          "value": "30 hours on 16 TPUv2"
+        },
+        "utilisation": {
+          "quote": "we pretrain for 500k steps in 30 hours on 16 TPUv2",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "For CIFAR-10, we pretrain for 500k steps in 30 hours on 16 TPUv2",
+          "justification": "Not stated.",
+          "value": []
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "denoising diffusion model (CIFAR-10 / LSUN, 53.2M parameters)",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "LSUN (bedrooms)",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "simple diffusion"
+          },
+          {
+            "name": "Adam"
+          },
+          {
+            "name": "Cosine noise schedule"
+          },
+          {
+            "name": "DDPM"
+          },
+          {
+            "name": "FID score"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "For LSUN, we pretrain for 13 hours, reaching a FID score of 2.26.",
+          "justification": "Pretraining on a different dataset.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "For LSUN, we pretrain for 13 hours, reaching a FID score of 2.26.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "For CIFAR-10 and LSUN, we pretrain a 53.2M parameters model",
+          "justification": "Stated.",
+          "value": "53.2M"
+        },
+        "accelerator_type": {
+          "quote": "For CIFAR-10, we pretrain for 500k steps in 30 hours on 16 TPUv2 ... For LSUN, we pretrain for 13 hours",
+          "justification": "TPU setting implied for pretraining; hardware for LSUN not explicitly named.",
+          "value": "tpu"
+        },
+        "accelerator_model": {
+          "quote": "For LSUN, we pretrain for 13 hours, reaching a FID score of 2.26.",
+          "justification": "Not explicitly stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "For LSUN, we pretrain for 13 hours",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "The code was implemented in JAX",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "For LSUN, we pretrain for 13 hours",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "For LSUN, we pretrain for 13 hours, reaching a FID score of 2.26.",
+          "justification": "Stated.",
+          "value": "13 hours"
+        },
+        "utilisation": {
+          "quote": "For LSUN, we pretrain for 13 hours",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "For LSUN, we pretrain for 13 hours",
+          "justification": "Not stated.",
+          "value": []
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "denoising diffusion model (CIFAR-10 / LSUN, 53.2M parameters)",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [],
+        "algorithms": [
+          {
+            "name": "Implicit Diffusion"
+          },
+          {
+            "name": "adjoint method"
+          },
+          {
+            "name": "queuing trick"
+          },
+          {
+            "name": "Girsanov's theorem"
+          },
+          {
+            "name": "Adam"
+          },
+          {
+            "name": "Euler"
+          },
+          {
+            "name": "Cosine noise schedule"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "For reward training, we train on a TPUv3 for 9 hours with a queue of size M = 4 and T = 64 steps, and a batch size of 32.",
+          "justification": "Reward finetuning of pretrained CIFAR-10 model.",
+          "value": "finetune"
+        },
+        "epochs": {
+          "quote": "For reward training, we train on a TPUv3 for 9 hours",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "For CIFAR-10 and LSUN, we pretrain a 53.2M parameters model",
+          "justification": "Same model finetuned.",
+          "value": "53.2M"
+        },
+        "accelerator_type": {
+          "quote": "we train on a TPUv3 for 9 hours",
+          "justification": "TPU.",
+          "value": "tpu"
+        },
+        "accelerator_model": {
+          "quote": "we train on a TPUv3 for 9 hours",
+          "justification": "Stated.",
+          "value": "TPUv3"
+        },
+        "accelerator_count": {
+          "quote": "we train on a TPUv3 for 9 hours",
+          "justification": "One implied.",
+          "value": "1"
+        },
+        "precision": {
+          "quote": "The code was implemented in JAX",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "with a queue of size M = 4 and T = 64 steps",
+          "justification": "Not among listed strategies.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "For reward training, we train on a TPUv3 for 9 hours",
+          "justification": "Stated.",
+          "value": "9 hours on a TPUv3"
+        },
+        "utilisation": {
+          "quote": "we train on a TPUv3 for 9 hours",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "Reward training with Implicit Diffusion for various learning rates η and reward strengths λ/β.",
+          "justification": "Counts not stated.",
+          "value": []
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "denoising diffusion model (CIFAR-10 / LSUN, 53.2M parameters)",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [],
+        "algorithms": [
+          {
+            "name": "Implicit Diffusion"
+          },
+          {
+            "name": "adjoint method"
+          },
+          {
+            "name": "queuing trick"
+          },
+          {
+            "name": "Girsanov's theorem"
+          },
+          {
+            "name": "Adam"
+          },
+          {
+            "name": "Euler"
+          },
+          {
+            "name": "Cosine noise schedule"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "For reward training, we train on a TPUv3 for 9 hours with a queue of size M = 2, T = 64 steps, and a batch size of 16.",
+          "justification": "Reward finetuning of LSUN-pretrained model, different configuration.",
+          "value": "finetune"
+        },
+        "epochs": {
+          "quote": "For reward training, we train on a TPUv3 for 9 hours with a queue of size M = 2",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "For CIFAR-10 and LSUN, we pretrain a 53.2M parameters model",
+          "justification": "Stated.",
+          "value": "53.2M"
+        },
+        "accelerator_type": {
+          "quote": "we train on a TPUv3 for 9 hours with a queue of size M = 2",
+          "justification": "TPU.",
+          "value": "tpu"
+        },
+        "accelerator_model": {
+          "quote": "we train on a TPUv3 for 9 hours with a queue of size M = 2",
+          "justification": "Stated.",
+          "value": "TPUv3"
+        },
+        "accelerator_count": {
+          "quote": "we train on a TPUv3 for 9 hours",
+          "justification": "One implied.",
+          "value": "1"
+        },
+        "precision": {
+          "quote": "The code was implemented in JAX",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "with a queue of size M = 2, T = 64 steps, and a batch size of 16",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "For reward training, we train on a TPUv3 for 9 hours",
+          "justification": "Stated.",
+          "value": "9 hours on a TPUv3"
+        },
+        "utilisation": {
+          "quote": "we train on a TPUv3 for 9 hours",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "Reward training with Implicit Diffusion for various learning rates η and reward strengths λ/β.",
+          "justification": "Counts not stated.",
+          "value": []
+        }
+      }
+    ]
+  },
+  "usage": {
+    "input_tokens": 66913,
+    "output_tokens": 21256,
+    "total_tokens": 88169
+  }
+}

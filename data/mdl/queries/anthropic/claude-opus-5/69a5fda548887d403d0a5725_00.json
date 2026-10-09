@@ -1,0 +1,2175 @@
+{
+  "paper": "69a5fda548887d403d0a5725.txt",
+  "words": 8595,
+  "extractions": {
+    "title": {
+      "quote": "Open-Set Multivariate Time-series Anomaly Detection",
+      "justification": "Title at the top of the paper.",
+      "value": "Open-Set Multivariate Time-series Anomaly Detection"
+    },
+    "description": "The paper proposes MOSAD (Multivariate Open-Set time-series Anomaly Detector), the first open-set time-series anomaly detection algorithm, combining a shared TCN feature extractor with Generative, Discriminative and Anomaly-Aware Contrastive heads, evaluated on SMD, PTB-XL and TUSZ against unsupervised and supervised baselines.",
+    "type": {
+      "quote": "Extensive experiments on three real-world datasets establish MOSAD as a new state-of-the-art in the TSAD field.",
+      "justification": "Proposes a method and validates it with extensive experiments on three real-world datasets.",
+      "value": "empirical"
+    },
+    "research_fields": [
+      {
+        "name": {
+          "quote": "Numerous methods for time-series anomaly detection (TSAD) have emerged in recent years",
+          "justification": "The paper's main field of contribution.",
+          "value": "Time-series Anomaly Detection"
+        },
+        "aliases": [
+          "TSAD"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "Recently, open-set anomaly detection (OSAD) methods are proposed to leverage a limited number of anomalous samples in the training phase",
+          "justification": "The paper addresses open-set anomaly detection for time series.",
+          "value": "Open-set anomaly detection"
+        },
+        "aliases": [
+          "OSAD"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "we verify MOSAD’s performance on both industrial and physiological signals",
+          "justification": "ECG and EEG datasets used as evaluation venues.",
+          "value": "Biomedical signal analysis"
+        },
+        "aliases": [
+          "physiological signals",
+          "biomedical domain"
+        ],
+        "role": "used"
+      },
+      {
+        "name": {
+          "quote": "OSAD is different from the research fields of open-set recognition (OSR) [5] and out-of-distribution detection (OOD) [32].",
+          "justification": "Named as related context only.",
+          "value": "Open-set recognition"
+        },
+        "aliases": [
+          "OSR"
+        ],
+        "role": "referenced"
+      },
+      {
+        "name": {
+          "quote": "OSAD is different from the research fields of open-set recognition (OSR) [5] and out-of-distribution detection (OOD) [32].",
+          "justification": "Named as related context only.",
+          "value": "Out-of-distribution detection"
+        },
+        "aliases": [
+          "OOD"
+        ],
+        "role": "referenced"
+      },
+      {
+        "name": {
+          "quote": "While open-set anomaly detection has witnessed significant advancements in computer vision, it remains unaddressed in the time-series domain.",
+          "justification": "Referenced as a field where open-set AD has been studied.",
+          "value": "Computer vision"
+        },
+        "aliases": [],
+        "role": "referenced"
+      }
+    ],
+    "models": [
+      {
+        "name": {
+          "quote": "we propose the first open-set TSAD algorithm named Multivariate Open-Set time-series Anomaly Detector (MOSAD)",
+          "justification": "The proposed model.",
+          "value": "MOSAD"
+        },
+        "aliases": [
+          "Multivariate Open-Set time-series Anomaly Detector"
+        ],
+        "is_contributed": {
+          "quote": "We propose MOSAD, trained in an open-set environment",
+          "justification": "It is the paper's contribution.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "Extensive experiments on three real-world datasets establish MOSAD as a new state-of-the-art",
+          "justification": "Trained and evaluated on three datasets.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Comparative analysis of our proposed MOSAD and existing methods",
+          "justification": "Compared with baselines in tables.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "The whole MOSAD network, including the Feature Extractor and the Multi-Head Network, is jointly optimized using the Adam optimizer",
+          "justification": "The network is jointly optimized.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "we propose the first open-set TSAD algorithm named Multivariate Open-Set time-series Anomaly Detector (MOSAD)",
+          "justification": "This paper itself.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "we include a variation of MOSAD, namely MOSADVSC , in Table 3",
+          "justification": "Variant using vanilla supervised contrastive learning.",
+          "value": "MOSADVSC"
+        },
+        "aliases": [
+          "MOSAD_VSC"
+        ],
+        "is_contributed": {
+          "quote": "MOSADVSC employs the vanilla supervised contrastive learning paradigm [20]",
+          "justification": "An ablation variant introduced by the paper.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "MOSADVSC 69.2 31.7",
+          "justification": "Results reported in Table 3.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "It is shown that MOSAD with our proposed Anomaly-Aware Contrastive head achieves higher performance in both AUC and APR compared to MOSADVSC .",
+          "justification": "Compared against full MOSAD.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "the similarity between abnormal samples are maximized during training",
+          "justification": "Trained variant.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "we include a variation of MOSAD, namely MOSADVSC",
+          "justification": "Variant of this paper's model.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "we also implement MOSAD without masked reconstruction, denoted as MOSADNMR",
+          "justification": "Variant without masked reconstruction.",
+          "value": "MOSADNMR"
+        },
+        "aliases": [
+          "MOSAD_NMR"
+        ],
+        "is_contributed": {
+          "quote": "MOSADNMR does not explicitly model inter-sensor dependencies",
+          "justification": "An ablation variant introduced by the paper.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "MOSADNMR 69.5⋆ 32.7⋆",
+          "justification": "Results reported in Table 3.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "The overall superior performance of MOSAD compared to MOSADNMR",
+          "justification": "Compared with full MOSAD.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "we employ a vanilla autoencoder framework for the Generative head, using the same encoder and decoder as the full MOSAD",
+          "justification": "Trained variant.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "denoted as MOSADNMR",
+          "justification": "Variant of this paper's model.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "we utilize a temporal convolutional network (TCN) [4] as our feature extractor",
+          "justification": "Temporal convolutional network used as feature extractor and as a baseline.",
+          "value": "TCN"
+        },
+        "aliases": [
+          "temporal convolutional network"
+        ],
+        "is_contributed": {
+          "quote": "we utilize a temporal convolutional network (TCN) [4] as our feature extractor",
+          "justification": "Existing architecture.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "MOSAD is compared with the binary classifiers LSTM, CNN-LSTM, GAT, TCN [4], and NCAD",
+          "justification": "Used as the backbone and as a baseline in the hard setting.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "TCN 52.3 65.0",
+          "justification": "TCN appears as a baseline in Table 4.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "The same TCN architecture is used for MOSAD and all TCN-based comparison methods.",
+          "justification": "Trained as a classifier baseline / used in MOSAD.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "S. Bai, J. Z. Kolter, and V. Koltun. An empirical evaluation of generic convolutional and recurrent networks for sequence modeling.",
+          "justification": "Reference [4].",
+          "value": "An empirical evaluation of generic convolutional and recurrent networks for sequence modeling"
+        }
+      },
+      {
+        "name": {
+          "quote": "we select the unsupervised methods LSTM-AE [27]",
+          "justification": "Unsupervised baseline.",
+          "value": "LSTM-AE"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "we select the unsupervised methods LSTM-AE [27]",
+          "justification": "Existing method.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Note that identical datasets (with the same number and index of normal and abnormal samples) for both training and test phases are used for MOSAD and the comparison methods.",
+          "justification": "Baselines were run on identical datasets prepared by the authors.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "LSTM-AE 51.4 13.3",
+          "justification": "In the comparison table.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "identical datasets ... for both training and test phases are used for MOSAD and the comparison methods",
+          "justification": "Trained on the authors' data splits.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "P. Malhotra, A. Ramakrishnan, G. Anand, L. Vig, P. Agarwal, and G. Shroff. Lstm-based encoder-decoder for multi-sensor anomaly detection.",
+          "justification": "Reference [27].",
+          "value": "Lstm-based encoder-decoder for multi-sensor anomaly detection"
+        }
+      },
+      {
+        "name": {
+          "quote": "TCN-AE [39]",
+          "justification": "Unsupervised baseline.",
+          "value": "TCN-AE"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "TCN-AE [39]",
+          "justification": "Existing method.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "identical datasets ... are used for MOSAD and the comparison methods",
+          "justification": "Run on authors' datasets.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "TCN-AE 66.3 20.2",
+          "justification": "In Table 3.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "identical datasets (with the same number and index of normal and abnormal samples) for both training and test phases",
+          "justification": "Trained baseline.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "M. Thill, W. Konen, H. Wang, and T. Bäck. Temporal convolutional autoencoder for unsupervised anomaly detection in time series.",
+          "justification": "Reference [39].",
+          "value": "Temporal convolutional autoencoder for unsupervised anomaly detection in time series"
+        }
+      },
+      {
+        "name": {
+          "quote": "MTAD-GAT [51]",
+          "justification": "Unsupervised baseline.",
+          "value": "MTAD-GAT"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "MTAD-GAT [51]",
+          "justification": "Existing method.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "identical datasets ... are used for MOSAD and the comparison methods",
+          "justification": "Run on authors' datasets.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "MTAD-GAT 50.6 19.7",
+          "justification": "In Table 3.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "identical datasets ... for both training and test phases are used",
+          "justification": "Trained baseline.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "H. Zhao, Y. Wang, J. Duan, ... Multivariate time-series anomaly detection via graph attention network.",
+          "justification": "Reference [51].",
+          "value": "Multivariate time-series anomaly detection via graph attention network"
+        }
+      },
+      {
+        "name": {
+          "quote": "THOC [34]",
+          "justification": "Unsupervised baseline.",
+          "value": "THOC"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "THOC [34]",
+          "justification": "Existing method.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "identical datasets ... are used for MOSAD and the comparison methods",
+          "justification": "Run on authors' datasets.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "THOC 55.7 14.8",
+          "justification": "In Table 3.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "identical datasets ... for both training and test phases are used",
+          "justification": "Trained baseline.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "L. Shen, Z. Li, and J. Kwok. Timeseries anomaly detection using temporal hierarchical one-class network.",
+          "justification": "Reference [34].",
+          "value": "Timeseries anomaly detection using temporal hierarchical one-class network"
+        }
+      },
+      {
+        "name": {
+          "quote": "USAD [3]",
+          "justification": "Unsupervised baseline.",
+          "value": "USAD"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "USAD [3]",
+          "justification": "Existing method.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "identical datasets ... are used for MOSAD and the comparison methods",
+          "justification": "Run on authors' datasets.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "USAD 61.3 20.0",
+          "justification": "In Table 3.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "identical datasets ... for both training and test phases are used",
+          "justification": "Trained baseline.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "J. Audibert, P. Michiardi, F. Guyard, S. Marti, and M. A. Zuluaga. Usad: Unsupervised anomaly detection on multivariate time series.",
+          "justification": "Reference [3].",
+          "value": "Usad: Unsupervised anomaly detection on multivariate time series"
+        }
+      },
+      {
+        "name": {
+          "quote": "DVGCRN [8]",
+          "justification": "Unsupervised baseline.",
+          "value": "DVGCRN"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "DVGCRN [8]",
+          "justification": "Existing method.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "identical datasets ... are used for MOSAD and the comparison methods",
+          "justification": "Run on authors' datasets.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "DVGCRN 59.1 21.0",
+          "justification": "In Table 3.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "identical datasets ... for both training and test phases are used",
+          "justification": "Trained baseline.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "W. Chen, L. Tian, B. Chen, L. Dai, Z. Duan, and M. Zhou. Deep variational graph convolutional recurrent network for multivariate time series anomaly detection.",
+          "justification": "Reference [8].",
+          "value": "Deep variational graph convolutional recurrent network for multivariate time series anomaly detection"
+        }
+      },
+      {
+        "name": {
+          "quote": "DCdetector [47] for comparison",
+          "justification": "Unsupervised baseline.",
+          "value": "DCdetector"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "DCdetector [47] for comparison",
+          "justification": "Existing method.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "identical datasets ... are used for MOSAD and the comparison methods",
+          "justification": "Run on authors' datasets.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "DCdetector 64.7 26.3",
+          "justification": "In Table 3.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "identical datasets ... for both training and test phases are used",
+          "justification": "Trained baseline.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "Y. Yang, C. Zhang, T. Zhou, Q. Wen, and L. Sun. Dcdetector: Dual attention contrastive representation learning for time series anomaly detection.",
+          "justification": "Reference [47].",
+          "value": "Dcdetector: Dual attention contrastive representation learning for time series anomaly detection"
+        }
+      },
+      {
+        "name": {
+          "quote": "we also compare MOSAD with supervised binary-classifier baselines that utilize the cross-entropy loss [50] such as LSTM [19]",
+          "justification": "Supervised baseline.",
+          "value": "LSTM"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "such as LSTM [19]",
+          "justification": "Existing method.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "identical datasets ... are used for MOSAD and the comparison methods",
+          "justification": "Run on authors' datasets.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "LSTM 50.1 21.0",
+          "justification": "In Tables 3 and 4.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "identical datasets ... for both training and test phases are used",
+          "justification": "Trained baseline.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "F. Karim, S. Majumdar, H. Darabi, and S. Chen. Lstm fully convolutional networks for time series classification.",
+          "justification": "Reference [19].",
+          "value": "Lstm fully convolutional networks for time series classification"
+        }
+      },
+      {
+        "name": {
+          "quote": "CNN-LSTM [2]",
+          "justification": "Supervised baseline.",
+          "value": "CNN-LSTM"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "CNN-LSTM [2]",
+          "justification": "Existing method.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "identical datasets ... are used for MOSAD and the comparison methods",
+          "justification": "Run on authors' datasets.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "CNN-LSTM 52.3 13.5",
+          "justification": "In Tables 3 and 4.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "identical datasets ... for both training and test phases are used",
+          "justification": "Trained baseline.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "D. Ahmedt-Aristizabal, T. Fernando, S. Denman, L. Petersson, M. J. Aburn, and C. Fookes. Neural memory networks for seizure type classification.",
+          "justification": "Reference [2].",
+          "value": "Neural memory networks for seizure type classification"
+        }
+      },
+      {
+        "name": {
+          "quote": "GAT [41]",
+          "justification": "Supervised baseline.",
+          "value": "GAT"
+        },
+        "aliases": [
+          "Graph attention networks"
+        ],
+        "is_contributed": {
+          "quote": "GAT [41]",
+          "justification": "Existing method.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "identical datasets ... are used for MOSAD and the comparison methods",
+          "justification": "Run on authors' datasets.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "GAT 53.4 28.5",
+          "justification": "In Tables 3 and 4.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "identical datasets ... for both training and test phases are used",
+          "justification": "Trained baseline.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "P. Velicković, G. Cucurull, A. Casanova, A. Romero, P. Liò, and Y. Bengio. Graph attention networks.",
+          "justification": "Reference [41].",
+          "value": "Graph attention networks"
+        }
+      },
+      {
+        "name": {
+          "quote": "and NCAD [7] in OG",
+          "justification": "Supervised baseline and SOTA competitor.",
+          "value": "NCAD"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "NCAD [7]",
+          "justification": "Existing method.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Table 7 shows a comparison between MOSAD and its SOTA competitor, i.e., NCAD, w.r.t. η under OClass H . The models were trained with different η ∈ {3, 6, ..., 30}.",
+          "justification": "Run on authors' datasets including sensitivity analysis.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "MOSAD achieves an increase of 9.4% in mean AUC and 9.8% in mean APR compared to the latest and most comparable algorithm NCAD",
+          "justification": "Compared throughout.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "The models were trained with different η ∈ {3, 6, ..., 30}.",
+          "justification": "Trained baseline.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "C. U. Carmona, F.-X. Aubet, V. Flunkert, and J. Gasthaus. Neural contextual anomaly detection for time series.",
+          "justification": "Reference [7].",
+          "value": "Neural contextual anomaly detection for time series"
+        }
+      }
+    ],
+    "data_sources": [
+      {
+        "name": {
+          "quote": "we select the Server Machine Dataset (SMD) from the industrial domain",
+          "justification": "Industrial dataset used.",
+          "value": "Server Machine Dataset (SMD)"
+        },
+        "aliases": [
+          "SMD"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "SMD U 5958 / 0 OG 5958 / 10 ... 640 / 88",
+          "justification": "Table 2 lists these counts.",
+          "value": "training 5958 normal / 10 anomalies (open-set), test 640 normal / 88 anomalies"
+        },
+        "derived_from": [],
+        "sample_properties": [
+          {
+            "name": "number of entities (machines)",
+            "value": {
+              "quote": "SMD 28 1 38 200",
+              "justification": "Table 1.",
+              "value": "28"
+            },
+            "unit": "machines"
+          },
+          {
+            "name": "sampling rate",
+            "value": {
+              "quote": "SMD 28 1 38 200",
+              "justification": "Table 1 sampling rate in Hertz.",
+              "value": "1"
+            },
+            "unit": "Hertz"
+          },
+          {
+            "name": "K (number of variables)",
+            "value": {
+              "quote": "SMD 28 1 38 200",
+              "justification": "Table 1.",
+              "value": "38"
+            },
+            "unit": "variables"
+          },
+          {
+            "name": "L (length of a time interval)",
+            "value": {
+              "quote": "SMD 28 1 38 200",
+              "justification": "Table 1.",
+              "value": "200"
+            },
+            "unit": "timestamps"
+          }
+        ],
+        "referenced_paper_title": {
+          "quote": "all 28 machines are combined and modeled together instead of individual machines modeled separately, as suggested by [36]",
+          "justification": "Reference [36] for SMD.",
+          "value": "Robust anomaly detection for multivariate time series through stochastic recurrent neural network"
+        }
+      },
+      {
+        "name": {
+          "quote": "namely, Physikalisch-Technische Bundesanstalt XL (PTB-XL) [43]",
+          "justification": "ECG dataset used.",
+          "value": "Physikalisch-Technische Bundesanstalt XL (PTB-XL)"
+        },
+        "aliases": [
+          "PTB-XL"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "PTB-XL U 8157 / 0 OG 8157 / 40 OClass H 8157 / 10 ... 912 / 1286",
+          "justification": "Table 2.",
+          "value": "training 8157 normal / 40 anomalies (OG), 8157 / 10 (hard); test 912 normal / 1286 anomalies"
+        },
+        "derived_from": [],
+        "sample_properties": [
+          {
+            "name": "number of entities (patients)",
+            "value": {
+              "quote": "PTX-XL 18,885 100 12 1000",
+              "justification": "Table 1.",
+              "value": "18,885"
+            },
+            "unit": "patients"
+          },
+          {
+            "name": "sampling rate",
+            "value": {
+              "quote": "PTX-XL 18,885 100 12 1000",
+              "justification": "Table 1.",
+              "value": "100"
+            },
+            "unit": "Hertz"
+          },
+          {
+            "name": "K (number of variables)",
+            "value": {
+              "quote": "PTX-XL 18,885 100 12 1000",
+              "justification": "Table 1.",
+              "value": "12"
+            },
+            "unit": "variables"
+          },
+          {
+            "name": "L (length of a time interval)",
+            "value": {
+              "quote": "PTX-XL 18,885 100 12 1000",
+              "justification": "Table 1.",
+              "value": "1000"
+            },
+            "unit": "timestamps"
+          }
+        ],
+        "referenced_paper_title": {
+          "quote": "P. Wagner, N. Strodthoff, R.-D. Bousseljot, D. Kreiseler, F. I. Lunze, W. Samek, and T. Schaeffter. Ptb-xl, a large publicly available electrocardiography dataset.",
+          "justification": "Reference [43].",
+          "value": "Ptb-xl, a large publicly available electrocardiography dataset"
+        }
+      },
+      {
+        "name": {
+          "quote": "and Temple University Hospital Electroencephalogram Seizure Corpus (TUSZ) [33]",
+          "justification": "EEG dataset used.",
+          "value": "Temple University Hospital Electroencephalogram Seizure Corpus (TUSZ)"
+        },
+        "aliases": [
+          "TUSZ"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "TUSZ U 39084 / 0 OG 39084 / 90 OClass H 39084 / 30 ... 4343 / 316",
+          "justification": "Table 2.",
+          "value": "training 39084 normal / 90 anomalies (OG), 39084 / 30 (hard); test 4343 normal / 316 anomalies"
+        },
+        "derived_from": [],
+        "sample_properties": [
+          {
+            "name": "number of entities (patients)",
+            "value": {
+              "quote": "TUSZ 43 60 19 1000",
+              "justification": "Table 1.",
+              "value": "43"
+            },
+            "unit": "patients"
+          },
+          {
+            "name": "sampling rate",
+            "value": {
+              "quote": "TUSZ 43 60 19 1000",
+              "justification": "Table 1.",
+              "value": "60"
+            },
+            "unit": "Hertz"
+          },
+          {
+            "name": "K (number of variables)",
+            "value": {
+              "quote": "TUSZ 43 60 19 1000",
+              "justification": "Table 1.",
+              "value": "19"
+            },
+            "unit": "variables"
+          },
+          {
+            "name": "L (length of a time interval)",
+            "value": {
+              "quote": "TUSZ 43 60 19 1000",
+              "justification": "Table 1.",
+              "value": "1000"
+            },
+            "unit": "timestamps"
+          }
+        ],
+        "referenced_paper_title": {
+          "quote": "V. Shah, E. Von Weltin, S. Lopez, J. R. McHugh, L. Veloso, M. Golmohammadi, I. Obeid, and J. Picone. The temple university hospital seizure detection corpus.",
+          "justification": "Reference [33].",
+          "value": "The temple university hospital seizure detection corpus"
+        }
+      },
+      {
+        "name": {
+          "quote": "trained their models on widely used benchmark datasets such as Yahoo [23]",
+          "justification": "Named as a benchmark but criticized, not used.",
+          "value": "Yahoo"
+        },
+        "aliases": [],
+        "role": "referenced",
+        "size": {
+          "quote": "such as Yahoo [23], NASA [18], SWaT [28], WADI [1], SMAP [36]",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "N. Laptev, S. Amizadeh, and Y. Billawala. S5-a labeled anomaly detection dataset, version 1.0 (16m), 2015.",
+          "justification": "Reference [23].",
+          "value": "S5-a labeled anomaly detection dataset, version 1.0 (16m)"
+        }
+      },
+      {
+        "name": {
+          "quote": "such as Yahoo [23], NASA [18]",
+          "justification": "Referenced benchmark.",
+          "value": "NASA"
+        },
+        "aliases": [],
+        "role": "referenced",
+        "size": {
+          "quote": "such as Yahoo [23], NASA [18], SWaT [28], WADI [1], SMAP [36]",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "K. Hundman, V. Constantinou, C. Laporte, I. Colwell, and T. Soderstrom. Detecting spacecraft anomalies using lstms and nonparametric dynamic thresholding.",
+          "justification": "Reference [18].",
+          "value": "Detecting spacecraft anomalies using lstms and nonparametric dynamic thresholding"
+        }
+      },
+      {
+        "name": {
+          "quote": "SWaT [28]",
+          "justification": "Referenced benchmark.",
+          "value": "SWaT"
+        },
+        "aliases": [],
+        "role": "referenced",
+        "size": {
+          "quote": "such as Yahoo [23], NASA [18], SWaT [28], WADI [1], SMAP [36]",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "A. P. Mathur and N. O. Tippenhauer. Swat: A water treatment testbed for research and training on ics security.",
+          "justification": "Reference [28].",
+          "value": "Swat: A water treatment testbed for research and training on ics security"
+        }
+      },
+      {
+        "name": {
+          "quote": "WADI [1]",
+          "justification": "Referenced benchmark.",
+          "value": "WADI"
+        },
+        "aliases": [],
+        "role": "referenced",
+        "size": {
+          "quote": "such as Yahoo [23], NASA [18], SWaT [28], WADI [1], SMAP [36]",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "C. M. Ahmed, V. R. Palleti, and A. P. Mathur. Wadi: a water distribution testbed for research in the design of secure cyber physical systems.",
+          "justification": "Reference [1].",
+          "value": "Wadi: a water distribution testbed for research in the design of secure cyber physical systems"
+        }
+      },
+      {
+        "name": {
+          "quote": "SMAP [36]",
+          "justification": "Referenced benchmark.",
+          "value": "SMAP"
+        },
+        "aliases": [],
+        "role": "referenced",
+        "size": {
+          "quote": "such as Yahoo [23], NASA [18], SWaT [28], WADI [1], SMAP [36]",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "Y. Su, Y. Zhao, C. Niu, R. Liu, W. Sun, and D. Pei. Robust anomaly detection for multivariate time series through stochastic recurrent neural network.",
+          "justification": "Reference [36].",
+          "value": "Robust anomaly detection for multivariate time series through stochastic recurrent neural network"
+        }
+      }
+    ],
+    "libraries": [],
+    "algorithms": [
+      {
+        "name": {
+          "quote": "we adopt two effective anomaly augmentation techniques, namely, contextual outlier exposure (COE) and window mixup (WMix) [7]",
+          "justification": "Anomaly augmentation technique used.",
+          "value": "contextual outlier exposure (COE)"
+        },
+        "aliases": [
+          "COE"
+        ],
+        "is_contributed": {
+          "quote": "we adopt two effective anomaly augmentation techniques, namely, contextual outlier exposure (COE) and window mixup (WMix) [7]",
+          "justification": "Adopted from [7].",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Regarding the COE method, to make an x(i) become a synthetic anomaly, we randomly select a short window within x(i)",
+          "justification": "Used to generate synthetic anomalies in training.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Figure 2 (Right) shows the effect of anomaly augmentation techniques on MOSAD’s performance under OMI H .",
+          "justification": "Ablation on augmentation techniques.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "Xa + is a synthetic anomaly set generated by anomaly augmentation strategies",
+          "justification": "Described as anomaly augmentation.",
+          "value": "anomaly augmentation strategy generating synthetic anomalies"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "contextual outlier exposure (COE) and window mixup (WMix) [7]",
+          "justification": "Reference [7].",
+          "value": "Neural contextual anomaly detection for time series"
+        }
+      },
+      {
+        "name": {
+          "quote": "contextual outlier exposure (COE) and window mixup (WMix) [7]",
+          "justification": "Anomaly augmentation technique used.",
+          "value": "window mixup (WMix)"
+        },
+        "aliases": [
+          "WMix"
+        ],
+        "is_contributed": {
+          "quote": "we adopt two effective anomaly augmentation techniques",
+          "justification": "Adopted from [7].",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "In regard to the WMix method, we generate a new anomaly sample xnew",
+          "justification": "Used in training.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "-COE, -WMix, and -Both, respectively, denote that COE, WMix, or both techniques are not applied.",
+          "justification": "Ablation in Figure 2 (Right).",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "we generate a new anomaly sample xnew , which is a combination of two existing time intervals",
+          "justification": "Paper's description.",
+          "value": "anomaly augmentation technique combining two existing time intervals"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "contextual outlier exposure (COE) and window mixup (WMix) [7]",
+          "justification": "Reference [7].",
+          "value": "Neural contextual anomaly detection for time series"
+        }
+      },
+      {
+        "name": {
+          "quote": "jointly optimized using the Adam optimizer [21]",
+          "justification": "Optimizer used.",
+          "value": "Adam"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "using the Adam optimizer [21] with AMSGrad [31]",
+          "justification": "Standard optimizer.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "The whole MOSAD network ... is jointly optimized using the Adam optimizer [21]",
+          "justification": "Used in training.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "using the Adam optimizer [21] with AMSGrad [31]",
+          "justification": "Not compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "The whole MOSAD network, including the Feature Extractor and the Multi-Head Network, is jointly optimized using the Adam optimizer [21] with AMSGrad [31]",
+          "justification": "As stated in implementation details.",
+          "value": "optimizer for jointly optimizing the whole MOSAD network"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "D. Kingma and J. Ba. Adam: A method for stochastic optimization.",
+          "justification": "Reference [21].",
+          "value": "Adam: A method for stochastic optimization"
+        }
+      },
+      {
+        "name": {
+          "quote": "using the Adam optimizer [21] with AMSGrad [31]",
+          "justification": "Optimizer variant used.",
+          "value": "AMSGrad"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "with AMSGrad [31]",
+          "justification": "Existing method.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "is jointly optimized using the Adam optimizer [21] with AMSGrad [31]",
+          "justification": "Used in training.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "with AMSGrad [31]",
+          "justification": "Not compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "jointly optimized using the Adam optimizer [21] with AMSGrad [31], initial learning rate of 1e-3",
+          "justification": "Implementation detail.",
+          "value": "used with Adam for optimization"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "S. J. Reddi, S. Kale, and S. Kumar. On the convergence of adam and beyond.",
+          "justification": "Reference [31].",
+          "value": "On the convergence of adam and beyond"
+        }
+      },
+      {
+        "name": {
+          "quote": "batch size of 64, and weight decay of 1e-5",
+          "justification": "Used in training configuration.",
+          "value": "weight decay"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "weight decay of 1e-5",
+          "justification": "Standard regularization.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "initial learning rate of 1e-3, batch size of 64, and weight decay of 1e-5",
+          "justification": "Applied in training.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "weight decay of 1e-5",
+          "justification": "Not compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "jointly optimized using the Adam optimizer [21] with AMSGrad [31], initial learning rate of 1e-3, batch size of 64, and weight decay of 1e-5",
+          "justification": "Stated in implementation details.",
+          "value": "regularization during optimization of MOSAD"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "weight decay of 1e-5",
+          "justification": "No reference given.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "The loss on a portion of the training set is used for early stopping.",
+          "justification": "Used during training.",
+          "value": "early stopping"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "The loss on a portion of the training set is used for early stopping.",
+          "justification": "Standard procedure.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "The loss on a portion of the training set is used for early stopping.",
+          "justification": "Used in training.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "The loss on a portion of the training set is used for early stopping.",
+          "justification": "Not compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "The loss on a portion of the training set is used for early stopping.",
+          "justification": "Paper wording.",
+          "value": "stopping criterion based on loss on a portion of the training set"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "The loss on a portion of the training set is used for early stopping.",
+          "justification": "No reference.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "We then perform deviation learning based on a Gaussian prior distribution [29]",
+          "justification": "Named procedure for the Discriminative head.",
+          "value": "deviation learning"
+        },
+        "aliases": [
+          "deviation loss"
+        ],
+        "is_contributed": {
+          "quote": "We then perform deviation learning based on a Gaussian prior distribution [29]",
+          "justification": "Based on [29].",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "The Discriminative head uses deviation learning to leverage a few seen anomalies",
+          "justification": "Part of MOSAD training.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Ldev sdev",
+          "justification": "Ablated in Table 5.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "We use deviation learning to maximize the distance between normal and abnormal anomaly scores with only a few shots of seen anomaly samples and synthetic anomalies.",
+          "justification": "Paper's wording.",
+          "value": "used to maximize the distance between normal and abnormal anomaly scores"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "G. Pang, C. Shen, and A. van den Hengel. Deep anomaly detection with deviation networks.",
+          "justification": "Reference [29].",
+          "value": "Deep anomaly detection with deviation networks"
+        }
+      },
+      {
+        "name": {
+          "quote": "we also exploit inter-sensor dependencies inherent in multivariate time-series data by performing masked reconstruction",
+          "justification": "Named procedure of the Generative head.",
+          "value": "masked reconstruction"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "To demonstrate the effectiveness of the masked reconstruction described in Section 2.2",
+          "justification": "Part of the proposed MOSAD design, ablated.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "The task of the Generative head is to reconstruct the masked variable’s feature vector",
+          "justification": "Used in training.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "we also implement MOSAD without masked reconstruction, denoted as MOSADNMR",
+          "justification": "Compared via MOSADNMR ablation.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "we also exploit inter-sensor dependencies inherent in multivariate time-series data by performing masked reconstruction",
+          "justification": "Paper's wording.",
+          "value": "exploits inter-sensor dependencies by reconstructing masked variables"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "by performing masked reconstruction",
+          "justification": "No specific reference.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "We propose a novel Anomaly-Aware Contrastive Head",
+          "justification": "Proposed contrastive learning procedure.",
+          "value": "Anomaly-Aware Contrastive head"
+        },
+        "aliases": [
+          "Anomaly-Aware Contrastive learning"
+        ],
+        "is_contributed": {
+          "quote": "We propose a novel Anomaly-Aware Contrastive Head in which, unlike vanilla supervised contrastive learning",
+          "justification": "Novel contribution.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "The Anomaly-Aware Contrastive head then further strengthens the feature space",
+          "justification": "Part of MOSAD training.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "It is shown that MOSAD with our proposed Anomaly-Aware Contrastive head achieves higher performance in both AUC and APR compared to MOSADVSC .",
+          "justification": "Compared with vanilla supervised contrastive learning.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "we propose a new contrastive learning setup that is tailored to open-set TSAD",
+          "justification": "Paper's wording.",
+          "value": "a new contrastive learning setup tailored to open-set TSAD"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "We propose a novel Anomaly-Aware Contrastive Head",
+          "justification": "Contribution of this paper.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "unlike the vanilla supervised contrastive learning paradigm that maximizes all the intra-class similarities [20, 16]",
+          "justification": "Vanilla version used in the MOSADVSC variant.",
+          "value": "supervised contrastive learning"
+        },
+        "aliases": [
+          "vanilla supervised contrastive learning",
+          "VSC"
+        ],
+        "is_contributed": {
+          "quote": "MOSADVSC employs the vanilla supervised contrastive learning paradigm [20]",
+          "justification": "Existing paradigm from [20].",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "MOSADVSC employs the vanilla supervised contrastive learning paradigm [20], i.e., the similarity between abnormal samples are maximized during training.",
+          "justification": "Executed in the MOSADVSC variant.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "MOSAD with our proposed Anomaly-Aware Contrastive head achieves higher performance ... compared to MOSADVSC",
+          "justification": "Compared to the proposed head.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "MOSADVSC employs the vanilla supervised contrastive learning paradigm [20]",
+          "justification": "Used in the ablation variant.",
+          "value": "baseline contrastive paradigm compared against the proposed Anomaly-Aware Contrastive head"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "P. Khosla, P. Teterwak, C. Wang, A. Sarna, Y. Tian, P. Isola, A. Maschinot, C. Liu, and D. Krishnan. Supervised contrastive learning.",
+          "justification": "Reference [20].",
+          "value": "Supervised contrastive learning"
+        }
+      },
+      {
+        "name": {
+          "quote": "by measuring the cosine similarity (Sim{·}) [30] between x(t) and a random set of normal samples P",
+          "justification": "Used in anomaly scoring.",
+          "value": "cosine similarity"
+        },
+        "aliases": [
+          "Sim"
+        ],
+        "is_contributed": {
+          "quote": "measuring the cosine similarity (Sim{·}) [30]",
+          "justification": "Standard measure.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "the Contrastive head first predicts the normality of x(t) by measuring the cosine similarity",
+          "justification": "Used at test time scoring.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "measuring the cosine similarity (Sim{·}) [30]",
+          "justification": "Not compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "the Contrastive head first predicts the normality of x(t) by measuring the cosine similarity (Sim{·}) [30] between x(t) and a random set of normal samples P",
+          "justification": "Paper's wording.",
+          "value": "used to compute the normality score of a test sample against normal samples"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "F. Rahutomo, T. Kitasuka, and M. Aritsugi. Semantic cosine similarity.",
+          "justification": "Reference [30].",
+          "value": "Semantic cosine similarity"
+        }
+      },
+      {
+        "name": {
+          "quote": "supervised binary-classifier baselines that utilize the cross-entropy loss [50]",
+          "justification": "Used by supervised baselines.",
+          "value": "cross-entropy loss"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "that utilize the cross-entropy loss [50]",
+          "justification": "Standard loss.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "supervised binary-classifier baselines that utilize the cross-entropy loss [50] such as LSTM [19], CNN-LSTM [2], GAT [41], and NCAD [7]",
+          "justification": "Used in training supervised baselines.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "that utilize the cross-entropy loss [50]",
+          "justification": "Not itself compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "supervised binary-classifier baselines that utilize the cross-entropy loss [50]",
+          "justification": "Paper's wording.",
+          "value": "objective of supervised binary-classifier baselines"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Z. Zhang and M. Sabuncu. Generalized cross entropy loss for training deep neural networks with noisy labels.",
+          "justification": "Reference [50].",
+          "value": "Generalized cross entropy loss for training deep neural networks with noisy labels"
+        }
+      },
+      {
+        "name": {
+          "quote": "p<0.05 for both AUC and APR, according to the Wilcoxon signed-rank test [35]",
+          "justification": "Statistical significance test used.",
+          "value": "Wilcoxon signed-rank test"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "according to the Wilcoxon signed-rank test [35]",
+          "justification": "Standard statistical test.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "p<0.05 for both AUC and APR, according to the Wilcoxon signed-rank test [35]",
+          "justification": "Applied to results.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "according to the Wilcoxon signed-rank test [35]",
+          "justification": "Not compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "p<0.05 for both AUC and APR, according to the Wilcoxon signed-rank test [35]",
+          "justification": "Used to assess significance.",
+          "value": "statistical significance testing of performance improvements"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "S. Siegel. Nonparametric Statistics for the Behavioral Sciences.",
+          "justification": "Reference [35].",
+          "value": "Nonparametric Statistics for the Behavioral Sciences"
+        }
+      }
+    ],
+    "runs": [
+      {
+        "models": [
+          {
+            "name": "MOSAD",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Server Machine Dataset (SMD)",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Adam"
+          },
+          {
+            "name": "AMSGrad"
+          },
+          {
+            "name": "weight decay"
+          },
+          {
+            "name": "early stopping"
+          },
+          {
+            "name": "contextual outlier exposure (COE)"
+          },
+          {
+            "name": "window mixup (WMix)"
+          },
+          {
+            "name": "deviation learning"
+          },
+          {
+            "name": "masked reconstruction"
+          },
+          {
+            "name": "Anomaly-Aware Contrastive head"
+          },
+          {
+            "name": "cosine similarity"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "The whole MOSAD network ... is jointly optimized using the Adam optimizer [21]",
+          "justification": "MOSAD is trained on SMD in the open-set general setting.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "to a maximum epoch of 30",
+          "justification": "Stated in implementation details.",
+          "value": "maximum epoch of 30"
+        },
+        "parameter_count": {
+          "quote": "Other hyperparameters are D = 120, d = 32, and |P| = 64.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "This research was enabled in part by Calcul Quebec and the Digital Research Alliance of Canada.",
+          "justification": "Hardware not specified beyond compute provider acknowledgement.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "This research was enabled in part by Calcul Quebec and the Digital Research Alliance of Canada.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "This research was enabled in part by Calcul Quebec and the Digital Research Alliance of Canada.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "initial learning rate of 1e-3, batch size of 64, and weight decay of 1e-5",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "All experiments are performed on a fixed random seed of 123.",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "to a maximum epoch of 30",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "All experiments are performed on a fixed random seed of 123.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "All experiments are performed on a fixed random seed of 123.",
+          "justification": "A single fixed seed is stated.",
+          "value": [
+            {
+              "kind": "seed",
+              "count": 1,
+              "what": "fixed random seed of 123"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "MOSAD",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Physikalisch-Technische Bundesanstalt XL (PTB-XL)",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Adam"
+          },
+          {
+            "name": "AMSGrad"
+          },
+          {
+            "name": "weight decay"
+          },
+          {
+            "name": "early stopping"
+          },
+          {
+            "name": "contextual outlier exposure (COE)"
+          },
+          {
+            "name": "window mixup (WMix)"
+          },
+          {
+            "name": "deviation learning"
+          },
+          {
+            "name": "masked reconstruction"
+          },
+          {
+            "name": "Anomaly-Aware Contrastive head"
+          },
+          {
+            "name": "cosine similarity"
+          },
+          {
+            "name": "Wilcoxon signed-rank test"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "Table 4 shows a comparison between the existing supervised methods and MOSAD on the PTB-XL and TUSZ datasets under OClass H .",
+          "justification": "MOSAD trained on PTB-XL under general and hard settings plus ablations.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "to a maximum epoch of 30",
+          "justification": "Stated in implementation details.",
+          "value": "maximum epoch of 30"
+        },
+        "parameter_count": {
+          "quote": "Other hyperparameters are D = 120, d = 32, and |P| = 64.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "This research was enabled in part by Calcul Quebec and the Digital Research Alliance of Canada.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "This research was enabled in part by Calcul Quebec and the Digital Research Alliance of Canada.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "This research was enabled in part by Calcul Quebec and the Digital Research Alliance of Canada.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "batch size of 64, and weight decay of 1e-5",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "All experiments are performed on a fixed random seed of 123.",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "to a maximum epoch of 30",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "All experiments are performed on a fixed random seed of 123.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "seven ablations of MOSAD under OClass H on PTB-XL are presented in Table 5. ... The models were trained with different η ∈ {3, 6, ..., 30}. ... Figure 2 (Left) shows the sensitivity of MOSAD to |P|, where |P| = {8, 64, 512}",
+          "justification": "The paper lists hard-setting classes, ablations and sensitivity sweeps on PTB-XL.",
+          "value": [
+            {
+              "kind": "variant",
+              "count": 4,
+              "what": "seen anomaly class settings (O_H^MI, O_H^STTC, O_H^CD, O_H^HYP)"
+            },
+            {
+              "kind": "variant",
+              "count": 7,
+              "what": "ablations of the heads/losses"
+            },
+            {
+              "kind": "hyperparameter",
+              "count": 10,
+              "what": "number of labeled anomalies η ∈ {3, 6, ..., 30}"
+            },
+            {
+              "kind": "hyperparameter",
+              "count": 3,
+              "what": "|P| = {8, 64, 512}"
+            },
+            {
+              "kind": "variant",
+              "count": 4,
+              "what": "anomaly augmentation settings (-COE, -WMix, -Both, +Both)"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "MOSAD",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Temple University Hospital Electroencephalogram Seizure Corpus (TUSZ)",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Adam"
+          },
+          {
+            "name": "AMSGrad"
+          },
+          {
+            "name": "weight decay"
+          },
+          {
+            "name": "early stopping"
+          },
+          {
+            "name": "contextual outlier exposure (COE)"
+          },
+          {
+            "name": "window mixup (WMix)"
+          },
+          {
+            "name": "deviation learning"
+          },
+          {
+            "name": "masked reconstruction"
+          },
+          {
+            "name": "Anomaly-Aware Contrastive head"
+          },
+          {
+            "name": "cosine similarity"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "On the TUSZ dataset, MOSAD also achieves significant improvement compared to other methods",
+          "justification": "MOSAD trained and evaluated on TUSZ.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "to a maximum epoch of 30",
+          "justification": "Stated in implementation details.",
+          "value": "maximum epoch of 30"
+        },
+        "parameter_count": {
+          "quote": "Other hyperparameters are D = 120, d = 32, and |P| = 64.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "This research was enabled in part by Calcul Quebec and the Digital Research Alliance of Canada.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "This research was enabled in part by Calcul Quebec and the Digital Research Alliance of Canada.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "This research was enabled in part by Calcul Quebec and the Digital Research Alliance of Canada.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "batch size of 64, and weight decay of 1e-5",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "All experiments are performed on a fixed random seed of 123.",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "to a maximum epoch of 30",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "All experiments are performed on a fixed random seed of 123.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "OFNSZ H OGNSZ H OCPSZ H Average",
+          "justification": "Table 4 reports three hard settings for TUSZ.",
+          "value": [
+            {
+              "kind": "variant",
+              "count": 3,
+              "what": "seen anomaly class settings (O_H^FNSZ, O_H^GNSZ, O_H^CPSZ)"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "MOSADVSC",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Server Machine Dataset (SMD)",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          },
+          {
+            "name": "Physikalisch-Technische Bundesanstalt XL (PTB-XL)",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          },
+          {
+            "name": "Temple University Hospital Electroencephalogram Seizure Corpus (TUSZ)",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "supervised contrastive learning"
+          },
+          {
+            "name": "Adam"
+          },
+          {
+            "name": "deviation learning"
+          },
+          {
+            "name": "masked reconstruction"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "MOSADVSC employs the vanilla supervised contrastive learning paradigm [20], i.e., the similarity between abnormal samples are maximized during training.",
+          "justification": "Variant trained for comparison in Table 3.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "to a maximum epoch of 30",
+          "justification": "Same implementation details apply.",
+          "value": "maximum epoch of 30"
+        },
+        "parameter_count": {
+          "quote": "Other hyperparameters are D = 120, d = 32, and |P| = 64.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "This research was enabled in part by Calcul Quebec and the Digital Research Alliance of Canada.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "This research was enabled in part by Calcul Quebec and the Digital Research Alliance of Canada.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "This research was enabled in part by Calcul Quebec and the Digital Research Alliance of Canada.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "batch size of 64",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "All experiments are performed on a fixed random seed of 123.",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "to a maximum epoch of 30",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "All experiments are performed on a fixed random seed of 123.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "All experiments are performed on a fixed random seed of 123.",
+          "justification": "Not stated beyond the fixed seed.",
+          "value": []
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "MOSADNMR",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Server Machine Dataset (SMD)",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          },
+          {
+            "name": "Physikalisch-Technische Bundesanstalt XL (PTB-XL)",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          },
+          {
+            "name": "Temple University Hospital Electroencephalogram Seizure Corpus (TUSZ)",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Adam"
+          },
+          {
+            "name": "deviation learning"
+          },
+          {
+            "name": "Anomaly-Aware Contrastive head"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "we also implement MOSAD without masked reconstruction, denoted as MOSADNMR , as shown in Table 3",
+          "justification": "Ablation variant trained for Table 3.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "to a maximum epoch of 30",
+          "justification": "Same implementation details apply.",
+          "value": "maximum epoch of 30"
+        },
+        "parameter_count": {
+          "quote": "Other hyperparameters are D = 120, d = 32, and |P| = 64.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "This research was enabled in part by Calcul Quebec and the Digital Research Alliance of Canada.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "This research was enabled in part by Calcul Quebec and the Digital Research Alliance of Canada.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "This research was enabled in part by Calcul Quebec and the Digital Research Alliance of Canada.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "batch size of 64",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "All experiments are performed on a fixed random seed of 123.",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "to a maximum epoch of 30",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "All experiments are performed on a fixed random seed of 123.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "All experiments are performed on a fixed random seed of 123.",
+          "justification": "Not stated.",
+          "value": []
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "LSTM-AE",
+            "role_in_run": "main"
+          },
+          {
+            "name": "TCN-AE",
+            "role_in_run": "main"
+          },
+          {
+            "name": "MTAD-GAT",
+            "role_in_run": "main"
+          },
+          {
+            "name": "THOC",
+            "role_in_run": "main"
+          },
+          {
+            "name": "USAD",
+            "role_in_run": "main"
+          },
+          {
+            "name": "DVGCRN",
+            "role_in_run": "main"
+          },
+          {
+            "name": "DCdetector",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Server Machine Dataset (SMD)",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          },
+          {
+            "name": "Physikalisch-Technische Bundesanstalt XL (PTB-XL)",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          },
+          {
+            "name": "Temple University Hospital Electroencephalogram Seizure Corpus (TUSZ)",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [],
+        "produces": [],
+        "execution_mode": {
+          "quote": "Note that identical datasets (with the same number and index of normal and abnormal samples) for both training and test phases are used for MOSAD and the comparison methods.",
+          "justification": "Unsupervised baselines trained on the identical prepared datasets.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "identical datasets ... are used for MOSAD and the comparison methods",
+          "justification": "Not stated for baselines.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "identical datasets ... are used for MOSAD and the comparison methods",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "This research was enabled in part by Calcul Quebec and the Digital Research Alliance of Canada.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "This research was enabled in part by Calcul Quebec and the Digital Research Alliance of Canada.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "This research was enabled in part by Calcul Quebec and the Digital Research Alliance of Canada.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "All experiments are performed on a fixed random seed of 123.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "All experiments are performed on a fixed random seed of 123.",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "All experiments are performed on a fixed random seed of 123.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "All experiments are performed on a fixed random seed of 123.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "we select the unsupervised methods LSTM-AE [27], TCN-AE [39], MTAD-GAT [51], THOC [34], USAD [3], DVGCRN [8], and DCdetector [47] for comparison.",
+          "justification": "Seven unsupervised baselines were evaluated.",
+          "value": [
+            {
+              "kind": "variant",
+              "count": 7,
+              "what": "unsupervised baseline methods"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "LSTM",
+            "role_in_run": "main"
+          },
+          {
+            "name": "CNN-LSTM",
+            "role_in_run": "main"
+          },
+          {
+            "name": "GAT",
+            "role_in_run": "main"
+          },
+          {
+            "name": "NCAD",
+            "role_in_run": "main"
+          },
+          {
+            "name": "TCN",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Server Machine Dataset (SMD)",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          },
+          {
+            "name": "Physikalisch-Technische Bundesanstalt XL (PTB-XL)",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          },
+          {
+            "name": "Temple University Hospital Electroencephalogram Seizure Corpus (TUSZ)",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "cross-entropy loss"
+          },
+          {
+            "name": "contextual outlier exposure (COE)"
+          },
+          {
+            "name": "window mixup (WMix)"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "we also compare MOSAD with supervised binary-classifier baselines that utilize the cross-entropy loss [50] such as LSTM [19], CNN-LSTM [2], GAT [41], and NCAD [7] in OG",
+          "justification": "Supervised binary-classifier baselines trained in open-set settings.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "identical datasets ... are used for MOSAD and the comparison methods",
+          "justification": "Not stated for baselines.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "The same TCN architecture is used for MOSAD and all TCN-based comparison methods.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "This research was enabled in part by Calcul Quebec and the Digital Research Alliance of Canada.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "This research was enabled in part by Calcul Quebec and the Digital Research Alliance of Canada.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "This research was enabled in part by Calcul Quebec and the Digital Research Alliance of Canada.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "All experiments are performed on a fixed random seed of 123.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "All experiments are performed on a fixed random seed of 123.",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "All experiments are performed on a fixed random seed of 123.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "All experiments are performed on a fixed random seed of 123.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "MOSAD is compared with the binary classifiers LSTM, CNN-LSTM, GAT, TCN [4], and NCAD. ... The models were trained with different η ∈ {3, 6, ..., 30}.",
+          "justification": "The baselines were run across settings and η values.",
+          "value": [
+            {
+              "kind": "variant",
+              "count": 5,
+              "what": "supervised baseline methods (LSTM, CNN-LSTM, GAT, TCN, NCAD)"
+            },
+            {
+              "kind": "variant",
+              "count": 7,
+              "what": "open-set settings (general plus hard settings per anomaly class)"
+            },
+            {
+              "kind": "hyperparameter",
+              "count": 10,
+              "what": "number of labeled anomalies η ∈ {3, 6, ..., 30} for NCAD"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "usage": {
+    "input_tokens": 33744,
+    "output_tokens": 23783,
+    "total_tokens": 57527
+  }
+}

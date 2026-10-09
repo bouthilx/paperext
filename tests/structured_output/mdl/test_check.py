@@ -75,7 +75,7 @@ def _run(*, models=(), data_sources=(), algorithms=(), mode="train"):
         "parallelism": _expl(["unknown"]),
         "duration": _expl("unknown"),
         "utilisation": _expl("unknown"),
-        "repetitions": _expl("unknown"),
+        "repetitions": _expl([]),
     }
 
 
@@ -249,3 +249,95 @@ def test_a_generate_run_with_no_models_is_clean():
         runs=[_run(data_sources=["ImageNet"], mode="generate")],
     )
     assert check_references(ext) == []
+
+
+def test_a_model_trained_then_evaluated_is_not_a_disagreement():
+    """The ordinary shape, and the one the pairwise check called an error.
+
+    `RefModel.execution_mode` describes what the paper did with the model
+    overall; `Run.execution_mode` describes one run. A paper that trains a model
+    and then evaluates it states both truthfully. Measured on the first v5 run,
+    `run=inference, model=train` was the single largest group of pairwise
+    "disagreements" -- 16 of 43.
+    """
+    ext = _paper(
+        models=[_model("ResNet-50", mode="train")],
+        runs=[
+            _run(models=["ResNet-50"], mode="train"),
+            _run(models=["ResNet-50"], mode="inference"),
+        ],
+    )
+    assert EXECUTION_MODE_DISAGREES not in _codes(ext)
+
+
+def test_a_mode_matching_no_run_the_model_appears_in_is_reported():
+    """The real signal: usually the run that would justify it was never listed."""
+    ext = _paper(
+        models=[_model("Phi-3", mode="finetune")],
+        runs=[
+            _run(models=["Phi-3"], mode="train"),
+            _run(models=["Phi-3"], mode="inference"),
+        ],
+    )
+    [problem] = [p for p in check_references(ext) if p.code == EXECUTION_MODE_DISAGREES]
+    assert "finetune" in problem.detail
+    assert "'inference', 'train'" in problem.detail
+
+
+def test_a_participant_role_does_not_create_a_disagreement():
+    """A teacher in a train run is not being trained; it was trained elsewhere."""
+    ext = _paper(
+        models=[
+            _model("Student", mode="train"),
+            _model("Teacher", mode="inference"),
+        ],
+        runs=[
+            _run(models=["Student", "Teacher"], mode="train"),
+            _run(models=["Teacher"], mode="inference"),
+        ],
+    )
+    assert EXECUTION_MODE_DISAGREES not in _codes(ext)
+
+
+def test_a_frozen_participant_is_not_compared_at_all():
+    """A teacher and a data-source model are participants, not what ran.
+
+    The owner's run criterion is "a frozen network is a participant", so a
+    teacher's own `inference` mode and the `train` run it takes part in are both
+    true. On the first v5 run this was 3 of 10 remaining disagreements: a
+    tokenizer, a binding proxy and a pair of scoring oracles, each appearing
+    only in a frozen role.
+    """
+    ext = _paper(
+        models=[_model("Scoring oracle", mode="inference")],
+        runs=[_run(models=["Scoring oracle"], mode="train")],
+    )
+    # The fixture's RunModel role is "main", so this IS compared and flagged.
+    assert EXECUTION_MODE_DISAGREES in _codes(ext)
+
+    frozen = _paper(
+        models=[_model("Scoring oracle", mode="inference")],
+        runs=[
+            {
+                **_run(mode="train"),
+                "models": [{"name": "Scoring oracle", "role_in_run": "data-source"}],
+            }
+        ],
+    )
+    assert EXECUTION_MODE_DISAGREES not in _codes(frozen)
+
+
+def test_a_role_is_read_by_value_not_by_its_enum_repr():
+    """`str(ModelRunRole.DATA_SOURCE)` is not `'data-source'`.
+
+    Reading an enum by `str()` has been a bug three times here, and each time it
+    made a check silently report nothing. Pinned so the fourth is caught.
+    """
+    from paperext.structured_output.mdl.check import _enum_value
+    from paperext.structured_output.mdl.model_v5 import ModelRunRole
+
+    assert _enum_value(ModelRunRole.DATA_SOURCE) == "data-source"
+    assert _enum_value(ModelRunRole.TEACHER) == "teacher"
+    assert _enum_value("main") == "main"
+    assert _enum_value(None) == ""
+    assert str(ModelRunRole.DATA_SOURCE) != "data-source"  # the trap itself

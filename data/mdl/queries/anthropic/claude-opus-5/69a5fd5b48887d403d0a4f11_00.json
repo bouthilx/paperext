@@ -1,0 +1,2470 @@
+{
+  "paper": "69a5fd5b48887d403d0a4f11.txt",
+  "words": 10793,
+  "extractions": {
+    "title": {
+      "quote": "O PEN FAKE: An Open Dataset and Platform Toward Real-World Deepfake Detection",
+      "justification": "Title from the paper header.",
+      "value": "OPENFAKE: An Open Dataset and Platform Toward Real-World Deepfake Detection"
+    },
+    "description": "The paper introduces OPENFAKE, a large politically grounded dataset of ~3M real images (from LAION-400M, filtered and captioned with Qwen2.5-VL) and ~963k synthetic images from 18 modern generators, plus OPENFAKE ARENA, a crowdsourced adversarial platform. It benchmarks deepfake detectors (SwinV2-Small trained on OpenFake, GenImage, Semi-Truths; ConvNeXt/DRCT, EfficientNet-B4/FF++, CLIP-D-10k+, Corvi2023, zero-shot InternVL3-38B), reports a human perception study, and an in-the-wild social media evaluation.",
+    "type": {
+      "quote": "An experimental study which shows the weak performance of detectors trained on the currently available datasets on detecting realistic deepfakes",
+      "justification": "Dataset construction, model training and benchmarking experiments.",
+      "value": "empirical"
+    },
+    "research_fields": [
+      {
+        "name": {
+          "quote": "O PEN FAKE, a politically grounded dataset for general deepfake detection",
+          "justification": "Core topic of the paper; the dataset and detectors advance it.",
+          "value": "Deepfake detection"
+        },
+        "aliases": [
+          "synthetic image detection",
+          "AI-generated image detection"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "arXiv:2509.09495v2 [cs.CV]",
+          "justification": "Paper is cs.CV, about image classification/generation.",
+          "value": "Computer Vision"
+        },
+        "aliases": [
+          "CV"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "These posts serve as a foundation for analyzing real-world misinformation risks and curating image content with societal relevance.",
+          "justification": "Political misinformation context is a stated motivation and the dataset is designed for it.",
+          "value": "Misinformation / disinformation studies"
+        },
+        "aliases": [
+          "information integrity"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "A human perception study showing that images from modern proprietary generators can be imperceptible to humans",
+          "justification": "A human survey was run as part of the paper's contributions.",
+          "value": "Human perception study"
+        },
+        "aliases": [
+          "user study"
+        ],
+        "role": "used"
+      },
+      {
+        "name": {
+          "quote": "seeding generation across a range of synthetic image models (e.g., SDv3.5, Flux, Ideogram, GPT Image 1)",
+          "justification": "Text-to-image generators are used to produce the data but not advanced.",
+          "value": "Generative modeling (text-to-image)"
+        },
+        "aliases": [
+          "text-to-image generation"
+        ],
+        "role": "used"
+      }
+    ],
+    "models": [
+      {
+        "name": {
+          "quote": "Our primary detector is SwinV2-Small [48], a hierarchical vision transformer",
+          "justification": "Primary detector trained on OpenFake.",
+          "value": "SwinV2-Small"
+        },
+        "aliases": [
+          "SwinV2",
+          "microsoft/swinv2-small-patch4-window16-256",
+          "Swin Transformer V2"
+        ],
+        "is_contributed": {
+          "quote": "We adopt it as the backbone for our supervised detector, trained on O PEN FAKE.",
+          "justification": "Existing architecture used as backbone.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Training the SwinV2 baseline classifier on the O PEN FAKE dataset required approximately 12 hours on a single NVIDIA L40S GPU.",
+          "justification": "Finetuned on an L40S GPU.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Table 3: Performance comparison on O PEN FAKE across detectors trained on different datasets.",
+          "justification": "Compared against other detectors in tables.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "The model is initialized from ImageNet-1k weights and fine-tuned end-to-end.",
+          "justification": "Initialized from ImageNet-1k weights and fine-tuned.",
+          "value": "finetune"
+        },
+        "referenced_paper_title": {
+          "quote": "Z. Liu, Y. Lin, Y. Cao, H. Hu, Y. Wei, Z. Zhang, S. Lin, and B. Guo. Swin transformer: Hierarchical vision transformer using shifted windows.",
+          "justification": "Reference [48].",
+          "value": "Swin transformer: Hierarchical vision transformer using shifted windows"
+        }
+      },
+      {
+        "name": {
+          "quote": "we filter image–caption pairs using a vision–language model (Qwen2.5-VL [3])",
+          "justification": "Vision-language model used to filter and caption LAION images.",
+          "value": "Qwen2.5-VL"
+        },
+        "aliases": [
+          "Qwen2.5-VL"
+        ],
+        "is_contributed": {
+          "quote": "We filtered real images using Qwen2.5-VL, selected for its trade-off between speed and quality.",
+          "justification": "External model used in pipeline.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "The LAION filtering pipeline ran continuously for two weeks on 4 NVIDIA L40S GPUs (48 GB VRAM each).",
+          "justification": "Ran for two weeks on L40S GPUs.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "We filtered real images using Qwen2.5-VL, selected for its trade-off between speed and quality.",
+          "justification": "Not benchmarked numerically as a detector.",
+          "value": false
+        },
+        "execution_mode": {
+          "quote": "A vision-language model (e.g., Qwen2.5-VL) extracts thematic captions or prompts from real images from LAION.",
+          "justification": "Used for captioning/filtering only.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "S. Bai, K. Chen, X. Liu, J. Wang, W. Ge, S. Song, K. Dang, P. Wang, S. Wang, J. Tang, et al. Qwen2. 5-vl technical report.",
+          "justification": "Reference [3].",
+          "value": "Qwen2.5-vl technical report"
+        }
+      },
+      {
+        "name": {
+          "quote": "We use the InternVL3-38B; Code for all scripts and baselines",
+          "justification": "Zero-shot detector baseline.",
+          "value": "InternVL3-38B"
+        },
+        "aliases": [
+          "InternVL",
+          "InternVL-3"
+        ],
+        "is_contributed": {
+          "quote": "For zero-shot detection, we use InternVL [14] directly without finetuning.",
+          "justification": "External baseline.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "InternVL inference over the full test set was performed over 10 hours on a single RTX8000 GPU (48 GB VRAM).",
+          "justification": "Inference was run on RTX8000.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "InternVL-3 (zero-shot)",
+          "justification": "Included in Table 3 comparison.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "we use InternVL [14] directly without finetuning",
+          "justification": "Used zero-shot without finetuning.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "Z. Chen, J. Wu, W. Wang, W. Su, G. Chen, S. Xing, M. Zhong, Q. Zhang, X. Zhu, L. Lu, et al. Internvl: Scaling up vision foundation models and aligning for generic visual-linguistic tasks.",
+          "justification": "Reference [14].",
+          "value": "Internvl: Scaling up vision foundation models and aligning for generic visual-linguistic tasks"
+        }
+      },
+      {
+        "name": {
+          "quote": "we include the CLIP-Based Synthetic Image Detector [17], which applies a linear probe over CLIP embeddings with minimal training data",
+          "justification": "Semi-supervised baseline with linear probe on CLIP embeddings.",
+          "value": "CLIP-Based Synthetic Image Detector"
+        },
+        "aliases": [
+          "CLIP-D-10k+",
+          "CLIP"
+        ],
+        "is_contributed": {
+          "quote": "The CLIP-D-10k+ method [17], which fine-tunes a linear classifier on CLIP embeddings",
+          "justification": "External baseline.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "CLIP and the Corvi2023 baselines were evaluated in approximately 6 hours on the same RTX8000 GPU.",
+          "justification": "Evaluated on RTX8000.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "CLIPD-10k+",
+          "justification": "In Tables 2 and 3.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "CLIP and the Corvi2023 baselines were evaluated in approximately 6 hours on the same RTX8000 GPU.",
+          "justification": "Used as a pretrained baseline for evaluation on the benchmark.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "D. Cozzolino, G. Poggi, R. Corvi, M. Nießner, and L. Verdoliva. Raising the bar of ai-generated image detection with clip.",
+          "justification": "Reference [17].",
+          "value": "Raising the bar of ai-generated image detection with clip"
+        }
+      },
+      {
+        "name": {
+          "quote": "we also test the handcrafted detector of Corvi et al. [16]",
+          "justification": "Handcrafted-feature detector baseline.",
+          "value": "Corvi2023"
+        },
+        "aliases": [
+          "Corvi'23",
+          "DMD Corvi'23"
+        ],
+        "is_contributed": {
+          "quote": "the Corvi2023 method [16], which uses curated handcrafted features for detection",
+          "justification": "External baseline.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "CLIP and the Corvi2023 baselines were evaluated in approximately 6 hours on the same RTX8000 GPU.",
+          "justification": "Evaluated on RTX8000.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Corvi2023 largely predicts “real,”",
+          "justification": "In Tables 2 and 3.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "CLIP and the Corvi2023 baselines were evaluated in approximately 6 hours",
+          "justification": "Evaluation only.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "R. Corvi, D. Cozzolino, G. Zingarini, G. Poggi, K. Nagano, and L. Verdoliva. On the detection of synthetic images generated by diffusion models.",
+          "justification": "Reference [16].",
+          "value": "On the detection of synthetic images generated by diffusion models"
+        }
+      },
+      {
+        "name": {
+          "quote": "a ConvNeXt baseline trained on DRCT taken from [11]",
+          "justification": "Baseline detector trained on DRCT.",
+          "value": "ConvNeXt (DRCT)"
+        },
+        "aliases": [
+          "DRCT ConvNeXt"
+        ],
+        "is_contributed": {
+          "quote": "a ConvNeXt baseline trained on DRCT taken from [11]",
+          "justification": "Taken from prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "DRCT ConvNeXt ... Overall F1 0.449",
+          "justification": "Evaluated on OpenFake test set producing numbers in Table 3.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Legacy or narrow baselines (ConvNeXt/DRCT, EffNet-B4/FF++) underperform",
+          "justification": "In Table 3.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "a ConvNeXt baseline trained on DRCT taken from [11]",
+          "justification": "Pretrained weights used for evaluation.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "B. Chen, J. Zeng, J. Yang, and R. Yang. DRCT: Diffusion reconstruction contrastive training towards universal detection of diffusion generated images.",
+          "justification": "Reference [11].",
+          "value": "DRCT: Diffusion reconstruction contrastive training towards universal detection of diffusion generated images"
+        }
+      },
+      {
+        "name": {
+          "quote": "an EfficientNet-B4 baseline trained on FaceForensics++ from [76]",
+          "justification": "Baseline detector trained on FaceForensics++.",
+          "value": "EfficientNet-B4"
+        },
+        "aliases": [
+          "EffNet-B4",
+          "FF++ EffNet-B4"
+        ],
+        "is_contributed": {
+          "quote": "an EfficientNet-B4 baseline trained on FaceForensics++ from [76]",
+          "justification": "Taken from DeepfakeBench.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "FF++ EffNet-B4 ... Overall F1 0.485",
+          "justification": "Evaluated on the OpenFake benchmark.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Legacy or narrow baselines (ConvNeXt/DRCT, EffNet-B4/FF++) underperform",
+          "justification": "In Table 3.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "an EfficientNet-B4 baseline trained on FaceForensics++ from [76]",
+          "justification": "Pretrained weights used for evaluation.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "Z. Yan, Y. Zhang, X. Yuan, S. Lyu, and B. Wu. Deepfakebench: A comprehensive benchmark of deepfake detection.",
+          "justification": "Reference [76].",
+          "value": "Deepfakebench: A comprehensive benchmark of deepfake detection"
+        }
+      },
+      {
+        "name": {
+          "quote": "We used stabilityai/stable-diffusion-3.5-large to generate synthetic images",
+          "justification": "Open-source generator used to produce synthetic images.",
+          "value": "Stable Diffusion 3.5"
+        },
+        "aliases": [
+          "SDv3.5",
+          "SD 3.5",
+          "stabilityai/stable-diffusion-3.5-large"
+        ],
+        "is_contributed": {
+          "quote": "We used stabilityai/stable-diffusion-3.5-large to generate synthetic images",
+          "justification": "External generator.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Both models were run in bfloat16 precision using their official pipelines—StableDiffusion3Pipeline and FluxPipeline",
+          "justification": "Run on GPUs with bfloat16 pipelines.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "SD 3.5 1.000 0.982 1.000",
+          "justification": "Not compared as a detector; its outputs are evaluated.",
+          "value": false
+        },
+        "execution_mode": {
+          "quote": "to generate synthetic images",
+          "justification": "Used to generate images.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "R. Rombach, A. Blattmann, D. Lorenz, P. Esser, and B. Ommer. High-resolution image synthesis with latent diffusion models.",
+          "justification": "Reference [62] for Stable Diffusion.",
+          "value": "High-resolution image synthesis with latent diffusion models"
+        }
+      },
+      {
+        "name": {
+          "quote": "black-forest-labs/Flux.1.0-dev using the same bank of prompts",
+          "justification": "Open generator used for synthetic images.",
+          "value": "Flux.1.0-dev"
+        },
+        "aliases": [
+          "Flux 1.0 dev",
+          "Flux.1-dev"
+        ],
+        "is_contributed": {
+          "quote": "black-forest-labs/Flux.1.0-dev using the same bank of prompts",
+          "justification": "External generator.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Images from Stable Diffusion v2.1 and Flux.1.0-dev were generated on 4 L40S GPUs over a span of 4 days per model.",
+          "justification": "Generated images on 4 L40S GPUs over 4 days.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Flux 1.0 Dev 1.000 0.967",
+          "justification": "Generator, not compared as detector.",
+          "value": false
+        },
+        "execution_mode": {
+          "quote": "run in bfloat16 precision using their official pipelines",
+          "justification": "Used to generate images.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "B. F. Labs. Flux. https://github.com/black-forest-labs/flux, 2024.",
+          "justification": "Reference [39].",
+          "value": "Flux"
+        }
+      },
+      {
+        "name": {
+          "quote": "Images from Stable Diffusion v2.1 and Flux.1.0-dev were generated on 4 L40S GPUs",
+          "justification": "Generator used in dataset and survey.",
+          "value": "Stable Diffusion 2.1"
+        },
+        "aliases": [
+          "SDv2.1",
+          "SD 2.1",
+          "SDv2"
+        ],
+        "is_contributed": {
+          "quote": "Stable Diffusion 2.1 [62]",
+          "justification": "External generator.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Images from Stable Diffusion v2.1 and Flux.1.0-dev were generated on 4 L40S GPUs over a span of 4 days per model.",
+          "justification": "Images generated on GPUs.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "SD 2.1 1.000 0.998",
+          "justification": "Not a detector comparison.",
+          "value": false
+        },
+        "execution_mode": {
+          "quote": "Images from Stable Diffusion v2.1 ... were generated",
+          "justification": "Used to generate images.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "R. Rombach, A. Blattmann, D. Lorenz, P. Esser, and B. Ommer. High-resolution image synthesis with latent diffusion models.",
+          "justification": "Reference [62].",
+          "value": "High-resolution image synthesis with latent diffusion models"
+        }
+      },
+      {
+        "name": {
+          "quote": "Stable Diffusion 1.5/2.1/XL/3.5 [62]",
+          "justification": "Generator used in the dataset.",
+          "value": "Stable Diffusion 1.5"
+        },
+        "aliases": [
+          "SD 1.5",
+          "SDv1.5"
+        ],
+        "is_contributed": {
+          "quote": "Stable Diffusion 1.5/2.1/XL/3.5 [62]",
+          "justification": "External generator.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Stable Diffusion 1.5 2022–08 76,510 Community",
+          "justification": "Images were produced for the dataset.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "SD 1.5 1.000 0.936",
+          "justification": "Not a detector.",
+          "value": false
+        },
+        "execution_mode": {
+          "quote": "We generated images from a diverse set of state-of-the-art generators",
+          "justification": "Used to generate images.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "R. Rombach, A. Blattmann, D. Lorenz, P. Esser, and B. Ommer. High-resolution image synthesis with latent diffusion models.",
+          "justification": "Reference [62].",
+          "value": "High-resolution image synthesis with latent diffusion models"
+        }
+      },
+      {
+        "name": {
+          "quote": "Stable Diffusion 1.5/2.1/XL/3.5 [62]",
+          "justification": "Generator used in the dataset.",
+          "value": "Stable Diffusion XL"
+        },
+        "aliases": [
+          "SD XL",
+          "SDXL"
+        ],
+        "is_contributed": {
+          "quote": "Stable Diffusion XL 2023–07 186,666 Community",
+          "justification": "External generator.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Stable Diffusion XL 2023–07 186,666",
+          "justification": "Images generated for the dataset.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "SD XL 1.000 0.956",
+          "justification": "Not a detector.",
+          "value": false
+        },
+        "execution_mode": {
+          "quote": "We generated images from a diverse set of state-of-the-art generators using samples from our prompt bank",
+          "justification": "Used to generate images.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "R. Rombach, A. Blattmann, D. Lorenz, P. Esser, and B. Ommer. High-resolution image synthesis with latent diffusion models.",
+          "justification": "Reference [62].",
+          "value": "High-resolution image synthesis with latent diffusion models"
+        }
+      },
+      {
+        "name": {
+          "quote": "Flux 1.0-dev/1.1-Pro/Schnell [39]",
+          "justification": "Generator contributing images.",
+          "value": "Flux-1.1-Pro"
+        },
+        "aliases": [
+          "Flux 1.1 Pro"
+        ],
+        "is_contributed": {
+          "quote": "Flux-1.1-Pro 2024–10 15,608",
+          "justification": "External proprietary generator.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Flux-1.1-Pro 2024–10 15,608 Non-commercial",
+          "justification": "Images generated (via API) for the dataset.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Flux-1.1-Pro 1.000 0.315",
+          "justification": "Not a detector.",
+          "value": false
+        },
+        "execution_mode": {
+          "quote": "Images generated via proprietary APIs incurred a per-image cost",
+          "justification": "Image generation.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "B. F. Labs. Flux. https://github.com/black-forest-labs/flux, 2024.",
+          "justification": "Reference [39].",
+          "value": "Flux"
+        }
+      },
+      {
+        "name": {
+          "quote": "Flux 1.0-dev/1.1-Pro/Schnell [39]",
+          "justification": "Generator contributing images.",
+          "value": "Flux-1.0-Schnell"
+        },
+        "aliases": [
+          "Flux Schnell"
+        ],
+        "is_contributed": {
+          "quote": "Flux-1.0-Schnell 2024–10 29,923",
+          "justification": "External generator.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Flux-1.0-Schnell 2024–10 29,923 Non-commercial",
+          "justification": "Images generated for the dataset.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Flux-1.0-Schnell 0.999 1.000",
+          "justification": "Not a detector.",
+          "value": false
+        },
+        "execution_mode": {
+          "quote": "We generated images from a diverse set of state-of-the-art generators",
+          "justification": "Image generation.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "B. F. Labs. Flux.",
+          "justification": "Reference [39].",
+          "value": "Flux"
+        }
+      },
+      {
+        "name": {
+          "quote": "Midjourney v6/v7 [53, 54]",
+          "justification": "Generator contributing images.",
+          "value": "Midjourney v6"
+        },
+        "aliases": [
+          "Midjourney 6"
+        ],
+        "is_contributed": {
+          "quote": "Midjourney 6 2023–12 50,000 Non-compete",
+          "justification": "External proprietary generator.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Midjourney 6 2023–12 50,000",
+          "justification": "Images obtained/generated for the dataset.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Midjourney 6 1.000 0.090",
+          "justification": "Not a detector.",
+          "value": false
+        },
+        "execution_mode": {
+          "quote": "We generated images from a diverse set of state-of-the-art generators",
+          "justification": "Image generation.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "Midjourney. Midjourney image model v6.1.",
+          "justification": "Reference [53].",
+          "value": "Midjourney image model v6.1"
+        }
+      },
+      {
+        "name": {
+          "quote": "Midjourney v6/v7 [53, 54]",
+          "justification": "Generator contributing images.",
+          "value": "Midjourney v7"
+        },
+        "aliases": [
+          "Midjourney 7"
+        ],
+        "is_contributed": {
+          "quote": "Midjourney 7 2025–04 3586 Non-compete",
+          "justification": "External proprietary generator.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Midjourney 7 2025–04 3586",
+          "justification": "Images obtained for the dataset.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Midjourney 7 0.994 0.952",
+          "justification": "Not a detector.",
+          "value": false
+        },
+        "execution_mode": {
+          "quote": "We generated images from a diverse set of state-of-the-art generators",
+          "justification": "Image generation.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "Midjourney. Midjourney v7 alpha.",
+          "justification": "Reference [54].",
+          "value": "Midjourney v7 alpha"
+        }
+      },
+      {
+        "name": {
+          "quote": "DALL·E 3 [57]",
+          "justification": "Generator contributing images.",
+          "value": "DALL·E 3"
+        },
+        "aliases": [
+          "DALLE 3"
+        ],
+        "is_contributed": {
+          "quote": "DALL·E 3 2023–10 33,336 Non-compete",
+          "justification": "External proprietary generator.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "DALL·E 3 2023–10 33,336",
+          "justification": "Images generated for the dataset.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "DALL·E 3 0.995 0.238",
+          "justification": "Not a detector.",
+          "value": false
+        },
+        "execution_mode": {
+          "quote": "Images generated via proprietary APIs",
+          "justification": "Image generation.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "OpenAI. Dall\\cdote 3 is now available in chatgpt plus and enterprise.",
+          "justification": "Reference [57].",
+          "value": "Dall·e 3 is now available in chatgpt plus and enterprise"
+        }
+      },
+      {
+        "name": {
+          "quote": "Imagen 3/4 [4, 26]",
+          "justification": "Generator used in dataset and survey.",
+          "value": "Imagen 3"
+        },
+        "aliases": [
+          "Imagen 3.0"
+        ],
+        "is_contributed": {
+          "quote": "Imagen 3.0 2024–08 4,032",
+          "justification": "External proprietary generator.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Imagen 3.0 2024–08 4,032 Non-compete",
+          "justification": "Images generated for the dataset/survey.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Imagen 3.0 0.999 0.962",
+          "justification": "Not a detector.",
+          "value": false
+        },
+        "execution_mode": {
+          "quote": "Images generated via proprietary APIs incurred a per-image cost",
+          "justification": "Image generation.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "J. Baldridge, J. Bauer, M. Bhutani, N. Brichtova, A. Bunner, L. Castrejon, K. Chan, Y. Chen, S. Dieleman, Y. Du, et al. Imagen 3.",
+          "justification": "Reference [4].",
+          "value": "Imagen 3"
+        }
+      },
+      {
+        "name": {
+          "quote": "Imagen 4.0 2025–05 10,721",
+          "justification": "Generator contributing images.",
+          "value": "Imagen 4.0"
+        },
+        "aliases": [
+          "Imagen 4"
+        ],
+        "is_contributed": {
+          "quote": "Imagen 4.0 (2025)",
+          "justification": "External proprietary generator.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Imagen 4.0 2025–05 10,721 Non-compete",
+          "justification": "Images generated for the dataset.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Imagen 4.0 0.996 0.948",
+          "justification": "Not a detector.",
+          "value": false
+        },
+        "execution_mode": {
+          "quote": "Images generated via proprietary APIs",
+          "justification": "Image generation.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "Google Cloud. Announcing imagen 4 on vertex ai.",
+          "justification": "Reference [26].",
+          "value": "Announcing imagen 4 on vertex ai"
+        }
+      },
+      {
+        "name": {
+          "quote": "GPT Image 1 [58]",
+          "justification": "Generator used in dataset and survey.",
+          "value": "GPT Image 1"
+        },
+        "aliases": [
+          "gpt-image-1"
+        ],
+        "is_contributed": {
+          "quote": "GPT Image 1 2025–04 41,315 Non-compete",
+          "justification": "External proprietary generator.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Images generated via proprietary APIs incurred a per-image cost of approximately $0.04 (USD)",
+          "justification": "Images generated via API.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "GPT Image 1 0.998 0.772",
+          "justification": "Not a detector.",
+          "value": false
+        },
+        "execution_mode": {
+          "quote": "Images generated via proprietary APIs",
+          "justification": "Image generation.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "OpenAI. Image generation guide: gpt-image-1, 2025.",
+          "justification": "Reference [58].",
+          "value": "Image generation guide: gpt-image-1"
+        }
+      },
+      {
+        "name": {
+          "quote": "Ideogram 3.0 [33]",
+          "justification": "Generator contributing images.",
+          "value": "Ideogram 3.0"
+        },
+        "aliases": [
+          "Ideogram 3"
+        ],
+        "is_contributed": {
+          "quote": "Ideogram 3.0 2025–03 28,495 Non-compete",
+          "justification": "External proprietary generator.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Ideogram 3.0 2025–03 28,495",
+          "justification": "Images generated for the dataset.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Ideogram 3.0 1.000 0.993",
+          "justification": "Not a detector.",
+          "value": false
+        },
+        "execution_mode": {
+          "quote": "Images generated via proprietary APIs",
+          "justification": "Image generation.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "Ideogram AI. Ideogram 3.0.",
+          "justification": "Reference [33].",
+          "value": "Ideogram 3.0"
+        }
+      },
+      {
+        "name": {
+          "quote": "Grok-2 [75]",
+          "justification": "Generator used in dataset and survey.",
+          "value": "Grok 2"
+        },
+        "aliases": [
+          "Grok",
+          "Grok 2"
+        ],
+        "is_contributed": {
+          "quote": "Grok 2 2024–12 9,803 Non-compete",
+          "justification": "External proprietary generator.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Grok 2 2024–12 9,803",
+          "justification": "Images generated for the dataset.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Grok 2 1.000 0.142",
+          "justification": "Not a detector.",
+          "value": false
+        },
+        "execution_mode": {
+          "quote": "Images generated via proprietary APIs",
+          "justification": "Image generation.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "xAI. Grok image generation release.",
+          "justification": "Reference [75].",
+          "value": "Grok image generation release"
+        }
+      },
+      {
+        "name": {
+          "quote": "HiDream-I1 [32, 31]",
+          "justification": "Generator contributing images.",
+          "value": "HiDream-I1 Full"
+        },
+        "aliases": [
+          "HiDream"
+        ],
+        "is_contributed": {
+          "quote": "HiDream-I1 Full 2025–04 27,904 Community",
+          "justification": "External generator.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "HiDream-I1 Full 2025–04 27,904",
+          "justification": "Images generated for the dataset.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "HiDream-I1 Full 1.000 0.976",
+          "justification": "Not a detector.",
+          "value": false
+        },
+        "execution_mode": {
+          "quote": "We used the official HugginFace weights for the other models via the Diffusers Python library.",
+          "justification": "Image generation.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "HiDream-ai. Hidream-i1 full.",
+          "justification": "Reference [32].",
+          "value": "Hidream-i1 full"
+        }
+      },
+      {
+        "name": {
+          "quote": "Chroma [49]",
+          "justification": "Generator contributing images.",
+          "value": "Chroma"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "Chroma 2025–08 4,532 Community",
+          "justification": "External generator.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Chroma 2025–08 4,532",
+          "justification": "Images generated for the dataset.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Chroma 0.992 0.980",
+          "justification": "Not a detector.",
+          "value": false
+        },
+        "execution_mode": {
+          "quote": "We used the official HugginFace weights for the other models via the Diffusers Python library.",
+          "justification": "Image generation.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "Lodestones. Chroma.",
+          "justification": "Reference [49].",
+          "value": "Chroma"
+        }
+      },
+      {
+        "name": {
+          "quote": "Recraft v3 [61]",
+          "justification": "Generator contributing images.",
+          "value": "Recraft v3"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "Recraft v3 2024–10 1,000 Community",
+          "justification": "External generator.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Recraft v3 2024–10 1,000",
+          "justification": "Images included in dataset.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Recraft v3 0.701 0.288",
+          "justification": "Not a detector.",
+          "value": false
+        },
+        "execution_mode": {
+          "quote": "We generated images from a diverse set of state-of-the-art generators",
+          "justification": "Image generation.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "Recraft. Recraft introduces v3: Model announcement.",
+          "justification": "Reference [61].",
+          "value": "Recraft introduces v3: Model announcement"
+        }
+      },
+      {
+        "name": {
+          "quote": "A pretrained CLIP model acts as a prompt-matching gate to ensure image relevance",
+          "justification": "Used as a prompt-matching gate in the Arena and for t-SNE embeddings.",
+          "value": "CLIP"
+        },
+        "aliases": [
+          "CLIP-based similarity gate"
+        ],
+        "is_contributed": {
+          "quote": "A CLIP-based similarity gate verifies prompt-image alignment.",
+          "justification": "External pretrained model.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "t-SNE visualization of CLIP vision embeddings for 3,500 test images",
+          "justification": "Deployed in the Arena and used for embeddings visualization.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "A pretrained CLIP model acts as a prompt-matching gate",
+          "justification": "Not compared as a detector on its own (the CLIP-D baseline is separate).",
+          "value": false
+        },
+        "execution_mode": {
+          "quote": "A CLIP-based similarity gate verifies prompt-image alignment.",
+          "justification": "Used for embeddings/similarity only.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "A pretrained CLIP model acts as a prompt-matching gate to ensure image relevance",
+          "justification": "No CLIP paper reference given.",
+          "value": "unknown"
+        }
+      }
+    ],
+    "data_sources": [
+      {
+        "name": {
+          "quote": "we present O PEN FAKE, a large politically grounded dataset",
+          "justification": "The contributed dataset.",
+          "value": "OPENFAKE"
+        },
+        "aliases": [
+          "OpenFake"
+        ],
+        "role": "contributed",
+        "size": {
+          "quote": "O PEN FAKE comprises nearly four million total images: three million real images paired with descriptive captions and almost one million synthetic counterparts",
+          "justification": "Stated in abstract and Table 5.",
+          "value": "nearly four million total images: three million real images ... and almost one million synthetic counterparts (963,342 synthetic)"
+        },
+        "derived_from": [
+          "LAION-400M"
+        ],
+        "sample_properties": [
+          {
+            "name": "image resolution",
+            "value": {
+              "quote": "All images are produced at ∼1 MP resolution with varied aspect ratios (9:16, 16:9, 1:1, 2:3, 3:4, etc.)",
+              "justification": "Stated for synthetic images.",
+              "value": "∼1 MP resolution with varied aspect ratios (9:16, 16:9, 1:1, 2:3, 3:4, etc.)"
+            },
+            "unit": "pixels"
+          }
+        ],
+        "referenced_paper_title": {
+          "quote": "https://huggingface.co/datasets/ComplexDataLab/OpenFake",
+          "justification": "This paper itself introduces it.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "We extract metadata from the LAION-400M dataset [66]",
+          "justification": "Source of real images.",
+          "value": "LAION-400M"
+        },
+        "aliases": [
+          "LAION"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "The real corpus contains 3M filtered LAION-400M images.",
+          "justification": "Stated in appendix A.",
+          "value": "3M filtered LAION-400M images"
+        },
+        "derived_from": [],
+        "sample_properties": [
+          {
+            "name": "minimum image size kept",
+            "value": {
+              "quote": "we excluded LAION images smaller than 512×512 pixels from the released train/test sets",
+              "justification": "Images below this excluded.",
+              "value": "512×512"
+            },
+            "unit": "pixels"
+          }
+        ],
+        "referenced_paper_title": {
+          "quote": "C. Schuhmann, R. Vencu, R. Beaumont, R. Kaczmarczyk, C. Mullis, A. Katta, T. Coombes, J. Jitsev, and A. Komatsuzaki. Laion-400m: Open dataset of clip-filtered 400 million image-text pairs.",
+          "justification": "Reference [66].",
+          "value": "Laion-400m: Open dataset of clip-filtered 400 million image-text pairs"
+        }
+      },
+      {
+        "name": {
+          "quote": "we evaluate two SwinV2 variants trained on external datasets (GenImage and Semi-Truths",
+          "justification": "Used to train a SwinV2 baseline and for cross-benchmark evaluation.",
+          "value": "GenImage"
+        },
+        "aliases": [
+          "G EN I MAGE"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "GenImage [80] 2023 1.3M 1.33M",
+          "justification": "Table 1 lists counts.",
+          "value": "1.3M fakes / 1.33M reals (per Table 1)"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "M. Zhu, H. Chen, Q. Yan, X. Huang, G. Lin, W. Li, Z. Tu, H. Hu, J. Hu, and Y. Wang. Genimage: A million-scale benchmark for detecting ai-generated image.",
+          "justification": "Reference [80].",
+          "value": "Genimage: A million-scale benchmark for detecting ai-generated image"
+        }
+      },
+      {
+        "name": {
+          "quote": "two SwinV2 variants trained on external datasets (GenImage and Semi-Truths, chosen based on relevance from Table 5)",
+          "justification": "Used to train a SwinV2 baseline and for cross-benchmark evaluation.",
+          "value": "Semi-Truths"
+        },
+        "aliases": [
+          "S EMI -T RUTHS",
+          "S.-Truths"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "Semi-Truths [59] 2024 1.34M 26K",
+          "justification": "Table 1 lists counts.",
+          "value": "1.34M fakes / 26K reals (per Table 1)"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "A. Pal, J. Kruk, M. Phute, M. Bhattaram, D. Yang, D. H. Chau, and J. Hoffman. Semi-truths: A large-scale dataset of AI-augmented images for evaluating robustness of AI-generated image detectors.",
+          "justification": "Reference [59].",
+          "value": "Semi-truths: A large-scale dataset of AI-augmented images for evaluating robustness of AI-generated image detectors"
+        }
+      },
+      {
+        "name": {
+          "quote": "we constructed a small evaluation set of social media images, described in Section 3, containing 1,057 real images and 163 labeled as deepfakes by us",
+          "justification": "Curated evaluation set collected from X, Reddit, Bluesky.",
+          "value": "in-the-wild social-media test set"
+        },
+        "aliases": [
+          "in-the-wild set",
+          "curated in-the-wild social media test set"
+        ],
+        "role": "contributed",
+        "size": {
+          "quote": "containing 1,057 real images and 163 labeled as deepfakes by us",
+          "justification": "Stated explicitly.",
+          "value": "1,057 real images and 163 labeled as deepfakes"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "we collected images from X, Reddit, and Bluesky.",
+          "justification": "Curated by the authors.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "an EfficientNet-B4 baseline trained on FaceForensics++ from [76]",
+          "justification": "Training data of the EfficientNet-B4 baseline.",
+          "value": "FaceForensics++"
+        },
+        "aliases": [
+          "FF++"
+        ],
+        "role": "referenced",
+        "size": {
+          "quote": "FaceForensics++ [63] 2019 5K 1K",
+          "justification": "Only Table 1 comparison counts given, not used by authors.",
+          "value": "unknown"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "A. Rössler, D. Cozzolino, L. Verdoliva, C. Riess, J. Thies, and M. Nießner. FaceForensics++: Learning to detect manipulated facial images.",
+          "justification": "Reference [63].",
+          "value": "FaceForensics++: Learning to detect manipulated facial images"
+        }
+      },
+      {
+        "name": {
+          "quote": "a ConvNeXt baseline trained on DRCT taken from [11]",
+          "justification": "Training data of the ConvNeXt baseline.",
+          "value": "DRCT"
+        },
+        "aliases": [],
+        "role": "referenced",
+        "size": {
+          "quote": "a ConvNeXt baseline trained on DRCT taken from [11]",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "B. Chen, J. Zeng, J. Yang, and R. Yang. DRCT: Diffusion reconstruction contrastive training towards universal detection of diffusion generated images.",
+          "justification": "Reference [11].",
+          "value": "DRCT: Diffusion reconstruction contrastive training towards universal detection of diffusion generated images"
+        }
+      },
+      {
+        "name": {
+          "quote": "The model is initialized from ImageNet-1k weights and fine-tuned end-to-end.",
+          "justification": "SwinV2 initialized from ImageNet-1k weights; also referenced as GenImage prompt source.",
+          "value": "ImageNet-1k"
+        },
+        "aliases": [
+          "ImageNet"
+        ],
+        "role": "referenced",
+        "size": {
+          "quote": "GenImage uses classes from ImageNet-1k [18]",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "J. Deng, W. Dong, R. Socher, L.-J. Li, K. Li, and L. Fei-Fei. Imagenet: A large-scale hierarchical image database.",
+          "justification": "Reference [18].",
+          "value": "Imagenet: A large-scale hierarchical image database"
+        }
+      },
+      {
+        "name": {
+          "quote": "successful submissions that fool the detector are stored in a connected Hugging Face dataset",
+          "justification": "Crowdsourced images collected via the Arena and added to the benchmark.",
+          "value": "OPENFAKE ARENA submissions"
+        },
+        "aliases": [
+          "OpenFake Arena"
+        ],
+        "role": "contributed",
+        "size": {
+          "quote": "If the detector misclassifies the synthetic image as real, the user earns a point and the image is added to the benchmark.",
+          "justification": "No count stated.",
+          "value": "unknown"
+        },
+        "derived_from": [
+          "OPENFAKE"
+        ],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "https://huggingface.co/spaces/CDL-AMLRT/OpenFakeArena",
+          "justification": "Introduced by this paper.",
+          "value": "unknown"
+        }
+      }
+    ],
+    "libraries": [
+      {
+        "name": {
+          "quote": "we finetune microsoft/swinv2-small-patch4-window16-256 on the O PEN FAKE dataset using the HuggingFace Trainer API",
+          "justification": "Used to finetune SwinV2.",
+          "value": "HuggingFace Trainer API"
+        },
+        "aliases": [
+          "Transformers",
+          "HuggingFace"
+        ],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "using the HuggingFace Trainer API",
+          "justification": "No reference given.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "We used the official HugginFace weights for the other models via the Diffusers Python library.",
+          "justification": "Used to run generator weights.",
+          "value": "Diffusers"
+        },
+        "aliases": [
+          "Diffusers Python library"
+        ],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "via the Diffusers Python library",
+          "justification": "No reference given.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "We host the Arena as a Gradio app on Hugging Face Spaces",
+          "justification": "Arena hosted as a Gradio app.",
+          "value": "Gradio"
+        },
+        "aliases": [],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "We host the Arena as a Gradio app on Hugging Face Spaces",
+          "justification": "No reference given.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "All assets are hosted on the HuggingFace Hub.",
+          "justification": "Hosting platform for dataset and Spaces.",
+          "value": "Hugging Face Hub"
+        },
+        "aliases": [
+          "HuggingFace Hub",
+          "Hugging Face Spaces"
+        ],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "O PEN FAKE is fully hosted on the HuggingFace Hub in streaming-friendly Parquet format",
+          "justification": "No reference given.",
+          "value": "unknown"
+        }
+      }
+    ],
+    "algorithms": [
+      {
+        "name": {
+          "quote": "Optimizer: AdamW",
+          "justification": "Optimizer for finetuning.",
+          "value": "AdamW"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "Optimizer: AdamW",
+          "justification": "Standard optimizer.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Optimizer: AdamW",
+          "justification": "Used during SwinV2 training.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Optimizer: AdamW",
+          "justification": "No optimizer comparison.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "Training configuration. • Optimizer: AdamW",
+          "justification": "Listed under training configuration.",
+          "value": "Optimizer used to fine-tune the SwinV2 detector"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Optimizer: AdamW",
+          "justification": "No reference.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "Learning rate scheduler: Linear with warmup",
+          "justification": "Named learning rate scheduler.",
+          "value": "Linear with warmup"
+        },
+        "aliases": [
+          "linear warmup scheduler"
+        ],
+        "is_contributed": {
+          "quote": "Learning rate scheduler: Linear with warmup",
+          "justification": "Standard schedule.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Learning rate scheduler: Linear with warmup",
+          "justification": "Used in training config.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Learning rate scheduler: Linear with warmup",
+          "justification": "Not compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "Learning rate scheduler: Linear with warmup",
+          "justification": "Stated in training configuration.",
+          "value": "learning rate scheduler for SwinV2 fine-tuning"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Learning rate scheduler: Linear with warmup",
+          "justification": "No reference.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "we implemented a data augmentation pipeline to degrade synthetic images during training, mimicking the distribution of real images ... This includes random resizing, Gaussian blur, JPEG compression, and Gaussian noise.",
+          "justification": "Named augmentation procedure used to degrade synthetic images.",
+          "value": "data augmentation pipeline (random resizing, Gaussian blur, JPEG compression, Gaussian noise)"
+        },
+        "aliases": [
+          "artifact-matching augmentation",
+          "degradation stream"
+        ],
+        "is_contributed": {
+          "quote": "as done in previous work [16, 72, 15]",
+          "justification": "Follows previous work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We then evaluated the SwinV2 model trained with these augmentations on a fully compressed test set",
+          "justification": "Applied during training and evaluation.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "with artifact-matching augmentation, the same model attains an F1 of 0.992 on a fully compressed test set",
+          "justification": "Used as robustness measure.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "a data augmentation pipeline to degrade synthetic images during training, mimicking the distribution of real images",
+          "justification": "Paper's own description.",
+          "value": "to degrade synthetic images during training, mimicking the distribution of real images and neutralizing compression shortcuts"
+        },
+        "composed_of": [
+          "random resizing",
+          "Gaussian blur",
+          "JPEG compression",
+          "Gaussian noise"
+        ],
+        "referenced_paper_title": {
+          "quote": "as done in previous work [16, 72, 15]",
+          "justification": "Cited as previous work [16].",
+          "value": "On the detection of synthetic images generated by diffusion models"
+        }
+      },
+      {
+        "name": {
+          "quote": "A general geometric/photometric stream is applied to both real and synthetic images, including random resized crops, color jitter, small rotations, occasional horizontal flips, and mild Gaussian blur.",
+          "justification": "General geometric/photometric augmentation stream named in appendix.",
+          "value": "random resized crops, color jitter, small rotations, horizontal flips, mild Gaussian blur"
+        },
+        "aliases": [
+          "general geometric/photometric stream"
+        ],
+        "is_contributed": {
+          "quote": "During training we use two augmentation streams.",
+          "justification": "Standard augmentations.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "During training we use two augmentation streams.",
+          "justification": "Applied during SwinV2 training.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "During training we use two augmentation streams.",
+          "justification": "Not compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "A general geometric/photometric stream is applied to both real and synthetic images",
+          "justification": "Paper's description.",
+          "value": "general augmentation stream applied to both real and synthetic images during training"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "During training we use two augmentation streams.",
+          "justification": "No reference.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "10 community variants (Finetuned or LoRA) of Stable Diffusion 1.5/XL and Flux-dev",
+          "justification": "Variants of base generators used LoRA adaptation.",
+          "value": "LoRA"
+        },
+        "aliases": [
+          "LoRA variants"
+        ],
+        "is_contributed": {
+          "quote": "LoRA variants (“LoRA”) and full finetunes (“FT”) are listed on separate, smaller rows directly below their base models.",
+          "justification": "Existing adaptation technique.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Touch of realism (LoRA) ... MVC5000 (LoRA)",
+          "justification": "LoRA-adapted models generated images in the dataset.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "10 community variants (Finetuned or LoRA)",
+          "justification": "Not compared as a procedure.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "10 community variants (Finetuned or LoRA) of Stable Diffusion 1.5/XL and Flux-dev",
+          "justification": "Paper's wording.",
+          "value": "community variants (Finetuned or LoRA) of base generators used to produce synthetic images"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "10 community variants (Finetuned or LoRA) of Stable Diffusion 1.5/XL and Flux-dev",
+          "justification": "No reference.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "the CLIP-Based Synthetic Image Detector [17], which applies a linear probe over CLIP embeddings with minimal training data",
+          "justification": "Named detection procedure of the CLIP baseline.",
+          "value": "linear probe over CLIP embeddings"
+        },
+        "aliases": [
+          "linear classifier on CLIP embeddings"
+        ],
+        "is_contributed": {
+          "quote": "The CLIP-D-10k+ method [17], which fine-tunes a linear classifier on CLIP embeddings",
+          "justification": "From prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "CLIP and the Corvi2023 baselines were evaluated in approximately 6 hours",
+          "justification": "Baseline was evaluated.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "CLIP-D-10k+ is middling",
+          "justification": "Numerically compared in tables.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "For semi-supervised detection, we include the CLIP-Based Synthetic Image Detector [17], which applies a linear probe over CLIP embeddings",
+          "justification": "Paper's wording.",
+          "value": "semi-supervised detection baseline applying a linear probe over CLIP embeddings"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "D. Cozzolino, G. Poggi, R. Corvi, M. Nießner, and L. Verdoliva. Raising the bar of ai-generated image detection with clip.",
+          "justification": "Reference [17].",
+          "value": "Raising the bar of ai-generated image detection with clip"
+        }
+      },
+      {
+        "name": {
+          "quote": "a hybrid fusion baseline that averages predictions from CLIP and Corvi2023",
+          "justification": "An averaging ensemble procedure the paper runs.",
+          "value": "hybrid fusion baseline (Fusion CLIP+Corvi)"
+        },
+        "aliases": [
+          "Fusion (CLIP+Corvi)"
+        ],
+        "is_contributed": {
+          "quote": "a hybrid fusion baseline that averages predictions from CLIP and Corvi2023",
+          "justification": "Simple ensemble of existing baselines.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Fusion (CLIP+Corvi)",
+          "justification": "Results reported in Table 2.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Fusion (CLIP+Corvi) ... 0.427",
+          "justification": "Reported in the survey comparison table.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "a hybrid fusion baseline that averages predictions from CLIP and Corvi2023",
+          "justification": "Paper's wording.",
+          "value": "baseline that averages predictions from CLIP and Corvi2023"
+        },
+        "composed_of": [
+          "CLIP",
+          "Corvi2023"
+        ],
+        "referenced_paper_title": {
+          "quote": "a hybrid fusion baseline that averages predictions from CLIP and Corvi2023",
+          "justification": "No single reference.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "t-SNE visualization of CLIP vision embeddings for 3,500 test images",
+          "justification": "Visualization procedure applied to CLIP embeddings.",
+          "value": "t-SNE"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "t-SNE visualization of CLIP vision embeddings",
+          "justification": "Standard method.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Figure 4: t-SNE visualization of CLIP vision embeddings for 3,500 test images",
+          "justification": "Produced Figure 4.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "t-SNE visualization of CLIP vision embeddings",
+          "justification": "Not compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "t-SNE visualization of CLIP vision embeddings for 3,500 test images, including both real and synthetic images",
+          "justification": "Used in analysis figure.",
+          "value": "visualizing the distribution of real and synthetic image embeddings"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "t-SNE visualization of CLIP vision embeddings",
+          "justification": "No reference.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "a crowdsourced adversarial platform that continually contributes hard, validated examples via a CLIP-based prompt-consistency gate and scoring against a live detector",
+          "justification": "Named procedure in the Arena.",
+          "value": "CLIP-based prompt-consistency gate"
+        },
+        "aliases": [
+          "CLIP-based similarity gate"
+        ],
+        "is_contributed": {
+          "quote": "designed to remain extensible through O PEN FAKE A RENA, a crowdsourced adversarial platform that continually contributes hard, validated examples via a CLIP-based prompt-consistency gate",
+          "justification": "Part of the contributed Arena platform.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "A pretrained CLIP model acts as a prompt-matching gate to ensure image relevance",
+          "justification": "Deployed in the hosted Arena.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "A CLIP-based similarity gate verifies prompt-image alignment.",
+          "justification": "Not benchmarked.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "A CLIP-based similarity gate verifies prompt-image alignment.",
+          "justification": "Paper's description.",
+          "value": "verifies prompt-image alignment for crowdsourced submissions before they are scored by the detector"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "A CLIP-based similarity gate verifies prompt-image alignment.",
+          "justification": "No reference.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "we implemented a two-stage filtering and captioning pipeline using the vision-language model Qwen2.5-VL",
+          "justification": "Named pipeline for curating LAION images.",
+          "value": "two-stage filtering and captioning pipeline"
+        },
+        "aliases": [
+          "filtering prompt / captioning prompt"
+        ],
+        "is_contributed": {
+          "quote": "To curate a relevant subset of real images from LAION-400M, we implemented a two-stage filtering and captioning pipeline",
+          "justification": "Designed by the authors for dataset construction.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "The LAION filtering pipeline ran continuously for two weeks on 4 NVIDIA L40S GPUs",
+          "justification": "Ran for two weeks on GPUs.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "we implemented a two-stage filtering and captioning pipeline using the vision-language model Qwen2.5-VL",
+          "justification": "Not benchmarked.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "This approach allowed us to filter politically salient and emotionally impactful content while preserving real-world visual characteristics",
+          "justification": "Paper's own description.",
+          "value": "filter politically salient and emotionally impactful content and generate prompts for text-to-image generation"
+        },
+        "composed_of": [
+          "Filtering prompt",
+          "Captioning prompt"
+        ],
+        "referenced_paper_title": {
+          "quote": "we implemented a two-stage filtering and captioning pipeline using the vision-language model Qwen2.5-VL",
+          "justification": "Authors' own pipeline.",
+          "value": "unknown"
+        }
+      }
+    ],
+    "runs": [
+      {
+        "models": [
+          {
+            "name": "Qwen2.5-VL",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "LAION-400M",
+            "access": "fixed",
+            "roles_in_run": [
+              "unknown"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "two-stage filtering and captioning pipeline"
+          }
+        ],
+        "produces": [
+          "OPENFAKE"
+        ],
+        "execution_mode": {
+          "quote": "A vision-language model (e.g., Qwen2.5-VL) extracts thematic captions or prompts from real images from LAION.",
+          "justification": "VLM was run for filtering/captioning, producing prompts.",
+          "value": "inference"
+        },
+        "epochs": {
+          "quote": "The LAION filtering pipeline ran continuously for two weeks on 4 NVIDIA L40S GPUs (48 GB VRAM each).",
+          "justification": "Not applicable/stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "We filtered real images using Qwen2.5-VL, selected for its trade-off between speed and quality.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "ran continuously for two weeks on 4 NVIDIA L40S GPUs (48 GB VRAM each)",
+          "justification": "NVIDIA L40S GPUs.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "4 NVIDIA L40S GPUs (48 GB VRAM each)",
+          "justification": "Stated.",
+          "value": "NVIDIA L40S (48 GB VRAM)"
+        },
+        "accelerator_count": {
+          "quote": "4 NVIDIA L40S GPUs",
+          "justification": "Stated.",
+          "value": "4"
+        },
+        "precision": {
+          "quote": "The LAION filtering pipeline ran continuously for two weeks on 4 NVIDIA L40S GPUs",
+          "justification": "Not stated for filtering.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "4 NVIDIA L40S GPUs (48 GB VRAM each)",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "ran continuously for two weeks on 4 NVIDIA L40S GPUs (48 GB VRAM each). An additional 2 days of compute on the same setup was used for prompt selection and vision–language model evaluation",
+          "justification": "Stated.",
+          "value": "two weeks on 4 L40S GPUs, plus an additional 2 days for prompt selection"
+        },
+        "utilisation": {
+          "quote": "The LAION filtering pipeline ran continuously for two weeks",
+          "justification": "Not reported for this stage.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "An additional 2 days of compute on the same setup was used for prompt selection and vision–language model evaluation, comparing multiple candidate models and prompt formats.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "Stable Diffusion 3.5",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Flux.1.0-dev",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Stable Diffusion 2.1",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Stable Diffusion 1.5",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Stable Diffusion XL",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Flux-1.0-Schnell",
+            "role_in_run": "main"
+          },
+          {
+            "name": "HiDream-I1 Full",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Chroma",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "OPENFAKE",
+            "access": "fixed",
+            "roles_in_run": [
+              "unknown"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "LoRA"
+          }
+        ],
+        "produces": [
+          "OPENFAKE"
+        ],
+        "execution_mode": {
+          "quote": "We generated images from a diverse set of state-of-the-art generators using samples from our prompt bank",
+          "justification": "Generators sampled to produce synthetic images.",
+          "value": "inference"
+        },
+        "epochs": {
+          "quote": "Images from Stable Diffusion v2.1 and Flux.1.0-dev were generated on 4 L40S GPUs over a span of 4 days per model.",
+          "justification": "Not applicable.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "We used stabilityai/stable-diffusion-3.5-large to generate synthetic images",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "Images from Stable Diffusion v2.1 and Flux.1.0-dev were generated on 4 L40S GPUs",
+          "justification": "L40S GPUs used.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "generated on 4 L40S GPUs over a span of 4 days per model",
+          "justification": "Stated.",
+          "value": "NVIDIA L40S"
+        },
+        "accelerator_count": {
+          "quote": "on 4 L40S GPUs",
+          "justification": "Stated.",
+          "value": "4"
+        },
+        "precision": {
+          "quote": "Both models were run in bfloat16 precision using their official pipelines",
+          "justification": "bfloat16 stated for SD3.5 and Flux pipelines.",
+          "value": "bf16"
+        },
+        "parallelism": {
+          "quote": "deployed across multiple GPUs with prompt sharding and batched inference for scalability",
+          "justification": "Prompt sharding across multiple GPUs with batched inference.",
+          "value": [
+            "data"
+          ]
+        },
+        "duration": {
+          "quote": "Images from Stable Diffusion v2.1 and Flux.1.0-dev were generated on 4 L40S GPUs over a span of 4 days per model. Other models generated images for 1 day.",
+          "justification": "Stated.",
+          "value": "4 days per model for SD v2.1 and Flux.1.0-dev; 1 day for other models"
+        },
+        "utilisation": {
+          "quote": "Each GPU was fully utilized to maximize throughput.",
+          "justification": "Paper states full utilization qualitatively.",
+          "value": "Each GPU was fully utilized to maximize throughput"
+        },
+        "repetitions": {
+          "quote": "Other models generated images for 1 day.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "GPT Image 1",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Imagen 3",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Imagen 4.0",
+            "role_in_run": "main"
+          },
+          {
+            "name": "DALL·E 3",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Midjourney v6",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Midjourney v7",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Ideogram 3.0",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Grok 2",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Flux-1.1-Pro",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Recraft v3",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "OPENFAKE",
+            "access": "fixed",
+            "roles_in_run": [
+              "unknown"
+            ]
+          }
+        ],
+        "algorithms": [],
+        "produces": [
+          "OPENFAKE"
+        ],
+        "execution_mode": {
+          "quote": "Images generated via proprietary APIs incurred a per-image cost of approximately $0.04 (USD)",
+          "justification": "Proprietary generators queried via API to produce images.",
+          "value": "inference"
+        },
+        "epochs": {
+          "quote": "generation was offloaded entirely to the remote API services",
+          "justification": "Not applicable.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "Images generated via proprietary APIs",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "No GPU compute was required on our end; generation was offloaded entirely to the remote API services.",
+          "justification": "No local GPU used; remote API.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "generation was offloaded entirely to the remote API services",
+          "justification": "Remote API.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "No GPU compute was required on our end",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "Images generated via proprietary APIs incurred a per-image cost of approximately $0.04 (USD)",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "generation was offloaded entirely to the remote API services",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "Images generated via proprietary APIs incurred a per-image cost of approximately $0.04 (USD), varying slightly by model and resolution.",
+          "justification": "Not stated; only cost reported.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "No GPU compute was required on our end",
+          "justification": "Not reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "Images generated via proprietary APIs",
+          "justification": "Not stated.",
+          "value": "unknown"
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "SwinV2-Small",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "OPENFAKE",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "AdamW"
+          },
+          {
+            "name": "Linear with warmup"
+          },
+          {
+            "name": "data augmentation pipeline (random resizing, Gaussian blur, JPEG compression, Gaussian noise)"
+          },
+          {
+            "name": "random resized crops, color jitter, small rotations, horizontal flips, mild Gaussian blur"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "we finetune microsoft/swinv2-small-patch4-window16-256 on the O PEN FAKE dataset using the HuggingFace Trainer API",
+          "justification": "Fine-tuned from ImageNet-1k weights.",
+          "value": "finetune"
+        },
+        "epochs": {
+          "quote": "Epochs: 5",
+          "justification": "Stated in training configuration.",
+          "value": "5"
+        },
+        "parameter_count": {
+          "quote": "We use the SwinV2-Small transformer backbone",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "required approximately 12 hours on a single NVIDIA L40S GPU",
+          "justification": "Single L40S GPU.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "a single NVIDIA L40S GPU",
+          "justification": "Stated.",
+          "value": "NVIDIA L40S"
+        },
+        "accelerator_count": {
+          "quote": "All experiments were conducted on a single L40S GPUs.",
+          "justification": "Stated.",
+          "value": "1"
+        },
+        "precision": {
+          "quote": "Training the SwinV2 baseline classifier on the O PEN FAKE dataset required approximately 12 hours",
+          "justification": "Not stated for training.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "a single NVIDIA L40S GPU",
+          "justification": "Single GPU.",
+          "value": [
+            "none"
+          ]
+        },
+        "duration": {
+          "quote": "required approximately 12 hours on a single NVIDIA L40S GPU",
+          "justification": "Stated.",
+          "value": "approximately 12 hours"
+        },
+        "utilisation": {
+          "quote": "Training the SwinV2 baseline classifier on the O PEN FAKE dataset required approximately 12 hours",
+          "justification": "Not reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "All experiments were conducted on a single L40S GPUs.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "SwinV2-Small",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "GenImage",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "AdamW"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "we evaluate two SwinV2 variants trained on external datasets (GenImage and Semi-Truths",
+          "justification": "SwinV2 variant trained on GenImage.",
+          "value": "finetune"
+        },
+        "epochs": {
+          "quote": "two SwinV2 variants trained on external datasets (GenImage and Semi-Truths",
+          "justification": "Not stated separately.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "two SwinV2 variants trained on external datasets",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "All experiments were conducted on a single L40S GPUs.",
+          "justification": "All experiments on L40S GPU.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "All experiments were conducted on a single L40S GPUs.",
+          "justification": "Stated generally.",
+          "value": "L40S"
+        },
+        "accelerator_count": {
+          "quote": "All experiments were conducted on a single L40S GPUs.",
+          "justification": "Stated generally.",
+          "value": "1"
+        },
+        "precision": {
+          "quote": "two SwinV2 variants trained on external datasets (GenImage and Semi-Truths",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "All experiments were conducted on a single L40S GPUs.",
+          "justification": "Single GPU.",
+          "value": [
+            "none"
+          ]
+        },
+        "duration": {
+          "quote": "two SwinV2 variants trained on external datasets",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "two SwinV2 variants trained on external datasets",
+          "justification": "Not reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "two SwinV2 variants trained on external datasets",
+          "justification": "Not stated.",
+          "value": "unknown"
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "SwinV2-Small",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Semi-Truths",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "AdamW"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "we evaluate two SwinV2 variants trained on external datasets (GenImage and Semi-Truths, chosen based on relevance from Table 5)",
+          "justification": "SwinV2 variant trained on Semi-Truths.",
+          "value": "finetune"
+        },
+        "epochs": {
+          "quote": "two SwinV2 variants trained on external datasets (GenImage and Semi-Truths",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "two SwinV2 variants trained on external datasets",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "All experiments were conducted on a single L40S GPUs.",
+          "justification": "All experiments on L40S GPU.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "All experiments were conducted on a single L40S GPUs.",
+          "justification": "Stated generally.",
+          "value": "L40S"
+        },
+        "accelerator_count": {
+          "quote": "All experiments were conducted on a single L40S GPUs.",
+          "justification": "Stated generally.",
+          "value": "1"
+        },
+        "precision": {
+          "quote": "two SwinV2 variants trained on external datasets",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "All experiments were conducted on a single L40S GPUs.",
+          "justification": "Single GPU.",
+          "value": [
+            "none"
+          ]
+        },
+        "duration": {
+          "quote": "two SwinV2 variants trained on external datasets",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "two SwinV2 variants trained on external datasets",
+          "justification": "Not reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "two SwinV2 variants trained on external datasets",
+          "justification": "Not stated.",
+          "value": "unknown"
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "InternVL3-38B",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "OPENFAKE",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [],
+        "produces": [],
+        "execution_mode": {
+          "quote": "InternVL inference over the full test set was performed over 10 hours on a single RTX8000 GPU (48 GB VRAM).",
+          "justification": "Zero-shot inference on test set.",
+          "value": "inference"
+        },
+        "epochs": {
+          "quote": "we use InternVL [14] directly without finetuning",
+          "justification": "Inference only.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "We use the InternVL3-38B",
+          "justification": "Model name states 38B.",
+          "value": "38B"
+        },
+        "accelerator_type": {
+          "quote": "a single RTX8000 GPU (48 GB VRAM)",
+          "justification": "RTX8000 GPU.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "a single RTX8000 GPU (48 GB VRAM)",
+          "justification": "Stated.",
+          "value": "RTX8000 (48 GB VRAM)"
+        },
+        "accelerator_count": {
+          "quote": "on a single RTX8000 GPU",
+          "justification": "Stated.",
+          "value": "1"
+        },
+        "precision": {
+          "quote": "InternVL inference over the full test set was performed over 10 hours",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "a single RTX8000 GPU (48 GB VRAM)",
+          "justification": "Single GPU.",
+          "value": [
+            "none"
+          ]
+        },
+        "duration": {
+          "quote": "performed over 10 hours on a single RTX8000 GPU",
+          "justification": "Stated.",
+          "value": "10 hours"
+        },
+        "utilisation": {
+          "quote": "InternVL inference over the full test set was performed over 10 hours",
+          "justification": "Not reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "InternVL inference over the full test set",
+          "justification": "Not stated.",
+          "value": "unknown"
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "CLIP-Based Synthetic Image Detector",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Corvi2023",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "OPENFAKE",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "linear probe over CLIP embeddings"
+          },
+          {
+            "name": "hybrid fusion baseline (Fusion CLIP+Corvi)"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "CLIP and the Corvi2023 baselines were evaluated in approximately 6 hours on the same RTX8000 GPU.",
+          "justification": "Baselines evaluated on the test set.",
+          "value": "inference"
+        },
+        "epochs": {
+          "quote": "CLIP and the Corvi2023 baselines were evaluated in approximately 6 hours",
+          "justification": "Inference only.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "CLIP and the Corvi2023 baselines were evaluated",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "on the same RTX8000 GPU",
+          "justification": "RTX8000 GPU.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "the same RTX8000 GPU (48 GB VRAM)",
+          "justification": "Stated.",
+          "value": "RTX8000 (48 GB VRAM)"
+        },
+        "accelerator_count": {
+          "quote": "on the same RTX8000 GPU",
+          "justification": "Single GPU.",
+          "value": "1"
+        },
+        "precision": {
+          "quote": "CLIP and the Corvi2023 baselines were evaluated in approximately 6 hours",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "on the same RTX8000 GPU",
+          "justification": "Single GPU.",
+          "value": [
+            "none"
+          ]
+        },
+        "duration": {
+          "quote": "evaluated in approximately 6 hours on the same RTX8000 GPU",
+          "justification": "Stated.",
+          "value": "approximately 6 hours"
+        },
+        "utilisation": {
+          "quote": "CLIP and the Corvi2023 baselines were evaluated in approximately 6 hours",
+          "justification": "Not reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "CLIP and the Corvi2023 baselines were evaluated",
+          "justification": "Not stated.",
+          "value": "unknown"
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "SwinV2-Small",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "in-the-wild social-media test set",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [],
+        "produces": [],
+        "execution_mode": {
+          "quote": "compared the performance of our SwinV2 baseline trained on O PEN FAKE, G EN I MAGE, and S EMI -T RUTHS (Table 4)",
+          "justification": "Trained detectors evaluated on the in-the-wild set.",
+          "value": "inference"
+        },
+        "epochs": {
+          "quote": "evaluated on an in-the-wild social-media set (1,057 real, 163 fake; see Section 3)",
+          "justification": "Inference only.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "our SwinV2 baseline trained on O PEN FAKE",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "Inference for evaluation purposes was negligible in comparison.",
+          "justification": "Paper says inference was negligible; hardware not specified for this eval.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "Inference for evaluation purposes was negligible in comparison.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "Inference for evaluation purposes was negligible in comparison.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "Inference for evaluation purposes was negligible in comparison.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "Inference for evaluation purposes was negligible in comparison.",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "Inference for evaluation purposes was negligible in comparison.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "Inference for evaluation purposes was negligible in comparison.",
+          "justification": "Not reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "compared the performance of our SwinV2 baseline trained on O PEN FAKE, G EN I MAGE, and S EMI -T RUTHS (Table 4)",
+          "justification": "Three trained SwinV2 detectors evaluated on this set.",
+          "value": "3"
+        }
+      }
+    ]
+  },
+  "usage": {
+    "input_tokens": 41701,
+    "output_tokens": 28182,
+    "total_tokens": 69883
+  }
+}

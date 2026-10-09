@@ -1,0 +1,1791 @@
+{
+  "paper": "69a5fde748887d403d0a5ed3.txt",
+  "words": 8248,
+  "extractions": {
+    "title": {
+      "quote": "CAMMARL : Conformal Action Modeling in\n\nMulti Agent Reinforcement Learning",
+      "justification": "Title as given at the top of the paper.",
+      "value": "CAMMARL: Conformal Action Modeling in Multi Agent Reinforcement Learning"
+    },
+    "description": "The paper proposes CAMMARL, a multi-agent reinforcement learning algorithm in which an agent models other agents' actions as conformal prediction sets and uses these sets as additional inputs to its policy. It is evaluated against several baselines (NOAM, TAAM, TOAM, GIAM, EAP, APU) in Cooperative Navigation, Level-based Foraging, Pressure Plate, and Google Football environments, plus variations of the set encoding.",
+    "type": {
+      "quote": "Through several experiments in two fully cooperative multi-agent tasks, we show that CAMMARL elevates the capabilities of an autonomous agent in MARL",
+      "justification": "The paper's claims are supported by experiments across four multi-agent environments with learning curves.",
+      "value": "empirical"
+    },
+    "research_fields": [
+      {
+        "name": {
+          "quote": "we propose a novel multi-agent reinforcement learning (MARL) algorithm CAMMARL",
+          "justification": "The paper contributes a novel MARL algorithm.",
+          "value": "Multi-agent reinforcement learning (MARL)"
+        },
+        "aliases": [
+          "MARL"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "Conformal predictions or inference is a fitting method for generating statistically accurate uncertainty sets for the predictions from machine learning classifiers.",
+          "justification": "The paper adapts conformal prediction to MARL settings.",
+          "value": "Conformal prediction"
+        },
+        "aliases": [
+          "conformal inference"
+        ],
+        "role": "used"
+      },
+      {
+        "name": {
+          "quote": "There has been considerable research addressing this problem of agent or opponent modeling",
+          "justification": "The paper addresses the problem of modeling other agents.",
+          "value": "Agent modeling"
+        },
+        "aliases": [
+          "opponent modeling"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "we not only obtain an estimate of the most probable outcome but get to quantify the operable uncertainty as well",
+          "justification": "Quantifying uncertainty of action predictions is central.",
+          "value": "Uncertainty quantification"
+        },
+        "aliases": [],
+        "role": "used"
+      },
+      {
+        "name": {
+          "quote": "Research in the field of IRL also relates to our work",
+          "justification": "Mentioned as related work only.",
+          "value": "Inverse reinforcement learning (IRL)"
+        },
+        "aliases": [
+          "IRL"
+        ],
+        "role": "referenced"
+      },
+      {
+        "name": {
+          "quote": "Model-based reinforcement learning (MBRL) has certainly shown its advantages in data efficiency",
+          "justification": "Discussed as related context.",
+          "value": "Model-based reinforcement learning (MBRL)"
+        },
+        "aliases": [
+          "MBRL"
+        ],
+        "role": "referenced"
+      }
+    ],
+    "models": [
+      {
+        "name": {
+          "quote": "we propose a novel multi-agent reinforcement learning (MARL) algorithm CAMMARL",
+          "justification": "The contributed algorithm/agent setup trained in the experiments.",
+          "value": "CAMMARL"
+        },
+        "aliases": [
+          "Conformal Action Modeling-based Multi-Agent Reinforcement Learning",
+          "cam-binary",
+          "binary-CAMMARL"
+        ],
+        "is_contributed": {
+          "quote": "In this work, we aim to introduce a novel framework to train an autonomous agent ... the CAMMARL algorithm",
+          "justification": "It is the paper's proposed method.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "Now, we implement CAMMARL , where the conformal action prediction model periodically trains on collected observations of Nother",
+          "justification": "Trained and evaluated in four environments.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "It also outperforms the other defined benchmarks (TAAM, TOAM, & EAP) in both tasks",
+          "justification": "Compared with baselines in reward curves.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "Train Nself using PPO",
+          "justification": "Agents trained with PPO from scratch.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "we propose a novel multi-agent reinforcement learning (MARL) algorithm CAMMARL",
+          "justification": "The model is this paper's own contribution.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "An independent conformal action prediction model C learns to output a conformal action set",
+          "justification": "A separately learned neural network classifier predicting conformal action sets.",
+          "value": "conformal prediction model C"
+        },
+        "aliases": [
+          "conformalModels",
+          "C"
+        ],
+        "is_contributed": {
+          "quote": "we also use a conformal prediction model for the j-th agent, defined as a set-valued function",
+          "justification": "Part of the proposed framework.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "Train conformalModels using Notherj ’s state-action mappings",
+          "justification": "Trained periodically during the runs.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "periodically learns and updates a neural network classifier, f (·)",
+          "justification": "It is a component, not separately compared.",
+          "value": false
+        },
+        "execution_mode": {
+          "quote": "periodically learns and updates a neural network classifier",
+          "justification": "It is learned online during training.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "An independent conformal action prediction model C learns to output a conformal action set",
+          "justification": "No separate reference paper.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "We call this baseline — No-Other-Agent-Modeling or NOAM.",
+          "justification": "Baseline agent trained without agent modeling.",
+          "value": "NOAM"
+        },
+        "aliases": [
+          "No-Other-Agent-Modeling"
+        ],
+        "is_contributed": {
+          "quote": "At first, we train Nself without allowing it to model Nother .",
+          "justification": "A baseline configuration constructed for comparison.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Results are shown in Figure 3.",
+          "justification": "It was trained and plotted.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "It is indicative of a lower bound to the learning performance",
+          "justification": "Used as the lower bound in comparisons.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "we train Nself without allowing it to model Nother",
+          "justification": "Trained in the environments.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "We call this baseline — No-Other-Agent-Modeling or NOAM.",
+          "justification": "No reference paper for this baseline.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "we implement TAAM by allowing Nself to additionally utilize Nother ’s true actions to train",
+          "justification": "Baseline using true actions of the other agent.",
+          "value": "TAAM"
+        },
+        "aliases": [
+          "True-Action-Agent-Modeling"
+        ],
+        "is_contributed": {
+          "quote": "This baseline helps us evaluate CAMMARL against works that estimate other agents’ actions",
+          "justification": "Baseline for comparison.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Figure 3 shows TAAM’s performance curve.",
+          "justification": "Its performance curve is shown.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "It also outperforms the other defined benchmarks (TAAM, TOAM, & EAP)",
+          "justification": "Compared against CAMMARL.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "allowing Nself to additionally utilize Nother ’s true actions to train",
+          "justification": "Trained in the environments.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "we implement TAAM",
+          "justification": "No reference paper.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "we implement the TOAM baseline where we allow access to Nother ’s true observations to Nself during training and execution",
+          "justification": "Baseline using other agent's true observations.",
+          "value": "TOAM"
+        },
+        "aliases": [
+          "True-Observation-Agent-Modeling"
+        ],
+        "is_contributed": {
+          "quote": "This baseline can act as an upper bound to the performances of research works that learn to reconstruct states",
+          "justification": "Baseline for comparison.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "As expected, Nself performs considerably better than NOAM in both environments (Figure 3).",
+          "justification": "Performance shown in Figure 3.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "It also outperforms the other defined benchmarks (TAAM, TOAM, & EAP)",
+          "justification": "Compared against CAMMARL.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "we allow access to Nother ’s true observations to Nself during training and execution",
+          "justification": "Trained in environments.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "we implement the TOAM baseline",
+          "justification": "No reference paper.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "we also implement GIAM, where Nself trains with complete access to both",
+          "justification": "Baseline with full information, acting as upper bound.",
+          "value": "GIAM"
+        },
+        "aliases": [
+          "Global-Information-Agent-Modeling"
+        ],
+        "is_contributed": {
+          "quote": "theoretically represents an upper bound on the performance of agents in CAMMARL",
+          "justification": "Baseline for comparison.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Figure 3 shows that GIAM achieves higher returns compared to all other settings",
+          "justification": "Performance shown in results figures.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "CAMMARL’s performance is very close to the upper bound, GIAM",
+          "justification": "Compared with CAMMARL.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "where Nself trains with complete access to both",
+          "justification": "Trained in environments.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "we also implement GIAM",
+          "justification": "No reference paper.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "we construct a stronger baseline, EAP, in which Nself uses an additional neural network classifier to model a probability distribution over Nother ’s actions",
+          "justification": "Baseline predicting exact actions with a classifier.",
+          "value": "EAP"
+        },
+        "aliases": [
+          "Exact-Action-Prediction"
+        ],
+        "is_contributed": {
+          "quote": "This baseline is inspired by works that explicitly model the other agent’s decision-making",
+          "justification": "Baseline for comparison.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Figure 3 shows that CAMMARL agents are able to distinctly perform better than EAP in LBF",
+          "justification": "Results reported in Figure 3.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "CAMMARL can be preferred over strong benchmarks such as EAP",
+          "justification": "Compared against CAMMARL.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "a cross-entropy loss is used to train the added sub-module that predicts the Nother ’s actions along with a PPO loss",
+          "justification": "Trained with cross-entropy plus PPO loss.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "we construct a stronger baseline, EAP",
+          "justification": "No reference paper.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "We call this Action Prediction with Uncertainty (APU)",
+          "justification": "Baseline adding action prediction probabilities to state space.",
+          "value": "APU"
+        },
+        "aliases": [
+          "Action Prediction with Uncertainty"
+        ],
+        "is_contributed": {
+          "quote": "we added one more baseline where similar to the action prediction baseline (EAP), we add the action prediction probabilities directly into the state space",
+          "justification": "Baseline for ablation comparison.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "From Figure 6, we can conclude that just adding uncertain predictions is not enough",
+          "justification": "Plotted in Figure 6.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "both APU and CAMMARL operate on the same information",
+          "justification": "Compared with CAMMARL.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "Comparison of agent performances in CN with uncertainty information available to Nself during training.",
+          "justification": "Trained in CN.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "We call this Action Prediction with Uncertainty (APU)",
+          "justification": "No reference paper.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "CAM - PADDING . The conformal model outputs a set containing the action predictions in the decreasing order of their probability",
+          "justification": "Variant of CAMMARL using padded conformal sets.",
+          "value": "cam-padding"
+        },
+        "aliases": [
+          "padded-CAMMARL"
+        ],
+        "is_contributed": {
+          "quote": "we came up with numerous ways to be able to use them to implement CAMMARL",
+          "justification": "A proposed variation of the contributed algorithm.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "Figure 9 also supports this hypothesis by showing the reasonable performance of this version of CAMMARL (green curve)",
+          "justification": "Performance shown in Figure 9.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Comparing the performance of agents when trained with different variants of CAMMARL.",
+          "justification": "Compared across variants.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "when trained with different variants of CAMMARL",
+          "justification": "Trained variant.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "CAM - PADDING",
+          "justification": "Paper's own variant.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "CAM - PENULTIMATE . Here, we modify CAMMARL to now share the embedding (representations) learned in the conformal prediction model as input to Nself .",
+          "justification": "Variant sharing conformal model embeddings.",
+          "value": "cam-penultimate"
+        },
+        "aliases": [
+          "CAMMARL with representations"
+        ],
+        "is_contributed": {
+          "quote": "Here, we modify CAMMARL to now share the embedding (representations) learned in the conformal prediction model",
+          "justification": "A proposed variation.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "As shown in Figure 9 (blue curve), CAMMARL with representations also manages to obtain returns close to binary-CAMMARL",
+          "justification": "Results in Figure 9.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "binary-CAMMARL and padded-CAMMARL still performs slightly better than CAMMARL with representations",
+          "justification": "Compared across variants.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "when trained with different variants of CAMMARL",
+          "justification": "Trained variant.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "CAM - PENULTIMATE",
+          "justification": "Paper's own variant.",
+          "value": "unknown"
+        }
+      }
+    ],
+    "data_sources": [
+      {
+        "name": {
+          "quote": "Cooperative Navigation The agents learn to visit the two landmarks avoiding collisions.",
+          "justification": "One of the environments used for experiments.",
+          "value": "Cooperative Navigation"
+        },
+        "aliases": [
+          "CN",
+          "OpenAI MPE's Cooperative Navigation"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "The figure shows cooperative navigation with 2 agents (N=2) and 2 landmarks (L=2).",
+          "justification": "No sample count stated; it is an environment.",
+          "value": "unknown"
+        },
+        "derived_from": [],
+        "sample_properties": [
+          {
+            "name": "number of agents and landmarks",
+            "value": {
+              "quote": "cooperative navigation with 2 agents (N=2) and 2 landmarks (L=2)",
+              "justification": "Stated in the figure caption.",
+              "value": "2 agents (N=2) and 2 landmarks (L=2)"
+            },
+            "unit": "agents/landmarks"
+          }
+        ],
+        "referenced_paper_title": {
+          "quote": "Cooperative Navigation (CN) (Mordatch & Abbeel, 2017; Lowe et al., 2017).",
+          "justification": "Cited alongside Mordatch & Abbeel for CN.",
+          "value": "Multi-agent actor-critic for mixed cooperative-competitive environments"
+        }
+      },
+      {
+        "name": {
+          "quote": "Level-based foraging (LBF) (Albrecht & Ramamoorthy, 2015).",
+          "justification": "One of the environments used.",
+          "value": "Level-based foraging"
+        },
+        "aliases": [
+          "LBF",
+          "LBF-2p-6f"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "In this environment, Nself and Nother are part of a 12×12 grid world which contains four randomly scattered food locations",
+          "justification": "Environment, no dataset size.",
+          "value": "unknown"
+        },
+        "derived_from": [],
+        "sample_properties": [
+          {
+            "name": "grid size",
+            "value": {
+              "quote": "part of a 12×12 grid world",
+              "justification": "Stated in appendix.",
+              "value": "12×12"
+            },
+            "unit": "grid cells"
+          },
+          {
+            "name": "number of agents and foods",
+            "value": {
+              "quote": "This is a 12 × 12 level-based foraging grid-world with 2 cooperative players and 4 food locations.",
+              "justification": "Stated in figure caption.",
+              "value": "2 cooperative players and 4 food locations"
+            },
+            "unit": "agents/foods"
+          }
+        ],
+        "referenced_paper_title": {
+          "quote": "Level-based foraging (LBF) (Albrecht & Ramamoorthy, 2015).",
+          "justification": "Cited reference for LBF.",
+          "value": "A game-theoretic model and best-response learning method for ad hoc coordination in multiagent systems"
+        }
+      },
+      {
+        "name": {
+          "quote": "In Pressure Plate, the agents traverse a grid world and must cooperate by standing on a plate to keep a gate open",
+          "justification": "Environment with more than 2 agents.",
+          "value": "Pressure Plate"
+        },
+        "aliases": [],
+        "role": "used",
+        "size": {
+          "quote": "This is a pressure plate environment with 4 agents.",
+          "justification": "Environment.",
+          "value": "unknown"
+        },
+        "derived_from": [],
+        "sample_properties": [
+          {
+            "name": "number of agents",
+            "value": {
+              "quote": "This is a pressure plate environment with 4 agents.",
+              "justification": "Stated in figure caption and visualization section.",
+              "value": "4 agents"
+            },
+            "unit": "agents"
+          }
+        ],
+        "referenced_paper_title": {
+          "quote": "https://github.com/uoe-agents/pressureplate",
+          "justification": "Only a GitHub link is given.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "we also run CAMMARLin Google Football, where 3 agents try to score a goal against a defender and a keeper in a game of football.",
+          "justification": "Environment used for 3v1 experiments.",
+          "value": "Google Football"
+        },
+        "aliases": [
+          "Google Research Football",
+          "3 vs 1 with keeper"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "we use the 3 vs 1 with keeper game which is one of the 5 domains in the Football Academy",
+          "justification": "Environment.",
+          "value": "unknown"
+        },
+        "derived_from": [],
+        "sample_properties": [
+          {
+            "name": "number of agents",
+            "value": {
+              "quote": "The main agent controls 3 agents whose objective is to score a goal.",
+              "justification": "Stated in the text.",
+              "value": "3 agents"
+            },
+            "unit": "agents"
+          }
+        ],
+        "referenced_paper_title": {
+          "quote": "Google Football (Kurach et al., 2020)",
+          "justification": "Cited reference.",
+          "value": "Google research football: A novel reinforcement learning environment"
+        }
+      }
+    ],
+    "libraries": [],
+    "algorithms": [
+      {
+        "name": {
+          "quote": "We use proximal policy optimization (PPO) (Schulman et al., 2017) to update the decision-making policy for both the RL agents",
+          "justification": "Used to train the RL agents.",
+          "value": "PPO"
+        },
+        "aliases": [
+          "proximal policy optimization"
+        ],
+        "is_contributed": {
+          "quote": "proximal policy optimization (PPO) (Schulman et al., 2017)",
+          "justification": "Existing algorithm.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Train Nself using PPO",
+          "justification": "Used in training loops.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "We use proximal policy optimization (PPO) ... to update the decision-making policy for both the RL agents",
+          "justification": "Used as the learner, not compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "to update the decision-making policy for both the RL agents, however, any other RL algorithm could be used alternatively",
+          "justification": "Paper's own words.",
+          "value": "update the decision-making policy for both the RL agents"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Schulman, J., Wolski, F., Dhariwal, P., Radford, A., and Klimov, O. Proximal policy optimization algorithms.",
+          "justification": "Cited reference.",
+          "value": "Proximal policy optimization algorithms"
+        }
+      },
+      {
+        "name": {
+          "quote": "we adapt the core ideas from Regularized Adaptive Prediction Sets (RAPS) (Angelopoulos et al., 2020) to our setting",
+          "justification": "Conformal calibration adapted from RAPS.",
+          "value": "Regularized Adaptive Prediction Sets (RAPS)"
+        },
+        "aliases": [
+          "RAPS"
+        ],
+        "is_contributed": {
+          "quote": "we adapt the core ideas from Regularized Adaptive Prediction Sets (RAPS) (Angelopoulos et al., 2020)",
+          "justification": "Adapted from prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Then, we adapt RAPS conformal calibration (Angelopoulos et al., 2020) to our setting.",
+          "justification": "Used in the conformal model's calibration.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "we adapt the core ideas from Regularized Adaptive Prediction Sets (RAPS)",
+          "justification": "Not compared numerically.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "Then, we adapt RAPS conformal calibration (Angelopoulos et al., 2020) to our setting.",
+          "justification": "Paper's own words.",
+          "value": "conformal calibration adapted to our setting to estimate the predictive action set"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Angelopoulos, A., Bates, S., Malik, J., and Jordan, M. I. Uncertainty sets for image classifiers using conformal prediction.",
+          "justification": "Cited reference for RAPS.",
+          "value": "Uncertainty sets for image classifiers using conformal prediction"
+        }
+      },
+      {
+        "name": {
+          "quote": "Algorithm 1 C ONFORMAL ACTION MODELING IN MARL",
+          "justification": "The proposed algorithm itself.",
+          "value": "CAMMARL"
+        },
+        "aliases": [
+          "Conformal Action Modeling in MARL"
+        ],
+        "is_contributed": {
+          "quote": "we propose a novel multi-agent reinforcement learning (MARL) algorithm CAMMARL",
+          "justification": "The paper's contribution.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "Now, we implement CAMMARL , where the conformal action prediction model periodically trains",
+          "justification": "Executed in all experiments.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "we compare CAMMARL with the performances of agents in different settings",
+          "justification": "Compared with several baselines.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "Our objective is to inform an Nself ’s decision-making by modeling the other agent’s actions in the environment as conformal prediction sets",
+          "justification": "Paper's own words.",
+          "value": "inform an Nself's decision-making by modeling the other agent's actions in the environment as conformal prediction sets"
+        },
+        "composed_of": [
+          "PPO",
+          "Regularized Adaptive Prediction Sets (RAPS)"
+        ],
+        "referenced_paper_title": {
+          "quote": "the CAMMARL algorithm (Section 3)",
+          "justification": "Own contribution.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "a cross-entropy loss is used to train the added sub-module that predicts the Nother ’s actions",
+          "justification": "Used in EAP baseline to train the action prediction sub-module.",
+          "value": "cross-entropy loss"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "a cross-entropy loss is used to train the added sub-module",
+          "justification": "Standard loss.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "a cross-entropy loss is used to train the added sub-module that predicts the Nother ’s actions along with a PPO loss",
+          "justification": "Used in EAP training.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "a cross-entropy loss is used to train the added sub-module",
+          "justification": "Not compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "a cross-entropy loss is used to train the added sub-module that predicts the Nother ’s actions",
+          "justification": "Paper's own words.",
+          "value": "train the added sub-module that predicts the Nother's actions"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "a cross-entropy loss is used",
+          "justification": "No reference.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "smoothed using a moving window average (100 points) for readability",
+          "justification": "Smoothing procedure for plotted curves.",
+          "value": "moving window average"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "smoothed using a moving window average (100 points)",
+          "justification": "Standard smoothing.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "The curves are averaged over five independent trials and smoothed using a moving window average (100 points) for readability.",
+          "justification": "Applied to the reported curves.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "smoothed using a moving window average (100 points) for readability",
+          "justification": "Not compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "smoothed using a moving window average (100 points) for readability",
+          "justification": "Paper's own words.",
+          "value": "smoothing the reported performance curves for readability"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "moving window average (100 points)",
+          "justification": "No reference.",
+          "value": "unknown"
+        }
+      }
+    ],
+    "runs": [
+      {
+        "models": [
+          {
+            "name": "CAMMARL",
+            "role_in_run": "main"
+          },
+          {
+            "name": "conformal prediction model C",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Cooperative Navigation",
+            "access": "interactive",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "CAMMARL"
+          },
+          {
+            "name": "PPO"
+          },
+          {
+            "name": "Regularized Adaptive Prediction Sets (RAPS)"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "Now, we implement CAMMARL , where the conformal action prediction model periodically trains on collected observations of Nother",
+          "justification": "Agents and conformal model are trained online in CN.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "Comparison of agent performances (in terms of reward accumulation) in CN (a)",
+          "justification": "Not stated for CN.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "we used 2 fully-connected multi-layer perceptron (MLP) layers",
+          "justification": "Only layer counts stated, not parameter counts.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "All the agents and the model C collect their individual experiences and train their own policies independently.",
+          "justification": "No hardware stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "All the agents and the model C collect their individual experiences and train their own policies independently.",
+          "justification": "No hardware named.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "All the agents and the model C collect their individual experiences and train their own policies independently.",
+          "justification": "No hardware count stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "For the conformal prediction model C, we use another fully-connected MLP with 2 layers each with 64 hidden nodes.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "All the agents and the model C collect their individual experiences and train their own policies independently.",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "The curves are averaged over five independent trials",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "The curves are averaged over five independent trials",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "The curves are averaged over five independent trials and smoothed using a moving window average (100 points) for readability.",
+          "justification": "Curves averaged over five independent trials.",
+          "value": [
+            {
+              "kind": "seed",
+              "count": 5,
+              "what": "independent trials"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "CAMMARL",
+            "role_in_run": "main"
+          },
+          {
+            "name": "conformal prediction model C",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Level-based foraging",
+            "access": "interactive",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "CAMMARL"
+          },
+          {
+            "name": "PPO"
+          },
+          {
+            "name": "Regularized Adaptive Prediction Sets (RAPS)"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "in LBF, it actually seems to converge to a better policy",
+          "justification": "Trained in LBF.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "Episodes",
+          "justification": "Episodes axis shown but not stated as epochs.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "For the individual actor and critic networks, we used 2 fully-connected multi-layer perceptron (MLP) layers.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "All the agents and the model C collect their individual experiences and train their own policies independently.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "All the agents and the model C collect their individual experiences and train their own policies independently.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "All the agents and the model C collect their individual experiences and train their own policies independently.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "we use another fully-connected MLP with 2 layers each with 64 hidden nodes",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "train their own policies independently",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "The curves are averaged over five independent trials",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "The curves are averaged over five independent trials",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "The curves are averaged over five independent trials and smoothed using a moving window average (100 points) for readability.",
+          "justification": "Five trials stated.",
+          "value": [
+            {
+              "kind": "seed",
+              "count": 5,
+              "what": "independent trials"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "CAMMARL",
+            "role_in_run": "main"
+          },
+          {
+            "name": "conformal prediction model C",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Pressure Plate",
+            "access": "interactive",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "CAMMARL"
+          },
+          {
+            "name": "PPO"
+          },
+          {
+            "name": "Regularized Adaptive Prediction Sets (RAPS)"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "Comparison of agent performances (in terms of reward accumulation) in environments with more than 2 agents: (a) Pressure Plate",
+          "justification": "Trained in Pressure Plate with 4 agents.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "CAMMARL is more sample efficient and converges in roughly 10% fewer episodes",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "we used 2 fully-connected multi-layer perceptron (MLP) layers",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "The curves are averaged over five independent runs.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "The curves are averaged over five independent runs.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "The curves are averaged over five independent runs.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "The curves are averaged over five independent runs.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "The curves are averaged over five independent runs.",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "The curves are averaged over five independent runs.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "The curves are averaged over five independent runs.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "The curves are averaged over five independent runs.",
+          "justification": "Stated in Figure 4 caption.",
+          "value": [
+            {
+              "kind": "seed",
+              "count": 5,
+              "what": "independent runs"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "CAMMARL",
+            "role_in_run": "main"
+          },
+          {
+            "name": "conformal prediction model C",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Google Football",
+            "access": "interactive",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "CAMMARL"
+          },
+          {
+            "name": "PPO"
+          },
+          {
+            "name": "Regularized Adaptive Prediction Sets (RAPS)"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "In Google Football (Figure 4 (b)) we notice a considerable improvement as well",
+          "justification": "Trained in Google Football 3v1.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "In Google Football, the observations are global, so we did not include TOAM and GIAM.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "we use another fully-connected MLP with 2 layers each with 64 hidden nodes",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "The curves are averaged over five independent runs.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "The curves are averaged over five independent runs.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "The curves are averaged over five independent runs.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "The curves are averaged over five independent runs.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "The curves are averaged over five independent runs.",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "The curves are averaged over five independent runs.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "The curves are averaged over five independent runs.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "The curves are averaged over five independent runs.",
+          "justification": "Stated in Figure 4 caption.",
+          "value": [
+            {
+              "kind": "seed",
+              "count": 5,
+              "what": "independent runs"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "NOAM",
+            "role_in_run": "main"
+          },
+          {
+            "name": "TAAM",
+            "role_in_run": "main"
+          },
+          {
+            "name": "TOAM",
+            "role_in_run": "main"
+          },
+          {
+            "name": "GIAM",
+            "role_in_run": "main"
+          },
+          {
+            "name": "EAP",
+            "role_in_run": "main"
+          },
+          {
+            "name": "APU",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Cooperative Navigation",
+            "access": "interactive",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "PPO"
+          },
+          {
+            "name": "cross-entropy loss"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "we compare CAMMARL with the performances of agents in different settings with varying pieces of information made available to Nself during training",
+          "justification": "Baselines are trained in CN for comparison.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "Comparison of agent performances in CN with uncertainty information available to Nself during training.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "we used 2 fully-connected multi-layer perceptron (MLP) layers",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "All the agents and the model C collect their individual experiences and train their own policies independently.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "All the agents and the model C collect their individual experiences and train their own policies independently.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "All the agents and the model C collect their individual experiences and train their own policies independently.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "All the agents and the model C collect their individual experiences and train their own policies independently.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "train their own policies independently",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "The curves are averaged over five independent trials",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "The curves are averaged over five independent trials",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "The curves are averaged over five independent trials and smoothed using a moving window average (100 points) for readability.",
+          "justification": "Five trials per curve and six baseline settings reported in CN.",
+          "value": [
+            {
+              "kind": "seed",
+              "count": 5,
+              "what": "independent trials"
+            },
+            {
+              "kind": "variant",
+              "count": 6,
+              "what": "baseline settings (NOAM, TAAM, TOAM, GIAM, EAP, APU)"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "NOAM",
+            "role_in_run": "main"
+          },
+          {
+            "name": "TAAM",
+            "role_in_run": "main"
+          },
+          {
+            "name": "TOAM",
+            "role_in_run": "main"
+          },
+          {
+            "name": "GIAM",
+            "role_in_run": "main"
+          },
+          {
+            "name": "EAP",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Level-based foraging",
+            "access": "interactive",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "PPO"
+          },
+          {
+            "name": "cross-entropy loss"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "Figure 3 shows that CAMMARL agents are able to distinctly perform better than EAP in LBF",
+          "justification": "Baselines trained in LBF.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "Episodes",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "we used 2 fully-connected multi-layer perceptron (MLP) layers",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "train their own policies independently",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "train their own policies independently",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "train their own policies independently",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "train their own policies independently",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "train their own policies independently",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "The curves are averaged over five independent trials",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "The curves are averaged over five independent trials",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "The curves are averaged over five independent trials and smoothed using a moving window average (100 points) for readability.",
+          "justification": "Five trials and five baselines compared in LBF.",
+          "value": [
+            {
+              "kind": "seed",
+              "count": 5,
+              "what": "independent trials"
+            },
+            {
+              "kind": "variant",
+              "count": 5,
+              "what": "baseline settings (NOAM, TAAM, TOAM, GIAM, EAP)"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "NOAM",
+            "role_in_run": "main"
+          },
+          {
+            "name": "TAAM",
+            "role_in_run": "main"
+          },
+          {
+            "name": "TOAM",
+            "role_in_run": "main"
+          },
+          {
+            "name": "GIAM",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Pressure Plate",
+            "access": "interactive",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "PPO"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "although all the algorithms ultimately converge to the optimal reward, CAMMARL is more sample efficient and converges in roughly 10% fewer episodes compared to GIAM and TOAM",
+          "justification": "Baselines trained in Pressure Plate.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "converges in roughly 10% fewer episodes",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "we used 2 fully-connected multi-layer perceptron (MLP) layers",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "The curves are averaged over five independent runs.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "The curves are averaged over five independent runs.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "The curves are averaged over five independent runs.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "The curves are averaged over five independent runs.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "The curves are averaged over five independent runs.",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "The curves are averaged over five independent runs.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "The curves are averaged over five independent runs.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "The curves are averaged over five independent runs.",
+          "justification": "Figure 4 caption.",
+          "value": [
+            {
+              "kind": "seed",
+              "count": 5,
+              "what": "independent runs"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "NOAM",
+            "role_in_run": "main"
+          },
+          {
+            "name": "TAAM",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Google Football",
+            "access": "interactive",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "PPO"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "In Google Football, the observations are global, so we did not include TOAM and GIAM.",
+          "justification": "Baselines trained in Google Football (TOAM and GIAM excluded).",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "In Google Football, the observations are global, so we did not include TOAM and GIAM.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "we used 2 fully-connected multi-layer perceptron (MLP) layers",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "The curves are averaged over five independent runs.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "The curves are averaged over five independent runs.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "The curves are averaged over five independent runs.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "The curves are averaged over five independent runs.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "The curves are averaged over five independent runs.",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "The curves are averaged over five independent runs.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "The curves are averaged over five independent runs.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "The curves are averaged over five independent runs.",
+          "justification": "Figure 4 caption.",
+          "value": [
+            {
+              "kind": "seed",
+              "count": 5,
+              "what": "independent runs"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "CAMMARL",
+            "role_in_run": "main"
+          },
+          {
+            "name": "NOAM",
+            "role_in_run": "main"
+          },
+          {
+            "name": "TAAM",
+            "role_in_run": "main"
+          },
+          {
+            "name": "TOAM",
+            "role_in_run": "main"
+          },
+          {
+            "name": "GIAM",
+            "role_in_run": "main"
+          },
+          {
+            "name": "conformal prediction model C",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Level-based foraging",
+            "access": "interactive",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "CAMMARL"
+          },
+          {
+            "name": "PPO"
+          },
+          {
+            "name": "Regularized Adaptive Prediction Sets (RAPS)"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "For these experiments, we use the original LBF environment, but we turn off the cooperation flag.",
+          "justification": "Mixed-setting LBF experiments with cooperation flag off.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "10000 20000 30000 40000 50000 60000 70000 Episodes",
+          "justification": "Not stated as epochs.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "we used 2 fully-connected multi-layer perceptron (MLP) layers",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "The curves are averaged over five seeds.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "The curves are averaged over five seeds.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "The curves are averaged over five seeds.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "The curves are averaged over five seeds.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "The curves are averaged over five seeds.",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "The curves are averaged over five seeds.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "The curves are averaged over five seeds.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "The curves are averaged over five seeds.",
+          "justification": "Figure 5 caption states five seeds and five curves.",
+          "value": [
+            {
+              "kind": "seed",
+              "count": 5,
+              "what": "seeds"
+            },
+            {
+              "kind": "variant",
+              "count": 5,
+              "what": "methods compared (CAMMARL, GIAM, NOAM, TAAM, TOAM)"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "cam-padding",
+            "role_in_run": "main"
+          },
+          {
+            "name": "cam-penultimate",
+            "role_in_run": "main"
+          },
+          {
+            "name": "conformal prediction model C",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Cooperative Navigation",
+            "access": "interactive",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "Level-based foraging",
+            "access": "interactive",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "CAMMARL"
+          },
+          {
+            "name": "PPO"
+          },
+          {
+            "name": "Regularized Adaptive Prediction Sets (RAPS)"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "Comparing the performance of agents when trained with different variants of CAMMARL.",
+          "justification": "Variants of CAMMARL trained and compared.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "Comparing the performance of agents when trained with different variants of CAMMARL.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "we use another fully-connected MLP with 2 layers each with 64 hidden nodes",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "Comparing the performance of agents when trained with different variants of CAMMARL.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "Comparing the performance of agents when trained with different variants of CAMMARL.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "Comparing the performance of agents when trained with different variants of CAMMARL.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "Comparing the performance of agents when trained with different variants of CAMMARL.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "Comparing the performance of agents when trained with different variants of CAMMARL.",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "Comparing the performance of agents when trained with different variants of CAMMARL.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "Comparing the performance of agents when trained with different variants of CAMMARL.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "Comparing the performance of agents when trained with different variants of CAMMARL.",
+          "justification": "Two additional variants besides cam-binary are evaluated.",
+          "value": [
+            {
+              "kind": "variant",
+              "count": 2,
+              "what": "CAMMARL variants (cam-padding, cam-penultimate)"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "usage": {
+    "input_tokens": 31542,
+    "output_tokens": 17517,
+    "total_tokens": 49059
+  }
+}

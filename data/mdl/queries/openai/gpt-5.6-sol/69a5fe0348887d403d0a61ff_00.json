@@ -1,0 +1,1737 @@
+{
+  "paper": "69a5fe0348887d403d0a61ff.txt",
+  "words": 7575,
+  "extractions": {
+    "title": {
+      "quote": "Learning Reliable Logical Rules with SATNet",
+      "justification": "This is the paper title shown at the beginning of the manuscript.",
+      "value": "Learning Reliable Logical Rules with SATNet"
+    },
+    "description": "An empirical study of learned logical-rule artifacts and their decoding and verification, catalogued here in terms of its learned models, generated task datasets, optimization/verification software, named procedures, and reported compute configurations.",
+    "type": {
+      "quote": "Experiments on stream transformations and Sudoku problems show that our decoded rules are highly reliable",
+      "justification": "The paper trains and evaluates systems on multiple generated and fixed datasets, so it is empirical despite also containing proofs.",
+      "value": "empirical"
+    },
+    "research_fields": [
+      {
+        "name": {
+          "quote": "Bridging logical reasoning and deep learning is crucial for advanced AI systems.",
+          "justification": "The paper directly advances integration of logical reasoning and deep learning.",
+          "value": "neuro-symbolic artificial intelligence"
+        },
+        "aliases": [
+          "integration of logical reasoning and deep learning"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "we present a new framework that addresses this goal by generating interpretable and verifiable logical rules through differentiable learning",
+          "justification": "Differentiable learning of interpretable logical rules is a central contribution.",
+          "value": "differentiable learning of logical rules"
+        },
+        "aliases": [
+          "differentiable rule learning"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "we introduce several effective verification techniques to validate it against the ground truth rules",
+          "justification": "The paper contributes verification techniques for learned logical rules.",
+          "value": "formal verification"
+        },
+        "aliases": [
+          "verification of logical rules"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "the first attempt to decode a set of interpretable logic structures through differentiable learning",
+          "justification": "Interpretability of learned logical structures is an explicit research contribution.",
+          "value": "interpretable machine learning"
+        },
+        "aliases": [
+          "interpretable rule learning"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "SATNet [32] is a differentiable MaxSAT solver",
+          "justification": "SAT and MaxSAT solving provide the computational setting in which the paper works and evaluates its rules.",
+          "value": "SAT and MaxSAT solving"
+        },
+        "aliases": [
+          "satisfiability solving"
+        ],
+        "role": "used"
+      }
+    ],
+    "models": [
+      {
+        "name": {
+          "quote": "SATNet [32] is a differentiable MaxSAT solver that models the underlying rules ϕ in the data as a MaxSAT problem",
+          "justification": "SATNet is a learned, independently executable object whose matrix parameters are trained from examples.",
+          "value": "SATNet"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "Our approach builds upon SATNet",
+          "justification": "SATNet predates this paper and is used as the base model rather than contributed here.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We train both original SATNet [32] and our modified version SATNet*",
+          "justification": "The paper explicitly trained original SATNet.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "We train both original SATNet [32] and our modified version SATNet* to learn the underlying logical rules",
+          "justification": "SATNet is numerically compared with SATNet* across the experiments.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "We train both original SATNet [32] and our modified version SATNet*",
+          "justification": "The model is trained from task examples in this paper.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "Satnet: Bridging deep learning and logical reasoning using a differentiable satisfiability solver.",
+          "justification": "Reference [32] is the source paper for SATNet.",
+          "value": "Satnet: Bridging deep learning and logical reasoning using a differentiable satisfiability solver."
+        }
+      },
+      {
+        "name": {
+          "quote": "We train both original SATNet [32] and our modified version SATNet*",
+          "justification": "SATNet* is the paper's modified learned model, which learns C directly and is executable independently after training.",
+          "value": "SATNet*"
+        },
+        "aliases": [
+          "modified version SATNet*"
+        ],
+        "is_contributed": {
+          "quote": "we modify the implementation of SATNet to learn the C matrix directly and further apply the Iterative Hard Thresholding (IHT) algorithm [7, 4] to sparsify it.",
+          "justification": "SATNet* is the paper's own modified version of SATNet.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "We train both original SATNet [32] and our modified version SATNet*",
+          "justification": "The paper explicitly trained SATNet*.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "both SATNet and SATNet* can learn the underlying logical rules in the data perfectly",
+          "justification": "The paper reports numerical results for SATNet and SATNet* side by side.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "We train both original SATNet [32] and our modified version SATNet*",
+          "justification": "SATNet* is trained from examples.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "our modified version SATNet*",
+          "justification": "SATNet* is introduced in this paper and therefore has no separate referenced source paper.",
+          "value": "unknown"
+        }
+      }
+    ],
+    "data_sources": [
+      {
+        "name": {
+          "quote": "the parity function",
+          "justification": "This is a named stream-transformation task used to generate experimental examples.",
+          "value": "parity function"
+        },
+        "aliases": [],
+        "role": "contributed",
+        "size": {
+          "quote": "generate a dataset of 10, 000 examples for each length",
+          "justification": "The paper states 10,000 generated examples for each of the two input lengths.",
+          "value": "10,000 examples for each length"
+        },
+        "derived_from": [],
+        "sample_properties": [
+          {
+            "name": "input stream length",
+            "value": {
+              "quote": "we set the length of the input stream to 20 and 40",
+              "justification": "The paper explicitly states the two per-example stream lengths.",
+              "value": "20 and 40"
+            },
+            "unit": "bits"
+          }
+        ],
+        "referenced_paper_title": {
+          "quote": "Following SATNet [32], we set the length of the input stream to 20 and 40",
+          "justification": "The experimental setup follows SATNet, whose cited paper is reference [32].",
+          "value": "Satnet: Bridging deep learning and logical reasoning using a differentiable satisfiability solver."
+        }
+      },
+      {
+        "name": {
+          "quote": "The binary bit addition task aims to calculate the sum of two binary strings with the corresponding carry bit.",
+          "justification": "Binary bit addition is a named generated experimental source.",
+          "value": "binary bit addition"
+        },
+        "aliases": [],
+        "role": "contributed",
+        "size": {
+          "quote": "randomly sample 4, 000 instances for each length",
+          "justification": "The paper gives the generated sample count for each length.",
+          "value": "4,000 instances for each length"
+        },
+        "derived_from": [],
+        "sample_properties": [
+          {
+            "name": "input length",
+            "value": {
+              "quote": "We set the input length to 10, 20, and 30",
+              "justification": "The paper states the three tested input lengths.",
+              "value": "10, 20, and 30"
+            },
+            "unit": "bits"
+          }
+        ],
+        "referenced_paper_title": {
+          "quote": "The binary bit addition task aims to calculate the sum of two binary strings",
+          "justification": "No dataset reference is attached to this generated task.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "The symbol counting adds the occurrence number N of one specific symbol (e.g., bit 1) of one stream and computes N modulo k.",
+          "justification": "Symbol counting is a named generated experimental source.",
+          "value": "symbol counting"
+        },
+        "aliases": [],
+        "role": "contributed",
+        "size": {
+          "quote": "For each value of k, we randomly generate a dataset comprising 1, 000 samples.",
+          "justification": "The paper states the sample count for each k configuration.",
+          "value": "1,000 samples for each value of k"
+        },
+        "derived_from": [],
+        "sample_properties": [
+          {
+            "name": "input stream length",
+            "value": {
+              "quote": "The input stream has a length of 40",
+              "justification": "The per-example stream length is explicit.",
+              "value": "40"
+            },
+            "unit": "bits"
+          },
+          {
+            "name": "modulus k",
+            "value": {
+              "quote": "we explore different values of k, namely 2, 4, 8, and 16",
+              "justification": "The source is generated under four stated k values.",
+              "value": "2, 4, 8, and 16"
+            },
+            "unit": "value"
+          }
+        ],
+        "referenced_paper_title": {
+          "quote": "The symbol counting adds the occurrence number N",
+          "justification": "No dataset reference is attached to this generated task.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "the 4 × 4 Sudoku dataset",
+          "justification": "The paper explicitly names its constructed 4×4 Sudoku dataset.",
+          "value": "4 × 4 Sudoku dataset"
+        },
+        "aliases": [],
+        "role": "contributed",
+        "size": {
+          "quote": "resulting in a total of 85,632 puzzles",
+          "justification": "The dataset size is explicitly stated.",
+          "value": "85,632 puzzles"
+        },
+        "derived_from": [],
+        "sample_properties": [
+          {
+            "name": "board size",
+            "value": {
+              "quote": "For the 4 × 4 Sudoku puzzles",
+              "justification": "The board dimensions are a per-puzzle property.",
+              "value": "4 × 4"
+            },
+            "unit": "cells"
+          }
+        ],
+        "referenced_paper_title": {
+          "quote": "we construct a dataset by enumerating all possible puzzles that have a unique solution with minimal inputs",
+          "justification": "This dataset is constructed in the present paper rather than taken from a cited dataset paper.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "the 9 × 9 Sudoku dataset",
+          "justification": "The paper explicitly identifies the 9×9 Sudoku experimental dataset.",
+          "value": "9 × 9 Sudoku dataset"
+        },
+        "aliases": [],
+        "role": "used",
+        "size": {
+          "quote": "consisting of 9,000 instances for training and 1,000 instances for testing",
+          "justification": "The paper states both split sizes.",
+          "value": "9,000 training instances and 1,000 testing instances"
+        },
+        "derived_from": [],
+        "sample_properties": [
+          {
+            "name": "board size",
+            "value": {
+              "quote": "For the 9 × 9 Sudoku puzzles",
+              "justification": "The board dimensions are explicit.",
+              "value": "9 × 9"
+            },
+            "unit": "cells"
+          }
+        ],
+        "referenced_paper_title": {
+          "quote": "we use the same dataset in SATNet [32]",
+          "justification": "Reference [32] is identified as the source of this dataset.",
+          "value": "Satnet: Bridging deep learning and logical reasoning using a differentiable satisfiability solver."
+        }
+      }
+    ],
+    "libraries": [
+      {
+        "name": {
+          "quote": "we utilize Gurobi [13] for exact inference",
+          "justification": "Gurobi is explicitly used as solver software.",
+          "value": "Gurobi"
+        },
+        "aliases": [],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "Gurobi Optimizer Reference Manual, 2023.",
+          "justification": "Reference [13] is the cited Gurobi manual.",
+          "value": "Gurobi Optimizer Reference Manual"
+        }
+      },
+      {
+        "name": {
+          "quote": "use the state-of-the-art MaxSAT solver CASHWMaxSAT [16] for verification",
+          "justification": "CASHWMaxSAT is explicitly used as solver software.",
+          "value": "CASHWMaxSAT"
+        },
+        "aliases": [],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "Cashwmaxsat: Solver description.",
+          "justification": "Reference [16] gives the cited software's paper title.",
+          "value": "Cashwmaxsat: Solver description."
+        }
+      }
+    ],
+    "algorithms": [
+      {
+        "name": {
+          "quote": "we introduce our novel specification approach, “maximum equality”",
+          "justification": "This is the paper's named procedure for turning learned C weights into weighted MaxSAT rules.",
+          "value": "maximum equality"
+        },
+        "aliases": [
+          "maximum equality specification",
+          "maximum equality formulation"
+        ],
+        "is_contributed": {
+          "quote": "we introduce our novel specification approach, “maximum equality”",
+          "justification": "The paper explicitly presents it as novel.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "decode them into a weighted MaxSAT formula using our specification approach",
+          "justification": "It is applied to trained models in the experiments.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "using exact solvers on our generated formula could achieve 100% accuracy ... Conversely, SATNet fails to achieve perfect accuracy",
+          "justification": "Outputs obtained through decoded rules are numerically contrasted with SATNet predictions.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "transforms the learned matrix C into a weighted MaxSAT formula",
+          "justification": "This directly states the procedure's role.",
+          "value": "transforms the learned matrix C into a weighted MaxSAT formula"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "we introduce our novel specification approach",
+          "justification": "It is contributed by this paper, not sourced from a referenced paper.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "Iterative Hard Thresholding (IHT) algorithm [7, 4]",
+          "justification": "The exact algorithm name and abbreviation are given in the paper.",
+          "value": "Iterative Hard Thresholding (IHT)"
+        },
+        "aliases": [
+          "IHT algorithm"
+        ],
+        "is_contributed": {
+          "quote": "Iterative Hard Thresholding (IHT) algorithm [7, 4]",
+          "justification": "It is cited from earlier work rather than introduced here.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we modify the implementation of SATNet to learn the C matrix directly and further apply the Iterative Hard Thresholding (IHT) algorithm [7, 4] to sparsify it",
+          "justification": "The paper explicitly applies IHT in SATNet*.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "the learned C matrix in SATNet* is much sparser than that in SATNet, containing approximately 53% zero elements",
+          "justification": "The IHT-enabled SATNet* result is numerically compared with SATNet.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "apply the Iterative Hard Thresholding (IHT) algorithm [7, 4] to sparsify it",
+          "justification": "This is the stated role of IHT.",
+          "value": "to sparsify the learned C matrix"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Iterative hard thresholding for compressed sensing.",
+          "justification": "Reference [4] is the canonical IHT paper cited here.",
+          "value": "Iterative hard thresholding for compressed sensing."
+        }
+      },
+      {
+        "name": {
+          "quote": "solves Equation 2 by the mixing method [31], a fast coordinate descent approach",
+          "justification": "The mixing method is a named solver procedure executed within SATNet.",
+          "value": "mixing method"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "the mixing method [31]",
+          "justification": "It is taken from cited prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "SATNet relaxes their values to unit vectors and solves Equation 2 by the mixing method",
+          "justification": "The trained and evaluated SATNet executions use it.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "both SATNet and SATNet* can learn the underlying logical rules",
+          "justification": "The paper compares models using this optimization machinery, but does not isolate a numerical comparison of the mixing method itself.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "a fast coordinate descent approach",
+          "justification": "The paper describes its role as solving the SDP relaxation by coordinate descent.",
+          "value": "solves Equation 2 as a fast coordinate descent approach"
+        },
+        "composed_of": [
+          "coordinate descent"
+        ],
+        "referenced_paper_title": {
+          "quote": "The mixing method: low-rank coordinate descent for semidefinite programming with diagonal constraints.",
+          "justification": "Reference [31] is the cited source.",
+          "value": "The mixing method: low-rank coordinate descent for semidefinite programming with diagonal constraints."
+        }
+      },
+      {
+        "name": {
+          "quote": "using the Adam optimizer with a learning rate of 2 × 10−3",
+          "justification": "Adam is the named parameter-update procedure used for training.",
+          "value": "Adam"
+        },
+        "aliases": [
+          "Adam optimizer"
+        ],
+        "is_contributed": {
+          "quote": "using the Adam optimizer",
+          "justification": "Adam is used, not introduced by the paper.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "All experiments are carried out ... using the Adam optimizer",
+          "justification": "The optimizer is explicitly used in experiments.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "using the Adam optimizer with a learning rate of 2 × 10−3",
+          "justification": "No optimizer comparison is reported.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "using the Adam optimizer with a learning rate of 2 × 10−3",
+          "justification": "It updates model parameters during training.",
+          "value": "the optimizer used across training experiments"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "using the Adam optimizer",
+          "justification": "The supplied references do not include an Adam citation.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "we consider the unique functional equivalence between our decoded MaxSAT formula and the human-written rules and successfully verify such a functional equivalence",
+          "justification": "This named verification approach is executed on 4×4 Sudoku.",
+          "value": "unique functional equivalence"
+        },
+        "aliases": [
+          "Unique Functional Equivalence"
+        ],
+        "is_contributed": {
+          "quote": "we introduce two equivalence definitions between a weighted MaxSAT formula and a SAT formula",
+          "justification": "The equivalence definition and associated verification approach are contributions of this paper.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "successfully verify such a functional equivalence",
+          "justification": "The paper applies the check experimentally.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "when leveraging Gurobi ... perfect accuracy ... we consider the unique functional equivalence",
+          "justification": "The method verifies correctness but is not itself numerically compared to another verification algorithm.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "For any partial assignment ... if a satisfying output exists and is unique, the optimal solution of the weighted MaxSAT formula is also unique and corresponds to the same output",
+          "justification": "This quote states the exact role/criterion.",
+          "value": "checks agreement of unique outputs between decoded weighted MaxSAT rules and ground-truth SAT rules"
+        },
+        "composed_of": [
+          "enumeration-based method"
+        ],
+        "referenced_paper_title": {
+          "quote": "Definition 1 (Unique Functional Equivalence).",
+          "justification": "The procedure is defined in this paper.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "we verify the decoded rules with the ground truth using the general functional equivalence",
+          "justification": "This named verification procedure is executed for stream transformations.",
+          "value": "general functional equivalence"
+        },
+        "aliases": [
+          "General Functional Equivalence"
+        ],
+        "is_contributed": {
+          "quote": "we introduce two equivalence definitions between a weighted MaxSAT formula and a SAT formula",
+          "justification": "It is introduced by this paper.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "we verify the decoded rules with the ground truth using the general functional equivalence",
+          "justification": "It is explicitly applied.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "This equivalence definition is stricter than Definition 1",
+          "justification": "The paper qualitatively compares strictness, but does not numerically compare algorithms.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "the optimal solution(s) of the weighted MaxSAT correspond to a subset of the satisfying assignments of the SAT formula",
+          "justification": "This states what the verification procedure checks.",
+          "value": "checks whether decoded weighted MaxSAT optima are a subset of ground-truth SAT satisfying assignments"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Definition 2 (General Functional Equivalence).",
+          "justification": "It is defined in this paper.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "Sufficient Condition for General Functional Equivalence",
+          "justification": "This is the exact named condition/procedure in Definition 3.",
+          "value": "Sufficient Condition for General Functional Equivalence"
+        },
+        "aliases": [
+          "sufficient condition for general functional equivalence"
+        ],
+        "is_contributed": {
+          "quote": "we introduce a sufficient condition for proving general functional equivalence",
+          "justification": "The paper introduces it.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "we are able to efficiently verify that our augmented logical rules satisfy the sufficient condition for general functional equivalence",
+          "justification": "It is executed on augmented 4×4 Sudoku rules.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "which can be much more efficient to check compared to the enumeration-based approaches",
+          "justification": "It is explicitly compared for checking efficiency, though no numerical runtime is supplied.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "a sufficient condition for proving general functional equivalence",
+          "justification": "This is the paper's wording for its role.",
+          "value": "a sufficient condition for proving general functional equivalence"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Definition 3 (Sufficient Condition for General Functional Equivalence).",
+          "justification": "It is defined in this paper.",
+          "value": "unknown"
+        }
+      }
+    ],
+    "runs": [
+      {
+        "models": [
+          {
+            "name": "SATNet",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "parity function",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "mixing method"
+          },
+          {
+            "name": "Adam"
+          },
+          {
+            "name": "maximum equality"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "We train both original SATNet [32] ... to learn the underlying logical rules in the data",
+          "justification": "This configuration trains SATNet and then decodes its learned weights.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "All experiments are carried out ... across 100 epochs",
+          "justification": "The stated experiment-wide epoch count applies.",
+          "value": "100 epochs"
+        },
+        "parameter_count": {
+          "quote": "we set the length of the input stream to 20 and 40",
+          "justification": "No model parameter count is stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "All experiments are carried out on a single RTX8000 GPU and 16 CPU cores",
+          "justification": "The fitting run explicitly uses a GPU.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "a single RTX8000 GPU",
+          "justification": "The accelerator model is explicit.",
+          "value": "RTX8000"
+        },
+        "accelerator_count": {
+          "quote": "a single RTX8000 GPU",
+          "justification": "The paper states one GPU.",
+          "value": "1"
+        },
+        "precision": {
+          "quote": "All experiments are carried out on a single RTX8000 GPU",
+          "justification": "No numerical precision is stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "All experiments are carried out on a single RTX8000 GPU and 16 CPU cores",
+          "justification": "No parallelism strategy is identified.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "across 100 epochs",
+          "justification": "Epochs are stated, but wall-clock or chip-time duration is not.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "a single RTX8000 GPU",
+          "justification": "No hardware-utilisation metric is reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "we set the length of the input stream to 20 and 40",
+          "justification": "These are dataset configurations, not stated repeated executions or seeds.",
+          "value": []
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "SATNet*",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "parity function",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "mixing method"
+          },
+          {
+            "name": "Adam"
+          },
+          {
+            "name": "Iterative Hard Thresholding (IHT)"
+          },
+          {
+            "name": "maximum equality"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "We train ... our modified version SATNet*",
+          "justification": "SATNet* is fitted on this task family.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "across 100 epochs",
+          "justification": "The experiment-wide epoch count is explicit.",
+          "value": "100 epochs"
+        },
+        "parameter_count": {
+          "quote": "our modified version SATNet*",
+          "justification": "No parameter count is given.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "a single RTX8000 GPU",
+          "justification": "Training uses the stated GPU.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "a single RTX8000 GPU",
+          "justification": "The GPU model is explicit.",
+          "value": "RTX8000"
+        },
+        "accelerator_count": {
+          "quote": "a single RTX8000 GPU",
+          "justification": "One GPU is stated.",
+          "value": "1"
+        },
+        "precision": {
+          "quote": "All experiments are carried out on a single RTX8000 GPU",
+          "justification": "Precision is unstated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "a single RTX8000 GPU and 16 CPU cores",
+          "justification": "No named parallelism method is given.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "across 100 epochs",
+          "justification": "No time duration is reported.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "a single RTX8000 GPU",
+          "justification": "No utilisation is reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "we set the length of the input stream to 20 and 40",
+          "justification": "No seeds or repeated executions are reported.",
+          "value": []
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "SATNet",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "binary bit addition",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "mixing method"
+          },
+          {
+            "name": "Adam"
+          },
+          {
+            "name": "maximum equality"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "We train both original SATNet [32]",
+          "justification": "SATNet is trained on this task.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "across 100 epochs",
+          "justification": "Explicit global setting.",
+          "value": "100 epochs"
+        },
+        "parameter_count": {
+          "quote": "We set the input length to 10, 20, and 30",
+          "justification": "No parameter count is stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "a single RTX8000 GPU",
+          "justification": "The training hardware includes this GPU.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "RTX8000 GPU",
+          "justification": "Explicit model.",
+          "value": "RTX8000"
+        },
+        "accelerator_count": {
+          "quote": "a single RTX8000 GPU",
+          "justification": "Explicit count.",
+          "value": "1"
+        },
+        "precision": {
+          "quote": "All experiments are carried out on a single RTX8000 GPU",
+          "justification": "Unstated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "a single RTX8000 GPU and 16 CPU cores",
+          "justification": "Unstated strategy.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "across 100 epochs",
+          "justification": "No elapsed time.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "a single RTX8000 GPU",
+          "justification": "No metric.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "randomly sample 4, 000 instances for each length",
+          "justification": "Sample counts are workload, not repetitions.",
+          "value": []
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "SATNet*",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "binary bit addition",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "mixing method"
+          },
+          {
+            "name": "Adam"
+          },
+          {
+            "name": "Iterative Hard Thresholding (IHT)"
+          },
+          {
+            "name": "maximum equality"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "We train ... our modified version SATNet*",
+          "justification": "SATNet* is trained.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "across 100 epochs",
+          "justification": "Explicit global setting.",
+          "value": "100 epochs"
+        },
+        "parameter_count": {
+          "quote": "our modified version SATNet*",
+          "justification": "No count.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "a single RTX8000 GPU",
+          "justification": "GPU training.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "RTX8000 GPU",
+          "justification": "Explicit.",
+          "value": "RTX8000"
+        },
+        "accelerator_count": {
+          "quote": "a single RTX8000 GPU",
+          "justification": "Explicit.",
+          "value": "1"
+        },
+        "precision": {
+          "quote": "All experiments are carried out on a single RTX8000 GPU",
+          "justification": "Unstated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "a single RTX8000 GPU and 16 CPU cores",
+          "justification": "No strategy.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "across 100 epochs",
+          "justification": "No elapsed time.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "a single RTX8000 GPU",
+          "justification": "No utilisation.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "randomly sample 4, 000 instances for each length",
+          "justification": "No run repetitions are stated.",
+          "value": []
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "SATNet",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "symbol counting",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "mixing method"
+          },
+          {
+            "name": "Adam"
+          },
+          {
+            "name": "maximum equality"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "We train both original SATNet [32]",
+          "justification": "SATNet is trained.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "across 100 epochs",
+          "justification": "Explicit.",
+          "value": "100 epochs"
+        },
+        "parameter_count": {
+          "quote": "we explore different values of k",
+          "justification": "No model parameter count.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "a single RTX8000 GPU",
+          "justification": "Training GPU.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "RTX8000 GPU",
+          "justification": "Explicit.",
+          "value": "RTX8000"
+        },
+        "accelerator_count": {
+          "quote": "a single RTX8000 GPU",
+          "justification": "Explicit.",
+          "value": "1"
+        },
+        "precision": {
+          "quote": "All experiments are carried out on a single RTX8000 GPU",
+          "justification": "Unstated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "a single RTX8000 GPU and 16 CPU cores",
+          "justification": "No strategy.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "across 100 epochs",
+          "justification": "No time.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "a single RTX8000 GPU",
+          "justification": "No metric.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "For each value of k, we randomly generate a dataset comprising 1, 000 samples.",
+          "justification": "Samples and k-specific datasets are not execution repetitions.",
+          "value": []
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "SATNet*",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "symbol counting",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "mixing method"
+          },
+          {
+            "name": "Adam"
+          },
+          {
+            "name": "Iterative Hard Thresholding (IHT)"
+          },
+          {
+            "name": "maximum equality"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "We train ... our modified version SATNet*",
+          "justification": "SATNet* is trained.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "across 100 epochs",
+          "justification": "Explicit.",
+          "value": "100 epochs"
+        },
+        "parameter_count": {
+          "quote": "our modified version SATNet*",
+          "justification": "No count.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "a single RTX8000 GPU",
+          "justification": "Training GPU.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "RTX8000 GPU",
+          "justification": "Explicit.",
+          "value": "RTX8000"
+        },
+        "accelerator_count": {
+          "quote": "a single RTX8000 GPU",
+          "justification": "Explicit.",
+          "value": "1"
+        },
+        "precision": {
+          "quote": "All experiments are carried out on a single RTX8000 GPU",
+          "justification": "Unstated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "a single RTX8000 GPU and 16 CPU cores",
+          "justification": "No strategy.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "across 100 epochs",
+          "justification": "No elapsed time.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "a single RTX8000 GPU",
+          "justification": "No utilisation.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "we explore different values of k, namely 2, 4, 8, and 16",
+          "justification": "These define dataset configurations, not repeated executions.",
+          "value": []
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "SATNet",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "4 × 4 Sudoku dataset",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "mixing method"
+          },
+          {
+            "name": "Adam"
+          },
+          {
+            "name": "maximum equality"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "we first train SATNet on the 4 × 4 Sudoku dataset",
+          "justification": "Direct evidence of training.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "across 100 epochs",
+          "justification": "Explicit.",
+          "value": "100 epochs"
+        },
+        "parameter_count": {
+          "quote": "we have a total of 64 variables",
+          "justification": "Variable count is not model parameter count; no parameter count is supplied.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "a single RTX8000 GPU",
+          "justification": "Training GPU.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "RTX8000 GPU",
+          "justification": "Explicit.",
+          "value": "RTX8000"
+        },
+        "accelerator_count": {
+          "quote": "a single RTX8000 GPU",
+          "justification": "Explicit.",
+          "value": "1"
+        },
+        "precision": {
+          "quote": "All experiments are carried out on a single RTX8000 GPU",
+          "justification": "Unstated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "a single RTX8000 GPU and 16 CPU cores",
+          "justification": "No named strategy.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "across 100 epochs",
+          "justification": "No elapsed time.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "a single RTX8000 GPU",
+          "justification": "No metric.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "we split this dataset into training and testing sets with a ratio of 9:1",
+          "justification": "A split is not a repetition and no seeds are stated.",
+          "value": []
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "SATNet*",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "4 × 4 Sudoku dataset",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "mixing method"
+          },
+          {
+            "name": "Adam"
+          },
+          {
+            "name": "Iterative Hard Thresholding (IHT)"
+          },
+          {
+            "name": "maximum equality"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "We train ... our modified version SATNet*",
+          "justification": "SATNet* is trained on the Sudoku experiments.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "across 100 epochs",
+          "justification": "Explicit.",
+          "value": "100 epochs"
+        },
+        "parameter_count": {
+          "quote": "our modified version SATNet*",
+          "justification": "No parameter count.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "a single RTX8000 GPU",
+          "justification": "Training GPU.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "RTX8000 GPU",
+          "justification": "Explicit.",
+          "value": "RTX8000"
+        },
+        "accelerator_count": {
+          "quote": "a single RTX8000 GPU",
+          "justification": "Explicit.",
+          "value": "1"
+        },
+        "precision": {
+          "quote": "All experiments are carried out on a single RTX8000 GPU",
+          "justification": "Unstated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "a single RTX8000 GPU and 16 CPU cores",
+          "justification": "No strategy.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "across 100 epochs",
+          "justification": "No elapsed time.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "a single RTX8000 GPU",
+          "justification": "No metric.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "we split this dataset into training and testing sets with a ratio of 9:1",
+          "justification": "No repetitions stated.",
+          "value": []
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "SATNet",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "9 × 9 Sudoku dataset",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "mixing method"
+          },
+          {
+            "name": "Adam"
+          },
+          {
+            "name": "maximum equality"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "We train both original SATNet [32]",
+          "justification": "SATNet is trained on the 9×9 source.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "across 100 epochs",
+          "justification": "Explicit.",
+          "value": "100 epochs"
+        },
+        "parameter_count": {
+          "quote": "the 9 × 9 Sudoku dataset",
+          "justification": "No model parameter count.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "a single RTX8000 GPU",
+          "justification": "Training GPU.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "RTX8000 GPU",
+          "justification": "Explicit.",
+          "value": "RTX8000"
+        },
+        "accelerator_count": {
+          "quote": "a single RTX8000 GPU",
+          "justification": "Explicit.",
+          "value": "1"
+        },
+        "precision": {
+          "quote": "All experiments are carried out on a single RTX8000 GPU",
+          "justification": "Unstated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "a single RTX8000 GPU and 16 CPU cores",
+          "justification": "No strategy.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "across 100 epochs",
+          "justification": "No time.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "a single RTX8000 GPU",
+          "justification": "No utilisation.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "9,000 instances for training and 1,000 instances for testing",
+          "justification": "Instance counts are workload, not repetitions.",
+          "value": []
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "SATNet*",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "9 × 9 Sudoku dataset",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "mixing method"
+          },
+          {
+            "name": "Adam"
+          },
+          {
+            "name": "Iterative Hard Thresholding (IHT)"
+          },
+          {
+            "name": "maximum equality"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "We also experiment with SATNet* but find its convergence rate is slower than that of SATNet in 100 epochs",
+          "justification": "This confirms an executed SATNet* training configuration.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "in 100 epochs",
+          "justification": "Explicit for this run.",
+          "value": "100 epochs"
+        },
+        "parameter_count": {
+          "quote": "We also experiment with SATNet*",
+          "justification": "No parameter count.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "a single RTX8000 GPU",
+          "justification": "Experiment-wide GPU.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "RTX8000 GPU",
+          "justification": "Explicit.",
+          "value": "RTX8000"
+        },
+        "accelerator_count": {
+          "quote": "a single RTX8000 GPU",
+          "justification": "Explicit.",
+          "value": "1"
+        },
+        "precision": {
+          "quote": "All experiments are carried out on a single RTX8000 GPU",
+          "justification": "Unstated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "a single RTX8000 GPU and 16 CPU cores",
+          "justification": "No strategy.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "in 100 epochs",
+          "justification": "No wall-clock duration.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "a single RTX8000 GPU",
+          "justification": "No metric.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "We also experiment with SATNet*",
+          "justification": "No repeated executions or seeds are given.",
+          "value": []
+        }
+      },
+      {
+        "models": [],
+        "data_sources": [
+          {
+            "name": "parity function",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          },
+          {
+            "name": "binary bit addition",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          },
+          {
+            "name": "symbol counting",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "maximum equality"
+          },
+          {
+            "name": "general functional equivalence"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "we verify the decoded rules with the ground truth using the general functional equivalence",
+          "justification": "This is algorithmic verification rather than model training or model inference; the schema has no verification mode.",
+          "value": "unknown"
+        },
+        "epochs": {
+          "quote": "valid (partial) input spaces for these tasks are relatively small and can be efficiently enumerated",
+          "justification": "No epochs apply to this verification run.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "decoded weighted MaxSAT formula",
+          "justification": "No learned model is executed in this run.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "All experiments are carried out on a single RTX8000 GPU and 16 CPU cores",
+          "justification": "The verification experiments report CPU cores, while no solver-specific device split is provided.",
+          "value": "cpu"
+        },
+        "accelerator_model": {
+          "quote": "16 CPU cores",
+          "justification": "No CPU model is named.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "16 CPU cores",
+          "justification": "The paper states 16 CPU cores.",
+          "value": "16 CPU cores"
+        },
+        "precision": {
+          "quote": "All experiments are carried out on a single RTX8000 GPU and 16 CPU cores",
+          "justification": "No precision is stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "16 CPU cores",
+          "justification": "Core count does not identify a parallelism strategy.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "can be efficiently enumerated",
+          "justification": "No duration value is stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "16 CPU cores",
+          "justification": "No utilisation metric.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "given any partial input",
+          "justification": "Inputs checked are workload, not repeated runs.",
+          "value": []
+        }
+      },
+      {
+        "models": [],
+        "data_sources": [
+          {
+            "name": "4 × 4 Sudoku dataset",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "maximum equality"
+          },
+          {
+            "name": "unique functional equivalence"
+          },
+          {
+            "name": "Sufficient Condition for General Functional Equivalence"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "we consider the unique functional equivalence ... and successfully verify such a functional equivalence",
+          "justification": "This is a solver-based verification configuration, for which the run-mode enum has no dedicated value.",
+          "value": "unknown"
+        },
+        "epochs": {
+          "quote": "successfully verify such a functional equivalence",
+          "justification": "No training epochs apply.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "decoded MaxSAT formula",
+          "justification": "No model parameter count applies.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "All experiments are carried out on a single RTX8000 GPU and 16 CPU cores",
+          "justification": "The exact solver/verification stage has the reported CPU allocation.",
+          "value": "cpu"
+        },
+        "accelerator_model": {
+          "quote": "16 CPU cores",
+          "justification": "No CPU model is named.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "16 CPU cores",
+          "justification": "Explicit allocation.",
+          "value": "16 CPU cores"
+        },
+        "precision": {
+          "quote": "All experiments are carried out on a single RTX8000 GPU and 16 CPU cores",
+          "justification": "Unstated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "16 CPU cores",
+          "justification": "No solver parallelism strategy is named.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "we are able to efficiently verify",
+          "justification": "No numeric duration.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "16 CPU cores",
+          "justification": "No utilisation metric.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "around 85,000 functionally dependent IO pairs with minimal inputs",
+          "justification": "IO pairs are verification workload, not execution repetitions.",
+          "value": []
+        }
+      },
+      {
+        "models": [],
+        "data_sources": [
+          {
+            "name": "9 × 9 Sudoku dataset",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "maximum equality"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "both Gurobi and CASHWMaxSAT fail to verify or find a counterexample in hours",
+          "justification": "This is an algorithmic exact-solving/verification attempt rather than model inference.",
+          "value": "unknown"
+        },
+        "epochs": {
+          "quote": "both Gurobi and CASHWMaxSAT fail to verify or find a counterexample in hours",
+          "justification": "No epochs apply.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "weighted MaxSAT formula with hundreds of thousands of clauses",
+          "justification": "Clause count is not model parameter count.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "All experiments are carried out on a single RTX8000 GPU and 16 CPU cores",
+          "justification": "The solver configuration reports CPU cores; a solver-specific processor model is absent.",
+          "value": "cpu"
+        },
+        "accelerator_model": {
+          "quote": "16 CPU cores",
+          "justification": "No CPU model is named.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "16 CPU cores",
+          "justification": "Explicit core count.",
+          "value": "16 CPU cores"
+        },
+        "precision": {
+          "quote": "All experiments are carried out on a single RTX8000 GPU and 16 CPU cores",
+          "justification": "No precision.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "16 CPU cores",
+          "justification": "No named strategy.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "fail to verify or find a counterexample in hours",
+          "justification": "The paper gives only the qualitative duration 'in hours'.",
+          "value": "hours"
+        },
+        "utilisation": {
+          "quote": "16 CPU cores",
+          "justification": "No utilisation.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "both Gurobi and CASHWMaxSAT fail to verify or find a counterexample in hours",
+          "justification": "No repeated execution count is stated.",
+          "value": []
+        }
+      }
+    ]
+  },
+  "usage": {
+    "input_tokens": 24517,
+    "output_tokens": 11097,
+    "total_tokens": 35614
+  }
+}

@@ -28,13 +28,24 @@ from paperext.backends import register
 from paperext.backends.base import Backend
 
 # Anthropic requires max_tokens on every request; the extract loop does not set
-# one, so the backend injects a default. The 2024 corpus's largest extraction was
-# ~7.2k tokens, but thinking tokens count toward this ceiling on the models that
-# think by default (Opus 5 and later), and 16k truncated the longest papers --
-# `IncompleteOutputException` on 8 of 40 papers in the tier comparison, every one
-# of them a fulltext call. Billing is per actual output token, so a generous
-# ceiling only guards against truncation.
-DEFAULT_MAX_TOKENS = 32768
+# one, so the backend injects a default. Billing is per actual output token, so
+# a generous ceiling costs nothing and only guards against truncation.
+#
+# The history is a record of this ceiling being outgrown, which is why it is now
+# configurable rather than a constant to edit:
+#
+# - v4, 2024 corpus: largest extraction ~7.2k tokens.
+# - 16k truncated the longest papers -- `IncompleteOutputException` on 8 of 40 in
+#   the tier comparison, every one a fulltext call -- because thinking tokens
+#   count toward this ceiling on the models that think by default (Opus 5+).
+# - 32k was outgrown by **schema v5**, measured on the C0 sample (#103): mean
+#   output 20.2k, max 29.5k, i.e. 3.2k of headroom (10%) on the largest paper
+#   that succeeded, and 1 of the first 9 papers truncated outright. v5 added
+#   `runs[]`, `algorithms[]` and `data_sources[]`, so its output is about 3x v4's.
+#
+# 48k is ~1.6x the largest observed v5 extraction. Override per-backend with
+# `max_tokens` in the config section, or `PAPEREXT_ANTHROPIC_MAX_TOKENS`.
+DEFAULT_MAX_TOKENS = 49152
 
 # The SDK refuses a non-streaming request whose `max_tokens` implies more than
 # its 10-minute default timeout -- `_calculate_nonstreaming_timeout` estimates
@@ -138,8 +149,10 @@ def structured_outputs_client(client: Any) -> Any:
 
         if response.stop_reason == "max_tokens":
             raise ValueError(
-                f"output truncated at max_tokens={max_tokens}; raise it "
-                "(paperext.backends.anthropic.DEFAULT_MAX_TOKENS)"
+                f"output truncated at max_tokens={max_tokens}; raise "
+                "`max_tokens` in the backend's config section (or "
+                "PAPEREXT_ANTHROPIC_MAX_TOKENS). Billing is per actual output "
+                "token, so a higher ceiling costs nothing unless used"
             )
         if response.stop_reason == "refusal":
             # every model in the fallback chain declined
@@ -176,7 +189,32 @@ class AnthropicBase(Backend):
     # Anthropic requires max_tokens on every request; the extract loop sets none.
     # Claude uses the native "system" role (instructor maps a system message to
     # the top-level system param), so no message folding is needed.
-    request_defaults = {"max_tokens": DEFAULT_MAX_TOKENS}
+    @property
+    def request_defaults(self) -> "dict[str, Any]":
+        return {"max_tokens": self.max_tokens}
+
+    @property
+    def max_tokens(self) -> int:
+        """``max_tokens`` from this backend's config section, or the default.
+
+        Configurable because the ceiling has been outgrown twice, each time by a
+        schema change rather than by a longer paper -- see DEFAULT_MAX_TOKENS.
+        A truncation costs a whole paper's extraction, so this is worth being
+        able to raise without editing code.
+        """
+        try:  # Config raises KeyError for a missing option, so no getattr default
+            raw = self.config.max_tokens
+        except KeyError:
+            return DEFAULT_MAX_TOKENS
+        if not str(raw).strip():
+            return DEFAULT_MAX_TOKENS
+        try:
+            value = int(raw)
+        except TypeError, ValueError:
+            raise ValueError(f"max_tokens must be an integer, got {raw!r}") from None
+        if value <= 0:
+            raise ValueError(f"max_tokens must be positive, got {value}")
+        return value
 
     @property
     def mode_name(self) -> str:
@@ -201,6 +239,39 @@ class AnthropicBase(Backend):
         if mode is None:  # STRUCTURED_OUTPUTS: driven here, not by instructor
             return structured_outputs_client(self.async_client())
         return instructor.from_anthropic(self.async_client(), mode=mode)
+
+    def diagnose(self, error: BaseException) -> "str | None":
+        """Name the fix for the one 400 that is purely a mode mismatch.
+
+        Opus 5.5 and later refuse a forced tool call, so `mode = tools` fails
+        every paper with *tool_choice: type "tool" and "any" are not supported
+        for this model*. The structured-outputs path sends no `tool_choice` at
+        all, so the fix is one environment variable -- but the API's message
+        does not say that, and a run of 26 papers fails 26 times before anyone
+        reads it.
+        """
+        message = str(error)
+        if "compiled grammar is too large" in message:
+            return (
+                "the v5 extraction schema exceeds this model's strict-grammar "
+                "limit on the structured-outputs path. All three modes are "
+                "blocked for a model that also refuses forced tools: `tools` "
+                "is rejected by the model, `json_schema` hits this limit, and "
+                "`json` trips instructor's strict decoder on our quotes. Use a "
+                "model that accepts forced tools (PAPEREXT_ANTHROPIC_MODEL="
+                "claude-opus-5 with mode=tools is the combination the C0 batch "
+                "ran at 25/25), or shrink the schema -- which is a design "
+                "change, not a setting"
+            )
+        if "tool_choice" in message and "not supported for this model" in message:
+            return (
+                f"{self.model!r} does not support a forced tool call, which "
+                f"mode={self.mode_name!r} requires. Use the structured-outputs "
+                f"path instead: PAPEREXT_{self.name.upper()}_MODE="
+                f"{STRUCTURED_OUTPUTS} (or set `mode = {STRUCTURED_OUTPUTS}` in "
+                f"the [{self.name}] config section)"
+            )
+        return None
 
     def normalize_usage(self, completion: Any) -> dict[str, Any]:
         # Anthropic's usage already matches the canonical schema.

@@ -1,0 +1,2778 @@
+{
+  "paper": "69a5fdef48887d403d0a5fa9.txt",
+  "words": 25940,
+  "extractions": {
+    "title": {
+      "quote": "StarCoder: may the source be with you!",
+      "justification": "The title is printed at the beginning of the paper.",
+      "value": "StarCoder: may the source be with you!"
+    },
+    "description": "Introduces and evaluates StarCoderBase and StarCoder, develops StarEncoder and a PII-detection model, curates code-training data, and releases code-model evaluation and attribution tooling.",
+    "type": {
+      "quote": "We trained StarCoderBase on 1 trillion tokens sourced from 80+ programming languages, GitHub issues, Git commits, and Jupyter notebooks. We fine-tuned StarCoderBase on another 35B Python tokens, leading to the StarCoder model.",
+      "justification": "The work trains, fine-tunes, and empirically evaluates learned models.",
+      "value": "empirical"
+    },
+    "research_fields": [
+      {
+        "name": {
+          "quote": "Large Language Models for Code (Code LLMs)",
+          "justification": "This is the paper's central model class and research area.",
+          "value": "Large Language Models for Code"
+        },
+        "aliases": [
+          "Code LLMs"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "Language Models for Code",
+          "justification": "The related-work section explicitly identifies this field, and the paper advances it with new models and evaluations.",
+          "value": "Language Models for Code"
+        },
+        "aliases": [],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "code generation",
+          "justification": "The paper evaluates generated code across many code-generation benchmarks.",
+          "value": "code generation"
+        },
+        "aliases": [],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "responsible development of Large Language Models for Code",
+          "justification": "Responsible model and dataset development is an explicit project goal and contribution.",
+          "value": "responsible AI"
+        },
+        "aliases": [],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "Personally Identifiable Information (PII)",
+          "justification": "The paper contributes a PII dataset, redaction pipeline, encoder, and detection model.",
+          "value": "PII detection and redaction"
+        },
+        "aliases": [
+          "PII"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "natural language reasoning and understanding tasks",
+          "justification": "These are evaluation settings for the code models rather than the main model-development contribution.",
+          "value": "natural language reasoning and understanding"
+        },
+        "aliases": [],
+        "role": "used"
+      },
+      {
+        "name": {
+          "quote": "code with security vulnerabilities",
+          "justification": "Software security is used as an evaluation domain.",
+          "value": "software security"
+        },
+        "aliases": [],
+        "role": "used"
+      }
+    ],
+    "models": [
+      {
+        "name": {
+          "quote": "StarCoderBase is the first model trained on 1 trillion tokens",
+          "justification": "The paper names and trains this model.",
+          "value": "StarCoderBase"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "We release StarCoderBase and StarCoder",
+          "justification": "It is a principal model contribution.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "The model was trained for 250k iterations",
+          "justification": "It was trained and evaluated in the paper.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "We compare StarCoder and StarCoderBase to the following models.",
+          "justification": "It is numerically compared on many benchmarks.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "The model was trained for 250k iterations",
+          "justification": "It was trained from scratch.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "This model is introduced by the present paper.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "StarCoder is the fine-tuned version of StarCoderBase",
+          "justification": "The paper names and creates this model.",
+          "value": "StarCoder"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "We release StarCoderBase and StarCoder",
+          "justification": "It is a principal model contribution.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "we fine-tuned a Python variant of the model for 2 epochs",
+          "justification": "It was fine-tuned and evaluated.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "StarCoder outperforms every model that is fine-tuned on Python",
+          "justification": "It is numerically compared to baselines.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "Starting from StarCoderBase, we fine-tuned a Python variant",
+          "justification": "The model was fine-tuned.",
+          "value": "finetune"
+        },
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "This model is introduced by the present paper.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "StarEncoder",
+          "justification": "The encoder model is named in Section 4.2.",
+          "value": "StarEncoder"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "we trained an encoder-only model",
+          "justification": "The paper trains and introduces it.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "We train for 100,000 steps",
+          "justification": "It was trained and then fine-tuned.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Fine-tuning baseline We fine-tune StarEncoder",
+          "justification": "Its PII fine-tuning variants are evaluated numerically.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "we trained an encoder-only model",
+          "justification": "The base encoder was trained from scratch.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "This model is introduced by the present paper.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "PII detection model",
+          "justification": "The paper repeatedly uses this name for the fine-tuned StarEncoder artifact.",
+          "value": "PII detection model"
+        },
+        "aliases": [
+          "NER Pipeline"
+        ],
+        "is_contributed": {
+          "quote": "We fine-tuned StarEncoder on the annotated PII dataset for the Named Entity Recognition (NER) task.",
+          "justification": "This fine-tuned learned object is contributed by the paper.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "We used the PII detection model to identify PII across all programming languages",
+          "justification": "It was fine-tuned and run over the training corpus.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "We compared our PII detection models against the regular expressions",
+          "justification": "It is numerically compared to regex baselines.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "We fine-tuned StarEncoder on the annotated PII dataset",
+          "justification": "The model was created by fine-tuning.",
+          "value": "finetune"
+        },
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "This model is introduced by the present paper.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "CodeGen-16B-Multi",
+          "justification": "The paper evaluates this named baseline.",
+          "value": "CodeGen-16B-Multi"
+        },
+        "aliases": [
+          "CodeGen-Multi",
+          "CodeGen-Multi-16B"
+        ],
+        "is_contributed": {
+          "quote": "CodeGen-16B-Multi (Nijkamp et al., 2023)",
+          "justification": "It is prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we use the same methodology to evaluate StarCoderBase, InCoder-6B, CodeGen-16B-Multi",
+          "justification": "The authors execute it in their evaluations.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "We compare StarCoder and StarCoderBase to the following models.",
+          "justification": "It is a numerical baseline.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "we use the same methodology to evaluate",
+          "justification": "It is used for inference/evaluation only here.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "CodeGen: an open large language model for code with multi-turn program synthesis.",
+          "justification": "This is the cited CodeGen paper title.",
+          "value": "CodeGen: an open large language model for code with multi-turn program synthesis"
+        }
+      },
+      {
+        "name": {
+          "quote": "CodeGen-16B-Mono",
+          "justification": "The paper evaluates this named baseline.",
+          "value": "CodeGen-16B-Mono"
+        },
+        "aliases": [
+          "CodeGen-Mono"
+        ],
+        "is_contributed": {
+          "quote": "a version of CodeGen-16B-Multi",
+          "justification": "It is prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we evaluate the performance of StarCoder on Python, comparing it to both open-access and closed-access models",
+          "justification": "Tables report paper-side benchmark results for this model.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "CodeGen-Mono slightly outperforms code-cushman-001 and the StarCoder models",
+          "justification": "It is numerically compared.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "Performance of open-access and closed-access models on DS-1000",
+          "justification": "The paper uses it for inference/evaluation.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "CodeGen: an open large language model for code with multi-turn program synthesis.",
+          "justification": "This is the cited CodeGen paper title.",
+          "value": "CodeGen: an open large language model for code with multi-turn program synthesis"
+        }
+      },
+      {
+        "name": {
+          "quote": "CodeGeeX",
+          "justification": "The paper evaluates this named baseline.",
+          "value": "CodeGeeX"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "CodeGeeX (Zheng et al., 2023)",
+          "justification": "It is prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Other Models Evaluated We compare StarCoder and StarCoderBase to the following models.",
+          "justification": "It is included among evaluated models.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Table 15: Comparing StarCoder to multi-language open-access",
+          "justification": "It is numerically compared.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "Other Models Evaluated",
+          "justification": "It is used only for evaluation/inference in this paper.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "CodeGeeX: A pre-trained model for code generation with multilingual evaluations on HumanEval-X.",
+          "justification": "This is its reference title.",
+          "value": "CodeGeeX: A pre-trained model for code generation with multilingual evaluations on HumanEval-X"
+        }
+      },
+      {
+        "name": {
+          "quote": "code-cushman-001",
+          "justification": "The paper queries and evaluates this OpenAI model.",
+          "value": "code-cushman-001"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "a 12B parameter model by OpenAI",
+          "justification": "It is external prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "was available from the Microsoft Azure OpenAI Service at the time of writing",
+          "justification": "The paper obtains API generations/results from it.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "StarCoder outperforms OpenAI’s code-cushman-001",
+          "justification": "It is numerically compared.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "For API models, we use n = 20 samples",
+          "justification": "It is sampled for inference.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "Evaluating large language models trained on code.",
+          "justification": "The paper associates it with Chen et al. (2021).",
+          "value": "Evaluating large language models trained on code"
+        }
+      },
+      {
+        "name": {
+          "quote": "InCoder-6B",
+          "justification": "The paper evaluates this baseline.",
+          "value": "InCoder-6B"
+        },
+        "aliases": [
+          "InCoder"
+        ],
+        "is_contributed": {
+          "quote": "InCoder-6B (Fried et al., 2022)",
+          "justification": "It is prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we use the same methodology to evaluate StarCoderBase, InCoder-6B",
+          "justification": "It is executed in this study.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "StarCoderBase significantly outperforms the two smaller models.",
+          "justification": "It is numerically compared.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "models infill return types",
+          "justification": "It is used for inference.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "InCoder: a generative model for code infilling and synthesis.",
+          "justification": "This is the reference title.",
+          "value": "InCoder: a generative model for code infilling and synthesis"
+        }
+      },
+      {
+        "name": {
+          "quote": "SantaCoder",
+          "justification": "The paper evaluates this prior model.",
+          "value": "SantaCoder"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "our prior work on SantaCoder",
+          "justification": "It is not introduced in this paper.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We compare the performance of StarCoderBase, SantaCoder, and InCoder",
+          "justification": "It is executed in evaluations.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "StarCoderBase significantly outperforms the two smaller models.",
+          "justification": "It is numerically compared.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "Models infill the documentation string",
+          "justification": "It is used for inference/evaluation.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "SantaCoder: don’t reach for the stars!",
+          "justification": "This is the cited paper title.",
+          "value": "SantaCoder: don’t reach for the stars!"
+        }
+      },
+      {
+        "name": {
+          "quote": "LLaMA",
+          "justification": "Multiple LLaMA scales are evaluated or reported.",
+          "value": "LLaMA"
+        },
+        "aliases": [
+          "LLaMA-7B",
+          "LLaMA-13B",
+          "LLaMA-33B",
+          "LLaMA-65B"
+        ],
+        "is_contributed": {
+          "quote": "LLaMA (Touvron et al., 2023)",
+          "justification": "It is prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we include some results from the LLaMA ... papers",
+          "justification": "The principal code-table results are imported from its paper rather than newly executed.",
+          "value": false
+        },
+        "is_compared": {
+          "quote": "we include some results from the LLaMA",
+          "justification": "It is numerically compared.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "we include some results from the LLaMA ... papers",
+          "justification": "The reported results are inference results, though not necessarily executed by these authors.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "LLaMA: open and efficient foundation language models.",
+          "justification": "This is the reference title.",
+          "value": "LLaMA: open and efficient foundation language models"
+        }
+      },
+      {
+        "name": {
+          "quote": "PaLM",
+          "justification": "PaLM appears as a closed-access numerical baseline.",
+          "value": "PaLM"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "Google’s PaLM",
+          "justification": "It is external prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we include some results from the ... PaLM ... papers",
+          "justification": "Its numbers are taken from prior papers.",
+          "value": false
+        },
+        "is_compared": {
+          "quote": "StarCoder outperforms the largest models, including PaLM",
+          "justification": "It is numerically compared.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "we include some results from the ... PaLM ... papers",
+          "justification": "The cited results are inference results.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "PaLM: scaling language modeling with pathways.",
+          "justification": "This is its reference title.",
+          "value": "PaLM: scaling language modeling with pathways"
+        }
+      },
+      {
+        "name": {
+          "quote": "LaMDA",
+          "justification": "LaMDA appears as a closed-access numerical baseline.",
+          "value": "LaMDA"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "Google’s ... LaMDA",
+          "justification": "It is external prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we include some results from the ... LaMDA ... papers",
+          "justification": "Its numbers are taken from prior papers.",
+          "value": false
+        },
+        "is_compared": {
+          "quote": "StarCoder outperforms the largest models, including ... LaMDA",
+          "justification": "It is numerically compared.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "we include some results from the ... LaMDA ... papers",
+          "justification": "The cited results are inference results.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "Lamda: Language models for dialog applications.",
+          "justification": "This is the reference title.",
+          "value": "Lamda: Language models for dialog applications"
+        }
+      },
+      {
+        "name": {
+          "quote": "GPT-NeoX",
+          "justification": "The paper evaluates GPT-NeoX on language tasks.",
+          "value": "GPT-NeoX"
+        },
+        "aliases": [
+          "GPT-NeoX-20B"
+        ],
+        "is_contributed": {
+          "quote": "GPT-NeoX (Black et al., 2022)",
+          "justification": "It is prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We compare StarCoderBase and StarCoder with ... GPT-NeoX",
+          "justification": "It is included in paper-side evaluations.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "StarCoderBase ... even outperforms GPT-NeoX by a small margin",
+          "justification": "It is numerically compared.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "5-shot accuracy on the MMLU",
+          "justification": "It is used for inference.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "GPT-NeoX-20B: an open-source autoregressive language model.",
+          "justification": "This is the reference title.",
+          "value": "GPT-NeoX-20B: an open-source autoregressive language model"
+        }
+      },
+      {
+        "name": {
+          "quote": "code-davinci-001",
+          "justification": "The paper reports ODEX evaluation for this Codex model.",
+          "value": "code-davinci-001"
+        },
+        "aliases": [
+          "Codex"
+        ],
+        "is_contributed": {
+          "quote": "baseline models, including Codex (code-davinci-001)",
+          "justification": "It is an external baseline.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We report the pass@1 metric for StarCoder and baseline models, including Codex (code-davinci-001)",
+          "justification": "The paper evaluates it.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "We report the pass@1 metric for StarCoder and baseline models",
+          "justification": "It is numerically compared.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "code generation",
+          "justification": "It is used for inference.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "Evaluating large language models trained on code.",
+          "justification": "Codex is associated with Chen et al. (2021).",
+          "value": "Evaluating large language models trained on code"
+        }
+      },
+      {
+        "name": {
+          "quote": "code-davinci-002",
+          "justification": "The appendix compares this model on MultiPL-E and security evaluation.",
+          "value": "code-davinci-002"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "OpenAI’s code-davinci-002",
+          "justification": "It is an external model.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Security evaluation ... of StarCoderBase and OpenAI’s code-davinci-002",
+          "justification": "It is evaluated in the paper.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Multi-language performance ... of StarCoder and two closed-access models",
+          "justification": "It is numerically compared.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "For API models, we use n = 20 samples",
+          "justification": "It is used for inference.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "Evaluating large language models trained on code.",
+          "justification": "The paper associates OpenAI code models with Chen et al. (2021).",
+          "value": "Evaluating large language models trained on code"
+        }
+      }
+    ],
+    "data_sources": [
+      {
+        "name": {
+          "quote": "The Stack v1.2",
+          "justification": "This is the principal named pretraining source.",
+          "value": "The Stack v1.2"
+        },
+        "aliases": [
+          "The Stack"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "StarCoderBase is trained on 1 trillion tokens sourced from The Stack",
+          "justification": "This is the amount consumed for base-model training.",
+          "value": "1 trillion tokens"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "The Stack: 3 TB of permissively licensed source code.",
+          "justification": "This is the dataset reference title.",
+          "value": "The Stack: 3 TB of permissively licensed source code"
+        }
+      },
+      {
+        "name": {
+          "quote": "Jupyter – scripts",
+          "justification": "The paper names this transformed notebook dataset.",
+          "value": "Jupyter – scripts"
+        },
+        "aliases": [],
+        "role": "contributed",
+        "size": {
+          "quote": "Ultimately, we amassed 1,432,992 scripts",
+          "justification": "The paper states the resulting sample count.",
+          "value": "1,432,992 scripts"
+        },
+        "derived_from": [
+          "The Stack v1.2"
+        ],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "It is created in this paper.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "Jupyter – structured",
+          "justification": "The paper names this transformed notebook dataset.",
+          "value": "Jupyter – structured"
+        },
+        "aliases": [],
+        "role": "contributed",
+        "size": {
+          "quote": "we ended up with 1,045,605 structured Jupyter notebooks",
+          "justification": "The paper states its size.",
+          "value": "1,045,605 structured Jupyter notebooks"
+        },
+        "derived_from": [
+          "The Stack v1.2"
+        ],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "It is created in this paper.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "GitHub issues",
+          "justification": "This is a named component of the training data.",
+          "value": "GitHub issues"
+        },
+        "aliases": [],
+        "role": "used",
+        "size": {
+          "quote": "GitHub issues ... 54.40",
+          "justification": "Table 2 reports 54.40 GB after filtering/decontamination.",
+          "value": "54.40 GB"
+        },
+        "derived_from": [
+          "The Stack v1.2"
+        ],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "No separate reference title is given.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "Git commits",
+          "justification": "This is a named training-data component.",
+          "value": "Git commits"
+        },
+        "aliases": [],
+        "role": "used",
+        "size": {
+          "quote": "The resulting dataset contains 64 GB of commit data.",
+          "justification": "The paper states the resulting size.",
+          "value": "64 GB"
+        },
+        "derived_from": [
+          "GitHub BigQuery dataset"
+        ],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "No separate reference title is given.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "annotated PII dataset",
+          "justification": "The paper contributes and uses this labeled dataset.",
+          "value": "annotated PII dataset"
+        },
+        "aliases": [
+          "PII dataset"
+        ],
+        "role": "contributed",
+        "size": {
+          "quote": "The dataset comprises 12,000 files",
+          "justification": "The paper gives the file count.",
+          "value": "12,000 files"
+        },
+        "derived_from": [
+          "The Stack v1.2"
+        ],
+        "sample_properties": [
+          {
+            "name": "lines of code per file",
+            "value": {
+              "quote": "each containing approximately 50 lines of code",
+              "justification": "This is a per-file measure.",
+              "value": "approximately 50"
+            },
+            "unit": "lines of code"
+          },
+          {
+            "name": "programming languages per dataset",
+            "value": {
+              "quote": "written in 31 programming languages",
+              "justification": "This describes language coverage of samples.",
+              "value": "31"
+            },
+            "unit": "programming languages"
+          }
+        ],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "It is introduced in this paper.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "HumanEval",
+          "justification": "A principal code-generation benchmark used in evaluation.",
+          "value": "HumanEval"
+        },
+        "aliases": [],
+        "role": "used",
+        "size": {
+          "quote": "HumanEval ... consisting of hundreds of Python programming problems",
+          "justification": "Only an approximate size is stated in the supplied text.",
+          "value": "hundreds of Python programming problems"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "Evaluating large language models trained on code.",
+          "justification": "This is the cited benchmark paper.",
+          "value": "Evaluating large language models trained on code"
+        }
+      },
+      {
+        "name": {
+          "quote": "MBPP",
+          "justification": "A principal Python benchmark used in evaluation.",
+          "value": "MBPP"
+        },
+        "aliases": [],
+        "role": "used",
+        "size": {
+          "quote": "MBPP ... consisting of hundreds of Python programming problems",
+          "justification": "Only an approximate size is stated.",
+          "value": "hundreds of Python programming problems"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "Program synthesis with large language models.",
+          "justification": "This is the cited benchmark paper.",
+          "value": "Program synthesis with large language models"
+        }
+      },
+      {
+        "name": {
+          "quote": "DS-1000",
+          "justification": "The paper evaluates code models on this benchmark.",
+          "value": "DS-1000"
+        },
+        "aliases": [],
+        "role": "used",
+        "size": {
+          "quote": "a suite of 1,000 realistic and practical data science workflows",
+          "justification": "The benchmark size is explicit.",
+          "value": "1,000 problems"
+        },
+        "derived_from": [
+          "StackOverflow"
+        ],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "DS-1000: a natural and reliable benchmark for data science code generation.",
+          "justification": "This is the reference title.",
+          "value": "DS-1000: a natural and reliable benchmark for data science code generation"
+        }
+      },
+      {
+        "name": {
+          "quote": "ODEX",
+          "justification": "The paper uses this open-domain coding benchmark.",
+          "value": "ODEX"
+        },
+        "aliases": [],
+        "role": "used",
+        "size": {
+          "quote": "containing 505 open-domain and 440 closed-domain Python coding queries",
+          "justification": "The paper states both components.",
+          "value": "945 Python coding queries"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "Execution-based evaluation for open-domain code generation.",
+          "justification": "This is the cited paper title.",
+          "value": "Execution-based evaluation for open-domain code generation"
+        }
+      },
+      {
+        "name": {
+          "quote": "MultiPL-E",
+          "justification": "The paper uses this multilingual evaluation source.",
+          "value": "MultiPL-E"
+        },
+        "aliases": [],
+        "role": "used",
+        "size": {
+          "quote": "",
+          "justification": "The exact number of examples used is not stated.",
+          "value": "unknown"
+        },
+        "derived_from": [
+          "HumanEval",
+          "MBPP"
+        ],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "MultiPL-E: a scalable and polyglot approach to benchmarking neural code generation.",
+          "justification": "This is the reference title.",
+          "value": "MultiPL-E: a scalable and polyglot approach to benchmarking neural code generation"
+        }
+      },
+      {
+        "name": {
+          "quote": "Asleep at the Keyboard",
+          "justification": "The paper uses this security benchmark.",
+          "value": "Asleep at the Keyboard"
+        },
+        "aliases": [],
+        "role": "used",
+        "size": {
+          "quote": "We exclude scenarios that lack an automated test, leaving 40 scenarios",
+          "justification": "This is the number used by the paper.",
+          "value": "40 scenarios"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "Asleep at the keyboard? Assessing the security of GitHub Copilot’s code contributions.",
+          "justification": "This is the benchmark paper title.",
+          "value": "Asleep at the keyboard? Assessing the security of GitHub Copilot’s code contributions"
+        }
+      },
+      {
+        "name": {
+          "quote": "CodeXGLUE code summarization benchmark",
+          "justification": "The Python subset is used for docstring generation.",
+          "value": "CodeXGLUE code summarization benchmark"
+        },
+        "aliases": [
+          "CodeXGLUE"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "",
+          "justification": "The number of examples used is not stated.",
+          "value": "unknown"
+        },
+        "derived_from": [
+          "CodeSearchNet"
+        ],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "CodeXGLUE: A machine learning benchmark dataset for code understanding and generation.",
+          "justification": "This is the reference title.",
+          "value": "CodeXGLUE: A machine learning benchmark dataset for code understanding and generation"
+        }
+      },
+      {
+        "name": {
+          "quote": "GSM8K",
+          "justification": "The paper evaluates mathematical reasoning on this dataset.",
+          "value": "GSM8K"
+        },
+        "aliases": [],
+        "role": "used",
+        "size": {
+          "quote": "",
+          "justification": "The paper does not state the number of examples used.",
+          "value": "unknown"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "Training verifiers to solve math word problems.",
+          "justification": "This is the reference title.",
+          "value": "Training verifiers to solve math word problems"
+        }
+      },
+      {
+        "name": {
+          "quote": "MMLU",
+          "justification": "The paper evaluates language understanding on this benchmark.",
+          "value": "MMLU"
+        },
+        "aliases": [],
+        "role": "used",
+        "size": {
+          "quote": "",
+          "justification": "The number of examples used is not stated.",
+          "value": "unknown"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "Measuring massive multitask language understanding.",
+          "justification": "This is the reference title.",
+          "value": "Measuring massive multitask language understanding"
+        }
+      },
+      {
+        "name": {
+          "quote": "CoQA",
+          "justification": "The paper evaluates conversational question answering on it.",
+          "value": "CoQA"
+        },
+        "aliases": [],
+        "role": "used",
+        "size": {
+          "quote": "",
+          "justification": "The number of examples used is not stated.",
+          "value": "unknown"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "CoQA: A conversational question answering challenge.",
+          "justification": "This is the reference title.",
+          "value": "CoQA: A conversational question answering challenge"
+        }
+      },
+      {
+        "name": {
+          "quote": "StereoSet",
+          "justification": "The paper uses it to evaluate social bias.",
+          "value": "StereoSet"
+        },
+        "aliases": [],
+        "role": "used",
+        "size": {
+          "quote": "",
+          "justification": "The paper does not state the used sample count.",
+          "value": "unknown"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "StereoSet: Measuring stereotypical bias in pretrained language models.",
+          "justification": "This is the reference title.",
+          "value": "StereoSet: Measuring stereotypical bias in pretrained language models"
+        }
+      },
+      {
+        "name": {
+          "quote": "CrowS-Pairs",
+          "justification": "The paper additionally evaluates social bias with this dataset.",
+          "value": "CrowS-Pairs"
+        },
+        "aliases": [
+          "Crowdsourced Stereotype Pairs"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "",
+          "justification": "The used sample count is not stated.",
+          "value": "unknown"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "CrowS-Pairs: a challenge dataset for measuring social biases in masked language models.",
+          "justification": "This is the reference title.",
+          "value": "CrowS-Pairs: a challenge dataset for measuring social biases in masked language models"
+        }
+      },
+      {
+        "name": {
+          "quote": "RealToxicityPrompts",
+          "justification": "The paper uses it for toxicity generation/evaluation.",
+          "value": "RealToxicityPrompts"
+        },
+        "aliases": [],
+        "role": "used",
+        "size": {
+          "quote": "We generate responses to 10K examples from RealToxicityPrompts",
+          "justification": "This is the amount used.",
+          "value": "10K examples"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "RealToxicityPrompts: Evaluating Neural Toxic Degeneration in Language Models.",
+          "justification": "This is the reference title.",
+          "value": "RealToxicityPrompts: Evaluating Neural Toxic Degeneration in Language Models"
+        }
+      },
+      {
+        "name": {
+          "quote": "HELM",
+          "justification": "The paper uses its reasoning tasks as an evaluation suite.",
+          "value": "HELM"
+        },
+        "aliases": [],
+        "role": "used",
+        "size": {
+          "quote": "",
+          "justification": "No total sample count is stated.",
+          "value": "unknown"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "Holistic evaluation of language models.",
+          "justification": "This is the cited HELM paper title.",
+          "value": "Holistic evaluation of language models"
+        }
+      }
+    ],
+    "libraries": [
+      {
+        "name": {
+          "quote": "Jupytext",
+          "justification": "Used to convert notebooks to scripts.",
+          "value": "Jupytext"
+        },
+        "aliases": [],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "No paper title is given; a documentation URL is cited.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "Guesslang",
+          "justification": "Used to identify programming languages in notebooks.",
+          "value": "Guesslang"
+        },
+        "aliases": [],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "No paper title is given.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "fasttext library",
+          "justification": "Used for language identification of GitHub issues.",
+          "value": "fasttext"
+        },
+        "aliases": [],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "No reference paper title is supplied here.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "detect-secrets tool",
+          "justification": "Used to pre-filter likely PII and as part of a regex/tool baseline.",
+          "value": "detect-secrets"
+        },
+        "aliases": [],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "Only a software URL is given.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "gibberish-detector",
+          "justification": "Used in PII post-processing.",
+          "value": "gibberish-detector"
+        },
+        "aliases": [],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "Only a software URL is given.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "ipaddress python package",
+          "justification": "Used to validate and filter IP-address detections.",
+          "value": "ipaddress"
+        },
+        "aliases": [],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "No paper title is cited.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "Hugging Face Tokenizers library",
+          "justification": "Used to train the tokenizer.",
+          "value": "Hugging Face Tokenizers"
+        },
+        "aliases": [
+          "Tokenizers"
+        ],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "huggingface/tokenizers: Rust 0.13.2",
+          "justification": "This is the cited software record title.",
+          "value": "huggingface/tokenizers: Rust 0.13.2"
+        }
+      },
+      {
+        "name": {
+          "quote": "Megatron-LM’s distributed optimizer",
+          "justification": "Megatron-LM is explicitly used for distributed training.",
+          "value": "Megatron-LM"
+        },
+        "aliases": [],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "No Megatron-LM reference title is given in the supplied paper.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "Code LM Evaluation Harness",
+          "justification": "The paper develops and uses this evaluation framework.",
+          "value": "Code LM Evaluation Harness"
+        },
+        "aliases": [],
+        "role": "contributed",
+        "referenced_paper_title": {
+          "quote": "A framework for the evaluation of code generation models.",
+          "justification": "This is the cited harness record.",
+          "value": "A framework for the evaluation of code generation models"
+        }
+      },
+      {
+        "name": {
+          "quote": "LM Evaluation-Harness",
+          "justification": "The contributed code harness is inspired by it, and it is also used for metrics noted in the paper.",
+          "value": "LM Evaluation-Harness"
+        },
+        "aliases": [
+          "Language Model Evaluation Harness"
+        ],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "A framework for few-shot language model evaluation",
+          "justification": "This is the reference title.",
+          "value": "A framework for few-shot language model evaluation"
+        }
+      },
+      {
+        "name": {
+          "quote": "Elasticsearch 7.17",
+          "justification": "Used to index the training dataset for attribution search.",
+          "value": "Elasticsearch 7.17"
+        },
+        "aliases": [],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "Only documentation is cited.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "Lucene",
+          "justification": "Its filters, tokenizer, and BM25 implementation are used for the search index.",
+          "value": "Lucene"
+        },
+        "aliases": [],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "No reference paper title is supplied.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "Toloka platform",
+          "justification": "Used to collect PII annotations.",
+          "value": "Toloka"
+        },
+        "aliases": [],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "No paper title is cited.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "BigQuery",
+          "justification": "Used to gather Git commit data.",
+          "value": "BigQuery"
+        },
+        "aliases": [],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "Only a service URL is cited.",
+          "value": "unknown"
+        }
+      }
+    ],
+    "algorithms": [
+      {
+        "name": {
+          "quote": "near-deduplication",
+          "justification": "This named procedure is applied to programming languages and notebooks.",
+          "value": "near-deduplication"
+        },
+        "aliases": [
+          "deduplication pipeline"
+        ],
+        "is_contributed": {
+          "quote": "We followed the deduplication pipeline from Ben Allal et al. (2023)",
+          "justification": "It is adopted from prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We applied this near-deduplication process",
+          "justification": "The paper executes it.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "",
+          "justification": "It is not numerically compared to another deduplication algorithm.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "to map similar code files to the same bucket",
+          "justification": "This states its role in the paper.",
+          "value": "map similar code files to the same bucket for near-deduplication"
+        },
+        "composed_of": [
+          "MinHashes",
+          "Locally Sensitive Hashing (LSH)"
+        ],
+        "referenced_paper_title": {
+          "quote": "Identifying and filtering near-duplicate documents.",
+          "justification": "This is the cited MinHash-related paper.",
+          "value": "Identifying and filtering near-duplicate documents"
+        }
+      },
+      {
+        "name": {
+          "quote": "Fill-in-the-Middle (FIM)",
+          "justification": "The paper applies this named transformation to training data and uses infilling at evaluation.",
+          "value": "Fill-in-the-Middle (FIM)"
+        },
+        "aliases": [
+          "FIM",
+          "fill in the middle",
+          "infilling"
+        ],
+        "is_contributed": {
+          "quote": "Fill-in-the-Middle (FIM; Bavarian et al., 2022)",
+          "justification": "It is prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we apply FIM at the character-level",
+          "justification": "It is executed during data preparation/training.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "DS-1000 supports two evaluation modes: completion and insertion (via FIM).",
+          "justification": "FIM insertion is numerically compared with completion.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "apply the fill-in-the-middle transformation",
+          "justification": "This is its role.",
+          "value": "apply the fill-in-the-middle transformation to source code files"
+        },
+        "composed_of": [
+          "PSM mode",
+          "SPMv2 mode"
+        ],
+        "referenced_paper_title": {
+          "quote": "Efficient training of language models to fill in the middle.",
+          "justification": "This is the cited title.",
+          "value": "Efficient training of language models to fill in the middle"
+        }
+      },
+      {
+        "name": {
+          "quote": "Masked Language Modelling (MLM)",
+          "justification": "This objective is used to train StarEncoder.",
+          "value": "Masked Language Modelling (MLM)"
+        },
+        "aliases": [
+          "MLM"
+        ],
+        "is_contributed": {
+          "quote": "objectives from BERT",
+          "justification": "It is prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We used the Masked Language Modelling (MLM) and Next Sentence Prediction (NSP) objectives",
+          "justification": "It is executed in StarEncoder training.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "",
+          "justification": "No objective ablation comparison is reported.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "predicted masked-out tokens from an input sentence",
+          "justification": "This describes its paper role.",
+          "value": "predicted masked-out tokens from an input sentence"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "BERT: Pre-training of deep bidirectional transformers for language understanding.",
+          "justification": "This is the cited source.",
+          "value": "BERT: Pre-training of deep bidirectional transformers for language understanding"
+        }
+      },
+      {
+        "name": {
+          "quote": "Next Sentence Prediction (NSP)",
+          "justification": "This objective is used to train StarEncoder.",
+          "value": "Next Sentence Prediction (NSP)"
+        },
+        "aliases": [
+          "NSP"
+        ],
+        "is_contributed": {
+          "quote": "objectives from BERT",
+          "justification": "It is prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We used the ... Next Sentence Prediction (NSP) objectives",
+          "justification": "It is executed.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "",
+          "justification": "No objective ablation is reported.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "whether a pair of sentences occur as neighbors in a document",
+          "justification": "This states its role.",
+          "value": "predict whether a pair of sentences occur as neighbors in a document"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "BERT: Pre-training of deep bidirectional transformers for language understanding.",
+          "justification": "This is the cited source.",
+          "value": "BERT: Pre-training of deep bidirectional transformers for language understanding"
+        }
+      },
+      {
+        "name": {
+          "quote": "Named Entity Recognition (NER)",
+          "justification": "StarEncoder is fine-tuned for this procedure/task.",
+          "value": "Named Entity Recognition (NER)"
+        },
+        "aliases": [
+          "NER"
+        ],
+        "is_contributed": {
+          "quote": "for the Named Entity Recognition (NER) task",
+          "justification": "NER itself is not introduced here.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We fine-tuned StarEncoder ... for the Named Entity Recognition (NER) task.",
+          "justification": "It is executed.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Comparing PII detection performance: Regular Expressions, NER Pipeline",
+          "justification": "NER is compared with regex detection.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "to identify PII across all programming languages",
+          "justification": "This is its role.",
+          "value": "identify PII across all programming languages in the training dataset"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "No single NER reference paper is specified.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "pseudo-labeling",
+          "justification": "Used to expand training supervision for PII detection.",
+          "value": "pseudo-labeling"
+        },
+        "aliases": [
+          "pseudo-labeling technique",
+          "pseudo labels"
+        ],
+        "is_contributed": {
+          "quote": "as described by Lee (2013)",
+          "justification": "It is prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we annotated 18,000 files using an ensemble of two encoder models",
+          "justification": "The procedure is executed.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Annotated Data vs. Annotated Data + Pseudo-Labels",
+          "justification": "Its effect is numerically compared.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "To improve the detection of key and password entities",
+          "justification": "This is the paper's stated role.",
+          "value": "improve the detection of key and password entities"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Pseudo-label: The simple and efficient semi-supervised learning method for deep neural networks.",
+          "justification": "This is the cited title.",
+          "value": "Pseudo-label: The simple and efficient semi-supervised learning method for deep neural networks"
+        }
+      },
+      {
+        "name": {
+          "quote": "byte-level Byte-Pair-Encoding",
+          "justification": "Used to train the model tokenizer.",
+          "value": "byte-level Byte-Pair-Encoding"
+        },
+        "aliases": [
+          "BPE"
+        ],
+        "is_contributed": {
+          "quote": "uses those same design choices",
+          "justification": "It is not introduced in this paper.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "to train a byte-level Byte-Pair-Encoding",
+          "justification": "It is executed.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "",
+          "justification": "No tokenizer algorithm comparison is reported.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "to train a byte-level Byte-Pair-Encoding with a vocabulary size of 49,152 tokens",
+          "justification": "This states its role.",
+          "value": "train the model tokenizer"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "No BPE paper is cited in this passage.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "FlashAttention",
+          "justification": "This named attention-computation algorithm is executed in training.",
+          "value": "FlashAttention"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "FlashAttention (Dao et al., 2022)",
+          "justification": "It is prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We used FlashAttention",
+          "justification": "The paper executes it.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "",
+          "justification": "No direct numerical algorithm comparison is reported.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "to speed up the attention computation and reduce its memory footprint",
+          "justification": "This is the exact paper role.",
+          "value": "speed up the attention computation and reduce its memory footprint"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "FlashAttention: Fast and memory-efficient exact attention with IO-awareness.",
+          "justification": "This is the cited title.",
+          "value": "FlashAttention: Fast and memory-efficient exact attention with IO-awareness"
+        }
+      },
+      {
+        "name": {
+          "quote": "Adam",
+          "justification": "The optimizer used for StarCoder model training.",
+          "value": "Adam"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "Adam (Kingma & Ba, 2015)",
+          "justification": "It is prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We used Adam",
+          "justification": "It is executed.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "",
+          "justification": "No optimizer comparison is reported.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "We used Adam ... with a weight decay of 0.1",
+          "justification": "It is the parameter update rule.",
+          "value": "the parameter update rule for StarCoderBase and StarCoder training"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Adam: A method for stochastic optimization.",
+          "justification": "This is the reference title.",
+          "value": "Adam: A method for stochastic optimization"
+        }
+      },
+      {
+        "name": {
+          "quote": "cosine decay",
+          "justification": "The named learning-rate schedule is used in training.",
+          "value": "cosine decay"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "",
+          "justification": "It is a standard prior procedure, not claimed as a contribution.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "The learning rate followed a cosine decay",
+          "justification": "It is executed.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "",
+          "justification": "No schedule comparison is reported.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "The learning rate followed a cosine decay",
+          "justification": "Its role is the learning-rate schedule.",
+          "value": "the learning-rate schedule"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "No specific source is cited.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "Megatron-LM’s distributed optimizer",
+          "justification": "This named distributed update procedure is used.",
+          "value": "Megatron-LM’s distributed optimizer"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "",
+          "justification": "It is supplied by prior software.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We used Megatron-LM’s distributed optimizer",
+          "justification": "It is executed.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "we found that it leads to slightly higher throughput in this configuration",
+          "justification": "It was selected based on throughput comparison, though no full table is given.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "because we found that it leads to slightly higher throughput",
+          "justification": "This states its role.",
+          "value": "distributed optimization with slightly higher throughput in this configuration"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "No specific reference title is given.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "pass@k",
+          "justification": "The paper uses this named code-evaluation procedure.",
+          "value": "pass@k"
+        },
+        "aliases": [
+          "pass@1"
+        ],
+        "is_contributed": {
+          "quote": "pass@k metric (Chen et al., 2021)",
+          "justification": "It is prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We report performance using the pass@k metric",
+          "justification": "It is executed throughout code evaluation.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "We focus on ... pass@1",
+          "justification": "It supplies numerical comparisons across models.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "the total fraction of benchmark problems solved",
+          "justification": "This is its stated role.",
+          "value": "measure the total fraction of benchmark problems solved"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Evaluating large language models trained on code.",
+          "justification": "This is the cited source.",
+          "value": "Evaluating large language models trained on code"
+        }
+      },
+      {
+        "name": {
+          "quote": "Program-Aided Language models (PAL)",
+          "justification": "Used to evaluate mathematical reasoning.",
+          "value": "Program-Aided Language models (PAL)"
+        },
+        "aliases": [
+          "PAL"
+        ],
+        "is_contributed": {
+          "quote": "PAL; Gao et al., 2022",
+          "justification": "It is prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we provide both CoT and PAL results for StarCoderBase",
+          "justification": "It is executed.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "StarCoderBase performs better with PAL ... than with CoT",
+          "justification": "It is numerically compared to CoT.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "generates Python programs as the intermediate reasoning steps, which are then executed",
+          "justification": "This is its paper role.",
+          "value": "generate and execute Python programs as intermediate reasoning steps"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "PAL: Program-aided language models.",
+          "justification": "This is the cited title.",
+          "value": "PAL: Program-aided language models"
+        }
+      },
+      {
+        "name": {
+          "quote": "Chain-of-Thought method (CoT)",
+          "justification": "Used as a reasoning evaluation method.",
+          "value": "Chain-of-Thought method (CoT)"
+        },
+        "aliases": [
+          "CoT"
+        ],
+        "is_contributed": {
+          "quote": "CoT; Wei et al., 2022",
+          "justification": "It is prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we provide both CoT and PAL results",
+          "justification": "It is executed.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "StarCoderBase performs better with PAL ... than with CoT",
+          "justification": "It is numerically compared.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "prompts the LLM to produce the reasoning steps in natural language",
+          "justification": "This is its role.",
+          "value": "prompt the LLM to produce reasoning steps in natural language"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Chain of thought prompting elicits reasoning in large language models.",
+          "justification": "This is the cited title.",
+          "value": "Chain of thought prompting elicits reasoning in large language models"
+        }
+      },
+      {
+        "name": {
+          "quote": "nucleus sampling",
+          "justification": "Used for majority-vote and toxicity generations.",
+          "value": "nucleus sampling"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "nucleus sampling (Holtzman et al., 2020)",
+          "justification": "It is prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We use nucleus sampling ... with p = 0.95",
+          "justification": "It is executed.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "",
+          "justification": "It is not itself numerically compared as an algorithm.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "to generate all of our responses",
+          "justification": "This is its role in toxicity evaluation.",
+          "value": "generate responses for evaluation"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "The curious case of neural text degeneration.",
+          "justification": "This is the reference title.",
+          "value": "The curious case of neural text degeneration"
+        }
+      },
+      {
+        "name": {
+          "quote": "Bloom Filters",
+          "justification": "Used to build the membership-checking attribution artifact.",
+          "value": "Bloom Filters"
+        },
+        "aliases": [
+          "Bloom-filter-based portrait"
+        ],
+        "is_contributed": {
+          "quote": "Bloom Filters (Bloom, 1970)",
+          "justification": "The base algorithm is prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We build a Bloom-filter-based portrait",
+          "justification": "It is executed.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "",
+          "justification": "No numerical algorithm comparison is reported.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "offers fast and lightweight membership inference",
+          "justification": "This is its role.",
+          "value": "fast and lightweight membership inference over training-data strings"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Space/time trade-offs in hash coding with allowable errors.",
+          "justification": "This is the Bloom Filter reference title.",
+          "value": "Space/time trade-offs in hash coding with allowable errors"
+        }
+      },
+      {
+        "name": {
+          "quote": "BM25",
+          "justification": "Used as the search-index similarity function.",
+          "value": "BM25"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "default Lucene implementation of BM25",
+          "justification": "The algorithm is not introduced here.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "indexed using the default Lucene implementation of BM25",
+          "justification": "It is executed.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "",
+          "justification": "No retrieval algorithm comparison is reported.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "as a similarity function",
+          "justification": "This is the paper's stated role.",
+          "value": "the similarity function for the attribution search index"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "No BM25 reference title is given.",
+          "value": "unknown"
+        }
+      }
+    ],
+    "runs": [
+      {
+        "models": [
+          {
+            "name": "StarEncoder",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "The Stack v1.2",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Masked Language Modelling (MLM)"
+          },
+          {
+            "name": "Next Sentence Prediction (NSP)"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "We train for 100,000 steps",
+          "justification": "This is StarEncoder pretraining.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "",
+          "justification": "The paper reports steps and tokens, not epochs.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "Num. of parameters ≈125M",
+          "justification": "Table 6 explicitly gives the model scale.",
+          "value": "≈125M"
+        },
+        "accelerator_type": {
+          "quote": "using 64 NVIDIA A100 GPUs",
+          "justification": "The hardware is explicitly stated.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "64 NVIDIA A100 GPUs",
+          "justification": "The accelerator model is explicit.",
+          "value": "NVIDIA A100"
+        },
+        "accelerator_count": {
+          "quote": "using 64 NVIDIA A100 GPUs",
+          "justification": "The count is explicit.",
+          "value": "64"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "No precision is stated for this run.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "No parallelism strategy is stated for this run.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "This takes roughly two days using 64 NVIDIA A100 GPUs.",
+          "justification": "The paper states wall time and hardware count.",
+          "value": "roughly two days using 64 NVIDIA A100 GPUs"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "No utilisation figure is reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "",
+          "justification": "No independent repetition factor is stated.",
+          "value": []
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "PII detection model",
+            "role_in_run": "main"
+          },
+          {
+            "name": "StarEncoder",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "annotated PII dataset",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Named Entity Recognition (NER)"
+          },
+          {
+            "name": "pseudo-labeling"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "We fine-tuned StarEncoder on the annotated PII dataset",
+          "justification": "This run adapts StarEncoder for PII NER.",
+          "value": "finetune"
+        },
+        "epochs": {
+          "quote": "",
+          "justification": "No epoch count is stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "",
+          "justification": "The fine-tuned model's parameter count is not explicitly restated for this configuration.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "",
+          "justification": "Hardware is not stated for fine-tuning.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "",
+          "justification": "No accelerator model is stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "",
+          "justification": "No count is stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "No precision is stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "No parallelism is stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "No duration is stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "No utilisation is stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "",
+          "justification": "No repetition factor is stated.",
+          "value": []
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "PII detection model",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "The Stack v1.2",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Named Entity Recognition (NER)"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "We used the PII detection model to identify PII across all programming languages in the training dataset",
+          "justification": "This is corpus-wide inference for redaction.",
+          "value": "inference"
+        },
+        "epochs": {
+          "quote": "",
+          "justification": "Not applicable to inference and not stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "",
+          "justification": "Not explicitly stated for this run.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "multiple NVIDIA A100 80 GB GPUs",
+          "justification": "GPU hardware is explicit.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "NVIDIA A100 80 GB GPUs",
+          "justification": "The accelerator model and memory are explicit.",
+          "value": "NVIDIA A100 80 GB"
+        },
+        "accelerator_count": {
+          "quote": "multiple NVIDIA A100 80 GB GPUs",
+          "justification": "Only 'multiple' is stated, not an integer.",
+          "value": "multiple"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "No precision is stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "No parallelism strategy is stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "required 800 GPU-hours",
+          "justification": "The paper reports chip-time.",
+          "value": "800 GPU-hours"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "No utilisation is stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "",
+          "justification": "No repetition factor is stated.",
+          "value": []
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "StarCoderBase",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "The Stack v1.2",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "Jupyter – scripts",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "Jupyter – structured",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "GitHub issues",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "Git commits",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Fill-in-the-Middle (FIM)"
+          },
+          {
+            "name": "FlashAttention"
+          },
+          {
+            "name": "Adam"
+          },
+          {
+            "name": "cosine decay"
+          },
+          {
+            "name": "Megatron-LM’s distributed optimizer"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "StarCoderBase is the first model trained on 1 trillion tokens",
+          "justification": "This is base-model training from scratch.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "",
+          "justification": "The paper reports iterations and tokens, not epochs.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "15.5B parameter model",
+          "justification": "The scale is explicit.",
+          "value": "15.5B"
+        },
+        "accelerator_type": {
+          "quote": "512 A100 80 GB GPUs",
+          "justification": "The training hardware is explicit.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "512 A100 80 GB GPUs",
+          "justification": "The accelerator model and memory are explicit.",
+          "value": "A100 80 GB"
+        },
+        "accelerator_count": {
+          "quote": "512 A100 80 GB GPUs distributed across 64 nodes",
+          "justification": "The count and node layout are explicit.",
+          "value": "512 GPUs across 64 nodes"
+        },
+        "precision": {
+          "quote": "the training in BF16 ... but we used it anyway",
+          "justification": "The selected training precision is explicit.",
+          "value": "bf16"
+        },
+        "parallelism": {
+          "quote": "3D-parallel layout that shards the model with both tensor and pipeline parallelism rank 4 ... 32-fold data parallelism",
+          "justification": "All three strategies are explicitly stated.",
+          "value": [
+            "tensor",
+            "pipeline",
+            "data"
+          ]
+        },
+        "duration": {
+          "quote": "total number of GPU hours that training took (320,256)",
+          "justification": "The paper reports total chip-time.",
+          "value": "320,256 GPU-hours"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "No hardware utilisation metric is reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "",
+          "justification": "No seeds or independent training repetitions are stated.",
+          "value": []
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "StarCoder",
+            "role_in_run": "main"
+          },
+          {
+            "name": "StarCoderBase",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "The Stack v1.2",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Fill-in-the-Middle (FIM)"
+          },
+          {
+            "name": "FlashAttention"
+          },
+          {
+            "name": "Adam"
+          },
+          {
+            "name": "cosine decay"
+          },
+          {
+            "name": "Megatron-LM’s distributed optimizer"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "Starting from StarCoderBase, we fine-tuned a Python variant",
+          "justification": "This run fine-tunes the base model on Python.",
+          "value": "finetune"
+        },
+        "epochs": {
+          "quote": "for 2 epochs on the Python subset of the training data",
+          "justification": "The epoch count is explicit.",
+          "value": "2"
+        },
+        "parameter_count": {
+          "quote": "StarCoder ... 15.5B",
+          "justification": "Table 11 gives the model scale.",
+          "value": "15.5B"
+        },
+        "accelerator_type": {
+          "quote": "We trained our model on a GPU cluster",
+          "justification": "The training setup identifies GPUs.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "512 A100 80 GB GPUs",
+          "justification": "The section's model-training setup names the accelerator.",
+          "value": "A100 80 GB"
+        },
+        "accelerator_count": {
+          "quote": "512 A100 80 GB GPUs distributed across 64 nodes",
+          "justification": "The stated training setup count is used.",
+          "value": "512 GPUs across 64 nodes"
+        },
+        "precision": {
+          "quote": "the training in BF16 ... but we used it anyway",
+          "justification": "The model-training precision is explicit.",
+          "value": "bf16"
+        },
+        "parallelism": {
+          "quote": "tensor and pipeline parallelism rank 4 ... 32-fold data parallelism",
+          "justification": "The training setup explicitly uses these strategies.",
+          "value": [
+            "tensor",
+            "pipeline",
+            "data"
+          ]
+        },
+        "duration": {
+          "quote": "The fine-tuned model adds 3.5% of training time",
+          "justification": "Only a relative duration is stated; it is preserved without arithmetic inference.",
+          "value": "3.5% of StarCoderBase training time"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "No utilisation metric is reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "",
+          "justification": "No seeds or independent repetitions are stated.",
+          "value": []
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "StarCoder",
+            "role_in_run": "main"
+          },
+          {
+            "name": "StarCoderBase",
+            "role_in_run": "main"
+          },
+          {
+            "name": "CodeGen-16B-Multi",
+            "role_in_run": "main"
+          },
+          {
+            "name": "CodeGen-16B-Mono",
+            "role_in_run": "main"
+          },
+          {
+            "name": "CodeGeeX",
+            "role_in_run": "main"
+          },
+          {
+            "name": "code-cushman-001",
+            "role_in_run": "main"
+          },
+          {
+            "name": "LLaMA",
+            "role_in_run": "main"
+          },
+          {
+            "name": "SantaCoder",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "HumanEval",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          },
+          {
+            "name": "MBPP",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "pass@k"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "We generate n = 200 samples for all experiments with open-access models. For API models, we use n = 20 samples",
+          "justification": "This is model inference for benchmark evaluation.",
+          "value": "inference"
+        },
+        "epochs": {
+          "quote": "",
+          "justification": "Not applicable and not stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "",
+          "justification": "This grouped evaluation covers multiple explicitly different model scales, so no single run-level scale applies.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "",
+          "justification": "Evaluation hardware is not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "",
+          "justification": "Evaluation hardware is not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "",
+          "justification": "Evaluation hardware count is not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Evaluation precision is not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "Evaluation parallelism is not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "Evaluation duration is not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "No utilisation is stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "",
+          "justification": "The n generated samples are workload samples, not independent run repetitions.",
+          "value": []
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "StarCoder",
+            "role_in_run": "main"
+          },
+          {
+            "name": "StarCoderBase",
+            "role_in_run": "main"
+          },
+          {
+            "name": "CodeGen-16B-Multi",
+            "role_in_run": "main"
+          },
+          {
+            "name": "CodeGeeX",
+            "role_in_run": "main"
+          },
+          {
+            "name": "code-cushman-001",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "MultiPL-E",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "pass@k"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "We evaluate the ability of StarCoder to turn natural language into working code in multiple programming languages using MultiPL-E",
+          "justification": "This is benchmark inference.",
+          "value": "inference"
+        },
+        "epochs": {
+          "quote": "",
+          "justification": "Not applicable and not stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "",
+          "justification": "Multiple model scales are covered; no single scale applies.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "",
+          "justification": "Hardware is not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "",
+          "justification": "Hardware is not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "",
+          "justification": "Hardware count is not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Precision is not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "Parallelism is not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "Duration is not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "No utilisation is stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "",
+          "justification": "No independent repetitions are stated.",
+          "value": []
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "StarCoderBase",
+            "role_in_run": "main"
+          },
+          {
+            "name": "InCoder-6B",
+            "role_in_run": "main"
+          },
+          {
+            "name": "CodeGen-16B-Multi",
+            "role_in_run": "main"
+          },
+          {
+            "name": "code-cushman-001",
+            "role_in_run": "main"
+          },
+          {
+            "name": "code-davinci-002",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Asleep at the Keyboard",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Fill-in-the-Middle (FIM)"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "generating 25 completions per scenario at temperature 0.2",
+          "justification": "This is inference for security evaluation.",
+          "value": "inference"
+        },
+        "epochs": {
+          "quote": "",
+          "justification": "Not applicable.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "",
+          "justification": "Multiple model scales are covered.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "",
+          "justification": "Hardware is not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "",
+          "justification": "Hardware is not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "",
+          "justification": "Hardware count is not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Precision is not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "Parallelism is not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "Duration is not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "No utilisation is stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "",
+          "justification": "The completions per scenario are evaluation workload, not independent run repetitions.",
+          "value": []
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "StarCoderBase",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "RealToxicityPrompts",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "nucleus sampling"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "We generate responses to 10K examples from RealToxicityPrompts using StarCoderBase",
+          "justification": "This is inference to produce evaluation responses.",
+          "value": "inference"
+        },
+        "epochs": {
+          "quote": "",
+          "justification": "Not applicable.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "StarCoderBase 15.5B",
+          "justification": "The model scale is stated throughout the paper and in the evaluation table.",
+          "value": "15.5B"
+        },
+        "accelerator_type": {
+          "quote": "",
+          "justification": "Hardware is not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "",
+          "justification": "Hardware is not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "",
+          "justification": "Hardware count is not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Precision is not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "Parallelism is not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "Duration is not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "No utilisation is stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "",
+          "justification": "The 10K examples are workload, not repetitions.",
+          "value": []
+        }
+      }
+    ]
+  },
+  "usage": {
+    "input_tokens": 62130,
+    "output_tokens": 15879,
+    "total_tokens": 78009
+  }
+}

@@ -30,6 +30,20 @@ from paperext import CFG
 from paperext.log import logger
 from paperext.utils import str_normalize
 
+#: Roles in which a model is **frozen**: a participant in the run, not something
+#: the run is fitting. The owner's run criterion says exactly this -- "a frozen
+#: network is a participant" -- so a teacher's own `inference` mode and the
+#: `train` run it takes part in are both true, and comparing them is
+#: meaningless. Measured on the first v5 run: 3 of 10 remaining mode
+#: disagreements were a model appearing ONLY in these roles (a tokenizer, a
+#: binding proxy, a pair of scoring oracles), while the other 7 were real -- a
+#: stated mode with no run to justify it.
+#:
+#: `student`, `critic` and `ensemble-member` are deliberately NOT here: all three
+#: are co-optimised in the run's own loop, which is the same criterion read the
+#: other way.
+FROZEN_RUN_ROLES = frozenset({"teacher", "data-source"})
+
 #: ``runs[]`` list attribute -> the top-level entity list it references.
 REFERENCE_FIELDS: dict[str, str] = {
     "models": "models",
@@ -92,6 +106,17 @@ def _executed(entry: Any) -> bool | None:
     return value if isinstance(value, bool) else None
 
 
+def _enum_value(raw: Any) -> str:
+    """An enum member's ``value``, or a plain string, lowercased.
+
+    Written once because reading an enum by its ``str()`` has now been a bug
+    three times in this codebase: ``str(ModelRunRole.DATA_SOURCE)`` is
+    ``"ModelRunRole.DATA_SOURCE"``, not ``"data-source"``, so every comparison
+    against the wire value silently fails and the check reports nothing.
+    """
+    return str(getattr(raw, "value", raw) or "").strip().lower()
+
+
 def _mode(obj: Any) -> str | None:
     value = getattr(getattr(obj, "execution_mode", None), "value", None)
     value = getattr(value, "value", value)
@@ -118,6 +143,10 @@ def check_references(extractions: Any, *, paper: str = "") -> list[Problem]:
 
     # Which models a run accounts for, for EXECUTED_WITHOUT_RUN below.
     accounted: set[str] = set()
+    #: normalised model surface -> every run mode it appears under, and one
+    #: representative location to report against.
+    model_run_modes: dict[str, set[str]] = {}
+    model_run_where: dict[str, str] = {}
 
     for i, run in enumerate(getattr(extractions, "runs", None) or []):
         run_mode = _mode(run)
@@ -167,20 +196,43 @@ def check_references(extractions: Any, *, paper: str = "") -> list[Problem]:
                         )
                     )
 
-                entry_mode = _mode(entry)
                 if (
                     entity_field == "models"
                     and run_mode is not None
-                    and entry_mode is not None
-                    and entry_mode != run_mode
+                    and _enum_value(getattr(ref, "role_in_run", None))
+                    not in FROZEN_RUN_ROLES
                 ):
-                    problems.append(
-                        Problem(
-                            EXECUTION_MODE_DISAGREES,
-                            where,
-                            f"{name!r} says {entry_mode!r}, its run says {run_mode!r}",
-                        )
-                    )
+                    # Collected, not compared here: the model-level mode has to
+                    # match ONE of the runs the model appears in, not each of
+                    # them separately. See the check after this loop.
+                    model_run_modes.setdefault(str_normalize(name), set()).add(run_mode)
+                    model_run_where.setdefault(str_normalize(name), where)
+
+    # `RefModel.execution_mode` describes what the paper did with the model
+    # OVERALL; `Run.execution_mode` describes one run. A paper that trains a
+    # model and then evaluates it necessarily states both, and comparing them
+    # pairwise called that an error: measured on the first v5 run, 43 of 43
+    # pairwise disagreements came down to 6 once read as set membership, and
+    # the largest group was `run=inference, model=train` -- the ordinary
+    # train-then-evaluate shape. So the invariant is that the model's own mode
+    # is among the modes of the runs that reference it. A model whose stated
+    # mode appears in NO run it takes part in is the real signal: usually the
+    # run that would have justified it was never listed.
+    for surface, run_modes in model_run_modes.items():
+        entry = index["models"].get(surface)
+        entry_mode = _mode(entry) if entry is not None else None
+        if entry_mode is None or entry_mode in run_modes:
+            continue
+        name = getattr(getattr(entry, "name", None), "value", "") or surface
+        problems.append(
+            Problem(
+                EXECUTION_MODE_DISAGREES,
+                model_run_where[surface],
+                f"{name!r} says {entry_mode!r} but the "
+                f"{len(run_modes)} run(s) referencing it say "
+                f"{sorted(run_modes)!r}",
+            )
+        )
 
     for i, model in enumerate(getattr(extractions, "models", None) or []):
         if _executed(model) is not True:
@@ -199,8 +251,14 @@ def check_references(extractions: Any, *, paper: str = "") -> list[Problem]:
     return problems
 
 
-def check_paths(paths: Iterable[Path]) -> Iterator[tuple[Path, list[Problem]]]:
-    """``(path, problems)`` for every extraction file, up-converted first."""
+def iter_extractions(paths: Iterable[Path]) -> Iterator[tuple[Path, Any]]:
+    """``(path, extractions)`` for every readable extraction file, up-converted.
+
+    Unreadable files are logged and skipped rather than raised on, for the same
+    reason the reference check reports: a corpus pass must survive one bad file.
+    Shared with :mod:`paperext.structured_output.mdl.verify` so both read the
+    corpus the same way -- two loaders would be two version-detection rules.
+    """
     from paperext.structured_output.mdl import model as dest_model
     from paperext.structured_output.mdl.convert import (
         CONVERT_CHAIN,
@@ -233,6 +291,12 @@ def check_paths(paths: Iterable[Path]) -> Iterator[tuple[Path, list[Problem]]]:
                 convert: Any = CONVERT_MODEL[src]
                 extractions = convert(extractions)
 
+        yield path, extractions
+
+
+def check_paths(paths: Iterable[Path]) -> Iterator[tuple[Path, list[Problem]]]:
+    """``(path, problems)`` for every extraction file, up-converted first."""
+    for path, extractions in iter_extractions(paths):
         yield path, check_references(extractions, paper=path.stem)
 
 

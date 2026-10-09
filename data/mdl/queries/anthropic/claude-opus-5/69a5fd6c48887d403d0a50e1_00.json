@@ -1,0 +1,2175 @@
+{
+  "paper": "69a5fd6c48887d403d0a50e1.txt",
+  "words": 14317,
+  "extractions": {
+    "title": {
+      "quote": "B EYOND C OSINE D ECAY: O N THE EFFECTIVENESS OF I NFINITE L EARNING R ATE S CHEDULE FOR C ONTINUAL P RE - TRAINING",
+      "justification": "Title as printed on the paper",
+      "value": "Beyond Cosine Decay: On the effectiveness of Infinite Learning Rate Schedule for Continual Pre-training"
+    },
+    "description": "An empirical study comparing the repeated cosine annealing learning rate schedule with an infinite (cosine) learning rate schedule for self-supervised continual pre-training, across small-scale MAE pre-training on CIFAR-10, large-scale MAE pre-training on ImageNet/Places2/FireRisk (plus an MRI dataset appendix experiment), and continual pre-training of a 570M LLaMA-3-architecture language model on DCLM-Baseline, Stack and German (OSCAR).",
+    "type": {
+      "quote": "Through extensive experiments across vision and language modalities, we believe that, to the best of our knowledge, we are the first to conduct a detailed comparison of infinite learning rate schedules with repeated annealing.",
+      "justification": "The paper runs extensive experiments across vision and language domains.",
+      "value": "empirical"
+    },
+    "research_fields": [
+      {
+        "name": {
+          "quote": "We present the first systematic study on the impact of learning rate schedules in non-IID self-supervised Continual Learning across both vision and language modalities.",
+          "justification": "The paper studies continual pre-training and catastrophic forgetting, advancing this field.",
+          "value": "Continual Learning"
+        },
+        "aliases": [
+          "CL",
+          "Lifelong Learning",
+          "Continual pre-training",
+          "CPT"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "While self-supervised learning (SSL) has emerged as a powerful paradigm for extracting meaningful representations from vast amounts of unlabeled data",
+          "justification": "The paper focuses on SSL pre-training objectives.",
+          "value": "Self-supervised learning"
+        },
+        "aliases": [
+          "SSL"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "We then scale up our experiments to larger MAE pre-training and autoregressive language model pre-training.",
+          "justification": "Continual pre-training of LLMs is a main experimental setting advanced by the paper.",
+          "value": "Natural Language Processing"
+        },
+        "aliases": [
+          "language modeling",
+          "LLMs"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "In the context of computer vision, conventional CL approaches such as regularization techniques",
+          "justification": "Vision pre-training via masked image modeling is a main setting.",
+          "value": "Computer Vision"
+        },
+        "aliases": [
+          "vision",
+          "masked image modeling",
+          "MIM"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "A DDITIONAL E XPERIMENTS : C ONTINUAL L EARNING WITH M EDICAL I MAGING",
+          "justification": "Appendix experiments add a brain MRI task.",
+          "value": "Medical imaging"
+        },
+        "aliases": [
+          "MRI"
+        ],
+        "role": "used"
+      },
+      {
+        "name": {
+          "quote": "FireRisk (Shen et al., 2023) (D3 ) presents a substantial shift to remote sensing with 91K satellite images for environmental monitoring.",
+          "justification": "FireRisk introduces a remote sensing task used as an evaluation venue.",
+          "value": "Remote sensing"
+        },
+        "aliases": [],
+        "role": "used"
+      }
+    ],
+    "models": [
+      {
+        "name": {
+          "quote": "We use Masked Autoencoders (MAE) (He et al., 2022) for vision pre-training",
+          "justification": "MAE is the vision pre-training model used throughout.",
+          "value": "Masked Autoencoder (MAE)"
+        },
+        "aliases": [
+          "MAE"
+        ],
+        "is_contributed": {
+          "quote": "We use Masked Autoencoders (MAE) (He et al., 2022) for vision pre-training",
+          "justification": "MAE is from prior work by He et al.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We first evaluate infinite schedule on a small-scale MAE pre-training (He et al., 2022)",
+          "justification": "MAE pre-training was run on CIFAR-10 and large-scale datasets.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Performance comparison between cosine (Cos) and infinite cosine (Inf) for MAE pre-training across different tasks",
+          "justification": "Different schedules of MAE training compared numerically.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "All models are trained for 300 epochs per task using AdamW",
+          "justification": "MAE models pre-trained from scratch.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "Kaiming He, Xinlei Chen, Saining Xie, Yanghao Li, Piotr Dollar, and Ross Girshick. Masked Autoencoders Are Scalable Vision Learners.",
+          "justification": "Reference for MAE.",
+          "value": "Masked Autoencoders Are Scalable Vision Learners"
+        }
+      },
+      {
+        "name": {
+          "quote": "We employ a ViT-tiny (Dosovitskiy et al., 2020) to match the scale of CIFAR-10",
+          "justification": "Used as the encoder for the small-scale CIFAR-10 experiment.",
+          "value": "ViT-tiny"
+        },
+        "aliases": [
+          "ViT-tiny encoder"
+        ],
+        "is_contributed": {
+          "quote": "We employ a ViT-tiny (Dosovitskiy et al., 2020)",
+          "justification": "Standard ViT architecture from prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "For our architecture, we employ a ViT-tiny encoder (12 layers, 192 hidden dimensions, 3 attention heads)",
+          "justification": "Trained on CIFAR-10.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Average linear probe accuracy (Acc) and Backward Transfer (BWT) ... on CIFAR10",
+          "justification": "Results compared across schedules and baselines.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "We train for 400 epochs with a batch size of 512.",
+          "justification": "Pre-trained from scratch for 400 epochs.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "Alexey Dosovitskiy, Lucas Beyer, ... An image is worth 16x16 words: Transformers for image recognition at scale.",
+          "justification": "ViT reference.",
+          "value": "An image is worth 16x16 words: Transformers for image recognition at scale"
+        }
+      },
+      {
+        "name": {
+          "quote": "We build on the PyTorch (Paszke et al., 2019) MAE framework with a ViT-B/16 backbone.",
+          "justification": "Backbone for large-scale MAE pre-training.",
+          "value": "ViT-B/16"
+        },
+        "aliases": [
+          "ViT-B/16 backbone"
+        ],
+        "is_contributed": {
+          "quote": "with ViT-B/16 (He et al., 2022) backbone architecture with 12 layers, 768 hidden dimension, and 12 attention heads",
+          "justification": "Standard architecture.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "All models are trained for 300 epochs per task using AdamW",
+          "justification": "Trained for 300 epochs per task.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Performance comparison between cosine (Cos) and infinite cosine (Inf) for MAE pre-training across different tasks",
+          "justification": "Compared across schedules.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "All models are trained for 300 epochs per task using AdamW (Loshchilov & Hutter, 2019) with a batch size of 4096.",
+          "justification": "Pre-trained from scratch.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "with ViT-B/16 (He et al., 2022) backbone architecture",
+          "justification": "ViT-B/16 cited as in He et al.",
+          "value": "Masked Autoencoders Are Scalable Vision Learners"
+        }
+      },
+      {
+        "name": {
+          "quote": "We utilize LLaMA-3 architecture (Grattafiori et al., 2024) with 570M parameters, training it as an autoregressive decoder-only transformer with a causal language modeling objective.",
+          "justification": "The LM used for continual pre-training.",
+          "value": "LLaMA-3 architecture (570M)"
+        },
+        "aliases": [
+          "Dense Transformer LM",
+          "LLaMA-3"
+        ],
+        "is_contributed": {
+          "quote": "We utilize LLaMA-3 architecture (Grattafiori et al., 2024) with 570M parameters",
+          "justification": "Architecture from prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "All models are trained with AdamW (Loshchilov & Hutter, 2019) on 100B tokens for each dataset",
+          "justification": "Trained on 100B tokens per dataset.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Table 3 shows the evaluation results on various benchmarks for different schedules.",
+          "justification": "Numerically compared across schedules on benchmarks.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "We begin pre-training on the DCLM dataset",
+          "justification": "Pre-trained from scratch on DCLM, then continually pre-trained.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "Aaron Grattafiori, Abhimanyu Dubey, ... The llama 3 herd of models, 2024.",
+          "justification": "LLaMA-3 reference.",
+          "value": "The llama 3 herd of models"
+        }
+      },
+      {
+        "name": {
+          "quote": "All the three datasets are tokenized through LLaMA-3 tokenizer (Grattafiori et al., 2024) owing to its large vocabulary size of 128K tokens",
+          "justification": "Used to tokenize all three language datasets.",
+          "value": "LLaMA-3 tokenizer"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "All the three datasets are tokenized through LLaMA-3 tokenizer (Grattafiori et al., 2024)",
+          "justification": "Prior work tokenizer.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "All the three datasets are tokenized through LLaMA-3 tokenizer",
+          "justification": "Applied to tokenize the datasets.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Though we did not perform a formal tokenizer coverage analysis",
+          "justification": "Not compared to other tokenizers.",
+          "value": false
+        },
+        "execution_mode": {
+          "quote": "All the three datasets are tokenized through LLaMA-3 tokenizer",
+          "justification": "Used only to tokenize data.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "tokenized through LLaMA-3 tokenizer (Grattafiori et al., 2024)",
+          "justification": "Same reference.",
+          "value": "The llama 3 herd of models"
+        }
+      }
+    ],
+    "data_sources": [
+      {
+        "name": {
+          "quote": "we conduct an experiment with a small-scale MAE CPT on CIFAR-10 (Krizhevsky et al., 2009)",
+          "justification": "Used for small-scale MAE continual pre-training.",
+          "value": "CIFAR-10"
+        },
+        "aliases": [
+          "CIFAR10"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "The dataset is divided into five sequential tasks, each with two classes introduced in label order (0-9).",
+          "justification": "Paper does not state dataset size; only that it is divided into five tasks.",
+          "value": "unknown"
+        },
+        "derived_from": [],
+        "sample_properties": [
+          {
+            "name": "image size",
+            "value": {
+              "quote": "Image Size 32 × 32",
+              "justification": "Stated in hyperparameter table for ViT-tiny.",
+              "value": "32 × 32"
+            },
+            "unit": "pixels"
+          }
+        ],
+        "referenced_paper_title": {
+          "quote": "Alex Krizhevsky et al. Learning multiple layers of features from tiny images. 2009.",
+          "justification": "CIFAR reference.",
+          "value": "Learning multiple layers of features from tiny images"
+        }
+      },
+      {
+        "name": {
+          "quote": "The CPT sequence begins with ImageNet (Russakovsky et al., 2015) (D0 ), having 1.28M object-centric images across 1,000 categories",
+          "justification": "First task in large-scale MAE CPT sequence.",
+          "value": "ImageNet"
+        },
+        "aliases": [
+          "D0"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "having 1.28M object-centric images across 1,000 categories",
+          "justification": "Stated in text.",
+          "value": "1.28M object-centric images across 1,000 categories"
+        },
+        "derived_from": [],
+        "sample_properties": [
+          {
+            "name": "image size",
+            "value": {
+              "quote": "Image Size 224 × 224",
+              "justification": "Stated in ViT-B/16 hyperparameters.",
+              "value": "224 × 224"
+            },
+            "unit": "pixels"
+          }
+        ],
+        "referenced_paper_title": {
+          "quote": "Olga Russakovsky, Jia Deng, ... ImageNet Large Scale Visual Recognition Challenge, January 2015.",
+          "justification": "Reference listed.",
+          "value": "ImageNet Large Scale Visual Recognition Challenge"
+        }
+      },
+      {
+        "name": {
+          "quote": "Next, Places2 subset (Zhou et al., 2017) (D1 ) introduces a distribution shift with 1M scene-understanding images spanning 365 categories.",
+          "justification": "Second task in large-scale MAE CPT.",
+          "value": "Places2"
+        },
+        "aliases": [
+          "Places",
+          "D1"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "introduces a distribution shift with 1M scene-understanding images spanning 365 categories",
+          "justification": "Stated in text.",
+          "value": "1M scene-understanding images spanning 365 categories"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "Bolei Zhou, Agata Lapedriza, Aditya Khosla, Aude Oliva, and Antonio Torralba. Places: A 10 million image database for scene recognition.",
+          "justification": "Reference listed.",
+          "value": "Places: A 10 million image database for scene recognition"
+        }
+      },
+      {
+        "name": {
+          "quote": "Finally, FireRisk (Shen et al., 2023) (D3 ) presents a substantial shift to remote sensing with 91K satellite images for environmental monitoring.",
+          "justification": "Third task in large-scale MAE CPT.",
+          "value": "FireRisk"
+        },
+        "aliases": [
+          "Firerisk",
+          "D2"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "presents a substantial shift to remote sensing with 91K satellite images for environmental monitoring",
+          "justification": "Stated in text.",
+          "value": "91K satellite images"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "Shuchang Shen, Sachith Seneviratne, Xinye Wanyan, and Michael Kirley. Firerisk: A remote sensing dataset for fire risk assessment with benchmarks using supervised and self-supervised learning.",
+          "justification": "Reference listed.",
+          "value": "Firerisk: A remote sensing dataset for fire risk assessment with benchmarks using supervised and self-supervised learning"
+        }
+      },
+      {
+        "name": {
+          "quote": "We consider three datasets for continually pre-training LLMs: DCLM-Baseline (Li et al., 2024) (D0 )",
+          "justification": "First language dataset in the CPT sequence.",
+          "value": "DCLM-Baseline"
+        },
+        "aliases": [
+          "DCLM",
+          "D0"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "We sample a small subset of 100B tokens from each of the DCLM-Baseline (total = 3T), Stack (total = 744B), and OSCAR (total = 168B) datasets for our CPT experiments.",
+          "justification": "Stated sampling of 100B tokens.",
+          "value": "100B tokens sampled (total = 3T)"
+        },
+        "derived_from": [],
+        "sample_properties": [
+          {
+            "name": "sequence length",
+            "value": {
+              "quote": "We use a batch size of 1024 and sequence length 2048.",
+              "justification": "Stated sequence length for LM training.",
+              "value": "2048"
+            },
+            "unit": "tokens"
+          }
+        ],
+        "referenced_paper_title": {
+          "quote": "Jeffrey Li, Alex Fang, ... Datacomp-lm: In search of the next generation of training sets for language models, 2024.",
+          "justification": "Reference listed.",
+          "value": "Datacomp-lm: In search of the next generation of training sets for language models"
+        }
+      },
+      {
+        "name": {
+          "quote": "Stack (Kocetkov et al., 2022) (D1 )",
+          "justification": "Second language dataset.",
+          "value": "Stack"
+        },
+        "aliases": [
+          "The Stack",
+          "D1"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "We sample a small subset of 100B tokens from each of the DCLM-Baseline (total = 3T), Stack (total = 744B), and OSCAR (total = 168B) datasets",
+          "justification": "Stated.",
+          "value": "100B tokens sampled (total = 744B)"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "Denis Kocetkov, ... The stack: 3 tb of permissively licensed source code. Preprint, 2022.",
+          "justification": "Reference listed.",
+          "value": "The stack: 3 tb of permissively licensed source code"
+        }
+      },
+      {
+        "name": {
+          "quote": "German is a subset of the multilingual OSCAR corpus (Abadji et al., 2022)",
+          "justification": "Third language dataset, a subset of OSCAR.",
+          "value": "German"
+        },
+        "aliases": [
+          "D2",
+          "OSCAR German subset"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "We sample a small subset of 100B tokens from each of the DCLM-Baseline (total = 3T), Stack (total = 744B), and OSCAR (total = 168B) datasets",
+          "justification": "Stated.",
+          "value": "100B tokens sampled (OSCAR total = 168B)"
+        },
+        "derived_from": [
+          "OSCAR"
+        ],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "Julien Abadji, Pedro Ortiz Suarez, Laurent Romary, and Benoı̂t Sagot. Towards a cleaner document-oriented multilingual crawled corpus.",
+          "justification": "OSCAR reference.",
+          "value": "Towards a cleaner document-oriented multilingual crawled corpus"
+        }
+      },
+      {
+        "name": {
+          "quote": "German is a subset of the multilingual OSCAR corpus (Abadji et al., 2022)",
+          "justification": "Named multilingual corpus the German data is drawn from.",
+          "value": "OSCAR"
+        },
+        "aliases": [],
+        "role": "used",
+        "size": {
+          "quote": "OSCAR (total = 168B)",
+          "justification": "Stated total token count.",
+          "value": "total = 168B"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "Julien Abadji, Pedro Ortiz Suarez, Laurent Romary, and Benoı̂t Sagot. Towards a cleaner document-oriented multilingual crawled corpus.",
+          "justification": "Reference listed.",
+          "value": "Towards a cleaner document-oriented multilingual crawled corpus"
+        }
+      },
+      {
+        "name": {
+          "quote": "LOAI: LambdaOpenAI",
+          "justification": "Used as a zero-shot LM evaluation benchmark.",
+          "value": "LambdaOpenAI"
+        },
+        "aliases": [
+          "LOAI"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "Zero-shot results on popular LM benchmarks.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "LOAI: LambdaOpenAI, HS: HellaSwag, OBQA: OpenBookQA, WG: WinoGrande,LQA: LogicQA",
+          "justification": "No reference entry provided.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "HS: HellaSwag",
+          "justification": "Benchmark used in evaluation table.",
+          "value": "HellaSwag"
+        },
+        "aliases": [
+          "HS"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "Zero-shot results on popular LM benchmarks.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "HS: HellaSwag",
+          "justification": "No reference entry.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "OBQA: OpenBookQA",
+          "justification": "Benchmark used.",
+          "value": "OpenBookQA"
+        },
+        "aliases": [
+          "OBQA"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "Zero-shot results on popular LM benchmarks.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "OBQA: OpenBookQA",
+          "justification": "No reference entry.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "WG: WinoGrande",
+          "justification": "Benchmark used.",
+          "value": "WinoGrande"
+        },
+        "aliases": [
+          "WG"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "Zero-shot results on popular LM benchmarks.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "WG: WinoGrande",
+          "justification": "No reference entry.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "ARC-e",
+          "justification": "Benchmark used.",
+          "value": "ARC-e"
+        },
+        "aliases": [],
+        "role": "used",
+        "size": {
+          "quote": "Zero-shot results on popular LM benchmarks.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "ARC-e",
+          "justification": "No reference entry.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "PIQA",
+          "justification": "Benchmark used.",
+          "value": "PIQA"
+        },
+        "aliases": [],
+        "role": "used",
+        "size": {
+          "quote": "Zero-shot results on popular LM benchmarks.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "PIQA",
+          "justification": "No reference entry.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "LQA: LogicQA",
+          "justification": "Benchmark used.",
+          "value": "LogicQA"
+        },
+        "aliases": [
+          "LQA"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "Zero-shot results on popular LM benchmarks.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "LQA: LogicQA",
+          "justification": "No reference entry.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "Scheduler Training Tokens ARC-de HS-de Avg.",
+          "justification": "German benchmark used.",
+          "value": "ARC-de"
+        },
+        "aliases": [],
+        "role": "used",
+        "size": {
+          "quote": "Zero-shot results showing adaptability of the model after completing training on the German data",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "ARC-de",
+          "justification": "No reference entry.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "ARC-de HS-de Avg.",
+          "justification": "German benchmark used.",
+          "value": "HS-de"
+        },
+        "aliases": [],
+        "role": "used",
+        "size": {
+          "quote": "Zero-shot results showing adaptability of the model after completing training on the German data (D2 ) on popular LM benchmarks.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "HS-de",
+          "justification": "No reference entry.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "The medical imaging dataset consists of multi-planar brain MRI scans.",
+          "justification": "Brain MRI dataset used as a fourth continual learning task in the appendix.",
+          "value": "MRI dataset"
+        },
+        "aliases": [
+          "MRI",
+          "brain MRI"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "The medical imaging dataset consists of multi-planar brain MRI scans. The dataset includes four distinct classes",
+          "justification": "Size not stated.",
+          "value": "unknown"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "We would also like to thank Isaac and Nafi of ORNL for their assistance in obtaining the MRI dataset used in additional experiments.",
+          "justification": "No reference provided for the MRI dataset.",
+          "value": "unknown"
+        }
+      }
+    ],
+    "libraries": [
+      {
+        "name": {
+          "quote": "We build on the PyTorch (Paszke et al., 2019) MAE framework with a ViT-B/16 backbone.",
+          "justification": "Implementation based on PyTorch MAE framework.",
+          "value": "PyTorch"
+        },
+        "aliases": [],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "Adam Paszke, Sam Gross, ... Pytorch: An imperative style, high-performance deep learning library.",
+          "justification": "Reference listed.",
+          "value": "Pytorch: An imperative style, high-performance deep learning library"
+        }
+      },
+      {
+        "name": {
+          "quote": "as this is common when we have to begin from an open weight model (e.g. from Huggingface (Wolf et al., 2020))",
+          "justification": "Mentioned as a source of open weight models.",
+          "value": "Huggingface"
+        },
+        "aliases": [
+          "Transformers"
+        ],
+        "role": "referenced",
+        "referenced_paper_title": {
+          "quote": "Thomas Wolf, Lysandre Debut, ... Transformers: State-of-the-Art Natural Language Processing.",
+          "justification": "Reference listed.",
+          "value": "Transformers: State-of-the-Art Natural Language Processing"
+        }
+      },
+      {
+        "name": {
+          "quote": "(100K from titktoken2 and 28K additional tokens for non-English languages)",
+          "justification": "Referenced as the source of the tokenizer vocabulary.",
+          "value": "tiktoken"
+        },
+        "aliases": [],
+        "role": "referenced",
+        "referenced_paper_title": {
+          "quote": "https://github.com/openai/tiktoken/tree/main",
+          "justification": "Only a URL footnote is given.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "with our implementation based on Zhang (2021).",
+          "justification": "The small-scale implementation is based on this codebase.",
+          "value": "MAE (IcarusWizard implementation)"
+        },
+        "aliases": [
+          "Zhang (2021)"
+        ],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "Xingyuan Zhang. Github, 2021. URL https://github.com/IcarusWizard/MAE.",
+          "justification": "Reference is a GitHub repo.",
+          "value": "Github"
+        }
+      }
+    ],
+    "algorithms": [
+      {
+        "name": {
+          "quote": "We define Infinite Cosine Schedule as given in Ibrahim et al. (2024)",
+          "justification": "The main schedule studied and advocated.",
+          "value": "Infinite Cosine Schedule"
+        },
+        "aliases": [
+          "Inf Cos",
+          "infinite learning rate schedule",
+          "infinite schedule"
+        ],
+        "is_contributed": {
+          "quote": "In this work, we investigate the effectiveness of the infinite cosine schedule Ibrahim et al. (2024) relative to repeated cosine for the CPT of models under strong distribution shifts.",
+          "justification": "Adopted from Ibrahim et al. (2024), but systematically studied here.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "For the infinite schedule, we keep a constant learning rate ηconst = 3.75e − 5",
+          "justification": "Used in training runs.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "It can be observed that the infinite schedule (Inf Cos) consistently achieves superior performance compared to the cosine schedule across all experimental configurations.",
+          "justification": "Compared numerically to cosine schedule.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "the infinite learning rate schedule progresses through four distinct phases: during the warmup phase (until Nw ), the learning rate increases linearly from 0 to ηmax .",
+          "justification": "Described as such in Section 3.",
+          "value": "Learning rate schedule for continual pre-training, with warmup, cooldown, constant and annealing phases"
+        },
+        "composed_of": [
+          "warmup",
+          "cooldown",
+          "constant",
+          "annealing"
+        ],
+        "referenced_paper_title": {
+          "quote": "Adam Ibrahim, Benjamin Thérien, ... Simple and scalable strategies to continually pre-train large language models.",
+          "justification": "Ibrahim et al. 2024 reference.",
+          "value": "Simple and scalable strategies to continually pre-train large language models"
+        }
+      },
+      {
+        "name": {
+          "quote": "We compare Infinite Cosine Schedule with the de-facto Cosine + Warmup Schedule.",
+          "justification": "The baseline schedule compared against.",
+          "value": "Cosine + Warmup Schedule"
+        },
+        "aliases": [
+          "repeated cosine annealing",
+          "cosine decay schedule",
+          "Cos"
+        ],
+        "is_contributed": {
+          "quote": "Most approaches for continually pre-training foundation models typically utilize a repeated cosine annealing schedule (Loshchilov & Hutter, 2017)",
+          "justification": "Standard prior approach.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "while the baseline follows a standard cosine decay schedule with SOTA hyperparameters (He et al., 2022)",
+          "justification": "Used as baseline in all runs.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Performance comparison between cosine (Cos) and infinite cosine (Inf) for MAE pre-training",
+          "justification": "Directly compared.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "We compare Infinite Cosine Schedule with the de-facto Cosine + Warmup Schedule.",
+          "justification": "Paper's words.",
+          "value": "The de-facto baseline learning rate schedule for continual pre-training"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Ilya Loshchilov and Frank Hutter. SGDR: stochastic gradient descent with warm restarts.",
+          "justification": "Loshchilov & Hutter 2017 reference.",
+          "value": "SGDR: stochastic gradient descent with warm restarts"
+        }
+      },
+      {
+        "name": {
+          "quote": "Experience Replay (ER) (Rolnick et al., 2019): maintains a memory buffer with {40%, 50%} samples of prior tasks, sampled uniformly.",
+          "justification": "Used as a CL baseline and combined with schedules.",
+          "value": "Experience Replay (ER)"
+        },
+        "aliases": [
+          "ER",
+          "replay"
+        ],
+        "is_contributed": {
+          "quote": "Experience Replay (ER) (Rolnick et al., 2019)",
+          "justification": "From prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Experiments are conducted with and without a replay buffer of size B = 0.05 × |Di | per task.",
+          "justification": "Used in the replay experiments.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "comparing CL baselines utilizing cosine schedule with Infinite Schedule on CIFAR10 with varying replay (ER) strategies",
+          "justification": "Compared in Table 1.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "maintains a memory buffer with {40%, 50%} samples of prior tasks, sampled uniformly",
+          "justification": "Paper's description.",
+          "value": "maintains a memory buffer with samples of prior tasks to mitigate forgetting"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "David Rolnick, Arun Ahuja, Jonathan Schwarz, Timothy Lillicrap, and Gregory Wayne. Experience replay for continual learning.",
+          "justification": "Reference listed.",
+          "value": "Experience replay for continual learning"
+        }
+      },
+      {
+        "name": {
+          "quote": "Memory Aware Synapses (MAS) (Aljundi et al., 2018): estimates parameter importance by measuring how changes affect the model output",
+          "justification": "CL baseline adapted for SSL.",
+          "value": "Memory Aware Synapses (MAS)"
+        },
+        "aliases": [
+          "MAS"
+        ],
+        "is_contributed": {
+          "quote": "Memory Aware Synapses (MAS) (Aljundi et al., 2018)",
+          "justification": "Prior work baseline.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We adapted it for self-supervised learning by computing importance of weights from the L2 norm of the encoder’s output, with a regularization λ = 0.75.",
+          "justification": "Run on CIFAR-10 CPT.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Replay 0% ... MAS ... 50.44",
+          "justification": "Numbers in Table 1.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "estimates parameter importance by measuring how changes affect the model output, then penalizes updates to important weights",
+          "justification": "Paper's description.",
+          "value": "estimates parameter importance and penalizes updates to important weights"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Rahaf Aljundi, Francesca Babiloni, Mohamed Elhoseiny, Marcus Rohrbach, and Tinne Tuytelaars. Memory aware synapses: Learning what (not) to forget.",
+          "justification": "Reference listed.",
+          "value": "Memory aware synapses: Learning what (not) to forget"
+        }
+      },
+      {
+        "name": {
+          "quote": "Learning without Forgetting (LwF) (Li & Hoiem, 2017): preserves knowledge by distilling responses from the previous model version.",
+          "justification": "CL baseline.",
+          "value": "Learning without Forgetting (LwF)"
+        },
+        "aliases": [
+          "LwF"
+        ],
+        "is_contributed": {
+          "quote": "Learning without Forgetting (LwF) (Li & Hoiem, 2017)",
+          "justification": "Prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We modified it for self-supervised learning with feature distillation on the encoder’s output, weighted by α = 0.75.",
+          "justification": "Run on CIFAR-10.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "LwF Acc ↑ 50.52",
+          "justification": "Numbers in Table 1.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "preserves knowledge by distilling responses from the previous model version",
+          "justification": "Paper's words.",
+          "value": "preserves knowledge by distilling responses from the previous model version"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Zhizhong Li and Derek Hoiem. Learning without forgetting.",
+          "justification": "Reference listed.",
+          "value": "Learning without forgetting"
+        }
+      },
+      {
+        "name": {
+          "quote": "GDumb (Prabhu et al., 2020): Uses stratified sampling to maintain a balanced buffer.",
+          "justification": "CL baseline.",
+          "value": "GDumb"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "GDumb (Prabhu et al., 2020)",
+          "justification": "Prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "GDumb Acc ↑ 48.76",
+          "justification": "Results reported.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "GDumb ... 48.76 -19.51",
+          "justification": "Compared in Table 1.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "The model resets to random initialization for each new task and trains from scratch on buffer data.",
+          "justification": "Paper's description.",
+          "value": "resets model to random initialization for each new task and trains from scratch on buffer data"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Ameya Prabhu, Philip HS Torr, and Puneet K Dokania. Gdumb: A simple approach that questions our progress in continual learning.",
+          "justification": "Reference listed.",
+          "value": "Gdumb: A simple approach that questions our progress in continual learning"
+        }
+      },
+      {
+        "name": {
+          "quote": "Sequential Fine-tuning: trains sequentially without mitigating forgetting, serving as the primary baseline.",
+          "justification": "Primary baseline.",
+          "value": "Sequential Fine-tuning"
+        },
+        "aliases": [
+          "FT-seq"
+        ],
+        "is_contributed": {
+          "quote": "Sequential Fine-tuning: trains sequentially without mitigating forgetting",
+          "justification": "Standard baseline.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "FT-seq ... 58.16 -17.65",
+          "justification": "Results reported in Table 1.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "it improves average accuracy by 1.87% and BWT by approximately 4% over Finetuning (FT-seq) with a repeated cosine schedule",
+          "justification": "Compared numerically.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "trains sequentially without mitigating forgetting, serving as the primary baseline",
+          "justification": "Paper's words.",
+          "value": "trains sequentially without mitigating forgetting, serving as the primary baseline"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Sequential Fine-tuning: trains sequentially without mitigating forgetting",
+          "justification": "No specific reference.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "Our evaluation strategy measures both task-specific performance and cross-task knowledge transfer using linear probing.",
+          "justification": "Evaluation procedure for the vision models.",
+          "value": "linear probing"
+        },
+        "aliases": [
+          "linear probe"
+        ],
+        "is_contributed": {
+          "quote": "After pre-training on each dataset Di , we freeze the encoder fθ as a fixed feature extractor and train a linear classifier",
+          "justification": "Standard evaluation protocol.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Training was conducted over 90 epochs with a large batch size of 4096",
+          "justification": "Linear probes trained for 90/100 epochs.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "evaluated on task-specific validation sets using classification accuracy",
+          "justification": "It's the evaluation measure, not compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "we freeze the encoder fθ as a fixed feature extractor and train a linear classifier hψi : Rd → Rci for each task",
+          "justification": "Paper's description.",
+          "value": "freeze the encoder as a fixed feature extractor and train a linear classifier for each task to evaluate"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Our evaluation strategy measures both task-specific performance and cross-task knowledge transfer using linear probing.",
+          "justification": "No specific reference.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "All models are trained for 300 epochs per task using AdamW (Loshchilov & Hutter, 2019)",
+          "justification": "Optimizer used in all training runs.",
+          "value": "AdamW"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "All experiments utilize the AdamW optimizer, (Loshchilov & Hutter, 2019)",
+          "justification": "Standard optimizer.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "All models are trained with AdamW (Loshchilov & Hutter, 2019) on 100B tokens for each dataset",
+          "justification": "Used in training.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "All experiments utilize the AdamW optimizer",
+          "justification": "Not compared against other optimizers.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "All models are trained for 300 epochs per task using AdamW",
+          "justification": "Paper uses it for training.",
+          "value": "optimizer used for pre-training"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Ilya Loshchilov and Frank Hutter. Decoupled weight decay regularization.",
+          "justification": "Reference listed.",
+          "value": "Decoupled weight decay regularization"
+        }
+      },
+      {
+        "name": {
+          "quote": "For linear probing as shown in Table 8, we utilized the LARS optimizer with no weight decay (λ = 0).",
+          "justification": "Optimizer used for linear probing on large-scale datasets.",
+          "value": "LARS"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "we utilized the LARS optimizer with no weight decay",
+          "justification": "Standard optimizer.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "optimizer LARS",
+          "justification": "Used in linear probing runs.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "we utilized the LARS optimizer with no weight decay (λ = 0)",
+          "justification": "Not compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "For linear probing as shown in Table 8, we utilized the LARS optimizer",
+          "justification": "Stated in appendix.",
+          "value": "optimizer for linear probing on ImageNet, Places and Firerisk"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "we utilized the LARS optimizer with no weight decay (λ = 0)",
+          "justification": "No reference entry for LARS.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "augmentation RandomResizedCrop",
+          "justification": "Augmentation listed in hyperparameters.",
+          "value": "RandomResizedCrop"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "augmentation RandomResizedCrop",
+          "justification": "Standard augmentation.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "included RandomResizedCrop augmentation",
+          "justification": "Used in pre-training and probing.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "augmentation RandomResizedCrop",
+          "justification": "Not compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "augmentation RandomResizedCrop",
+          "justification": "Listed in hyperparameter tables.",
+          "value": "data augmentation used in pre-training and linear probing"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "augmentation RandomResizedCrop",
+          "justification": "No reference.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "The training setup includes activation checkpointing (Chen et al., 2016) and ZeRO-1 optimizer sharding",
+          "justification": "Used to reduce memory in LM training.",
+          "value": "activation checkpointing"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "activation checkpointing (Chen et al., 2016)",
+          "justification": "Prior work technique.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "The training setup includes activation checkpointing (Chen et al., 2016)",
+          "justification": "Used in the LM training runs.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "to reduce memory overhead",
+          "justification": "Not compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "The training setup includes activation checkpointing (Chen et al., 2016) and ZeRO-1 optimizer sharding (Rajbhandari et al., 2020) to reduce memory overhead.",
+          "justification": "Paper's words.",
+          "value": "reduces memory overhead during training"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Tianqi Chen, Bing Xu, Chiyuan Zhang, and Carlos Guestrin. Training deep nets with sublinear memory cost.",
+          "justification": "Reference listed.",
+          "value": "Training deep nets with sublinear memory cost"
+        }
+      },
+      {
+        "name": {
+          "quote": "ZeRO-1 optimizer sharding (Rajbhandari et al., 2020) to reduce memory overhead",
+          "justification": "Used in LM training.",
+          "value": "ZeRO-1 optimizer sharding"
+        },
+        "aliases": [
+          "ZeRO-1"
+        ],
+        "is_contributed": {
+          "quote": "ZeRO-1 optimizer sharding (Rajbhandari et al., 2020)",
+          "justification": "Prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "The training setup includes activation checkpointing (Chen et al., 2016) and ZeRO-1 optimizer sharding",
+          "justification": "Part of the training setup.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "to reduce memory overhead",
+          "justification": "Not compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "ZeRO-1 optimizer sharding (Rajbhandari et al., 2020) to reduce memory overhead",
+          "justification": "Paper's words.",
+          "value": "optimizer state sharding to reduce memory overhead"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Samyam Rajbhandari, Jeff Rasley, Olatunji Ruwase, and Yuxiong He. Zero: Memory optimizations toward training trillion parameter models.",
+          "justification": "Reference listed.",
+          "value": "Zero: Memory optimizations toward training trillion parameter models"
+        }
+      },
+      {
+        "name": {
+          "quote": "Gradient clipping 1.0",
+          "justification": "Listed in hyperparameters.",
+          "value": "gradient clipping"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "Gradient clipping 1.0",
+          "justification": "Standard technique.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Gradient Clipping 1.0",
+          "justification": "Used in training configurations.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Gradient clipping 1.0",
+          "justification": "Not compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "Gradient clipping 1.0",
+          "justification": "Listed in hyperparameter table.",
+          "value": "training hyperparameter applied during optimization"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Gradient clipping 1.0",
+          "justification": "No reference.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "weight decay 0.05",
+          "justification": "Listed in hyperparameters.",
+          "value": "weight decay"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "weight decay 0.05",
+          "justification": "Standard.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "weight decay 0.05",
+          "justification": "Applied in training.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "weight decay 0.05",
+          "justification": "Not compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "weight decay 0.05",
+          "justification": "Listed in hyperparameter tables.",
+          "value": "regularisation hyperparameter used during pre-training"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "weight decay 0.05",
+          "justification": "No specific reference.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "We also employ learning rate scaling similar to Goyal et al. (2018).",
+          "justification": "Mentioned as used, following Goyal et al.",
+          "value": "learning rate scaling"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "We also employ learning rate scaling similar to Goyal et al. (2018).",
+          "justification": "Prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We also employ learning rate scaling similar to Goyal et al. (2018).",
+          "justification": "Used in MAE training.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "We also employ learning rate scaling similar to Goyal et al. (2018).",
+          "justification": "Not compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "We also employ learning rate scaling similar to Goyal et al. (2018).",
+          "justification": "Used following Goyal et al.",
+          "value": "learning rate scaling for large batch training"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Priya Goyal, Piotr Dollár, ... Accurate, large minibatch sgd: Training imagenet in 1 hour, 2018.",
+          "justification": "Reference listed.",
+          "value": "Accurate, large minibatch sgd: Training imagenet in 1 hour"
+        }
+      },
+      {
+        "name": {
+          "quote": "Formally the MAE pre-training procedure is described as follows",
+          "justification": "The masked image modeling procedure described formally.",
+          "value": "MAE pre-training"
+        },
+        "aliases": [
+          "masked image modeling",
+          "MIM"
+        ],
+        "is_contributed": {
+          "quote": "As described by He et al. (2022), MAE pre-training masks a subset of image patches and reconstructs the original image",
+          "justification": "Prior work procedure.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "The entire framework is trained end-to-end by minimizing the mean squared error loss",
+          "justification": "Executed in all vision experiments.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "We use the same masking ratio from the original MAE (He et al., 2022) that randomly masks 75% of these patches",
+          "justification": "The objective itself not compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "MAE pre-training masks a subset of image patches and reconstructs the original image using a Vision Transformer (ViT) (Dosovitskiy et al., 2020) encoder-decoder architecture.",
+          "justification": "Paper's words.",
+          "value": "masks a subset of image patches and reconstructs the original image using a ViT encoder-decoder architecture"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Kaiming He, Xinlei Chen, ... Masked Autoencoders Are Scalable Vision Learners.",
+          "justification": "Reference listed.",
+          "value": "Masked Autoencoders Are Scalable Vision Learners"
+        }
+      }
+    ],
+    "runs": [
+      {
+        "models": [
+          {
+            "name": "ViT-tiny",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Masked Autoencoder (MAE)",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "CIFAR-10",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "MAE pre-training"
+          },
+          {
+            "name": "Infinite Cosine Schedule"
+          },
+          {
+            "name": "Cosine + Warmup Schedule"
+          },
+          {
+            "name": "Experience Replay (ER)"
+          },
+          {
+            "name": "Memory Aware Synapses (MAS)"
+          },
+          {
+            "name": "Learning without Forgetting (LwF)"
+          },
+          {
+            "name": "GDumb"
+          },
+          {
+            "name": "Sequential Fine-tuning"
+          },
+          {
+            "name": "AdamW"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "we conduct an experiment with a small-scale MAE CPT on CIFAR-10 (Krizhevsky et al., 2009)",
+          "justification": "Small-scale MAE continual pre-training on CIFAR-10.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "We train for 400 epochs with a batch size of 512.",
+          "justification": "Stated in the paper.",
+          "value": "400"
+        },
+        "parameter_count": {
+          "quote": "ViT-tiny Parameters 7M",
+          "justification": "Stated in the ViT-tiny hyperparameter table.",
+          "value": "7M"
+        },
+        "accelerator_type": {
+          "quote": "We train for 400 epochs with a batch size of 512.",
+          "justification": "No hardware details for the small-scale experiment.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "We train for 400 epochs with a batch size of 512.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "We train for 400 epochs with a batch size of 512.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "Hyperparameters for this small scale experiment are provided in Appendix A.2.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "Hyperparameters for this small scale experiment are provided in Appendix A.2.",
+          "justification": "Not stated for this experiment.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "We train for 400 epochs with a batch size of 512.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "We train for 400 epochs with a batch size of 512.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "Replay 0% 40% 50%",
+          "justification": "Multiple baselines and replay rates were run but counts not given explicitly as repetitions.",
+          "value": "unknown"
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "ViT-tiny",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "CIFAR-10",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "linear probing"
+          },
+          {
+            "name": "AdamW"
+          },
+          {
+            "name": "Cosine + Warmup Schedule"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "For linear probing experiments in our small-scale setup, we utilized the AdamW (Loshchilov & Hutter, 2019) optimizer",
+          "justification": "A linear classifier is trained on frozen features.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "running for 100 epochs total, including 10 warmup epochs, with a batch size of 128",
+          "justification": "Stated.",
+          "value": "100"
+        },
+        "parameter_count": {
+          "quote": "The linear probing experiments implemented a cosine decay learning rate schedule",
+          "justification": "Linear probe size not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "with a batch size of 128",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "with a batch size of 128",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "with a batch size of 128",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "with a batch size of 128",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "with a batch size of 128",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "with a batch size of 128",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "with a batch size of 128",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "with a batch size of 128",
+          "justification": "Not stated.",
+          "value": "unknown"
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "ViT-B/16",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Masked Autoencoder (MAE)",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "ImageNet",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "Places2",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "FireRisk",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "MAE pre-training"
+          },
+          {
+            "name": "Infinite Cosine Schedule"
+          },
+          {
+            "name": "Cosine + Warmup Schedule"
+          },
+          {
+            "name": "Experience Replay (ER)"
+          },
+          {
+            "name": "AdamW"
+          },
+          {
+            "name": "RandomResizedCrop"
+          },
+          {
+            "name": "learning rate scaling"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "All models are trained for 300 epochs per task using AdamW (Loshchilov & Hutter, 2019) with a batch size of 4096.",
+          "justification": "Large-scale MAE continual pre-training across three datasets.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "All models are trained for 300 epochs per task",
+          "justification": "Stated.",
+          "value": "300 epochs per task"
+        },
+        "parameter_count": {
+          "quote": "ViT-B/16 Parameters 86M",
+          "justification": "Stated in hyperparameter table for ViT-B/16.",
+          "value": "86M"
+        },
+        "accelerator_type": {
+          "quote": "All models are trained for 300 epochs per task using AdamW",
+          "justification": "No hardware stated for vision experiments.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "All models are trained for 300 epochs per task using AdamW",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "All models are trained for 300 epochs per task using AdamW",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "All models are trained for 300 epochs per task using AdamW",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "All models are trained for 300 epochs per task using AdamW",
+          "justification": "Not stated for vision experiments.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "All models are trained for 300 epochs per task using AdamW",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "All models are trained for 300 epochs per task using AdamW",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "Experiments are conducted with and without a replay buffer of size B = 0.05 × |Di | per task.",
+          "justification": "Several configurations of ηconst and P with/without replay were run but count not stated.",
+          "value": "unknown"
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "ViT-B/16",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "ImageNet",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation"
+            ]
+          },
+          {
+            "name": "Places2",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation"
+            ]
+          },
+          {
+            "name": "FireRisk",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "linear probing"
+          },
+          {
+            "name": "LARS"
+          },
+          {
+            "name": "RandomResizedCrop"
+          },
+          {
+            "name": "Cosine + Warmup Schedule"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "After pre-training on each dataset Di , we freeze the encoder fθ as a fixed feature extractor and train a linear classifier",
+          "justification": "Linear classifiers trained on frozen encoders.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "Training was conducted over 90 epochs with a large batch size of 4096",
+          "justification": "Stated in appendix.",
+          "value": "90"
+        },
+        "parameter_count": {
+          "quote": "Training was conducted over 90 epochs with a large batch size of 4096",
+          "justification": "Not stated for linear probe.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "Training was conducted over 90 epochs with a large batch size of 4096",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "Training was conducted over 90 epochs with a large batch size of 4096",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "Training was conducted over 90 epochs with a large batch size of 4096",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "Training was conducted over 90 epochs with a large batch size of 4096",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "Training was conducted over 90 epochs with a large batch size of 4096",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "Training was conducted over 90 epochs with a large batch size of 4096",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "Training was conducted over 90 epochs with a large batch size of 4096",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "Training was conducted over 90 epochs with a large batch size of 4096",
+          "justification": "Not stated.",
+          "value": "unknown"
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "ViT-B/16",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Masked Autoencoder (MAE)",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "MRI dataset",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "ImageNet",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "Places2",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "FireRisk",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "MAE pre-training"
+          },
+          {
+            "name": "Infinite Cosine Schedule"
+          },
+          {
+            "name": "Cosine + Warmup Schedule"
+          },
+          {
+            "name": "Experience Replay (ER)"
+          },
+          {
+            "name": "AdamW"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "we conduct additional experiments incorporating a fourth task that introduces a substantial distribution change",
+          "justification": "Fourth continual learning task adding medical imaging.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "During training on the fourth task, we enforce a balanced sampling strategy",
+          "justification": "Not stated for this additional experiment.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "Linear probe accuracy comparison across four continual learning tasks using 50% buffer replay.",
+          "justification": "Not restated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "we conduct additional experiments incorporating a fourth task",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "we conduct additional experiments incorporating a fourth task",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "we conduct additional experiments incorporating a fourth task",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "we conduct additional experiments incorporating a fourth task",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "we conduct additional experiments incorporating a fourth task",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "we conduct additional experiments incorporating a fourth task",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "we conduct additional experiments incorporating a fourth task",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "Linear probe accuracy comparison across four continual learning tasks using 50% buffer replay.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "LLaMA-3 architecture (570M)",
+            "role_in_run": "main"
+          },
+          {
+            "name": "LLaMA-3 tokenizer",
+            "role_in_run": "data-source"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "DCLM-Baseline",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation"
+            ]
+          },
+          {
+            "name": "Stack",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation"
+            ]
+          },
+          {
+            "name": "German",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Infinite Cosine Schedule"
+          },
+          {
+            "name": "Cosine + Warmup Schedule"
+          },
+          {
+            "name": "Experience Replay (ER)"
+          },
+          {
+            "name": "AdamW"
+          },
+          {
+            "name": "activation checkpointing"
+          },
+          {
+            "name": "ZeRO-1 optimizer sharding"
+          },
+          {
+            "name": "gradient clipping"
+          },
+          {
+            "name": "weight decay"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "All models are trained with AdamW (Loshchilov & Hutter, 2019) on 100B tokens for each dataset, using a batch size of 1024 and a sequence length of 2048 approximately corresponding to 47, 684 total training steps.",
+          "justification": "Pre-training and continual pre-training of the 570M LM.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "on 100B tokens for each dataset, using a batch size of 1024 and a sequence length of 2048 approximately corresponding to 47, 684 total training steps",
+          "justification": "Stated in tokens/steps, not epochs.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "We utilize LLaMA-3 architecture (Grattafiori et al., 2024) with 570M parameters",
+          "justification": "Stated in text and hyperparameter table.",
+          "value": "570M"
+        },
+        "accelerator_type": {
+          "quote": "We train with data parallelism across 32 nodes, each equipped with 8 GPUs",
+          "justification": "32 nodes of 8 GPUs stated.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "This research was made possible thanks to the computing resources on the Frontier supercomputer",
+          "justification": "The GPU model is not named; Frontier supercomputer is acknowledged but no model stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "We train with data parallelism across 32 nodes, each equipped with 8 GPUs, maintaining a micro-batch size of 4.",
+          "justification": "Stated.",
+          "value": "32 nodes, each equipped with 8 GPUs"
+        },
+        "precision": {
+          "quote": "The training setup includes activation checkpointing (Chen et al., 2016) and ZeRO-1 optimizer sharding",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "We train with data parallelism across 32 nodes, each equipped with 8 GPUs",
+          "justification": "Data parallelism explicitly stated.",
+          "value": [
+            "data"
+          ]
+        },
+        "duration": {
+          "quote": "approximately corresponding to 47, 684 total training steps",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "We train with data parallelism across 32 nodes, each equipped with 8 GPUs",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "We fix ηmax = 3e − 4 and ηmin = 3e − 5 ... for both schedules while varying the cooldown proportion ... and the ηconst for the infinite schedule.",
+          "justification": "Several schedule configurations were run but no explicit count.",
+          "value": "unknown"
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "LLaMA-3 architecture (570M)",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "LambdaOpenAI",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          },
+          {
+            "name": "HellaSwag",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          },
+          {
+            "name": "OpenBookQA",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          },
+          {
+            "name": "WinoGrande",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          },
+          {
+            "name": "ARC-e",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          },
+          {
+            "name": "PIQA",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          },
+          {
+            "name": "LogicQA",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          },
+          {
+            "name": "ARC-de",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          },
+          {
+            "name": "HS-de",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [],
+        "produces": [],
+        "execution_mode": {
+          "quote": "Table 3 shows the evaluation results on various benchmarks for different schedules.",
+          "justification": "Zero-shot evaluation of the trained LMs on benchmarks.",
+          "value": "inference"
+        },
+        "epochs": {
+          "quote": "Zero-shot results on popular LM benchmarks. Normalized accuracy is reported.",
+          "justification": "Inference run.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "We utilize LLaMA-3 architecture (Grattafiori et al., 2024) with 570M parameters",
+          "justification": "The evaluated models are the 570M LMs.",
+          "value": "570M"
+        },
+        "accelerator_type": {
+          "quote": "Zero-shot results on popular LM benchmarks.",
+          "justification": "Hardware for evaluation not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "Zero-shot results on popular LM benchmarks.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "Zero-shot results on popular LM benchmarks.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "Zero-shot results on popular LM benchmarks.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "Zero-shot results on popular LM benchmarks.",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "Zero-shot results on popular LM benchmarks.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "Zero-shot results on popular LM benchmarks.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "Zero-shot results on popular LM benchmarks.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        }
+      }
+    ]
+  },
+  "usage": {
+    "input_tokens": 51787,
+    "output_tokens": 23851,
+    "total_tokens": 75638
+  }
+}

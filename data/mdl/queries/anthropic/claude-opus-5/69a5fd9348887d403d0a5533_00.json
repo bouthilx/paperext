@@ -1,0 +1,2469 @@
+{
+  "paper": "69a5fd9348887d403d0a5533.txt",
+  "words": 13181,
+  "extractions": {
+    "title": {
+      "quote": "S YN F LOW N ET: D ESIGN OF D IVERSE AND N OVEL M OLECULES WITH S YNTHESIS C ONSTRAINTS",
+      "justification": "Title as given in the header of the paper.",
+      "value": "SynFlowNet: Design of Diverse and Novel Molecules with Synthesis Constraints"
+    },
+    "description": "The paper introduces SynFlowNet, a GFlowNet model whose action space is defined by chemical reactions and purchasable building blocks, for generating synthesizable molecules. It compares against fragment-based GFlowNets, REINVENT, SyntheMol, SynNet and soft Q-learning, studies backward policy training schemes (maximum likelihood, REINFORCE), scaling of the building block action space with Morgan fingerprints, and target-specific building block curation using experimental fragment screens.",
+    "type": {
+      "quote": "We evaluate our approach using synthetic accessibility scores and an independent retrosynthesis tool to assess the synthesizability of our compounds",
+      "justification": "The paper trains models and reports experimental comparisons.",
+      "value": "empirical"
+    },
+    "research_fields": [
+      {
+        "name": {
+          "quote": "Generative models see increasing use in computer-aided drug design.",
+          "justification": "The paper's central application domain.",
+          "value": "Generative molecular design / de novo drug design"
+        },
+        "aliases": [
+          "de novo molecular design",
+          "computer-aided drug design"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "Generative Flow Networks (GFlowNets; Bengio et al., 2021) have emerged as a framework capable of generating diverse samples",
+          "justification": "The paper contributes new backward policy training schemes for GFlowNets.",
+          "value": "Generative Flow Networks"
+        },
+        "aliases": [
+          "GFlowNets"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "the benefits of GFlowNets over Reinforcement Learning (RL) in terms of sample diversity on several targets",
+          "justification": "RL is used as a comparison setting/baseline framework.",
+          "value": "Reinforcement Learning"
+        },
+        "aliases": [
+          "RL"
+        ],
+        "role": "used"
+      },
+      {
+        "name": {
+          "quote": "Interestingly, training the backward policy to navigate back to s0 is analogous to the retrosynthesis problem",
+          "justification": "Retrosynthesis tools are used for evaluation and discussed as related context.",
+          "value": "Computer-aided synthesis planning / retrosynthesis"
+        },
+        "aliases": [
+          "retrosynthesis",
+          "synthesis planning"
+        ],
+        "role": "used"
+      }
+    ],
+    "models": [
+      {
+        "name": {
+          "quote": "we introduce SynFlowNet, a GFlowNet model whose action space uses chemical reactions and purchasable reactants to sequentially build new molecules",
+          "justification": "The paper's contributed model.",
+          "value": "SynFlowNet"
+        },
+        "aliases": [
+          "SynFlowNet (L = 3)",
+          "SynFlowNet (L = 4)",
+          "SynFlowNet SA",
+          "SynFlowNet ChEMBL"
+        ],
+        "is_contributed": {
+          "quote": "we introduce SynFlowNet, a GFlowNet model",
+          "justification": "Explicitly introduced by the authors.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "model.forward() corresponds to the average time required to perform the matrix operations (PyTorch back-end, single GPU NVIDIA H100)",
+          "justification": "Trained and evaluated on GPU.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Table A.2: Comparison to baselines.",
+          "justification": "Compared numerically with baselines.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "we used β = 32, 5000 training steps and varying trajectory lengths",
+          "justification": "Trained from scratch.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "Source code is available at https://github.com/mirunacrt/synflownet.",
+          "justification": "This is the contributed model of this paper.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "FragGFN and FragGFN SA are trained with an action space of fragments",
+          "justification": "Fragment-based GFlowNet baseline retrained by the authors.",
+          "value": "FragGFN"
+        },
+        "aliases": [
+          "FragGFN SA",
+          "fragments GFlowNet"
+        ],
+        "is_contributed": {
+          "quote": "We retrain the GFlowNet model proposed by Bengio et al. (2021) with fragments derived from our building blocks set.",
+          "justification": "Prior work model.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We retrain the GFlowNet model proposed by Bengio et al. (2021) with fragments derived from our building blocks set.",
+          "justification": "Retrained by the authors.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "SynFlowNet molecules are achieving higher binding scores and better synthesizability.",
+          "justification": "Compared numerically.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "The model trained with the sEH reward was trained with the default implementation in Yoshua Bengio (2024), and an optimised reward exponent β = 64.",
+          "justification": "Trained by the authors.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "Emmanuel Bengio, Moksh Jain, Maksym Korablyov, Doina Precup, and Yoshua Bengio. Flow Network based Generative Models for Non-Iterative Diverse Candidate Generation.",
+          "justification": "Reference for the fragment-based GFlowNet.",
+          "value": "Flow Network based Generative Models for Non-Iterative Diverse Candidate Generation"
+        }
+      },
+      {
+        "name": {
+          "quote": "First, REINVENT uses a policy-gradient method to tune an RNN pre-trained to generate SMILES strings",
+          "justification": "Baseline model fine-tuned by the authors.",
+          "value": "REINVENT"
+        },
+        "aliases": [
+          "REINVENT4"
+        ],
+        "is_contributed": {
+          "quote": "We benchmarked our approach against REINVENT4 (Loeffler et al., 2024)",
+          "justification": "External baseline.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we fine-tuned the REINVENT prior model using reinforcement learning",
+          "justification": "Executed by the authors.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "SynFlowNet achieves comparable rewards to REINVENT, and better sample diversity.",
+          "justification": "Compared numerically.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "Following the setup described in their methodology, we fine-tuned the REINVENT prior model using reinforcement learning.",
+          "justification": "Finetuned a pretrained prior.",
+          "value": "finetune"
+        },
+        "referenced_paper_title": {
+          "quote": "Hannes H. Loeffler, Jiazhen He, Alessandro Tibo, Jon Paul Janet, Alexey Voronov, Lewis H. Mervin, and Ola Engkvist. Reinvent 4: Modern AI–driven generative molecule design.",
+          "justification": "Cited reference.",
+          "value": "Reinvent 4: Modern AI–driven generative molecule design"
+        }
+      },
+      {
+        "name": {
+          "quote": "Second, SyntheMol shares a similar MDP design with SynFlowNet, but is a search-based method using Monte Carlo Tree Search (Swanson et al., 2024).",
+          "justification": "Baseline executed by the authors.",
+          "value": "SyntheMol"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "We use the publicly available code repository3 and perform 50 000 rollouts.",
+          "justification": "External baseline.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We run SyntheMol’s (Swanson et al., 2024) Monte Carlo Tree Search (MCTS) algorithm using their standard sets of 139 493 building blocks and 13 chemical reactions",
+          "justification": "Run by the authors.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Overall, SyntheMol scores comparably to SynFlowNet",
+          "justification": "Compared numerically.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "We run SyntheMol’s (Swanson et al., 2024) Monte Carlo Tree Search (MCTS) algorithm",
+          "justification": "Search/generation without training a model.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "Kyle Swanson, Gary Liu, Denise B Catacutan, Autumn Arnold, James Zou, and Jonathan M Stokes. Generative ai for designing and validating easily synthesizable and structurally novel antibiotics.",
+          "justification": "Cited reference.",
+          "value": "Generative ai for designing and validating easily synthesizable and structurally novel antibiotics"
+        }
+      },
+      {
+        "name": {
+          "quote": "We further compare SynFlowNet’s performance to SynNet’s (Gao et al., 2022b)",
+          "justification": "Baseline whose results are quoted.",
+          "value": "SynNet"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "Results for SynNet are reported from Gao et al. (2022b).",
+          "justification": "External model.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Results for SynNet are reported from Gao et al. (2022b).",
+          "justification": "Numbers quoted, not run.",
+          "value": false
+        },
+        "is_compared": {
+          "quote": "Table A.4: Comparison to SynNet.",
+          "justification": "Compared numerically.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "Results for SynNet are reported from Gao et al. (2022b).",
+          "justification": "Not executed here.",
+          "value": "unknown"
+        },
+        "referenced_paper_title": {
+          "quote": "Wenhao Gao, Rocío Mercado, and Connor W. Coley. Amortized tree generation for bottom-up synthesis planning and synthesizable molecular design, 2022b.",
+          "justification": "Cited reference.",
+          "value": "Amortized tree generation for bottom-up synthesis planning and synthesizable molecular design"
+        }
+      },
+      {
+        "name": {
+          "quote": "Our main reward function is defined as the normalized negative binding energy as predicted by a pretrained proxy model, available from Bengio et al. (2021)",
+          "justification": "Pretrained MPNN proxy model used as reward oracle.",
+          "value": "sEH binding proxy"
+        },
+        "aliases": [
+          "sEH proxy",
+          "proxy model",
+          "MPNN"
+        ],
+        "is_contributed": {
+          "quote": "a pretrained proxy model, available from Bengio et al. (2021)",
+          "justification": "Taken from prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "The proxy model, which utilizes the weights from Bengio et al. (2021), was trained using a message-passing neural network (MPNN)",
+          "justification": "Queried during training as the reward.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Our main reward function is defined as the normalized negative binding energy as predicted by a pretrained proxy model",
+          "justification": "Used as reward, not compared.",
+          "value": false
+        },
+        "execution_mode": {
+          "quote": "the normalized negative binding energy as predicted by a pretrained proxy model",
+          "justification": "Inference only.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "available from Bengio et al. (2021) and trained on molecules docked with AutoDockVina (Trott & Olson, 2010) for the sEH (soluble epoxide hydrolase) protein target",
+          "justification": "Reference where the proxy originates.",
+          "value": "Flow Network based Generative Models for Non-Iterative Diverse Candidate Generation"
+        }
+      },
+      {
+        "name": {
+          "quote": "We also employ two oracle functions from the PMO Gao et al. (2022a) benchmark, which provide machine learning proxies trained fit to experimental data to predict the bioactivities",
+          "justification": "ML proxy oracles used as rewards.",
+          "value": "GSK3β and DRD2 oracles"
+        },
+        "aliases": [
+          "GSK3β oracle",
+          "DRD2 oracle"
+        ],
+        "is_contributed": {
+          "quote": "We also employ two oracle functions from the PMO Gao et al. (2022a) benchmark",
+          "justification": "From prior benchmark.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "compare to SynFlowNet on three different reward functions: sEH, GSK3β and DRD2",
+          "justification": "Queried as reward functions.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "which provide machine learning proxies trained fit to experimental data to predict the bioactivities against their corresponding disease targets",
+          "justification": "Used as reward, not compared.",
+          "value": false
+        },
+        "execution_mode": {
+          "quote": "machine learning proxies trained fit to experimental data to predict the bioactivities",
+          "justification": "Inference only.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "Wenhao Gao, Tianfan Fu, Jimeng Sun, and Connor W. Coley. Sample efficiency matters: A benchmark for practical molecular optimization, 2022a.",
+          "justification": "Cited reference for PMO.",
+          "value": "Sample efficiency matters: A benchmark for practical molecular optimization"
+        }
+      },
+      {
+        "name": {
+          "quote": "We implemented a version of Soft Q-learning (SQL) (Haarnoja et al., 2017), an energy-based policy learning method, that operates on SynFlowNet’s MDP.",
+          "justification": "RL baseline trained on the same MDP.",
+          "value": "Soft Q-learning model"
+        },
+        "aliases": [
+          "SQL"
+        ],
+        "is_contributed": {
+          "quote": "We implemented a version of Soft Q-learning (SQL) (Haarnoja et al., 2017)",
+          "justification": "Existing method implemented as baseline.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We train our model with a soft Q-learning (Haarnoja et al., 2017) objective and compare to SynFlowNet",
+          "justification": "Trained by the authors.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "SynFlowNet (GFlowNet with synthesis actions) discovers more modes compared to entropy-regularised RL trained on the same state & action space.",
+          "justification": "Compared numerically.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "We train our model with a soft Q-learning (Haarnoja et al., 2017) objective",
+          "justification": "Trained.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "Tuomas Haarnoja, Haoran Tang, Pieter Abbeel, and Sergey Levine. Reinforcement learning with deep energy-based policies, 2017.",
+          "justification": "Cited reference.",
+          "value": "Reinforcement learning with deep energy-based policies"
+        }
+      }
+    ],
+    "data_sources": [
+      {
+        "name": {
+          "quote": "We use commercially available building blocks (BBs) from Enamine, which are small fragments of molecules prepared in bulk to be readily synthesised into candidate molecules.",
+          "justification": "Primary source of building blocks for the action space.",
+          "value": "Enamine building blocks"
+        },
+        "aliases": [
+          "Enamine BBs",
+          "building blocks"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "The full building block set contains 221,181 molecules.",
+          "justification": "Stated sizes in the paper.",
+          "value": "221,181 building blocks (full set); 10,000 used in most experiments"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "Enamine. Enamine. https://enamine.net. Accessed: 28.11.2023.",
+          "justification": "Cited resource.",
+          "value": "Enamine"
+        }
+      },
+      {
+        "name": {
+          "quote": "Enamine assembled a molecular space called the REAL space, which is a vast catalogue of 48B purchasable compounds",
+          "justification": "Named chemical space used as reference and source of reactions.",
+          "value": "Enamine REAL space"
+        },
+        "aliases": [
+          "REAL space"
+        ],
+        "role": "referenced",
+        "size": {
+          "quote": "a vast catalogue of 48B purchasable compounds",
+          "justification": "Stated in the paper.",
+          "value": "48B purchasable compounds"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "Enamine. Enamine. https://enamine.net. Accessed: 28.11.2023.",
+          "justification": "Cited resource.",
+          "value": "Enamine"
+        }
+      },
+      {
+        "name": {
+          "quote": "Reaction templates are obtained from two publicly available template libraries (Button et al., 2019; M et al., 2012). After preprocessing, we obtain a total of 105 templates: 13 uni- and 92 bi-molecular reactions respectively",
+          "justification": "Named source of reaction templates defining the action space.",
+          "value": "Reaction templates (Button et al., 2019; M et al., 2012)"
+        },
+        "aliases": [
+          "105 reaction templates"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "we obtain a total of 105 templates: 13 uni- and 92 bi-molecular reactions respectively",
+          "justification": "Stated in the paper.",
+          "value": "105 templates: 13 uni- and 92 bi-molecular reactions"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "Alexander Button, Daniel Merk, Jan A Hiss, and Schneider Gisbert. Automated de novo molecular design by hybrid machine intelligence and rule-driven chemical synthesis.",
+          "justification": "One of the two cited template libraries.",
+          "value": "Automated de novo molecular design by hybrid machine intelligence and rule-driven chemical synthesis"
+        }
+      },
+      {
+        "name": {
+          "quote": "We also use 12 Enamine REAL reactions in a small number of experiments",
+          "justification": "Separate reaction set used in case study.",
+          "value": "Enamine REAL reactions"
+        },
+        "aliases": [
+          "Enamine reactions"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "We also use 12 Enamine REAL reactions in a small number of experiments",
+          "justification": "Stated in the paper.",
+          "value": "12 Enamine REAL reactions"
+        },
+        "derived_from": [
+          "Enamine REAL space"
+        ],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "We use a subset of Enamine reactions available from Swanson et al. (2024) which produces 93.9% of the REAL space",
+          "justification": "Source of the reaction subset.",
+          "value": "Generative ai for designing and validating easily synthesizable and structurally novel antibiotics"
+        }
+      },
+      {
+        "name": {
+          "quote": "it implicitly optimizes for it by being a likelihood model overfit on a curated ChEMBL dataset (Zdrazil et al., 2023)",
+          "justification": "Used as novelty reference and to derive building blocks.",
+          "value": "ChEMBL"
+        },
+        "aliases": [],
+        "role": "used",
+        "size": {
+          "quote": "we select 70 000 random ChEMBL molecules from Zdrazil et al. (2023) and run AiZynthFinder retrosynthesis",
+          "justification": "Stated in the paper.",
+          "value": "70 000 random ChEMBL molecules"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "Barbara Zdrazil, Eloy Felix, ... The ChEMBL Database in 2023: a drug discovery platform spanning multiple bioactivity data types and time periods.",
+          "justification": "Cited reference.",
+          "value": "The ChEMBL Database in 2023: a drug discovery platform spanning multiple bioactivity data types and time periods"
+        }
+      },
+      {
+        "name": {
+          "quote": "This results in 8527 unique building blocks which were used to train SynFlowNet.",
+          "justification": "A derived building block set used to train a SynFlowNet variant.",
+          "value": "ChEMBL-derived building blocks"
+        },
+        "aliases": [
+          "SynFlowNet ChEMBL building blocks"
+        ],
+        "role": "contributed",
+        "size": {
+          "quote": "This results in 8527 unique building blocks which were used to train SynFlowNet.",
+          "justification": "Stated in the paper.",
+          "value": "8527 unique building blocks"
+        },
+        "derived_from": [
+          "ChEMBL"
+        ],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "we select 70 000 random ChEMBL molecules from Zdrazil et al. (2023) and run AiZynthFinder retrosynthesis (Genheden et al., 2020) to decompose the molecules into building blocks",
+          "justification": "Built in this paper.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "we performed a sequence-based search using MMSeqs2 (Steinegger & Söding, 2017) across the Protein Data Bank (PDB)",
+          "justification": "Named source of protein structures/fragments.",
+          "value": "Protein Data Bank (PDB)"
+        },
+        "aliases": [
+          "PDB"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "our ligand extraction pipeline identified 92 molecules... we extracted 138 molecules.",
+          "justification": "Stated counts of extracted molecules.",
+          "value": "92 molecules for HSP90; 138 molecules for Mpro"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "across the Protein Data Bank (PDB)",
+          "justification": "No reference entry given.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "leveraging strucural data from the COVID Moonshot project (Boby et al., 2023)",
+          "justification": "Named source of fragment screen data.",
+          "value": "COVID Moonshot"
+        },
+        "aliases": [],
+        "role": "used",
+        "size": {
+          "quote": "leveraging strucural data from the COVID Moonshot project (Boby et al., 2023)",
+          "justification": "No size stated.",
+          "value": "unknown"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "Melissa L Boby, Daren Fearon, ... Open science discovery of potent noncovalent SARS-CoV-2 main protease inhibitors.",
+          "justification": "Cited reference.",
+          "value": "Open science discovery of potent noncovalent SARS-CoV-2 main protease inhibitors"
+        }
+      },
+      {
+        "name": {
+          "quote": "We compile a building block set from Enamine with high similarity to fragments confirmed by x-ray crystallography",
+          "justification": "Curated building block set derived from Enamine and fragment screen data.",
+          "value": "Mpro-curated Enamine building block set"
+        },
+        "aliases": [
+          "curated building block set"
+        ],
+        "role": "contributed",
+        "size": {
+          "quote": "After removing duplicate SMILES entries, this process usually resulted in thousands of curated building blocks for each target.",
+          "justification": "Stated approximately in the paper.",
+          "value": "usually thousands of curated building blocks for each target"
+        },
+        "derived_from": [
+          "Enamine building blocks",
+          "COVID Moonshot",
+          "Protein Data Bank (PDB)"
+        ],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "For every experimentally validated fragment, we selected the top 100 closest building block molecules from the Enamine library based on molecular similarity.",
+          "justification": "Built in this paper.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "using their standard sets of 139 493 building blocks and 13 chemical reactions from the Enamine REAL space",
+          "justification": "Data used by the SyntheMol baseline run.",
+          "value": "SyntheMol building blocks and reactions"
+        },
+        "aliases": [],
+        "role": "used",
+        "size": {
+          "quote": "using their standard sets of 139 493 building blocks and 13 chemical reactions from the Enamine REAL space",
+          "justification": "Stated in the paper.",
+          "value": "139 493 building blocks and 13 chemical reactions"
+        },
+        "derived_from": [
+          "Enamine REAL space"
+        ],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "We run SyntheMol’s (Swanson et al., 2024) Monte Carlo Tree Search (MCTS) algorithm using their standard sets",
+          "justification": "Cited reference.",
+          "value": "Generative ai for designing and validating easily synthesizable and structurally novel antibiotics"
+        }
+      },
+      {
+        "name": {
+          "quote": "We investigate whether SynFlowNet can discover known synthesizable actives by training it with rediscovery rewards (Huang et al., 2021).",
+          "justification": "Source of rediscovery reward tasks (aripiprazole, celecoxib).",
+          "value": "Therapeutics Data Commons rediscovery tasks"
+        },
+        "aliases": [
+          "rediscovery rewards"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "Aripiprazole rediscovery / Celecoxib rediscovery",
+          "justification": "No size stated.",
+          "value": "unknown"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "Kexin Huang, Tianfan Fu, Wenhao Gao, ... Therapeutics data commons: Machine learning datasets and tasks for drug discovery and development",
+          "justification": "Cited reference.",
+          "value": "Therapeutics data commons: Machine learning datasets and tasks for drug discovery and development"
+        }
+      }
+    ],
+    "libraries": [
+      {
+        "name": {
+          "quote": "We encode reaction templates using RDKit reaction SMARTS",
+          "justification": "Used for cheminformatics operations.",
+          "value": "RDKit"
+        },
+        "aliases": [],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "model.forward() + RDKit additionally accounts for the costly template matching operations ran on CPU",
+          "justification": "No reference entry.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "the average time required to perform the matrix operations (PyTorch back-end, single GPU NVIDIA H100)",
+          "justification": "Deep learning framework used.",
+          "value": "PyTorch"
+        },
+        "aliases": [],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "(PyTorch back-end, single GPU NVIDIA H100)",
+          "justification": "No reference entry.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "a maximum trajectory length of 3 achieves better SA scores and AiZynthFinder (Genheden et al., 2020) retrosynthesis success",
+          "justification": "Retrosynthesis software used for evaluation.",
+          "value": "AiZynthFinder"
+        },
+        "aliases": [
+          "AiZynth"
+        ],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "S. Genheden, A. Thakkar, V. Chadimová, J. L. Reymond, O Engkvist, and Esben Bjerrum. Aizynthfinder: a fast, robust and flexible open-source software for retrosynthetic planning.",
+          "justification": "Cited reference.",
+          "value": "Aizynthfinder: a fast, robust and flexible open-source software for retrosynthetic planning"
+        }
+      },
+      {
+        "name": {
+          "quote": "We accomplish this using the new GPU-accelerated Vina-GPU 2.1 docking algorithm (Tang et al., 2023; Alhossary et al., 2015).",
+          "justification": "Docking software used for reward computation.",
+          "value": "Vina-GPU 2.1"
+        },
+        "aliases": [
+          "GPU-accelerated Vina docking"
+        ],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "Shidi Tang, Ji Ding, Xiangyu Zhu, Zheng Wang, Haitao Zhao, and Jiansheng Wu. Vina-gpu 2.1: towards further optimizing docking speed and precision of autodock vina and its derivatives.",
+          "justification": "Cited reference.",
+          "value": "Vina-gpu 2.1: towards further optimizing docking speed and precision of autodock vina and its derivatives"
+        }
+      },
+      {
+        "name": {
+          "quote": "trained on molecules docked with AutoDockVina (Trott & Olson, 2010)",
+          "justification": "Docking software referenced for proxy training.",
+          "value": "AutoDock Vina"
+        },
+        "aliases": [
+          "AutoDockVina",
+          "Vina"
+        ],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "Oleg Trott and Arthur J. Olson. Autodock Vina: improving the speed and accuracy of docking with a new scoring func- tion, efficient optimization, and multithreading.",
+          "justification": "Cited reference.",
+          "value": "Autodock Vina: improving the speed and accuracy of docking with a new scoring function, efficient optimization, and multithreading"
+        }
+      },
+      {
+        "name": {
+          "quote": "When running the SpaceLight software (BioSolveIt, 2024) to determine whether the two molecules are present in the REAL space",
+          "justification": "Software used in evaluation.",
+          "value": "SpaceLight"
+        },
+        "aliases": [],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "BioSolveIt. SpaceLight.",
+          "justification": "Cited resource.",
+          "value": "SpaceLight"
+        }
+      },
+      {
+        "name": {
+          "quote": "we performed a sequence-based search using MMSeqs2 (Steinegger & Söding, 2017) across the Protein Data Bank (PDB)",
+          "justification": "Sequence search software used.",
+          "value": "MMseqs2"
+        },
+        "aliases": [
+          "MMSeqs2"
+        ],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "Martin Steinegger and Johannes Söding. MMseqs2 enables sensitive protein sequence searching for the analysis of massive data sets.",
+          "justification": "Cited reference.",
+          "value": "MMseqs2 enables sensitive protein sequence searching for the analysis of massive data sets"
+        }
+      },
+      {
+        "name": {
+          "quote": "We use the superimpose_homologs function from biotite: www.biotite-python.org",
+          "justification": "Used for structural alignment.",
+          "value": "biotite"
+        },
+        "aliases": [],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "We use the superimpose_homologs function from biotite",
+          "justification": "No reference entry.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "We used the code available at https://github.com/MolecularAI/REINVENT4",
+          "justification": "Baseline codebase used.",
+          "value": "REINVENT4"
+        },
+        "aliases": [],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "Hannes H. Loeffler, ... Reinvent 4: Modern AI–driven generative molecule design.",
+          "justification": "Cited reference.",
+          "value": "Reinvent 4: Modern AI–driven generative molecule design"
+        }
+      },
+      {
+        "name": {
+          "quote": "Moksh Jain Yoshua Bengio, Kolya Malkin. Flow Network based Generative Models for Non-Iterative Diverse Candidate Generation. https://github.com/recursionpharma/gflownet",
+          "justification": "Codebase used for FragGFN default implementation.",
+          "value": "gflownet (recursionpharma)"
+        },
+        "aliases": [
+          "default implementation in Yoshua Bengio (2024)"
+        ],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "Moksh Jain Yoshua Bengio, Kolya Malkin. Flow Network based Generative Models for Non-Iterative Diverse Candidate Generation. https://github.com/recursionpharma/gflownet",
+          "justification": "Cited reference.",
+          "value": "Flow Network based Generative Models for Non-Iterative Diverse Candidate Generation"
+        }
+      },
+      {
+        "name": {
+          "quote": "Source code is available at https://github.com/mirunacrt/synflownet.",
+          "justification": "Released codebase of the contributed model.",
+          "value": "SynFlowNet code"
+        },
+        "aliases": [],
+        "role": "contributed",
+        "referenced_paper_title": {
+          "quote": "Source code is available at https://github.com/mirunacrt/synflownet.",
+          "justification": "This paper's own code.",
+          "value": "unknown"
+        }
+      }
+    ],
+    "algorithms": [
+      {
+        "name": {
+          "quote": "The training objective which we adopt in this paper is trajectory balance (Malkin et al., 2022)",
+          "justification": "Main GFlowNet training objective.",
+          "value": "trajectory balance"
+        },
+        "aliases": [
+          "TB",
+          "LTB"
+        ],
+        "is_contributed": {
+          "quote": "trajectory balance (Malkin et al., 2022)",
+          "justification": "From prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "The model is trained using the trajectory balance objective (Malkin et al., 2022)",
+          "justification": "Used in training.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "The training objective which we adopt in this paper is trajectory balance",
+          "justification": "Not compared to other objectives directly.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "used to learn the forward and backward policies PF (−|s; θ) and PB (−|s; θ) parameterized by θ and to estimate the partition function",
+          "justification": "Paper's own description.",
+          "value": "the GFlowNet training objective used to learn the forward and backward policies and estimate the partition function"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Nikolay Malkin, Moksh Jain, Emmanuel Bengio, Chen Sun, and Yoshua Bengio. Trajectory balance: Improved credit assignment in gflownets.",
+          "justification": "Cited reference.",
+          "value": "Trajectory balance: Improved credit assignment in gflownets"
+        }
+      },
+      {
+        "name": {
+          "quote": "we explore maximising an expected backwards reward via REINFORCE (Williams, 1992)",
+          "justification": "Used to train backward policy.",
+          "value": "REINFORCE"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "REINFORCE (Williams, 1992)",
+          "justification": "Existing algorithm.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "a policy that is allowed to explore the backward action space and trained with REINFORCE to find paths leading back to s0",
+          "justification": "Executed in experiments.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "we compare a fixed, uniform backward policy to three versions of a parameterized backward policy",
+          "justification": "Compared against other backward policy schemes.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "we explore maximising an expected backwards reward via REINFORCE (Williams, 1992), which is suitable for short trajectory environments like our reaction-based MDP",
+          "justification": "Paper's own words.",
+          "value": "used to train the backward policy to find paths leading back to s0"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Ronald J. Williams. Simple statistical gradient-following algorithms for connectionist reinforcement learning.",
+          "justification": "Cited reference.",
+          "value": "Simple statistical gradient-following algorithms for connectionist reinforcement learning"
+        }
+      },
+      {
+        "name": {
+          "quote": "we train PB using the maximum likelihood objective over trajectories generated from PF",
+          "justification": "Backward policy training scheme.",
+          "value": "maximum likelihood objective (MaxLikelihood backward policy)"
+        },
+        "aliases": [
+          "MaxLikelihood"
+        ],
+        "is_contributed": {
+          "quote": "we propose one of the first attempts at training the backward policy in a GFlowNet with a separate objective from the forward policy",
+          "justification": "Proposed as part of the paper's contribution.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "all experiments below use a backward policy trained with maximum likelihood",
+          "justification": "Used throughout.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Table 2: Effect of different training paradigms for PB.",
+          "justification": "Compared to other schemes.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "We first explore a training scheme for PB which makes use of forward-generated trajectories.",
+          "justification": "Paper's own words.",
+          "value": "training scheme for PB which makes use of forward-generated trajectories"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Similarly to Jang et al. (2024), we train PB using the maximum likelihood objective over trajectories generated from PF",
+          "justification": "Closest cited reference.",
+          "value": "Pessimistic backward policy for gflownets"
+        }
+      },
+      {
+        "name": {
+          "quote": "We train our model with a soft Q-learning (Haarnoja et al., 2017) objective",
+          "justification": "RL baseline algorithm executed.",
+          "value": "Soft Q-learning"
+        },
+        "aliases": [
+          "SQL"
+        ],
+        "is_contributed": {
+          "quote": "We implemented a version of Soft Q-learning (SQL) (Haarnoja et al., 2017)",
+          "justification": "Existing algorithm.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We implemented a version of Soft Q-learning (SQL) (Haarnoja et al., 2017), an energy-based policy learning method, that operates on SynFlowNet’s MDP.",
+          "justification": "Executed by the authors.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "SynFlowNet (GFlowNet with synthesis actions) discovers more modes compared to entropy-regularised RL",
+          "justification": "Compared to SynFlowNet.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "We reproduce their setting by pairing an RL algorithm with our MDP. We train our model with a soft Q-learning (Haarnoja et al., 2017) objective",
+          "justification": "Paper's own words.",
+          "value": "RL objective used to reproduce RL-with-synthesis-actions baselines on our MDP"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Tuomas Haarnoja, Haoran Tang, Pieter Abbeel, and Sergey Levine. Reinforcement learning with deep energy-based policies, 2017.",
+          "justification": "Cited reference.",
+          "value": "Reinforcement learning with deep energy-based policies"
+        }
+      },
+      {
+        "name": {
+          "quote": "We run SyntheMol’s (Swanson et al., 2024) Monte Carlo Tree Search (MCTS) algorithm",
+          "justification": "Search algorithm executed for the SyntheMol baseline.",
+          "value": "Monte Carlo Tree Search (MCTS)"
+        },
+        "aliases": [
+          "MCTS"
+        ],
+        "is_contributed": {
+          "quote": "SyntheMol shares a similar MDP design with SynFlowNet, but is a search-based method using Monte Carlo Tree Search",
+          "justification": "Existing algorithm.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We run SyntheMol’s (Swanson et al., 2024) Monte Carlo Tree Search (MCTS) algorithm ... and perform 50 000 rollouts.",
+          "justification": "Executed as baseline.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Overall, SyntheMol scores comparably to SynFlowNet",
+          "justification": "Compared.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "is a search-based method using Monte Carlo Tree Search (Swanson et al., 2024)",
+          "justification": "Paper's own words.",
+          "value": "the search procedure used by the SyntheMol baseline to generate molecules"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Kyle Swanson, Gary Liu, Denise B Catacutan, Autumn Arnold, James Zou, and Jonathan M Stokes. Generative ai for designing and validating easily synthesizable and structurally novel antibiotics.",
+          "justification": "Cited reference.",
+          "value": "Generative ai for designing and validating easily synthesizable and structurally novel antibiotics"
+        }
+      },
+      {
+        "name": {
+          "quote": "it is fixed to be the matrix of binary Morgan fingerprints (Rogers & Hahn, 2010)",
+          "justification": "Representation procedure used for scaling the action space.",
+          "value": "Morgan fingerprints"
+        },
+        "aliases": [
+          "binary Morgan fingerprints",
+          "Extended-connectivity fingerprints"
+        ],
+        "is_contributed": {
+          "quote": "binary Morgan fingerprints (Rogers & Hahn, 2010)",
+          "justification": "Existing method.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we represent them using Morgan fingerprints and compute the probability of sampling a particular BB from the normalised dot product",
+          "justification": "Used in the model's action selection.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "we compare the performance of our models using the softmax action-selection mechanism and the fingerprints-based softmax",
+          "justification": "Ablated against a baseline without fingerprints.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "To allow handling large sets of BBs (up to 200k), we represent them using Morgan fingerprints",
+          "justification": "Paper's own words.",
+          "value": "used to represent building blocks so the action space can scale to large BB sets"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "David Rogers and Mathew Hahn. Extended-connectivity fingerprints.",
+          "justification": "Cited reference.",
+          "value": "Extended-connectivity fingerprints"
+        }
+      },
+      {
+        "name": {
+          "quote": "we used BitBIRCH (Jung et al., 2024), a recent adaptation of Balanced Iterative Reducing and Clustering using Hierarchies (BIRCH) algorithm",
+          "justification": "Clustering algorithm used in analysis.",
+          "value": "BitBIRCH"
+        },
+        "aliases": [
+          "BIRCH"
+        ],
+        "is_contributed": {
+          "quote": "BitBIRCH (Jung et al., 2024), a recent adaptation of ... BIRCH algorithm (Zhang et al., 1996)",
+          "justification": "Existing method.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "To compute clusters of building blocks for Figures 6E-F, we used BitBIRCH",
+          "justification": "Executed for analysis.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "we used BitBIRCH (Jung et al., 2024)",
+          "justification": "Not compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "recently proposed for efficient clustering of large molecular libraries",
+          "justification": "Paper's own words.",
+          "value": "used for efficient clustering of large molecular libraries to analyse building block exploration"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Vicky Jung, Kenneth Lopez Perez, Lexin Chen, Kate Huddleston, and Ramon Alain Miranda Quintana. Efficient clustering of large molecular libraries.",
+          "justification": "Cited reference.",
+          "value": "Efficient clustering of large molecular libraries"
+        }
+      },
+      {
+        "name": {
+          "quote": "We used a thermometer encoding of the temperature (Buckman et al., 2018).",
+          "justification": "Encoding procedure used in the model conditioning.",
+          "value": "thermometer encoding"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "thermometer encoding of the temperature (Buckman et al., 2018)",
+          "justification": "Existing method.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We used a thermometer encoding of the temperature (Buckman et al., 2018).",
+          "justification": "Used in training.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "We used a thermometer encoding of the temperature",
+          "justification": "Not compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "an embedding of the conditional encoding of the desired sampling temperature",
+          "justification": "Paper's own words.",
+          "value": "encoding of the conditional sampling temperature for the model's virtual node"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Jacob Buckman, Aurko Roy, Colin Raffel, and Ian Goodfellow. Thermometer encoding: One hot way to resist adversarial examples.",
+          "justification": "Cited reference.",
+          "value": "Thermometer encoding: One hot way to resist adversarial examples"
+        }
+      },
+      {
+        "name": {
+          "quote": "Prior to sampling actions in both forward and backward direction, we ensure that the reactions and building blocks to be sampled are compatible with the current state using masks",
+          "justification": "Named procedure within the MDP.",
+          "value": "Masking"
+        },
+        "aliases": [
+          "action masking"
+        ],
+        "is_contributed": {
+          "quote": "We also enforce through masking that at least one of the resulting reactants when running a backward reaction is a building block.",
+          "justification": "Part of this paper's MDP design.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "obtained by checking for substructure match between the reaction template and the reactant (for forward actions) or product (for backward actions) molecules",
+          "justification": "Used in the runs.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Note that the masking described in Section 3.1 is insufficient to account for this",
+          "justification": "Not benchmarked separately.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "we ensure that the reactions and building blocks to be sampled are compatible with the current state using masks",
+          "justification": "Paper's own words.",
+          "value": "ensures the reactions and building blocks to be sampled are compatible with the current state"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Prior to sampling actions in both forward and backward direction, we ensure that the reactions and building blocks to be sampled are compatible with the current state using masks",
+          "justification": "No reference.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "synthetic complexity scores (Ertl & Schuffenhauer, 2009; Coley et al., 2018; Liu et al., 2022) have been proposed as a method to assess molecules",
+          "justification": "Scoring procedure used in evaluation and as reward term.",
+          "value": "SA score (Synthetic Accessibility)"
+        },
+        "aliases": [
+          "SA",
+          "synthetic accessibility score"
+        ],
+        "is_contributed": {
+          "quote": "Estimation of synthetic accessibility score of drug-like molecules based on molecular complexity and fragment contributions",
+          "justification": "Existing metric.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "another that optimizes for both sEH binding and synthetic accessibility (SA) score",
+          "justification": "Computed in experiments.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "we report reward, diversity and synthesizability of the generated samples",
+          "justification": "Used as a metric.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "it is common practice to optimise for synthetic accessibility scores to improve synthesizability from the model",
+          "justification": "Paper's own words.",
+          "value": "used as an evaluation metric and as an additional optimisation objective"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Peter Ertl and Ansgar Schuffenhauer. Estimation of synthetic accessibility score of drug-like molecules based on molecular complexity and fragment contributions.",
+          "justification": "Cited reference.",
+          "value": "Estimation of synthetic accessibility score of drug-like molecules based on molecular complexity and fragment contributions"
+        }
+      },
+      {
+        "name": {
+          "quote": "This is also shown in the number of Bemis-Murcko scaffolds counted for molecules with rewards above a certain threshold",
+          "justification": "Named evaluation procedure for mode counting.",
+          "value": "Bemis-Murcko scaffolds"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "the number of Bemis-Murcko scaffolds counted for molecules with rewards above a certain threshold",
+          "justification": "Standard procedure.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "This is also shown in the number of Bemis-Murcko scaffolds counted for molecules",
+          "justification": "Computed in analysis.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "the number of Bemis-Murcko scaffolds counted for molecules with rewards above a certain threshold",
+          "justification": "Used as a metric.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "This is also shown in the number of Bemis-Murcko scaffolds counted for molecules with rewards above a certain threshold",
+          "justification": "Paper's own words.",
+          "value": "metric for counting discovered modes of high-reward molecules"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "the number of Bemis-Murcko scaffolds",
+          "justification": "No reference entry.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "Diversity, measured as average Tanimoto distances between molecular fingerprints",
+          "justification": "Named evaluation procedure for diversity.",
+          "value": "Tanimoto similarity / dissimilarity"
+        },
+        "aliases": [
+          "Tanimoto distance"
+        ],
+        "is_contributed": {
+          "quote": "we clustered all available building blocks based on Tanimoto similarity",
+          "justification": "Standard metric.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we additionally provide the average pairwise Tanimoto dissimilarity of the molecules sampled by different models",
+          "justification": "Computed in analysis.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Diversity, measured as average Tanimoto distances between molecular fingerprints",
+          "justification": "Used as a metric.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "Diversity, measured as average Tanimoto distances between molecular fingerprints, is preserved",
+          "justification": "Paper's own words.",
+          "value": "used to measure sample diversity and to cluster building blocks"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "average Tanimoto distances between molecular fingerprints",
+          "justification": "No reference entry.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "we train PF as above, but maintain a replay buffer. To train PB , we sample terminal states from the buffer",
+          "justification": "Named training component used in the REINFORCE backward policy training.",
+          "value": "replay buffer"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "Initialize the replay buffer B, forward policy PF , backward policy PB , and Zθ .",
+          "justification": "Standard RL component.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "To train PB , we sample terminal states from the buffer and sample trajectories backwards from PB",
+          "justification": "Used in Algorithm 2.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "we train PF as above, but maintain a replay buffer",
+          "justification": "Not compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "To train PB , we sample terminal states from the buffer and sample trajectories backwards from PB , which are used in a REINFORCE update.",
+          "justification": "Paper's own words.",
+          "value": "stores forward trajectories whose terminal states are used to sample backward trajectories for the REINFORCE update"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "maintain a replay buffer",
+          "justification": "No reference.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "We optimised the training procedure by performing both manual and grid searches across several values of entropy regularisation parameter α and reward scaling parameter β.",
+          "justification": "Hyperparameter search procedure.",
+          "value": "grid search"
+        },
+        "aliases": [
+          "manual and grid searches"
+        ],
+        "is_contributed": {
+          "quote": "performing both manual and grid searches",
+          "justification": "Standard procedure.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We optimised the training procedure by performing both manual and grid searches",
+          "justification": "Performed by the authors.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "performing both manual and grid searches across several values of entropy regularisation parameter α and reward scaling parameter β",
+          "justification": "Not compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "We optimised the training procedure by performing both manual and grid searches across several values of entropy regularisation parameter α and reward scaling parameter β.",
+          "justification": "Paper's own words.",
+          "value": "used to tune hyperparameters of the soft Q-learning baseline"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "performing both manual and grid searches",
+          "justification": "No reference.",
+          "value": "unknown"
+        }
+      }
+    ],
+    "runs": [
+      {
+        "models": [
+          {
+            "name": "SynFlowNet",
+            "role_in_run": "main"
+          },
+          {
+            "name": "sEH binding proxy",
+            "role_in_run": "data-source"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Enamine building blocks",
+            "access": "generator",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "Reaction templates (Button et al., 2019; M et al., 2012)",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "trajectory balance"
+          },
+          {
+            "name": "maximum likelihood objective (MaxLikelihood backward policy)"
+          },
+          {
+            "name": "Morgan fingerprints"
+          },
+          {
+            "name": "Masking"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "For the rest of the SynFlowNet experiments with SeH proxy as reward, we used β = 32, 5000 training steps and varying trajectory lengths",
+          "justification": "Training runs of SynFlowNet with sEH reward.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "we used β = 32, 5000 training steps and varying trajectory lengths (see main text)",
+          "justification": "Stated number of training steps.",
+          "value": "5000 training steps"
+        },
+        "parameter_count": {
+          "quote": "Number of GNN layers 4 / GNN node embedding size 128",
+          "justification": "Parameter count not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "For the rest of the SynFlowNet experiments with SeH proxy as reward, we used β = 32, 5000 training steps",
+          "justification": "Hardware not stated for these runs.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "we used β = 32, 5000 training steps and varying trajectory lengths",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "we used β = 32, 5000 training steps and varying trajectory lengths",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "Hyperparameters Values Batch size 64",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "Batch size 64",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "we used β = 32, 5000 training steps",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "we used β = 32, 5000 training steps",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "Standard errors obtained from training using 3 seeds.",
+          "justification": "Stated in table caption.",
+          "value": "3 seeds"
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "SynFlowNet",
+            "role_in_run": "main"
+          },
+          {
+            "name": "GSK3β and DRD2 oracles",
+            "role_in_run": "data-source"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Enamine building blocks",
+            "access": "generator",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "Reaction templates (Button et al., 2019; M et al., 2012)",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "trajectory balance"
+          },
+          {
+            "name": "maximum likelihood objective (MaxLikelihood backward policy)"
+          },
+          {
+            "name": "Morgan fingerprints"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "For training with the DRD2 and GSK3β targets as reward, we use a maximum trajectory length of 4 and a reward exponent β = 16.",
+          "justification": "Training with other reward oracles.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "For training with the DRD2 and GSK3β targets as reward, we use a maximum trajectory length of 4 and a reward exponent β = 16.",
+          "justification": "Steps not stated for these runs.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "For training with the DRD2 and GSK3β targets as reward, we use a maximum trajectory length of 4",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "For training with the DRD2 and GSK3β targets as reward",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "For training with the DRD2 and GSK3β targets as reward",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "For training with the DRD2 and GSK3β targets as reward",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "For training with the DRD2 and GSK3β targets as reward",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "For training with the DRD2 and GSK3β targets as reward",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "For training with the DRD2 and GSK3β targets as reward",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "For training with the DRD2 and GSK3β targets as reward",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "We report mean and standard deviation of the AUC of top-10 average scores versus the number of oracle calls from 5 independent runs.",
+          "justification": "Stated in table caption.",
+          "value": "5 independent runs for sample efficiency"
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "SynFlowNet",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Enamine building blocks",
+            "access": "generator",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "Reaction templates (Button et al., 2019; M et al., 2012)",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "trajectory balance"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "For the state space estimation experiment, we used R = 1, 10 000 training steps and varying trajectory lengths.",
+          "justification": "A separate training configuration for state space size estimation.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "For the state space estimation experiment, we used R = 1, 10 000 training steps and varying trajectory lengths.",
+          "justification": "Stated.",
+          "value": "10 000 training steps"
+        },
+        "parameter_count": {
+          "quote": "For the state space estimation experiment, we used R = 1, 10 000 training steps",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "For the state space estimation experiment, we used R = 1, 10 000 training steps",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "For the state space estimation experiment",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "For the state space estimation experiment",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "For the state space estimation experiment",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "For the state space estimation experiment",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "For the state space estimation experiment",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "For the state space estimation experiment",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "We do so for different numbers of building blocks and different maximum trajectory lengths (L)",
+          "justification": "Count not stated.",
+          "value": "unknown"
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "SynFlowNet",
+            "role_in_run": "main"
+          },
+          {
+            "name": "sEH binding proxy",
+            "role_in_run": "data-source"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Enamine building blocks",
+            "access": "generator",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "Reaction templates (Button et al., 2019; M et al., 2012)",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "trajectory balance"
+          },
+          {
+            "name": "REINFORCE"
+          },
+          {
+            "name": "maximum likelihood objective (MaxLikelihood backward policy)"
+          },
+          {
+            "name": "replay buffer"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "Contrary to the rest of the models (see App. A.3), the backward policy models were trained for 8000 steps, with reward exponent β = 64 and max_len = 5.",
+          "justification": "Backward policy ablation training runs.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "the backward policy models were trained for 8000 steps, with reward exponent β = 64 and max_len = 5",
+          "justification": "Stated.",
+          "value": "8000 steps"
+        },
+        "parameter_count": {
+          "quote": "the backward policy models were trained for 8000 steps",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "the backward policy models were trained for 8000 steps",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "the backward policy models were trained for 8000 steps",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "the backward policy models were trained for 8000 steps",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "the backward policy models were trained for 8000 steps",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "the backward policy models were trained for 8000 steps",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "the backward policy models were trained for 8000 steps",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "the backward policy models were trained for 8000 steps",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "Results averaged over 8 seeds.",
+          "justification": "Stated in Figure A.6 caption.",
+          "value": "Results averaged over 8 seeds"
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "SynFlowNet",
+            "role_in_run": "main"
+          },
+          {
+            "name": "sEH binding proxy",
+            "role_in_run": "data-source"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Enamine building blocks",
+            "access": "generator",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "Reaction templates (Button et al., 2019; M et al., 2012)",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "trajectory balance"
+          },
+          {
+            "name": "Morgan fingerprints"
+          },
+          {
+            "name": "BitBIRCH"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "For each building block subset, we trained 3 models using fingerprints, and 3 models without fingerprints, which amounts to 36 models in total.",
+          "justification": "Scaling ablation training runs on an H100 GPU.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "All models had exactly the same hyper-parameter configuration with SeH proxy as reward, 8000 training steps, batch size 8 and β = 32.",
+          "justification": "Stated.",
+          "value": "8000 training steps"
+        },
+        "parameter_count": {
+          "quote": "All models had exactly the same hyper-parameter configuration",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "(PyTorch back-end, single GPU NVIDIA H100)",
+          "justification": "GPU explicitly stated.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "(PyTorch back-end, single GPU NVIDIA H100)",
+          "justification": "Stated.",
+          "value": "NVIDIA H100"
+        },
+        "accelerator_count": {
+          "quote": "single GPU NVIDIA H100",
+          "justification": "Stated as single GPU.",
+          "value": "1"
+        },
+        "precision": {
+          "quote": "(PyTorch back-end, single GPU NVIDIA H100)",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "single GPU NVIDIA H100",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "In Figure 6C, we report average runtime per batch over the training process.",
+          "justification": "Only per-batch runtimes plotted, no total stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "we report average runtime per batch over the training process",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "For each building block subset, we trained 3 models using fingerprints, and 3 models without fingerprints, which amounts to 36 models in total.",
+          "justification": "Stated.",
+          "value": "36 models in total (3 seeds × 2 variants × 6 BB subsets)"
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "SynFlowNet",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "ChEMBL-derived building blocks",
+            "access": "generator",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "Reaction templates (Button et al., 2019; M et al., 2012)",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "trajectory balance"
+          },
+          {
+            "name": "Morgan fingerprints"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "This results in 8527 unique building blocks which were used to train SynFlowNet.",
+          "justification": "A separate training run with ChEMBL-derived BBs (different dataset).",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "This results in 8527 unique building blocks which were used to train SynFlowNet.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "which were used to train SynFlowNet",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "which were used to train SynFlowNet",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "which were used to train SynFlowNet",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "which were used to train SynFlowNet",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "which were used to train SynFlowNet",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "which were used to train SynFlowNet",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "which were used to train SynFlowNet",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "which were used to train SynFlowNet",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "Standard errors obtained from training using 3 seeds.",
+          "justification": "Stated for Table A.2 which includes SynFlowNet ChEMBL.",
+          "value": "3 seeds"
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "SynFlowNet",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Mpro-curated Enamine building block set",
+            "access": "generator",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "Enamine REAL reactions",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "Protein Data Bank (PDB)",
+            "access": "fixed",
+            "roles_in_run": [
+              "reference"
+            ]
+          },
+          {
+            "name": "COVID Moonshot",
+            "access": "fixed",
+            "roles_in_run": [
+              "reference"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "trajectory balance"
+          },
+          {
+            "name": "Morgan fingerprints"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "We find that biasing the building block library towards fragments with known protein-ligand complementarity increases the reward over randomly selected molecules",
+          "justification": "Training runs with curated building blocks and Vina docking reward.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "GPU-accelerated Vina docking was used for reward computation (see App. A.1).",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "GPU-accelerated Vina docking was used for reward computation",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "We accomplish this using the new GPU-accelerated Vina-GPU 2.1 docking algorithm",
+          "justification": "GPU docking used for rewards.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "GPU-accelerated Vina-GPU 2.1 docking algorithm",
+          "justification": "Specific GPU not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "GPU-accelerated Vina docking was used for reward computation",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "GPU-accelerated Vina docking was used for reward computation",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "GPU-accelerated Vina docking was used for reward computation",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "GPU-accelerated Vina docking was used for reward computation",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "GPU-accelerated Vina docking was used for reward computation",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "We find that biasing the building block library towards fragments with known protein-ligand complementarity increases the reward",
+          "justification": "Not stated.",
+          "value": "unknown"
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "SynFlowNet",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Enamine building blocks",
+            "access": "generator",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "Therapeutics Data Commons rediscovery tasks",
+            "access": "oracle",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "trajectory balance"
+          },
+          {
+            "name": "SA score (Synthetic Accessibility)"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "We investigate whether SynFlowNet can discover known synthesizable actives by training it with rediscovery rewards (Huang et al., 2021).",
+          "justification": "Separate training runs on rediscovery tasks.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "training it with rediscovery rewards (Huang et al., 2021)",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "training it with rediscovery rewards",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "training it with rediscovery rewards",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "training it with rediscovery rewards",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "training it with rediscovery rewards",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "training it with rediscovery rewards",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "training it with rediscovery rewards",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "training it with rediscovery rewards",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "training it with rediscovery rewards",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "We report mean and standard deviation of top-10 discovered molecules from running three models with different seeds.",
+          "justification": "Stated.",
+          "value": "three models with different seeds"
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "FragGFN",
+            "role_in_run": "main"
+          },
+          {
+            "name": "sEH binding proxy",
+            "role_in_run": "data-source"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Enamine building blocks",
+            "access": "generator",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "trajectory balance"
+          },
+          {
+            "name": "SA score (Synthetic Accessibility)"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "The model trained with the sEH reward was trained with the default implementation in Yoshua Bengio (2024), and an optimised reward exponent β = 64.",
+          "justification": "FragGFN baseline training.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "trained with the default implementation in Yoshua Bengio (2024), and an optimised reward exponent β = 64",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "trained with the default implementation in Yoshua Bengio (2024)",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "trained with the default implementation in Yoshua Bengio (2024)",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "trained with the default implementation in Yoshua Bengio (2024)",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "trained with the default implementation in Yoshua Bengio (2024)",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "trained with the default implementation in Yoshua Bengio (2024)",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "trained with the default implementation in Yoshua Bengio (2024)",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "trained with the default implementation in Yoshua Bengio (2024)",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "trained with the default implementation in Yoshua Bengio (2024)",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "Standard errors obtained from training using 3 seeds.",
+          "justification": "Stated.",
+          "value": "3 seeds"
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "Soft Q-learning model",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Enamine building blocks",
+            "access": "generator",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "Reaction templates (Button et al., 2019; M et al., 2012)",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Soft Q-learning"
+          },
+          {
+            "name": "grid search"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "We implemented a version of Soft Q-learning (SQL) (Haarnoja et al., 2017), an energy-based policy learning method, that operates on SynFlowNet’s MDP.",
+          "justification": "Baseline trained by the authors.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "we show the reward distribution of generated samples after equal numbers of training steps",
+          "justification": "Count not stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "that operates on SynFlowNet’s MDP",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "We implemented a version of Soft Q-learning (SQL)",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "We implemented a version of Soft Q-learning (SQL)",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "We implemented a version of Soft Q-learning (SQL)",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "We implemented a version of Soft Q-learning (SQL)",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "We implemented a version of Soft Q-learning (SQL)",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "We implemented a version of Soft Q-learning (SQL)",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "We implemented a version of Soft Q-learning (SQL)",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "We optimised the training procedure by performing both manual and grid searches across several values of entropy regularisation parameter α and reward scaling parameter β.",
+          "justification": "Stated searches plus 3 seeds in Table A.2.",
+          "value": "grid searches over α and β; 3 seeds for reported results"
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "REINVENT",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "ChEMBL",
+            "access": "fixed",
+            "roles_in_run": [
+              "reference"
+            ]
+          }
+        ],
+        "algorithms": [],
+        "produces": [],
+        "execution_mode": {
+          "quote": "we fine-tuned the REINVENT prior model using reinforcement learning",
+          "justification": "Finetuning of pretrained prior.",
+          "value": "finetune"
+        },
+        "epochs": {
+          "quote": "The training was conducted with the default batch size of 100 over 3,000 training steps, resulting in a total of 300,000 oracle calls",
+          "justification": "Stated.",
+          "value": "3,000 training steps"
+        },
+        "parameter_count": {
+          "quote": "we fine-tuned the REINVENT prior model using reinforcement learning",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "The training was conducted with the default batch size of 100 over 3,000 training steps",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "The training was conducted with the default batch size of 100",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "The training was conducted with the default batch size of 100",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "The training was conducted with the default batch size of 100",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "The training was conducted with the default batch size of 100",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "The training was conducted with the default batch size of 100 over 3,000 training steps",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "The training was conducted with the default batch size of 100",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "Standard errors obtained from training using 3 seeds.",
+          "justification": "Stated.",
+          "value": "3 seeds"
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "SyntheMol",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "SyntheMol building blocks and reactions",
+            "access": "generator",
+            "roles_in_run": [
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Monte Carlo Tree Search (MCTS)"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "We run SyntheMol’s (Swanson et al., 2024) Monte Carlo Tree Search (MCTS) algorithm ... and perform 50 000 rollouts.",
+          "justification": "Search-based molecule generation without model fitting.",
+          "value": "generate"
+        },
+        "epochs": {
+          "quote": "We use the publicly available code repository3 and perform 50 000 rollouts.",
+          "justification": "Stated.",
+          "value": "50 000 rollouts"
+        },
+        "parameter_count": {
+          "quote": "We run SyntheMol’s Monte Carlo Tree Search (MCTS) algorithm",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "We use the publicly available code repository3 and perform 50 000 rollouts.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "We use the publicly available code repository3 and perform 50 000 rollouts.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "We use the publicly available code repository3 and perform 50 000 rollouts.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "We use the publicly available code repository3 and perform 50 000 rollouts.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "We use the publicly available code repository3 and perform 50 000 rollouts.",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "We use the publicly available code repository3 and perform 50 000 rollouts.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "We use the publicly available code repository3 and perform 50 000 rollouts.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "We repeat the comparison on other targets",
+          "justification": "Not stated.",
+          "value": "unknown"
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "SynFlowNet",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Enamine building blocks",
+            "access": "generator",
+            "roles_in_run": [
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Tanimoto similarity / dissimilarity"
+          },
+          {
+            "name": "SA score (Synthetic Accessibility)"
+          },
+          {
+            "name": "Bemis-Murcko scaffolds"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "For evaluation, we sampled 5000 trajectories with each model and considered only trajectories with valid final molecules.",
+          "justification": "Sampling from trained models for evaluation.",
+          "value": "inference"
+        },
+        "epochs": {
+          "quote": "For evaluation, we sampled 5000 trajectories with each model",
+          "justification": "Not applicable/stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "we sampled 5000 trajectories with each model",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "we sampled 5000 trajectories with each model",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "we sampled 5000 trajectories with each model",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "we sampled 5000 trajectories with each model",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "we sampled 5000 trajectories with each model",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "we sampled 5000 trajectories with each model",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "we sampled 5000 trajectories with each model",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "we sampled 5000 trajectories with each model",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "Results obtained by averaging over 1000 random molecules sampled from the trained models.",
+          "justification": "Number of evaluation runs not stated.",
+          "value": "unknown"
+        }
+      }
+    ]
+  },
+  "usage": {
+    "input_tokens": 45589,
+    "output_tokens": 28292,
+    "total_tokens": 73881
+  }
+}

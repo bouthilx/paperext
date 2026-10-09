@@ -3,6 +3,8 @@ import asyncio
 import bdb
 import json
 import logging
+import sys
+import time
 from datetime import datetime
 from pathlib import Path
 from typing import Any, List, Tuple
@@ -18,6 +20,7 @@ from paperext.categorize.agent import (
     RATE_LIMIT_BACKOFF_MAX,
     RATE_LIMIT_RETRIES,
 )
+from paperext.categorize.progress import track
 from paperext.log import logger
 from paperext.paths import platform_bucket
 from paperext.structured_output import STRUCT_MODULES, ai4hcat, mdl
@@ -60,6 +63,15 @@ Example:
 # Backends register themselves in paperext.backends (SDK-guarded). query() picks
 # one via get_backend(CFG.platform.select); see paperext/backends/.
 
+#: Papers in flight at once. One paper is one request, and they are fully
+#: independent, so this is where throughput comes from: a fulltext extraction
+#: measured ~3m20s on the C0 sample, i.e. over four days sequentially for #13's
+#: 2000 papers. Four is deliberately modest -- the real ceiling is the
+#: provider's rate limit, which is per-organisation and not knowable from here,
+#: and exceeding it trades throughput for backoff. Raise it with
+#: `--concurrency` once a run has shown headroom.
+DEFAULT_CONCURRENCY = 4
+
 
 async def extract_from_research_paper(
     client: instructor.AsyncInstructor,
@@ -101,6 +113,47 @@ async def extract_from_research_paper(
     raise AssertionError("unreachable")  # pragma: no cover
 
 
+def extraction_path(paper_fn: Path, destination: Path, index: int = 0) -> Path:
+    """Where one paper's extraction lands. One definition, used by both the
+    extractor and the resume check, so they cannot disagree about what "already
+    done" means."""
+    f = destination / paper_fn.name
+    return f.with_stem(f"{f.stem}_{index:02}").with_suffix(".json")
+
+
+def partition_pending(
+    papers: List[Path], destination: Path
+) -> "Tuple[List[Path], List[Path]]":
+    """``(pending, reused)`` -- which papers still need an API call.
+
+    Done up front rather than discovered inside the loop, because the ETA
+    depends on it: a resumed run over 2000 papers returns instantly for the
+    ones already extracted, and a bar that counted those as progress would
+    quote an ETA of minutes for an eight-hour job. Only real calls go on the
+    bar.
+
+    The test is the same one the extractor uses -- parse and validate -- so a
+    file that exists but is stale or truncated counts as pending, which is what
+    the extractor will do with it anyway.
+    """
+    pending: List[Path] = []
+    reused: List[Path] = []
+    for paper in papers:
+        path = extraction_path(paper, destination)
+        try:
+            get_extraction_response().model_validate_json(path.read_text())
+        except (
+            FileNotFoundError,
+            OSError,
+            ValueError,
+            pydantic_core._pydantic_core.ValidationError,
+        ):
+            pending.append(paper)
+        else:
+            reused.append(paper)
+    return pending, reused
+
+
 async def batch_extract_models_names(
     client: instructor.AsyncInstructor,
     papers_fn: List[Path],
@@ -128,8 +181,12 @@ async def batch_extract_models_names(
                 FileNotFoundError,
                 pydantic_core._pydantic_core.ValidationError,
             ) as e:
-                logger.error(e, exc_info=True)
-                logging.error(e, exc_info=True)
+                # Not an error: a missing file is the ordinary path on a first
+                # run, and this block is the cache miss that goes on to query.
+                # Logged at ERROR it buried the real failures under one
+                # traceback per paper.
+                logger.debug("%s: no reusable extraction, querying", paper, exc_info=e)
+                logging.debug("%s: no reusable extraction, querying", paper, exc_info=e)
 
                 message = message.format(*data, paper_fn.read_text())
 
@@ -159,33 +216,81 @@ async def batch_extract_models_names(
 
             logger.info(response.model_dump_json(indent=2))
 
-            models = [m.name.value for m in response.extractions.models]
-            datasets = [d.name.value for d in response.extractions.datasets]
-            libraries = [f.name.value for f in response.extractions.libraries]
+            # `data` feeds the *next* message's format slots. There is only one
+            # message today, so nothing consumes it -- but it is built before
+            # the loop ends, so a field name that no longer exists raises here,
+            # AFTER the extraction was written. That is what `datasets` did:
+            # schema v5 renamed it `data_sources`, so every paper wrote its
+            # file and then logged "Failed to extract paper information",
+            # making a successful run look like 25 failures. Read the slot the
+            # active schema actually has.
+            def _names(field: str, *fallbacks: str) -> list[str]:
+                for name in (field, *fallbacks):
+                    entries = getattr(response.extractions, name, None)
+                    if entries is not None:
+                        return [e.name.value for e in entries]
+                return []
 
-            data = [models, datasets, libraries]
+            data = [
+                _names("models"),
+                _names("data_sources", "datasets"),
+                _names("libraries"),
+            ]
 
 
 async def ignore_exceptions(
     client: instructor.AsyncInstructor,
     validation_set: List[Path],
     *args,
+    concurrency: int = DEFAULT_CONCURRENCY,
     **kwargs,
-):
-    for paper in validation_set:
-        try:
-            await batch_extract_models_names(client, [paper], *args, **kwargs)
-        except bdb.BdbQuit:
-            raise
-        except Exception as e:
-            logger.error(
-                f"Failed to extract paper information from {paper.name}: {e}",
-                exc_info=True,
-            )
-            logging.error(
-                f"Failed to extract paper information from {paper.name}: {e}",
-                exc_info=True,
-            )
+) -> "List[str]":
+    """Extract every paper, surviving a failure on any one of them.
+
+    Up to *concurrency* papers are in flight at once, bounded by a semaphore.
+    One paper is one request, so this is the only place throughput can come
+    from: measured sequentially on the C0 sample, a fulltext extraction takes
+    about 3m20s, which is four and a half days for #13's 2000 papers.
+
+    Concurrency is safe here because each paper is independent -- its own
+    request, its own output file -- and because the rate-limit handling is
+    per-call: `extract_from_research_paper` backs off on its own coroutine,
+    honouring the provider's `retry-after`, so one throttled paper does not
+    stall the others. The ceiling is the provider's rate limit rather than
+    anything in this code, which is why it is a flag and not a constant.
+
+    Returns the names that failed, because the progress bar replaces the
+    console output a caller would otherwise have read them from.
+    """
+    failures: List[str] = []
+    gate = asyncio.Semaphore(max(1, concurrency))
+
+    with track(len(validation_set), "extracting") as advance:
+
+        async def extract_one(paper: Path) -> None:
+            async with gate:
+                try:
+                    await batch_extract_models_names(client, [paper], *args, **kwargs)
+                except bdb.BdbQuit:
+                    raise
+                except Exception as e:
+                    failures.append(paper.name)
+                    logger.error(
+                        f"Failed to extract paper information from {paper.name}: {e}",
+                        exc_info=True,
+                    )
+                    logging.error(
+                        f"Failed to extract paper information from {paper.name}: {e}",
+                        exc_info=True,
+                    )
+                finally:
+                    advance()
+
+        await asyncio.gather(*(extract_one(paper) for paper in validation_set))
+
+    # Completion order is not input order under concurrency, so sort: the list
+    # is printed for a human to re-run against.
+    return sorted(failures)
 
 
 def main(argv=None):
@@ -213,6 +318,13 @@ def main(argv=None):
         help="List of papers to analyse",
     )
     parser.add_argument(
+        "--concurrency",
+        type=int,
+        default=DEFAULT_CONCURRENCY,
+        help=f"papers in flight at once (default {DEFAULT_CONCURRENCY}); the "
+        "ceiling is the provider's rate limit, not this code",
+    )
+    parser.add_argument(
         "--paperoni",
         metavar="JSON",
         type=Path,
@@ -224,9 +336,23 @@ def main(argv=None):
     CFG.platform.select = options.platform
 
     if options.paperoni:
-        papers = [Paper(p) for p in json.loads(options.paperoni.read_text())]
-        papers = [p.get_link_id_pdf() for p in papers]
-        papers = [p for p in papers if p is not None]
+        entries = [Paper(p) for p in json.loads(options.paperoni.read_text())]
+        resolved = [(entry, entry.get_link_id_pdf()) for entry in entries]
+        # A paper whose converted text is not in `CFG.dir.cache` resolves to
+        # None and is dropped. Say which ones, and where we looked: the cache
+        # directory is configurable, so "nothing resolved" is almost always a
+        # cache pointed somewhere else rather than a corpus that is missing.
+        missing = [entry.id for entry, path in resolved if path is None]
+        if missing:
+            logger.warning(
+                "%d of %d papers have no converted text under %s and are "
+                "skipped: %s",
+                len(missing),
+                len(entries),
+                CFG.dir.cache,
+                ", ".join(missing[:10]) + ("..." if len(missing) > 10 else ""),
+            )
+        papers = [path for _, path in resolved if path is not None]
     elif options.input:
         papers = [
             Path(paper)
@@ -240,10 +366,52 @@ def main(argv=None):
         for p in papers:
             logger.info(p)
 
+    # An empty list passes both checks below vacuously -- `all([])` is True --
+    # so a mis-specified input used to run to completion having queried nothing,
+    # silently, on a pipeline whose next step is thousands of paid calls. Fail
+    # instead, and say what was asked for.
+    if not papers:
+        parser.error(
+            "no papers to query. "
+            + (
+                f"--paperoni resolved 0 of its entries to a converted text "
+                f"under {CFG.dir.cache} (set PAPEREXT_DIR_CACHE if the cache "
+                f"lives elsewhere)"
+                if options.paperoni
+                else "the input named none"
+            )
+        )
+
     if not all([p.exists() for p in papers]):
         papers = [Path(CFG.dir.cache / f"arxiv/{paper}.txt") for paper in papers]
 
-    assert all([p.exists() for p in papers])
+    absent = [str(p) for p in papers if not p.exists()]
+    if absent:
+        parser.error(
+            f"{len(absent)} of {len(papers)} papers have no file on disk: "
+            + ", ".join(absent[:10])
+            + ("..." if len(absent) > 10 else "")
+        )
+
+    destination = platform_bucket(CFG.dir.queries)
+    pending, reused = partition_pending(papers, destination)
+    print(
+        f"{len(papers)} papers: {len(reused)} already extracted, "
+        f"{len(pending)} to query with {CFG.platform.select} "
+        f"({options.concurrency} at a time)",
+        file=sys.stderr,
+    )
+    logger.info(
+        "%d papers: %d reused, %d to query with %s -> %s",
+        len(papers),
+        len(reused),
+        len(pending),
+        CFG.platform.select,
+        destination,
+    )
+    if not pending:
+        print("nothing to do; every paper already has an extraction", file=sys.stderr)
+        return
 
     backend = get_backend(CFG.platform.select)
     client = backend.make_client()
@@ -256,14 +424,37 @@ def main(argv=None):
         filename=LOG_FILE.with_suffix(f".{PROG}.dbg"), level=logging.DEBUG, force=True
     )
 
-    asyncio.run(
+    if options.concurrency < 1:
+        parser.error(f"--concurrency must be at least 1, got {options.concurrency}")
+
+    started = time.monotonic()
+    failures = asyncio.run(
         ignore_exceptions(
             client,
-            [paper.absolute() for paper in papers],
-            destination=platform_bucket(CFG.dir.queries),
+            [paper.absolute() for paper in pending],
+            concurrency=options.concurrency,
+            destination=destination,
             rate_limit_errors=backend.rate_limit_errors,
         )
     )
+    elapsed = time.monotonic() - started
+
+    # The bar occupies the console, so the counts a caller would have read off
+    # the log are printed here instead -- the log is a file, by basicConfig.
+    done = len(pending) - len(failures)
+    print(
+        f"extracted {done}/{len(pending)} in {elapsed / 60:.1f} min"
+        + (f" ({elapsed / max(done, 1):.0f}s per paper)" if done else ""),
+        file=sys.stderr,
+    )
+    if failures:
+        print(
+            f"{len(failures)} failed, see {LOG_FILE.with_suffix(f'.{PROG}.dbg')}: "
+            + ", ".join(failures[:10])
+            + ("..." if len(failures) > 10 else ""),
+            file=sys.stderr,
+        )
+        print("re-running the same command retries only these", file=sys.stderr)
 
 
 if __name__ == "__main__":

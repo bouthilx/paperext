@@ -1,11 +1,13 @@
 import asyncio
 from unittest.mock import MagicMock
 
+import anthropic
 import instructor
 import openai
 import pytest
 
 from paperext.backends import available, get_backend
+from paperext.backends.anthropic import DEFAULT_MAX_TOKENS
 from paperext.backends.base import Backend
 from paperext.backends.openai import OpenAIBackend
 
@@ -178,8 +180,11 @@ def test_claude_make_client_injects_max_tokens(monkeypatch):
         )
     )
 
-    # Anthropic requires max_tokens; the backend injects a default.
-    assert captured["max_tokens"] == 32768
+    # Anthropic requires max_tokens; the backend injects a default. Assert the
+    # plumbing, not the number -- the ceiling has been retuned twice as the
+    # schema grew, and a test pinning the value fails on tuning rather than on
+    # a break.
+    assert captured["max_tokens"] == DEFAULT_MAX_TOKENS
     assert captured["model"] == "claude-opus-4-8"
     assert usage == {"input_tokens": 1, "output_tokens": 2, "total_tokens": 3}
 
@@ -490,7 +495,7 @@ def test_anthropic_make_client_uses_the_direct_sdk_and_injects_max_tokens(
     )
 
     assert constructed["client"] is sentinel
-    assert captured["max_tokens"] == 32768
+    assert captured["max_tokens"] == DEFAULT_MAX_TOKENS
     assert captured["model"] == "claude-opus-5"
     assert usage == {"input_tokens": 1, "output_tokens": 2, "total_tokens": 3}
 
@@ -753,3 +758,106 @@ def test_a_provider_error_is_tagged_with_the_backend_and_model(monkeypatch, clou
         asyncio.run(client.chat.completions.create_with_completion(messages=[]))
     note = "\n".join(getattr(caught.value, "__notes__", []))
     assert "openai/" in note and "(agent)" in note and "$OPENAI_API_KEY" in note
+
+
+def test_max_tokens_is_configurable_and_validated(monkeypatch):
+    """The ceiling has been outgrown twice, each time by a schema change.
+
+    v5 measured 20.2k mean / 29.5k max output on the C0 sample against a 32k
+    ceiling -- 10% headroom, and one paper in nine truncated outright. A
+    truncation costs the whole paper, so raising this must not require a code
+    edit.
+    """
+    backend = get_backend("anthropic")
+    assert backend.max_tokens == DEFAULT_MAX_TOKENS
+
+    monkeypatch.setitem(backend.config._config, "max_tokens", "65536")
+    assert backend.max_tokens == 65536
+    assert backend.request_defaults["max_tokens"] == 65536
+
+    # Blank means "use the default", matching how the other options read.
+    monkeypatch.setitem(backend.config._config, "max_tokens", "")
+    assert backend.max_tokens == DEFAULT_MAX_TOKENS
+
+    for bad in ("lots", "0", "-1"):
+        monkeypatch.setitem(backend.config._config, "max_tokens", bad)
+        with pytest.raises(ValueError):
+            backend.max_tokens
+
+
+def test_openai_injects_max_output_tokens_not_max_tokens(monkeypatch):
+    """The Responses API's parameter is `max_output_tokens`.
+
+    Sending Anthropic's `max_tokens` name would be rejected, not ignored. And
+    the ceiling matters more here than on Anthropic: that backend inspects
+    `stop_reason` and says "output truncated at max_tokens=...", while a
+    truncated Responses reply arrives as partial JSON and reads as a parse
+    failure with no mention of a ceiling.
+    """
+    from paperext.backends.openai import DEFAULT_MAX_OUTPUT_TOKENS
+
+    backend = get_backend("openai")
+    assert backend.request_defaults == {"max_output_tokens": DEFAULT_MAX_OUTPUT_TOKENS}
+    assert "max_tokens" not in backend.request_defaults
+
+    monkeypatch.setitem(backend.config._config, "max_output_tokens", "65536")
+    assert backend.request_defaults == {"max_output_tokens": 65536}
+
+    monkeypatch.setitem(backend.config._config, "max_output_tokens", "")
+    assert backend.max_output_tokens == DEFAULT_MAX_OUTPUT_TOKENS
+
+    for bad in ("lots", "0", "-5"):
+        monkeypatch.setitem(backend.config._config, "max_output_tokens", bad)
+        with pytest.raises(ValueError):
+            backend.max_output_tokens
+
+
+def test_anthropic_diagnoses_the_forced_tool_rejection():
+    """Opus 5.5 refuses a forced tool call, and the API does not say what to do.
+
+    `mode = tools` sends `tool_choice`, which newer models reject with a 400 on
+    EVERY paper -- a 26-paper run fails 26 times with a message that never
+    mentions the one-variable fix.
+    """
+    backend = get_backend("anthropic")
+    real = anthropic.BadRequestError.__new__(anthropic.BadRequestError)
+    Exception.__init__(
+        real,
+        "Error code: 400 - {'type': 'error', 'error': {'type': "
+        "'invalid_request_error', 'message': 'tool_choice: type \"tool\" and "
+        '"any" are not supported for this model.\'}}',
+    )
+
+    hint = backend.diagnose(real)
+    assert hint is not None
+    assert "PAPEREXT_ANTHROPIC_MODE=json_schema" in hint
+    assert backend.mode_name in hint
+
+    # Anything else is left alone, so the note never editorialises.
+    assert backend.diagnose(RuntimeError("something else")) is None
+
+
+def test_the_diagnose_hook_defaults_to_silence():
+    """A backend with nothing to add must add nothing."""
+    assert get_backend("openai").diagnose(RuntimeError("boom")) is None
+
+
+def test_anthropic_diagnoses_the_grammar_limit():
+    """The second wall behind the first, and the one with no setting that fixes it.
+
+    Opus 5.5 refuses `tools`, the v5 schema exceeds the strict-grammar limit on
+    `json_schema`, and `json` trips instructor's decoder on our quotes -- so the
+    hint has to say that no mode works rather than suggest another one.
+    """
+    backend = get_backend("anthropic")
+    err = anthropic.BadRequestError.__new__(anthropic.BadRequestError)
+    Exception.__init__(
+        err,
+        "Error code: 400 - {'error': {'message': 'The compiled grammar is too "
+        "large, which would cause performance issues. Simplify your tool "
+        "schemas or reduce the number of strict tools.'}}",
+    )
+    hint = backend.diagnose(err)
+    assert hint is not None
+    assert "all three modes" in hint.lower()
+    assert "claude-opus-5" in hint

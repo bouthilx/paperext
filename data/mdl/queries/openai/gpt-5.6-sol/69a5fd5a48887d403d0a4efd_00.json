@@ -1,0 +1,2538 @@
+{
+  "paper": "69a5fd5a48887d403d0a4efd.txt",
+  "words": 15962,
+  "extractions": {
+    "title": {
+      "quote": "Computational Tracking of Cell Origins Using CellSexID from Single-Cell Transcriptomes",
+      "justification": "This is the paper title printed on the first page.",
+      "value": "Computational Tracking of Cell Origins Using CellSexID from Single-Cell Transcriptomes"
+    },
+    "description": "Introduces and empirically evaluates CellSexID, a software framework whose trained classifiers and consensus feature-selection procedure infer cell sex and thereby cell origin from single-cell transcriptomes.",
+    "type": {
+      "quote": "Here, we introduce CellSexID, a computational framework that leverages sex as a surrogate marker for cell origin inference. Using a machine learning model trained on single-cell transcriptomic data",
+      "justification": "The paper trains and evaluates models on multiple public and newly generated datasets and reports numerical results.",
+      "value": "empirical"
+    },
+    "research_fields": [
+      {
+        "name": {
+          "quote": "Keywords: Cell origin tracking, Single-cell, Chimeric models, Machine learning, Organ transplantation, Demultiplexing, Sex Prediction",
+          "justification": "The keywords and stated goals identify cell-origin tracking as a field advanced by the work.",
+          "value": "cell origin tracking"
+        },
+        "aliases": [
+          "cell tracking",
+          "cellular origin inference"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "Using a machine learning model trained on single-cell transcriptomic data",
+          "justification": "The framework directly advances computational analysis of single-cell transcriptomes.",
+          "value": "single-cell transcriptomics"
+        },
+        "aliases": [
+          "single-cell RNA sequencing",
+          "scRNA-seq"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "One of the core functionalities of CellSexID is its ensemble feature selection scheme",
+          "justification": "The paper contributes a consensus-based machine-learning feature-selection and classification framework.",
+          "value": "machine learning"
+        },
+        "aliases": [],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "including organ transplantation and multiplexed sample demultiplexing",
+          "justification": "The paper demonstrates contributed applications in transplantation and demultiplexing.",
+          "value": "organ transplantation"
+        },
+        "aliases": [],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "including organ transplantation and multiplexed sample demultiplexing",
+          "justification": "The paper demonstrates CellSexID as a barcode-free demultiplexing approach.",
+          "value": "single-cell demultiplexing"
+        },
+        "aliases": [
+          "sample demultiplexing"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "offering new avenues for understanding cellular function, lineage-specific responses, and disease progression in complex tissues",
+          "justification": "Developmental biology is an application field explicitly claimed for CellSexID.",
+          "value": "developmental biology"
+        },
+        "aliases": [],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "By enabling precise, single-cell analysis of cellular origin, CellSexID provides a versatile tool for various biomedical research such as developmental biology, immunology, and regenerative medicine",
+          "justification": "The work claims utility and advances cell-origin analysis in immunology.",
+          "value": "immunology"
+        },
+        "aliases": [],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "By enabling precise, single-cell analysis of cellular origin, CellSexID provides a versatile tool for various biomedical research such as developmental biology, immunology, and regenerative medicine",
+          "justification": "The work claims utility and advances cell-origin analysis in regenerative medicine.",
+          "value": "regenerative medicine"
+        },
+        "aliases": [],
+        "role": "contributed"
+      }
+    ],
+    "models": [
+      {
+        "name": {
+          "quote": "XGBoost Classifier is a highly scalable model grounded in gradient boosting frameworks",
+          "justification": "The paper trains and evaluates this learned classifier.",
+          "value": "XGBoost Classifier"
+        },
+        "aliases": [
+          "XGBoost",
+          "XGB"
+        ],
+        "is_contributed": {
+          "quote": "The committee consists of four distinct machine learning classifiers",
+          "justification": "XGBoost is an existing classifier used within the contributed framework, not itself introduced here.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Using the selected 14 final gene features, we tested the same models (Logistic Regression, Random Forest, Support Vector Machine, XGBoost)",
+          "justification": "It was trained and tested by the authors.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "AUROC scores of all four classifiers",
+          "justification": "Its numerical performance is compared against the other classifiers.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "each model in the committee is trained on the public adrenal gland dataset using all gene features",
+          "justification": "The model was trained in this study.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "Xgboost: A scalable tree boosting system.",
+          "justification": "This is the cited reference title for XGBoost.",
+          "value": "Xgboost: A scalable tree boosting system"
+        }
+      },
+      {
+        "name": {
+          "quote": "Random Forest Classifier leverages an ensemble of decision trees",
+          "justification": "The paper trains and evaluates this learned classifier and selects it as the default.",
+          "value": "Random Forest Classifier"
+        },
+        "aliases": [
+          "Random Forest",
+          "RF"
+        ],
+        "is_contributed": {
+          "quote": "we selected Random Forest as our default classifier",
+          "justification": "Random Forest predates this paper and is used rather than introduced.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "The Random Forest classifier was subsequently used for annotating the cells in the single-cell dataset from our experiments.",
+          "justification": "It was trained and used for inference.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "all four classifiers achieved comparable results",
+          "justification": "It is numerically compared with three other classifiers.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "each model in the committee is trained on the public adrenal gland dataset",
+          "justification": "The model was trained in this study.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "Random forests.",
+          "justification": "This is the cited foundational reference title.",
+          "value": "Random forests"
+        }
+      },
+      {
+        "name": {
+          "quote": "Support Vector Machines (SVM) with a linear kernel used in our method",
+          "justification": "The paper trains and evaluates a linear SVM classifier.",
+          "value": "Support Vector Machine"
+        },
+        "aliases": [
+          "SVM",
+          "Support Vector Machines"
+        ],
+        "is_contributed": {
+          "quote": "The committee consists of four distinct machine learning classifiers",
+          "justification": "SVM is an existing classifier used in the framework.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Using the selected 14 final gene features, we tested the same models (Logistic Regression, Random Forest, Support Vector Machine, XGBoost)",
+          "justification": "It was trained and tested.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "AUROC scores of all four classifiers",
+          "justification": "It is numerically compared with the other classifiers.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "each model in the committee is trained on the public adrenal gland dataset",
+          "justification": "The model was trained in this study.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "Probabilistic outputs for support vector machines and comparisons to regularized likelihood methods.",
+          "justification": "This is the first cited SVM reference in the paper.",
+          "value": "Probabilistic outputs for support vector machines and comparisons to regularized likelihood methods"
+        }
+      },
+      {
+        "name": {
+          "quote": "Lastly, Logistic Regression determines the importance of genes through its coefficients",
+          "justification": "The paper trains and evaluates a logistic-regression classifier.",
+          "value": "Logistic Regression"
+        },
+        "aliases": [
+          "LR"
+        ],
+        "is_contributed": {
+          "quote": "The committee consists of four distinct machine learning classifiers",
+          "justification": "Logistic Regression is an existing model used by the framework.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Using the selected 14 final gene features, we tested the same models (Logistic Regression, Random Forest, Support Vector Machine, XGBoost)",
+          "justification": "It was trained and tested.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "all four classifiers achieved comparable results",
+          "justification": "It is numerically compared with the other classifiers.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "each model in the committee is trained on the public adrenal gland dataset",
+          "justification": "The model was trained in this study.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "The regression analysis of binary sequences.",
+          "justification": "This is a cited foundational Logistic Regression reference.",
+          "value": "The regression analysis of binary sequences"
+        }
+      }
+    ],
+    "data_sources": [
+      {
+        "name": {
+          "quote": "GSM6153751 for female mice (3,963 cells) and GSM6153750 for male mice (2,685 cells)",
+          "justification": "These accessions jointly constitute the named mouse adrenal-gland training source.",
+          "value": "mouse adrenal gland dataset"
+        },
+        "aliases": [
+          "GSM6153751",
+          "GSM6153750"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "GSM6153751 for female mice (3,963 cells) and GSM6153750 for male mice (2,685 cells)",
+          "justification": "The paper explicitly states both used sample counts.",
+          "value": "3,963 female cells and 2,685 male cells"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "Unravelling the sex-specific diversity and functions of adrenal gland macrophages.",
+          "justification": "Reference 28 is the source publication.",
+          "value": "Unravelling the sex-specific diversity and functions of adrenal gland macrophages"
+        }
+      },
+      {
+        "name": {
+          "quote": "mouse kidney (GSE129798)",
+          "justification": "Named GEO dataset used for cross-tissue validation.",
+          "value": "mouse kidney dataset"
+        },
+        "aliases": [
+          "GSE129798"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "",
+          "justification": "The paper does not state the number of cells used.",
+          "value": "unknown"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "Single-Cell Profiling Reveals Sex, Lineage, and Regional Diversity in the Mouse Kidney.",
+          "justification": "Reference 54 is the source publication.",
+          "value": "Single-Cell Profiling Reveals Sex, Lineage, and Regional Diversity in the Mouse Kidney"
+        }
+      },
+      {
+        "name": {
+          "quote": "mouse hypothalamus-PVN (GSE201032)",
+          "justification": "Named GEO dataset used for cross-tissue validation.",
+          "value": "mouse hypothalamus-PVN dataset"
+        },
+        "aliases": [
+          "GSE201032",
+          "mouse hypothalamus dataset"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "",
+          "justification": "The paper does not state the number of cells used.",
+          "value": "unknown"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "Sex shapes cell-type-specific transcriptional signatures of stress exposure in the mouse hypothalamus.",
+          "justification": "Reference 55 is the source publication.",
+          "value": "Sex shapes cell-type-specific transcriptional signatures of stress exposure in the mouse hypothalamus"
+        }
+      },
+      {
+        "name": {
+          "quote": "mouse colon (GSM2967048)",
+          "justification": "Named GEO dataset used both as a test source and a training source.",
+          "value": "mouse colon dataset"
+        },
+        "aliases": [
+          "GSM2967048",
+          "Tabula Muris colon dataset"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "",
+          "justification": "The paper does not state the number of cells used.",
+          "value": "unknown"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "Single-cell transcriptomics of 20 mouse organs creates a Tabula Muris.",
+          "justification": "Reference 56 is the source publication.",
+          "value": "Single-cell transcriptomics of 20 mouse organs creates a Tabula Muris"
+        }
+      },
+      {
+        "name": {
+          "quote": "human bone marrow mononuclear cells(BMMCs) from acute myeloid leukemia (AML) dataset (GSE289435)",
+          "justification": "Named human training source.",
+          "value": "human AML BM dataset"
+        },
+        "aliases": [
+          "GSE289435",
+          "human AML bone marrow dataset"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "The model was trained on the human AML BM dataset (GSE289435) dataset containing 87,171 cells",
+          "justification": "The used cell count is explicit.",
+          "value": "87,171 cells"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "Single-cell Transcriptional Atlas of Human Hematopoiesis Reveals Genetic and Hierarchy-Based Determinants of Aberrant AML Differentiation.",
+          "justification": "Reference 33 is the source publication.",
+          "value": "Single-cell Transcriptional Atlas of Human Hematopoiesis Reveals Genetic and Hierarchy-Based Determinants of Aberrant AML Differentiation"
+        }
+      },
+      {
+        "name": {
+          "quote": "human peripheral blood mononuclear cells (PBMCs) from T-cell leukemia–lymphoma (ATL) patients (GSE294224)",
+          "justification": "Named GEO source used for human validation.",
+          "value": "human ATL blood dataset"
+        },
+        "aliases": [
+          "GSE294224"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "",
+          "justification": "The paper does not state the number of cells used.",
+          "value": "unknown"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "A Dendritic Cell–Like Transition of T Cells Is Associated with Spontaneous Remission of Adult T-Cell Leukemia–Lymphoma.",
+          "justification": "Reference 57 is the source publication.",
+          "value": "A Dendritic Cell–Like Transition of T Cells Is Associated with Spontaneous Remission of Adult T-Cell Leukemia–Lymphoma"
+        }
+      },
+      {
+        "name": {
+          "quote": "human thymus cells (GSE262749)",
+          "justification": "Named GEO source used for validation and synthetic mixtures.",
+          "value": "human thymus dataset"
+        },
+        "aliases": [
+          "GSE262749",
+          "human thymic mimetic epithelial cell dataset"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "sampling 12,000 cells from human thymic medullary epithelial cells dataset (GSE262749)",
+          "justification": "The paper states 12,000 sampled cells for each synthetic composition, but not the full source size.",
+          "value": "12,000 sampled cells per synthetic composition"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "Cross-species analyses of thymic mimetic cells reveal evolutionarily ancient origins and both conserved and species-specific elements.",
+          "justification": "Reference 58 is the source publication.",
+          "value": "Cross-species analyses of thymic mimetic cells reveal evolutionarily ancient origins and both conserved and species-specific elements"
+        }
+      },
+      {
+        "name": {
+          "quote": "human kidney transplant dataset (GSE151671)",
+          "justification": "Named GEO source used for transplantation testing.",
+          "value": "human kidney transplant dataset"
+        },
+        "aliases": [
+          "GSE151671"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "",
+          "justification": "The paper does not state the number of cells used.",
+          "value": "unknown"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "Detection of infiltrating fibroblasts by single-cell transcriptomics in human kidney allografts.",
+          "justification": "Reference 63 is the source publication.",
+          "value": "Detection of infiltrating fibroblasts by single-cell transcriptomics in human kidney allografts"
+        }
+      },
+      {
+        "name": {
+          "quote": "chimeric mouse diaphragm validation dataset",
+          "justification": "This is a named dataset contributed and used by the paper.",
+          "value": "chimeric mouse diaphragm validation dataset"
+        },
+        "aliases": [],
+        "role": "contributed",
+        "size": {
+          "quote": "this approach removed only 3 cells, resulting in 1649 cells",
+          "justification": "The post-QC size is explicitly stated.",
+          "value": "1649 cells"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "This dataset was generated in the present paper.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "chimeric mouse diaphragm experimental dataset",
+          "justification": "This is a separately named dataset contributed and analyzed by the paper.",
+          "value": "chimeric mouse diaphragm experimental dataset"
+        },
+        "aliases": [],
+        "role": "contributed",
+        "size": {
+          "quote": "",
+          "justification": "The paper does not state its cell count.",
+          "value": "unknown"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "This dataset was generated in the present paper.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "KEGG 2019 Mouse",
+          "justification": "This named pathway collection was queried for enrichment analysis.",
+          "value": "KEGG 2019 Mouse"
+        },
+        "aliases": [
+          "KEGG"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "",
+          "justification": "No number of pathway records is stated.",
+          "value": "unknown"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "No single KEGG reference title is identified as the dataset title.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "PubMed gene sets (Enrichr, version 2023)",
+          "justification": "This named gene-set collection was consumed during enrichment analysis.",
+          "value": "PubMed gene sets"
+        },
+        "aliases": [
+          "Enrichr, version 2023"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "",
+          "justification": "No gene-set count is stated.",
+          "value": "unknown"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "The paper does not identify a source-publication title for this collection.",
+          "value": "unknown"
+        }
+      }
+    ],
+    "libraries": [
+      {
+        "name": {
+          "quote": "all associated functionalities, are fully implemented and available in our GitHub repository",
+          "justification": "CellSexID is the software contributed by this paper.",
+          "value": "CellSexID"
+        },
+        "aliases": [],
+        "role": "contributed",
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "This paper introduces the software.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "The SCANPY (version 1.9.5) was applied to preprocess single-cell raw count matrices",
+          "justification": "Explicitly used software and version.",
+          "value": "SCANPY"
+        },
+        "aliases": [
+          "Scanpy"
+        ],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "SCANPY: large-scale single-cell gene expression data analysis.",
+          "justification": "Reference 72 is the software paper.",
+          "value": "SCANPY: large-scale single-cell gene expression data analysis"
+        }
+      },
+      {
+        "name": {
+          "quote": "Sequencing reads were processed using 10x Genomics Cell Ranger 7.1.0.",
+          "justification": "Explicitly used software and version.",
+          "value": "Cell Ranger"
+        },
+        "aliases": [
+          "10x Genomics Cell Ranger"
+        ],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "Massively parallel digital transcriptional profiling of single cells.",
+          "justification": "Reference 71 is attached to Cell Ranger in the methods.",
+          "value": "Massively parallel digital transcriptional profiling of single cells"
+        }
+      },
+      {
+        "name": {
+          "quote": "doublet removal using Scrublet",
+          "justification": "Scrublet was explicitly used.",
+          "value": "Scrublet"
+        },
+        "aliases": [],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "Scrublet: Computational Identification of Cell Doublets in Single-Cell Transcriptomic Data.",
+          "justification": "Reference 73 is the Scrublet paper.",
+          "value": "Scrublet: Computational Identification of Cell Doublets in Single-Cell Transcriptomic Data"
+        }
+      },
+      {
+        "name": {
+          "quote": "implemented in Python packages Scikit-learn",
+          "justification": "Scikit-learn was explicitly used to implement three classifiers and metrics.",
+          "value": "Scikit-learn"
+        },
+        "aliases": [
+          "scikit-learn"
+        ],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "Scikit-learn: Machine learning in Python.",
+          "justification": "Reference 82 is the library paper.",
+          "value": "Scikit-learn: Machine learning in Python"
+        }
+      },
+      {
+        "name": {
+          "quote": "XGBoost is implemented using package ‘XGBoost’",
+          "justification": "The package was explicitly used.",
+          "value": "XGBoost"
+        },
+        "aliases": [],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "Xgboost: A scalable tree boosting system.",
+          "justification": "Reference 14 is the package/algorithm paper.",
+          "value": "Xgboost: A scalable tree boosting system"
+        }
+      },
+      {
+        "name": {
+          "quote": "Harmony was applied to remove batch effects across 8 samples",
+          "justification": "Harmony was explicitly used.",
+          "value": "Harmony"
+        },
+        "aliases": [],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "Fast, sensitive and accurate integration of single-cell data with Harmony.",
+          "justification": "Reference 86 is the Harmony paper.",
+          "value": "Fast, sensitive and accurate integration of single-cell data with Harmony"
+        }
+      },
+      {
+        "name": {
+          "quote": "we applied Scanorama to correct the gene expression matrix",
+          "justification": "Scanorama was explicitly executed in a supplementary comparison.",
+          "value": "Scanorama"
+        },
+        "aliases": [],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "Online single-cell data integration through projecting heterogeneous datasets into a common cell-embedding space.",
+          "justification": "This is the reference cited in the surrounding batch-correction discussion, although the text does not clearly provide the canonical Scanorama paper.",
+          "value": "Online single-cell data integration through projecting heterogeneous datasets into a common cell-embedding space"
+        }
+      },
+      {
+        "name": {
+          "quote": "implemented in Python tool Matplotlib",
+          "justification": "Matplotlib was explicitly used for volcano plots.",
+          "value": "Matplotlib"
+        },
+        "aliases": [],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "No Matplotlib reference appears in the supplied references.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "using the GSEApy tool ‘enrich’",
+          "justification": "GSEApy was explicitly used.",
+          "value": "GSEApy"
+        },
+        "aliases": [],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "GSEApy: a comprehensive package for performing gene set enrichment analysis in Python.",
+          "justification": "Reference 96 is the software paper.",
+          "value": "GSEApy: a comprehensive package for performing gene set enrichment analysis in Python"
+        }
+      },
+      {
+        "name": {
+          "quote": "we also performed enrichment analysis using Toppgenes",
+          "justification": "Toppgenes was explicitly used for marker enrichment.",
+          "value": "Toppgenes"
+        },
+        "aliases": [
+          "ToppGene"
+        ],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "Improved human disease candidate gene prioritization using mouse phenotype.",
+          "justification": "Reference 53 is cited at the Toppgenes mention.",
+          "value": "Improved human disease candidate gene prioritization using mouse phenotype"
+        }
+      }
+    ],
+    "algorithms": [
+      {
+        "name": {
+          "quote": "ensemble feature selection approach",
+          "justification": "This named procedure combines committee feature rankings and consensus voting.",
+          "value": "ensemble feature selection approach"
+        },
+        "aliases": [
+          "committee-based machine learning approach",
+          "consensus-based committee feature selection pipeline"
+        ],
+        "is_contributed": {
+          "quote": "our ensemble feature selection approach",
+          "justification": "The paper presents this consensus procedure as part of CellSexID.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "we employed an ensemble feature selection approach",
+          "justification": "It was run on mouse and human training data.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Supplementary Figure 3 demonstrates that this ensemble approach outperforms individual models",
+          "justification": "It was compared numerically against individual-model selection.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "identifies a minimal yet informative set of sex-linked marker genes that optimize classification performance",
+          "justification": "This directly states its role.",
+          "value": "identifies a minimal yet informative set of sex-linked marker genes that optimize classification performance"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "The exact contributed procedure is introduced here rather than attributed to one reference.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "5-fold cross validation",
+          "justification": "A named evaluation procedure executed on the adrenal data.",
+          "value": "5-fold cross validation"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "we used 5-fold cross validation to compute Accuracy and F1 score",
+          "justification": "It is a standard method, not contributed here.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we used 5-fold cross validation to compute Accuracy and F1 score",
+          "justification": "The paper explicitly executed it.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "all models demonstrated consistently high and comparable performance",
+          "justification": "It supplied numerical comparisons among models.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "to compute Accuracy and F1 score",
+          "justification": "The paper states its purpose directly.",
+          "value": "to compute Accuracy and F1 score"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "No specific reference title is given.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "bootstrapping with 100 iterations",
+          "justification": "Named resampling evaluation run for uncertainty estimates.",
+          "value": "bootstrapping"
+        },
+        "aliases": [
+          "bootstrap resampling"
+        ],
+        "is_contributed": {
+          "quote": "AUPRC and AUROC are calculated using bootstrapping with 100 iterations",
+          "justification": "This is a standard evaluation method.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "AUPRC and AUROC are calculated using bootstrapping with 100 iterations",
+          "justification": "It was explicitly executed.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Comparative analysis of AUROC and AUPRC values for each classifier using bootstrap resampling.",
+          "justification": "It supported numerical classifier comparisons.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "These metrics, along with their 95% confidence intervals derived from the bootstrap samples",
+          "justification": "Its role was to derive performance distributions and confidence intervals.",
+          "value": "derive AUROC/AUPRC estimates and 95% confidence intervals"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "No specific reference title is given.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "Scrublet",
+          "justification": "The named doublet-identification procedure was executed through the software of the same name.",
+          "value": "Scrublet"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "doublet removal using Scrublet",
+          "justification": "It is prior work, not introduced here.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "doublet removal using Scrublet to exclude potential multiplets",
+          "justification": "The procedure was executed.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "this approach removed only 3 cells",
+          "justification": "A result is reported, but it is not numerically compared with another doublet algorithm.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "to exclude potential multiplets",
+          "justification": "The paper states the role directly.",
+          "value": "to exclude potential multiplets"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Scrublet: Computational Identification of Cell Doublets in Single-Cell Transcriptomic Data.",
+          "justification": "Reference 73 is the method paper.",
+          "value": "Scrublet: Computational Identification of Cell Doublets in Single-Cell Transcriptomic Data"
+        }
+      },
+      {
+        "name": {
+          "quote": "Principal Component Analysis (PCA)",
+          "justification": "Named dimensionality-reduction procedure executed on the experimental data.",
+          "value": "Principal Component Analysis (PCA)"
+        },
+        "aliases": [
+          "PCA"
+        ],
+        "is_contributed": {
+          "quote": "Principal Component Analysis (PCA) was performed with 50 components.",
+          "justification": "PCA is prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Principal Component Analysis (PCA) was performed with 50 components.",
+          "justification": "It was explicitly executed.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "",
+          "justification": "No numerical comparison against other reduction algorithms is stated.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "dimensionality reduction",
+          "justification": "The paper identifies PCA within dimensionality reduction and clustering analysis.",
+          "value": "dimensionality reduction with 50 components"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Probabilistic principal component analysis.",
+          "justification": "Reference 83 is cited for PCA.",
+          "value": "Probabilistic principal component analysis"
+        }
+      },
+      {
+        "name": {
+          "quote": "Harmony",
+          "justification": "Named batch-effect correction/integration procedure.",
+          "value": "Harmony"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "Harmony was applied to remove batch effects across 8 samples",
+          "justification": "Harmony is prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Harmony was applied to remove batch effects across 8 samples and adjust the PCA basis.",
+          "justification": "It was executed.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "we performed the same set of analysis as in Figure 6 using resolution 0.4",
+          "justification": "Harmony itself was not compared numerically to another integration method.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "to remove batch effects across 8 samples and adjust the PCA basis",
+          "justification": "The role is stated directly.",
+          "value": "to remove batch effects across 8 samples and adjust the PCA basis"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Fast, sensitive and accurate integration of single-cell data with Harmony.",
+          "justification": "Reference 86 is the method paper.",
+          "value": "Fast, sensitive and accurate integration of single-cell data with Harmony"
+        }
+      },
+      {
+        "name": {
+          "quote": "UMAP",
+          "justification": "Named embedding procedure executed for visualization.",
+          "value": "UMAP"
+        },
+        "aliases": [
+          "Uniform manifold approximation and projection"
+        ],
+        "is_contributed": {
+          "quote": "followed by UMAP embedding",
+          "justification": "UMAP is prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "followed by UMAP embedding using the ‘tl.umap’ tool with default parameters",
+          "justification": "It was explicitly executed.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "",
+          "justification": "No numerical comparison against other embeddings is stated.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "UMAP embedding",
+          "justification": "It produced the low-dimensional visualization embedding.",
+          "value": "embedding and visualization of single-cell data"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Umap: Uniform manifold approximation and projection for dimension reduction.",
+          "justification": "Reference 87 is the method paper.",
+          "value": "Umap: Uniform manifold approximation and projection for dimension reduction"
+        }
+      },
+      {
+        "name": {
+          "quote": "Leiden clustering",
+          "justification": "Named clustering procedure executed on the cell graph.",
+          "value": "Leiden clustering"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "Leiden clustering using SCANPY’s ‘tl.leiden’ tool",
+          "justification": "It is an existing clustering procedure.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Leiden clustering using SCANPY’s ‘tl.leiden’ tool with a resolution of 0.6",
+          "justification": "It was executed.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "we performed the same set of analysis as in Figure 6 using resolution 0.4",
+          "justification": "Different resolution variants were compared for robustness.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "9 macrophage clusters were identified",
+          "justification": "It identified macrophage clusters in the experimental dataset.",
+          "value": "identify macrophage clusters"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "No Leiden reference title appears in the supplied references.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "Wilcoxon rank-sum test method",
+          "justification": "Named DEG-testing procedure executed through SCANPY.",
+          "value": "Wilcoxon rank-sum test"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "Differentially expressed genes (DEGs) were identified using SCANPY’s tool ‘tl.rank_genes_groups’ with the Wilcoxon rank-sum test method",
+          "justification": "It is a standard prior method.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Differentially expressed genes (DEGs) were identified ... with the Wilcoxon rank-sum test method",
+          "justification": "It was executed.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "",
+          "justification": "No comparison with another DEG test is stated.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "Differentially expressed genes (DEGs) were identified",
+          "justification": "The role is directly stated.",
+          "value": "identify differentially expressed genes (DEGs)"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Individual comparisons by ranking methods",
+          "justification": "Reference 89 is cited for Wilcoxon.",
+          "value": "Individual comparisons by ranking methods"
+        }
+      },
+      {
+        "name": {
+          "quote": "Benjamini-Hochberg adjusted p-values",
+          "justification": "Named multiple-testing adjustment used to select DEGs.",
+          "value": "Benjamini-Hochberg"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "Benjamini-Hochberg adjusted p-values less than 0.05",
+          "justification": "It is a standard existing procedure.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "up-regulated genes were selected with Benjamini-Hochberg adjusted p-values less than 0.05",
+          "justification": "It was applied to DEG p-values.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "",
+          "justification": "No comparison against another correction is stated.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "up-regulated genes were selected with Benjamini-Hochberg adjusted p-values less than 0.05",
+          "justification": "It controlled the adjusted-p-value threshold in DEG selection.",
+          "value": "adjust p-values for differential-expression gene selection"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "No specific reference is supplied.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "KEGG 2019 Mouse enrichment analyses",
+          "justification": "Named pathway-enrichment procedure executed on regulated genes.",
+          "value": "KEGG 2019 Mouse enrichment analyses"
+        },
+        "aliases": [
+          "KEGG pathway analysis"
+        ],
+        "is_contributed": {
+          "quote": "using the GSEApy tool ‘enrich’ with KEGG for enrichment analysis",
+          "justification": "It uses existing resources and software.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "The top up- and down-regulated genes were then subjected to KEGG 2019 Mouse enrichment analyses",
+          "justification": "It was executed.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "",
+          "justification": "No comparison with a separate enrichment method is stated.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "The top up- and down-regulated genes were then subjected to KEGG 2019 Mouse enrichment analyses",
+          "justification": "The role is pathway enrichment of regulated genes.",
+          "value": "pathway enrichment analysis of top up- and down-regulated genes"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "The paper cites several ontology/enrichment references rather than one exact KEGG method title.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "Scanorama",
+          "justification": "Named batch-correction procedure used in a supplementary ablation.",
+          "value": "Scanorama"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "we applied Scanorama to correct the gene expression matrix",
+          "justification": "It is an existing procedure.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we applied Scanorama to correct the gene expression matrix of the chimeric mouse diaphragm validation dataset",
+          "justification": "It was executed.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "the AUROC of the Random Forest classifier dropped from 0.837 (uncorrected) to 0.607 (corrected)",
+          "justification": "Corrected and uncorrected variants were numerically compared.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "to correct the gene expression matrix of the chimeric mouse diaphragm validation dataset",
+          "justification": "The role is stated directly.",
+          "value": "to correct the gene expression matrix"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "The exact Scanorama source paper is not clearly identified in the supplied reference list.",
+          "value": "unknown"
+        }
+      }
+    ],
+    "runs": [
+      {
+        "models": [
+          {
+            "name": "XGBoost Classifier",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Random Forest Classifier",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Support Vector Machine",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Logistic Regression",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "mouse adrenal gland dataset",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "ensemble feature selection approach"
+          },
+          {
+            "name": "5-fold cross validation"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "Using an 80/20 train-test split, we trained and evaluated our machine learning models on this dataset",
+          "justification": "This configuration trains all four classifiers on the adrenal dataset.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "",
+          "justification": "No epoch count is stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "",
+          "justification": "No parameter count is stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "",
+          "justification": "No compute accelerator is stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "",
+          "justification": "No accelerator model is stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "",
+          "justification": "No accelerator count is stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "No numerical precision is stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "No parallelism strategy is stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "No duration is stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "No utilisation is stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "The contribution scores are the average of five technical replicates generated using random seeds.",
+          "justification": "The feature-selection/training evaluation used five random-seed technical replicates.",
+          "value": [
+            {
+              "kind": "seed",
+              "count": 5,
+              "what": "technical replicates generated using random seeds"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "XGBoost Classifier",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Random Forest Classifier",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Support Vector Machine",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Logistic Regression",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "mouse kidney dataset",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [],
+        "produces": [],
+        "execution_mode": {
+          "quote": "Models trained on the adrenal gland dataset were tested on a mouse kidney dataset (GSE129798)",
+          "justification": "This is inference/testing on the kidney dataset.",
+          "value": "inference"
+        },
+        "epochs": {
+          "quote": "",
+          "justification": "Not applicable and not stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "",
+          "justification": "No parameter count is stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "",
+          "justification": "No hardware is stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "",
+          "justification": "No hardware model is stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "",
+          "justification": "No hardware count is stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "No precision is stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "No parallelism is stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "No duration is stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "No utilisation is stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "",
+          "justification": "No repetition factor is stated.",
+          "value": []
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "XGBoost Classifier",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Random Forest Classifier",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Support Vector Machine",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Logistic Regression",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "mouse hypothalamus-PVN dataset",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [],
+        "produces": [],
+        "execution_mode": {
+          "quote": "Models trained on the adrenal gland dataset were tested on a mouse hypothalamus dataset (GSE201032)",
+          "justification": "Inference/testing on the hypothalamus source.",
+          "value": "inference"
+        },
+        "epochs": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": []
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "XGBoost Classifier",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Random Forest Classifier",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Support Vector Machine",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Logistic Regression",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "mouse colon dataset",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [],
+        "produces": [],
+        "execution_mode": {
+          "quote": "Models trained on the adrenal gland dataset were tested on a mouse colon dataset (GSM2967048)",
+          "justification": "Inference/testing on the colon source.",
+          "value": "inference"
+        },
+        "epochs": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": []
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "XGBoost Classifier",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Random Forest Classifier",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Support Vector Machine",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Logistic Regression",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "chimeric mouse diaphragm validation dataset",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "bootstrapping"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "the full public dataset was used for training the model",
+          "justification": "The already trained classifier configurations were evaluated by inference on the fixed validation set.",
+          "value": "inference"
+        },
+        "epochs": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "bootstrapping with 100 iterations",
+          "justification": "One hundred bootstrap resamples were used for the model evaluation.",
+          "value": [
+            {
+              "kind": "other",
+              "count": 100,
+              "what": "bootstrap iterations"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "XGBoost Classifier",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Random Forest Classifier",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Support Vector Machine",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Logistic Regression",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "mouse colon dataset",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "ensemble feature selection approach"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "we trained new models using the mouse colon (GSM2967048) dataset",
+          "justification": "This is a distinct training configuration because the dataset differs.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "",
+          "justification": "No repetition factor is stated.",
+          "value": []
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "XGBoost Classifier",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Random Forest Classifier",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Support Vector Machine",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Logistic Regression",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "mouse kidney dataset",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [],
+        "produces": [],
+        "execution_mode": {
+          "quote": "models were trained on the colon dataset and tested on the kidney dataset",
+          "justification": "Inference with colon-trained models on kidney cells.",
+          "value": "inference"
+        },
+        "epochs": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": []
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "XGBoost Classifier",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Random Forest Classifier",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Support Vector Machine",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Logistic Regression",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "mouse hypothalamus-PVN dataset",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [],
+        "produces": [],
+        "execution_mode": {
+          "quote": "models trained on the colon dataset were tested on the hypothalamus dataset",
+          "justification": "Inference with colon-trained models on hypothalamus cells.",
+          "value": "inference"
+        },
+        "epochs": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": []
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "XGBoost Classifier",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Random Forest Classifier",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Support Vector Machine",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Logistic Regression",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "human AML BM dataset",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "ensemble feature selection approach"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "Feature selection was performed on a human bone marrow mononuclear cells(BMMCs) from acute myeloid leukemia (AML) dataset (GSE289435), and the resulting markers were used to train models",
+          "justification": "The human classifiers were trained on this source.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "one-fifth of the data was randomly sampled for feature selection in each technical replicates",
+          "justification": "The number of technical replicates is not stated in this sentence; no count can safely be extracted.",
+          "value": []
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "XGBoost Classifier",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Random Forest Classifier",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Support Vector Machine",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Logistic Regression",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "human ATL blood dataset",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [],
+        "produces": [],
+        "execution_mode": {
+          "quote": "Models were trained on the human acute myeloid leukemia (AML) bone marrow (BM) dataset (GSE289435) ... and tested on a human adult T-cell leukemia/lymphoma (ATL) blood dataset (GSE294224).",
+          "justification": "Inference/testing on ATL blood cells.",
+          "value": "inference"
+        },
+        "epochs": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": []
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "XGBoost Classifier",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Random Forest Classifier",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Support Vector Machine",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Logistic Regression",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "human thymus dataset",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [],
+        "produces": [],
+        "execution_mode": {
+          "quote": "Models trained on the human AML BM dataset (GSE289435) ... were tested on a human thymic mimetic epithelial cell dataset (GSE262749).",
+          "justification": "Inference/testing on human thymus cells.",
+          "value": "inference"
+        },
+        "epochs": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "five different synthetic compositions totaling 12,000 cells each",
+          "justification": "Five mixture compositions were evaluated from the thymus source.",
+          "value": [
+            {
+              "kind": "variant",
+              "count": 5,
+              "what": "different synthetic compositions"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "Random Forest Classifier",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "human kidney transplant dataset",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [],
+        "produces": [],
+        "execution_mode": {
+          "quote": "Random Forest classifiers were trained on human AML bone marrow mononuclear cells (GSE289435) ... and tested on human kidney transplantation data",
+          "justification": "Inference/testing on kidney-transplant cells.",
+          "value": "inference"
+        },
+        "epochs": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "Four marker sets were compared",
+          "justification": "Four feature-panel variants of the same compute configuration were evaluated.",
+          "value": [
+            {
+              "kind": "variant",
+              "count": 4,
+              "what": "marker sets"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "Random Forest Classifier",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "chimeric mouse diaphragm experimental dataset",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [],
+        "produces": [],
+        "execution_mode": {
+          "quote": "Using our trained Random Forest model to predict cell origins from scRNA-seq analysis of sorted diaphragm macrophages",
+          "justification": "The trained default model performed inference on the experimental dataset.",
+          "value": "inference"
+        },
+        "epochs": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "Data represent eight biological replicates (n=8; mean ± SEM).",
+          "justification": "The experimental analysis used eight biological replicates.",
+          "value": [
+            {
+              "kind": "other",
+              "count": 8,
+              "what": "biological replicates"
+            }
+          ]
+        }
+      },
+      {
+        "models": [],
+        "data_sources": [
+          {
+            "name": "chimeric mouse diaphragm experimental dataset",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          },
+          {
+            "name": "KEGG 2019 Mouse",
+            "access": "fixed",
+            "roles_in_run": [
+              "reference"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Scrublet"
+          },
+          {
+            "name": "Principal Component Analysis (PCA)"
+          },
+          {
+            "name": "Harmony"
+          },
+          {
+            "name": "UMAP"
+          },
+          {
+            "name": "Leiden clustering"
+          },
+          {
+            "name": "Wilcoxon rank-sum test"
+          },
+          {
+            "name": "Benjamini-Hochberg"
+          },
+          {
+            "name": "KEGG 2019 Mouse enrichment analyses"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "We applied standard scRNA-seq data analysis pipeline for our preprocessed data according to common practice, which includes dimensionality reduction, clustering, and downstream analysis such as DEG and enrichment",
+          "justification": "This is a separate non-fitting analysis/transformation run over the fixed experimental data.",
+          "value": "generate"
+        },
+        "epochs": {
+          "quote": "",
+          "justification": "Not applicable and not stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "",
+          "justification": "No learned model scale applies.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "",
+          "justification": "No hardware is stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "",
+          "justification": "No hardware model is stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "",
+          "justification": "No hardware count is stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "No precision is stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "No parallelism is stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "No duration is stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "No utilisation is stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "",
+          "justification": "The eight biological samples are input samples, not repeated executions of the compute configuration.",
+          "value": []
+        }
+      },
+      {
+        "models": [],
+        "data_sources": [
+          {
+            "name": "chimeric mouse diaphragm validation dataset",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Scanorama"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "we applied Scanorama to correct the gene expression matrix of the chimeric mouse diaphragm validation dataset",
+          "justification": "This non-fitting batch-correction ablation transformed a fixed dataset.",
+          "value": "generate"
+        },
+        "epochs": {
+          "quote": "",
+          "justification": "Not applicable and not stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "",
+          "justification": "Not applicable and not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "",
+          "justification": "No hardware is stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "",
+          "justification": "No hardware model is stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "",
+          "justification": "No hardware count is stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "No precision is stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "No parallelism is stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "No duration is stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "No utilisation is stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "",
+          "justification": "No repetition factor is stated.",
+          "value": []
+        }
+      },
+      {
+        "models": [],
+        "data_sources": [
+          {
+            "name": "PubMed gene sets",
+            "access": "fixed",
+            "roles_in_run": [
+              "reference"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "KEGG 2019 Mouse enrichment analyses"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "we also performed enrichment analysis using Toppgenes. PubMed gene sets (Enrichr, version 2023)",
+          "justification": "A non-fitting enrichment-analysis run queried the named gene-set source.",
+          "value": "generate"
+        },
+        "epochs": {
+          "quote": "",
+          "justification": "Not applicable and not stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "",
+          "justification": "Not applicable and not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "",
+          "justification": "No hardware is stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "",
+          "justification": "No hardware model is stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "",
+          "justification": "No hardware count is stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "No precision is stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "No parallelism is stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "No duration is stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "No utilisation is stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "",
+          "justification": "No repetition factor is stated.",
+          "value": []
+        }
+      }
+    ]
+  },
+  "usage": {
+    "input_tokens": 39624,
+    "output_tokens": 12896,
+    "total_tokens": 52520
+  }
+}
