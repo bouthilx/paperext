@@ -1,0 +1,2235 @@
+{
+  "paper": "69a5fe0748887d403d0a6267.txt",
+  "words": 7266,
+  "extractions": {
+    "title": {
+      "quote": "In-Context Learning for Text Classification with Many Labels",
+      "justification": "Title at top of paper",
+      "value": "In-Context Learning for Text Classification with Many Labels"
+    },
+    "description": "The paper applies retrieval-augmented in-context learning with frozen pre-trained dense retrievers (SBERT) and open-source LLMs (OPT, LLaMA, LLaMA-2) to text classification tasks with many labels (intent classification on BANKING77, HWU64, CLINC150 and fine-grained sentiment classification on GoEmotions), comparing against fine-tuned baselines (DeBERTa with Pfeiffer adapters, SetFit, ConvFit) and running ablations on label semantics, example similarity, and input-label correspondence.",
+    "type": {
+      "quote": "Testing with recent open-source LLMs (OPT, LLaMA), we set new state of the art performance in few-shot settings for three common intent classification datasets",
+      "justification": "The paper runs experiments and reports empirical results.",
+      "value": "empirical"
+    },
+    "research_fields": [
+      {
+        "name": {
+          "quote": "In-context learning (ICL) using large language models for tasks with many labels is challenging",
+          "justification": "Core field advanced by the paper",
+          "value": "In-context learning"
+        },
+        "aliases": [
+          "ICL"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "we use a pre-trained dense retrieval model to bypass this limitation",
+          "justification": "The paper works on text classification with many labels",
+          "value": "Text classification"
+        },
+        "aliases": [],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "we set new state of the art performance in few-shot settings for three common intent classification datasets",
+          "justification": "Intent detection is a main application domain advanced",
+          "value": "Intent classification"
+        },
+        "aliases": [
+          "intent detection"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "We also surpass fine-tuned performance on fine-grained sentiment classification in certain cases.",
+          "justification": "Sentiment classification is an evaluation domain",
+          "value": "Fine-grained sentiment classification"
+        },
+        "aliases": [
+          "sentiment analysis"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "By coupling the LLM with an external pre-trained dense retriever model",
+          "justification": "Dense retrieval used as a component",
+          "value": "Information retrieval"
+        },
+        "aliases": [
+          "dense retrieval"
+        ],
+        "role": "used"
+      },
+      {
+        "name": {
+          "quote": "Models pre-trained on massive amounts of textual data",
+          "justification": "General NLP setting",
+          "value": "Natural Language Processing"
+        },
+        "aliases": [
+          "NLP"
+        ],
+        "role": "used"
+      }
+    ],
+    "models": [
+      {
+        "name": {
+          "quote": "we use the SentenceTransformers library (Reimers and Gurevych, 2019a), and use the pre-trained “all-mpnet-base-v2” model (a 110M parameter model pre-trained on over 1 billion training pairs)",
+          "justification": "The retrieval model used in all experiments",
+          "value": "all-mpnet-base-v2"
+        },
+        "aliases": [
+          "SBERT",
+          "Sentence-BERT",
+          "mpnet",
+          "SBERT retriever"
+        ],
+        "is_contributed": {
+          "quote": "We use the retrieval model as-is in all experiments.",
+          "justification": "Pre-existing model used off-the-shelf",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "All experiments were performed on a single A100 80GB GPU",
+          "justification": "The retriever is run to retrieve examples",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "The baseline “Pre-trained SBERT 1-NN” refers to using the SBERT retrieval model to retrieve the most similar example in the retrieval pool and use its label directly as the prediction",
+          "justification": "Used as a 1-NN baseline compared in tables",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "We use the retrieval model as-is in all experiments.",
+          "justification": "Used frozen for inference in the main pipeline (also fine-tuned in appendix C, reported separately)",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "Nils Reimers and Iryna Gurevych. 2019a. Sentence-BERT: Sentence Embeddings using Siamese BERT-networks.",
+          "justification": "Reference for SBERT",
+          "value": "Sentence-BERT: Sentence Embeddings using Siamese BERT-networks"
+        }
+      },
+      {
+        "name": {
+          "quote": "OPT 13B",
+          "justification": "Model listed in results tables",
+          "value": "OPT 13B"
+        },
+        "aliases": [
+          "OPT-13B"
+        ],
+        "is_contributed": {
+          "quote": "the OPT models (Zhang et al., 2022) as LLMs",
+          "justification": "Pre-existing model",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "All experiments were performed on a single A100 80GB GPU",
+          "justification": "Ran in the paper's pipeline",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Tables 1 and 2 shows the performance comparison of all methods.",
+          "justification": "Compared with other models",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "retrieval-augmented ICL is an effective way to tackle text classification tasks with many labels without additional tuning of either the retriever or the LM",
+          "justification": "Only used for inference / generation",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "Susan Zhang, ... 2022. OPT: Open Pre-trained Transformer Language Models.",
+          "justification": "OPT reference",
+          "value": "OPT: Open Pre-trained Transformer Language Models"
+        }
+      },
+      {
+        "name": {
+          "quote": "OPT 175B",
+          "justification": "Model listed in results",
+          "value": "OPT 175B"
+        },
+        "aliases": [
+          "OPT-175B"
+        ],
+        "is_contributed": {
+          "quote": "the OPT models (Zhang et al., 2022) as LLMs",
+          "justification": "Pre-existing model",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "except those with OPT 175B, which were performed with 8 A100 GPUs",
+          "justification": "Explicitly run on 8 A100s",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Tables 1 and 2 shows the performance comparison of all methods.",
+          "justification": "Compared in tables",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "without additional tuning of either the retriever or the LM",
+          "justification": "Inference only",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "Susan Zhang, ... 2022. OPT: Open Pre-trained Transformer Language Models.",
+          "justification": "OPT reference",
+          "value": "OPT: Open Pre-trained Transformer Language Models"
+        }
+      },
+      {
+        "name": {
+          "quote": "LLaMA 7B",
+          "justification": "Model listed in results",
+          "value": "LLaMA 7B"
+        },
+        "aliases": [
+          "LLaMA-7B"
+        ],
+        "is_contributed": {
+          "quote": "Experiments are done using the LLaMA models (Touvron et al., 2023)",
+          "justification": "Pre-existing model",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "All experiments were performed on a single A100 80GB GPU",
+          "justification": "Run in the pipeline",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Comparison of LLaMA 7B and OPT 13B model prompt orderings on intent detection datasets",
+          "justification": "Compared",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "with no fine-tuning",
+          "justification": "Inference only",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "Hugo Touvron, ... 2023. LLaMA: Open and Efficient Foundation Language Models.",
+          "justification": "LLaMA reference",
+          "value": "LLaMA: Open and Efficient Foundation Language Models"
+        }
+      },
+      {
+        "name": {
+          "quote": "LLaMA 65B",
+          "justification": "Model listed in results",
+          "value": "LLaMA 65B"
+        },
+        "aliases": [
+          "LLaMA-65B"
+        ],
+        "is_contributed": {
+          "quote": "Experiments are done using the LLaMA models (Touvron et al., 2023)",
+          "justification": "Pre-existing model",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "For LLaMA 65B and 70B 8-bit quantization was used.",
+          "justification": "Run with quantization",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Tables 1 and 2 shows the performance comparison of all methods.",
+          "justification": "Compared",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "with no fine-tuning",
+          "justification": "Inference only",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "Hugo Touvron, ... 2023. LLaMA: Open and Efficient Foundation Language Models.",
+          "justification": "LLaMA reference",
+          "value": "LLaMA: Open and Efficient Foundation Language Models"
+        }
+      },
+      {
+        "name": {
+          "quote": "LLaMA 2 7B",
+          "justification": "Model listed in results",
+          "value": "LLaMA 2 7B"
+        },
+        "aliases": [
+          "LLaMA-2-7B",
+          "LLaMA 2 7B 4K"
+        ],
+        "is_contributed": {
+          "quote": "LLaMA-2 models were trained on 2T tokens.",
+          "justification": "Pre-existing model",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "LLaMA-2-7B (mpnet)",
+          "justification": "Run in experiments including BM25 comparison",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "to significantly surpass the previous state of the art for all three intent classification datasets only LLaMA-2 7B is necessary",
+          "justification": "Compared",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "with no fine-tuning",
+          "justification": "Inference only",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "Hugo Touvron, ... 2023. LLaMA: Open and Efficient Foundation Language Models.",
+          "justification": "Closest reference available",
+          "value": "LLaMA: Open and Efficient Foundation Language Models"
+        }
+      },
+      {
+        "name": {
+          "quote": "LLaMA 2 70B",
+          "justification": "Model listed in results",
+          "value": "LLaMA 2 70B"
+        },
+        "aliases": [
+          "LLaMA-2-70B",
+          "LLaMA 2 70B 4K"
+        ],
+        "is_contributed": {
+          "quote": "LLaMA-2 models were trained on 2T tokens.",
+          "justification": "Pre-existing model",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "For LLaMA 65B and 70B 8-bit quantization was used.",
+          "justification": "Run with quantization",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "the margin between DeBERTa and LLaMA-2 70B is 7.49%",
+          "justification": "Compared",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "with no fine-tuning",
+          "justification": "Inference only",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "Hugo Touvron, ... 2023. LLaMA: Open and Efficient Foundation Language Models.",
+          "justification": "Closest reference available",
+          "value": "LLaMA: Open and Efficient Foundation Language Models"
+        }
+      },
+      {
+        "name": {
+          "quote": "The baseline “DeBERTa (Pfeiffer)“ is the DeBERTa-XXL model released by Microsoft, trained via AdapterHub with the Pfeiffer-style bottleneck adapters",
+          "justification": "Fine-tuned baseline model",
+          "value": "DeBERTa-v2-XXLarge"
+        },
+        "aliases": [
+          "DeBERTa-XXL",
+          "DeBERTa (Pfeiffer)"
+        ],
+        "is_contributed": {
+          "quote": "We compare the performance achieved against adapter-based fine-tuning of MLM models (DeBERTa-v2-XXLarge ...)",
+          "justification": "Baseline, not contributed",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "The DeBERTa-XXL model was fine-tuned until performance saturation (early stopping).",
+          "justification": "Fine-tuned by the authors",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "the margin between DeBERTa and LLaMA-2 70B is 7.49%",
+          "justification": "Compared in tables",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "The DeBERTa-XXL model was fine-tuned until performance saturation (early stopping).",
+          "justification": "Fine-tuned with adapters",
+          "value": "finetune"
+        },
+        "referenced_paper_title": {
+          "quote": "Jonas Pfeiffer, Ivan Vulić, Iryna Gurevych, and Sebastian Ruder. 2020b. MAD-X: An Adapter-Based Framework for Multi-Task Cross-Lingual Transfer.",
+          "justification": "No DeBERTa citation given; closest related adapter reference",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "The SetFit results are based on contrastively tuning the same pre-trained model trained by Microsoft through the Setfit library",
+          "justification": "SetFit baseline model trained by the authors",
+          "value": "SetFit"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "comparing against SetFit (Tunstall et al., 2022), a recent lightweight method involving contrastive training of small MLM models",
+          "justification": "Baseline method",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "The SetFit results are based on contrastively tuning the same pre-trained model trained by Microsoft through the Setfit library",
+          "justification": "The authors trained SetFit models",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "the Retrieval+ICL pipeline manages to clearly win against the strongest baseline (SetFit)",
+          "justification": "Compared",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "a method involving contrastive fine-tuning of a retriever model with a classification head",
+          "justification": "Contrastive fine-tuning of a pre-trained model",
+          "value": "finetune"
+        },
+        "referenced_paper_title": {
+          "quote": "Lewis Tunstall, Nils Reimers, Unso Eun Seo Jo, Luke Bates, Daniel Korat, Moshe Wasserblat, and Oren Pereg. 2022. Efficient Few-shot Learning Without Prompts.",
+          "justification": "SetFit reference",
+          "value": "Efficient Few-shot Learning Without Prompts"
+        }
+      },
+      {
+        "name": {
+          "quote": "The ConvFit baseline is taken from the reported numbers in the ConvFit paper directly.",
+          "justification": "Numbers quoted, not executed",
+          "value": "ConvFit"
+        },
+        "aliases": [
+          "ConvFiT"
+        ],
+        "is_contributed": {
+          "quote": "the previous SoTA for intent detection (ConvFit; Vulić et al. 2021)",
+          "justification": "Prior work",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "The ConvFit baseline is taken from the reported numbers in the ConvFit paper directly.",
+          "justification": "Only reported numbers used",
+          "value": false
+        },
+        "is_compared": {
+          "quote": "ConvFit (reported)",
+          "justification": "Listed in comparison table",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "ConvFit uses a pre-trained LM in a dual-encoder configuration (e.g. BERT or RoBERTa) with two training stages.",
+          "justification": "Original method involves fine-tuning; not run here",
+          "value": "finetune"
+        },
+        "referenced_paper_title": {
+          "quote": "Ivan Vulić, Pei-Hao Su, Samuel Coope, Daniela Gerz, Paweł Budzianowski, Iñigo Casanueva, Nikola Mrkšić, and Tsung-Hsien Wen. 2021. ConvFiT: Conversational Fine-tuning of Pretrained Language Models.",
+          "justification": "ConvFiT reference",
+          "value": "ConvFiT: Conversational Fine-tuning of Pretrained Language Models"
+        }
+      }
+    ],
+    "data_sources": [
+      {
+        "name": {
+          "quote": "three intent classification datasets: BANKING77 (Casanueva et al., 2020)",
+          "justification": "Intent classification dataset",
+          "value": "BANKING77"
+        },
+        "aliases": [
+          "BANKING"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "we use the same 5-shot and 10-shot sets as DialoGLUE (Mehri et al., 2020)",
+          "justification": "Only shot counts stated: 5 or 10 examples per class; total not stated",
+          "value": "5-shot and 10-shot splits (10-shot is 10 examples per class, 5-shot is 5)"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "Iñigo Casanueva, Tadas Temcinas, Daniela Gerz, Matthew Henderson, and Ivan Vulic. 2020. Efficient Intent Detection with Dual Sentence Encoders.",
+          "justification": "BANKING77 reference",
+          "value": "Efficient Intent Detection with Dual Sentence Encoders"
+        }
+      },
+      {
+        "name": {
+          "quote": "HWU64 (Liu et al., 2019)",
+          "justification": "Intent classification dataset",
+          "value": "HWU64"
+        },
+        "aliases": [
+          "HWU"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "we use the same 5-shot and 10-shot sets as DialoGLUE (Mehri et al., 2020)",
+          "justification": "Only shot counts stated",
+          "value": "5-shot and 10-shot splits"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "Xingkun Liu, Arash Eshghi, Pawel Swietojanski, and Verena Rieser. 2019. Benchmarking Natural Language Understanding Services for Building Conversational Agents.",
+          "justification": "HWU64 reference",
+          "value": "Benchmarking Natural Language Understanding Services for Building Conversational Agents"
+        }
+      },
+      {
+        "name": {
+          "quote": "CLINC150 (Larson et al., 2019)",
+          "justification": "Intent classification dataset",
+          "value": "CLINC150"
+        },
+        "aliases": [
+          "CLINC"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "we use the same 5-shot and 10-shot sets as DialoGLUE (Mehri et al., 2020)",
+          "justification": "Only shot counts stated",
+          "value": "5-shot and 10-shot splits"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "Stefan Larson, ... 2019. An Evaluation Dataset for Intent Classification and Out-of-scope Prediction.",
+          "justification": "CLINC150 reference",
+          "value": "An Evaluation Dataset for Intent Classification and Out-of-scope Prediction"
+        }
+      },
+      {
+        "name": {
+          "quote": "one fine-grained sentiment classification dataset: GoEmotions (Demszky et al., 2020)",
+          "justification": "Sentiment dataset used",
+          "value": "GoEmotions"
+        },
+        "aliases": [],
+        "role": "used",
+        "size": {
+          "quote": "The GoEmotions experiments are composed of the subset of GoEmotions data (84% of training set, 85% of testing set) where the there is only one emotion label",
+          "justification": "Stated as percentages of the splits; also 1605 neutral test examples mentioned",
+          "value": "84% of training set, 85% of testing set (single-label subset)"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "Dorottya Demszky, Dana Movshovitz-Attias, Jeongwoo Ko, Alan Cowen, Gaurav Nemade, and Sujith Ravi. 2020. GoEmotions: A Dataset of Fine-grained Emotions.",
+          "justification": "GoEmotions reference",
+          "value": "GoEmotions: A Dataset of Fine-grained Emotions"
+        }
+      },
+      {
+        "name": {
+          "quote": "we use the same 5-shot and 10-shot sets as DialoGLUE (Mehri et al., 2020)",
+          "justification": "Source of the few-shot splits used",
+          "value": "DialoGLUE"
+        },
+        "aliases": [],
+        "role": "used",
+        "size": {
+          "quote": "we use the same 5-shot and 10-shot sets as DialoGLUE",
+          "justification": "No size stated",
+          "value": "unknown"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "Shikib Mehri, Mihail Eric, and Dilek Hakkani-Tür. 2020. DialoGLUE: A Natural Language Understanding Benchmark for Task-oriented Dialogue.",
+          "justification": "DialoGLUE reference",
+          "value": "DialoGLUE: A Natural Language Understanding Benchmark for Task-oriented Dialogue"
+        }
+      }
+    ],
+    "libraries": [
+      {
+        "name": {
+          "quote": "we use the SentenceTransformers library (Reimers and Gurevych, 2019a)",
+          "justification": "Used for sentence encoding/retrieval",
+          "value": "SentenceTransformers"
+        },
+        "aliases": [
+          "sentence-transformers"
+        ],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "Nils Reimers and Iryna Gurevych. 2019a. Sentence-BERT: Sentence Embeddings using Siamese BERT-networks.",
+          "justification": "Reference given",
+          "value": "Sentence-BERT: Sentence Embeddings using Siamese BERT-networks"
+        }
+      },
+      {
+        "name": {
+          "quote": "trained via AdapterHub with the Pfeiffer-style bottleneck adapters",
+          "justification": "Used to fine-tune DeBERTa",
+          "value": "AdapterHub"
+        },
+        "aliases": [],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "Jonas Pfeiffer, Andreas Rücklé, Clifton Poth, Aishwarya Kamath, Ivan Vulic, Sebastian Ruder, Kyunghyun Cho, and Iryna Gurevych. 2020a. AdapterHub: A Framework for Adapting Transformers.",
+          "justification": "AdapterHub reference",
+          "value": "AdapterHub: A Framework for Adapting Transformers"
+        }
+      },
+      {
+        "name": {
+          "quote": "contrastively tuning the same pre-trained model trained by Microsoft through the Setfit library",
+          "justification": "Used to train SetFit baselines",
+          "value": "Setfit library"
+        },
+        "aliases": [
+          "setfit"
+        ],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "Lewis Tunstall, Nils Reimers, Unso Eun Seo Jo, Luke Bates, Daniel Korat, Moshe Wasserblat, and Oren Pereg. 2022. Efficient Few-shot Learning Without Prompts.",
+          "justification": "SetFit paper reference",
+          "value": "Efficient Few-shot Learning Without Prompts"
+        }
+      }
+    ],
+    "algorithms": [
+      {
+        "name": {
+          "quote": "Retrieval-Augmented ICL: Our setup assumes N classes (unique labels) with K examples in each class.",
+          "justification": "The paper's main proposed pipeline",
+          "value": "Retrieval-Augmented ICL"
+        },
+        "aliases": [
+          "Retrieval+ICL",
+          "retrieval-augmented in-context learning"
+        ],
+        "is_contributed": {
+          "quote": "We show that retrieval-augmented ICL is an effective way to tackle text classification tasks with many labels without additional tuning of either the retriever or the LM",
+          "justification": "Main contribution",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "Performance of the retrieval+ICL pipeline on BANKING, HWU and CLINC is state of the art",
+          "justification": "Executed in experiments",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Tables 1 and 2 shows the performance comparison of all methods.",
+          "justification": "Compared against baselines",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "we retrieve the M examples using the cosine similarity values given by our retrieval model. Having retrieved our M examples, we then produce the prompt by concatenating the (input, label) tuples in a set prompt format",
+          "justification": "Describes the pipeline role",
+          "value": "retrieves examples with a dense retriever and builds the ICL prompt from which the LM generates the predicted class"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "Contributed by this paper",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "least-to-most (LTM) similar was the most effective ordering across all datasets",
+          "justification": "Prompt ordering strategy tested",
+          "value": "least-to-most (LTM)"
+        },
+        "aliases": [
+          "LTM"
+        ],
+        "is_contributed": {
+          "quote": "We provide a brief study regarding how to order examples in-prompt by similarity",
+          "justification": "Ordering strategies from prior work, studied here",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "As seen from Table 3, least-to-most (LTM) similar was the most effective ordering across all datasets.",
+          "justification": "Executed and measured",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "MTL is most-to-least similar and LTM is the inverse.",
+          "justification": "Compared with MTL and random",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "We provide a brief study regarding how to order examples in-prompt by similarity",
+          "justification": "Role as prompt ordering",
+          "value": "ordering of in-context examples in the prompt by similarity"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Jiachang Liu, Dinghan Shen, Yizhe Zhang, Bill Dolan, Lawrence Carin, and Weizhu Chen. 2022b. What Makes Good In-context Examples for GPT-3?",
+          "justification": "Ordering study reference (KATE)",
+          "value": "What Makes Good In-context Examples for GPT-3?"
+        }
+      },
+      {
+        "name": {
+          "quote": "MTL is most-to-least similar",
+          "justification": "Alternate ordering",
+          "value": "most-to-least (MTL)"
+        },
+        "aliases": [
+          "MTL"
+        ],
+        "is_contributed": {
+          "quote": "previous work has been inconclusive on this front",
+          "justification": "Prior-work ordering strategy",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Comparison of LLaMA 7B and OPT 13B model prompt orderings on intent detection datasets",
+          "justification": "Executed in Table 3",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "MTL\tLTM",
+          "justification": "Compared with LTM",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "Comparison of LLaMA 7B and OPT 13B model prompt orderings on intent detection datasets",
+          "justification": "Prompt ordering variant",
+          "value": "ordering of in-context examples most-to-least similar in the prompt"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Jiachang Liu, ... 2022b. What Makes Good In-context Examples for GPT-3?",
+          "justification": "Reference",
+          "value": "What Makes Good In-context Examples for GPT-3?"
+        }
+      },
+      {
+        "name": {
+          "quote": "use its label directly as the prediction (1-nearest-neighbor)",
+          "justification": "Baseline prediction procedure",
+          "value": "1-nearest-neighbor"
+        },
+        "aliases": [
+          "1-NN",
+          "KNN",
+          "SBERT 1-NN"
+        ],
+        "is_contributed": {
+          "quote": "The baseline “Pre-trained SBERT 1-NN” refers to using the SBERT retrieval model to retrieve the most similar example",
+          "justification": "Standard baseline",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Pre-trained SBERT 1-NN  78.41",
+          "justification": "Results reported by the authors",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Pre-trained SBERT 1-NN",
+          "justification": "Compared baseline",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "refers to using the SBERT retrieval model to retrieve the most similar example in the retrieval pool and use its label directly as the prediction",
+          "justification": "Baseline role",
+          "value": "baseline that predicts the label of the nearest retrieved example"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "No specific reference",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "a classic Okapi-BM25 retriever",
+          "justification": "Classical retrieval baseline executed in appendix",
+          "value": "Okapi-BM25"
+        },
+        "aliases": [
+          "BM25",
+          "BM25-Okapi"
+        ],
+        "is_contributed": {
+          "quote": "In this section we compare the SentenceTransformers neural BERT-based retriever against a classic Okapi-BM25 retriever",
+          "justification": "Classical method",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "LLaMA-2-7B (BM25-Okapi)  84.90  84.76",
+          "justification": "Run on HWU64 and BANKING77",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "we can see that the classical BM25 retriever performs measurably worse than the neural Sentence-Transformer retriever",
+          "justification": "Compared",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "we compare the SentenceTransformers neural BERT-based retriever against a classic Okapi-BM25 retriever on the HWU64 and BANKING77 datasets",
+          "justification": "Alternative retriever",
+          "value": "classical retriever used as alternative for selecting in-context examples"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "No reference listed",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "Obfuscated labels: We change all the class names to randomly set enumerated names (“Class 1”, “Class 2”, etc.)",
+          "justification": "Named ablation procedure",
+          "value": "Obfuscated labels"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "Several ablations studies are done to test what aspects of the retrieved examples the LLM is using",
+          "justification": "Ablation designed in this paper",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "Ablation results for HWU are shown visually in Figure 3 and for GoEmotions in Figure 4.",
+          "justification": "Executed ablation",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "In the obfuscation ablation (see Figure 3), we see that all models are hurt by obfuscating label names.",
+          "justification": "Compared to non-ablated",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "The intent is to disentangle the model’s use of prior (pre-training) knowledge to perform the task (based on the semantic content of the label names) from the input-output provided in the prompt.",
+          "justification": "Role in paper's own words",
+          "value": "ablation that replaces class names with enumerated names to test use of label semantics"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "No reference",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "Resampled in-context examples: To test if similarity between the demonstrations provided in the prompt and the current input example is actually necessary",
+          "justification": "Named ablation",
+          "value": "Resampled in-context examples"
+        },
+        "aliases": [
+          "resampling"
+        ],
+        "is_contributed": {
+          "quote": "We ablate three different elements",
+          "justification": "Designed here",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "In the resampling ablation for HWU (see Figure 3) we see that resampling from the initial class distribution provided by the retriever model damages the performance",
+          "justification": "Executed",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "resampling ... damages the performance across both OPT 175B and LLaMA 7B",
+          "justification": "Compared",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "By resampling from the classes initially retrieved by the retriever model, we preserve the distribution of labels but change the input demonstrations themselves",
+          "justification": "Role described",
+          "value": "ablation resampling demonstrations from the retrieved classes to test the importance of example similarity"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "No reference",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "Shuffled labels: Similarly to Min et al. (2022), after the retrieval step we shuffle the correspondence between the inputs and labels of the retrieved examples",
+          "justification": "Named ablation",
+          "value": "Shuffled labels"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "We perform several ablation studies to determine what aspects of the inputs and outputs the model is using for ICL.",
+          "justification": "Ablation performed here following prior work",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "Shuffling the input-label correspondence is the ablation in which we see the performance of all the models decrease the most",
+          "justification": "Executed",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "In all 4 datasets (intent classification and GoEmotions), shuffling the labels hurts the large model more in particular.",
+          "justification": "Compared",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "The intent of this ablation is to examine if the model requires correct input-label correspondences",
+          "justification": "Role described",
+          "value": "ablation shuffling input-label correspondences in the prompt"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Sewon Min, Xinxi Lyu, Ari Holtzman, Mikel Artetxe, Mike Lewis, Hannaneh Hajishirzi, and Luke Zettlemoyer. 2022. Rethinking the Role of Demonstrations: What Makes In-context Learning Work?",
+          "justification": "Referenced prior work",
+          "value": "Rethinking the Role of Demonstrations: What Makes In-context Learning Work?"
+        }
+      },
+      {
+        "name": {
+          "quote": "the “Pfeiffer” bottleneck-style adapter (Pfeiffer et al., 2020b)",
+          "justification": "Adapter-based fine-tuning procedure used for the DeBERTa baseline",
+          "value": "Pfeiffer bottleneck-style adapter"
+        },
+        "aliases": [
+          "Pfeiffer",
+          "Pfeiffer-style bottleneck adapters"
+        ],
+        "is_contributed": {
+          "quote": "We compare the performance achieved against adapter-based fine-tuning of MLM models",
+          "justification": "Prior method",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "trained via AdapterHub with the Pfeiffer-style bottleneck adapters",
+          "justification": "Executed for baselines",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Preliminary results with other adapter types (LoRA, IA3 , etc.) showed that the Pfeiffer-style adapters were the most effective in this particular use-case.",
+          "justification": "Compared to other adapters",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "adapter-based fine-tuning of MLM models (DeBERTa-v2-XXLarge with the “Pfeiffer” bottleneck-style adapter",
+          "justification": "Role in baseline",
+          "value": "parameter-efficient fine-tuning method for the DeBERTa baseline"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Jonas Pfeiffer, Ivan Vulić, Iryna Gurevych, and Sebastian Ruder. 2020b. MAD-X: An Adapter-Based Framework for Multi-Task Cross-Lingual Transfer.",
+          "justification": "Reference for Pfeiffer adapters",
+          "value": "MAD-X: An Adapter-Based Framework for Multi-Task Cross-Lingual Transfer"
+        }
+      },
+      {
+        "name": {
+          "quote": "The DeBERTa-XXL model was fine-tuned until performance saturation (early stopping).",
+          "justification": "Named training procedure",
+          "value": "early stopping"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "fine-tuned until performance saturation (early stopping)",
+          "justification": "Standard procedure",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "The DeBERTa-XXL model was fine-tuned until performance saturation (early stopping).",
+          "justification": "Used in baseline training",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "The DeBERTa-XXL model was fine-tuned until performance saturation (early stopping).",
+          "justification": "Not compared as a method",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "fine-tuned until performance saturation (early stopping)",
+          "justification": "Role in training the baseline",
+          "value": "stopping criterion for fine-tuning the DeBERTa baseline"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "No reference",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "For LLaMA 65B and 70B 8-bit quantization was used.",
+          "justification": "Quantization procedure applied",
+          "value": "8-bit quantization"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "For LLaMA 65B and 70B 8-bit quantization was used.",
+          "justification": "Standard technique",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "For LLaMA 65B and 70B 8-bit quantization was used.",
+          "justification": "Applied in runs",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "with 8-bit quantization can be run on consumer hardware",
+          "justification": "Not numerically compared",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "For LLaMA 65B and 70B 8-bit quantization was used.",
+          "justification": "Role in inference",
+          "value": "quantization applied to run the large LLaMA models"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "No reference",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "Prompt saturation: The number of examples that fit in-context when greedily filling the context window",
+          "justification": "Named procedure for prompt construction",
+          "value": "Prompt saturation"
+        },
+        "aliases": [
+          "saturating the prompt",
+          "Sat"
+        ],
+        "is_contributed": {
+          "quote": "M can be fixed or based on “saturating” the prompt greedily by selecting examples until we run out of room in the context window.",
+          "justification": "Introduced in this setup",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "All retrieval+ICL results are from saturating the prompt with in-prompt examples",
+          "justification": "Executed",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "“Sat” (saturated) indicates filling the prompt greedily until the max length is reached.",
+          "justification": "Compared with fixed numbers of examples",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "based on “saturating” the prompt greedily by selecting examples until we run out of room in the context window",
+          "justification": "Role described",
+          "value": "greedy filling of the context window with retrieved examples"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "No reference",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "Restricting model output: ... Having generated an output text, we then use the retrieval model (SBERT) to retrieve the most similar class label from our set of classes.",
+          "justification": "Named decoding/output-mapping procedure",
+          "value": "Restricting model output"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "To reduce computational load and make inference easier, instead of using the logits of the LLM to rank our many classes ... we let the LLM generate freely.",
+          "justification": "Part of this paper's pipeline",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "This allows us to restrict the model output to the set of classes we want without incurring additional inference cost.",
+          "justification": "Used in all LLM runs",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Instances of generated predictions that do not match our class list are few regardless",
+          "justification": "Not numerically compared",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "we then use the retrieval model (SBERT) to retrieve the most similar class label from our set of classes",
+          "justification": "Role described",
+          "value": "mapping free-form LM generations to the nearest valid class label"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "No reference",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "The contrastively fine-tuned retriever was trained for one epoch to avoid overfitting, using three times as many negative pairs as positive pairs",
+          "justification": "Appendix retriever fine-tuning procedure",
+          "value": "contrastive fine-tuning of the retriever"
+        },
+        "aliases": [
+          "fine-tuned retriever"
+        ],
+        "is_contributed": {
+          "quote": "Comparison of Models with Fine-tuned Retriever (20 examples in prompt), compared against non-fine-tuned performance",
+          "justification": "Supplementary experiment by the authors",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "The contrastively fine-tuned retriever was trained for one epoch ... (roughly 5-10 mins depending on the dataset)",
+          "justification": "Executed",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "compared against non-fine-tuned performance",
+          "justification": "Compared",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "The contrastively fine-tuned retriever was trained for one epoch to avoid overfitting, using three times as many negative pairs as positive pairs",
+          "justification": "Role described",
+          "value": "fine-tuning the retriever contrastively to test whether retrieval quality bottlenecks performance"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "No reference",
+          "value": "unknown"
+        }
+      }
+    ],
+    "runs": [
+      {
+        "models": [
+          {
+            "name": "OPT 13B",
+            "role_in_run": "main"
+          },
+          {
+            "name": "all-mpnet-base-v2",
+            "role_in_run": "data-source"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "BANKING77",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          },
+          {
+            "name": "HWU64",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          },
+          {
+            "name": "CLINC150",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          },
+          {
+            "name": "DialoGLUE",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Retrieval-Augmented ICL"
+          },
+          {
+            "name": "least-to-most (LTM)"
+          },
+          {
+            "name": "most-to-least (MTL)"
+          },
+          {
+            "name": "Prompt saturation"
+          },
+          {
+            "name": "Restricting model output"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "with no fine-tuning",
+          "justification": "LLM only runs inference in the ICL pipeline",
+          "value": "inference"
+        },
+        "epochs": {
+          "quote": "without additional tuning of either the retriever or the LM",
+          "justification": "No training",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "OPT 13B",
+          "justification": "Model name states scale",
+          "value": "13B"
+        },
+        "accelerator_type": {
+          "quote": "All experiments were performed on a single A100 80GB GPU",
+          "justification": "GPU",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "All experiments were performed on a single A100 80GB GPU",
+          "justification": "A100 80GB stated",
+          "value": "A100 80GB"
+        },
+        "accelerator_count": {
+          "quote": "All experiments were performed on a single A100 80GB GPU",
+          "justification": "Single GPU",
+          "value": "1"
+        },
+        "precision": {
+          "quote": "For LLaMA 65B and 70B 8-bit quantization was used.",
+          "justification": "Quantization only stated for 65B/70B models; nothing for OPT 13B",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "All experiments were performed on a single A100 80GB GPU",
+          "justification": "Single GPU, no parallelism strategy stated",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "Not stated",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "Not stated",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "Experiments are run 3 times and the accuracies are averaged, except the zero-training LLM setups, which are deterministic.",
+          "justification": "LLM setups are deterministic; no repetitions stated for these",
+          "value": []
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "OPT 175B",
+            "role_in_run": "main"
+          },
+          {
+            "name": "all-mpnet-base-v2",
+            "role_in_run": "data-source"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "BANKING77",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          },
+          {
+            "name": "HWU64",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          },
+          {
+            "name": "CLINC150",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          },
+          {
+            "name": "DialoGLUE",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Retrieval-Augmented ICL"
+          },
+          {
+            "name": "least-to-most (LTM)"
+          },
+          {
+            "name": "Prompt saturation"
+          },
+          {
+            "name": "Restricting model output"
+          },
+          {
+            "name": "Obfuscated labels"
+          },
+          {
+            "name": "Resampled in-context examples"
+          },
+          {
+            "name": "Shuffled labels"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "with no fine-tuning",
+          "justification": "Inference only",
+          "value": "inference"
+        },
+        "epochs": {
+          "quote": "without additional tuning of either the retriever or the LM",
+          "justification": "No training",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "OPT 175B",
+          "justification": "Scale in name as written in table",
+          "value": "175B"
+        },
+        "accelerator_type": {
+          "quote": "except those with OPT 175B, which were performed with 8 A100 GPUs",
+          "justification": "GPU",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "except those with OPT 175B, which were performed with 8 A100 GPUs",
+          "justification": "A100 stated",
+          "value": "A100"
+        },
+        "accelerator_count": {
+          "quote": "except those with OPT 175B, which were performed with 8 A100 GPUs",
+          "justification": "8 GPUs",
+          "value": "8"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Not stated for OPT 175B",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "performed with 8 A100 GPUs",
+          "justification": "Multi-GPU but strategy not stated",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "Not stated",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "Not stated",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "except the zero-training LLM setups, which are deterministic",
+          "justification": "No repetition count stated",
+          "value": []
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "LLaMA 7B",
+            "role_in_run": "main"
+          },
+          {
+            "name": "all-mpnet-base-v2",
+            "role_in_run": "data-source"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "BANKING77",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          },
+          {
+            "name": "HWU64",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          },
+          {
+            "name": "CLINC150",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          },
+          {
+            "name": "GoEmotions",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          },
+          {
+            "name": "DialoGLUE",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Retrieval-Augmented ICL"
+          },
+          {
+            "name": "least-to-most (LTM)"
+          },
+          {
+            "name": "most-to-least (MTL)"
+          },
+          {
+            "name": "Prompt saturation"
+          },
+          {
+            "name": "Restricting model output"
+          },
+          {
+            "name": "Obfuscated labels"
+          },
+          {
+            "name": "Resampled in-context examples"
+          },
+          {
+            "name": "Shuffled labels"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "with no fine-tuning",
+          "justification": "Inference only",
+          "value": "inference"
+        },
+        "epochs": {
+          "quote": "",
+          "justification": "No training",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "LLaMA 7B",
+          "justification": "Scale stated in table row",
+          "value": "7B"
+        },
+        "accelerator_type": {
+          "quote": "All experiments were performed on a single A100 80GB GPU",
+          "justification": "GPU",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "All experiments were performed on a single A100 80GB GPU",
+          "justification": "Stated",
+          "value": "A100 80GB"
+        },
+        "accelerator_count": {
+          "quote": "All experiments were performed on a single A100 80GB GPU",
+          "justification": "Single GPU",
+          "value": "1"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Not stated for 7B",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "All experiments were performed on a single A100 80GB GPU",
+          "justification": "Not stated",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "Not stated",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "Not stated",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "For the GoEmotions experiments we average the results across 3 different random 10 and 5-shot splits",
+          "justification": "3 random splits for GoEmotions",
+          "value": [
+            {
+              "kind": "fold",
+              "count": 3,
+              "what": "different random 10 and 5-shot splits (GoEmotions)"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "LLaMA 65B",
+            "role_in_run": "main"
+          },
+          {
+            "name": "all-mpnet-base-v2",
+            "role_in_run": "data-source"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "BANKING77",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          },
+          {
+            "name": "HWU64",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          },
+          {
+            "name": "CLINC150",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          },
+          {
+            "name": "GoEmotions",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          },
+          {
+            "name": "DialoGLUE",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Retrieval-Augmented ICL"
+          },
+          {
+            "name": "least-to-most (LTM)"
+          },
+          {
+            "name": "most-to-least (MTL)"
+          },
+          {
+            "name": "8-bit quantization"
+          },
+          {
+            "name": "Prompt saturation"
+          },
+          {
+            "name": "Restricting model output"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "with no fine-tuning",
+          "justification": "Inference only",
+          "value": "inference"
+        },
+        "epochs": {
+          "quote": "",
+          "justification": "No training",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "LLaMA 65B",
+          "justification": "Scale stated",
+          "value": "65B"
+        },
+        "accelerator_type": {
+          "quote": "All experiments were performed on a single A100 80GB GPU",
+          "justification": "GPU",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "All experiments were performed on a single A100 80GB GPU",
+          "justification": "Stated",
+          "value": "A100 80GB"
+        },
+        "accelerator_count": {
+          "quote": "All experiments were performed on a single A100 80GB GPU",
+          "justification": "Single GPU",
+          "value": "1"
+        },
+        "precision": {
+          "quote": "For LLaMA 65B and 70B 8-bit quantization was used.",
+          "justification": "8-bit quantization stated",
+          "value": "int8"
+        },
+        "parallelism": {
+          "quote": "All experiments were performed on a single A100 80GB GPU",
+          "justification": "Not stated",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "Not stated",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "Not stated",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "For the GoEmotions experiments we average the results across 3 different random 10 and 5-shot splits",
+          "justification": "3 splits for GoEmotions",
+          "value": [
+            {
+              "kind": "fold",
+              "count": 3,
+              "what": "different random 10 and 5-shot splits (GoEmotions)"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "LLaMA 2 7B",
+            "role_in_run": "main"
+          },
+          {
+            "name": "all-mpnet-base-v2",
+            "role_in_run": "data-source"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "BANKING77",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          },
+          {
+            "name": "HWU64",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          },
+          {
+            "name": "CLINC150",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          },
+          {
+            "name": "GoEmotions",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          },
+          {
+            "name": "DialoGLUE",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Retrieval-Augmented ICL"
+          },
+          {
+            "name": "least-to-most (LTM)"
+          },
+          {
+            "name": "Prompt saturation"
+          },
+          {
+            "name": "Restricting model output"
+          },
+          {
+            "name": "Okapi-BM25"
+          },
+          {
+            "name": "1-nearest-neighbor"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "with 8-bit quantization can be run on consumer hardware",
+          "justification": "Inference only",
+          "value": "inference"
+        },
+        "epochs": {
+          "quote": "",
+          "justification": "No training",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "LLaMA 2 7B",
+          "justification": "Scale stated",
+          "value": "7B"
+        },
+        "accelerator_type": {
+          "quote": "All experiments were performed on a single A100 80GB GPU",
+          "justification": "GPU",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "All experiments were performed on a single A100 80GB GPU",
+          "justification": "Stated",
+          "value": "A100 80GB"
+        },
+        "accelerator_count": {
+          "quote": "All experiments were performed on a single A100 80GB GPU",
+          "justification": "Single GPU",
+          "value": "1"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Not stated for 7B",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "All experiments were performed on a single A100 80GB GPU",
+          "justification": "Not stated",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "Not stated",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "Not stated",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "For the GoEmotions experiments we average the results across 3 different random 10 and 5-shot splits",
+          "justification": "3 splits for GoEmotions",
+          "value": [
+            {
+              "kind": "fold",
+              "count": 3,
+              "what": "different random 10 and 5-shot splits (GoEmotions)"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "LLaMA 2 70B",
+            "role_in_run": "main"
+          },
+          {
+            "name": "all-mpnet-base-v2",
+            "role_in_run": "data-source"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "BANKING77",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          },
+          {
+            "name": "HWU64",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          },
+          {
+            "name": "CLINC150",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          },
+          {
+            "name": "GoEmotions",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          },
+          {
+            "name": "DialoGLUE",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Retrieval-Augmented ICL"
+          },
+          {
+            "name": "least-to-most (LTM)"
+          },
+          {
+            "name": "8-bit quantization"
+          },
+          {
+            "name": "Prompt saturation"
+          },
+          {
+            "name": "Restricting model output"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "with no fine-tuning",
+          "justification": "Inference only",
+          "value": "inference"
+        },
+        "epochs": {
+          "quote": "",
+          "justification": "No training",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "LLaMA 2 70B",
+          "justification": "Scale stated",
+          "value": "70B"
+        },
+        "accelerator_type": {
+          "quote": "All experiments were performed on a single A100 80GB GPU",
+          "justification": "GPU",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "All experiments were performed on a single A100 80GB GPU",
+          "justification": "Stated",
+          "value": "A100 80GB"
+        },
+        "accelerator_count": {
+          "quote": "All experiments were performed on a single A100 80GB GPU",
+          "justification": "Single GPU except OPT 175B",
+          "value": "1"
+        },
+        "precision": {
+          "quote": "For LLaMA 65B and 70B 8-bit quantization was used.",
+          "justification": "8-bit quantization",
+          "value": "int8"
+        },
+        "parallelism": {
+          "quote": "All experiments were performed on a single A100 80GB GPU",
+          "justification": "Not stated",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "Not stated",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "Not stated",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "For the GoEmotions experiments we average the results across 3 different random 10 and 5-shot splits",
+          "justification": "3 splits for GoEmotions",
+          "value": [
+            {
+              "kind": "fold",
+              "count": 3,
+              "what": "different random 10 and 5-shot splits (GoEmotions)"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "DeBERTa-v2-XXLarge",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "BANKING77",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          },
+          {
+            "name": "HWU64",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          },
+          {
+            "name": "CLINC150",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          },
+          {
+            "name": "GoEmotions",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          },
+          {
+            "name": "DialoGLUE",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Pfeiffer bottleneck-style adapter"
+          },
+          {
+            "name": "early stopping"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "The DeBERTa-XXL model was fine-tuned until performance saturation (early stopping).",
+          "justification": "Adapter fine-tuning",
+          "value": "finetune"
+        },
+        "epochs": {
+          "quote": "The DeBERTa-XXL model was fine-tuned until performance saturation (early stopping).",
+          "justification": "No epoch count stated",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "DeBERTa-v2-XXLarge",
+          "justification": "Count not stated numerically",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "All experiments were performed on a single A100 80GB GPU",
+          "justification": "GPU",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "All experiments were performed on a single A100 80GB GPU",
+          "justification": "Stated",
+          "value": "A100 80GB"
+        },
+        "accelerator_count": {
+          "quote": "All experiments were performed on a single A100 80GB GPU",
+          "justification": "Single GPU",
+          "value": "1"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Not stated",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "All experiments were performed on a single A100 80GB GPU",
+          "justification": "Not stated",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "Not stated",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "Not stated",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "Experiments are run 3 times and the accuracies are averaged",
+          "justification": "3 runs stated for trained setups",
+          "value": [
+            {
+              "kind": "seed",
+              "count": 3,
+              "what": "experiment repetitions, accuracies averaged"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "SetFit",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "BANKING77",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          },
+          {
+            "name": "HWU64",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          },
+          {
+            "name": "CLINC150",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          },
+          {
+            "name": "GoEmotions",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          },
+          {
+            "name": "DialoGLUE",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [],
+        "produces": [],
+        "execution_mode": {
+          "quote": "The SetFit results are based on contrastively tuning the same pre-trained model trained by Microsoft through the Setfit library",
+          "justification": "Contrastive fine-tuning",
+          "value": "finetune"
+        },
+        "epochs": {
+          "quote": "Default library parameters were used.",
+          "justification": "No epochs stated",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "a 110M parameter model pre-trained on over 1 billion training pairs",
+          "justification": "SetFit tunes the same pre-trained retriever model, stated as 110M",
+          "value": "110M"
+        },
+        "accelerator_type": {
+          "quote": "All experiments were performed on a single A100 80GB GPU",
+          "justification": "GPU",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "All experiments were performed on a single A100 80GB GPU",
+          "justification": "Stated",
+          "value": "A100 80GB"
+        },
+        "accelerator_count": {
+          "quote": "All experiments were performed on a single A100 80GB GPU",
+          "justification": "Single GPU",
+          "value": "1"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Not stated",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "All experiments were performed on a single A100 80GB GPU",
+          "justification": "Not stated",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "Not stated",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "Not stated",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "Experiments are run 3 times and the accuracies are averaged",
+          "justification": "3 runs",
+          "value": [
+            {
+              "kind": "seed",
+              "count": 3,
+              "what": "experiment repetitions, accuracies averaged"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "all-mpnet-base-v2",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "BANKING77",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "HWU64",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "CLINC150",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "contrastive fine-tuning of the retriever"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "The contrastively fine-tuned retriever was trained for one epoch to avoid overfitting",
+          "justification": "Fine-tuning of the pre-trained retriever",
+          "value": "finetune"
+        },
+        "epochs": {
+          "quote": "trained for one epoch to avoid overfitting",
+          "justification": "One epoch stated",
+          "value": "one epoch"
+        },
+        "parameter_count": {
+          "quote": "a 110M parameter model pre-trained on over 1 billion training pairs",
+          "justification": "Stated parameter count of the retriever",
+          "value": "110M"
+        },
+        "accelerator_type": {
+          "quote": "All experiments were performed on a single A100 80GB GPU",
+          "justification": "GPU",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "All experiments were performed on a single A100 80GB GPU",
+          "justification": "Stated",
+          "value": "A100 80GB"
+        },
+        "accelerator_count": {
+          "quote": "All experiments were performed on a single A100 80GB GPU",
+          "justification": "Single GPU",
+          "value": "1"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Not stated",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "All experiments were performed on a single A100 80GB GPU",
+          "justification": "Not stated",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "roughly 5-10 mins depending on the dataset",
+          "justification": "Stated training time",
+          "value": "roughly 5-10 mins depending on the dataset"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "Not stated",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "SBERT KNN 87.40 ± 0.21",
+          "justification": "Standard deviations reported but number of repeats not stated explicitly for this appendix",
+          "value": []
+        }
+      }
+    ]
+  },
+  "usage": {
+    "input_tokens": 31445,
+    "output_tokens": 22299,
+    "total_tokens": 53744
+  }
+}

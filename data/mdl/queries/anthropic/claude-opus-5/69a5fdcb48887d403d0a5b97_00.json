@@ -1,0 +1,1912 @@
+{
+  "paper": "69a5fdcb48887d403d0a5b97.txt",
+  "words": 10191,
+  "extractions": {
+    "title": {
+      "quote": "ConceptGraphs: Open-Vocabulary 3D Scene Graphs for Perception and Planning",
+      "justification": "Title as given on the paper",
+      "value": "ConceptGraphs: Open-Vocabulary 3D Scene Graphs for Perception and Planning"
+    },
+    "description": "The paper proposes ConceptGraphs, an open-vocabulary object-centric 3D scene graph representation built from posed RGB-D sequences using off-the-shelf 2D foundation models (SAM, CLIP, Grounding DINO, RAM), an LVLM (LLaVA) for node captioning and an LLM (GPT-4) for edge relations and task planning. It is evaluated on Replica scene graph accuracy, open-vocabulary 3D semantic segmentation, text-based object retrieval, and real-world robot demonstrations (Jackal UGV navigation/object search/traversability, Spot Arm pick-and-place, AI2Thor localization/map update).",
+    "type": {
+      "quote": "In experiments, we demonstrate that ConceptGraphs is able to discover, map, and caption a large number of objects in a scene.",
+      "justification": "The paper builds a system and evaluates it on datasets and real robots.",
+      "value": "empirical"
+    },
+    "research_fields": [
+      {
+        "name": {
+          "quote": "We propose ConceptGraphs, a 3D scene representation method for robot perception and planning that satisfies all the above requirements.",
+          "justification": "The paper proposes a 3D scene representation for robot perception and planning.",
+          "value": "Robot perception and planning"
+        },
+        "aliases": [
+          "robotics"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "we propose ConceptGraphs, an open-vocabulary graph-structured representation for 3D scenes",
+          "justification": "The paper contributes an open-vocabulary 3D scene graph mapping approach.",
+          "value": "3D scene understanding / semantic mapping"
+        },
+        "aliases": [
+          "3D scene graphs",
+          "semantic mapping"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "Open-vocabulary semantic segmentation on the Replica [56] dataset.",
+          "justification": "Used as an evaluation venue.",
+          "value": "Open-vocabulary semantic segmentation"
+        },
+        "aliases": [
+          "3D semantic segmentation"
+        ],
+        "role": "used"
+      },
+      {
+        "name": {
+          "quote": "leveraging large vision-language models",
+          "justification": "The paper leverages large vision-language and language models.",
+          "value": "Vision-language models / foundation models"
+        },
+        "aliases": [
+          "LVLM",
+          "LLM"
+        ],
+        "role": "used"
+      }
+    ],
+    "models": [
+      {
+        "name": {
+          "quote": "we introduced ConceptGraphs, a novel approach to open-vocab object-centric 3D scene representation",
+          "justification": "The proposed system; CG variant.",
+          "value": "ConceptGraphs"
+        },
+        "aliases": [
+          "CG"
+        ],
+        "is_contributed": {
+          "quote": "We construct open-vocabulary 3D scene graphs; efficient and structured semantic abstractions for perception and planning.",
+          "justification": "Core contribution of the paper.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "We implement and demonstrate ConceptGraphs on a number of real-world robotics tasks",
+          "justification": "Run on Replica, real-world scenes and robots.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "ConceptGraphs (Ours)",
+          "justification": "Compared in Table II against baselines.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "all while using off-the-shelf models (no training/finetuning)",
+          "justification": "Uses off-the-shelf models without training/finetuning.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "ConceptGraphs: Open-Vocabulary 3D Scene Graphs for Perception and Planning",
+          "justification": "This paper.",
+          "value": "ConceptGraphs: Open-Vocabulary 3D Scene Graphs for Perception and Planning"
+        }
+      },
+      {
+        "name": {
+          "quote": "We also develop a variant of our system, ConceptGraphs-Detector (CG-D)",
+          "justification": "Variant using RAM and Grounding DINO.",
+          "value": "ConceptGraphs-Detector"
+        },
+        "aliases": [
+          "CG-D"
+        ],
+        "is_contributed": {
+          "quote": "We also develop a variant of our system, ConceptGraphs-Detector (CG-D), where we employ an image tagging model (RAM [54])",
+          "justification": "A variant developed in this work.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "we report scene graph accuracy metrics for both CG and the detector-variant CG-D",
+          "justification": "Evaluated in Tables I and II.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "ConceptGraphs-Detector (Ours)",
+          "justification": "Compared in Table II.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "Zero-shot approaches do not need any finetuning and are evaluated off the shelf.",
+          "justification": "Off-the-shelf model usage.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "ConceptGraphs: Open-Vocabulary 3D Scene Graphs for Perception and Planning",
+          "justification": "This paper.",
+          "value": "ConceptGraphs: Open-Vocabulary 3D Scene Graphs for Perception and Planning"
+        }
+      },
+      {
+        "name": {
+          "quote": "Our experiments use SegmentAnything (SAM) [33] as the segmentation model Seg(·)",
+          "justification": "Used as class-agnostic segmentation model.",
+          "value": "Segment Anything (SAM)"
+        },
+        "aliases": [
+          "SAM"
+        ],
+        "is_contributed": {
+          "quote": "Our experiments use SegmentAnything (SAM) [33] as the segmentation model",
+          "justification": "External model.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "a class-agnostic segmentation model Seg(·) is used to obtain a set of masks",
+          "justification": "Run as part of the pipeline.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "We also provide an additional baseline, ConceptFusion+SAM, by replacing the Mask2Former used in ConceptFusion with the more performant SAM [33] model.",
+          "justification": "Not itself compared; used as component (though ConceptFusion+SAM baseline).",
+          "value": false
+        },
+        "execution_mode": {
+          "quote": "all while using off-the-shelf models (no training/finetuning)",
+          "justification": "Used off-the-shelf.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "A. Kirillov, E. Mintun, N. Ravi, H. Mao, C. Rolland, L. Gustafson, T. Xiao, S. Whitehead, A. C. Berg, W.-Y. Lo et al., “Segment anything,”",
+          "justification": "Reference [33].",
+          "value": "Segment anything"
+        }
+      },
+      {
+        "name": {
+          "quote": "the CLIP image encoder [31] as the feature extractor Embed(·)",
+          "justification": "Used as feature extractor and retrieval baseline.",
+          "value": "CLIP"
+        },
+        "aliases": [
+          "CLIP image encoder"
+        ],
+        "is_contributed": {
+          "quote": "the CLIP image encoder [31] as the feature extractor",
+          "justification": "External model.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we compute the similarity between the fused semantic feature of each object node and the CLIP text embeddings",
+          "justification": "Used to compute embeddings.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "CLIP refers to object retrieval using cosine similarity, whereas LLM refers to having an LLM parse the scene graph",
+          "justification": "CLIP retrieval compared to LLM retrieval in Table III.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "all while using off-the-shelf models (no training/finetuning)",
+          "justification": "Off-the-shelf encoder.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "A. Radford, J. W. Kim, C. Hallacy, ... “Learning transferable visual models from natural language supervision,”",
+          "justification": "Reference [31].",
+          "value": "Learning transferable visual models from natural language supervision"
+        }
+      },
+      {
+        "name": {
+          "quote": "Each extracted mask mt,i is then passed to a visual feature extractor (CLIP [31], DINO [53])",
+          "justification": "Mentioned as a visual feature extractor option.",
+          "value": "DINO"
+        },
+        "aliases": [
+          "DINOv2"
+        ],
+        "is_contributed": {
+          "quote": "a visual feature extractor (CLIP [31], DINO [53])",
+          "justification": "External model.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Our experiments use SegmentAnything (SAM) [33] as the segmentation model Seg(·), and the CLIP image encoder [31] as the feature extractor Embed(·).",
+          "justification": "Implementation details state CLIP was used; DINO only mentioned as an option.",
+          "value": false
+        },
+        "is_compared": {
+          "quote": "a visual feature extractor (CLIP [31], DINO [53])",
+          "justification": "No numerical comparison reported.",
+          "value": false
+        },
+        "execution_mode": {
+          "quote": "a visual feature extractor (CLIP [31], DINO [53])",
+          "justification": "Not stated as executed.",
+          "value": "unknown"
+        },
+        "referenced_paper_title": {
+          "quote": "M. Oquab, T. Darcet, ... “Dinov2: Learning robust visual features without supervision,”",
+          "justification": "Reference [53].",
+          "value": "Dinov2: Learning robust visual features without supervision"
+        }
+      },
+      {
+        "name": {
+          "quote": "We use LLaVA [55] as the vision-language model LVLM",
+          "justification": "Used as the LVLM for captioning.",
+          "value": "LLaVA"
+        },
+        "aliases": [
+          "LLaVA-7B"
+        ],
+        "is_contributed": {
+          "quote": "We use LLaVA [55] as the vision-language model LVLM",
+          "justification": "External model.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we run a local instance of LLaVA offboard on a desktop when needed",
+          "justification": "Run locally on a desktop for captioning and visual queries.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "We run each view through an LVLM, here LLaVA-7B [55], to generate an image caption.",
+          "justification": "Used as component, not compared numerically.",
+          "value": false
+        },
+        "execution_mode": {
+          "quote": "all while using off-the-shelf models (no training/finetuning)",
+          "justification": "Used off-the-shelf for inference.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "H. Liu, C. Li, Q. Wu, and Y. J. Lee, “Visual instruction tuning,”",
+          "justification": "Reference [55].",
+          "value": "Visual instruction tuning"
+        }
+      },
+      {
+        "name": {
+          "quote": "GPT-4 [32] (gpt-4-0613) for our LLM",
+          "justification": "Used as LLM for captions summarization, edges and planning.",
+          "value": "GPT-4"
+        },
+        "aliases": [
+          "gpt-4-0613"
+        ],
+        "is_contributed": {
+          "quote": "We use ... GPT-4 [32] (gpt-4-0613) for our LLM.",
+          "justification": "External model.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "otherwise use the GPT-4 API for LLM queries",
+          "justification": "Queried via API.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "CLIP refers to object retrieval using cosine similarity, whereas LLM refers to having an LLM parse the scene graph and return the most relevant object.",
+          "justification": "LLM-based retrieval compared with CLIP-based retrieval.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "use the GPT-4 API for LLM queries",
+          "justification": "API inference only.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "OpenAI, “Gpt-4 technical report,”",
+          "justification": "Reference [32].",
+          "value": "Gpt-4 technical report"
+        }
+      },
+      {
+        "name": {
+          "quote": "We also prototyped variants of this approach on off-the-shelf LLMs with larger context lengths, such as Claude-2 with a context length of 32K tokens, and found it to work reliably.",
+          "justification": "Mentioned as prototyped alternative LLM.",
+          "value": "Claude-2"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "such as Claude-2 with a context length of 32K tokens",
+          "justification": "External model.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We also prototyped variants of this approach on off-the-shelf LLMs with larger context lengths, such as Claude-2",
+          "justification": "Prototyped and found to work reliably.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "found it to work reliably",
+          "justification": "No numerical comparison.",
+          "value": false
+        },
+        "execution_mode": {
+          "quote": "We also prototyped variants of this approach on off-the-shelf LLMs",
+          "justification": "Prototype queries only.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "such as Claude-2 with a context length of 32K tokens",
+          "justification": "No reference given.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "an open-vocabulary 2D detector (Grounding DINO [34]) to obtain object bounding boxes",
+          "justification": "Open-vocabulary detector used in CG-D.",
+          "value": "Grounding DINO"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "an open-vocabulary 2D detector (Grounding DINO [34])",
+          "justification": "External model.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "In this variant, we need to separately handle detected background objects",
+          "justification": "Used in CG-D variant experiments.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "an open-vocabulary 2D detector (Grounding DINO [34]) to obtain object bounding boxes",
+          "justification": "Component, not compared.",
+          "value": false
+        },
+        "execution_mode": {
+          "quote": "all while using off-the-shelf models (no training/finetuning)",
+          "justification": "Off-the-shelf usage.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "S. Liu, Z. Zeng, T. Ren, ... “Grounding dino: Marrying dino with grounded pre-training for open-set object detection,”",
+          "justification": "Reference [34].",
+          "value": "Grounding dino: Marrying dino with grounded pre-training for open-set object detection"
+        }
+      },
+      {
+        "name": {
+          "quote": "we employ an image tagging model (RAM [54]) to list the object classes present in the image",
+          "justification": "Image tagging model used in CG-D.",
+          "value": "RAM"
+        },
+        "aliases": [
+          "Recognize Anything"
+        ],
+        "is_contributed": {
+          "quote": "an image tagging model (RAM [54])",
+          "justification": "External model.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we employ an image tagging model (RAM [54]) to list the object classes present in the image",
+          "justification": "Used in CG-D pipeline.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "We discard the (often noisy) tags produced by the image tagging model",
+          "justification": "Component only.",
+          "value": false
+        },
+        "execution_mode": {
+          "quote": "all while using off-the-shelf models (no training/finetuning)",
+          "justification": "Off-the-shelf usage.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "Y. Zhang, X. Huang, ... “Recognize anything: A strong image tagging model,”",
+          "justification": "Reference [54].",
+          "value": "Recognize anything: A strong image tagging model"
+        }
+      },
+      {
+        "name": {
+          "quote": "ConceptFusion [17]",
+          "justification": "Baseline in Table II.",
+          "value": "ConceptFusion"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "the proposed ConceptGraphs performs comparably with or better than ConceptFusion",
+          "justification": "Prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "following the evaluation protocol used in ConceptFusion [17]",
+          "justification": "Numbers reported following its evaluation protocol; not clearly re-run (the +SAM variant was built though).",
+          "value": false
+        },
+        "is_compared": {
+          "quote": "ConceptGraphs performs comparably with or better than ConceptFusion",
+          "justification": "Compared in Table II.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "Zero-shot approaches do not need any finetuning and are evaluated off the shelf.",
+          "justification": "Zero-shot evaluation method.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "K. M. Jatavallabhula, ... “ConceptFusion: Open-set multimodal 3d mapping,”",
+          "justification": "Reference [17].",
+          "value": "ConceptFusion: Open-set multimodal 3d mapping"
+        }
+      },
+      {
+        "name": {
+          "quote": "We also provide an additional baseline, ConceptFusion+SAM, by replacing the Mask2Former used in ConceptFusion with the more performant SAM [33] model.",
+          "justification": "Additional baseline built in this paper.",
+          "value": "ConceptFusion + SAM"
+        },
+        "aliases": [
+          "ConceptFusion [17] + SAM [33]"
+        ],
+        "is_contributed": {
+          "quote": "We also provide an additional baseline, ConceptFusion+SAM",
+          "justification": "A baseline construction, not a contribution claim.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We also provide an additional baseline, ConceptFusion+SAM, by replacing the Mask2Former used in ConceptFusion with the more performant SAM [33] model.",
+          "justification": "The authors built and evaluated this baseline.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "ConceptFusion [17] + SAM [33] 31.53 38.70",
+          "justification": "Row in Table II.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "Zero-shot approaches do not need any finetuning and are evaluated off the shelf.",
+          "justification": "Zero-shot evaluation.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "ConceptFusion [17] + SAM [33]",
+          "justification": "Based on ConceptFusion reference [17].",
+          "value": "ConceptFusion: Open-set multimodal 3d mapping"
+        }
+      },
+      {
+        "name": {
+          "quote": "Mask2former + Global CLIP feat 10.42 13.11",
+          "justification": "Baseline row in Table II.",
+          "value": "Mask2former + Global CLIP feat"
+        },
+        "aliases": [
+          "Mask2Former"
+        ],
+        "is_contributed": {
+          "quote": "Mask2former + Global CLIP feat",
+          "justification": "Baseline.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Mask2former + Global CLIP feat 10.42 13.11",
+          "justification": "Numbers reported from comparison table; no evidence of execution.",
+          "value": false
+        },
+        "is_compared": {
+          "quote": "Mask2former + Global CLIP feat 10.42 13.11",
+          "justification": "Table II row.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "Zero-shot MaskCLIP [60] Mask2former + Global CLIP feat",
+          "justification": "Zero-shot evaluation method.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "Mask2former + Global CLIP feat",
+          "justification": "No explicit Mask2Former reference in the list.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "MaskCLIP [60] 4.53 0.94",
+          "justification": "Baseline row in Table II.",
+          "value": "MaskCLIP"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "MaskCLIP [60]",
+          "justification": "Prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "MaskCLIP [60] 4.53 0.94",
+          "justification": "Quoted comparison numbers.",
+          "value": false
+        },
+        "is_compared": {
+          "quote": "MaskCLIP [60] 4.53 0.94",
+          "justification": "Table II row.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "Zero-shot MaskCLIP [60]",
+          "justification": "Zero-shot evaluation.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "C. Zhou, C. C. Loy, and B. Dai, “Extract free dense labels from clip,”",
+          "justification": "Reference [60].",
+          "value": "Extract free dense labels from clip"
+        }
+      },
+      {
+        "name": {
+          "quote": "CLIPSeg (rd64-uni) [57] 28.21 39.84",
+          "justification": "Privileged baseline row in Table II.",
+          "value": "CLIPSeg (rd64-uni)"
+        },
+        "aliases": [
+          "CLIPSeg"
+        ],
+        "is_contributed": {
+          "quote": "CLIPSeg (rd64-uni) [57]",
+          "justification": "Prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "CLIPSeg (rd64-uni) [57] 28.21 39.84",
+          "justification": "Quoted numbers.",
+          "value": false
+        },
+        "is_compared": {
+          "quote": "CLIPSeg (rd64-uni) [57] 28.21 39.84",
+          "justification": "Table II row.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "Privileged methods specifically finetune the pretrained models for semantic segmentation.",
+          "justification": "Privileged methods finetune pretrained models for segmentation.",
+          "value": "finetune"
+        },
+        "referenced_paper_title": {
+          "quote": "T. Lüddecke and A. Ecker, “Image segmentation using text and image prompts,”",
+          "justification": "Reference [57].",
+          "value": "Image segmentation using text and image prompts"
+        }
+      },
+      {
+        "name": {
+          "quote": "LSeg [58] 33.39 51.54",
+          "justification": "Privileged baseline row in Table II.",
+          "value": "LSeg"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "LSeg [58]",
+          "justification": "Prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "LSeg [58] 33.39 51.54",
+          "justification": "Quoted numbers.",
+          "value": false
+        },
+        "is_compared": {
+          "quote": "LSeg [58] 33.39 51.54",
+          "justification": "Table II row.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "Privileged methods specifically finetune the pretrained models for semantic segmentation.",
+          "justification": "Privileged methods finetune pretrained models.",
+          "value": "finetune"
+        },
+        "referenced_paper_title": {
+          "quote": "B. Li, K. Q. Weinberger, S. Belongie, V. Koltun, and R. Ranftl, “Language-driven semantic segmentation,”",
+          "justification": "Reference [58].",
+          "value": "Language-driven semantic segmentation"
+        }
+      },
+      {
+        "name": {
+          "quote": "OpenSeg [59] 41.19 53.74",
+          "justification": "Privileged baseline row in Table II.",
+          "value": "OpenSeg"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "OpenSeg [59]",
+          "justification": "Prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "OpenSeg [59] 41.19 53.74",
+          "justification": "Quoted numbers.",
+          "value": false
+        },
+        "is_compared": {
+          "quote": "OpenSeg [59] 41.19 53.74",
+          "justification": "Table II row.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "Privileged methods specifically finetune the pretrained models for semantic segmentation.",
+          "justification": "Privileged methods finetune pretrained models.",
+          "value": "finetune"
+        },
+        "referenced_paper_title": {
+          "quote": "G. Ghiasi, X. Gu, Y. Cui, and T.-Y. Lin, “Scaling open-vocabulary image segmentation with image-level labels,”",
+          "justification": "Reference [59].",
+          "value": "Scaling open-vocabulary image segmentation with image-level labels"
+        }
+      }
+    ],
+    "data_sources": [
+      {
+        "name": {
+          "quote": "For each scene in the Replica dataset [56], we report scene graph accuracy metrics",
+          "justification": "Main evaluation dataset.",
+          "value": "Replica"
+        },
+        "aliases": [
+          "Replica dataset"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "room0 room1 room2 office0 office1 office2 office3",
+          "justification": "Table I lists seven scenes.",
+          "value": "7 scenes (room0, room1, room2, office0, office1, office2, office3)"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "J. Straub, T. Whelan, ... “The Replica dataset: A digital replica of indoor spaces,”",
+          "justification": "Reference [56].",
+          "value": "The Replica dataset: A digital replica of indoor spaces"
+        }
+      },
+      {
+        "name": {
+          "quote": "We evaluate on the Replica dataset [56] and a real-world scan of the REAL Lab, where we staged a number of items including clothes, tools, and toys.",
+          "justification": "Real-world scene scanned and used for retrieval and navigation.",
+          "value": "REAL Lab scan"
+        },
+        "aliases": [
+          "REAL Lab"
+        ],
+        "role": "contributed",
+        "size": {
+          "quote": "a real-world scan of the REAL Lab, where we staged a number of items including clothes, tools, and toys",
+          "justification": "Size not stated.",
+          "value": "unknown"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "a real-world scan of the REAL Lab",
+          "justification": "No reference.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "in the AI2Thor [63], [64] simulation environment, where a mobile robot uses a particle filter to localize",
+          "justification": "Simulation environment used for localization and map update experiments.",
+          "value": "AI2Thor"
+        },
+        "aliases": [
+          "AI2-THOR"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "in the AI2Thor [63], [64] simulation environment",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "E. Kolve, R. Mottaghi, ... “Ai2-thor: An interactive 3d environment for visual ai,”",
+          "justification": "Reference [63].",
+          "value": "Ai2-thor: An interactive 3d environment for visual ai"
+        }
+      },
+      {
+        "name": {
+          "quote": "We created 5 affordance and negation queries for each scene type (office & room) in Replica and 10 queries of each type for the lab scan",
+          "justification": "Query sets created by the authors for Replica and the lab scan.",
+          "value": "Text queries (descriptive, affordance, negation)"
+        },
+        "aliases": [
+          "object retrieval queries"
+        ],
+        "role": "contributed",
+        "size": {
+          "quote": "For each room, we randomly selected 20 ground truth annotations collected via Amazon Mechanical Turk (AMT).",
+          "justification": "Stated in the text and appendix.",
+          "value": "5 affordance and negation queries for each scene type in Replica and 10 queries of each type for the lab scan; 20 descriptive queries per Replica room"
+        },
+        "derived_from": [
+          "Replica",
+          "REAL Lab scan"
+        ],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "We created 5 affordance and negation queries for each scene type",
+          "justification": "No reference.",
+          "value": "unknown"
+        }
+      }
+    ],
+    "libraries": [
+      {
+        "name": {
+          "quote": "We begin by building a pointcloud of the REAL Lab using the onboard VLP-16 and Open3d SLAM [68].",
+          "justification": "Used to build the initial Jackal pointcloud.",
+          "value": "Open3d SLAM"
+        },
+        "aliases": [
+          "Open3D SLAM"
+        ],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "E. Jelavic, J. Nubert, and M. Hutter, “Open3d slam: Point cloud based mapping and localization for education,”",
+          "justification": "Reference [68].",
+          "value": "Open3d slam: Point cloud based mapping and localization for education"
+        }
+      },
+      {
+        "name": {
+          "quote": "we map the scene with an Azure Kinect Camera and rely on RTAB-Map [69] to obtain camera poses and the scene point cloud",
+          "justification": "Used to obtain camera poses and scene point cloud.",
+          "value": "RTAB-Map"
+        },
+        "aliases": [],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "M. Labbé and F. Michaud, “Rtab-map as an open-source lidar and visual simultaneous localization and mapping library for large-scale and long-term online operation,”",
+          "justification": "Reference [69].",
+          "value": "Rtab-map as an open-source lidar and visual simultaneous localization and mapping library for large-scale and long-term online operation"
+        }
+      },
+      {
+        "name": {
+          "quote": "downprojected to a 2D costmap for navigation using the base Jackal ROS stack",
+          "justification": "Used for navigation costmap.",
+          "value": "Jackal ROS stack"
+        },
+        "aliases": [
+          "ROS"
+        ],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "using the base Jackal ROS stack",
+          "justification": "No reference.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "We instead evaluate the scene graph by engaging human evaluators on Amazon Mechanical Turk (AMT).",
+          "justification": "Platform used for human evaluation/annotation.",
+          "value": "Amazon Mechanical Turk"
+        },
+        "aliases": [
+          "AMT"
+        ],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "engaging human evaluators on Amazon Mechanical Turk (AMT)",
+          "justification": "No reference.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "otherwise use the GPT-4 API for LLM queries",
+          "justification": "API used for LLM queries.",
+          "value": "GPT-4 API"
+        },
+        "aliases": [],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "OpenAI, “Gpt-4 technical report,”",
+          "justification": "Reference [32].",
+          "value": "Gpt-4 technical report"
+        }
+      }
+    ],
+    "algorithms": [
+      {
+        "name": {
+          "quote": "Each masked region is projected to 3D, denoised using DBSCAN clustering",
+          "justification": "Used for denoising projected masks.",
+          "value": "DBSCAN"
+        },
+        "aliases": [
+          "DBSCAN clustering"
+        ],
+        "is_contributed": {
+          "quote": "denoised using DBSCAN clustering",
+          "justification": "Standard algorithm.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Each masked region is projected to 3D, denoised using DBSCAN clustering, and transformed to the map frame.",
+          "justification": "Part of the mapping pipeline.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "denoised using DBSCAN clustering",
+          "justification": "Not compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "Each masked region is projected to 3D, denoised using DBSCAN clustering, and transformed to the map frame.",
+          "justification": "Stated role.",
+          "value": "denoising the projected masked regions in 3D"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "denoised using DBSCAN clustering",
+          "justification": "No reference.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "We perform object association by a greedy assignment strategy where each new detection is matched with an existing object with the highest similarity score.",
+          "justification": "Object association strategy.",
+          "value": "greedy assignment"
+        },
+        "aliases": [
+          "greedy association"
+        ],
+        "is_contributed": {
+          "quote": "We perform object association by a greedy assignment strategy",
+          "justification": "Standard strategy used in the system.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We perform object association by a greedy assignment strategy",
+          "justification": "Used in mapping.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "While we also experimented with optimal assignment strategies such as the Hungarian algorithm, we experimentally determined them to be slower",
+          "justification": "Compared experimentally with Hungarian algorithm.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "each new detection is matched with an existing object with the highest similarity score",
+          "justification": "Stated.",
+          "value": "object association matching each new detection with an existing object"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "a greedy assignment strategy",
+          "justification": "No reference.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "While we also experimented with optimal assignment strategies such as the Hungarian algorithm",
+          "justification": "Experimented alternative assignment strategy.",
+          "value": "Hungarian algorithm"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "optimal assignment strategies such as the Hungarian algorithm",
+          "justification": "Standard algorithm.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we also experimented with optimal assignment strategies such as the Hungarian algorithm",
+          "justification": "They experimented with it.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "we experimentally determined them to be slower and offer only a minuscule improvement over greedy association",
+          "justification": "Determined to be slower with minuscule improvement.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "optimal assignment strategies such as the Hungarian algorithm",
+          "justification": "Stated.",
+          "value": "alternative optimal assignment strategy for object association"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "the Hungarian algorithm",
+          "justification": "No reference.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "which we prune by estimating a minimum spanning tree (MST), resulting in a refined set of potential edges among the objects",
+          "justification": "Used to prune the dense graph.",
+          "value": "minimum spanning tree (MST)"
+        },
+        "aliases": [
+          "MST"
+        ],
+        "is_contributed": {
+          "quote": "we prune by estimating a minimum spanning tree (MST)",
+          "justification": "Standard procedure.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "which we prune by estimating a minimum spanning tree (MST)",
+          "justification": "Part of scene graph generation.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "estimating a minimum spanning tree (MST)",
+          "justification": "Not compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "resulting in a refined set of potential edges among the objects",
+          "justification": "Stated.",
+          "value": "pruning the dense object similarity graph to obtain candidate edges"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "minimum spanning tree (MST)",
+          "justification": "No reference.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "a mobile robot uses a particle filter to localize in a prebuilt ConceptGraphs map of the environment",
+          "justification": "Used for localization in AI2Thor.",
+          "value": "particle filter"
+        },
+        "aliases": [
+          "particle filtering"
+        ],
+        "is_contributed": {
+          "quote": "uses a particle filter to localize",
+          "justification": "Standard localization algorithm.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "During the observation update step of particle filtering, the robot’s detections are matched against the objects in the map",
+          "justification": "Demonstrated in simulation.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "uses a particle filter to localize",
+          "justification": "Not compared numerically.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "we showcase this with a 3DoF (x, y and yaw) localization and remapping task",
+          "justification": "Stated.",
+          "value": "3DoF localization in a prebuilt ConceptGraphs map with map updates"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "a particle filter",
+          "justification": "No reference.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "For task planning over 3D scene graphs, we use GPT-4 (gpt-4-0613) ... System prompt for the LLM Planner interface",
+          "justification": "Named planner interface used for task planning.",
+          "value": "LLM Planner"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "Ali ... implemented the integration with the LLM planners and object retrieval experiments",
+          "justification": "Implemented as part of ConceptGraphs integration.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "For object search queries, we use the LLM Planner described in Section A3 as part of a simple state machine.",
+          "justification": "Used for queries and robot experiments.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "We use two object retrieval strategies: CLIP-based and LLM-based.",
+          "justification": "LLM-based retrieval compared to CLIP retrieval.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "Given a text query, we task the LLM to identify the most relevant object in the scene.",
+          "justification": "Stated.",
+          "value": "identify the most relevant object in the scene given a text query and provide it to downstream pipelines"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "System prompt for the LLM Planner interface",
+          "justification": "Own component.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "Node Captioning: Once the entire image sequence has been processed, a vision-language model, denoted LVLM(·), is used to generate object captions.",
+          "justification": "Pipeline stage described (LVLM captions summarized by LLM).",
+          "value": "ConceptGraphs node captioning"
+        },
+        "aliases": [
+          "Node Captioning"
+        ],
+        "is_contributed": {
+          "quote": "prototyped the object captioning module",
+          "justification": "Part of the proposed system.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "We run each view through an LVLM, here LLaVA-7B [55], to generate an image caption.",
+          "justification": "Executed on all scenes.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Node Captioning",
+          "justification": "Not compared as an algorithm.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "Each set of captions is then refined to the final caption by passing ĉj to another language model LLM(·)",
+          "justification": "Stated.",
+          "value": "generate and refine captions for each mapped 3D object node"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Node Captioning",
+          "justification": "Own method.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "Object Association: For every newly detected object ⟨pt,i , ft,i ⟩, we compute semantic and geometric similarity",
+          "justification": "Named step in the method.",
+          "value": "Object Association"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "We propose a novel object-centric mapping system",
+          "justification": "Part of the proposed mapping system.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "Object Association: For every newly detected object",
+          "justification": "Used in mapping.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Object Association",
+          "justification": "Not compared as a whole.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "we compute semantic and geometric similarity with respect to all objects",
+          "justification": "Stated.",
+          "value": "matching new detections to existing map objects using geometric and semantic similarity"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Object Association",
+          "justification": "Own method.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "Object Fusion: If a detection ot-1,j is associated with a mapped object oj , we fuse the detection with the map.",
+          "justification": "Named step in the method.",
+          "value": "Object Fusion"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "Object Fusion: If a detection ot-1,j is associated with a mapped object oj , we fuse the detection with the map.",
+          "justification": "Part of the proposed system.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "This is achieved by updating the object semantic feature",
+          "justification": "Used in mapping.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Object Fusion",
+          "justification": "Not compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "updating the pointcloud as pt,i ∪ po j , followed by downsampling to remove redundant points",
+          "justification": "Stated.",
+          "value": "updating object semantic features and point clouds when a detection matches a mapped object"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Object Fusion",
+          "justification": "Own method.",
+          "value": "unknown"
+        }
+      }
+    ],
+    "runs": [
+      {
+        "models": [
+          {
+            "name": "ConceptGraphs",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Segment Anything (SAM)",
+            "role_in_run": "main"
+          },
+          {
+            "name": "CLIP",
+            "role_in_run": "main"
+          },
+          {
+            "name": "LLaVA",
+            "role_in_run": "main"
+          },
+          {
+            "name": "GPT-4",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Replica",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "ConceptGraphs node captioning"
+          },
+          {
+            "name": "Object Association"
+          },
+          {
+            "name": "Object Fusion"
+          },
+          {
+            "name": "DBSCAN"
+          },
+          {
+            "name": "greedy assignment"
+          },
+          {
+            "name": "minimum spanning tree (MST)"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "all while using off-the-shelf models (no training/finetuning)",
+          "justification": "Off-the-shelf models are run to build scene graphs; no training.",
+          "value": "inference"
+        },
+        "epochs": {
+          "quote": "no training/finetuning",
+          "justification": "No training.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "LLaVA-7B [55]",
+          "justification": "Not stated for the pipeline.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "we run a local instance of LLaVA offboard on a desktop when needed",
+          "justification": "Hardware not stated for these experiments.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "a local instance of LLaVA offboard on a desktop",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "a local instance of LLaVA offboard on a desktop",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "no training/finetuning",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "no training/finetuning",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "the computational and economic costs of our system include multiple LVLM (LLaVA [55]) and one or more proprietary LLM inference(s)",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "no training/finetuning",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "For each scene in the Replica dataset [56], we report scene graph accuracy metrics",
+          "justification": "Scene graphs were built per Replica scene.",
+          "value": [
+            {
+              "kind": "variant",
+              "count": 7,
+              "what": "scenes of the Replica dataset (room0-2, office0-3)"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "ConceptGraphs-Detector",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Grounding DINO",
+            "role_in_run": "main"
+          },
+          {
+            "name": "RAM",
+            "role_in_run": "main"
+          },
+          {
+            "name": "CLIP",
+            "role_in_run": "main"
+          },
+          {
+            "name": "LLaVA",
+            "role_in_run": "main"
+          },
+          {
+            "name": "GPT-4",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Replica",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "ConceptGraphs node captioning"
+          },
+          {
+            "name": "Object Association"
+          },
+          {
+            "name": "Object Fusion"
+          },
+          {
+            "name": "minimum spanning tree (MST)"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "Zero-shot approaches do not need any finetuning and are evaluated off the shelf.",
+          "justification": "Detector variant run off-the-shelf.",
+          "value": "inference"
+        },
+        "epochs": {
+          "quote": "no training/finetuning",
+          "justification": "No training.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "an open-vocabulary 2D detector (Grounding DINO [34])",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "we run a local instance of LLaVA offboard on a desktop when needed",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "a desktop",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "a desktop",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "no training/finetuning",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "no training/finetuning",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "no training/finetuning",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "no training/finetuning",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "CG-D room0 room1 room2 office0 office1 office2 office3",
+          "justification": "Table I reports CG-D on seven scenes.",
+          "value": [
+            {
+              "kind": "variant",
+              "count": 7,
+              "what": "scenes of the Replica dataset"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "ConceptFusion + SAM",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Segment Anything (SAM)",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Replica",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [],
+        "produces": [],
+        "execution_mode": {
+          "quote": "We also provide an additional baseline, ConceptFusion+SAM, by replacing the Mask2Former used in ConceptFusion with the more performant SAM [33] model.",
+          "justification": "Baseline evaluated zero-shot.",
+          "value": "inference"
+        },
+        "epochs": {
+          "quote": "Zero-shot approaches do not need any finetuning",
+          "justification": "No training.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "ConceptFusion [17] + SAM [33]",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "ConceptFusion [17] + SAM [33]",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "ConceptFusion [17] + SAM [33]",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "ConceptFusion [17] + SAM [33]",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "ConceptFusion [17] + SAM [33]",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "ConceptFusion [17] + SAM [33]",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "ConceptFusion [17] + SAM [33]",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "ConceptFusion [17] + SAM [33]",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "We also provide an additional baseline, ConceptFusion+SAM",
+          "justification": "Not stated.",
+          "value": []
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "ConceptGraphs",
+            "role_in_run": "main"
+          },
+          {
+            "name": "CLIP",
+            "role_in_run": "main"
+          },
+          {
+            "name": "GPT-4",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Replica",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          },
+          {
+            "name": "REAL Lab scan",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          },
+          {
+            "name": "Text queries (descriptive, affordance, negation)",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "LLM Planner"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "We use two object retrieval strategies: CLIP-based and LLM-based.",
+          "justification": "Object retrieval with CLIP similarity and LLM parsing.",
+          "value": "inference"
+        },
+        "epochs": {
+          "quote": "no training/finetuning",
+          "justification": "No training.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "CLIP refers to object retrieval using cosine similarity",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "use the GPT-4 API for LLM queries",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "use the GPT-4 API for LLM queries",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "use the GPT-4 API for LLM queries",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "use the GPT-4 API for LLM queries",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "use the GPT-4 API for LLM queries",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "use the GPT-4 API for LLM queries",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "use the GPT-4 API for LLM queries",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "We use two object retrieval strategies: CLIP-based and LLM-based.",
+          "justification": "Table III crosses retrieval models and query types.",
+          "value": [
+            {
+              "kind": "variant",
+              "count": 2,
+              "what": "object retrieval strategies: CLIP-based and LLM-based"
+            },
+            {
+              "kind": "variant",
+              "count": 3,
+              "what": "query types: descriptive, affordance, negation"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "ConceptGraphs",
+            "role_in_run": "main"
+          },
+          {
+            "name": "LLaVA",
+            "role_in_run": "main"
+          },
+          {
+            "name": "GPT-4",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "REAL Lab scan",
+            "access": "interactive",
+            "roles_in_run": [
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "LLM Planner"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "we carry out navigation experiments in the REAL Lab scene with a Clearpath Jackal UGV",
+          "justification": "Real-robot navigation and object search using the representation and models at inference.",
+          "value": "inference"
+        },
+        "epochs": {
+          "quote": "no training/finetuning",
+          "justification": "Not applicable.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "LLaVA [55]",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "we run a local instance of LLaVA offboard on a desktop when needed and otherwise use the GPT-4 API for LLM queries",
+          "justification": "A desktop is mentioned but accelerator type not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "a local instance of LLaVA offboard on a desktop",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "a local instance of LLaVA offboard on a desktop",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "a local instance of LLaVA offboard on a desktop",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "a local instance of LLaVA offboard on a desktop",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "a local instance of LLaVA offboard on a desktop",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "a local instance of LLaVA offboard on a desktop",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "We then stage two separate scenes with different objects: one for object search and another for traversability estimation.",
+          "justification": "Stated in the appendix.",
+          "value": [
+            {
+              "kind": "variant",
+              "count": 2,
+              "what": "staged scenes: one for object search and another for traversability estimation"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "ConceptGraphs",
+            "role_in_run": "main"
+          },
+          {
+            "name": "GPT-4",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "REAL Lab scan",
+            "access": "interactive",
+            "roles_in_run": [
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "LLM Planner"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "We query an LLM to identify which objects can be safely pushed or traversed by the robot",
+          "justification": "LLM queried to classify traversability and robot navigates.",
+          "value": "inference"
+        },
+        "epochs": {
+          "quote": "no training/finetuning",
+          "justification": "Not applicable.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "GPT-4 system prompt for traversability estimation.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "use the GPT-4 API for LLM queries",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "use the GPT-4 API for LLM queries",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "use the GPT-4 API for LLM queries",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "use the GPT-4 API for LLM queries",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "use the GPT-4 API for LLM queries",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "use the GPT-4 API for LLM queries",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "use the GPT-4 API for LLM queries",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "we design a real-world scenario where the robot finds itself enclaved by objects",
+          "justification": "Not stated.",
+          "value": []
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "ConceptGraphs",
+            "role_in_run": "main"
+          },
+          {
+            "name": "GPT-4",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [],
+        "algorithms": [
+          {
+            "name": "LLM Planner"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "Using an onboard RGBD camera and a ConceptGraphs representation of the scene, the Spot robot responds to the query cuddly quacker",
+          "justification": "Spot Arm robot responds to queries using a ConceptGraphs representation.",
+          "value": "inference"
+        },
+        "epochs": {
+          "quote": "no training/finetuning",
+          "justification": "Not applicable.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "the Spot robot responds to the query cuddly quacker",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "we conducted a series of experiments with a Boston Dynamics Spot Arm robot",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "a Boston Dynamics Spot Arm robot",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "a Boston Dynamics Spot Arm robot",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "a Boston Dynamics Spot Arm robot",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "a Boston Dynamics Spot Arm robot",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "a Boston Dynamics Spot Arm robot",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "a Boston Dynamics Spot Arm robot",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "In the supplementary video, Spot completes a similar grasping maneuver with a mango",
+          "justification": "Not stated.",
+          "value": []
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "ConceptGraphs",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "AI2Thor",
+            "access": "interactive",
+            "roles_in_run": [
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "particle filter"
+          },
+          {
+            "name": "Object Association"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "We showcase this with a 3DoF (x, y and yaw) localization and remapping task in the AI2Thor [63], [64] simulation environment",
+          "justification": "Localization and map update using a prebuilt map in simulation.",
+          "value": "inference"
+        },
+        "epochs": {
+          "quote": "no training/finetuning",
+          "justification": "Not applicable.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "a mobile robot uses a particle filter to localize",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "in the AI2Thor [63], [64] simulation environment",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "in the AI2Thor [63], [64] simulation environment",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "in the AI2Thor [63], [64] simulation environment",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "in the AI2Thor [63], [64] simulation environment",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "in the AI2Thor [63], [64] simulation environment",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "in the AI2Thor [63], [64] simulation environment",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "in the AI2Thor [63], [64] simulation environment",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "We provide a demonstration of this localization and map updating approach in the supplementary video material.",
+          "justification": "Not stated.",
+          "value": []
+        }
+      }
+    ]
+  },
+  "usage": {
+    "input_tokens": 37352,
+    "output_tokens": 20386,
+    "total_tokens": 57738
+  }
+}
