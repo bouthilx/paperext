@@ -119,7 +119,10 @@ SYSTEM_MESSAGE = (
     "critic are ONE run; an encoder and its decoder are ONE run. A network that "
     "is FROZEN and only supplies targets or scores is a participant of the run, "
     "not a run of its own -- a distillation teacher is reported in the run's "
-    "models with role_in_run='teacher', not as a second run.\n"
+    "models with role_in_run='teacher', not as a second run, and a frozen "
+    "network that scores the main model's inputs or outputs -- a reward model "
+    "during PPO, a classifier guiding a diffusion sampler -- with "
+    "role_in_run='scorer'.\n"
     "A run that PRODUCES DATA without fitting anything is also a run, and is "
     "worth reporting when the paper describes the production as a distinct "
     "stage -- for instance one run that generates a corpus, followed by "
@@ -271,6 +274,15 @@ class ModelRunRole(str, enum.Enum):
     # cooperative is a question the algorithms `signal` axis already asks, and
     # asking it twice is the conflation these dimensions keep paying for.
     CRITIC = "critic"
+    # A FROZEN network that scores the main model's inputs or outputs during the
+    # run: a guidance classifier at sampling time, a reward model during PPO, a
+    # verifier reranking best-of-n samples, a VGG network inside a perceptual
+    # loss. `critic`'s frozen counterpart. Added 2026-10-13 (owner) when the
+    # #111 reference annotation of 2309.12508 met a classifier-guided sampling
+    # run: the rules already said a frozen scorer is a non-`main` participant,
+    # but no value existed for one that is neither a distillation teacher nor a
+    # source of examples, so `unknown` was the only honest answer.
+    SCORER = "scorer"
     # The Model was the source of this run's training examples: a teacher
     # queried for targets, an LLM sampled for synthetic data, a learned world
     # model an agent trained inside. Admitted as of 2026-10-08 (owner): the
@@ -627,7 +639,10 @@ class RunModel(BaseModel):
         description="How this Run used the Model: 'main' for the model the run "
         "produces or executes, 'critic' for a second network co-optimised in "
         "the same loop to score the first (a GAN discriminator, an RL value "
-        "network), 'teacher'/'student' in a distillation run, "
+        "network), 'scorer' for a FROZEN network that scores the main one's "
+        "inputs or outputs without being updated (a reward model during PPO, "
+        "a guidance classifier during sampling), "
+        "'teacher'/'student' in a distillation run, "
         "'ensemble-member', or 'unknown'",
     )
 
