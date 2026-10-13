@@ -151,11 +151,17 @@ independently of the procedure that produced them. A SAT solver, a proof
 checker, a hand-written heuristic is an **Algorithm or a Library, never a
 Model**, even when the paper compares against it.
 
-**A Data Source is a NAMED source of the examples a run consumes.** Excluded:
-unnamed descriptions (`synthetic data`, `our drone recordings dataset`), the
-software that implements a source (the MuJoCo *engine* is a Library; HalfCheetah
-is a Data Source), and an **evaluation protocol** over a source (`Atari` yes,
-`Atari 100k` no).
+**A Data Source is a source of the examples a run consumes — by its name when
+it has one, by the paper's description when it does not.** A described source
+beats no source at all: a run left pointing at nothing loses the data it
+consumed. Owner, 2026-10-13, on 2401.11061: the 75-image gallery the authors
+assembled is `curated reference image gallery`, and the scenes they built are
+`evaluation scenes`. A description never replaces a named source covering the
+same examples — that is the subset rule below. Excluded: a **vendor or website**
+the examples were obtained from (`Shutterstock.com`, which the images were
+licensed from, is not a dataset), the software that implements a source (the
+MuJoCo *engine* is a Library; HalfCheetah is a Data Source), and an **evaluation
+protocol** over a source (`Atari` yes, `Atari 100k` no).
 
 **A subset is the same source** unless it is a standard artifact named and
 reused *beyond this paper* — `TinyImageNet` is its own Data Source, not ImageNet
@@ -246,10 +252,13 @@ the six criteria. Expect to find that *neither* arm's decomposition is right.
 | fields differing per paper | ~4.9 of 6, usually by one or two entries out of five |
 | runs | arm A 185 total, arm B 224; same count on only **5 of 26** papers |
 
-**Arm A (Opus 5) over-admits.** Its extras include unnamed descriptions
-(`our drone recordings dataset (5.5 hours of traffic data)`, `vehicle dataset`)
-and `Amazon Mechanical Turk` as a *library*. When A has an entity B lacks, check
-the admission rules before assuming better recall.
+**Arm A (Opus 5) over-admits.** Its extras include `Amazon Mechanical Turk` as
+a *library*. When A has an entity B lacks, check the admission rules before
+assuming better recall. A's descriptive data sources (`our drone recordings
+dataset (5.5 hours of traffic data)`, `vehicle dataset`) were counted here as
+over-admission until 2026-10-13; under §3 they are admitted when a run consumes
+them and no named source covers the same examples — check that, not whether the
+entry has a proper name.
 
 **Arm B (gpt-5.6-sol) splits runs more.** It produced 224 runs to A's 185 and
 reaches 15–16 runs on papers where A finds 10. Check against the six criteria
