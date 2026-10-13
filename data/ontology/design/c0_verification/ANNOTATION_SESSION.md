@@ -287,9 +287,16 @@ the adjudication conversationally should write the file itself** — the point o
 this format is that the reasoning happens in the chat, not in a text editor.
 
 **Also append one row per adjudicated field** to
-`data/ontology/design/c0_verification/adjudication_log.tsv`
-(`paper_id`, `field`, `arm_A`, `arm_B`, `chosen`, `rule`, `note`). Create it
-with that header if absent.
+`data/ontology/design/c0_verification/adjudication_log.tsv`:
+`paper_id`, `field`, `arm_A`, `arm_B`, **`recommended`**, `chosen`, `rule`,
+`note`.
+
+**`recommended` is what YOU proposed, before the owner answered, and it is not
+optional.** The first three papers were logged without it, so the one question
+the log existed to answer — how often the assistant was right, and therefore how
+much of this could be automated — had to be reconstructed from session
+transcripts. Fill it even when it equals `chosen`; a column that only records
+disagreements cannot measure agreement.
 
 This log is the most valuable by-product of the exercise and it is free: it is
 the only direct evidence of **which fields the models are unreliable on**, which
