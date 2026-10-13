@@ -30,6 +30,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import re
 from collections import defaultdict
 from dataclasses import dataclass, field
@@ -248,6 +249,7 @@ def annotate(
     out: "Path | None" = None,
     notes: "Path | None" = None,
     only_notes: bool = False,
+    open_viewer: bool = False,
 ) -> Path:
     import pdfplumber
     from pypdf import PdfReader, PdfWriter
@@ -275,6 +277,8 @@ def annotate(
 
     placed: "dict[int, list[tuple[Claim, Any]]]" = defaultdict(list)
     unplaced: "list[Claim]" = []
+    #: claim -> 1-indexed page, so a caller can open the viewer there.
+    pages: "dict[int, int]" = {}
     with pdfplumber.open(str(pdf)) as doc:
         heights = [p.height for p in doc.pages]
         for claim in claims:
@@ -282,6 +286,7 @@ def annotate(
                 rects = _locate(page, claim.quote)
                 if rects:
                     placed[i].append((claim, rects))
+                    pages[id(claim)] = i + 1  # zathura counts from 1
                     break
             else:
                 unplaced.append(claim)
@@ -358,7 +363,58 @@ def annotate(
         + (f"   PINK (session) {session}" if session else "")
     )
     print(f"-> {out}")
+
+    # The page of each session note, and a ready command. Without this the
+    # caller has a PDF and no idea where to look, which for a one-item-at-a-
+    # time review is most of the work.
+    notes_placed = [c for c in claims if c.sources == {"S"} and id(c) in pages]
+    if notes_placed:
+        print("\n  session highlights, by page:")
+        for claim in sorted(notes_placed, key=lambda c: pages[id(c)]):
+            label = claim.labels[0].removeprefix("SESSION: ")
+            print(f"    p{pages[id(claim)]:<3} {claim.quote[:54]!r}")
+            if label and label != "SESSION":
+                print(f"          {label[:88]}")
+        first = min(pages[id(c)] for c in notes_placed)
+        print(f"\n  zathura -P {first} {out}")
+
+    if open_viewer:
+        # `jump_page`, not `page`: the name is taken by the pdfplumber Page in
+        # the loop above, and shadowing it typed this as a Page.
+        jump_page = (
+            min(pages[id(c)] for c in notes_placed)
+            if notes_placed
+            else (min(pages.values()) if pages else 1)
+        )
+        _open_viewer(out, jump_page)
     return out
+
+
+def _open_viewer(path: Path, page: int) -> None:
+    """Show ``path`` at ``page``, without blocking the session.
+
+    Launched detached on purpose: the reviewer reads the page while the
+    conversation continues, so waiting on the viewer would stall the review it
+    exists to support.
+    """
+    import shutil
+    import subprocess
+
+    viewer = os.environ.get("PAPEREXT_PDF_VIEWER") or "zathura"
+    binary = shutil.which(viewer.split()[0])
+    if binary is None:
+        print(f"  (cannot open: {viewer!r} not on PATH -- open p{page} yourself)")
+        return
+    try:
+        subprocess.Popen(
+            [*viewer.split(), "-P", str(page), str(path)],
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
+            start_new_session=True,
+        )
+        print(f"  opened {viewer} at p{page}")
+    except OSError as error:  # a viewer that rejects -P, a dead display
+        print(f"  (cannot open: {error} -- open p{page} yourself)")
 
 
 def main(argv: "list[str] | None" = None) -> int:
@@ -381,8 +437,15 @@ def main(argv: "list[str] | None" = None) -> int:
         help="drop the arms' highlights and draw only --note. Use it to ask one "
         "focused question without 140 highlights of context around it",
     )
+    parser.add_argument(
+        "--open",
+        action="store_true",
+        help="open the result in zathura at the first session highlight's page "
+        "(override the viewer with PAPEREXT_PDF_VIEWER). Detached, so the "
+        "review continues while it is read",
+    )
     args = parser.parse_args(argv)
-    annotate(args.paper_id, args.arm, args.out, args.note, args.only_notes)
+    annotate(args.paper_id, args.arm, args.out, args.note, args.only_notes, args.open)
     return 0
 
 

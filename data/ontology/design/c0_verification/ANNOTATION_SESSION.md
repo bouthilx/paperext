@@ -32,21 +32,42 @@ arm B only, and a popup note naming the field and entity. A yellow or blue
 highlight is exactly where to look; an unhighlighted table row is a recall gap
 in both arms.
 
-**You can add your own highlights, and should.** Write the exact sentences your
-question turns on to a TSV (`quote<TAB>why you are asking`) and pass `--note`;
-they are drawn in **pink**, so they read as questions rather than as either
-arm's claim. `--only-notes` drops the arms' 140 highlights so one focused
-question arrives with three marked sentences and nothing else:
+### One item at a time, with the page open
+
+**This is how the review runs** (owner, 2026-10-13). Not a batch of decisions
+with a PDF attached: **one item, one PDF, one page on screen, one question.**
+
+For each item — an entity the arms disagree on, a run, a field of a run:
+
+1. Write the exact sentences it turns on to a TSV, `quote<TAB>why you are
+   asking`, one per line.
+2. Build a PDF carrying **only** those highlights and open it at the page:
 
 ```console
-PAPEREXT_DIR_CACHE=... uv run python -m paperext.annotate_pdf <paper_id> \
-    --note runs-question.tsv --only-notes --out runs-question.pdf
+PAPEREXT_DIR_CACHE=/home/bouthilx/projects/paperext-llm-backend/data/cache \
+uv run python -m paperext.annotate_pdf <paper_id> \
+    --note item.tsv --only-notes --open \
+    --out <cache>/fulltext/<paper_id>/item-<n>.pdf
 ```
 
-Use it for the cases the owner named: the table that decides which models
-belong, and the method sentence that says whether one was trained or only
-cited. **Copy the quote from the fulltext** — a retyped paraphrase lands in
-UNMATCHED and highlights nothing.
+`--open` launches zathura at the first highlight's page, detached, so the
+conversation continues while it is read. Override the viewer with
+`PAPEREXT_PDF_VIEWER`. Without `--open` the tool prints the page of every
+highlight and a ready `zathura -P <page> <file>` line — use that if the owner
+would rather navigate themselves.
+
+3. **Then ask.** State the two arms' answers, the rule you think decides it,
+   your recommendation, and what to look at on the page now open.
+4. Record the answer and move to the next item. Do not queue several questions:
+   the owner is reading one page.
+
+Session highlights are **pink**, which no arm uses, so a pink mark reads as
+*your question* and never as a claim. **Copy every quote from `fulltext.txt`** —
+a retyped paraphrase matches nothing, highlights nothing, and shows up only as
+an `UNMATCHED` count.
+
+Keep the full `--note`-less PDF built as well: it is what answers "which models
+belong here", because an unhighlighted table row is a recall gap in both arms.
 
 Read its summary line too. `elided` counts quotes containing `...`, which are
 not verbatim and cannot be located — arm B writes these and arm A does not.
