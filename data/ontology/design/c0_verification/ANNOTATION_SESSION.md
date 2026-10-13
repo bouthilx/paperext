@@ -291,12 +291,24 @@ this format is that the reasoning happens in the chat, not in a text editor.
 `paper_id`, `field`, `arm_A`, `arm_B`, **`recommended`**, `chosen`, `rule`,
 `note`.
 
-**`recommended` is what YOU proposed, before the owner answered, and it is not
-optional.** The first three papers were logged without it, so the one question
-the log existed to answer — how often the assistant was right, and therefore how
-much of this could be automated — had to be reconstructed from session
-transcripts. Fill it even when it equals `chosen`; a column that only records
-disagreements cannot measure agreement.
+**Write the row WHEN YOU ASK, not when the session ends.** Append it with
+`recommended` filled and `chosen` set to `pending`, then update `chosen` once
+the owner answers. This ordering is the point: a `recommended` written after the
+answer is known is worthless as evidence, because the agent filling it in has
+already seen what was chosen and cannot help but align. A recommendation is only
+a prediction if it is recorded before the outcome.
+
+**`recommended` is not optional, and must be filled even when it ends up
+matching `chosen`** — a column that only records disagreements cannot measure
+agreement, and agreement is the quantity the automation question turns on. The
+first three papers were logged without it, so that question had to be
+reconstructed from session transcripts.
+
+Check your own rate as you go:
+
+```console
+uv run python -m paperext.adjudication_report
+```
 
 This log is the most valuable by-product of the exercise and it is free: it is
 the only direct evidence of **which fields the models are unreliable on**, which
