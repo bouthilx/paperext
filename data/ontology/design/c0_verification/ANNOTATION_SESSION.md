@@ -114,8 +114,13 @@ These are the ones that actually come up. The full text is in `SYSTEM_MESSAGE`.
 
 **A run is a unit of compute the paper spent.** Two executions are the SAME run
 unless one of these differs: execution mode, precision, parallelism, accelerator
-count or type, scale, or dataset. 5 seeds × 20 learning rates is **one** run
-with `repetitions` factors, not 100 runs.
+count or type, scale, or **the amount of data processed** — a different dataset,
+a split or subset of a different size, or a different number of samples drawn
+per example. 5 seeds × 20 learning rates is **one** run with `repetitions`
+factors, not 100 runs. Experiments that process the same data but are not
+crossed (a sweep over sampling steps, then one over model variants) stay one
+run, with their counts summed into a single `hyperparameter` entry (owner,
+2026-10-13, on 2309.12508).
 
 **A fitting run is one coupled optimisation loop.** A GAN is ONE run — the
 gradient flows through both networks. Actor+critic, encoder+decoder: one run. A
