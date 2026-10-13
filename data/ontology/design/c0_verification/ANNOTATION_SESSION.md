@@ -138,6 +138,14 @@ training data IS `inference`.
 gets `is_executed=false` and **no run**. A comparison table is not evidence the
 paper ran the rows.
 
+**But execution carries forward across related tables.** When an earlier table
+clearly states the paper trained its models, and a later table of a related
+experiment reports the same models without saying, infer that those were
+trained too. Owner, 2026-10-13, on 2310.01089: Table 1's GNN baselines are
+stated as trained, so Table 4's GCN/GAT rows on the TAG variants of the same
+datasets are runs, even though neither the caption nor the text says so. A
+stated attribution to another paper still wins: this fills silence only.
+
 **A Model is a separable learned object**: parameters that could be run
 independently of the procedure that produced them. A SAT solver, a proof
 checker, a hand-written heuristic is an **Algorithm or a Library, never a
@@ -180,6 +188,11 @@ field.
 
 **Never infer.** Every compute field is reported only when the paper states it.
 `utilisation` especially: do not record an assumed 30–50%.
+
+A **size-suffixed checkpoint name is a stated parameter count**: `Llama-2-7B` has
+7B parameters by definition. The "not from a model name" rule targets generic
+names with many sizes (`EfficientNet`, `ResNet`, `Llama-2`). Owner, 2026-10-13,
+on 2310.01089.
 
 ---
 
