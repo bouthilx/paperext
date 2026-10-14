@@ -195,6 +195,25 @@ field.
 **Never infer.** Every compute field is reported only when the paper states it.
 `utilisation` especially: do not record an assumed 30–50%.
 
+**But never-infer binds the extractor, not you.** The rule exists because a
+single-shot model with no lookup tools hallucinates when it fills a gap from
+memory. You can check, so verified outside knowledge belongs in the reference.
+Owner, 2026-10-13, on 2304.14082: C4's `referenced_paper_title` is the T5
+paper, even though this paper cites [43] only for the T5 architecture and C4
+only through a TFDS footnote.
+
+**An alias names the SAME thing.** A concept that should be its own node in
+the ontology is never an alias: `sparsity research`, `pruning`, `sparse
+training` and `sparse neural networks` are an activity, a procedure, another
+procedure and a property of a network. The field is `Neural network sparsity`
+with no aliases. Owner, 2026-10-13, on 2304.14082.
+
+**Names stay as the paper writes them**, abbreviation included -- do not expand
+an acronym the paper leaves bare (`SET`, `RigL`), even from verified outside
+knowledge. Renaming creates more confusion than it resolves. Owner,
+2026-10-13, on 2304.14082, reversing an expanded-name rule made earlier the
+same session.
+
 A **size-suffixed checkpoint name is a stated parameter count**: `Llama-2-7B` has
 7B parameters by definition. The "not from a model name" rule targets generic
 names with many sizes (`EfficientNet`, `ResNet`, `Llama-2`). Owner, 2026-10-13,
