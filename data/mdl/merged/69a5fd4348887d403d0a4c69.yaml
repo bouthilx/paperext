@@ -1,0 +1,1001 @@
+title:
+  quote: 'LLMs and Stack Overflow Discussions: Reliability,
+
+    Impact, and Challenges'
+  justification: Title as given on the paper's first page.
+  value: 'LLMs and Stack Overflow Discussions: Reliability, Impact, and Challenges'
+description: An empirical study that mines Stack Overflow questions before and after ChatGPT's release, prompts ChatGPT-3.5
+  and LLaMA-2-7b to answer a sample of them, compares generated answers with accepted human answers via textual (cosine) and
+  LLM-judged semantic similarity plus sentiment analysis, and statistically analyses the decline of Stack Overflow posting
+  and user activity overall and by domain.
+type:
+  quote: We conducted an empirical study analyzing questions from Stack Overflow and using these LLMs to address them.
+  justification: The paper explicitly describes itself as an empirical study with data mining, prompting and statistical tests.
+  value: empirical
+research_fields:
+- name:
+    quote: evaluating the reliability of LLMs in Software Engineering while assisting developers with their daily tasks is
+      a relevant and important topic
+    justification: The study evaluates LLM reliability in assisting developers, a software engineering concern.
+    value: Software Engineering
+  aliases:
+  - SE
+  role: contributed
+- name:
+    quote: We reinforce previous findings about a decline in posting activity on Stack Overflow, though our results also show
+      that such a decline is not uniform on different topics and groups.
+    justification: RQ3/RQ4 measure the decline of posting and user activity on Stack Overflow, a claim addressed to the Q&A-community
+      literature.
+    value: Online Q&A communities
+  aliases:
+  - Q&A communities
+  - Q&A web forums
+  role: contributed
+- name:
+    quote: With the advance of Large Language Models (LLMs), practitioners and researchers have explored the potential of
+      leveraging LLMs for different software engineering tasks
+    justification: The paper evaluates and compares LLMs and discusses implications for model developers.
+    value: Large Language Models
+  aliases:
+  - LLMs
+  role: contributed
+- name:
+    quote: we mine SO questions using its API from July 2022 till May 2023
+    justification: The study mines Stack Overflow posts and user data, a mining software repositories setting.
+    value: Mining Software Repositories
+  aliases:
+  - MSR
+  role: used
+- name:
+    quote: For that, we perform a sentiment analysis of the generated answers.
+    justification: NLP methods including embeddings and sentiment analysis are used to evaluate answer text.
+    value: Natural Language Processing
+  aliases:
+  - NLP
+  role: used
+models:
+- name:
+    quote: We used the GPT-3.5-turbo variant for our research, interacting with it through its API.
+    justification: One of the two LLMs prompted in the study, accessed via the GPT-3.5-turbo API.
+    value: ChatGPT-3.5
+  aliases:
+  - ChatGPT
+  - GPT-3.5-turbo
+  - ChatGPT 3.5
+  is_contributed:
+    quote: ChatGPT is a language model developed by OpenAI.
+    justification: ChatGPT is an OpenAI model used, not contributed.
+    value: false
+  is_executed:
+    quote: we randomly selected 384 questions from each set (before and after ChatGPT release)
+    justification: The authors prompted the model via its API to answer 768 questions and to judge semantic similarity.
+    value: true
+  is_compared:
+    quote: A Wilcoxon test reports that ChatGPT was statistically superior to LLaMA-2 (p-value <0.01)
+    justification: Compared statistically with LLaMA-2 and human answers.
+    value: true
+  execution_mode:
+    quote: we prompt the models with their default temperature and context length
+    justification: Only prompted/sampled, never trained or finetuned by the authors.
+    value: inference
+  referenced_paper_title:
+    quote: https://openai.com/chatgpt
+    justification: No reference paper for ChatGPT is given; only a URL footnote.
+    value: unknown
+- name:
+    quote: For our experiments, we used the 7B-sized LLaMA-2 model (Llama-2-7b-chat-hf checkpoint in its base configuration)
+    justification: The second LLM, loaded locally via Hugging Face.
+    value: LLaMA-2-7b
+  aliases:
+  - LLaMA
+  - LLaMA-2
+  - Llama-2-7b-chat-hf
+  is_contributed:
+    quote: LLaMA, released by Meta AI, is a series of large language models
+    justification: Released by Meta AI, used by the authors.
+    value: false
+  is_executed:
+    quote: The model was loaded via Hugging Face support
+    justification: Loaded locally on a machine with 40GB RAM and prompted.
+    value: true
+  is_compared:
+    quote: LLaMA-2 presented an overall lower mean when compared to ChatGPT (0.617 and 0.642, respectively)
+    justification: Compared to ChatGPT and human answers.
+    value: true
+  execution_mode:
+    quote: Unlike ChatGPT, we call LLaMA by locally loading it.
+    justification: Only prompted for answers and judgments.
+    value: inference
+  referenced_paper_title:
+    quote: 'Llama 2: Open foundation and fine-tuned chat models'
+    justification: Reference [14] is cited for LLaMA.
+    value: 'Llama 2: Open foundation and fine-tuned chat models'
+- name:
+    quote: Sentence Transformers model (all-MiniLM-L6-v2)
+    justification: Pre-trained Sentence Transformers model used to compute embeddings for cosine similarity.
+    value: all-MiniLM-L6-v2
+  aliases:
+  - Sentence Transformers model
+  is_contributed:
+    quote: Sentence Transformers model (all-MiniLM-L6-v2)
+    justification: An off-the-shelf pretrained model used as a tool.
+    value: false
+  is_executed:
+    quote: First, we take the accepted and LLM-generated answers for a given question and compute their embeddings.
+    justification: Used to compute embeddings and cosine similarity of all answer pairs.
+    value: true
+  is_compared:
+    quote: we used the function cos sim from the same model, passing the previous embeddings and computing the metric.
+    justification: Used as a metric tool, not compared against other models.
+    value: false
+  execution_mode:
+    quote: compute their embeddings
+    justification: Used only to produce embeddings.
+    value: inference
+  referenced_paper_title:
+    quote: https://github.com/UKPLab/sentence-transformers
+    justification: Only a GitHub URL footnote is given.
+    value: unknown
+- name:
+    quote: we perform a sentiment analysis on answers generated by the LLMs using a pre-trained Transformers model (sentiment-analysis)
+    justification: A pre-trained Transformers sentiment model used for the sentiment analysis.
+    value: sentiment-analysis
+  aliases:
+  - pre-trained Transformers model
+  is_contributed:
+    quote: using a pre-trained Transformers model (sentiment-analysis)
+    justification: Off-the-shelf Hugging Face pipeline model.
+    value: false
+  is_executed:
+    quote: we perform a sentiment analysis on answers generated by the LLMs
+    justification: Applied to the generated and human answers.
+    value: true
+  is_compared:
+    quote: Subsequently, we statistically compared the sentiment outcome achieved by each LLM using the Wilcoxon test.
+    justification: Used as a measurement tool only.
+    value: false
+  execution_mode:
+    quote: we perform a sentiment analysis on answers generated by the LLMs using a pre-trained Transformers model
+    justification: Used for classification only.
+    value: inference
+  referenced_paper_title:
+    quote: https://github.com/huggingface/transformers
+    justification: Only a GitHub URL footnote is given.
+    value: unknown
+- name:
+    quote: Although there are newer versions of the selected LLMs in this study, like GPT-4 and LLaMA 4, not evaluated here
+    justification: Mentioned as a newer version not evaluated, and in related work.
+    value: GPT-4
+  aliases:
+  - ChatGPT 4
+  - ChatGPT-4
+  is_contributed:
+    quote: like GPT-4 and LLaMA 4, not evaluated here
+    justification: Not contributed by this paper.
+    value: false
+  is_executed:
+    quote: not evaluated here
+    justification: Explicitly stated as not evaluated.
+    value: false
+  is_compared:
+    quote: our analysis was necessarily based on ChatGPT-3.5
+    justification: Not part of the paper's numerical comparison.
+    value: false
+  execution_mode:
+    quote: GPT-4 was released in March 2023 but was only accessible to (i) ChatGPT Plus subscribers or (ii) API users with
+      a waitlist.
+    justification: The paper does not run it.
+    value: unknown
+  referenced_paper_title:
+    quote: like GPT-4 and LLaMA 4, not evaluated here
+    justification: No reference given for GPT-4.
+    value: unknown
+- name:
+    quote: like GPT-4 and LLaMA 4, not evaluated here
+    justification: LLaMA 4 is mentioned as a newer version but not evaluated.
+    value: LLaMA 4
+  aliases: []
+  is_contributed:
+    quote: like GPT-4 and LLaMA 4, not evaluated here
+    justification: It is an external model and not introduced here.
+    value: false
+  is_executed:
+    quote: not evaluated here
+    justification: The model was not run.
+    value: false
+  is_compared:
+    quote: Although there are newer versions of the selected LLMs in this study, like GPT-4 and LLaMA 4, not evaluated here
+    justification: No numerical comparison involving LLaMA 4 was conducted.
+    value: false
+  execution_mode:
+    quote: not evaluated here
+    justification: No execution mode is stated because it was not evaluated.
+    value: unknown
+  referenced_paper_title:
+    quote: unknown
+    justification: No reference-list title is given for LLaMA 4.
+    value: unknown
+- name:
+    quote: Different LLMs have been proposed for tasks related to software engineering, like StarCoder [30], Copilot [31],
+      and CodeBERT [32].
+    justification: Named as an example of SE-related LLM.
+    value: StarCoder
+  aliases: []
+  is_contributed:
+    quote: like StarCoder [30]
+    justification: Only cited as context.
+    value: false
+  is_executed:
+    quote: Different LLMs have been proposed for tasks related to software engineering, like StarCoder [30]
+    justification: Not used in the study.
+    value: false
+  is_compared:
+    quote: like StarCoder [30], Copilot [31], and CodeBERT [32]
+    justification: No numerical comparison.
+    value: false
+  execution_mode:
+    quote: like StarCoder [30]
+    justification: Not executed or described.
+    value: unknown
+  referenced_paper_title:
+    quote: 'Starcoder: may the source be with you!'
+    justification: Reference [30].
+    value: 'Starcoder: may the source be with you!'
+- name:
+    quote: like StarCoder [30], Copilot [31], and CodeBERT [32]
+    justification: Named as an example of SE-related LLM tool.
+    value: Copilot
+  aliases:
+  - GitHub Copilot
+  is_contributed:
+    quote: Copilot [31]
+    justification: Only cited.
+    value: false
+  is_executed:
+    quote: Different LLMs have been proposed for tasks related to software engineering, like StarCoder [30], Copilot [31]
+    justification: Not used in this study.
+    value: false
+  is_compared:
+    quote: Copilot [31]
+    justification: No comparison performed.
+    value: false
+  execution_mode:
+    quote: Copilot [31]
+    justification: Not executed.
+    value: unknown
+  referenced_paper_title:
+    quote: 'GitHub, Github copilot: Your ai pair programmer (2024).'
+    justification: Reference [31].
+    value: 'Github copilot: Your ai pair programmer'
+- name:
+    quote: like StarCoder [30], Copilot [31], and CodeBERT [32]
+    justification: Named as an example SE LLM.
+    value: CodeBERT
+  aliases: []
+  is_contributed:
+    quote: CodeBERT [32]
+    justification: Only cited.
+    value: false
+  is_executed:
+    quote: CodeBERT [32]
+    justification: Not used.
+    value: false
+  is_compared:
+    quote: CodeBERT [32]
+    justification: No comparison.
+    value: false
+  execution_mode:
+    quote: CodeBERT [32]
+    justification: Not executed.
+    value: unknown
+  referenced_paper_title:
+    quote: 'Z. Feng, D. Guo, D. Tang, N. Duan, X. Feng, M. Gong, L. Shou, B. Qin, T. Liu, D. Jiang, et al., Codebert: A pre-trained
+      model for programming and natural languages'
+    justification: Reference [32].
+    value: 'Codebert: A pre-trained model for programming and natural languages'
+data_sources:
+- name:
+    quote: "we mined SO posts and collected the data using SO\u2019s API"
+    justification: The platform whose posts were mined via its API and data explorer.
+    value: Stack Overflow
+  aliases:
+  - SO
+  role: used
+  size:
+    quote: "we were able to collect 674 425, 578 115 and 296 718 questions before, after, and oneyear milestone ChatGPT\u2019\
+      s release"
+    justification: The paper states the number of collected questions in each window.
+    value: 674 425, 578 115 and 296 718 questions before, after, and one-year milestone
+  derived_from: []
+  sample_properties:
+  - name: token limit for questions used for prompting
+    value:
+      quote: To adhere to the 2048 token limitation for the LLMs under study, questions exceeding this token count were excluded
+      justification: Questions exceeding this token count were excluded.
+      value: 2048 token limitation
+    unit: tokens
+  referenced_paper_title:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+libraries:
+- name:
+    quote: The model was loaded via Hugging Face support
+    justification: Used to load the LLaMA-2-7b checkpoint.
+    value: Hugging Face
+  aliases:
+  - huggingface
+  role: used
+  referenced_paper_title:
+    quote: https://huggingface.co/meta-llama/Llama-2-7b
+    justification: Cited only by URL.
+    value: unknown
+- name:
+    quote: Sentence Transformers model (all-MiniLM-L6-v2)
+    justification: Used to compute embeddings and cosine similarity.
+    value: Sentence Transformers
+  aliases:
+  - sentence-transformers
+  role: used
+  referenced_paper_title:
+    quote: https://github.com/UKPLab/sentence-transformers
+    justification: Cited only by GitHub URL.
+    value: unknown
+- name:
+    quote: we perform a sentiment analysis on answers generated by the LLMs using a pre-trained Transformers model (sentiment-analysis)
+    justification: The Hugging Face transformers library used for the sentiment-analysis model.
+    value: Transformers
+  aliases:
+  - huggingface/transformers
+  role: used
+  referenced_paper_title:
+    quote: https://github.com/huggingface/transformers
+    justification: Cited only by GitHub URL.
+    value: unknown
+- name:
+    quote: https://pypi.org/project/tiktoken/
+    justification: Footnote to the token-count step; used to compute token requirements.
+    value: tiktoken
+  aliases: []
+  role: used
+  referenced_paper_title:
+    quote: https://pypi.org/project/tiktoken/
+    justification: Cited only by PyPI URL footnote.
+    value: unknown
+- name:
+    quote: "we mined SO posts and collected the data using SO\u2019s API"
+    justification: Used to mine posts and user information.
+    value: Stack Overflow API
+  aliases:
+  - SO's API
+  - Stack Exchange Data Explorer
+  role: used
+  referenced_paper_title:
+    quote: https://data.stackexchange.com/stackoverflow/query/new
+    justification: Cited only by URL.
+    value: unknown
+algorithms:
+- name:
+    quote: "we employed the cosine similarity metric (\u03B8)"
+    justification: Used as the textual similarity metric between answers.
+    value: cosine similarity
+  aliases:
+  - cosine similarity metric
+  - cosine metric
+  - "\u03B8"
+  - cos sim
+  is_contributed:
+    quote: "we employed the cosine similarity metric (\u03B8) [44, 45]"
+    justification: A standard metric cited to prior work.
+    value: false
+  is_executed:
+    quote: we used the function cos sim from the same model, passing the previous embeddings and computing the metric.
+    justification: Computed over all answer pairs.
+    value: true
+  is_compared:
+    quote: To assess the similarity between answers from Stack Overflow and those generated by LLMs, we employed the cosine
+      similarity metric
+    justification: A statistic/test applied to results; nothing is compared against it.
+    value: false
+  paper_role:
+    quote: "To assess the similarity between answers from Stack Overflow and those generated by LLMs, we employed the cosine\
+      \ similarity metric (\u03B8)"
+    justification: Stated role in the methodology.
+    value: to assess the similarity between answers from Stack Overflow and those generated by LLMs
+  composed_of: []
+  referenced_paper_title:
+    quote: 'A. R. Lahitani, A. E. Permanasari, N. A. Setiawan, Cosine similarity to determine similarity measure: Study case
+      in online essay assessment'
+    justification: Reference [45] cited for cosine similarity.
+    value: 'Cosine similarity to determine similarity measure: Study case in online essay assessment'
+- name:
+    quote: "we employed the non-parametric Wilcoxon test to compare the distributions of each evaluated group, using a significance\
+      \ level of \u03B1 = 0.05"
+    justification: Non-parametric test used throughout for statistical comparison.
+    value: Wilcoxon test
+  aliases:
+  - Wilcoxon rank sum test
+  is_contributed:
+    quote: we ran the Wilcoxon rank sum test
+    justification: Standard statistical test.
+    value: false
+  is_executed:
+    quote: A Wilcoxon test reports that ChatGPT was statistically superior to LLaMA-2 (p-value <0.01)
+    justification: Applied to all distributions compared.
+    value: true
+  is_compared:
+    quote: we employed the non-parametric Wilcoxon test
+    justification: A statistic/test applied to results; nothing is compared against it.
+    value: false
+  paper_role:
+    quote: we employed the non-parametric Wilcoxon test to compare the distributions of each evaluated group
+    justification: Stated usage.
+    value: to compare the distributions of each evaluated group
+  composed_of: []
+  referenced_paper_title:
+    quote: H. B. Mann, D. R. Whitney, On a test of whether one of two random variables is stochastically larger than the other
+    justification: Reference [48] cited alongside the test.
+    value: On a test of whether one of two random variables is stochastically larger than the other
+- name:
+    quote: Knowing that our data did not follow a normal distribution, as verified by the Shapiro-Wilk test [47]
+    justification: Used to verify data normality.
+    value: Shapiro-Wilk test
+  aliases: []
+  is_contributed:
+    quote: as verified by the Shapiro-Wilk test [47]
+    justification: Standard normality test.
+    value: false
+  is_executed:
+    quote: as confirmed by a Shapiro-Wilk test
+    justification: Run on the collected data.
+    value: true
+  is_compared:
+    quote: as verified by the Shapiro-Wilk test [47]
+    justification: A statistic/test applied to results; nothing is compared against it.
+    value: false
+  paper_role:
+    quote: Knowing that our data did not follow a normal distribution, as verified by the Shapiro-Wilk test
+    justification: Stated usage.
+    value: verify whether data follow a normal distribution
+  composed_of: []
+  referenced_paper_title:
+    quote: S. S. Shapiro, M. B. Wilk, An analysis of variance test for normality (complete samples)
+    justification: Reference [47].
+    value: An analysis of variance test for normality (complete samples)
+- name:
+    quote: we used the non-parametric Spearman test
+    justification: Used for correlation analysis between context size and similarity.
+    value: Spearman test
+  aliases:
+  - Spearman
+  is_contributed:
+    quote: we used the non-parametric Spearman test
+    justification: Standard correlation test.
+    value: false
+  is_executed:
+    quote: Initially, we verify whether the context used to prompt the LLMs correlates with the textual similarity level previously
+      computed (for that, we rely on the Spearman test).
+    justification: Run on the extracted features.
+    value: true
+  is_compared:
+    quote: we used the non-parametric Spearman test
+    justification: A statistic/test applied to results; nothing is compared against it.
+    value: false
+  paper_role:
+    quote: we performed a correlation analysis between (i) the textual similarity achieved by a given LLM answer, previously
+      computed, and (ii) the number of words associated with the different types of context we have
+    justification: Stated role.
+    value: correlation analysis between the textual similarity achieved and the number of words associated with the different
+      types of context
+  composed_of: []
+  referenced_paper_title:
+    quote: we used the non-parametric Spearman test
+    justification: No specific reference for Spearman test.
+    value: unknown
+- name:
+    quote: "we compute Krippendorff\u2019s alpha coefficient [46] with an ordinal distance function"
+    justification: Used for inter-rater agreement with ordinal distance.
+    value: "Krippendorff\u2019s alpha coefficient"
+  aliases:
+  - Krippendorff alpha
+  is_contributed:
+    quote: "we compute Krippendorff\u2019s alpha coefficient [46]"
+    justification: Standard agreement coefficient.
+    value: false
+  is_executed:
+    quote: When computing the Krippendorff alpha between ChatGPT and LLaMA2, we observe a coefficient of 0.02.
+    justification: Computed between LLM judgments and manual labels.
+    value: true
+  is_compared:
+    quote: "we compute Krippendorff\u2019s alpha coefficient [46] with an ordinal distance function"
+    justification: A statistic/test applied to results; nothing is compared against it.
+    value: false
+  paper_role:
+    quote: we must consider such aspect when assessing the level of inter-rater agreement between our manual analysis and
+      the assessments provided by LLMs
+    justification: Stated role.
+    value: assessing the level of inter-rater agreement between our manual analysis and the assessments provided by LLMs
+  composed_of: []
+  referenced_paper_title:
+    quote: "K. Krippendorff, Computing krippendorff\u2019s alpha-reliability (2011)."
+    justification: Reference [46].
+    value: Computing krippendorff's alpha-reliability
+- name:
+    quote: "but with a small effect size (Cliff\u2019s delta, 0.1)"
+    justification: Used as effect size measure.
+    value: "Cliff\u2019s delta"
+  aliases: []
+  is_contributed:
+    quote: "(Cliff\u2019s delta, 0.1)"
+    justification: Standard effect size statistic.
+    value: false
+  is_executed:
+    quote: "A Wilcoxon test reports that ChatGPT was statistically superior to LLaMA-2 (p-value <0.01) but with a small effect\
+      \ size (Cliff\u2019s delta, 0.1)."
+    justification: Computed in the comparison of LLM similarity distributions.
+    value: true
+  is_compared:
+    quote: "(Cliff\u2019s delta, 0.1)"
+    justification: A statistic/test applied to results; nothing is compared against it.
+    value: false
+  paper_role:
+    quote: "but with a small effect size (Cliff\u2019s delta, 0.1)"
+    justification: Used to quantify effect size of the Wilcoxon comparison.
+    value: reporting the effect size of the statistical comparison
+  composed_of: []
+  referenced_paper_title:
+    quote: "(Cliff\u2019s delta, 0.1)"
+    justification: No reference given.
+    value: unknown
+runs:
+- models: []
+  data_sources:
+  - name: Stack Overflow
+    access: oracle
+    roles_in_run:
+    - unknown
+  algorithms: []
+  produces: []
+  execution_mode:
+    quote: we mine SO questions using its API from July 2022 till May 2023, and Nov 2023 till May 2024
+    justification: 'Step 1 of Figure 1: posts mined by SQL queries to the Stack Overflow API over three time windows; no model.'
+    value: generate
+  epochs:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parameter_count:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_type:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_model:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_count:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  precision:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parallelism:
+    quote: ''
+    justification: Not stated in the paper.
+    value:
+    - unknown
+  duration:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  utilisation:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  repetitions:
+    quote: ''
+    justification: Not stated in the paper.
+    value: []
+- models: []
+  data_sources:
+  - name: Stack Overflow
+    access: oracle
+    roles_in_run:
+    - unknown
+  algorithms: []
+  produces: []
+  execution_mode:
+    quote: "We request each user\u2019s information using their IDs on the Stack Overflow API."
+    justification: Second query pass over user records for RQ4; no model.
+    value: generate
+  epochs:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parameter_count:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_type:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_model:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_count:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  precision:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parallelism:
+    quote: ''
+    justification: Not stated in the paper.
+    value:
+    - unknown
+  duration:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  utilisation:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  repetitions:
+    quote: ''
+    justification: Not stated in the paper.
+    value: []
+- models:
+  - name: ChatGPT-3.5
+    role_in_run: main
+  data_sources:
+  - name: Stack Overflow
+    access: fixed
+    roles_in_run:
+    - test
+  algorithms: []
+  produces: []
+  execution_mode:
+    quote: We used the GPT-3.5-turbo variant for our research, interacting with it through its API.
+    justification: ChatGPT-3.5 answers 2 x 384 sampled questions (before and after release) once each.
+    value: inference
+  epochs:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parameter_count:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_type:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_model:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_count:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  precision:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parallelism:
+    quote: ''
+    justification: Not stated in the paper.
+    value:
+    - unknown
+  duration:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  utilisation:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  repetitions:
+    quote: Finally, for each question, we prompt each model once.
+    justification: 'Stated as once (owner: a stated count, not silence).'
+    value:
+    - kind: seed
+      count: 1
+      what: each question prompted once per model
+- models:
+  - name: LLaMA-2-7b
+    role_in_run: main
+  data_sources:
+  - name: Stack Overflow
+    access: fixed
+    roles_in_run:
+    - test
+  algorithms: []
+  produces: []
+  execution_mode:
+    quote: Unlike ChatGPT, we call LLaMA by locally loading it.
+    justification: LLaMA-2-7b answers the same 2 x 384 sampled questions once each.
+    value: inference
+  epochs:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parameter_count:
+    quote: which is the 7-billion-parameter chatoptimized variant
+    justification: 'Stated: 7-billion-parameter Llama-2-7b-chat-hf checkpoint.'
+    value: 7B
+  accelerator_type:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_model:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_count:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  precision:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parallelism:
+    quote: ''
+    justification: Not stated in the paper.
+    value:
+    - unknown
+  duration:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  utilisation:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  repetitions:
+    quote: Finally, for each question, we prompt each model once.
+    justification: 'Stated as once (owner: a stated count, not silence).'
+    value:
+    - kind: seed
+      count: 1
+      what: each question prompted once per model
+- models:
+  - name: ChatGPT-3.5
+    role_in_run: main
+  data_sources:
+  - name: Stack Overflow
+    access: fixed
+    roles_in_run:
+    - test
+  algorithms:
+  - name: "Krippendorff\u2019s alpha coefficient"
+  produces: []
+  execution_mode:
+    quote: we prompted ChatGPT to classify the 1,535 answers three times.
+    justification: ChatGPT judges semantic similarity of 1,535 (accepted, generated) answer pairs; longer prompts than answer
+      generation.
+    value: inference
+  epochs:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parameter_count:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_type:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_model:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_count:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  precision:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parallelism:
+    quote: ''
+    justification: Not stated in the paper.
+    value:
+    - unknown
+  duration:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  utilisation:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  repetitions:
+    quote: we prompted ChatGPT to classify the 1,535 answers three times.
+    justification: Independent reruns of an identical configuration.
+    value:
+    - kind: seed
+      count: 3
+      what: classify the 1,535 answers three times
+- models:
+  - name: LLaMA-2-7b
+    role_in_run: main
+  data_sources:
+  - name: Stack Overflow
+    access: fixed
+    roles_in_run:
+    - test
+  algorithms:
+  - name: "Krippendorff\u2019s alpha coefficient"
+  produces: []
+  execution_mode:
+    quote: Second, we ask the LLM to compare the original and LLM-generated answers, reporting an evaluation using a VERY
+      LOW to VERY HIGH scale.
+    justification: LLaMA-2-7b judges the same answer pairs (72 not classified due to resource constraints).
+    value: inference
+  epochs:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parameter_count:
+    quote: which is the 7-billion-parameter chatoptimized variant
+    justification: 'Stated: 7-billion-parameter Llama-2-7b-chat-hf checkpoint.'
+    value: 7B
+  accelerator_type:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_model:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_count:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  precision:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parallelism:
+    quote: ''
+    justification: Not stated in the paper.
+    value:
+    - unknown
+  duration:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  utilisation:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  repetitions:
+    quote: ''
+    justification: Not stated in the paper.
+    value: []
+- models:
+  - name: all-MiniLM-L6-v2
+    role_in_run: main
+  data_sources:
+  - name: Stack Overflow
+    access: fixed
+    roles_in_run:
+    - test
+  algorithms:
+  - name: cosine similarity
+  produces: []
+  execution_mode:
+    quote: First, we take the accepted and LLM-generated answers for a given question and compute their embeddings.
+    justification: Embeds accepted and generated answers; cosine similarity via the same package.
+    value: inference
+  epochs:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parameter_count:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_type:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_model:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_count:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  precision:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parallelism:
+    quote: ''
+    justification: Not stated in the paper.
+    value:
+    - unknown
+  duration:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  utilisation:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  repetitions:
+    quote: ''
+    justification: Not stated in the paper.
+    value: []
+- models:
+  - name: sentiment-analysis
+    role_in_run: main
+  data_sources:
+  - name: Stack Overflow
+    access: fixed
+    roles_in_run:
+    - test
+  algorithms:
+  - name: Wilcoxon test
+  produces: []
+  execution_mode:
+    quote: we perform a sentiment analysis on answers generated by the LLMs using a pre-trained Transformers model (sentiment-analysis)
+    justification: Classifies sentiment of LLM-generated answers and (per the results) the accepted Stack Overflow answers.
+    value: inference
+  epochs:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parameter_count:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_type:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_model:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_count:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  precision:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parallelism:
+    quote: ''
+    justification: Not stated in the paper.
+    value:
+    - unknown
+  duration:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  utilisation:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  repetitions:
+    quote: ''
+    justification: Not stated in the paper.
+    value: []

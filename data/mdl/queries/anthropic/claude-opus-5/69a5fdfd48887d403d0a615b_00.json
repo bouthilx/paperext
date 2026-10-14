@@ -1,0 +1,793 @@
+{
+  "paper": "69a5fdfd48887d403d0a615b.txt",
+  "words": 8402,
+  "extractions": {
+    "title": {
+      "quote": "N OISY ZSC: B REAKING T HE C OMMON K NOWLEDGE A SSUMPTION I N Z ERO -S HOT C OORDINATION G AMES",
+      "justification": "Title as given on the paper",
+      "value": "Noisy ZSC: Breaking The Common Knowledge Assumption In Zero-Shot Coordination Games"
+    },
+    "description": "The paper introduces the noisy zero-shot coordination (NZSC) problem setting, in which agents observe different noisy versions of the ground truth Dec-POMDP, shows that NZSC can be reduced to standard ZSC via a meta-Dec-POMDP, proposes toy lever-game environments, and empirically evaluates IPPO with self-play and other-play objectives in them.",
+    "type": {
+      "quote": "In our experiments, we analyze various aspects of NZSC and show that achieving good performance in NZSC requires agents to make use of both the noisy observations of ground truth Dec-POMDP",
+      "justification": "The paper formulates a setting and runs experiments with learning agents in toy environments, reporting regret and coordination failure rates.",
+      "value": "empirical"
+    },
+    "research_fields": [
+      {
+        "name": {
+          "quote": "Zero-shot coordination (ZSC) is a popular setting for studying the ability of AI agents to coordinate with novel partners.",
+          "justification": "The paper's central setting, which it extends with NZSC.",
+          "value": "Zero-shot coordination"
+        },
+        "aliases": [
+          "ZSC",
+          "NZSC",
+          "noisy zero-shot coordination"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "Multi-Agent Reinforcement Learning: A general fully cooperative multi-agent reinforcement learning problem (MARL) with n-agents is represented as a Decentralized Partially Observable Markov Decision Process (Dec-POMDP)",
+          "justification": "The problem is formulated as a cooperative MARL problem and solved with MARL algorithms.",
+          "value": "Multi-Agent Reinforcement Learning"
+        },
+        "aliases": [
+          "MARL"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "Ad-hoc teamplay (Stone et al., 2010; Mirsky et al., 2022) and zero-shot coordination (ZSC) (Hu et al., 2020; 2021).",
+          "justification": "Named as related context for coordinating with novel agents.",
+          "value": "Ad-hoc teamplay"
+        },
+        "aliases": [
+          "ad hoc teamwork"
+        ],
+        "role": "referenced"
+      },
+      {
+        "name": {
+          "quote": "Robustness To Misspecifciation In RL: Within single agent reinforcement learning, many works consider the misspecification in reward function",
+          "justification": "Related work on misspecification in reward functions and dynamics is referenced as context.",
+          "value": "AI safety / misspecification robustness"
+        },
+        "aliases": [],
+        "role": "referenced"
+      }
+    ],
+    "models": [],
+    "data_sources": [
+      {
+        "name": {
+          "quote": "One-Shot Noisy Lever Game (OS-NLG): This is a simple one-step lever game consisting of three levers",
+          "justification": "Toy environment proposed and used in experiments.",
+          "value": "One-Shot Noisy Lever Game"
+        },
+        "aliases": [
+          "OS-NLG"
+        ],
+        "role": "contributed",
+        "size": {
+          "quote": "The game only lasts one timestep every round.",
+          "justification": "No sample counts given.",
+          "value": "unknown"
+        },
+        "derived_from": [],
+        "sample_properties": [
+          {
+            "name": "horizon",
+            "value": {
+              "quote": "This is a simple one-step lever game consisting of three levers",
+              "justification": "Stated as a one-step game.",
+              "value": "1"
+            },
+            "unit": "timesteps"
+          }
+        ],
+        "referenced_paper_title": {
+          "quote": "We propose different toy environments for NZSC",
+          "justification": "Environment introduced in this paper.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "Iterated Noise Lever Game (I-NLG): This is an extension of OS-NLG to a longer horizon - which is set to be 16 in our experiments.",
+          "justification": "Longer-horizon version of OS-NLG proposed and used.",
+          "value": "Iterated Noise Lever Game"
+        },
+        "aliases": [
+          "I-NLG"
+        ],
+        "role": "contributed",
+        "size": {
+          "quote": "While after one timestep, OS-NLG gets reset, I-NLG lasts 16 timesteps.",
+          "justification": "No sample counts given.",
+          "value": "unknown"
+        },
+        "derived_from": [
+          "One-Shot Noisy Lever Game"
+        ],
+        "sample_properties": [
+          {
+            "name": "horizon",
+            "value": {
+              "quote": "This is an extension of OS-NLG to a longer horizon - which is set to be 16 in our experiments.",
+              "justification": "Stated horizon.",
+              "value": "16"
+            },
+            "unit": "timesteps"
+          }
+        ],
+        "referenced_paper_title": {
+          "quote": "We propose different toy environments for NZSC",
+          "justification": "Environment introduced in this paper.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "NoisyPartnerLeverGame (NP-LG): This environment models misspecification in the number of agents present in the game.",
+          "justification": "Environment modelling misspecification in the number of agents, used in experiments.",
+          "value": "NoisyPartnerLeverGame"
+        },
+        "aliases": [
+          "NP-LG"
+        ],
+        "role": "contributed",
+        "size": {
+          "quote": "Specifically, there are two levers lh and lb in this game",
+          "justification": "No sample counts stated.",
+          "value": "unknown"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "We propose different toy environments for NZSC",
+          "justification": "Environment introduced in this paper.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "Finally, we consider a modified version of OS-NLG, denoted OS-NLG-β where rewards on the levers in the ground truth Dec-POMPD are distributed according to a bimodal beta distribution",
+          "justification": "Modified version of OS-NLG with beta-distributed payoffs used in experiments.",
+          "value": "OS-NLG-β"
+        },
+        "aliases": [
+          "OS-LG-β"
+        ],
+        "role": "contributed",
+        "size": {
+          "quote": "OS-NLG-β is identical to OS-NLG with two differences.",
+          "justification": "No sample counts stated.",
+          "value": "unknown"
+        },
+        "derived_from": [
+          "One-Shot Noisy Lever Game"
+        ],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "OS-NLG-β is identical to OS-NLG with two differences.",
+          "justification": "Introduced in this paper.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "use K-level reasoning (Costa-Gomes & Crawford, 2006) to train ZSC capable policies in Hanabi (Bard et al., 2020)",
+          "justification": "Mentioned as a ZSC benchmark in related work only.",
+          "value": "Hanabi"
+        },
+        "aliases": [],
+        "role": "referenced",
+        "size": {
+          "quote": "train ZSC capable policies in Hanabi (Bard et al., 2020)",
+          "justification": "Not used.",
+          "value": "unknown"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "Nolan Bard, Jakob N Foerster, Sarath Chandar, Neil Burch, Marc Lanctot, H Francis Song, Emilio Parisotto, Vincent Dumoulin, Subhodeep Moitra, Edward Hughes, et al. The hanabi challenge: A new frontier for ai research.",
+          "justification": "Reference for Hanabi.",
+          "value": "The hanabi challenge: A new frontier for ai research"
+        }
+      }
+    ],
+    "libraries": [],
+    "algorithms": [
+      {
+        "name": {
+          "quote": "IPPO: Independent PPO (IPPO) (Yu et al., 2022) is a popular MARL algorithm in which all the agents are updated individually using PPO based on their own experiences and rewards.",
+          "justification": "Named algorithm used for training agents.",
+          "value": "IPPO"
+        },
+        "aliases": [
+          "Independent PPO"
+        ],
+        "is_contributed": {
+          "quote": "Independent PPO (IPPO) (Yu et al., 2022) is a popular MARL algorithm",
+          "justification": "Cited from Yu et al. 2022.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "In our experiments, we use IPPO with self-play and other-play objectives (Hu et al., 2020) which we respectively term IPPO-SP and IPPO-OP.",
+          "justification": "Used to train agents in experiments.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Performance across different noise levels for IPPO-SP and IPPO-OP across OS-NLG and I-NLG.",
+          "justification": "IPPO-SP and IPPO-OP compared across environments.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "In our experiments, we use IPPO with self-play and other-play objectives (Hu et al., 2020) which we respectively term IPPO-SP and IPPO-OP.",
+          "justification": "Stated as the learning algorithm.",
+          "value": "MARL algorithm used to train the coordinating agents in the experiments"
+        },
+        "composed_of": [
+          "PPO"
+        ],
+        "referenced_paper_title": {
+          "quote": "Chao Yu, Akash Velu, Eugene Vinitsky, Jiaxuan Gao, Yu Wang, Alexandre Bayen, and Yi Wu. The surprising effectiveness of ppo in cooperative, multi-agent games, 2022.",
+          "justification": "Yu et al. 2022 reference.",
+          "value": "The surprising effectiveness of ppo in cooperative, multi-agent games"
+        }
+      },
+      {
+        "name": {
+          "quote": "we use IPPO with self-play and other-play objectives (Hu et al., 2020) which we respectively term IPPO-SP and IPPO-OP.",
+          "justification": "The paper's term for IPPO with other-play objective, executed in experiments.",
+          "value": "IPPO-OP"
+        },
+        "aliases": [
+          "other-play",
+          "IPPO with other-play objective"
+        ],
+        "is_contributed": {
+          "quote": "We exploit this by using IPPO-OP, a standard ZSC algorithm (Hu et al., 2020), in our experiments.",
+          "justification": "Other-play is from Hu et al. 2020.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "the cross-play performance for agents trained with IPPO-OP",
+          "justification": "Trained and evaluated in all experiments.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "IPPO-OP consistently performs better in the cross-play evaluation.",
+          "justification": "Compared with IPPO-SP.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "We exploit this by using IPPO-OP, a standard ZSC algorithm (Hu et al., 2020), in our experiments.",
+          "justification": "Stated role.",
+          "value": "a standard ZSC algorithm used for learning ZSC policies in the NZSC experiments"
+        },
+        "composed_of": [
+          "IPPO",
+          "other-play"
+        ],
+        "referenced_paper_title": {
+          "quote": "Hengyuan Hu, Adam Lerer, Alex Peysakhovich, and Jakob Foerster. “other-play” for zero-shot coordination.",
+          "justification": "Hu et al. 2020 reference for other-play.",
+          "value": "“other-play” for zero-shot coordination"
+        }
+      },
+      {
+        "name": {
+          "quote": "we use IPPO with self-play and other-play objectives (Hu et al., 2020) which we respectively term IPPO-SP and IPPO-OP.",
+          "justification": "The paper's term for IPPO with self-play objective, executed in experiments.",
+          "value": "IPPO-SP"
+        },
+        "aliases": [
+          "self-play",
+          "IPPO with self-play objective"
+        ],
+        "is_contributed": {
+          "quote": "In both OS-NLG and I-NLG, regardless of noise level, IPPO-OP agents learn the robust convention ... however, IPPO-SP performs poorly under cross-play evaluation.",
+          "justification": "Standard self-play baseline.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Our first experiment investigates how noise effects the policies discovered by IPPO-SP and IPPO-OP.",
+          "justification": "Trained and evaluated.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "while IPPO-OP does well under cross-play evaluation, however, IPPO-SP performs poorly under cross-play evaluation.",
+          "justification": "Compared with IPPO-OP.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "Our first experiment investigates how noise effects the policies discovered by IPPO-SP and IPPO-OP.",
+          "justification": "Used as comparison.",
+          "value": "baseline MARL training objective compared with other-play in the noisy lever games"
+        },
+        "composed_of": [
+          "IPPO",
+          "self-play"
+        ],
+        "referenced_paper_title": {
+          "quote": "In our experiments, we use IPPO with self-play and other-play objectives (Hu et al., 2020)",
+          "justification": "No specific reference for self-play variant beyond IPPO/other-play references.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "Unless stated otherwise, these metrics are given for the cross-play in which ZSC performance between pairs of 8 independently trained policies is evaluated.",
+          "justification": "Evaluation procedure used for reporting metrics.",
+          "value": "cross-play"
+        },
+        "aliases": [
+          "cross play"
+        ],
+        "is_contributed": {
+          "quote": "these metrics are given for the cross-play in which ZSC performance between pairs of 8 independently trained policies is evaluated",
+          "justification": "Standard ZSC evaluation protocol.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Cross play matrices showing regret for IPPO-SP on OS-NLG across various noise levels.",
+          "justification": "Used to produce all reported metrics.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "these metrics are given for the cross-play",
+          "justification": "It is an evaluation protocol, not compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "Unless stated otherwise, these metrics are given for the cross-play in which ZSC performance between pairs of 8 independently trained policies is evaluated.",
+          "justification": "Stated in metrics section.",
+          "value": "evaluation protocol in which ZSC performance between pairs of 8 independently trained policies is evaluated"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "these metrics are given for the cross-play",
+          "justification": "No specific reference given.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "off-belief learning (Hu et al., 2021) is another prominent method for ZSC",
+          "justification": "Named ZSC method discussed in related work only.",
+          "value": "off-belief learning"
+        },
+        "aliases": [
+          "OBL"
+        ],
+        "is_contributed": {
+          "quote": "off-belief learning (Hu et al., 2021) is another prominent method for ZSC",
+          "justification": "Cited prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "off-belief learning (Hu et al., 2021) is another prominent method for ZSC which prevents agents from learning arbitrary conventions",
+          "justification": "Not run in this paper.",
+          "value": false
+        },
+        "is_compared": {
+          "quote": "off-belief learning (Hu et al., 2021) is another prominent method for ZSC",
+          "justification": "No numerical comparison.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "off-belief learning (Hu et al., 2021) is another prominent method for ZSC",
+          "justification": "Discussed only in related work.",
+          "value": "prominent method for ZSC mentioned in related work"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Hengyuan Hu, Adam Lerer, Brandon Cui, Luis Pineda, Noam Brown, and Jakob Foerster. Off-belief learning.",
+          "justification": "Reference listed.",
+          "value": "Off-belief learning"
+        }
+      },
+      {
+        "name": {
+          "quote": "Cui et al. (2021) use K-level reasoning (Costa-Gomes & Crawford, 2006) to train ZSC capable policies in Hanabi",
+          "justification": "Mentioned in related work as a ZSC method.",
+          "value": "K-level reasoning"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "use K-level reasoning (Costa-Gomes & Crawford, 2006)",
+          "justification": "Cited prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Cui et al. (2021) use K-level reasoning ... to train ZSC capable policies in Hanabi (Bard et al., 2020)",
+          "justification": "Not executed here.",
+          "value": false
+        },
+        "is_compared": {
+          "quote": "Cui et al. (2021) use K-level reasoning",
+          "justification": "Not compared numerically.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "Cui et al. (2021) use K-level reasoning (Costa-Gomes & Crawford, 2006) to train ZSC capable policies in Hanabi",
+          "justification": "Only referenced.",
+          "value": "related-work method for training ZSC capable policies"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Miguel A Costa-Gomes and Vincent P Crawford. Cognition and behavior in two-person guessing games: An experimental study.",
+          "justification": "Costa-Gomes & Crawford reference.",
+          "value": "Cognition and behavior in two-person guessing games: An experimental study"
+        }
+      },
+      {
+        "name": {
+          "quote": "with techniques such as domain randomization (Tobin et al., 2017; Zhao et al., 2020) having been proposed to counter this specification",
+          "justification": "Named technique mentioned in related work.",
+          "value": "domain randomization"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "techniques such as domain randomization (Tobin et al., 2017; Zhao et al., 2020)",
+          "justification": "Cited prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "techniques such as domain randomization (Tobin et al., 2017; Zhao et al., 2020) having been proposed",
+          "justification": "Not executed here.",
+          "value": false
+        },
+        "is_compared": {
+          "quote": "techniques such as domain randomization",
+          "justification": "Not compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "Robust reinforcement learning considers the misspecification in environment dynamics (Roy et al., 2017; Panaganti et al., 2022) with techniques such as domain randomization",
+          "justification": "Related work mention.",
+          "value": "technique referenced as countering misspecification in environment dynamics"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Josh Tobin, Rachel Fong, Alex Ray, Jonas Schneider, Wojciech Zaremba, and Pieter Abbeel. Domain randomization for transferring deep neural networks from simulation to the real world.",
+          "justification": "Tobin et al. reference.",
+          "value": "Domain randomization for transferring deep neural networks from simulation to the real world"
+        }
+      }
+    ],
+    "runs": [
+      {
+        "models": [],
+        "data_sources": [
+          {
+            "name": "One-Shot Noisy Lever Game",
+            "access": "interactive",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "IPPO-OP"
+          },
+          {
+            "name": "IPPO-SP"
+          },
+          {
+            "name": "cross-play"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "Our first experiment investigates how noise effects the policies discovered by IPPO-SP and IPPO-OP.",
+          "justification": "Policies are trained with IPPO-SP/OP in OS-NLG and evaluated.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "Performance across different noise levels for IPPO-SP and IPPO-OP across OS-NLG and I-NLG.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "we use IPPO with self-play and other-play objectives",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "In our experiments, we use IPPO with self-play and other-play objectives (Hu et al., 2020)",
+          "justification": "No hardware mentioned.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "In our experiments, we use IPPO with self-play and other-play objectives (Hu et al., 2020)",
+          "justification": "No hardware mentioned.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "In our experiments, we use IPPO with self-play and other-play objectives (Hu et al., 2020)",
+          "justification": "No hardware mentioned.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "In our experiments, we use IPPO with self-play and other-play objectives (Hu et al., 2020)",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "In our experiments, we use IPPO with self-play and other-play objectives (Hu et al., 2020)",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "In our experiments, we use IPPO with self-play and other-play objectives (Hu et al., 2020)",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "In our experiments, we use IPPO with self-play and other-play objectives (Hu et al., 2020)",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "these metrics are given for the cross-play in which ZSC performance between pairs of 8 independently trained policies is evaluated",
+          "justification": "Paper states cross-play between 8 independently trained policies.",
+          "value": "8 independently trained policies (per configuration), across multiple noise levels"
+        }
+      },
+      {
+        "models": [],
+        "data_sources": [
+          {
+            "name": "Iterated Noise Lever Game",
+            "access": "interactive",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "IPPO-OP"
+          },
+          {
+            "name": "IPPO-SP"
+          },
+          {
+            "name": "cross-play"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "IPPO-OP achieves considerably better coordinating performance in I-NLG",
+          "justification": "Agents trained and evaluated in I-NLG.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "This is an extension of OS-NLG to a longer horizon - which is set to be 16 in our experiments.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "we use IPPO with self-play and other-play objectives",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "In our experiments, we use IPPO with self-play and other-play objectives (Hu et al., 2020)",
+          "justification": "No hardware mentioned.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "In our experiments, we use IPPO with self-play and other-play objectives (Hu et al., 2020)",
+          "justification": "No hardware mentioned.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "In our experiments, we use IPPO with self-play and other-play objectives (Hu et al., 2020)",
+          "justification": "No hardware mentioned.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "In our experiments, we use IPPO with self-play and other-play objectives (Hu et al., 2020)",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "In our experiments, we use IPPO with self-play and other-play objectives (Hu et al., 2020)",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "In our experiments, we use IPPO with self-play and other-play objectives (Hu et al., 2020)",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "In our experiments, we use IPPO with self-play and other-play objectives (Hu et al., 2020)",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "ZSC performance between pairs of 8 independently trained policies is evaluated",
+          "justification": "Cross-play among 8 policies.",
+          "value": "8 independently trained policies (per configuration)"
+        }
+      },
+      {
+        "models": [],
+        "data_sources": [
+          {
+            "name": "NoisyPartnerLeverGame",
+            "access": "interactive",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "IPPO-OP"
+          },
+          {
+            "name": "cross-play"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "We show that misspecification noise causes agents (trained via IPPO-OP) to pull the bail lever considerably more often",
+          "justification": "Agents trained via IPPO-OP in NP-LG.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "In Figure 6, we plot the proportion of an agent pulling the bail lever as a function of misspecification noise",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "agents (trained via IPPO-OP)",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "agents (trained via IPPO-OP)",
+          "justification": "No hardware mentioned.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "agents (trained via IPPO-OP)",
+          "justification": "No hardware mentioned.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "agents (trained via IPPO-OP)",
+          "justification": "No hardware mentioned.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "agents (trained via IPPO-OP)",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "agents (trained via IPPO-OP)",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "agents (trained via IPPO-OP)",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "agents (trained via IPPO-OP)",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "we plot the proportion of an agent pulling the bail lever as a function of misspecification noise for different probabilities of an agent being absent",
+          "justification": "Number of seeds for this environment is not explicitly stated.",
+          "value": "unknown"
+        }
+      },
+      {
+        "models": [],
+        "data_sources": [
+          {
+            "name": "OS-NLG-β",
+            "access": "interactive",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "IPPO-OP"
+          },
+          {
+            "name": "cross-play"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "In OS-NLG-β, misspecification-aware agents perform better relative to misspecification-unaware agents.",
+          "justification": "Misspecification-aware and unaware agents trained in OS-NLG-β.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "OS-NLG-β is identical to OS-NLG with two differences.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "misspecification-aware agents perform better relative to misspecification-unaware agents",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "misspecification-aware agents perform better relative to misspecification-unaware agents",
+          "justification": "No hardware mentioned.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "misspecification-aware agents perform better relative to misspecification-unaware agents",
+          "justification": "No hardware mentioned.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "misspecification-aware agents perform better relative to misspecification-unaware agents",
+          "justification": "No hardware mentioned.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "misspecification-aware agents perform better relative to misspecification-unaware agents",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "misspecification-aware agents perform better relative to misspecification-unaware agents",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "misspecification-aware agents perform better relative to misspecification-unaware agents",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "misspecification-aware agents perform better relative to misspecification-unaware agents",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "In OS-NLG-β, misspecification-aware agents perform better relative to misspecification-unaware agents.",
+          "justification": "Not explicitly stated for this environment.",
+          "value": "unknown"
+        }
+      }
+    ]
+  },
+  "usage": {
+    "input_tokens": 31493,
+    "output_tokens": 9936,
+    "total_tokens": 41429
+  }
+}

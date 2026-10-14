@@ -1,0 +1,2966 @@
+{
+  "paper": "69a5fdf748887d403d0a6095.txt",
+  "words": 10624,
+  "extractions": {
+    "title": {
+      "quote": "Transductive Learning for Textual Few-Shot Classification in API-based Embedding Models",
+      "justification": "The title is printed at the beginning of the paper.",
+      "value": "Transductive Learning for Textual Few-Shot Classification in API-based Embedding Models"
+    },
+    "description": "Empirical study of inductive and transductive procedures for fitting few-shot text-classification heads over frozen embeddings returned by local or API-accessed pretrained encoders. It contributes the parameter-free FR regularizer and evaluates several classifier procedures, backbones, and multilingual classification datasets.",
+    "type": {
+      "quote": "We evaluate our methods using eight backbone models, along with an episodic evaluation over 1,000 episodes",
+      "justification": "The paper runs experiments over multiple models, datasets, methods, and episodes, so it is empirical.",
+      "value": "empirical"
+    },
+    "research_fields": [
+      {
+        "name": {
+          "quote": "This paper is centered on the fundamental task of few-shot text classification",
+          "justification": "This is the central task advanced by the paper.",
+          "value": "few-shot text classification"
+        },
+        "aliases": [
+          "textual FSL",
+          "FSL"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "we revisit transduction (Vapnik, 1999) in the context of textual few-shot classification",
+          "justification": "The proposed regularizer and experiments advance transductive learning for textual few-shot classification.",
+          "value": "transductive learning"
+        },
+        "aliases": [
+          "transductive inference",
+          "transduction"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "Recent advances in Natural Language Processing (NLP)",
+          "justification": "The work advances an NLP classification problem.",
+          "value": "Natural Language Processing"
+        },
+        "aliases": [
+          "NLP"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "To address realistic multilingual scenarios, we rely on three sizes of XLM-RoBERTa",
+          "justification": "Multilingual classification is an evaluation setting used by the paper.",
+          "value": "multilingual text classification"
+        },
+        "aliases": [
+          "multilingual scenarios"
+        ],
+        "role": "used"
+      }
+    ],
+    "models": [
+      {
+        "name": {
+          "quote": "Albert Small V2 (XS)",
+          "justification": "It appears as an evaluated backbone in Table 5.",
+          "value": "Albert Small V2 (XS)"
+        },
+        "aliases": [
+          "Albert Small V2"
+        ],
+        "is_contributed": {
+          "quote": "Following (Muennighoff et al., 2022), we consider MPNET-base (Song et al., 2020), MiniLM (Wang et al., 2020), and Albert Small V2 (Lan et al., 2019).",
+          "justification": "It is a pre-existing backbone, not introduced here.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Table 5: Preliminary experiment results. Accuracy of the different backbone.",
+          "justification": "The table reports this backbone's experimental results.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Albert Small V2 (XS) ... 11M",
+          "justification": "Table 5 numerically compares it with the other backbones.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "our objective in this preliminary experiment is to assess the efficacy of these models when fine-tuning only the model head",
+          "justification": "The backbone is used for inference while only a separate head is fitted.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "Albert: A lite bert for self-supervised learning of language representations.",
+          "justification": "This is the cited model paper in the references.",
+          "value": "Albert: A lite bert for self-supervised learning of language representations"
+        }
+      },
+      {
+        "name": {
+          "quote": "MiniLM (S)",
+          "justification": "It appears as an evaluated backbone in Table 5.",
+          "value": "MiniLM (S)"
+        },
+        "aliases": [
+          "MiniLM",
+          "all-MiniLM-L12-v2"
+        ],
+        "is_contributed": {
+          "quote": "we consider MPNET-base (Song et al., 2020), MiniLM (Wang et al., 2020), and Albert Small V2",
+          "justification": "It is a pre-existing backbone.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Table 5: Preliminary experiment results. Accuracy of the different backbone.",
+          "justification": "Experimental results are reported for it.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "MiniLM (S) 33M",
+          "justification": "It is numerically compared in Table 5 and figures.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "fine-tuning only the model head",
+          "justification": "The backbone provides embeddings without being fitted.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "Minilm: Deep self-attention distillation for task-agnostic compression of pre-trained transformers.",
+          "justification": "This is the cited model paper.",
+          "value": "Minilm: Deep self-attention distillation for task-agnostic compression of pre-trained transformers"
+        }
+      },
+      {
+        "name": {
+          "quote": "MPNET-base (B)",
+          "justification": "It appears as an evaluated backbone in Table 5.",
+          "value": "MPNET-base (B)"
+        },
+        "aliases": [
+          "MPNET-base",
+          "all-mpnet-base-v2"
+        ],
+        "is_contributed": {
+          "quote": "we consider MPNET-base (Song et al., 2020)",
+          "justification": "It is a pre-existing backbone.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Table 5: Preliminary experiment results. Accuracy of the different backbone.",
+          "justification": "Experimental results are reported for it.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "MPNET-base (B) 109M",
+          "justification": "It is numerically compared with other backbones.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "fine-tuning only the model head",
+          "justification": "Only the classifier head is fitted; the backbone performs embedding inference.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "Mpnet: Masked and permuted pre-training for language understanding.",
+          "justification": "This is the cited model paper.",
+          "value": "Mpnet: Masked and permuted pre-training for language understanding"
+        }
+      },
+      {
+        "name": {
+          "quote": "DistilRoBERTa (S)",
+          "justification": "It appears as an evaluated backbone in Table 5.",
+          "value": "DistilRoBERTa (S)"
+        },
+        "aliases": [
+          "DistilRoBERTa",
+          "distilroberta-base",
+          "all-distilroberta-v1"
+        ],
+        "is_contributed": {
+          "quote": "DistilRoBERTa, a lighter version of RoBERTa trained through a distillation process",
+          "justification": "It is a pre-existing model selected as a backbone.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Table 5: Preliminary experiment results. Accuracy of the different backbone.",
+          "justification": "The paper reports its results.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "DistilRoBERTa (S) 82M",
+          "justification": "It is numerically compared in Table 5 and Figure 10.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "fine-tuning only the model head",
+          "justification": "The backbone is frozen and used to produce embeddings.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "Distilling the knowledge in a neural network.",
+          "justification": "The paper cites this work for the distillation process.",
+          "value": "Distilling the knowledge in a neural network"
+        }
+      },
+      {
+        "name": {
+          "quote": "RoBERTa (B)",
+          "justification": "This exact size label appears in the model-choice section and Table 5.",
+          "value": "RoBERTa (B)"
+        },
+        "aliases": [
+          "RoBERTa",
+          "roberta-base"
+        ],
+        "is_contributed": {
+          "quote": "Three different sizes of RoBERTa based models (Liu et al., 2019b).",
+          "justification": "It is a pre-existing backbone family.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "RoBERTa (B) with 124M parameters",
+          "justification": "The paper selects and evaluates this backbone.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Table 5: Preliminary experiment results. Accuracy of the different backbone.",
+          "justification": "Its numerical results are compared with other backbones.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "fine-tuning only the model head",
+          "justification": "RoBERTa itself is used for embedding inference.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "Roberta: A robustly optimized bert pretraining approach.",
+          "justification": "This is the cited RoBERTa paper.",
+          "value": "Roberta: A robustly optimized bert pretraining approach"
+        }
+      },
+      {
+        "name": {
+          "quote": "RoBERTa (L)",
+          "justification": "This exact size label appears in the model-choice section and Table 5.",
+          "value": "RoBERTa (L)"
+        },
+        "aliases": [
+          "RoBERTa",
+          "roberta-large"
+        ],
+        "is_contributed": {
+          "quote": "Three different sizes of RoBERTa based models (Liu et al., 2019b).",
+          "justification": "It is pre-existing.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "RoBERTa (L) with 355M parameters",
+          "justification": "The paper selects and evaluates this backbone.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Table 5: Preliminary experiment results. Accuracy of the different backbone.",
+          "justification": "Its results are numerically compared.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "fine-tuning only the model head",
+          "justification": "Only a head is fitted; this backbone supplies embeddings.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "Roberta: A robustly optimized bert pretraining approach.",
+          "justification": "This is the cited RoBERTa paper.",
+          "value": "Roberta: A robustly optimized bert pretraining approach"
+        }
+      },
+      {
+        "name": {
+          "quote": "XLM-RoBERTa (B)",
+          "justification": "The paper evaluates this exact size in Table 5.",
+          "value": "XLM-RoBERTa (B)"
+        },
+        "aliases": [
+          "XLM-RoBERTa",
+          "xlm-roberta-base"
+        ],
+        "is_contributed": {
+          "quote": "we rely on three sizes of XLM-RoBERTa (Conneau et al., 2020, 2019): base (B), large (L) and XL (XL).",
+          "justification": "It is a pre-existing selected backbone.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "XLM-RoBERTa (B) 278M",
+          "justification": "Table 5 reports executed results and parameter count.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Table 5: Preliminary experiment results. Accuracy of the different backbone.",
+          "justification": "It is numerically compared.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "fine-tuning only the model head",
+          "justification": "The backbone performs inference to supply embeddings.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "Unsupervised cross-lingual representation learning at scale.",
+          "justification": "This is the cited XLM-RoBERTa paper.",
+          "value": "Unsupervised cross-lingual representation learning at scale"
+        }
+      },
+      {
+        "name": {
+          "quote": "XLM-RoBERTa (L)",
+          "justification": "The paper evaluates this exact size in Table 5.",
+          "value": "XLM-RoBERTa (L)"
+        },
+        "aliases": [
+          "XLM-RoBERTa",
+          "xlm-roberta-large"
+        ],
+        "is_contributed": {
+          "quote": "we rely on three sizes of XLM-RoBERTa",
+          "justification": "It is pre-existing.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "XLM-RoBERTa (L) 559M",
+          "justification": "Table 5 reports results for it.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Table 5: Preliminary experiment results. Accuracy of the different backbone.",
+          "justification": "It is numerically compared.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "fine-tuning only the model head",
+          "justification": "The model supplies frozen embeddings.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "Unsupervised cross-lingual representation learning at scale.",
+          "justification": "This is the cited model paper.",
+          "value": "Unsupervised cross-lingual representation learning at scale"
+        }
+      },
+      {
+        "name": {
+          "quote": "XLM-RoBERTa (XL)",
+          "justification": "The paper evaluates this exact size in Table 5.",
+          "value": "XLM-RoBERTa (XL)"
+        },
+        "aliases": [
+          "XLM-RoBERTa",
+          "xlm-roberta-xl"
+        ],
+        "is_contributed": {
+          "quote": "we rely on three sizes of XLM-RoBERTa (Conneau et al., 2020, 2019): base (B), large (L) and XL (XL).",
+          "justification": "It is pre-existing.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "XLM-RoBERTa (XL) 3.48B",
+          "justification": "Table 5 reports results for it.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Table 5: Preliminary experiment results. Accuracy of the different backbone.",
+          "justification": "It is numerically compared.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "fine-tuning only the model head",
+          "justification": "It is used as a frozen embedding model.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "Unsupervised cross-lingual representation learning at scale.",
+          "justification": "This is the cited model paper.",
+          "value": "Unsupervised cross-lingual representation learning at scale"
+        }
+      },
+      {
+        "name": {
+          "quote": "text-davinci",
+          "justification": "This is the API model evaluated by the paper.",
+          "value": "text-davinci"
+        },
+        "aliases": [
+          "davinci"
+        ],
+        "is_contributed": {
+          "quote": "we also conduct experiments on text-davinci, only accessible through OpenAI’s API.",
+          "justification": "It is an existing OpenAI model.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we also conduct experiments on text-davinci",
+          "justification": "The paper explicitly says experiments were conducted with it.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Table 5: Preliminary experiment results. Accuracy of the different backbone.",
+          "justification": "Its numerical results are compared with all local backbones.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "text-davinci in both its language model and embedding-based model forms",
+          "justification": "The paper uses it for inference, including embedding extraction and in-context predictions, without updating it.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "No distinct reference-paper title is supplied for text-davinci.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "classification head gϕ",
+          "justification": "The paper defines and trains this learned object on top of frozen embeddings.",
+          "value": "classification head gϕ"
+        },
+        "aliases": [
+          "linear head",
+          "classifier",
+          "final classifier"
+        ],
+        "is_contributed": {
+          "quote": "we propose a transductive FSL algorithm that utilizes a novel parameter-free Fisher-Rao-based loss",
+          "justification": "The head architecture is not itself introduced as a novel model; the contribution is the training regularizer.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "our goal is to train a classification head gϕ : Z → RK",
+          "justification": "The head is explicitly trained in the experiments.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "we will explore three additional inductive methods for few-shot classification: prototypical networks, linear probing, and a semi-supervised classifier",
+          "justification": "Heads/classifiers produced by different methods are numerically compared.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "episodic training implies that a different model is initialized for each generated few-shot task",
+          "justification": "A fresh classifier is trained for each episode.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "This generic learned head has no single reference paper.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "ChatGPT",
+          "justification": "The introduction names it as a foundation model, but the paper does not execute it.",
+          "value": "ChatGPT"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "foundation models such as ChatGPT",
+          "justification": "It is referenced background.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "foundation models such as ChatGPT",
+          "justification": "It is discussed but no experiment with ChatGPT is reported.",
+          "value": false
+        },
+        "is_compared": {
+          "quote": "foundation models such as ChatGPT",
+          "justification": "No numerical comparison involving ChatGPT is presented.",
+          "value": false
+        },
+        "execution_mode": {
+          "quote": "",
+          "justification": "The paper does not execute it.",
+          "value": "unknown"
+        },
+        "referenced_paper_title": {
+          "quote": "Chatgpt: Jack of all trades, master of none.",
+          "justification": "This is one cited ChatGPT paper.",
+          "value": "Chatgpt: Jack of all trades, master of none"
+        }
+      },
+      {
+        "name": {
+          "quote": "GPT-4",
+          "justification": "Named in the introduction as a foundation/API model.",
+          "value": "GPT-4"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "foundation models such as ChatGPT ... GPT-4",
+          "justification": "It is background, not contributed.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "foundation models such as ChatGPT ... GPT-4",
+          "justification": "No GPT-4 experiment is reported.",
+          "value": false
+        },
+        "is_compared": {
+          "quote": "foundation models such as ChatGPT ... GPT-4",
+          "justification": "It is not numerically compared.",
+          "value": false
+        },
+        "execution_mode": {
+          "quote": "",
+          "justification": "No execution mode is stated because it is only referenced.",
+          "value": "unknown"
+        },
+        "referenced_paper_title": {
+          "quote": "Gpt-4 technical report.",
+          "justification": "This is its reference title.",
+          "value": "Gpt-4 technical report"
+        }
+      },
+      {
+        "name": {
+          "quote": "GPT-3",
+          "justification": "Named in the introduction as a foundation/API model.",
+          "value": "GPT-3"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "GPT-3 (Brown et al., 2020)",
+          "justification": "It is a referenced pre-existing model.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "GPT-3 (Brown et al., 2020)",
+          "justification": "The paper does not report executing GPT-3 under this name.",
+          "value": false
+        },
+        "is_compared": {
+          "quote": "GPT-3 (Brown et al., 2020)",
+          "justification": "No numerical GPT-3 row is reported.",
+          "value": false
+        },
+        "execution_mode": {
+          "quote": "",
+          "justification": "It is only referenced.",
+          "value": "unknown"
+        },
+        "referenced_paper_title": {
+          "quote": "Language models are few-shot learners.",
+          "justification": "This is the cited GPT-3 paper.",
+          "value": "Language models are few-shot learners"
+        }
+      },
+      {
+        "name": {
+          "quote": "T5",
+          "justification": "Named in the introduction.",
+          "value": "T5"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "T5 (Raffel et al., 2020)",
+          "justification": "It is pre-existing background.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "T5 (Raffel et al., 2020)",
+          "justification": "No T5 experiment is reported.",
+          "value": false
+        },
+        "is_compared": {
+          "quote": "T5 (Raffel et al., 2020)",
+          "justification": "No numerical comparison is made.",
+          "value": false
+        },
+        "execution_mode": {
+          "quote": "",
+          "justification": "It is referenced only.",
+          "value": "unknown"
+        },
+        "referenced_paper_title": {
+          "quote": "Exploring the limits of transfer learning with a unified text-to-text transformer.",
+          "justification": "This is its cited paper.",
+          "value": "Exploring the limits of transfer learning with a unified text-to-text transformer"
+        }
+      },
+      {
+        "name": {
+          "quote": "BERT",
+          "justification": "Named as a foundation/pretrained language model.",
+          "value": "BERT"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "BERT (Devlin et al., 2018)",
+          "justification": "It is pre-existing.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "BERT (Devlin et al., 2018)",
+          "justification": "BERT itself is not among the evaluated backbones.",
+          "value": false
+        },
+        "is_compared": {
+          "quote": "BERT (Devlin et al., 2018)",
+          "justification": "No numerical BERT result is reported.",
+          "value": false
+        },
+        "execution_mode": {
+          "quote": "",
+          "justification": "It is referenced only.",
+          "value": "unknown"
+        },
+        "referenced_paper_title": {
+          "quote": "Bert: Pre-training of deep bidirectional transformers for language understanding.",
+          "justification": "This is the reference title.",
+          "value": "Bert: Pre-training of deep bidirectional transformers for language understanding"
+        }
+      },
+      {
+        "name": {
+          "quote": "Claude",
+          "justification": "Named as an API-accessed foundation model.",
+          "value": "Claude"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "Anthropic’s Claude",
+          "justification": "It is external background.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Anthropic’s Claude",
+          "justification": "No experiment with Claude is reported.",
+          "value": false
+        },
+        "is_compared": {
+          "quote": "Anthropic’s Claude",
+          "justification": "No numerical comparison is reported.",
+          "value": false
+        },
+        "execution_mode": {
+          "quote": "",
+          "justification": "It is only discussed.",
+          "value": "unknown"
+        },
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "No Claude reference-paper title appears in the supplied references.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "PaLM",
+          "justification": "Named as an API/foundation model.",
+          "value": "PaLM"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "Google’s PaLM (Chowdhery et al., 2022)",
+          "justification": "It is external background.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Google’s PaLM",
+          "justification": "No PaLM experiment is reported.",
+          "value": false
+        },
+        "is_compared": {
+          "quote": "Google’s PaLM",
+          "justification": "No numerical comparison is reported.",
+          "value": false
+        },
+        "execution_mode": {
+          "quote": "",
+          "justification": "It is only referenced.",
+          "value": "unknown"
+        },
+        "referenced_paper_title": {
+          "quote": "Palm: Scaling language modeling with pathways.",
+          "justification": "This is the cited paper title.",
+          "value": "Palm: Scaling language modeling with pathways"
+        }
+      },
+      {
+        "name": {
+          "quote": "PET",
+          "justification": "The related-work and timing discussion name this model/method.",
+          "value": "PET"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "the seminal work (Schick and Schütze, 2020a) proposed a model called PET",
+          "justification": "It was proposed previously.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "PET ... entails a training time of 20 minutes on A100",
+          "justification": "This is a quoted external runtime, not a run performed by this paper.",
+          "value": false
+        },
+        "is_compared": {
+          "quote": "PET ... entails a training time of 20 minutes on A100, while ADAPET ... necessitates 10 minutes",
+          "justification": "The paper makes a numerical runtime comparison using external figures.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "PET ... entails a training time",
+          "justification": "The discussed mode is training, though this paper did not execute it.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "Exploiting cloze questions for few shot text classification and natural language inference.",
+          "justification": "This is the cited PET paper.",
+          "value": "Exploiting cloze questions for few shot text classification and natural language inference"
+        }
+      },
+      {
+        "name": {
+          "quote": "ADAPET",
+          "justification": "Named in the practical timing comparison.",
+          "value": "ADAPET"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "ADAPET (Tam et al., 2021)",
+          "justification": "It is from prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "ADAPET ... necessitates 10 minutes on the same hardware",
+          "justification": "The runtime is cited rather than measured by this paper.",
+          "value": false
+        },
+        "is_compared": {
+          "quote": "PET ... 20 minutes on A100, while ADAPET ... 10 minutes",
+          "justification": "It is numerically compared by quoted runtime.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "ADAPET ... necessitates 10 minutes",
+          "justification": "The quoted mode is training.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "Improving and simplifying pattern exploiting training.",
+          "justification": "This is the cited ADAPET paper.",
+          "value": "Improving and simplifying pattern exploiting training"
+        }
+      },
+      {
+        "name": {
+          "quote": "T-FEW",
+          "justification": "Named in the related-work discussion.",
+          "value": "T-FEW"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "A recent example is T-FEW (Liu et al., 2022)",
+          "justification": "It is from prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "A recent example is T-FEW",
+          "justification": "It is discussed but not executed.",
+          "value": false
+        },
+        "is_compared": {
+          "quote": "A recent example is T-FEW",
+          "justification": "No numerical result for it is provided.",
+          "value": false
+        },
+        "execution_mode": {
+          "quote": "Parameter-efficient fine-tuning. These methods ... only update small feed-forward networks",
+          "justification": "The discussed model is a fine-tuning approach, although not run here.",
+          "value": "finetune"
+        },
+        "referenced_paper_title": {
+          "quote": "Few-shot parameter-efficient fine-tuning is better and cheaper than in-context learning.",
+          "justification": "This is the cited paper.",
+          "value": "Few-shot parameter-efficient fine-tuning is better and cheaper than in-context learning"
+        }
+      }
+    ],
+    "data_sources": [
+      {
+        "name": {
+          "quote": "Go Emotion (Demszky et al., 2020)",
+          "justification": "It is selected for the benchmark.",
+          "value": "Go Emotion"
+        },
+        "aliases": [
+          "GoEmotions",
+          "Emotion",
+          "Emotions"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "",
+          "justification": "The paper states the number of classes but not the number of examples used.",
+          "value": "unknown"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "GoEmotions: A Dataset of Fine-Grained Emotions.",
+          "justification": "This is the dataset reference title.",
+          "value": "GoEmotions: A Dataset of Fine-Grained Emotions"
+        }
+      },
+      {
+        "name": {
+          "quote": "Tweet Eval (Barbieri et al., 2020)",
+          "justification": "It is selected for the benchmark.",
+          "value": "Tweet Eval"
+        },
+        "aliases": [
+          "TweetEval",
+          "Tweet",
+          "Twitter"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "",
+          "justification": "No sample count is stated.",
+          "value": "unknown"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "TweetEval:Unified Benchmark and Comparative Evaluation for Tweet Classification.",
+          "justification": "This is the dataset reference title.",
+          "value": "TweetEval:Unified Benchmark and Comparative Evaluation for Tweet Classification"
+        }
+      },
+      {
+        "name": {
+          "quote": "Clinc (Larson et al., 2019)",
+          "justification": "It is selected for the benchmark.",
+          "value": "Clinc"
+        },
+        "aliases": [
+          "Clinic"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "",
+          "justification": "No sample count is stated.",
+          "value": "unknown"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "An evaluation dataset for intent classification and out-of-scope prediction.",
+          "justification": "This is the cited dataset paper.",
+          "value": "An evaluation dataset for intent classification and out-of-scope prediction"
+        }
+      },
+      {
+        "name": {
+          "quote": "Banking (Casanueva et al., 2020)",
+          "justification": "It is selected for the benchmark.",
+          "value": "Banking"
+        },
+        "aliases": [
+          "B77"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "",
+          "justification": "No sample count is stated.",
+          "value": "unknown"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "Efficient intent detection with dual sentence encoders.",
+          "justification": "This is the cited source paper.",
+          "value": "Efficient intent detection with dual sentence encoders"
+        }
+      },
+      {
+        "name": {
+          "quote": "the Multilingual Amazon Reviews Corpus (Keung et al., 2020)",
+          "justification": "It is selected as the multilingual benchmark source.",
+          "value": "Multilingual Amazon Reviews Corpus"
+        },
+        "aliases": [
+          "Amazon"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "",
+          "justification": "No number of reviews used is stated.",
+          "value": "unknown"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "The multilingual Amazon reviews corpus.",
+          "justification": "This is the dataset reference title.",
+          "value": "The multilingual Amazon reviews corpus"
+        }
+      }
+    ],
+    "libraries": [
+      {
+        "name": {
+          "quote": "Datasets are available in Dataset (Lhoest et al., 2021)",
+          "justification": "The paper explicitly says this dataset library provides the datasets.",
+          "value": "Dataset"
+        },
+        "aliases": [
+          "Datasets"
+        ],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "Datasets: A community library for natural language processing.",
+          "justification": "This is the library's cited paper.",
+          "value": "Datasets: A community library for natural language processing"
+        }
+      },
+      {
+        "name": {
+          "quote": "OpenAI’s API",
+          "justification": "The paper explicitly uses the API to access text-davinci.",
+          "value": "OpenAI’s API"
+        },
+        "aliases": [
+          "OpenAI API"
+        ],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "No separate library paper is cited for the API.",
+          "value": "unknown"
+        }
+      }
+    ],
+    "algorithms": [
+      {
+        "name": {
+          "quote": "FR",
+          "justification": "The paper uses this exact abbreviation for its proposed Fisher-Rao regularizer in equations and result tables.",
+          "value": "FR"
+        },
+        "aliases": [
+          "Fisher-Rao-based loss",
+          "Fisher-Rao Based Regularizer",
+          "FR regularizer"
+        ],
+        "is_contributed": {
+          "quote": "we introduce a new parameter-free transductive regularizer based on the Fisher-Rao loss",
+          "justification": "This is the paper's main algorithmic contribution.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "FR surpasses traditional fine-tuning based on cross-entropy by a margin of 3.7%.",
+          "justification": "The paper reports experimental results for FR.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "transductive approaches I and FR outperform their inductive counterparts (CE and PT)",
+          "justification": "FR is numerically compared with other procedures.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "measuring the Fisher-Rao distance between pairs of query samples",
+          "justification": "This is the paper's description of the regularizer's role.",
+          "value": "measuring the Fisher-Rao distance between pairs of query samples"
+        },
+        "composed_of": [
+          "cross-entropy supervision",
+          "FR"
+        ],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "The specific FR transductive regularizer is contributed here, so it has no prior reference paper.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "H",
+          "justification": "This exact abbreviation is used for Entropic Minimization in results.",
+          "value": "H"
+        },
+        "aliases": [
+          "Entropic Minimization"
+        ],
+        "is_contributed": {
+          "quote": "This regularizer, proposed in (Dhillon et al., 2019)",
+          "justification": "It comes from prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "vanilla entropy minimization, which solely relies on H, consistently underperforms",
+          "justification": "The paper executes and reports it.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "different loss functions (e.g. FR ... )",
+          "justification": "H appears in the numerical tables and figures alongside other methods.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "utilizes the conditional Shannon Entropy ... of forecast results from query samples during testing to enhance model generalization",
+          "justification": "This directly states its role.",
+          "value": "utilizes the conditional Shannon Entropy of forecast results from query samples during testing to enhance model generalization"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "A baseline for few-shot image classification.",
+          "justification": "This is the cited prior work that proposed this regularizer for transductive FSL.",
+          "value": "A baseline for few-shot image classification"
+        }
+      },
+      {
+        "name": {
+          "quote": "I",
+          "justification": "This exact abbreviation identifies Mutual Information Maximization in result tables.",
+          "value": "I"
+        },
+        "aliases": [
+          "Mutual Information Maximization",
+          "Info-max principle"
+        ],
+        "is_contributed": {
+          "quote": "(Boudiaf et al., 2020) extended this idea ... and propose as regularizer a surrogate of the mutual-information",
+          "justification": "It is from prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "transductive approaches I and FR outperform their inductive counterparts",
+          "justification": "It is experimentally executed.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "transductive approaches I and FR outperform their inductive counterparts (CE and PT)",
+          "justification": "It is numerically compared.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "a surrogate of the mutual-information",
+          "justification": "This is its stated role.",
+          "value": "a surrogate of the mutual-information"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Information maximization for few-shot learning.",
+          "justification": "This is the cited algorithm paper.",
+          "value": "Information maximization for few-shot learning"
+        }
+      },
+      {
+        "name": {
+          "quote": "PT",
+          "justification": "This exact abbreviation identifies Prototypical Networks in result tables.",
+          "value": "PT"
+        },
+        "aliases": [
+          "Prototypical Networks"
+        ],
+        "is_contributed": {
+          "quote": "PT has been widely used in NLP and is considered as a strong baseline",
+          "justification": "It is a prior baseline.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we will explore three additional inductive methods ... prototypical networks",
+          "justification": "It is run in the experiments.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "transductive approaches I and FR outperform their inductive counterparts (CE and PT)",
+          "justification": "It is numerically compared.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "During inference, the distance between the query example and each class prototype is computed, and the predicted label is the class with the closest prototype.",
+          "justification": "This describes its test-time role.",
+          "value": "the distance between the query example and each class prototype is computed, and the predicted label is the class with the closest prototype"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Prototypical networks for few-shot learning.",
+          "justification": "This is the cited algorithm paper.",
+          "value": "Prototypical networks for few-shot learning"
+        }
+      },
+      {
+        "name": {
+          "quote": "CE",
+          "justification": "This exact abbreviation labels Linear Probing in result tables.",
+          "value": "CE"
+        },
+        "aliases": [
+          "Linear Probing",
+          "cross-entropy"
+        ],
+        "is_contributed": {
+          "quote": "Fine-tuning a linear head on top of a pretrained model is a popular approach",
+          "justification": "It is an existing baseline.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "CE, which is simpler to use and will be considered as the baseline",
+          "justification": "It is executed as the main inductive baseline.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "FR surpasses traditional fine-tuning based on cross-entropy by a margin of 3.7%.",
+          "justification": "It is numerically compared.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "Fine-tuning a linear head on top of a pretrained model",
+          "justification": "This is its role in the paper.",
+          "value": "Fine-tuning a linear head on top of a pretrained model"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Bert: Pre-training of deep bidirectional transformers for language understanding.",
+          "justification": "The paper says linear probing was originally proposed in Devlin et al. (2018).",
+          "value": "Bert: Pre-training of deep bidirectional transformers for language understanding"
+        }
+      },
+      {
+        "name": {
+          "quote": "SSL",
+          "justification": "This exact abbreviation labels the semi-supervised baseline.",
+          "value": "SSL"
+        },
+        "aliases": [
+          "Semi-supervised Baselines"
+        ],
+        "is_contributed": {
+          "quote": "We additionally propose two semi-supervised baselines",
+          "justification": "These baselines are proposed in this paper.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "SSL performs comparably to CE",
+          "justification": "The paper reports executed results.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "SSL performs comparably to CE",
+          "justification": "It is numerically compared.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "In the first step, a classifier is trained using the support set S and used to label Q. In the second step, the final classifier is trained on both S and Q with the pseudo label obtained from the first step.",
+          "justification": "This is the complete stated two-step role.",
+          "value": "a classifier is trained using the support set S and used to label Q; the final classifier is then trained on both S and Q with the pseudo label"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "The specific baselines are proposed here without a distinct reference.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "ICL",
+          "justification": "The paper uses this abbreviation for In Context Learning in Table 2.",
+          "value": "ICL"
+        },
+        "aliases": [
+          "In Context Learning",
+          "in-context learning"
+        ],
+        "is_contributed": {
+          "quote": "In Context Learning (ICL). In-context learning models ... utilize input-to-output training examples as prompts",
+          "justification": "It is an existing procedure.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "explore the language model’s performance when applied in an in-context learning (ICL) setup with prompting",
+          "justification": "The paper executes ICL with text-davinci.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Although ICL slightly outperforms CE",
+          "justification": "It is numerically compared with CE and other methods.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "utilize input-to-output training examples as prompts to make predictions, without any parameter updates",
+          "justification": "This is the paper's description of ICL.",
+          "value": "utilize input-to-output training examples as prompts to make predictions, without any parameter updates"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Language models are few-shot learners.",
+          "justification": "Brown et al. (2020) is one of the principal cited ICL references.",
+          "value": "Language models are few-shot learners"
+        }
+      },
+      {
+        "name": {
+          "quote": "episodic learning framework",
+          "justification": "This named evaluation procedure is explicitly used.",
+          "value": "episodic learning framework"
+        },
+        "aliases": [
+          "episodic evaluation",
+          "episodic training"
+        ],
+        "is_contributed": {
+          "quote": "This framework has gained popularity through inductive meta-learning approaches",
+          "justification": "It is an existing evaluation framework.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we average the results for each dataset over 1000 episodes",
+          "justification": "The paper executes episodic evaluation.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "For each experiment, we consider the F1-Score.",
+          "justification": "It is the common evaluation procedure rather than a numerically compared algorithm itself.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "generates a large number of N-shots K-ways tasks",
+          "justification": "This states its role.",
+          "value": "generates a large number of N-shots K-ways tasks"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Meta-learning in neural networks: A survey.",
+          "justification": "Hospedales et al. is cited for episodic evaluation in the abstract/contributions.",
+          "value": "Meta-learning in neural networks: A survey"
+        }
+      }
+    ],
+    "runs": [
+      {
+        "models": [
+          {
+            "name": "Albert Small V2 (XS)",
+            "role_in_run": "data-source"
+          },
+          {
+            "name": "classification head gϕ",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Go Emotion",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          },
+          {
+            "name": "Tweet Eval",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          },
+          {
+            "name": "Clinc",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          },
+          {
+            "name": "Banking",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          },
+          {
+            "name": "Multilingual Amazon Reviews Corpus",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "FR"
+          },
+          {
+            "name": "H"
+          },
+          {
+            "name": "I"
+          },
+          {
+            "name": "PT"
+          },
+          {
+            "name": "CE"
+          },
+          {
+            "name": "SSL"
+          },
+          {
+            "name": "episodic learning framework"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "fine-tuning only the model head across a variety of datasets",
+          "justification": "The run trains episodic classifier heads over frozen Albert embeddings.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "",
+          "justification": "No epoch count is stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "Albert Small V2 (XS) 11M",
+          "justification": "Table 5 explicitly states the backbone scale.",
+          "value": "11M"
+        },
+        "accelerator_type": {
+          "quote": "This work was performed using HPC resources from GENCI-IDRIS",
+          "justification": "HPC use is stated, but no accelerator type is identified.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "",
+          "justification": "No accelerator model is stated for the main experiments.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "",
+          "justification": "No count is stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "No numerical precision is stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "all tasks are compiled independently in parallel",
+          "justification": "Task-level parallel execution is stated, but none of the enumerated model-parallel/data-parallel strategies is identified.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "No duration is stated for this backbone run.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "No utilisation is reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "we average the results for each dataset over 1000 episodes",
+          "justification": "Each experimental setting is evaluated over 1,000 episodes.",
+          "value": [
+            {
+              "kind": "other",
+              "count": 1000,
+              "what": "episodes"
+            },
+            {
+              "kind": "variant",
+              "count": 4,
+              "what": "(N, K) ∈ {5, 10}²"
+            },
+            {
+              "kind": "variant",
+              "count": 6,
+              "what": "FR, I, H, CE, SSL, PT"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "MiniLM (S)",
+            "role_in_run": "data-source"
+          },
+          {
+            "name": "classification head gϕ",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Go Emotion",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          },
+          {
+            "name": "Tweet Eval",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          },
+          {
+            "name": "Clinc",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          },
+          {
+            "name": "Banking",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          },
+          {
+            "name": "Multilingual Amazon Reviews Corpus",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "FR"
+          },
+          {
+            "name": "H"
+          },
+          {
+            "name": "I"
+          },
+          {
+            "name": "PT"
+          },
+          {
+            "name": "CE"
+          },
+          {
+            "name": "SSL"
+          },
+          {
+            "name": "episodic learning framework"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "fine-tuning only the model head across a variety of datasets",
+          "justification": "Classifier heads are trained over frozen MiniLM embeddings.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "MiniLM (S) 33M",
+          "justification": "Table 5 states this scale.",
+          "value": "33M"
+        },
+        "accelerator_type": {
+          "quote": "HPC resources from GENCI-IDRIS",
+          "justification": "The accelerator type is not identified.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "all tasks are compiled independently in parallel",
+          "justification": "No enumerated model parallelism strategy is stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "we average the results for each dataset over 1000 episodes",
+          "justification": "The stated episodic and setting variants apply.",
+          "value": [
+            {
+              "kind": "other",
+              "count": 1000,
+              "what": "episodes"
+            },
+            {
+              "kind": "variant",
+              "count": 4,
+              "what": "(N, K) ∈ {5, 10}²"
+            },
+            {
+              "kind": "variant",
+              "count": 6,
+              "what": "FR, I, H, CE, SSL, PT"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "MPNET-base (B)",
+            "role_in_run": "data-source"
+          },
+          {
+            "name": "classification head gϕ",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Go Emotion",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          },
+          {
+            "name": "Tweet Eval",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          },
+          {
+            "name": "Clinc",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          },
+          {
+            "name": "Banking",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          },
+          {
+            "name": "Multilingual Amazon Reviews Corpus",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "FR"
+          },
+          {
+            "name": "H"
+          },
+          {
+            "name": "I"
+          },
+          {
+            "name": "PT"
+          },
+          {
+            "name": "CE"
+          },
+          {
+            "name": "SSL"
+          },
+          {
+            "name": "episodic learning framework"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "fine-tuning only the model head across a variety of datasets",
+          "justification": "Classifier heads are fitted over MPNET embeddings.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "MPNET-base (B) 109M",
+          "justification": "Table 5 states this scale.",
+          "value": "109M"
+        },
+        "accelerator_type": {
+          "quote": "HPC resources from GENCI-IDRIS",
+          "justification": "No accelerator type is given.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "all tasks are compiled independently in parallel",
+          "justification": "No enumerated strategy is identified.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "we average the results for each dataset over 1000 episodes",
+          "justification": "The stated episodic evaluation and variants apply.",
+          "value": [
+            {
+              "kind": "other",
+              "count": 1000,
+              "what": "episodes"
+            },
+            {
+              "kind": "variant",
+              "count": 4,
+              "what": "(N, K) ∈ {5, 10}²"
+            },
+            {
+              "kind": "variant",
+              "count": 6,
+              "what": "FR, I, H, CE, SSL, PT"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "DistilRoBERTa (S)",
+            "role_in_run": "data-source"
+          },
+          {
+            "name": "classification head gϕ",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Go Emotion",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          },
+          {
+            "name": "Tweet Eval",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          },
+          {
+            "name": "Clinc",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          },
+          {
+            "name": "Banking",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          },
+          {
+            "name": "Multilingual Amazon Reviews Corpus",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "FR"
+          },
+          {
+            "name": "H"
+          },
+          {
+            "name": "I"
+          },
+          {
+            "name": "PT"
+          },
+          {
+            "name": "CE"
+          },
+          {
+            "name": "SSL"
+          },
+          {
+            "name": "episodic learning framework"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "fine-tuning only the model head across a variety of datasets",
+          "justification": "Classifier heads are fitted over frozen DistilRoBERTa embeddings.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "DistilRoBERTa (S) 82M",
+          "justification": "Table 5 states this scale.",
+          "value": "82M"
+        },
+        "accelerator_type": {
+          "quote": "HPC resources from GENCI-IDRIS",
+          "justification": "No type is specified.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "all tasks are compiled independently in parallel",
+          "justification": "No schema-listed parallelism is identified.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "we average the results for each dataset over 1000 episodes",
+          "justification": "The stated episodic evaluation and variants apply.",
+          "value": [
+            {
+              "kind": "other",
+              "count": 1000,
+              "what": "episodes"
+            },
+            {
+              "kind": "variant",
+              "count": 4,
+              "what": "(N, K) ∈ {5, 10}²"
+            },
+            {
+              "kind": "variant",
+              "count": 6,
+              "what": "FR, I, H, CE, SSL, PT"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "RoBERTa (B)",
+            "role_in_run": "data-source"
+          },
+          {
+            "name": "classification head gϕ",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Go Emotion",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          },
+          {
+            "name": "Tweet Eval",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          },
+          {
+            "name": "Clinc",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          },
+          {
+            "name": "Banking",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          },
+          {
+            "name": "Multilingual Amazon Reviews Corpus",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "FR"
+          },
+          {
+            "name": "H"
+          },
+          {
+            "name": "I"
+          },
+          {
+            "name": "PT"
+          },
+          {
+            "name": "CE"
+          },
+          {
+            "name": "SSL"
+          },
+          {
+            "name": "episodic learning framework"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "fine-tuning only the model head across a variety of datasets",
+          "justification": "The classification head is trained over RoBERTa-base embeddings.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "RoBERTa (B) with 124M parameters",
+          "justification": "The model-choice section states this scale.",
+          "value": "124M"
+        },
+        "accelerator_type": {
+          "quote": "HPC resources from GENCI-IDRIS",
+          "justification": "No type is specified.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "all tasks are compiled independently in parallel",
+          "justification": "No listed parallelism strategy is stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "we average the results for each dataset over 1000 episodes",
+          "justification": "The stated factors apply.",
+          "value": [
+            {
+              "kind": "other",
+              "count": 1000,
+              "what": "episodes"
+            },
+            {
+              "kind": "variant",
+              "count": 4,
+              "what": "(N, K) ∈ {5, 10}²"
+            },
+            {
+              "kind": "variant",
+              "count": 6,
+              "what": "FR, I, H, CE, SSL, PT"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "RoBERTa (L)",
+            "role_in_run": "data-source"
+          },
+          {
+            "name": "classification head gϕ",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Go Emotion",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          },
+          {
+            "name": "Tweet Eval",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          },
+          {
+            "name": "Clinc",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          },
+          {
+            "name": "Banking",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          },
+          {
+            "name": "Multilingual Amazon Reviews Corpus",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "FR"
+          },
+          {
+            "name": "H"
+          },
+          {
+            "name": "I"
+          },
+          {
+            "name": "PT"
+          },
+          {
+            "name": "CE"
+          },
+          {
+            "name": "SSL"
+          },
+          {
+            "name": "episodic learning framework"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "fine-tuning only the model head across a variety of datasets",
+          "justification": "The classification head is trained over RoBERTa-large embeddings.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "RoBERTa (L) with 355M parameters",
+          "justification": "The paper explicitly states this scale.",
+          "value": "355M"
+        },
+        "accelerator_type": {
+          "quote": "HPC resources from GENCI-IDRIS",
+          "justification": "No accelerator type is specified.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "all tasks are compiled independently in parallel",
+          "justification": "No listed strategy is stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "we average the results for each dataset over 1000 episodes",
+          "justification": "The stated factors apply.",
+          "value": [
+            {
+              "kind": "other",
+              "count": 1000,
+              "what": "episodes"
+            },
+            {
+              "kind": "variant",
+              "count": 4,
+              "what": "(N, K) ∈ {5, 10}²"
+            },
+            {
+              "kind": "variant",
+              "count": 6,
+              "what": "FR, I, H, CE, SSL, PT"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "XLM-RoBERTa (B)",
+            "role_in_run": "data-source"
+          },
+          {
+            "name": "classification head gϕ",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Go Emotion",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          },
+          {
+            "name": "Tweet Eval",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          },
+          {
+            "name": "Clinc",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          },
+          {
+            "name": "Banking",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          },
+          {
+            "name": "Multilingual Amazon Reviews Corpus",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "FR"
+          },
+          {
+            "name": "H"
+          },
+          {
+            "name": "I"
+          },
+          {
+            "name": "PT"
+          },
+          {
+            "name": "CE"
+          },
+          {
+            "name": "SSL"
+          },
+          {
+            "name": "episodic learning framework"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "fine-tuning only the model head across a variety of datasets",
+          "justification": "Heads are trained over frozen multilingual base embeddings.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "XLM-RoBERTa (B) 278M",
+          "justification": "Table 5 explicitly states it.",
+          "value": "278M"
+        },
+        "accelerator_type": {
+          "quote": "HPC resources from GENCI-IDRIS",
+          "justification": "Type unspecified.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "all tasks are compiled independently in parallel",
+          "justification": "No listed model parallelism strategy is stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "we average the results for each dataset over 1000 episodes",
+          "justification": "The stated factors apply, including multilingual Amazon evaluations.",
+          "value": [
+            {
+              "kind": "other",
+              "count": 1000,
+              "what": "episodes"
+            },
+            {
+              "kind": "variant",
+              "count": 4,
+              "what": "(N, K) ∈ {5, 10}²"
+            },
+            {
+              "kind": "variant",
+              "count": 6,
+              "what": "FR, I, H, CE, SSL, PT"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "XLM-RoBERTa (L)",
+            "role_in_run": "data-source"
+          },
+          {
+            "name": "classification head gϕ",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Go Emotion",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          },
+          {
+            "name": "Tweet Eval",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          },
+          {
+            "name": "Clinc",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          },
+          {
+            "name": "Banking",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          },
+          {
+            "name": "Multilingual Amazon Reviews Corpus",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "FR"
+          },
+          {
+            "name": "H"
+          },
+          {
+            "name": "I"
+          },
+          {
+            "name": "PT"
+          },
+          {
+            "name": "CE"
+          },
+          {
+            "name": "SSL"
+          },
+          {
+            "name": "episodic learning framework"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "fine-tuning only the model head across a variety of datasets",
+          "justification": "Heads are trained over frozen multilingual large embeddings.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "XLM-RoBERTa (L) 559M",
+          "justification": "Table 5 explicitly states it.",
+          "value": "559M"
+        },
+        "accelerator_type": {
+          "quote": "HPC resources from GENCI-IDRIS",
+          "justification": "Type unspecified.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "all tasks are compiled independently in parallel",
+          "justification": "No listed parallelism strategy is stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "we average the results for each dataset over 1000 episodes",
+          "justification": "The stated factors apply.",
+          "value": [
+            {
+              "kind": "other",
+              "count": 1000,
+              "what": "episodes"
+            },
+            {
+              "kind": "variant",
+              "count": 4,
+              "what": "(N, K) ∈ {5, 10}²"
+            },
+            {
+              "kind": "variant",
+              "count": 6,
+              "what": "FR, I, H, CE, SSL, PT"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "XLM-RoBERTa (XL)",
+            "role_in_run": "data-source"
+          },
+          {
+            "name": "classification head gϕ",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Go Emotion",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          },
+          {
+            "name": "Tweet Eval",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          },
+          {
+            "name": "Clinc",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          },
+          {
+            "name": "Banking",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          },
+          {
+            "name": "Multilingual Amazon Reviews Corpus",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "FR"
+          },
+          {
+            "name": "H"
+          },
+          {
+            "name": "I"
+          },
+          {
+            "name": "PT"
+          },
+          {
+            "name": "CE"
+          },
+          {
+            "name": "SSL"
+          },
+          {
+            "name": "episodic learning framework"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "fine-tuning only the model head across a variety of datasets",
+          "justification": "Heads are trained over frozen multilingual XL embeddings.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "XLM-RoBERTa (XL) 3.48B",
+          "justification": "Table 5 explicitly states it.",
+          "value": "3.48B"
+        },
+        "accelerator_type": {
+          "quote": "HPC resources from GENCI-IDRIS",
+          "justification": "Type unspecified.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "all tasks are compiled independently in parallel",
+          "justification": "No listed strategy is stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "we average the results for each dataset over 1000 episodes",
+          "justification": "The stated factors apply.",
+          "value": [
+            {
+              "kind": "other",
+              "count": 1000,
+              "what": "episodes"
+            },
+            {
+              "kind": "variant",
+              "count": 4,
+              "what": "(N, K) ∈ {5, 10}²"
+            },
+            {
+              "kind": "variant",
+              "count": 6,
+              "what": "FR, I, H, CE, SSL, PT"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "text-davinci",
+            "role_in_run": "data-source"
+          },
+          {
+            "name": "classification head gϕ",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Go Emotion",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          },
+          {
+            "name": "Tweet Eval",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          },
+          {
+            "name": "Clinc",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          },
+          {
+            "name": "Banking",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          },
+          {
+            "name": "Multilingual Amazon Reviews Corpus",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "FR"
+          },
+          {
+            "name": "H"
+          },
+          {
+            "name": "I"
+          },
+          {
+            "name": "PT"
+          },
+          {
+            "name": "CE"
+          },
+          {
+            "name": "SSL"
+          },
+          {
+            "name": "episodic learning framework"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "we also conduct experiments on text-davinci, only accessible through OpenAI’s API",
+          "justification": "The API model supplies frozen embeddings and local classifier heads are fitted.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "",
+          "justification": "No epoch count is stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "text-davinci 175B",
+          "justification": "Table 5 explicitly reports this scale.",
+          "value": "175B"
+        },
+        "accelerator_type": {
+          "quote": "",
+          "justification": "The API's hardware and the main local training hardware are not specified.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "all tasks are compiled independently in parallel",
+          "justification": "No enumerated strategy is stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "Main-run duration is not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "we average the results for each dataset over 1000 episodes",
+          "justification": "The episodic classifier comparison uses the stated settings and methods.",
+          "value": [
+            {
+              "kind": "other",
+              "count": 1000,
+              "what": "episodes"
+            },
+            {
+              "kind": "variant",
+              "count": 4,
+              "what": "(N, K) ∈ {5, 10}²"
+            },
+            {
+              "kind": "variant",
+              "count": 6,
+              "what": "FR, I, H, CE, SSL, PT"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "text-davinci",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Go Emotion",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          },
+          {
+            "name": "Tweet Eval",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          },
+          {
+            "name": "Clinc",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          },
+          {
+            "name": "Banking",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          },
+          {
+            "name": "Multilingual Amazon Reviews Corpus",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "ICL"
+          },
+          {
+            "name": "episodic learning framework"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "explore the language model’s performance when applied in an in-context learning (ICL) setup with prompting",
+          "justification": "text-davinci makes prompted predictions without parameter updates.",
+          "value": "inference"
+        },
+        "epochs": {
+          "quote": "without any parameter updates",
+          "justification": "Epochs do not apply to this inference-only run.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "text-davinci 175B",
+          "justification": "Table 5 states the model scale.",
+          "value": "175B"
+        },
+        "accelerator_type": {
+          "quote": "only accessible through OpenAI’s API",
+          "justification": "The provider's hardware type is not disclosed.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "",
+          "justification": "Not disclosed.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "",
+          "justification": "Not disclosed.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Not disclosed.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "Not disclosed.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "No inference duration is reported.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "Not disclosed.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "",
+          "justification": "The paper does not clearly state the episode count used specifically for the ICL case study.",
+          "value": []
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "text-davinci",
+            "role_in_run": "data-source"
+          },
+          {
+            "name": "classification head gϕ",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [],
+        "algorithms": [
+          {
+            "name": "CE"
+          },
+          {
+            "name": "FR"
+          },
+          {
+            "name": "H"
+          },
+          {
+            "name": "I"
+          },
+          {
+            "name": "PT"
+          },
+          {
+            "name": "SSL"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "we report the training speed of one episode on a MAC with CPU",
+          "justification": "This is a dedicated CPU timing run for one episodic head-training task.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "",
+          "justification": "No epoch count is stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "text-davinci 175B",
+          "justification": "The practical section identifies text-davinci, whose scale is given in Table 5.",
+          "value": "175B"
+        },
+        "accelerator_type": {
+          "quote": "on a M1-CPU",
+          "justification": "The paper explicitly identifies CPU execution.",
+          "value": "cpu"
+        },
+        "accelerator_model": {
+          "quote": "on a M1-CPU",
+          "justification": "The named processor is M1-CPU.",
+          "value": "M1-CPU"
+        },
+        "accelerator_count": {
+          "quote": "training time for 1 episode on a M1-CPU",
+          "justification": "The singular phrasing indicates one M1 CPU for the timing measurement.",
+          "value": "1"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "No precision is stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "No parallelism strategy is stated for this timing run.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "CE 0.45s; FR 0.83s; H 0.75s; I 0.83s; PT 0.01s; SSL 0.80s",
+          "justification": "Table 4 reports per-method CPU times for one episode.",
+          "value": "0.01s–0.83s per episode, depending on method"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "No CPU utilisation is reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "training speed of one episode",
+          "justification": "One episode is workload for this timing measurement, not evidence of a repeated configuration; no repetition factor is stated.",
+          "value": []
+        }
+      }
+    ]
+  },
+  "usage": {
+    "input_tokens": 32728,
+    "output_tokens": 16089,
+    "total_tokens": 48817
+  }
+}

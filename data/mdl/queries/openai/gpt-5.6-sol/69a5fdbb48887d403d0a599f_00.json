@@ -1,0 +1,2065 @@
+{
+  "paper": "69a5fdbb48887d403d0a599f.txt",
+  "words": 17301,
+  "extractions": {
+    "title": {
+      "quote": "Fine-tuning Reinforcement Learning Models is Secretly a Forgetting Mitigation Problem",
+      "justification": "This is the paper title shown on the first page.",
+      "value": "Fine-tuning Reinforcement Learning Models is Secretly a Forgetting Mitigation Problem"
+    },
+    "description": "An empirical reinforcement-learning study of fine-tuning and knowledge-retention procedures across NetHack, Montezuma’s Revenge, robotic manipulation, and toy environments, with emphasis on the computational artifacts and run configurations used.",
+    "type": {
+      "quote": "Through a detailed empirical analysis of the challenging NetHack and Montezuma’s Revenge environments, we show that standard knowledge retention techniques mitigate the problem",
+      "justification": "The paper reports experiments and numerical evaluations across several environments.",
+      "value": "empirical"
+    },
+    "research_fields": [
+      {
+        "name": {
+          "quote": "fine-tuning reinforcement learning (RL) models remains a challenge",
+          "justification": "The central contribution concerns fine-tuning and transfer of RL models.",
+          "value": "reinforcement learning"
+        },
+        "aliases": [
+          "RL"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "the main focus of this paper is the efficient fine-tuning of a pre-trained RL agent",
+          "justification": "The paper directly advances transfer and fine-tuning methods for pre-trained RL agents.",
+          "value": "transfer reinforcement learning"
+        },
+        "aliases": [
+          "transfer RL"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "methods targeting catastrophic forgetting should be routinely used in transfer RL scenarios",
+          "justification": "The paper studies forgetting and knowledge retention as central mechanisms affecting transfer.",
+          "value": "continual learning"
+        },
+        "aliases": [
+          "CL"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "tasks built out of Meta-World, an environment simulating tasks for robotic arms",
+          "justification": "Robotic manipulation is an experimental application setting rather than the main methodological contribution.",
+          "value": "robotic manipulation"
+        },
+        "aliases": [],
+        "role": "used"
+      },
+      {
+        "name": {
+          "quote": "NetHack and Montezuma’s Revenge environments",
+          "justification": "Video-game environments are used as experimental testbeds.",
+          "value": "game playing"
+        },
+        "aliases": [],
+        "role": "used"
+      }
+    ],
+    "models": [
+      {
+        "name": {
+          "quote": "Scaled-BC (Tuyls et al., 2023)",
+          "justification": "The paper identifies the NetHack pre-trained neural policy as Scaled-BC in its comparison table.",
+          "value": "Scaled-BC"
+        },
+        "aliases": [
+          "pre-trained policy π∗",
+          "model pre-trained by Tuyls et al. (2023)"
+        ],
+        "is_contributed": {
+          "quote": "We take the current state-of-the-art neural model (Tuyls et al., 2023) as our pre-trained policy π∗.",
+          "justification": "The model comes from prior work rather than being introduced here.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We fine-tune the model pre-trained by Tuyls et al. (2023)",
+          "justification": "The authors load and fine-tune this model.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Scaled-BC + Fine-tuning + KS (ours)",
+          "justification": "Its fine-tuned form is numerically compared against multiple NetHack models and baselines.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "We fine-tune the model pre-trained by Tuyls et al. (2023)",
+          "justification": "The model is fine-tuned in this paper.",
+          "value": "finetune"
+        },
+        "referenced_paper_title": {
+          "quote": "Scaling laws for imitation learning in nethack.",
+          "justification": "This is the title of the Tuyls et al. reference.",
+          "value": "Scaling laws for imitation learning in nethack."
+        }
+      },
+      {
+        "name": {
+          "quote": "a PPO agent with a Random Network Distillation (RND) mechanism",
+          "justification": "This is the learned agent used in the Montezuma’s Revenge experiments.",
+          "value": "PPO agent with a Random Network Distillation (RND) mechanism"
+        },
+        "aliases": [
+          "PPO agent with RND",
+          "PPO",
+          "PPO-FT",
+          "PPO-BC"
+        ],
+        "is_contributed": {
+          "quote": "we use a PPO agent with a Random Network Distillation (RND) mechanism (Burda et al., 2018)",
+          "justification": "The model configuration uses established prior procedures.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "In our experiments, we use a PPO agent with a Random Network Distillation (RND) mechanism",
+          "justification": "The paper explicitly says it executes this agent.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "PPO represents training from scratch, PPO-FT is vanilla fine-tuning and PPO-BC is fine-tuning with the behavioral cloning loss.",
+          "justification": "Several forms of the model are compared numerically.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "We pre-train a policy π∗ on a part of the environment",
+          "justification": "The model is trained by the authors and subsequently fine-tuned.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "Exploration by random network distillation.",
+          "justification": "This is the cited paper for the RND component.",
+          "value": "Exploration by random network distillation."
+        }
+      },
+      {
+        "name": {
+          "quote": "actor and critic",
+          "justification": "The Meta-World SAC configuration contains independently parameterized learned actor and critic networks optimized in one coupled run.",
+          "value": "SAC actor-critic"
+        },
+        "aliases": [
+          "policy and Q-value function"
+        ],
+        "is_contributed": {
+          "quote": "For all experiments in this section, we use the Soft Actor-Critic (SAC) algorithm",
+          "justification": "The learned actor-critic is an application of a prior model/algorithm rather than a new model contribution.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we use multi-layer perceptrons (4 hidden layers, 256 neurons each) as function approximators for the policy and Q-value function",
+          "justification": "The policy and Q networks are explicitly instantiated and run.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Figure 27: Training performance for different architecture choices.",
+          "justification": "Fine-tuned, scratch, retention-method, and architecture variants are compared numerically.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "we use a pre-trained model that we trained with SAC on the last two stages",
+          "justification": "The authors train this model and then fine-tune it.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "Soft actor-critic: Off-policy maximum entropy deep reinforcement learning with a stochastic actor.",
+          "justification": "This is the cited foundational SAC paper.",
+          "value": "Soft actor-critic: Off-policy maximum entropy deep reinforcement learning with a stochastic actor."
+        }
+      },
+      {
+        "name": {
+          "quote": "a simple model in which the probability to move right is given by: πw,b(o) = σ(w · o + b)",
+          "justification": "This is a separable learned linear policy used in the AppleRetrieval experiments.",
+          "value": "linear model in APPLE RETRIEVAL"
+        },
+        "aliases": [
+          "linear model",
+          "πw,b"
+        ],
+        "is_contributed": {
+          "quote": "we additionally provide two toy environments",
+          "justification": "The model is introduced as part of the paper's toy experiment, though the linear form itself is not a general model contribution.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We run experiments in APPLE RETRIEVAL using the REINFORCE algorithm",
+          "justification": "The linear policy is trained in reported experiments.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Impact of c on the results for set M = 30.",
+          "justification": "Its behavior is compared across environment settings.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "we initialize w, b with the weights trained in Phase 2",
+          "justification": "The model is first trained and then used for downstream fine-tuning experiments.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "Simple statistical gradient-following algorithms for connectionist reinforcement learning.",
+          "justification": "This is the reference for REINFORCE, the procedure used to train the model.",
+          "value": "Simple statistical gradient-following algorithms for connectionist reinforcement learning."
+        }
+      }
+    ],
+    "data_sources": [
+      {
+        "name": {
+          "quote": "NetHack Learning Environment (Küttler et al., 2020)",
+          "justification": "This is the named interactive environment used for NetHack experiments.",
+          "value": "NetHack Learning Environment"
+        },
+        "aliases": [
+          "NLE",
+          "NetHack"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "The action space in NLE consists of a set of 120 discrete actions.",
+          "justification": "The paper does not state a number of examples consumed; action-space size is not dataset size.",
+          "value": "unknown"
+        },
+        "derived_from": [],
+        "sample_properties": [
+          {
+            "name": "action space",
+            "value": {
+              "quote": "The action space in NLE consists of a set of 120 discrete actions.",
+              "justification": "The paper states the per-step action-space cardinality.",
+              "value": "120"
+            },
+            "unit": "discrete actions"
+          }
+        ],
+        "referenced_paper_title": {
+          "quote": "The nethack learning environment.",
+          "justification": "This is the title of the NLE reference.",
+          "value": "The nethack learning environment."
+        }
+      },
+      {
+        "name": {
+          "quote": "a subset of the NetHack Learning Dataset (NLD) collected by (Hambro et al., 2022c) called NLD-AA",
+          "justification": "NLD-AA is the fixed trajectory corpus used by retention methods.",
+          "value": "NLD-AA"
+        },
+        "aliases": [
+          "NetHack Learning Dataset AutoAscend subset"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "In particular, we use about 8000 games of Human Monk.",
+          "justification": "This is the explicitly stated subset consumed in the paper's retention experiments.",
+          "value": "about 8000 games of Human Monk"
+        },
+        "derived_from": [
+          "NetHack Learning Dataset (NLD)"
+        ],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "Dungeons and data: A large-scale nethack dataset.",
+          "justification": "This is the dataset paper named in the references.",
+          "value": "Dungeons and data: A large-scale nethack dataset."
+        }
+      },
+      {
+        "name": {
+          "quote": "NetHack Learning Dataset (NLD)",
+          "justification": "The paper names the parent dataset from which NLD-AA is selected.",
+          "value": "NetHack Learning Dataset (NLD)"
+        },
+        "aliases": [
+          "NLD"
+        ],
+        "role": "referenced",
+        "size": {
+          "quote": "It contains over 3 billion state-action-score transitions and metadata from 100,000 games",
+          "justification": "This describes the full parent dataset, not an inferred size.",
+          "value": "over 3 billion state-action-score transitions and metadata from 100,000 games"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "Dungeons and data: A large-scale nethack dataset.",
+          "justification": "This is the referenced dataset publication.",
+          "value": "Dungeons and data: A large-scale nethack dataset."
+        }
+      },
+      {
+        "name": {
+          "quote": "Montezuma’s Revenge from Atari Learning Environment (ALE)",
+          "justification": "This is the named game environment consumed interactively by the PPO agent.",
+          "value": "Montezuma’s Revenge"
+        },
+        "aliases": [],
+        "role": "used",
+        "size": {
+          "quote": "unknown",
+          "justification": "The paper does not state a number of environment examples as a dataset size.",
+          "value": "unknown"
+        },
+        "derived_from": [
+          "Atari Learning Environment (ALE)"
+        ],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "The arcade learning environment: An evaluation platform for general agents.",
+          "justification": "This is the ALE reference title.",
+          "value": "The arcade learning environment: An evaluation platform for general agents."
+        }
+      },
+      {
+        "name": {
+          "quote": "Atari Learning Environment (ALE)",
+          "justification": "ALE is the named environment suite from which Montezuma’s Revenge is used.",
+          "value": "Atari Learning Environment (ALE)"
+        },
+        "aliases": [
+          "ALE"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "unknown",
+          "justification": "No sample count is stated.",
+          "value": "unknown"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "Revisiting the arcade learning environment: Evaluation protocols and open problems for general agents.",
+          "justification": "This is the cited ALE reference in the technical details.",
+          "value": "Revisiting the arcade learning environment: Evaluation protocols and open problems for general agents."
+        }
+      },
+      {
+        "name": {
+          "quote": "RoboticSequence is a multi-stage robotic task based on the Meta-World benchmark",
+          "justification": "This named composite environment is constructed and evaluated in the paper.",
+          "value": "RoboticSequence"
+        },
+        "aliases": [],
+        "role": "contributed",
+        "size": {
+          "quote": "the following sub-tasks: use a hammer to hammer in a nail (hammer), push an object from one specific place to another (push), remove a bolt from a wall (peg-unplug-side), push an object around a wall (push-wall)",
+          "justification": "The source comprises four explicitly listed stages, not a fixed sample corpus.",
+          "value": "4 sub-tasks"
+        },
+        "derived_from": [
+          "Meta-World"
+        ],
+        "sample_properties": [
+          {
+            "name": "maximal number of steps in the environment",
+            "value": {
+              "quote": "T = 200 in our case",
+              "justification": "The appendix explicitly states the per-stage time limit.",
+              "value": "200"
+            },
+            "unit": "steps"
+          }
+        ],
+        "referenced_paper_title": {
+          "quote": "unknown",
+          "justification": "RoboticSequence is introduced in this paper rather than cited from another publication.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "Meta-World benchmark (Yu et al., 2020)",
+          "justification": "Meta-World supplies the robotic task environments used to build RoboticSequence.",
+          "value": "Meta-World"
+        },
+        "aliases": [],
+        "role": "used",
+        "size": {
+          "quote": "unknown",
+          "justification": "The number of generated examples consumed is not stated as a dataset size.",
+          "value": "unknown"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "Meta-world: A benchmark and evaluation for multi-task and meta reinforcement learning.",
+          "justification": "This is the title in the references.",
+          "value": "Meta-world: A benchmark and evaluation for multi-task and meta reinforcement learning."
+        }
+      },
+      {
+        "name": {
+          "quote": "two-state MDPs",
+          "justification": "The paper executes optimization examples on this named toy source.",
+          "value": "two-state MDPs"
+        },
+        "aliases": [
+          "toy two-state MDP"
+        ],
+        "role": "contributed",
+        "size": {
+          "quote": "consists of two states, labeled as s0 and s1",
+          "justification": "The paper explicitly gives the environment size.",
+          "value": "2 states"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "unknown",
+          "justification": "The toy MDP construction is provided by this paper.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "a simple grid-world called APPLE RETRIEVAL",
+          "justification": "This is a named toy environment used in experiments.",
+          "value": "APPLE RETRIEVAL"
+        },
+        "aliases": [],
+        "role": "contributed",
+        "size": {
+          "quote": "APPLE RETRIEVAL is a 1D gridworld, consisting of two phases.",
+          "justification": "The paper characterizes its structure but does not state a fixed example count.",
+          "value": "unknown"
+        },
+        "derived_from": [],
+        "sample_properties": [
+          {
+            "name": "episode time limit",
+            "value": {
+              "quote": "Episodes are terminated if the solution is reached or after 100 timesteps.",
+              "justification": "This is the explicit per-episode limit.",
+              "value": "100"
+            },
+            "unit": "timesteps"
+          }
+        ],
+        "referenced_paper_title": {
+          "quote": "unknown",
+          "justification": "The environment is introduced in this paper.",
+          "value": "unknown"
+        }
+      }
+    ],
+    "libraries": [
+      {
+        "name": {
+          "quote": "based on Sample Factory (Petrenko et al., 2020)",
+          "justification": "The NetHack implementation is explicitly said to be based on this framework.",
+          "value": "Sample Factory"
+        },
+        "aliases": [],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "Sample factory: Egocentric 3d control from pixels at 100000 fps with asynchronous reinforcement learning.",
+          "justification": "This is the referenced Sample Factory paper.",
+          "value": "Sample factory: Egocentric 3d control from pixels at 100000 fps with asynchronous reinforcement learning."
+        }
+      },
+      {
+        "name": {
+          "quote": "We used PyTorch implementation by jcwleo",
+          "justification": "The Montezuma appendix explicitly says a PyTorch implementation was used.",
+          "value": "PyTorch"
+        },
+        "aliases": [],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "unknown",
+          "justification": "No PyTorch reference-paper title is supplied in the provided references.",
+          "value": "unknown"
+        }
+      }
+    ],
+    "algorithms": [
+      {
+        "name": {
+          "quote": "Elastic Weight Consolidation (EWC)",
+          "justification": "The exact full name and acronym are used by the paper.",
+          "value": "Elastic Weight Consolidation (EWC)"
+        },
+        "aliases": [
+          "EWC"
+        ],
+        "is_contributed": {
+          "quote": "we consider the following popular methods for knowledge retention: Elastic Weight Consolidation (EWC)",
+          "justification": "It is an existing method, not introduced here.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Within the main manuscript, we examined vanilla fine-tuning and fine-tuning with a behavioral cloning loss, kickstarting and EWC",
+          "justification": "The paper executes EWC in its experiments.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "although EWC exceeds vanilla fine-tuning in all settings, it is consistently outperformed by the other approaches.",
+          "justification": "EWC is numerically compared to other methods.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "EWC is a regularization-based approach that applies a penalty on parameter changes by introducing an auxiliary loss",
+          "justification": "This directly states its role.",
+          "value": "a regularization-based approach that applies a penalty on parameter changes by introducing an auxiliary loss"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Overcoming catastrophic forgetting in neural networks.",
+          "justification": "This is the cited EWC paper.",
+          "value": "Overcoming catastrophic forgetting in neural networks."
+        }
+      },
+      {
+        "name": {
+          "quote": "behavioral cloning (BC)",
+          "justification": "The paper consistently uses this exact name and acronym.",
+          "value": "behavioral cloning (BC)"
+        },
+        "aliases": [
+          "BC"
+        ],
+        "is_contributed": {
+          "quote": "we also use behavioral cloning, an efficient replay-based approach",
+          "justification": "It is a prior approach adapted here.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "In Fine-tuning + BC we compute the auxiliary loss by utilizing the trajectories generated by the expert",
+          "justification": "BC is executed in all three main settings where applicable.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "BC is the most effective, followed by EM and EWC",
+          "justification": "It is numerically compared with retention and baseline procedures.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "we apply an auxiliary loss of the form LBC(θ) = Es∼BBC[DKL(π∗(s) ∥ πθ(s))] alongside the RL objective",
+          "justification": "This states the exact role of BC in fine-tuning.",
+          "value": "apply an auxiliary loss alongside the RL objective to match the pre-trained policy on buffered states"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "A framework for behavioural cloning.",
+          "justification": "This is one cited foundational behavioral-cloning paper.",
+          "value": "A framework for behavioural cloning."
+        }
+      },
+      {
+        "name": {
+          "quote": "Kickstarting (KS)",
+          "justification": "This is the exact name and acronym used in the appendix.",
+          "value": "Kickstarting (KS)"
+        },
+        "aliases": [
+          "KS",
+          "kickstarting"
+        ],
+        "is_contributed": {
+          "quote": "In Kickstarting (KS) (Schmitt et al., 2018)",
+          "justification": "It is attributed to prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "In Fine-tuning + KS we compute the auxiliary loss on data generated by the online policy.",
+          "justification": "The procedure is executed in NetHack experiments.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "In the context of NetHack, KS works best, followed by BC",
+          "justification": "KS is numerically compared against other methods.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "Kickstarting applies KL of a similar form, but the expectation is over data sampled by the current policy",
+          "justification": "This directly describes its role.",
+          "value": "applies KL with the expectation over data sampled by the current policy"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Kickstarting deep reinforcement learning.",
+          "justification": "This is the reference title.",
+          "value": "Kickstarting deep reinforcement learning."
+        }
+      },
+      {
+        "name": {
+          "quote": "episodic memory (EM)",
+          "justification": "The exact paper term and acronym are reported.",
+          "value": "episodic memory (EM)"
+        },
+        "aliases": [
+          "EM"
+        ],
+        "is_contributed": {
+          "quote": "For episodic memory, we can easily use it with off-policy methods",
+          "justification": "The paper uses an established replay-based technique.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we use a simple episodic memory (EM) approach along with the off-policy SAC algorithm",
+          "justification": "EM is executed in RoboticSequence experiments.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "BC is the most effective, followed by EM and EWC",
+          "justification": "EM is numerically compared.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "At the start of the training, we gather a set of trajectories from the pre-trained environment and we use them to populate SAC’s replay buffer.",
+          "justification": "This states its experimental role.",
+          "value": "populate SAC’s replay buffer with trajectories from the pre-trained environment and protect those samples throughout training"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "On tiny episodic memories in continual learning.",
+          "justification": "This is a cited episodic-memory reference.",
+          "value": "On tiny episodic memories in continual learning."
+        }
+      },
+      {
+        "name": {
+          "quote": "Asynchronous Proximal Policy Optimization (APPO)",
+          "justification": "The exact algorithm name and acronym are given.",
+          "value": "Asynchronous Proximal Policy Optimization (APPO)"
+        },
+        "aliases": [
+          "APPO"
+        ],
+        "is_contributed": {
+          "quote": "During fine-tuning, we use asynchronous PPO (APPO) (Petrenko et al., 2020).",
+          "justification": "It is a prior algorithm.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "In the online training phase, we employed a highly parallelizable architecture called Asynchronous Proximal Policy Optimization (APPO)",
+          "justification": "APPO is executed for NetHack fine-tuning.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Since NetHack and Montezuma’s Revenge leverage, respectively, APPO and PPO",
+          "justification": "APPO is used as the optimizer rather than directly isolated as the primary comparison variable.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "During fine-tuning, we use asynchronous PPO (APPO)",
+          "justification": "Its role is the NetHack online fine-tuning procedure.",
+          "value": "used during NetHack fine-tuning"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Sample factory: Egocentric 3d control from pixels at 100000 fps with asynchronous reinforcement learning.",
+          "justification": "The APPO implementation is cited through Sample Factory.",
+          "value": "Sample factory: Egocentric 3d control from pixels at 100000 fps with asynchronous reinforcement learning."
+        }
+      },
+      {
+        "name": {
+          "quote": "PPO",
+          "justification": "The paper writes this abbreviation when describing Montezuma experiments.",
+          "value": "PPO"
+        },
+        "aliases": [
+          "Proximal Policy Optimization"
+        ],
+        "is_contributed": {
+          "quote": "We conduct experiments using PPO",
+          "justification": "This is a prior algorithm.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We conduct experiments using PPO with Random Network Distillation",
+          "justification": "PPO is executed in Montezuma’s Revenge.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "PPO represents training from scratch, PPO-FT is vanilla fine-tuning and PPO-BC is fine-tuning with the behavioral cloning loss.",
+          "justification": "PPO-based variants are compared numerically.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "We conduct experiments using PPO with Random Network Distillation (Burda et al., 2018) to boost exploration",
+          "justification": "This states its role in the paper.",
+          "value": "used with Random Network Distillation to train and fine-tune the Montezuma’s Revenge policy"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Proximal policy optimization algorithms.",
+          "justification": "This is the PPO reference.",
+          "value": "Proximal policy optimization algorithms."
+        }
+      },
+      {
+        "name": {
+          "quote": "Random Network Distillation (RND)",
+          "justification": "The exact full name and acronym appear in the paper.",
+          "value": "Random Network Distillation (RND)"
+        },
+        "aliases": [
+          "RND"
+        ],
+        "is_contributed": {
+          "quote": "Random Network Distillation (Burda et al., 2018)",
+          "justification": "RND is attributed to prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we use a PPO agent with a Random Network Distillation (RND) mechanism",
+          "justification": "RND is executed in Montezuma experiments.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "In our experiments, we use a PPO agent with a Random Network Distillation (RND) mechanism",
+          "justification": "It is held as part of the PPO configuration and not separately ablated.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "for exploration boost",
+          "justification": "The appendix directly states its purpose.",
+          "value": "for exploration boost"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Exploration by random network distillation.",
+          "justification": "This is the RND paper title.",
+          "value": "Exploration by random network distillation."
+        }
+      },
+      {
+        "name": {
+          "quote": "Soft Actor-Critic (SAC)",
+          "justification": "The exact full name and acronym are used.",
+          "value": "Soft Actor-Critic (SAC)"
+        },
+        "aliases": [
+          "SAC"
+        ],
+        "is_contributed": {
+          "quote": "We use Soft Actor-Critic (SAC) (Haarnoja et al., 2018a) in all robotic experiments.",
+          "justification": "It is a prior method.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "For all experiments in this section, we use the Soft Actor-Critic (SAC) algorithm",
+          "justification": "SAC is executed throughout the robotic experiments.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "vanilla fine-tuning or training from scratch are virtually indistinguishable, and both significantly fall behind BC, EM, and EWC",
+          "justification": "SAC training configurations are numerically compared, though SAC itself is fixed.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "We use Soft Actor-Critic (SAC) ... in all robotic experiments.",
+          "justification": "This directly states its role.",
+          "value": "used in all robotic experiments"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Soft actor-critic: Off-policy maximum entropy deep reinforcement learning with a stochastic actor.",
+          "justification": "This is the SAC reference title.",
+          "value": "Soft actor-critic: Off-policy maximum entropy deep reinforcement learning with a stochastic actor."
+        }
+      },
+      {
+        "name": {
+          "quote": "REINFORCE algorithm",
+          "justification": "The exact name used in the appendix is retained.",
+          "value": "REINFORCE algorithm"
+        },
+        "aliases": [
+          "REINFORCE"
+        ],
+        "is_contributed": {
+          "quote": "using the REINFORCE algorithm (Williams, 1992)",
+          "justification": "It is attributed to prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We run experiments in APPLE RETRIEVAL using the REINFORCE algorithm",
+          "justification": "The procedure is explicitly executed.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "For high enough distance M, the forgetting of pre-trained capabilities problem appears.",
+          "justification": "REINFORCE is fixed rather than compared against another optimizer.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "We run experiments in APPLE RETRIEVAL using the REINFORCE algorithm",
+          "justification": "This directly states its role.",
+          "value": "used to train and fine-tune the linear policy in APPLE RETRIEVAL"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Simple statistical gradient-following algorithms for connectionist reinforcement learning.",
+          "justification": "This is the REINFORCE reference title.",
+          "value": "Simple statistical gradient-following algorithms for connectionist reinforcement learning."
+        }
+      },
+      {
+        "name": {
+          "quote": "Adam",
+          "justification": "The optimizer is explicitly named in the robotic technical details.",
+          "value": "Adam"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "use the Adam (Kingma & Ba, 2014) optimizer",
+          "justification": "It is a prior optimizer.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We set the learning rate to 10−3 and use the Adam (Kingma & Ba, 2014) optimizer.",
+          "justification": "Adam is explicitly used.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "We set the learning rate to 10−3 and use the Adam ... optimizer.",
+          "justification": "No numerical comparison against other optimizers is reported.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "use the Adam ... optimizer",
+          "justification": "This is its role in the run.",
+          "value": "the optimizer"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Adam: A method for stochastic optimization.",
+          "justification": "This is the cited title.",
+          "value": "Adam: A method for stochastic optimization."
+        }
+      },
+      {
+        "name": {
+          "quote": "Central Kernel Alignment (CKA)",
+          "justification": "The exact evaluation procedure and acronym are named.",
+          "value": "Central Kernel Alignment (CKA)"
+        },
+        "aliases": [
+          "CKA"
+        ],
+        "is_contributed": {
+          "quote": "We use Central Kernel Alignment (Kornblith et al., 2019)",
+          "justification": "It comes from prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "CKA is computed between a pair of matrices",
+          "justification": "The paper computes CKA in its representation analysis.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "The CKA values throughout vanilla fine-tuning",
+          "justification": "CKA numerically compares representations over checkpoints and layers.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "to study similarity of representations",
+          "justification": "The appendix directly states its role.",
+          "value": "to study similarity of representations"
+        },
+        "composed_of": [
+          "Hilbert-Schmidt Independence Criterion (HSIC)"
+        ],
+        "referenced_paper_title": {
+          "quote": "Similarity of neural network representations revisited.",
+          "justification": "This is the CKA reference title.",
+          "value": "Similarity of neural network representations revisited."
+        }
+      },
+      {
+        "name": {
+          "quote": "vanilla fine-tuning",
+          "justification": "The paper repeatedly treats this as a named experimental procedure.",
+          "value": "vanilla fine-tuning"
+        },
+        "aliases": [
+          "fine-tuning",
+          "FT"
+        ],
+        "is_contributed": {
+          "quote": "In each environment, we run vanilla fine-tuning and training from scratch as baselines",
+          "justification": "It is a baseline, not a newly introduced algorithm.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "In each environment, we run vanilla fine-tuning",
+          "justification": "It is executed in all main environments.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "vanilla fine-tuning often fails to leverage pre-trained knowledge",
+          "justification": "It is numerically compared to retention methods and training from scratch.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "as baselines",
+          "justification": "The paper explicitly identifies its role.",
+          "value": "a baseline"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "unknown",
+          "justification": "No single reference paper defines the generic fine-tuning baseline here.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "training from scratch",
+          "justification": "The paper uses this exact name for a baseline procedure.",
+          "value": "training from scratch"
+        },
+        "aliases": [
+          "From scratch"
+        ],
+        "is_contributed": {
+          "quote": "we run vanilla fine-tuning and training from scratch as baselines",
+          "justification": "It is a baseline procedure.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we run vanilla fine-tuning and training from scratch",
+          "justification": "The baseline is executed across main environments.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "vanilla fine-tuning or training from scratch are virtually indistinguishable",
+          "justification": "It is numerically compared against fine-tuning and retention methods.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "as baselines",
+          "justification": "The paper directly labels its role.",
+          "value": "a baseline"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "unknown",
+          "justification": "It is a generic baseline rather than a procedure tied to one cited paper.",
+          "value": "unknown"
+        }
+      }
+    ],
+    "runs": [
+      {
+        "models": [
+          {
+            "name": "Scaled-BC",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "NLD-AA",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "behavioral cloning (BC)"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "the checkpoint we use as the pre-trained policy π∗ was trained by Tuyls et al. (2023) on a larger set of trajectories ... containing over 115B transitions",
+          "justification": "This is a referenced pre-training run, not compute executed by this paper; it is included only to capture the model's stated execution configuration.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "unknown",
+          "justification": "No epoch count is stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "which scales up (from 6M to 33M parameters)",
+          "justification": "The executed checkpoint's architecture is explicitly stated as 33M parameters.",
+          "value": "33M parameters"
+        },
+        "accelerator_type": {
+          "quote": "unknown",
+          "justification": "The paper does not state the hardware used in the prior pre-training run.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "unknown",
+          "justification": "No accelerator model is stated for pre-training.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "unknown",
+          "justification": "No count is stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "unknown",
+          "justification": "No numerical precision is stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "unknown",
+          "justification": "No pre-training parallelism strategy is stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "unknown",
+          "justification": "No pre-training duration is stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "unknown",
+          "justification": "No utilization is reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "unknown",
+          "justification": "No repetition factor is stated for this referenced pre-training.",
+          "value": []
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "Scaled-BC",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "NetHack Learning Environment",
+            "access": "interactive",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Asynchronous Proximal Policy Optimization (APPO)"
+          },
+          {
+            "name": "vanilla fine-tuning"
+          },
+          {
+            "name": "Elastic Weight Consolidation (EWC)"
+          },
+          {
+            "name": "Kickstarting (KS)"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "During fine-tuning, we use asynchronous PPO (APPO)",
+          "justification": "This is the online NetHack fine-tuning run.",
+          "value": "finetune"
+        },
+        "epochs": {
+          "quote": "over 500 million environment steps",
+          "justification": "The paper reports steps, not passes over a fixed dataset, so epochs are unknown.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "which scales up (from 6M to 33M parameters)",
+          "justification": "The fine-tuned model is explicitly the 33M-parameter scaled model.",
+          "value": "33M parameters"
+        },
+        "accelerator_type": {
+          "quote": "on A100 Nvidia GPU",
+          "justification": "A100 is a GPU.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "on A100 Nvidia GPU",
+          "justification": "The accelerator model is explicitly stated.",
+          "value": "A100 Nvidia GPU"
+        },
+        "accelerator_count": {
+          "quote": "on A100 Nvidia GPU",
+          "justification": "The singular wording indicates one GPU for the stated throughput configuration.",
+          "value": "1"
+        },
+        "precision": {
+          "quote": "unknown",
+          "justification": "No precision is stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "a highly parallelizable architecture called Asynchronous Proximal Policy Optimization (APPO)",
+          "justification": "Asynchrony is stated, but none of the catalogued data/tensor/pipeline/expert strategies is explicitly identified.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "over 500 million environment steps under 24 hours of training on A100 Nvidia GPU",
+          "justification": "This is the reported duration.",
+          "value": "under 24 hours"
+        },
+        "utilisation": {
+          "quote": "unknown",
+          "justification": "No hardware utilization is reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "vanilla fine-tuning and fine-tuning with a behavioral cloning loss, kickstarting and EWC",
+          "justification": "For this no-NLD-AA run, vanilla, EWC, and KS are three method variants; BC is separated because it consumes an additional fixed data source.",
+          "value": [
+            {
+              "kind": "variant",
+              "count": 3,
+              "what": "vanilla fine-tuning, kickstarting and EWC"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "Scaled-BC",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "NetHack Learning Environment",
+            "access": "interactive",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "NLD-AA",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Asynchronous Proximal Policy Optimization (APPO)"
+          },
+          {
+            "name": "behavioral cloning (BC)"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "In Fine-tuning + BC we compute the auxiliary loss by utilizing the trajectories generated by the expert",
+          "justification": "This fine-tunes the NetHack model using both online environment interaction and fixed expert trajectories.",
+          "value": "finetune"
+        },
+        "epochs": {
+          "quote": "unknown",
+          "justification": "No fixed-dataset epoch count is stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "which scales up (from 6M to 33M parameters)",
+          "justification": "The fine-tuned checkpoint has 33M parameters.",
+          "value": "33M parameters"
+        },
+        "accelerator_type": {
+          "quote": "on A100 Nvidia GPU",
+          "justification": "The NetHack configuration uses a GPU.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "A100 Nvidia GPU",
+          "justification": "The model is explicit.",
+          "value": "A100 Nvidia GPU"
+        },
+        "accelerator_count": {
+          "quote": "on A100 Nvidia GPU",
+          "justification": "The statement uses a singular GPU.",
+          "value": "1"
+        },
+        "precision": {
+          "quote": "unknown",
+          "justification": "No precision is stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "unknown",
+          "justification": "No catalogued parallelism strategy is explicitly stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "over 500 million environment steps under 24 hours of training on A100 Nvidia GPU",
+          "justification": "This is the NetHack training duration statement.",
+          "value": "under 24 hours"
+        },
+        "utilisation": {
+          "quote": "unknown",
+          "justification": "No utilization is given.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "unknown",
+          "justification": "No seed or independent execution count is reported for NetHack.",
+          "value": []
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "Scaled-BC",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "NetHack Learning Environment",
+            "access": "interactive",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "training from scratch"
+          },
+          {
+            "name": "Asynchronous Proximal Policy Optimization (APPO)"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "In each environment, we run ... training from scratch as baselines",
+          "justification": "This is the NetHack scratch-training baseline.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "unknown",
+          "justification": "Only environment steps, not epochs, are meaningful and no epoch count is given.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "which scales up (from 6M to 33M parameters)",
+          "justification": "The architecture scale is stated as 33M parameters.",
+          "value": "33M parameters"
+        },
+        "accelerator_type": {
+          "quote": "on A100 Nvidia GPU",
+          "justification": "The NetHack training setup reports an A100 GPU.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "A100 Nvidia GPU",
+          "justification": "The model is explicit.",
+          "value": "A100 Nvidia GPU"
+        },
+        "accelerator_count": {
+          "quote": "on A100 Nvidia GPU",
+          "justification": "Singular accelerator wording is used.",
+          "value": "1"
+        },
+        "precision": {
+          "quote": "unknown",
+          "justification": "No precision is reported.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "unknown",
+          "justification": "No catalogued strategy is stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "over 500 million environment steps under 24 hours of training on A100 Nvidia GPU",
+          "justification": "This is the reported NetHack compute duration.",
+          "value": "under 24 hours"
+        },
+        "utilisation": {
+          "quote": "unknown",
+          "justification": "No utilization is reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "unknown",
+          "justification": "No seed count is stated.",
+          "value": []
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "PPO agent with a Random Network Distillation (RND) mechanism",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Montezuma’s Revenge",
+            "access": "interactive",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "Atari Learning Environment (ALE)",
+            "access": "interactive",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "PPO"
+          },
+          {
+            "name": "Random Network Distillation (RND)"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "We pre-train a policy π∗ on a part of the environment that includes only rooms from a certain room onward",
+          "justification": "This is the Montezuma pre-training stage.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "unknown",
+          "justification": "No epoch count is stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "unknown",
+          "justification": "No parameter count is stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "UseGPU True",
+          "justification": "The hyperparameter table explicitly says GPU use is enabled.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "unknown",
+          "justification": "No GPU model is named.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "unknown",
+          "justification": "No GPU count is stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "unknown",
+          "justification": "No precision is stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "NumEnv 128",
+          "justification": "This states environment concurrency, not one of the catalogued model parallelism strategies.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "unknown",
+          "justification": "No duration is stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "unknown",
+          "justification": "No utilization is stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "unknown",
+          "justification": "No seed or independent repetition count is stated.",
+          "value": []
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "PPO agent with a Random Network Distillation (RND) mechanism",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Montezuma’s Revenge",
+            "access": "interactive",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "Atari Learning Environment (ALE)",
+            "access": "interactive",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "PPO"
+          },
+          {
+            "name": "Random Network Distillation (RND)"
+          },
+          {
+            "name": "vanilla fine-tuning"
+          },
+          {
+            "name": "Elastic Weight Consolidation (EWC)"
+          },
+          {
+            "name": "behavioral cloning (BC)"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "During fine-tuning, the agent has to solve the whole game, starting from the first room.",
+          "justification": "This is the Montezuma fine-tuning stage.",
+          "value": "finetune"
+        },
+        "epochs": {
+          "quote": "unknown",
+          "justification": "The paper reports environment steps rather than epochs.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "unknown",
+          "justification": "No parameter count is stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "UseGPU True",
+          "justification": "The table says this run uses GPU execution.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "unknown",
+          "justification": "No accelerator model is named.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "unknown",
+          "justification": "No accelerator count is stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "unknown",
+          "justification": "No precision is given.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "unknown",
+          "justification": "No data/tensor/pipeline/expert model parallelism is stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "unknown",
+          "justification": "No duration is stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "unknown",
+          "justification": "No utilization is reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "PPO-FT is vanilla fine-tuning and PPO-BC is fine-tuning with the behavioral cloning loss",
+          "justification": "The fine-tuning configuration includes named method variants; EWC is also reported in the main comparison.",
+          "value": [
+            {
+              "kind": "variant",
+              "count": 3,
+              "what": "vanilla fine-tuning, fine-tuning with BC, and fine-tuning with EWC"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "PPO agent with a Random Network Distillation (RND) mechanism",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Montezuma’s Revenge",
+            "access": "interactive",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "Atari Learning Environment (ALE)",
+            "access": "interactive",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "PPO"
+          },
+          {
+            "name": "Random Network Distillation (RND)"
+          },
+          {
+            "name": "training from scratch"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "PPO represents training from scratch",
+          "justification": "This is the Montezuma scratch baseline.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "unknown",
+          "justification": "No epochs are stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "unknown",
+          "justification": "No parameter count is given.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "UseGPU True",
+          "justification": "GPU use is stated in the configuration.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "unknown",
+          "justification": "No GPU model is named.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "unknown",
+          "justification": "No count is given.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "unknown",
+          "justification": "No precision is stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "unknown",
+          "justification": "No catalogued parallelism strategy is stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "unknown",
+          "justification": "No duration is stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "unknown",
+          "justification": "No utilization is stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "unknown",
+          "justification": "No seeds are stated.",
+          "value": []
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "SAC actor-critic",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "RoboticSequence",
+            "access": "interactive",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "Meta-World",
+            "access": "interactive",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Soft Actor-Critic (SAC)"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "we use a pre-trained model that we trained with SAC on the last two stages (peg-unplug-side and push-wall) until convergence",
+          "justification": "This is the robotic pre-training run.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "unknown",
+          "justification": "No epoch count is stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "4 hidden layers, 256 neurons each",
+          "justification": "Architecture width and depth are stated, but total parameters are not; parameter count must remain unknown.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "For the experiments based on Meta-World, we use CPU acceleration",
+          "justification": "The hardware type is explicitly CPU.",
+          "value": "cpu"
+        },
+        "accelerator_model": {
+          "quote": "unknown",
+          "justification": "No CPU model is named.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "For each experiment, we use 8 CPU cores",
+          "justification": "The run uses eight CPU cores.",
+          "value": "8 CPU cores"
+        },
+        "precision": {
+          "quote": "unknown",
+          "justification": "No precision is stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "unknown",
+          "justification": "No catalogued model parallelism strategy is stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "The average length of an experiment is 48 hours.",
+          "justification": "This is the explicit duration.",
+          "value": "48 hours"
+        },
+        "utilisation": {
+          "quote": "unknown",
+          "justification": "No utilization metric is given.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "All experiments on Meta-World are run with at least 20 seeds",
+          "justification": "The paper explicitly reports the seed factor.",
+          "value": [
+            {
+              "kind": "seed",
+              "count": 20,
+              "what": "seeds (at least)"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "SAC actor-critic",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "RoboticSequence",
+            "access": "interactive",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "Meta-World",
+            "access": "interactive",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Soft Actor-Critic (SAC)"
+          },
+          {
+            "name": "vanilla fine-tuning"
+          },
+          {
+            "name": "Elastic Weight Consolidation (EWC)"
+          },
+          {
+            "name": "behavioral cloning (BC)"
+          },
+          {
+            "name": "episodic memory (EM)"
+          },
+          {
+            "name": "Adam"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "The fine-tuning experiments start from a pre-trained policy π∗",
+          "justification": "This is the downstream robotic fine-tuning configuration.",
+          "value": "finetune"
+        },
+        "epochs": {
+          "quote": "unknown",
+          "justification": "No number of epochs is stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "4 hidden layers, 256 neurons each",
+          "justification": "Total parameter count is not explicitly stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "we use CPU acceleration",
+          "justification": "CPU execution is explicit.",
+          "value": "cpu"
+        },
+        "accelerator_model": {
+          "quote": "unknown",
+          "justification": "No CPU model is stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "For each experiment, we use 8 CPU cores",
+          "justification": "The count is explicit.",
+          "value": "8 CPU cores"
+        },
+        "precision": {
+          "quote": "unknown",
+          "justification": "No precision is stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "unknown",
+          "justification": "No catalogued parallelism strategy is stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "The average length of an experiment is 48 hours.",
+          "justification": "The average duration is reported.",
+          "value": "48 hours"
+        },
+        "utilisation": {
+          "quote": "unknown",
+          "justification": "No utilization is reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "All experiments on Meta-World are run with at least 20 seeds",
+          "justification": "The seed count is explicit; the four named fine-tuning methods form an independent variant factor.",
+          "value": [
+            {
+              "kind": "seed",
+              "count": 20,
+              "what": "seeds (at least)"
+            },
+            {
+              "kind": "variant",
+              "count": 4,
+              "what": "vanilla fine-tuning, EWC, BC, and EM"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "SAC actor-critic",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "RoboticSequence",
+            "access": "interactive",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "Meta-World",
+            "access": "interactive",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Soft Actor-Critic (SAC)"
+          },
+          {
+            "name": "training from scratch"
+          },
+          {
+            "name": "Adam"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "a model trained from scratch",
+          "justification": "This is the robotic scratch-training baseline.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "unknown",
+          "justification": "No epoch count is stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "4 hidden layers, 256 neurons each",
+          "justification": "No total parameter count is explicitly provided.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "we use CPU acceleration",
+          "justification": "CPU execution is stated.",
+          "value": "cpu"
+        },
+        "accelerator_model": {
+          "quote": "unknown",
+          "justification": "No CPU model is named.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "For each experiment, we use 8 CPU cores",
+          "justification": "The core count is explicit.",
+          "value": "8 CPU cores"
+        },
+        "precision": {
+          "quote": "unknown",
+          "justification": "No precision is given.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "unknown",
+          "justification": "No catalogued parallelism strategy is stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "The average length of an experiment is 48 hours.",
+          "justification": "This is the stated average experiment length.",
+          "value": "48 hours"
+        },
+        "utilisation": {
+          "quote": "unknown",
+          "justification": "No utilization is reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "All experiments on Meta-World are run with at least 20 seeds",
+          "justification": "The paper explicitly gives this repetition factor.",
+          "value": [
+            {
+              "kind": "seed",
+              "count": 20,
+              "what": "seeds (at least)"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "linear model in APPLE RETRIEVAL",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "APPLE RETRIEVAL",
+            "access": "interactive",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "REINFORCE algorithm"
+          },
+          {
+            "name": "vanilla fine-tuning"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "we initialize w, b with the weights trained in Phase 2",
+          "justification": "The toy linear policy is initialized from prior training and then optimized on the full task, making this a fine-tuning run.",
+          "value": "finetune"
+        },
+        "epochs": {
+          "quote": "unknown",
+          "justification": "No epoch count is stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "w, b ∈ R",
+          "justification": "The model has two scalar learned quantities, but the paper does not label this as a parameter count; it is therefore left unknown under the strict rule.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "unknown",
+          "justification": "No hardware is stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "unknown",
+          "justification": "No accelerator model is stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "unknown",
+          "justification": "No accelerator count is stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "unknown",
+          "justification": "No precision is stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "unknown",
+          "justification": "No parallelism is stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "unknown",
+          "justification": "No duration is stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "unknown",
+          "justification": "No utilization is stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "unknown",
+          "justification": "The appendix varies M and c but does not provide a complete count of all values for the main AppleRetrieval sweep.",
+          "value": []
+        }
+      },
+      {
+        "models": [],
+        "data_sources": [
+          {
+            "name": "two-state MDPs",
+            "access": "interactive",
+            "roles_in_run": [
+              "unknown"
+            ]
+          }
+        ],
+        "algorithms": [],
+        "produces": [],
+        "execution_mode": {
+          "quote": "we treat fine-tuning as the process of adjusting θ towards the gradient direction of v0(θ) until a local extremum is encountered",
+          "justification": "The paper executes parameter optimization on the toy MDP, but does not assign a named learned model or named optimization algorithm to it.",
+          "value": "finetune"
+        },
+        "epochs": {
+          "quote": "unknown",
+          "justification": "No epochs are stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "unknown",
+          "justification": "No model parameter count is stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "unknown",
+          "justification": "No hardware is stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "unknown",
+          "justification": "No accelerator is stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "unknown",
+          "justification": "No count is stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "unknown",
+          "justification": "No precision is stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "unknown",
+          "justification": "No parallelism is stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "unknown",
+          "justification": "No duration is stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "unknown",
+          "justification": "No utilization is stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "two scenarios ... state coverage gap and imperfect cloning gap",
+          "justification": "The appendix executes two parameterized scenario variants.",
+          "value": [
+            {
+              "kind": "variant",
+              "count": 2,
+              "what": "state coverage gap and imperfect cloning gap"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "usage": {
+    "input_tokens": 41248,
+    "output_tokens": 12617,
+    "total_tokens": 53865
+  }
+}

@@ -1,0 +1,1798 @@
+{
+  "paper": "69a5fde548887d403d0a5e91.txt",
+  "words": 7746,
+  "extractions": {
+    "title": {
+      "quote": "JaxPruner: A Concise Library for Sparsity Research",
+      "justification": "This is the title shown at the beginning of the paper.",
+      "value": "JaxPruner: A Concise Library for Sparsity Research"
+    },
+    "description": "Introduces the JaxPruner JAX library and empirically benchmarks dense, pruning, and sparse-training baselines across image classification, federated character recognition, language modeling, and deep reinforcement learning.",
+    "type": {
+      "quote": "We benchmark pruning and sparse training algorithms in 4 different domains and discuss them in subsequent sections",
+      "justification": "The paper implements software and reports numerical benchmark experiments, so it is empirical.",
+      "value": "empirical"
+    },
+    "research_fields": [
+      {
+        "name": {
+          "quote": "This work introduces JaxPruner, a JAX-based sparsity library for machine learning research.",
+          "justification": "The library and experiments directly advance machine-learning sparsity research.",
+          "value": "Machine learning sparsity research"
+        },
+        "aliases": [
+          "sparsity research",
+          "sparse neural networks"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "ImageNet-2012 image classification using the ViT-B/16, PlainViT-S/16 and ResNet-50 architectures.",
+          "justification": "Image classification is one of the benchmark domains used to evaluate JaxPruner.",
+          "value": "Image classification"
+        },
+        "aliases": [
+          "computer vision"
+        ],
+        "role": "used"
+      },
+      {
+        "name": {
+          "quote": "Given the compute and communication constraints of the federated learning setting, pruning and sparse training are critical mechanisms to explore.",
+          "justification": "Federated learning is an evaluation setting in which the paper benchmarks server-side pruning.",
+          "value": "Federated learning"
+        },
+        "aliases": [],
+        "role": "used"
+      },
+      {
+        "name": {
+          "quote": "C4 language modelling using the T5-Base encoder-decoder transformer architecture",
+          "justification": "Language modeling is one of the benchmark domains used by the paper.",
+          "value": "Language modeling"
+        },
+        "aliases": [
+          "LM"
+        ],
+        "role": "used"
+      },
+      {
+        "name": {
+          "quote": "Deep Reinforcement Learning on Atari",
+          "justification": "Deep reinforcement learning is used as a benchmark domain for sparse DQN experiments.",
+          "value": "Deep reinforcement learning"
+        },
+        "aliases": [
+          "Deep RL"
+        ],
+        "role": "used"
+      }
+    ],
+    "models": [
+      {
+        "name": {
+          "quote": "ViT-B/16",
+          "justification": "The paper trains this named architecture on ImageNet-2012.",
+          "value": "ViT-B/16"
+        },
+        "aliases": [
+          "ViT-B16"
+        ],
+        "is_contributed": {
+          "quote": "using the ViT-B/16 [37]",
+          "justification": "It is attributed to prior work rather than introduced here.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We apply JaxPruner algorithms to train 80% sparse ViT-B/16",
+          "justification": "The paper explicitly trained the model.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Table 3: ImageNet-2012 validation accuracies of sparse ViT-B/16 models with different sparsity structures",
+          "justification": "Numerical results compare algorithms and structures on this model.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "We apply JaxPruner algorithms to train 80% sparse ViT-B/16",
+          "justification": "The model was trained in this paper.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "An image is worth 16x16 words: Transformers for image recognition at scale.",
+          "justification": "Reference [37] is the cited model paper.",
+          "value": "An image is worth 16x16 words: Transformers for image recognition at scale."
+        }
+      },
+      {
+        "name": {
+          "quote": "PlainViT-S/16 (PViT)",
+          "justification": "The paper gives the architecture name and abbreviation together.",
+          "value": "PlainViT-S/16"
+        },
+        "aliases": [
+          "PViT",
+          "PlainViT-S16"
+        ],
+        "is_contributed": {
+          "quote": "PlainViT-S/16 [38]",
+          "justification": "It is attributed to prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We apply JaxPruner algorithms to train 80% sparse ViT-B/16, PlainViT-S/16 (PViT) and ResNet-50 models.",
+          "justification": "The paper explicitly trained it.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "PViT-S/16+",
+          "justification": "Table 1 numerically compares dense and sparse algorithms for this model.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "we train sparse models using the improved ViT recipe (PlainViT [38])",
+          "justification": "The model was trained in the experiments.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "Better plain vit baselines for imagenet-1k.",
+          "justification": "Reference [38] is the cited model/recipe paper.",
+          "value": "Better plain vit baselines for imagenet-1k."
+        }
+      },
+      {
+        "name": {
+          "quote": "ResNet-50",
+          "justification": "This named architecture is trained in the image-classification experiments.",
+          "value": "ResNet-50"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "ResNet-50 [39]",
+          "justification": "It is cited from prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We train 80% sparse ResNet-50 models on ImageNet",
+          "justification": "The paper explicitly trained it.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "ResNet-50",
+          "justification": "Table 1 gives numerical results for dense and multiple sparse algorithms.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "We train 80% sparse ResNet-50 models on ImageNet",
+          "justification": "The model was trained.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "Deep residual learning for image recognition.",
+          "justification": "Reference [39] is the cited ResNet paper.",
+          "value": "Deep residual learning for image recognition."
+        }
+      },
+      {
+        "name": {
+          "quote": "a CNN with dropout",
+          "justification": "This is the paper's name/description for the learned federated EMNIST model.",
+          "value": "CNN with dropout"
+        },
+        "aliases": [
+          "CNN"
+        ],
+        "is_contributed": {
+          "quote": "using a CNN with dropout [41]",
+          "justification": "The architecture/task setup is taken from prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We test the effect of various pruning algorithms on the federated EMNIST character recognition benchmark, using the model architecture and task setup presented in Reddi et al. [41].",
+          "justification": "The model was executed in the federated experiments.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Fed. MNIST",
+          "justification": "Table 1 compares dense and sparse methods numerically for this model/task.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "Each experiment is run for 1000 federated rounds, in which 50 clients are sampled and complete a single epoch of training",
+          "justification": "The CNN was trained federatively.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "Adaptive federated optimization.",
+          "justification": "Reference [41] supplies the architecture and task setup.",
+          "value": "Adaptive federated optimization."
+        }
+      },
+      {
+        "name": {
+          "quote": "T5-base (220M parameter) model",
+          "justification": "The paper explicitly names the scale and model used in language modeling.",
+          "value": "T5-base"
+        },
+        "aliases": [
+          "T5-Base",
+          "T5 encoder-decoder LM model"
+        ],
+        "is_contributed": {
+          "quote": "a T5 encoder-decoder LM model [43]",
+          "justification": "It is a prior model, not introduced by this paper.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We train from scratch a T5-base (220M parameter) model",
+          "justification": "The paper explicitly trained it.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "For T5-Base, we report per token cross entropy loss on the C4 validation split.",
+          "justification": "Table 1 compares multiple sparse algorithms and the dense baseline numerically.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "We train from scratch a T5-base (220M parameter) model",
+          "justification": "It was trained from scratch.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "Exploring the limits of transfer learning with a unified text-to-text transformer.",
+          "justification": "Reference [43] is the cited T5 paper.",
+          "value": "Exploring the limits of transfer learning with a unified text-to-text transformer."
+        }
+      },
+      {
+        "name": {
+          "quote": "DQN agent",
+          "justification": "This is the executed reinforcement-learning model/agent.",
+          "value": "DQN"
+        },
+        "aliases": [
+          "DQN agent"
+        ],
+        "is_contributed": {
+          "quote": "a DQN agent [44]",
+          "justification": "DQN is attributed to prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we choose MsPacman and DQN for our experiments.",
+          "justification": "The paper executed DQN in its experiments.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "DQN experiments report average returns on MsPacman environment.",
+          "justification": "Table 1 numerically compares dense and sparse DQN variants.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "We ran our experiments for 40M frames, 5 independent seeds",
+          "justification": "DQN was trained online in the environment.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "Human-level control through deep reinforcement learning.",
+          "justification": "Reference [44] is the cited DQN paper.",
+          "value": "Human-level control through deep reinforcement learning."
+        }
+      }
+    ],
+    "data_sources": [
+      {
+        "name": {
+          "quote": "ImageNet-2012",
+          "justification": "This named dataset is used for image classification.",
+          "value": "ImageNet-2012"
+        },
+        "aliases": [
+          "ImageNet",
+          "ImageNet-1k"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "",
+          "justification": "The paper does not state how many ImageNet samples were used.",
+          "value": "unknown"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "Imagenet large scale visual recognition challenge.",
+          "justification": "Reference [36] is the cited dataset paper.",
+          "value": "Imagenet large scale visual recognition challenge."
+        }
+      },
+      {
+        "name": {
+          "quote": "federated EMNIST character recognition benchmark",
+          "justification": "The named federated EMNIST source is used in the federated experiments.",
+          "value": "Federated EMNIST"
+        },
+        "aliases": [
+          "Fed. MNIST",
+          "EMNIST"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "",
+          "justification": "The paper gives clients sampled per round but not the total number of dataset samples used.",
+          "value": "unknown"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "EMNIST: an extension of MNIST to handwritten letters.",
+          "justification": "Reference [40] is the cited EMNIST paper.",
+          "value": "EMNIST: an extension of MNIST to handwritten letters."
+        }
+      },
+      {
+        "name": {
+          "quote": "the C4 dataset",
+          "justification": "C4 is the named corpus used for T5 training and validation.",
+          "value": "C4"
+        },
+        "aliases": [],
+        "role": "used",
+        "size": {
+          "quote": "",
+          "justification": "No corpus sample count is stated.",
+          "value": "unknown"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "The text provides a TensorFlow Datasets URL but does not identify a separate dataset reference title.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "the MsPacman Atari 2600 game",
+          "justification": "This named interactive game environment supplies observations and rewards to DQN.",
+          "value": "MsPacman Atari 2600 game"
+        },
+        "aliases": [
+          "MsPacman",
+          "MsPacman environment"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "",
+          "justification": "An interactive environment has no fixed sample count stated by the paper.",
+          "value": "unknown"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "The arcade learning environment: An evaluation platform for general agents.",
+          "justification": "Reference [45] is the cited Atari environment paper.",
+          "value": "The arcade learning environment: An evaluation platform for general agents."
+        }
+      }
+    ],
+    "libraries": [
+      {
+        "name": {
+          "quote": "This work introduces JaxPruner, a JAX-based sparsity library",
+          "justification": "JaxPruner is the paper's contributed software artifact.",
+          "value": "JaxPruner"
+        },
+        "aliases": [
+          "jaxpruner"
+        ],
+        "role": "contributed",
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "JaxPruner is introduced by this paper itself.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "a JAX-based sparsity library",
+          "justification": "JAX is the underlying framework used by JaxPruner and all integrations.",
+          "value": "JAX"
+        },
+        "aliases": [],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "JAX: composable transformations of Python+NumPy programs",
+          "justification": "Reference [3] names the JAX software artifact.",
+          "value": "JAX: composable transformations of Python+NumPy programs"
+        }
+      },
+      {
+        "name": {
+          "quote": "works seamlessly with Optax, a widely-used optimization library in JAX",
+          "justification": "Optax is explicitly integrated and used to hold optimization and pruning state.",
+          "value": "Optax"
+        },
+        "aliases": [],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "The DeepMind JAX Ecosystem",
+          "justification": "Reference [10] is cited for Optax.",
+          "value": "The DeepMind JAX Ecosystem"
+        }
+      },
+      {
+        "name": {
+          "quote": "we integrate JaxPruner with Scenic [29]",
+          "justification": "Scenic is explicitly used for image-classification experiments.",
+          "value": "Scenic"
+        },
+        "aliases": [],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "Scenic: A jax library for computer vision research and beyond.",
+          "justification": "Reference [29] is the Scenic paper.",
+          "value": "Scenic: A jax library for computer vision research and beyond."
+        }
+      },
+      {
+        "name": {
+          "quote": "We also build a JaxPruner integration with the t5x library [30]",
+          "justification": "t5x is explicitly used for T5 experiments.",
+          "value": "t5x"
+        },
+        "aliases": [
+          "T5X"
+        ],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "Scaling up models and data with t5x and seqio.",
+          "justification": "Reference [30] is the t5x paper.",
+          "value": "Scaling up models and data with t5x and seqio."
+        }
+      },
+      {
+        "name": {
+          "quote": "Dopamine [31] library provides stable and comprehensive implementations for various Deep RL algorithms in JAX. We integrate JaxPruner with Dopamine",
+          "justification": "Dopamine is explicitly used for DQN experiments.",
+          "value": "Dopamine"
+        },
+        "aliases": [],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "Dopamine: A Research Framework for Deep Reinforcement Learning.",
+          "justification": "Reference [31] is the Dopamine paper.",
+          "value": "Dopamine: A Research Framework for Deep Reinforcement Learning."
+        }
+      },
+      {
+        "name": {
+          "quote": "FedJAX [6] supports federated learning research through JAX-based federated algorithm design and simulation, and can easily be integrated with JaxPruner",
+          "justification": "FedJAX is explicitly used for federated experiments.",
+          "value": "FedJAX"
+        },
+        "aliases": [],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "FedJAX: Federated learning simulation with JAX.",
+          "justification": "Reference [6] is the FedJAX paper.",
+          "value": "FedJAX: Federated learning simulation with JAX."
+        }
+      }
+    ],
+    "algorithms": [
+      {
+        "name": {
+          "quote": "Gradual Pruning with random (Rand), saliency (Sal) [32] and weight magnitude (Mag) [19] criteria.",
+          "justification": "This named baseline family is implemented and run.",
+          "value": "Gradual Pruning"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "We implement the following set of algorithms as a representative set of baselines",
+          "justification": "The algorithms are implemented as prior baselines, not newly proposed algorithms.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We benchmark pruning and sparse training algorithms",
+          "justification": "The baseline is executed in the benchmarks.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Rand Mag Sal Mag-G STE",
+          "justification": "Table 1 numerically compares its variants with other methods.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "Gradual Pruning with random (Rand), saliency (Sal) [32] and weight magnitude (Mag) [19] criteria.",
+          "justification": "This wording states its role and criteria.",
+          "value": "a representative pruning baseline with random, saliency, and weight magnitude criteria"
+        },
+        "composed_of": [
+          "Rand",
+          "Sal",
+          "Mag"
+        ],
+        "referenced_paper_title": {
+          "quote": "To prune, or not to prune: Exploring the efficacy of pruning for model compression.",
+          "justification": "Reference [19] is cited for magnitude gradual pruning.",
+          "value": "To prune, or not to prune: Exploring the efficacy of pruning for model compression."
+        }
+      },
+      {
+        "name": {
+          "quote": "random (Rand)",
+          "justification": "The exact abbreviation is given as a pruning criterion.",
+          "value": "Rand"
+        },
+        "aliases": [
+          "random"
+        ],
+        "is_contributed": {
+          "quote": "representative set of baselines",
+          "justification": "It is a baseline rather than a contribution.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Rand",
+          "justification": "It appears in the benchmark results table.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Rand Mag Sal Mag-G STE",
+          "justification": "It is numerically compared in Table 1.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "Gradual Pruning with random (Rand)",
+          "justification": "The paper uses it as the random criterion for gradual pruning.",
+          "value": "random criterion for Gradual Pruning"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "No separate reference is attached to Rand in the baseline list.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "saliency (Sal) [32]",
+          "justification": "The exact abbreviation is given as a pruning criterion.",
+          "value": "Sal"
+        },
+        "aliases": [
+          "saliency"
+        ],
+        "is_contributed": {
+          "quote": "representative set of baselines",
+          "justification": "It is a prior baseline.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Sal",
+          "justification": "It appears in benchmark results.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Rand Mag Sal Mag-G STE",
+          "justification": "It is numerically compared in Table 1.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "Gradual Pruning with ... saliency (Sal)",
+          "justification": "It is the saliency criterion for gradual pruning.",
+          "value": "saliency criterion for Gradual Pruning"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Pruning Convolutional Neural Networks for Resource Efficient Transfer Learning.",
+          "justification": "Reference [32] is cited for the saliency method.",
+          "value": "Pruning Convolutional Neural Networks for Resource Efficient Transfer Learning."
+        }
+      },
+      {
+        "name": {
+          "quote": "weight magnitude (Mag) [19]",
+          "justification": "The exact abbreviation is supplied by the paper.",
+          "value": "Mag"
+        },
+        "aliases": [
+          "weight magnitude"
+        ],
+        "is_contributed": {
+          "quote": "representative set of baselines",
+          "justification": "It is a prior baseline.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Mag",
+          "justification": "It appears in the reported benchmark results.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Rand Mag Sal Mag-G STE",
+          "justification": "It is compared numerically.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "Gradual Pruning with ... weight magnitude (Mag)",
+          "justification": "It is the weight-magnitude criterion for gradual pruning.",
+          "value": "weight magnitude criterion for Gradual Pruning"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "To prune, or not to prune: Exploring the efficacy of pruning for model compression.",
+          "justification": "Reference [19] is cited for this method.",
+          "value": "To prune, or not to prune: Exploring the efficacy of pruning for model compression."
+        }
+      },
+      {
+        "name": {
+          "quote": "global pruning with the weight magnitude criterion ... (Mag-G)",
+          "justification": "This is the paper's exact name and abbreviation.",
+          "value": "Mag-G"
+        },
+        "aliases": [
+          "global magnitude pruning"
+        ],
+        "is_contributed": {
+          "quote": "representative set of baselines",
+          "justification": "It is presented as an implemented baseline.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Mag-G",
+          "justification": "It appears in the benchmark tables.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Rand Mag Sal Mag-G STE",
+          "justification": "It is compared numerically.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "pruning criterion is applied to all parameters at once",
+          "justification": "This is the paper's description of its role.",
+          "value": "pruning criterion is applied to all parameters at once"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "No distinct reference title is attached to Mag-G.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "Straight Through Estimator with top-k weight magnitude selection (STE)",
+          "justification": "This is the exact algorithm name and abbreviation.",
+          "value": "Straight Through Estimator with top-k weight magnitude selection (STE)"
+        },
+        "aliases": [
+          "STE",
+          "Magnitude STE"
+        ],
+        "is_contributed": {
+          "quote": "representative set of baselines",
+          "justification": "It is based on prior straight-through gradients, not introduced as a new algorithm.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "In our experiments, however, we use the polynomial schedule",
+          "justification": "The paper explicitly executes STE in experiments.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "STE outperforms other pruning algorithm",
+          "justification": "It is compared numerically against other algorithms.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "parameters are projected into a sparse sub-space before the forward pass. Then gradients are calculated for all parameters and applied to the original set of dense parameters.",
+          "justification": "This is the paper's own operational description.",
+          "value": "parameters are projected into a sparse sub-space before the forward pass; gradients are calculated for all parameters and applied to the original dense parameters"
+        },
+        "composed_of": [
+          "top-k weight magnitude selection",
+          "polynomial schedule"
+        ],
+        "referenced_paper_title": {
+          "quote": "Estimating or propagating gradients through stochastic neurons for conditional computation.",
+          "justification": "Reference [33] is cited for straight-through gradients.",
+          "value": "Estimating or propagating gradients through stochastic neurons for conditional computation."
+        }
+      },
+      {
+        "name": {
+          "quote": "static sparse training (Static)",
+          "justification": "The exact method name and abbreviation are stated.",
+          "value": "Static"
+        },
+        "aliases": [
+          "static sparse training"
+        ],
+        "is_contributed": {
+          "quote": "representative set of baselines",
+          "justification": "It is an implemented baseline.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Static",
+          "justification": "It appears in Table 1 results.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Static SET RigL",
+          "justification": "It is numerically compared in Table 1.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "Sparse Training including static sparse training (Static)",
+          "justification": "The paper identifies it as a sparse-training baseline.",
+          "value": "static sparse training"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "No unique citation is attached directly to Static.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "dynamic sparse training with random (SET) [18]",
+          "justification": "The paper states the method and abbreviation.",
+          "value": "SET"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "representative set of baselines",
+          "justification": "It is a prior baseline.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "SET",
+          "justification": "It appears in the benchmark results.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Static SET RigL",
+          "justification": "It is compared numerically.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "dynamic sparse training with random (SET) ... growth",
+          "justification": "This is its stated role.",
+          "value": "dynamic sparse training with random growth"
+        },
+        "composed_of": [
+          "cosine decay"
+        ],
+        "referenced_paper_title": {
+          "quote": "Scalable training of artificial neural networks with adaptive sparse connectivity inspired by network science.",
+          "justification": "Reference [18] is cited for SET.",
+          "value": "Scalable training of artificial neural networks with adaptive sparse connectivity inspired by network science."
+        }
+      },
+      {
+        "name": {
+          "quote": "gradient based (RigL) [34] growth",
+          "justification": "The exact abbreviation used in the paper is RigL.",
+          "value": "RigL"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "representative set of baselines",
+          "justification": "It is a prior baseline.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "RigL",
+          "justification": "It appears in all major benchmark comparisons.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Static SET RigL",
+          "justification": "It is compared numerically.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "dynamic sparse training with ... gradient based (RigL) growth",
+          "justification": "This is the paper's stated role.",
+          "value": "dynamic sparse training with gradient based growth"
+        },
+        "composed_of": [
+          "cosine decay"
+        ],
+        "referenced_paper_title": {
+          "quote": "Rigging the lottery: Making all tickets winners.",
+          "justification": "Reference [34] is the cited RigL paper.",
+          "value": "Rigging the lottery: Making all tickets winners."
+        }
+      },
+      {
+        "name": {
+          "quote": "polynomial schedule [19]",
+          "justification": "This named scheduling procedure is explicitly used in experiments.",
+          "value": "polynomial schedule"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "We implement common scheduling functions: one-shot, periodic, polynomial schedule [19].",
+          "justification": "It is a prior common schedule.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "In our experiments, however, we use the polynomial schedule used by the gradual pruning algorithms",
+          "justification": "The experiments explicitly execute it.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "",
+          "justification": "The schedule itself is not isolated as a numerical comparison target.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "we use the polynomial schedule used by the gradual pruning algorithms",
+          "justification": "This states its experimental role.",
+          "value": "used by STE and the gradual pruning algorithms to increase sparsity during training"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "To prune, or not to prune: Exploring the efficacy of pruning for model compression.",
+          "justification": "Reference [19] is cited for the schedule.",
+          "value": "To prune, or not to prune: Exploring the efficacy of pruning for model compression."
+        }
+      },
+      {
+        "name": {
+          "quote": "uniform sparsity distribution",
+          "justification": "Uniform is a named sparsity-allocation procedure used in experiments.",
+          "value": "uniform sparsity distribution"
+        },
+        "aliases": [
+          "Uniform"
+        ],
+        "is_contributed": {
+          "quote": "We implement some of the most common sparsity distributions like uniform and erk.",
+          "justification": "It is a common existing distribution.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We use a uniform sparsity distribution in our ViT experiments",
+          "justification": "It is explicitly used.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "How does ERK compare to uniform sparsity distribution?",
+          "justification": "Table 5 compares Uniform and ERK numerically.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "uses the same target sparsity for each layer",
+          "justification": "This is the paper's definition of its role.",
+          "value": "uses the same target sparsity for each layer"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "No unique reference title is attached to Uniform.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "Erdos-Renyi-Kernel (ERK) [18]",
+          "justification": "The paper provides this exact name and abbreviation.",
+          "value": "Erdos-Renyi-Kernel (ERK)"
+        },
+        "aliases": [
+          "ERK",
+          "erk"
+        ],
+        "is_contributed": {
+          "quote": "We implement some of the most common sparsity distributions like uniform and erk.",
+          "justification": "It is cited as a prior common distribution.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We apply sparsity to the existing model using the ERK distributions",
+          "justification": "It is used in the DQN and federated experiments and compared elsewhere.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Effect of uniform and non-proportional sparsity distributions",
+          "justification": "Table 5 compares it with Uniform.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "adjust sparsity at every layer proportionally to the sum of its dimensions",
+          "justification": "This is the paper's description.",
+          "value": "adjust sparsity at every layer proportionally to the sum of its dimensions"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Scalable training of artificial neural networks with adaptive sparse connectivity inspired by network science.",
+          "justification": "Reference [18] is cited for ERK.",
+          "value": "Scalable training of artificial neural networks with adaptive sparse connectivity inspired by network science."
+        }
+      },
+      {
+        "name": {
+          "quote": "Adam",
+          "justification": "Adam is explicitly used as an optimizer in the experiments.",
+          "value": "Adam"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "Adam [16]",
+          "justification": "It is attributed to prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We train from scratch a T5-base ... with the Adam optimizer",
+          "justification": "It is explicitly executed for T5 and on the federated server.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "",
+          "justification": "Adam is not numerically compared against another optimizer.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "with the Adam optimizer",
+          "justification": "It is the parameter update rule for T5 and the federated server.",
+          "value": "optimizer for T5 training and the server optimization step"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Adam: A method for stochastic optimization.",
+          "justification": "References [16] and [48] cite the Adam paper.",
+          "value": "Adam: A method for stochastic optimization."
+        }
+      },
+      {
+        "name": {
+          "quote": "SGD",
+          "justification": "SGD is explicitly used on federated clients.",
+          "value": "SGD"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "we use SGD on clients",
+          "justification": "It is used as a standard optimizer rather than introduced.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "For optimizers, we use SGD on clients and Adam on the server.",
+          "justification": "It is explicitly executed.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "",
+          "justification": "It is not numerically compared with another client optimizer.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "we use SGD on clients",
+          "justification": "This directly states the role.",
+          "value": "optimizer on federated clients"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "No SGD reference is supplied.",
+          "value": "unknown"
+        }
+      }
+    ],
+    "runs": [
+      {
+        "models": [
+          {
+            "name": "ResNet-50",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "ImageNet-2012",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Gradual Pruning"
+          },
+          {
+            "name": "Rand"
+          },
+          {
+            "name": "Sal"
+          },
+          {
+            "name": "Mag"
+          },
+          {
+            "name": "Mag-G"
+          },
+          {
+            "name": "Straight Through Estimator with top-k weight magnitude selection (STE)"
+          },
+          {
+            "name": "Static"
+          },
+          {
+            "name": "SET"
+          },
+          {
+            "name": "RigL"
+          },
+          {
+            "name": "polynomial schedule"
+          },
+          {
+            "name": "uniform sparsity distribution"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "We train 80% sparse ResNet-50 models on ImageNet",
+          "justification": "This is a training run.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "",
+          "justification": "No ResNet-50 epoch count is stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "",
+          "justification": "No parameter count is stated for the executed ResNet-50 configuration.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "",
+          "justification": "Hardware is not reported.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "",
+          "justification": "No accelerator model is reported.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "",
+          "justification": "No accelerator count is reported.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Numerical precision is not reported.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "No parallelism strategy is reported for this run.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "No run duration is reported.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "No hardware utilization is reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "",
+          "justification": "Table uncertainties do not state the number of trials for this run, and no repetition count is given.",
+          "value": []
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "ViT-B/16",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "ImageNet-2012",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Gradual Pruning"
+          },
+          {
+            "name": "Mag"
+          },
+          {
+            "name": "Mag-G"
+          },
+          {
+            "name": "Straight Through Estimator with top-k weight magnitude selection (STE)"
+          },
+          {
+            "name": "RigL"
+          },
+          {
+            "name": "polynomial schedule"
+          },
+          {
+            "name": "uniform sparsity distribution"
+          },
+          {
+            "name": "Erdos-Renyi-Kernel (ERK)"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "We apply JaxPruner algorithms to train 80% sparse ViT-B/16",
+          "justification": "This is a model-training configuration.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "the shorter, 90 epoch, training runs (ViT-B16)",
+          "justification": "The paper explicitly states 90 epochs for this configuration.",
+          "value": "90"
+        },
+        "parameter_count": {
+          "quote": "",
+          "justification": "No parameter count is stated for ViT-B/16.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "",
+          "justification": "Hardware is not reported.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "",
+          "justification": "No accelerator model is reported.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "",
+          "justification": "No accelerator count is reported.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Precision is not reported.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "No parallelism strategy is stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "No duration is stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "No utilization figure is stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "we ran experiments with these different sparsity structures (types) using 2 different algorithms",
+          "justification": "The structure study explicitly varies eight listed structures and two algorithms; these are independent experimental-variant factors rather than sample counts.",
+          "value": [
+            {
+              "kind": "variant",
+              "count": 8,
+              "what": "different sparsity structures (types)"
+            },
+            {
+              "kind": "variant",
+              "count": 2,
+              "what": "different algorithms"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "ViT-B/16",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "ImageNet-2012",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Gradual Pruning"
+          },
+          {
+            "name": "Rand"
+          },
+          {
+            "name": "Sal"
+          },
+          {
+            "name": "Mag"
+          },
+          {
+            "name": "Mag-G"
+          },
+          {
+            "name": "Straight Through Estimator with top-k weight magnitude selection (STE)"
+          },
+          {
+            "name": "Static"
+          },
+          {
+            "name": "SET"
+          },
+          {
+            "name": "RigL"
+          },
+          {
+            "name": "polynomial schedule"
+          },
+          {
+            "name": "uniform sparsity distribution"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "when we increase the number of training epochs to 300 (ViT-B16+)",
+          "justification": "This is the extended training configuration.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "increase the number of training epochs to 300 (ViT-B16+)",
+          "justification": "The paper explicitly states 300 epochs.",
+          "value": "300"
+        },
+        "parameter_count": {
+          "quote": "",
+          "justification": "No parameter count is stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "",
+          "justification": "Hardware is not reported.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "",
+          "justification": "No accelerator model is reported.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "",
+          "justification": "No accelerator count is reported.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Precision is not reported.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "No parallelism strategy is stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "No duration is stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "No utilization is stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "",
+          "justification": "No repetition count is stated for this configuration.",
+          "value": []
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "PlainViT-S/16",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "ImageNet-2012",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Gradual Pruning"
+          },
+          {
+            "name": "Rand"
+          },
+          {
+            "name": "Sal"
+          },
+          {
+            "name": "Mag"
+          },
+          {
+            "name": "Mag-G"
+          },
+          {
+            "name": "Straight Through Estimator with top-k weight magnitude selection (STE)"
+          },
+          {
+            "name": "Static"
+          },
+          {
+            "name": "SET"
+          },
+          {
+            "name": "RigL"
+          },
+          {
+            "name": "polynomial schedule"
+          },
+          {
+            "name": "uniform sparsity distribution"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "we train sparse models using the improved ViT recipe (PlainViT [38])",
+          "justification": "This is a training run.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "",
+          "justification": "The PlainViT epoch count is not explicitly stated in the supplied text.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "",
+          "justification": "No parameter count is stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "",
+          "justification": "Hardware is not reported.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "",
+          "justification": "No accelerator model is reported.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "",
+          "justification": "No accelerator count is reported.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Precision is not reported.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "No parallelism strategy is stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "No duration is stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "No utilization is stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "",
+          "justification": "No repetition count is stated.",
+          "value": []
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "CNN with dropout",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Federated EMNIST",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Gradual Pruning"
+          },
+          {
+            "name": "Rand"
+          },
+          {
+            "name": "Sal"
+          },
+          {
+            "name": "Mag"
+          },
+          {
+            "name": "Mag-G"
+          },
+          {
+            "name": "Straight Through Estimator with top-k weight magnitude selection (STE)"
+          },
+          {
+            "name": "Static"
+          },
+          {
+            "name": "SET"
+          },
+          {
+            "name": "RigL"
+          },
+          {
+            "name": "polynomial schedule"
+          },
+          {
+            "name": "Erdos-Renyi-Kernel (ERK)"
+          },
+          {
+            "name": "SGD"
+          },
+          {
+            "name": "Adam"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "Each experiment is run for 1000 federated rounds, in which 50 clients are sampled and complete a single epoch of training",
+          "justification": "The federated CNN is trained.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "1000 federated rounds, in which 50 clients are sampled and complete a single epoch of training on their data",
+          "justification": "The paper reports one local epoch per sampled client in each of 1000 rounds.",
+          "value": "1 client epoch per round for 1000 federated rounds"
+        },
+        "parameter_count": {
+          "quote": "",
+          "justification": "No parameter count is stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "",
+          "justification": "Hardware is not reported.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "",
+          "justification": "No accelerator model is reported.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "",
+          "justification": "No accelerator count is reported.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Precision is not reported.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "No hardware parallelism strategy is stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "No wall-clock or chip-time duration is reported.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "No utilization is reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "All results reported are the average final accuracy on the evaluation dataset across five random trials.",
+          "justification": "The experiments were repeated across five random trials.",
+          "value": [
+            {
+              "kind": "seed",
+              "count": 5,
+              "what": "random trials"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "T5-base",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "C4",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Gradual Pruning"
+          },
+          {
+            "name": "Rand"
+          },
+          {
+            "name": "Sal"
+          },
+          {
+            "name": "Mag"
+          },
+          {
+            "name": "Mag-G"
+          },
+          {
+            "name": "Straight Through Estimator with top-k weight magnitude selection (STE)"
+          },
+          {
+            "name": "Static"
+          },
+          {
+            "name": "SET"
+          },
+          {
+            "name": "RigL"
+          },
+          {
+            "name": "polynomial schedule"
+          },
+          {
+            "name": "uniform sparsity distribution"
+          },
+          {
+            "name": "Erdos-Renyi-Kernel (ERK)"
+          },
+          {
+            "name": "Adam"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "We train from scratch a T5-base (220M parameter) model",
+          "justification": "This is explicitly training from scratch.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "",
+          "justification": "No epoch count is reported.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "T5-base (220M parameter) model",
+          "justification": "The paper explicitly states the executed model's parameter count.",
+          "value": "220M"
+        },
+        "accelerator_type": {
+          "quote": "",
+          "justification": "Hardware is not reported.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "",
+          "justification": "No accelerator model is reported.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "",
+          "justification": "No accelerator count is reported.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Precision is not reported.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "No parallelism strategy is stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "No duration is stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "No utilization is stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "",
+          "justification": "No repetition count is stated for the T5 experiments.",
+          "value": []
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "DQN",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "MsPacman Atari 2600 game",
+            "access": "interactive",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Gradual Pruning"
+          },
+          {
+            "name": "Rand"
+          },
+          {
+            "name": "Mag"
+          },
+          {
+            "name": "Sal"
+          },
+          {
+            "name": "Straight Through Estimator with top-k weight magnitude selection (STE)"
+          },
+          {
+            "name": "Static"
+          },
+          {
+            "name": "SET"
+          },
+          {
+            "name": "RigL"
+          },
+          {
+            "name": "polynomial schedule"
+          },
+          {
+            "name": "Erdos-Renyi-Kernel (ERK)"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "We ran our experiments for 40M frames, 5 independent seeds",
+          "justification": "The DQN agent is trained online in MsPacman.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "",
+          "justification": "The run is measured in frames rather than stated epochs.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "",
+          "justification": "No parameter count is stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "",
+          "justification": "Hardware is not reported.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "",
+          "justification": "No accelerator model is reported.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "",
+          "justification": "No accelerator count is reported.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Precision is not reported.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "No parallelism strategy is stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "40M frames is workload, not elapsed/chip time; no duration is given.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "No utilization is stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "5 independent seeds",
+          "justification": "The paper explicitly reports five independent seeds.",
+          "value": [
+            {
+              "kind": "seed",
+              "count": 5,
+              "what": "independent seeds"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "usage": {
+    "input_tokens": 27381,
+    "output_tokens": 9522,
+    "total_tokens": 36903
+  }
+}

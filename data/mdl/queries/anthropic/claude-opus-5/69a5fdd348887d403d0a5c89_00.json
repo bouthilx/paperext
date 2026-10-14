@@ -1,0 +1,1890 @@
+{
+  "paper": "69a5fdd348887d403d0a5c89.txt",
+  "words": 12151,
+  "extractions": {
+    "title": {
+      "quote": "Neural Semantic Surface Maps",
+      "justification": "Title at top of paper.",
+      "value": "Neural Semantic Surface Maps"
+    },
+    "description": "The paper presents an automatic method to compute semantic inter-surface maps between two genus-zero 3D shapes. It renders untextured shapes from multiple viewpoints, extracts semantic correspondences using pre-trained DinoV2 vision transformer features, lifts these to 3D as fuzzy matches, and distills them into a bijective, continuous inter-surface map via a seamless extension of Neural Surface Maps (sNSM), optimized with PyTorch's SGD. Evaluated on FAUST, SHREC07, SHREC19 and other datasets against BIM, ZoomOut, Smooth-shells, ICP, ENIGMA, and SMAT.",
+    "type": {
+      "quote": "Through quantitative and qualitative experiments, we evaluate our ability to match upright object pairs with varying levels of isometry",
+      "justification": "The paper proposes a method and evaluates it experimentally.",
+      "value": "empirical"
+    },
+    "research_fields": [
+      {
+        "name": {
+          "quote": "• Computing methodologies → Shape analysis; Mesh geometry models; Feature selection;",
+          "justification": "CCS concepts and the problem of inter-surface mapping.",
+          "value": "Shape analysis / geometry processing"
+        },
+        "aliases": [
+          "geometry processing",
+          "shape correspondence"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "arXiv:2309.04836v3 [cs.CV]",
+          "justification": "arXiv category and the use of pre-trained vision transformers.",
+          "value": "Computer Vision"
+        },
+        "aliases": [
+          "cs.CV"
+        ],
+        "role": "used"
+      },
+      {
+        "name": {
+          "quote": "Continuous surfaces (2-manifolds), encoded as triangular meshes, remain the most natural and common representation of 3D shapes in graphics and discrete differential geometry.",
+          "justification": "The work is framed in graphics (mesh geometry models, rendering).",
+          "value": "Computer Graphics"
+        },
+        "aliases": [
+          "graphics"
+        ],
+        "role": "contributed"
+      }
+    ],
+    "models": [
+      {
+        "name": {
+          "quote": "We rely only on DinoV2 [ODM∗03] to extract fuzzy features from shape renderings to produce point-level (rather than part-level) correspondence priors.",
+          "justification": "Pre-trained ViT used to extract features from renderings.",
+          "value": "DinoV2"
+        },
+        "aliases": [
+          "Dinov2",
+          "DinoViT2",
+          "Dino-ViT",
+          "ViT"
+        ],
+        "is_contributed": {
+          "quote": "Recently, Oquab et al. [ODM∗23] extended Dino-ViT, introducing Dinov2",
+          "justification": "Pre-existing pre-trained model.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Dinov2 [ODM∗23] embeds these patches in a forward pass.",
+          "justification": "Run on renderings to extract features.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "In general, DinoV2 [ODM∗23] outperforms its predecessor V1 [CTM∗21], offering more accurate and robust matches.",
+          "justification": "Compared against DinoV1 in ablation tables.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "Dinov2 [ODM∗23] embeds these patches in a forward pass.",
+          "justification": "Used only as frozen feature extractor.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "O QUAB M., DARCET T., M OUTAKANNI T., VO H., ... Dinov2: Learning robust visual features without supervision. arXiv preprint arXiv:2304.07193 (2023).",
+          "justification": "Reference entry [ODM*23].",
+          "value": "Dinov2: Learning robust visual features without supervision"
+        }
+      },
+      {
+        "name": {
+          "quote": "DinoV2 [ODM∗23] matches are significantly more accurate than DinoV1 [CTM∗21] in case of pose variation",
+          "justification": "Ablation baseline feature extractor.",
+          "value": "DinoV1"
+        },
+        "aliases": [
+          "Dino-ViT",
+          "DINO-ViT"
+        ],
+        "is_contributed": {
+          "quote": "A noteworthy example is DINOViT [CTM∗21] that trains a transformer network through selfdistillation",
+          "justification": "Pre-existing model.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Table 3: Dino ViT ablation: DinoV2 [ODM∗23] works better than its predecessor [CTM∗21]",
+          "justification": "Ablation runs with DinoV1 features were executed by the authors.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "In general, DinoV2 [ODM∗23] outperforms its predecessor V1 [CTM∗21]",
+          "justification": "Directly compared in ablation.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "we ablate the quality of matches based on DinoViT’s degrees of freedom - layer features",
+          "justification": "Used as frozen feature extractor.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "C ARON M., T OUVRON H., M ISRA I., J ÉGOU H., M AIRAL J., B OJANOWSKI P., J OULIN A.: Emerging properties in self-supervised vision transformers.",
+          "justification": "Reference [CTM*21].",
+          "value": "Emerging properties in self-supervised vision transformers"
+        }
+      },
+      {
+        "name": {
+          "quote": "we utilize Neural Surface Maps (NSM) [MAKM21] to optimize a map between two surfaces.",
+          "justification": "The neural surface representation and mapping framework used.",
+          "value": "Neural Surface Maps (NSM)"
+        },
+        "aliases": [
+          "NSM"
+        ],
+        "is_contributed": {
+          "quote": "Neural Surface Maps [MAKM21] defines the general mapping framework used to optimize maps.",
+          "justification": "Prior work framework extended here.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "ANSM ← OVERFIT NSM(Adisk ) ;",
+          "justification": "Neural surfaces are fitted in the pipeline.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Following the original work, the input two shapes must be homomorphic to a disk with their boundary in correspondence.",
+          "justification": "Not numerically compared; extended.",
+          "value": false
+        },
+        "execution_mode": {
+          "quote": "we fit a neural network to each of the two parameterizations’ inverse, fA ≈ PA−1 , fB ≈ PB−1",
+          "justification": "Networks are overfitted to surfaces.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "M ORREALE L., A IGERMAN N., K IM V. G., M ITRA N. J.: Neural surface maps.",
+          "justification": "Reference [MAKM21].",
+          "value": "Neural surface maps"
+        }
+      },
+      {
+        "name": {
+          "quote": "We address the first problem by proposing a seamless Neural Surface Maps (sNSM) framework, which relaxes the requirement from exact boundary correspondences to only cone-point matchings.",
+          "justification": "The contributed neural map model h.",
+          "value": "seamless Neural Surface Maps (sNSM)"
+        },
+        "aliases": [
+          "sNSM"
+        ],
+        "is_contributed": {
+          "quote": "extending Neural Surface Maps framework to seamless maps that can work with fuzzy, and potentially noisy guidance, to distill semantic maps",
+          "justification": "Stated contribution.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "map ← DISTIL M AP(ANSM , BNSM , fuzzyMatches) ;",
+          "justification": "Optimized in all experiments.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Ours 0.00 0.00 0.13 0.00 0.00 0.23 0.00 0.00 0.11",
+          "justification": "Compared numerically against baselines in Table 1.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "We optimize network weights h using this loss",
+          "justification": "The neural map h is optimized.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "We address the first problem by proposing a seamless Neural Surface Maps (sNSM) framework",
+          "justification": "Contributed in this paper.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "we use our method to map a raw scan to the SMPL template [LMR∗15].",
+          "justification": "Template model used in the scan-mapping demo.",
+          "value": "SMPL"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "L OPER M., M AHMOOD N., ROMERO J., P ONS -M OLL G., B LACK M. J.: Smpl: A skinned multi-person linear model.",
+          "justification": "Prior model.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "then we map it onto the template SMPL model [LMR∗15]",
+          "justification": "Used as template mesh in a mapping experiment.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "we map it onto the template SMPL model [LMR∗15]",
+          "justification": "Not numerically compared.",
+          "value": false
+        },
+        "execution_mode": {
+          "quote": "then we map it onto the template SMPL model [LMR∗15]",
+          "justification": "Only used as a template.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "L OPER M., M AHMOOD N., ROMERO J., P ONS -M OLL G., B LACK M. J.: Smpl: A skinned multi-person linear model. ACM transactions on graphics (TOG) 34, 6 (2015), 1–16.",
+          "justification": "Reference [LMR*15].",
+          "value": "Smpl: A skinned multi-person linear model"
+        }
+      },
+      {
+        "name": {
+          "quote": "the authors use Blip2 [LLSH23] to extract a shape class description",
+          "justification": "Mentioned in related work only.",
+          "value": "Blip2"
+        },
+        "aliases": [
+          "BLIP-2"
+        ],
+        "is_contributed": {
+          "quote": "the authors use Blip2 [LLSH23] to extract a shape class description",
+          "justification": "Other paper's component.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Parallel to this work, Abdelreheem et al. [AEOW23] proposed a pipeline",
+          "justification": "Not run here.",
+          "value": false
+        },
+        "is_compared": {
+          "quote": "the authors use Blip2 [LLSH23] to extract a shape class description",
+          "justification": "Only mentioned.",
+          "value": false
+        },
+        "execution_mode": {
+          "quote": "the authors use Blip2 [LLSH23] to extract a shape class description, e.g., human or person",
+          "justification": "Not executed in this paper.",
+          "value": "unknown"
+        },
+        "referenced_paper_title": {
+          "quote": "L I J., L I D., S AVARESE S., H OI S.: Blip-2: Bootstrapping language-image pre-training with frozen image encoders and large language models.",
+          "justification": "Reference [LLSH23].",
+          "value": "Blip-2: Bootstrapping language-image pre-training with frozen image encoders and large language models"
+        }
+      },
+      {
+        "name": {
+          "quote": "Finally, SAM [KMR∗23] extracts features based on these keywords and renderings",
+          "justification": "Mentioned in related work only.",
+          "value": "SAM"
+        },
+        "aliases": [
+          "Segment Anything"
+        ],
+        "is_contributed": {
+          "quote": "Finally, SAM [KMR∗23] extracts features based on these keywords and renderings",
+          "justification": "Other paper's component.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Finally, SAM [KMR∗23] extracts features based on these keywords and renderings",
+          "justification": "Not run here.",
+          "value": false
+        },
+        "is_compared": {
+          "quote": "Finally, SAM [KMR∗23] extracts features based on these keywords and renderings",
+          "justification": "Only mentioned.",
+          "value": false
+        },
+        "execution_mode": {
+          "quote": "Finally, SAM [KMR∗23] extracts features based on these keywords",
+          "justification": "Not executed in this paper.",
+          "value": "unknown"
+        },
+        "referenced_paper_title": {
+          "quote": "K IRILLOV A., M INTUN E., R AVI N., ... Segment anything. arXiv preprint arXiv:2304.02643 (2023).",
+          "justification": "Reference [KMR*23].",
+          "value": "Segment anything"
+        }
+      }
+    ],
+    "data_sources": [
+      {
+        "name": {
+          "quote": "(i) We randomly select 30 pairs from FAUST [BRLB14], containing isometric deformations and pose variations of human shapes.",
+          "justification": "Benchmark dataset used.",
+          "value": "FAUST"
+        },
+        "aliases": [],
+        "role": "used",
+        "size": {
+          "quote": "We randomly select 30 pairs from FAUST [BRLB14]",
+          "justification": "Stated number of pairs used.",
+          "value": "30 pairs"
+        },
+        "derived_from": [],
+        "sample_properties": [
+          {
+            "name": "mesh size range",
+            "value": {
+              "quote": "All meshes used in our experiment are watertight and genus zero, and range from 11K to 90K faces.",
+              "justification": "Stated for all meshes used.",
+              "value": "range from 11K to 90K faces"
+            },
+            "unit": "faces"
+          }
+        ],
+        "referenced_paper_title": {
+          "quote": "B OGO F., ROMERO J., L OPER M., B LACK M. J.: Faust: Dataset and evaluation for 3d mesh registration.",
+          "justification": "Reference [BRLB14].",
+          "value": "Faust: Dataset and evaluation for 3d mesh registration"
+        }
+      },
+      {
+        "name": {
+          "quote": "(ii) We choose 30 random same-category shape pairs from SHREC07 [GBP07]",
+          "justification": "Benchmark dataset used.",
+          "value": "SHREC07"
+        },
+        "aliases": [],
+        "role": "used",
+        "size": {
+          "quote": "We choose 30 random same-category shape pairs from SHREC07 [GBP07]",
+          "justification": "Stated.",
+          "value": "30 random same-category shape pairs"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "G IORGI D., B IASOTTI S., PARABOSCHI L.: Shrec: shape retrieval contest: Watertight models track.",
+          "justification": "Reference [GBP07].",
+          "value": "Shrec: shape retrieval contest: Watertight models track"
+        }
+      },
+      {
+        "name": {
+          "quote": "(iii) We also extract 30 random shape pairs among the listed test set of SHREC19 from Dyke et al. [DSLR19]",
+          "justification": "Benchmark dataset used.",
+          "value": "SHREC19"
+        },
+        "aliases": [],
+        "role": "used",
+        "size": {
+          "quote": "We also extract 30 random shape pairs among the listed test set of SHREC19",
+          "justification": "Stated.",
+          "value": "30 random shape pairs"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "DYKE R., S TRIDE C., L AI Y., ROSIN P.: Shrec-19: shape correspondence with isometric and non-isometric deformations.",
+          "justification": "Reference [DSLR19].",
+          "value": "Shrec-19: shape correspondence with isometric and non-isometric deformations"
+        }
+      },
+      {
+        "name": {
+          "quote": "To ablate the effect of pose variation, we use FAUST [BRLB14], SCAPE [ASP∗04], and TOSCA [BBK08].",
+          "justification": "Dataset used in ablation.",
+          "value": "SCAPE"
+        },
+        "aliases": [],
+        "role": "used",
+        "size": {
+          "quote": "we assess the effect of pose variation for the same model with a single instance of FAUST, SCAPE, and TOSCA mapped onto all the other provided poses",
+          "justification": "Exact count not given.",
+          "value": "unknown"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "A NGUELOV D., S RINIVASAN P., PANG H.-C., KOLLER D., T HRUN S., DAVIS J.: The correlated correspondence algorithm for unsupervised registration of nonrigid surfaces.",
+          "justification": "Reference [ASP*04].",
+          "value": "The correlated correspondence algorithm for unsupervised registration of nonrigid surfaces"
+        }
+      },
+      {
+        "name": {
+          "quote": "To ablate the effect of pose variation, we use FAUST [BRLB14], SCAPE [ASP∗04], and TOSCA [BBK08].",
+          "justification": "Dataset used in ablation.",
+          "value": "TOSCA"
+        },
+        "aliases": [],
+        "role": "used",
+        "size": {
+          "quote": "a single instance of FAUST, SCAPE, and TOSCA mapped onto all the other provided poses",
+          "justification": "Not stated numerically.",
+          "value": "unknown"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "B RONSTEIN A. M., B RONSTEIN M. M., K IMMEL R.: Numerical geometry of non-rigid shapes.",
+          "justification": "Reference [BBK08].",
+          "value": "Numerical geometry of non-rigid shapes"
+        }
+      },
+      {
+        "name": {
+          "quote": "3DBiCar [LCD∗23], which comprise a variety of textured shapes",
+          "justification": "Dataset used in ablation.",
+          "value": "3DBiCar"
+        },
+        "aliases": [],
+        "role": "used",
+        "size": {
+          "quote": "We select 12 shape pairs, 4 for each dataset, to ablate texture and misalign",
+          "justification": "4 pairs per dataset stated.",
+          "value": "4 shape pairs"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "L UO Z., C AI S., D ONG J., M ING R., Q IU L., Z HAN X., H AN X.: Rabit: Parametric modeling of 3d biped cartoon characters with a topological-consistent dataset.",
+          "justification": "Reference [LCD*23].",
+          "value": "Rabit: Parametric modeling of 3d biped cartoon characters with a topological-consistent dataset"
+        }
+      },
+      {
+        "name": {
+          "quote": "SHREC15 [LZEE∗15], which contain significant nonisometric-variations, with manually-annotated sparse correspondences",
+          "justification": "Dataset used in ablation.",
+          "value": "SHREC15"
+        },
+        "aliases": [],
+        "role": "used",
+        "size": {
+          "quote": "We select 12 shape pairs, 4 for each dataset",
+          "justification": "4 pairs per dataset stated.",
+          "value": "4 shape pairs"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "L IAN Z., Z HANG Z., E L E LNAGHY H., E L S ANA J., F U RUYA T., G IACHETTI A., ... Shrec 15 track non rigid 3d shape retrieval.",
+          "justification": "Reference [LZEE*15].",
+          "value": "Shrec 15 track non rigid 3d shape retrieval"
+        }
+      }
+    ],
+    "libraries": [
+      {
+        "name": {
+          "quote": "The resultant optimization problem is solved using gradient descent, simply through PyTorch’s SGD optimizer.",
+          "justification": "Used for optimization.",
+          "value": "PyTorch"
+        },
+        "aliases": [],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "simply through PyTorch’s SGD optimizer",
+          "justification": "No reference entry given.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "we render images of the same size, i.e., 1344 × 1344 with Mitsuba [JSR∗22] using spp = 150 and a path integrator.",
+          "justification": "Renderer used.",
+          "value": "Mitsuba"
+        },
+        "aliases": [
+          "Mitsuba 3"
+        ],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "JAKOB W., S PEIERER S., ROUSSEL N., N IMIER -DAVID M., V ICINI D., Z ELTNER T., N ICOLET B., C RESPO M., L EROY V., Z HANG Z.: Mitsuba 3 renderer, 2022.",
+          "justification": "Reference [JSR*22].",
+          "value": "Mitsuba 3 renderer"
+        }
+      },
+      {
+        "name": {
+          "quote": "We prefill small holes with Meshlab [CCC∗08] and then apply our pipeline.",
+          "justification": "Used for hole filling.",
+          "value": "Meshlab"
+        },
+        "aliases": [
+          "MeshLab"
+        ],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "C IGNONI P., C ALLIERI M., C ORSINI M., D ELLEPIANE M., G ANOVELLI F., R ANZUGLIA G.: MeshLab: an Open-Source Mesh Processing Tool.",
+          "justification": "Reference [CCC*08].",
+          "value": "MeshLab: an Open-Source Mesh Processing Tool"
+        }
+      }
+    ],
+    "algorithms": [
+      {
+        "name": {
+          "quote": "we first parameterize each one of the two cut surfaces via SLIM [RPPSH17] into a square D ∈ R2",
+          "justification": "Parameterization procedure used.",
+          "value": "SLIM"
+        },
+        "aliases": [
+          "Scalable Locally Injective Mappings"
+        ],
+        "is_contributed": {
+          "quote": "via SLIM [RPPSH17]",
+          "justification": "Prior method.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we first parameterize each one of the two cut surfaces via SLIM [RPPSH17] into a square",
+          "justification": "Used in the pipeline.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "we first parameterize each one of the two cut surfaces via SLIM [RPPSH17]",
+          "justification": "Not compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "we first parameterize each one of the two cut surfaces via SLIM [RPPSH17] into a square D ∈ R2 to get two bijective seamless parameterizations",
+          "justification": "Paper's own words.",
+          "value": "parameterize each one of the two cut surfaces into a square to get two bijective seamless parameterizations"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "R ABINOVICH M., P ORANNE R., PANOZZO D., S ORKINE -H ORNUNG O.: Scalable locally injective mappings.",
+          "justification": "Reference [RPPSH17].",
+          "value": "Scalable locally injective mappings"
+        }
+      },
+      {
+        "name": {
+          "quote": "we compute the alignment score for the 12 possible rotations as the total number of \"Best Buddy matches\" [DOR∗15] between the two strings of features.",
+          "justification": "Used for alignment scoring.",
+          "value": "Best Buddy matches"
+        },
+        "aliases": [
+          "Best-buddies similarity"
+        ],
+        "is_contributed": {
+          "quote": "\"Best Buddy matches\" [DOR∗15]",
+          "justification": "Prior method.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we compute the alignment score for the 12 possible rotations as the total number of \"Best Buddy matches\"",
+          "justification": "Used in alignment stage.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "In contrast to ours, [AGBD21] selects only \"Best Buddy\" matches [DOR∗15]",
+          "justification": "Not numerically compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "we compute the alignment score for the 12 possible rotations as the total number of \"Best Buddy matches\" [DOR∗15] between the two strings of features",
+          "justification": "Paper's own words.",
+          "value": "used to compute the alignment score for the 12 possible rotations between the two strings of features"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "D EKEL T., O RON S., RUBINSTEIN M., AVIDAN S., F REEMAN W. T.: Best-buddies similarity for robust template matching.",
+          "justification": "Reference [DOR*15].",
+          "value": "Best-buddies similarity for robust template matching"
+        }
+      },
+      {
+        "name": {
+          "quote": "Then, through bipartite graph matching [HK73] we obtain a matching, i.e., a list of pairs (ik , jk )",
+          "justification": "Used for cone selection.",
+          "value": "bipartite graph matching [HK73]"
+        },
+        "aliases": [
+          "Hopcroft-Karp"
+        ],
+        "is_contributed": {
+          "quote": "through bipartite graph matching [HK73]",
+          "justification": "Classic algorithm.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Then, through bipartite graph matching [HK73] we obtain a matching",
+          "justification": "Used in pipeline.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "through bipartite graph matching [HK73] we obtain a matching",
+          "justification": "Not compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "Then, through bipartite graph matching [HK73] we obtain a matching, i.e., a list of pairs (ik , jk )",
+          "justification": "Paper's own words.",
+          "value": "obtain a matching, i.e., a list of pairs, used to identify cones"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "H OPCROFT J. E., K ARP R. M.: An nˆ5/2 algorithm for maximum matchings in bipartite graphs.",
+          "justification": "Reference [HK73].",
+          "value": "An n^5/2 algorithm for maximum matchings in bipartite graphs"
+        }
+      },
+      {
+        "name": {
+          "quote": "we segment foreground/background through PCA and compute the cosine similarity between all pairs of source and target patch foreground features",
+          "justification": "Used for foreground segmentation.",
+          "value": "PCA"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "To segment foreground/background we rely on PCA’s first component of these features",
+          "justification": "Standard technique.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "To segment foreground/background we rely on PCA’s first component of these features",
+          "justification": "Used in pipeline.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "we segment foreground/background through PCA",
+          "justification": "Not compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "we segment foreground/background through PCA",
+          "justification": "Paper's own words.",
+          "value": "segment foreground/background of the rendering features"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "To segment foreground/background we rely on PCA’s first component of these features",
+          "justification": "No reference given.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "The resultant optimization problem is solved using gradient descent, simply through PyTorch’s SGD optimizer.",
+          "justification": "Optimizer used.",
+          "value": "SGD"
+        },
+        "aliases": [
+          "gradient descent"
+        ],
+        "is_contributed": {
+          "quote": "simply through PyTorch’s SGD optimizer",
+          "justification": "Standard optimizer.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "The resultant optimization problem is solved using gradient descent, simply through PyTorch’s SGD optimizer.",
+          "justification": "Used in optimization.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "simply through PyTorch’s SGD optimizer",
+          "justification": "Not compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "The resultant optimization problem is solved using gradient descent, simply through PyTorch’s SGD optimizer.",
+          "justification": "Paper's own words.",
+          "value": "solves the resultant optimization problem"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "simply through PyTorch’s SGD optimizer",
+          "justification": "No reference.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "To uplift 2D pixels to 3D for the matches, we use ray-triangle intersection.",
+          "justification": "Procedure to lift matches to 3D.",
+          "value": "ray-triangle intersection"
+        },
+        "aliases": [
+          "ray casting",
+          "unproject"
+        ],
+        "is_contributed": {
+          "quote": "To uplift 2D pixels to 3D for the matches, we use ray-triangle intersection.",
+          "justification": "Standard procedure.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we lift (unproject) each pixel to the 3D mesh by performing ray intersection",
+          "justification": "Used in pipeline.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "To uplift 2D pixels to 3D for the matches, we use ray-triangle intersection.",
+          "justification": "Not compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "we lift (unproject) each pixel to the 3D mesh by performing ray intersection between that pixel’s corresponding ray from viewpoint V and the 3D mesh T",
+          "justification": "Paper's own words.",
+          "value": "lift (unproject) each pixel to the 3D mesh, associating every 2D pixel with a point on the surface"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "To uplift 2D pixels to 3D for the matches, we use ray-triangle intersection.",
+          "justification": "No reference.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "We compare with three other techniques that focus on extracting maps between given surfaces: (i) BIM [KLF11]",
+          "justification": "Baseline method.",
+          "value": "BIM"
+        },
+        "aliases": [
+          "Blended Intrinsic Maps"
+        ],
+        "is_contributed": {
+          "quote": "Blended Intrinsic Maps (BIM) [KLF11] is a classic method that uses geometric priors without any learning component.",
+          "justification": "Prior method.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Results are presented in Table 1, and selection of the pairs shown in Figure 8.",
+          "justification": "Run as baseline for comparison.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "BIM 0.09 0.03 0.04 0.49 0.48 0.23 0.05 0.82 0.04",
+          "justification": "Numbers in Table 1.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "We compare with three other techniques that focus on extracting maps between given surfaces: (i) BIM [KLF11]",
+          "justification": "Paper's own words.",
+          "value": "baseline technique that focuses on extracting maps between given surfaces"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "K IM V. G., L IPMAN Y., F UNKHOUSER T.: Blended intrinsic maps.",
+          "justification": "Reference [KLF11].",
+          "value": "Blended intrinsic maps"
+        }
+      },
+      {
+        "name": {
+          "quote": "(ii) Zoomout [MRR∗19]",
+          "justification": "Baseline method.",
+          "value": "Zoomout"
+        },
+        "aliases": [
+          "ZoomOut"
+        ],
+        "is_contributed": {
+          "quote": "Zoomout [MRR∗19] and Smooth-shells [ELC20] are both functional maps-based methods.",
+          "justification": "Prior method.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We initialize Zoomout’s map (C21 ) as an identity of size 4 as by official implementation. Then, we refine it until it contains 50 eigenvectors.",
+          "justification": "Executed with specified settings.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Zoomout 0.33 0.23 0.15 0.25 0.65 0.54 0.29 0.76 0.32",
+          "justification": "Table 1 numbers.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "We compare with three other techniques that focus on extracting maps between given surfaces: ... (ii) Zoomout [MRR∗19]",
+          "justification": "Paper's own words.",
+          "value": "baseline for extracting maps between given surfaces"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "M ELZI S., R EN J., RODOLA E., S HARMA A., W ONKA P., OVSJANIKOV M.: Zoomout: Spectral upsampling for efficient shape correspondence.",
+          "justification": "Reference [MRR*19].",
+          "value": "Zoomout: Spectral upsampling for efficient shape correspondence"
+        }
+      },
+      {
+        "name": {
+          "quote": "(iii) Smooth-shells [ELC20]",
+          "justification": "Baseline method.",
+          "value": "Smooth-shells"
+        },
+        "aliases": [
+          "Smooth shells"
+        ],
+        "is_contributed": {
+          "quote": "Smooth-shells follow a similar coarse-to-fine scheme, relying on shells as a proxy for functional basis.",
+          "justification": "Prior method.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "for Smooth-shells we follow the official implementation and use MCMC to bootstrap the map using Kmin = 6 and Kmax = 20. and evaluating N prop = 500 proposal.",
+          "justification": "Executed with specified settings.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Smooth-shells 0.01 0.00 0.01 0.03 0.72 0.26 0.01 0.83 0.01",
+          "justification": "Table 1 numbers.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "We compare with three other techniques that focus on extracting maps between given surfaces: ... (iii) Smooth-shells [ELC20]",
+          "justification": "Paper's own words.",
+          "value": "baseline for extracting maps between given surfaces"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "E ISENBERGER M., L AHNER Z., C REMERS D.: Smooth shells: Multi-scale shape registration with functional maps.",
+          "justification": "Reference [ELC20].",
+          "value": "Smooth shells: Multi-scale shape registration with functional maps"
+        }
+      },
+      {
+        "name": {
+          "quote": "We also include (iv) ICP, which uses the closest points as correspondence, as a strawman approach",
+          "justification": "Baseline method.",
+          "value": "ICP"
+        },
+        "aliases": [
+          "iterative closest points"
+        ],
+        "is_contributed": {
+          "quote": "In the simplest setting where rigid transforms relate shape pairs, iterative closest points methods [RL01, ZSN03] are often used",
+          "justification": "Classic method.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We cast ICP as nearest neighbor search after rigid alignment.",
+          "justification": "Executed as baseline.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "ICP 0.06 0.17 0.25 0.09 0.65 0.23 0.07 0.75 0.15",
+          "justification": "Table 1 numbers.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "We also include (iv) ICP, which uses the closest points as correspondence, as a strawman approach that performs well in case of negligible pose variation.",
+          "justification": "Paper's own words.",
+          "value": "a strawman approach that uses the closest points as correspondence"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "RUSINKIEWICZ S., L EVOY M.: Efficient variants of the icp algorithm.",
+          "justification": "Reference [RL01].",
+          "value": "Efficient variants of the icp algorithm"
+        }
+      },
+      {
+        "name": {
+          "quote": "Additionally, we compare qualitatively to Enigma [EEBC20] that uses genetic algorithms along with a combinatorial search",
+          "justification": "Baseline compared qualitatively.",
+          "value": "ENIGMA"
+        },
+        "aliases": [
+          "Enigma"
+        ],
+        "is_contributed": {
+          "quote": "The recently proposed Enigma [EEBC20] leverages genetic algorithms to achieve state-of-the-art results.",
+          "justification": "Prior method.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "ENIGMA [EEBC20] fails to produce correct mappings, in cases of extreme deformations.",
+          "justification": "Results shown in Figure 9 for the paper's shapes.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Additionally, we compare qualitatively to Enigma [EEBC20]",
+          "justification": "Qualitative comparison.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "Additionally, we compare qualitatively to Enigma [EEBC20] that uses genetic algorithms along with a combinatorial search to find a set of good sparse correspondence, which are then interpolated to a dense low-distortion map.",
+          "justification": "Paper's own words.",
+          "value": "compared qualitatively; uses genetic algorithms along with a combinatorial search to find a set of good sparse correspondence"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "E DELSTEIN M., E ZUZ D., B EN -C HEN M.: Enigma: Evolutionary non-isometric geometry matching.",
+          "justification": "Reference [EEBC20].",
+          "value": "Enigma: Evolutionary non-isometric geometry matching"
+        }
+      },
+      {
+        "name": {
+          "quote": "we present a qualitative comparison in Figure 10 with the method proposed by Surface Maps via Adaptive Triangulations (SMAT) [SPK23]",
+          "justification": "Baseline combined with Dinov2.",
+          "value": "SMAT"
+        },
+        "aliases": [
+          "Surface Maps via Adaptive Triangulations",
+          "Dinov2+SMAT"
+        ],
+        "is_contributed": {
+          "quote": "Surface Maps via Adaptive Triangulations (SMAT) [SPK23] optimize for bijective and continuous maps, relying on manual annotations.",
+          "justification": "Prior method.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we randomly subsample a set of N = 64 matches from the automatically extracted ones ... Then, we optimize for a bijective map that respects these landmarks. We refer to it as Dinov2+SMAT.",
+          "justification": "Executed with automatically extracted correspondences.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "we present a qualitative comparison in Figure 10 with the method proposed by Surface Maps via Adaptive Triangulations (SMAT)",
+          "justification": "Qualitative comparison.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "We pair it with Dinov2, Dinov2+SMAT, by replacing these manual annotations with k = 64 automatically extracted ones",
+          "justification": "Paper's own words.",
+          "value": "paired with Dinov2 by replacing manual annotations with automatically extracted ones, to assess the importance of our correspondence distillation step"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "S CHMIDT P., P IEPER D., KOBBELT L.: Surface Maps via Adaptive Triangulations.",
+          "justification": "Reference [SPK23].",
+          "value": "Surface Maps via Adaptive Triangulations"
+        }
+      },
+      {
+        "name": {
+          "quote": "for Smooth-shells we follow the official implementation and use MCMC to bootstrap the map",
+          "justification": "Procedure used within the baseline run.",
+          "value": "MCMC"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "To handle selfsymmetries, Eisenberger et al. [ELC20] incorporate MCMC to evaluate multiple possible functional maps.",
+          "justification": "Part of prior method.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we follow the official implementation and use MCMC to bootstrap the map using Kmin = 6 and Kmax = 20",
+          "justification": "Executed in baseline comparison.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "use MCMC to bootstrap the map",
+          "justification": "Not compared on its own.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "To handle selfsymmetries, Eisenberger et al. [ELC20] incorporate MCMC to evaluate multiple possible functional maps.",
+          "justification": "Paper's own words.",
+          "value": "bootstrap the map in Smooth-shells and evaluate multiple possible functional maps"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "E ISENBERGER M., L AHNER Z., C REMERS D.: Smooth shells: Multi-scale shape registration with functional maps.",
+          "justification": "Reference [ELC20].",
+          "value": "Smooth shells: Multi-scale shape registration with functional maps"
+        }
+      },
+      {
+        "name": {
+          "quote": "We achieve this by casting this problem as (semantic) circular string matching between shape renderings",
+          "justification": "Contributed alignment procedure.",
+          "value": "Semantic Shape Alignment (circular string matching)"
+        },
+        "aliases": [
+          "COALIGN",
+          "string matching"
+        ],
+        "is_contributed": {
+          "quote": "sampling and integrating a set of image-based correspondences to form fuzzy object space correspondence maps;",
+          "justification": "Part of the contributed pipeline.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "R ← COA LIGN(DinoViT(), A, B) ;",
+          "justification": "Executed in pipeline (pseudocode).",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "We pick the (relative) rotation with the highest score as the rotation and use it to co-align the shapes.",
+          "justification": "Not numerically compared as a standalone.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "given two ‘strings’ – sets of renderings – of the same length, we find the global rotation R, about the upaxis, to best align one string with the other.",
+          "justification": "Paper's own words.",
+          "value": "we find the global rotation R, about the upaxis, to best align one string with the other"
+        },
+        "composed_of": [
+          "Best Buddy matches"
+        ],
+        "referenced_paper_title": {
+          "quote": "We achieve this by casting this problem as (semantic) circular string matching between shape renderings",
+          "justification": "Contributed here.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "map ← DISTIL M AP(ANSM , BNSM , fuzzyMatches) ;",
+          "justification": "Contributed optimization procedure.",
+          "value": "Distill Homeomorphism / map distillation"
+        },
+        "aliases": [
+          "DISTILMAP",
+          "correspondence distillation"
+        ],
+        "is_contributed": {
+          "quote": "These correspondences are refined and distilled into an inter-surface map by a dedicated optimization scheme, which promotes bijectivity and continuity of the output map.",
+          "justification": "Core contribution.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "We optimize network weights h using this loss",
+          "justification": "Executed for all experiments.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Ours 0.00 0.00 0.13 0.00 0.00 0.23 0.00 0.00 0.11",
+          "justification": "Compared in Table 1.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "we incrementally drop those that strongly disagree with the current map, i.e., 20% of matches with the highest Euclidean distance.",
+          "justification": "Paper's own words.",
+          "value": "distill the fuzzy matches into an inter-surface map; incrementally drop matches that strongly disagree with the current map"
+        },
+        "composed_of": [
+          "LMatches",
+          "LJ",
+          "LCones",
+          "LSeamless",
+          "LSmooth"
+        ],
+        "referenced_paper_title": {
+          "quote": "These correspondences are refined and distilled into an inter-surface map by a dedicated optimization scheme",
+          "justification": "Contributed here.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "in NSM [MAKM21], the authors used Symmetric Dirichlet [RPPSH17] in a similar context, however, this energy promotes isometric maps rather than smooth ones.",
+          "justification": "Discussed energy from prior work.",
+          "value": "Symmetric Dirichlet"
+        },
+        "aliases": [
+          "Dirichlet"
+        ],
+        "is_contributed": {
+          "quote": "the authors used Symmetric Dirichlet [RPPSH17] in a similar context",
+          "justification": "Prior work's energy.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Note SMAT [SPK23] optimize for isometric energy (Dirichlet), while we optimize only for smoothness",
+          "justification": "Not executed by authors directly (used inside SMAT baseline, but discussed).",
+          "value": false
+        },
+        "is_compared": {
+          "quote": "however, this energy promotes isometric maps rather than smooth ones",
+          "justification": "Only discussed.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "in NSM [MAKM21], the authors used Symmetric Dirichlet [RPPSH17] in a similar context, however, this energy promotes isometric maps rather than smooth ones.",
+          "justification": "Paper's own words.",
+          "value": "an energy used in NSM in a similar context, which promotes isometric maps rather than smooth ones"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "R ABINOVICH M., P ORANNE R., PANOZZO D., S ORKINE -H ORNUNG O.: Scalable locally injective mappings.",
+          "justification": "Reference [RPPSH17].",
+          "value": "Scalable locally injective mappings"
+        }
+      }
+    ],
+    "runs": [
+      {
+        "models": [
+          {
+            "name": "DinoV2",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "FAUST",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          },
+          {
+            "name": "SHREC07",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          },
+          {
+            "name": "SHREC19",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Semantic Shape Alignment (circular string matching)"
+          },
+          {
+            "name": "Best Buddy matches"
+          },
+          {
+            "name": "PCA"
+          },
+          {
+            "name": "ray-triangle intersection"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "Dinov2 [ODM∗23] embeds these patches in a forward pass.",
+          "justification": "Feature extraction forward pass to generate fuzzy matches.",
+          "value": "inference"
+        },
+        "epochs": {
+          "quote": "Dinov2 [ODM∗23] embeds these patches in a forward pass.",
+          "justification": "Not applicable/stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "We rely only on DinoV2 [ODM∗23] to extract fuzzy features from shape renderings",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "extracting all Dino-ViT matches takes 21 minutes",
+          "justification": "Hardware never stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "extracting all Dino-ViT matches takes 21 minutes",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "extracting all Dino-ViT matches takes 21 minutes",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "Dinov2 [ODM∗23] embeds these patches in a forward pass.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "Dinov2 [ODM∗23] embeds these patches in a forward pass.",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "extracting all Dino-ViT matches takes 21 minutes",
+          "justification": "Stated per shape pair.",
+          "value": "21 minutes"
+        },
+        "utilisation": {
+          "quote": "extracting all Dino-ViT matches takes 21 minutes",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "We compute each map’s accuracy (i.e., average geodesic error) and averaged them over 30 shape pairs for each dataset.",
+          "justification": "30 pairs on each of three datasets.",
+          "value": [
+            {
+              "kind": "other",
+              "count": 90,
+              "what": "30 shape pairs per dataset for FAUST, SHREC07, SHREC19"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "Neural Surface Maps (NSM)",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "FAUST",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "SHREC07",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "SHREC19",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "SLIM"
+          },
+          {
+            "name": "bipartite graph matching [HK73]"
+          },
+          {
+            "name": "SGD"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "ANSM ← OVERFIT NSM(Adisk ) ;",
+          "justification": "Overfitting neural surface networks to each mesh.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "we fit a neural network to each of the two parameterizations’ inverse",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "neural surfaces ( f ) are always 8 layers residual MLP with 256 neurons",
+          "justification": "Architecture given but no parameter count.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "converting the meshes into their neural representation which requires about 1 hour",
+          "justification": "Hardware not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "converting the meshes into their neural representation which requires about 1 hour",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "converting the meshes into their neural representation which requires about 1 hour",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "converting the meshes into their neural representation which requires about 1 hour",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "converting the meshes into their neural representation which requires about 1 hour",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "converting the meshes into their neural representation which requires about 1 hour",
+          "justification": "Stated.",
+          "value": "about 1 hour"
+        },
+        "utilisation": {
+          "quote": "converting the meshes into their neural representation which requires about 1 hour",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "We compute each map’s accuracy (i.e., average geodesic error) and averaged them over 30 shape pairs for each dataset.",
+          "justification": "Neural surfaces fitted per shape of each pair.",
+          "value": [
+            {
+              "kind": "other",
+              "count": 90,
+              "what": "30 shape pairs per dataset for FAUST, SHREC07, SHREC19"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "seamless Neural Surface Maps (sNSM)",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Neural Surface Maps (NSM)",
+            "role_in_run": "data-source"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "FAUST",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          },
+          {
+            "name": "SHREC07",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          },
+          {
+            "name": "SHREC19",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Distill Homeomorphism / map distillation"
+          },
+          {
+            "name": "SGD"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "We optimize network weights h using this loss, and to alleviate the impact of incorrect matches; we incrementally drop those that strongly disagree with the current map",
+          "justification": "Optimization of the neural map h.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "we sample 1024 points to enforce injectivity and smoothness, and 128 points on the boundary to enforce seamlessness and M = 128 correspondences in each iteration",
+          "justification": "Iterations/epochs not stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "we define the neural map (h) as a 4-layer residual MLP of 128 neurons each",
+          "justification": "Architecture stated, parameter count not.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "The map optimization takes on average 1.5 hours",
+          "justification": "Hardware not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "The map optimization takes on average 1.5 hours",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "The map optimization takes on average 1.5 hours",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "The map optimization takes on average 1.5 hours",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "The map optimization takes on average 1.5 hours",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "The map optimization takes on average 1.5 hours",
+          "justification": "Stated.",
+          "value": "on average 1.5 hours"
+        },
+        "utilisation": {
+          "quote": "The map optimization takes on average 1.5 hours",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "We compute each map’s accuracy (i.e., average geodesic error) and averaged them over 30 shape pairs for each dataset.",
+          "justification": "One map optimization per shape pair.",
+          "value": [
+            {
+              "kind": "other",
+              "count": 90,
+              "what": "30 shape pairs per dataset for FAUST, SHREC07, SHREC19"
+            }
+          ]
+        }
+      },
+      {
+        "models": [],
+        "data_sources": [
+          {
+            "name": "FAUST",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          },
+          {
+            "name": "SHREC07",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          },
+          {
+            "name": "SHREC19",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "BIM"
+          },
+          {
+            "name": "Zoomout"
+          },
+          {
+            "name": "Smooth-shells"
+          },
+          {
+            "name": "ICP"
+          },
+          {
+            "name": "MCMC"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "We initialize Zoomout’s map (C21 ) as an identity of size 4 as by official implementation. Then, we refine it until it contains 50 eigenvectors.",
+          "justification": "Baselines executed to produce maps for comparison.",
+          "value": "inference"
+        },
+        "epochs": {
+          "quote": "we follow the official implementation and use MCMC to bootstrap the map using Kmin = 6 and Kmax = 20",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "no landmarks are used",
+          "justification": "Not learned models.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "Finally, for ICP we first align the two input shapes as described in Sec. 3.1, and then estimate the nearest neighbor for each vertex.",
+          "justification": "Hardware not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "Finally, for ICP we first align the two input shapes as described in Sec. 3.1",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "Finally, for ICP we first align the two input shapes as described in Sec. 3.1",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "no landmarks are used",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "no landmarks are used",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "no landmarks are used",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "no landmarks are used",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "We compute each map’s accuracy (i.e., average geodesic error) and averaged them over 30 shape pairs for each dataset.",
+          "justification": "Four baselines run on 90 pairs.",
+          "value": [
+            {
+              "kind": "variant",
+              "count": 4,
+              "what": "baselines: ICP, BIM, Zoomout, Smooth-shells"
+            },
+            {
+              "kind": "other",
+              "count": 90,
+              "what": "30 shape pairs per dataset for FAUST, SHREC07, SHREC19"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "DinoV2",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "FAUST",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          },
+          {
+            "name": "SCAPE",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          },
+          {
+            "name": "TOSCA",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          },
+          {
+            "name": "3DBiCar",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          },
+          {
+            "name": "SHREC15",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "PCA"
+          },
+          {
+            "name": "ray-triangle intersection"
+          },
+          {
+            "name": "Best Buddy matches"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "We ablate the quality of matches based on DinoViT’s degrees of freedom - layer features - in different contexts: pose variation, presence of texture, lights, and misalignment.",
+          "justification": "Ablation on feature extraction only.",
+          "value": "inference"
+        },
+        "epochs": {
+          "quote": "We ablate the quality of matches based on DinoViT’s degrees of freedom",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "DinoV2 [ODM∗23] matches are significantly more accurate than DinoV1 [CTM∗21]",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "We select 12 shape pairs, 4 for each dataset, to ablate texture and misalign concerning the choice of Dino ViT feature layer",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "We select 12 shape pairs, 4 for each dataset",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "We select 12 shape pairs, 4 for each dataset",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "We select 12 shape pairs, 4 for each dataset",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "We select 12 shape pairs, 4 for each dataset",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "We select 12 shape pairs, 4 for each dataset",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "We select 12 shape pairs, 4 for each dataset",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "We select 12 shape pairs, 4 for each dataset, to ablate texture and misalign concerning the choice of Dino ViT feature layer, as discussed in [AGBD21].",
+          "justification": "Factors stated in ablation tables.",
+          "value": [
+            {
+              "kind": "variant",
+              "count": 2,
+              "what": "feature layers L9 and L11"
+            },
+            {
+              "kind": "variant",
+              "count": 3,
+              "what": "rendering settings: colored lights, white lights, texture"
+            },
+            {
+              "kind": "other",
+              "count": 12,
+              "what": "12 shape pairs, 4 for each dataset"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "DinoV1",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "FAUST",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          },
+          {
+            "name": "SCAPE",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          },
+          {
+            "name": "TOSCA",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          },
+          {
+            "name": "3DBiCar",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          },
+          {
+            "name": "SHREC15",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "PCA"
+          },
+          {
+            "name": "ray-triangle intersection"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "Table 2: Dino ViT pose ablation: DinoV2 [ODM∗23] matches are significantly more accurate than DinoV1 [CTM∗21] in case of pose variation",
+          "justification": "DinoV1 features extracted for ablation.",
+          "value": "inference"
+        },
+        "epochs": {
+          "quote": "Dino ViT ablation: DinoV2 [ODM∗23] works better than its predecessor [CTM∗21]",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "DinoV1 0.16 0.16 0.38 0.40 0.27 0.29",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "Dino ViT ablation: DinoV2 [ODM∗23] works better than its predecessor [CTM∗21]",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "Dino ViT ablation",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "Dino ViT ablation",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "Dino ViT ablation",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "Dino ViT ablation",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "Dino ViT ablation",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "Dino ViT ablation",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "We select 12 shape pairs, 4 for each dataset, to ablate texture and misalign concerning the choice of Dino ViT feature layer",
+          "justification": "Same ablation design as DinoV2.",
+          "value": [
+            {
+              "kind": "variant",
+              "count": 2,
+              "what": "feature layers L9 and L11"
+            },
+            {
+              "kind": "variant",
+              "count": 3,
+              "what": "rendering settings: colored lights, white lights, texture"
+            },
+            {
+              "kind": "other",
+              "count": 12,
+              "what": "12 shape pairs, 4 for each dataset"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "DinoV2",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "FAUST",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          },
+          {
+            "name": "3DBiCar",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          },
+          {
+            "name": "SHREC15",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "SMAT"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "we randomly subsample a set of N = 64 matches from the automatically extracted ones to ensure consistency ... Then, we optimize for a bijective map that respects these landmarks. We refer to it as Dinov2+SMAT.",
+          "justification": "Baseline map optimization combining Dinov2 matches with SMAT.",
+          "value": "inference"
+        },
+        "epochs": {
+          "quote": "Then, we optimize for a bijective map that respects these landmarks.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "We pair it with Dinov2, Dinov2+SMAT, by replacing these manual annotations with k = 64 automatically extracted ones",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "we optimize the inter-surface map to construct an automatic inter-surface map",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "we optimize the inter-surface map to construct an automatic inter-surface map",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "we optimize the inter-surface map to construct an automatic inter-surface map",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "we optimize the inter-surface map to construct an automatic inter-surface map",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "we optimize the inter-surface map to construct an automatic inter-surface map",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "we optimize the inter-surface map to construct an automatic inter-surface map",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "we optimize the inter-surface map to construct an automatic inter-surface map",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "we present a qualitative comparison in Figure 10 with the method proposed by Surface Maps via Adaptive Triangulations (SMAT) [SPK23]",
+          "justification": "Number of pairs not stated.",
+          "value": []
+        }
+      }
+    ]
+  },
+  "usage": {
+    "input_tokens": 42800,
+    "output_tokens": 22254,
+    "total_tokens": 65054
+  }
+}

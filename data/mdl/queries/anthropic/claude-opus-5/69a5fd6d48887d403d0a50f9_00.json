@@ -1,0 +1,2866 @@
+{
+  "paper": "69a5fd6d48887d403d0a50f9.txt",
+  "words": 14898,
+  "extractions": {
+    "title": {
+      "quote": "From Multimodal LLMs to Generalist Embodied Agents: Methods and Lessons",
+      "justification": "Title at the top of the paper",
+      "value": "From Multimodal LLMs to Generalist Embodied Agents: Methods and Lessons"
+    },
+    "description": "The paper adapts a pretrained multimodal LLM (LLaVA-OneVision) into a Generalist Embodied Agent (GEA) via a multi-embodiment action tokenizer (Residual VQ-VAE), supervised finetuning on 2.2M embodied trajectories across manipulation, navigation, video games, planning and UI control, and a second stage of online RL (PPO with LoRA) in interactive simulators. It evaluates zero-shot generalization across many benchmarks and ablates data mixing, base MLLM choice/size, and online vs offline data.",
+    "type": {
+      "quote": "We empirically demonstrate the ability of GEA as a generalist agent that can generalize to new instructions and settings across diverse embodiments and domains.",
+      "justification": "The paper trains and evaluates models experimentally",
+      "value": "empirical"
+    },
+    "research_fields": [
+      {
+        "name": {
+          "quote": "our focus lies in areas such as Embodied AI, Games, UI Control, and Planning",
+          "justification": "Main field advanced by the paper",
+          "value": "Embodied AI"
+        },
+        "aliases": [
+          "embodied agents"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "GEA is trained with supervised learning on a large dataset of embodied experiences and with online RL in interactive simulators.",
+          "justification": "RL methods are central to the contribution",
+          "value": "Reinforcement Learning"
+        },
+        "aliases": [
+          "RL"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "Multimodal LLMs (MLLMs) – multimodal foundation models trained on vast amounts of textual and image data",
+          "justification": "The paper adapts MLLMs",
+          "value": "Multimodal Large Language Models"
+        },
+        "aliases": [
+          "MLLMs"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "Vision-Language-Action models have been successfully applied in robotics and embodied AI",
+          "justification": "Robotic manipulation benchmarks are used and improved",
+          "value": "Robotics"
+        },
+        "aliases": [
+          "robot learning"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "we also include data used for training the original MLLM ... VQAv2 [21], OKVQA [57]",
+          "justification": "VQA datasets are used as auxiliary training data only",
+          "value": "Visual Question Answering"
+        },
+        "aliases": [
+          "VQA"
+        ],
+        "role": "used"
+      },
+      {
+        "name": {
+          "quote": "UI Control. We use the AndroidControl [47] dataset of UI interaction in Android devices spanning 833 apps.",
+          "justification": "UI control is one of the evaluated domains",
+          "value": "UI Control"
+        },
+        "aliases": [
+          "GUI agents"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "We use datasets from two standard benchmarks for decision making in video games, Procgen [15] and Atari [7].",
+          "justification": "Game playing is one evaluated domain",
+          "value": "Video Game Playing"
+        },
+        "aliases": [
+          "Games"
+        ],
+        "role": "used"
+      }
+    ],
+    "models": [
+      {
+        "name": {
+          "quote": "we introduce a process of adapting an MLLM to a Generalist Embodied Agent (GEA)",
+          "justification": "Main contributed model",
+          "value": "GEA"
+        },
+        "aliases": [
+          "Generalist Embodied Agent"
+        ],
+        "is_contributed": {
+          "quote": "The final GEA model achieves strong generalization performance to unseen tasks",
+          "justification": "Contributed model of the paper",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "RL finetuning uses 8 nodes of 8xH100 GPUs",
+          "justification": "Trained on GPUs",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Table 2. Zero-shot generalization of GEA to new tasks in terms of success rate %",
+          "justification": "Compared against prior work",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "This RL+SFT training stage on the GEA-Base model produces the final model we refer to as GEA.",
+          "justification": "Finetuned from GEA-Base with LoRA + PPO",
+          "value": "finetune"
+        },
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "This paper itself",
+          "value": "N/A"
+        }
+      },
+      {
+        "name": {
+          "quote": "We then train the base MLLM over all the above datasets with SFT to obtain the GEA-Base model.",
+          "justification": "Intermediate contributed model",
+          "value": "GEA-Base"
+        },
+        "aliases": [
+          "GEA-Base-500m",
+          "GEA-Base-7b"
+        ],
+        "is_contributed": {
+          "quote": "the MLLM is adapted to GEA-Base by supervised finetuning on embodied experiences",
+          "justification": "Contributed stage-1 model",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "Training takes around 2 days on 8 nodes of 8xH100 GPUs",
+          "justification": "Trained on GPUs",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Table 3. Effect of stage 2 RL training on GEA-Base (7b model).",
+          "justification": "Compared with GEA",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "The entire GEA-Base model is initialized from the base MLLM.",
+          "justification": "Finetuned from the pretrained MLLM",
+          "value": "finetune"
+        },
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "This paper itself",
+          "value": "N/A"
+        }
+      },
+      {
+        "name": {
+          "quote": "We thus build GEA off LLaVA-OneVision [44], a model specifically trained to handle sequences of images",
+          "justification": "Base MLLM",
+          "value": "LLaVA-OneVision"
+        },
+        "aliases": [
+          "LLaVA-OV",
+          "LLaVA-OneVision-500m",
+          "LLaVA-OneVision-7b",
+          "LLaVA-OV-500m",
+          "LLaVA-OV-7b"
+        ],
+        "is_contributed": {
+          "quote": "We thus build GEA off LLaVA-OneVision [44]",
+          "justification": "Prior model used as base",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "MLLM methods finetune LLaVA-OV while other methods finetune GEA-Base.",
+          "justification": "Finetuned in the paper",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Analyzing the impact of training GEA with different base MLLMs with different parameter counts.",
+          "justification": "Compared as base backbone",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "MLLM Online RL ... MLLM methods finetune LLaVA-OV",
+          "justification": "Used as initialization and finetuned",
+          "value": "finetune"
+        },
+        "referenced_paper_title": {
+          "quote": "Bo Li, Yuanhan Zhang, Dong Guo, Renrui Zhang, Feng Li, Hao Zhang, Kaichen Zhang, Yanwei Li, Ziwei Liu, and Chunyuan Li. Llava-onevision: Easy visual task transfer.",
+          "justification": "Reference 44",
+          "value": "Llava-onevision: Easy visual task transfer"
+        }
+      },
+      {
+        "name": {
+          "quote": "We use two classes of backbone models, LLaVA-OneVision [44] and MM1.5 [58], and use two sizes for each of them (0.5B and 7B for the former, and 1.2B and 6.4B for the latter).",
+          "justification": "Alternative backbone",
+          "value": "MM1.5"
+        },
+        "aliases": [
+          "MM1.5-1.2b",
+          "MM1.5-6.4b"
+        ],
+        "is_contributed": {
+          "quote": "we use two classes of backbone models, LLaVA-OneVision [44] and MM1.5 [58]",
+          "justification": "Prior model",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "As shown in Figure 5, in our agentic applications increasing model capacity leads to stronger performance",
+          "justification": "Trained as GEA-Base backbones",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Figure 5. Analyzing the impact of training GEA with different base MLLMs",
+          "justification": "Compared against LLaVA-OneVision backbones",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "we analyze the impact of the base MLLM size on the GEA-Base",
+          "justification": "Finetuned as backbone for GEA-Base",
+          "value": "finetune"
+        },
+        "referenced_paper_title": {
+          "quote": "Brandon McKinzie, Zhe Gan, Jean-Philippe Fauconnier, Sam Dodge, Bowen Zhang, Philipp Dufter, Dhruti Shah, Xianzhi Du, Futang Peng, Floris Weers, et al. Mm1: Methods, analysis & insights from multimodal llm pre-training.",
+          "justification": "Reference 58",
+          "value": "Mm1: Methods, analysis & insights from multimodal llm pre-training"
+        }
+      },
+      {
+        "name": {
+          "quote": "we present results using a base model that has an architecture identical to the pretrained MLLM ... we initialize only the LLM or the visual encoder",
+          "justification": "Alternative base: LLaVA-1.5 appears in Figure 5",
+          "value": "LLaVA-1.5-7b"
+        },
+        "aliases": [
+          "LLaVA-1.5"
+        ],
+        "is_contributed": {
+          "quote": "LLaVA-OV-500m LLaVA-OV-7b LLaVA-1.5-7b MM1.5-1.2b MM1.5-6.4b",
+          "justification": "Prior model used as backbone",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "The three different 7B models have been trained on different web-scale data.",
+          "justification": "Used as backbone in GEA-Base training",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "we see very similar performance across multiple backbone models",
+          "justification": "Compared across backbones",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "Analyzing the impact of training GEA with different base MLLMs with different parameter counts.",
+          "justification": "Finetuned as backbone",
+          "value": "finetune"
+        },
+        "referenced_paper_title": {
+          "quote": "Haotian Liu, Chunyuan Li, Yuheng Li, and Yong Jae Lee. Improved baselines with visual instruction tuning.",
+          "justification": "Reference 52 for LLaVA-1.5",
+          "value": "Improved baselines with visual instruction tuning"
+        }
+      },
+      {
+        "name": {
+          "quote": "we follow Szot et al. [81] and train a Residual VQ-VAE (RVQ) [40] model over action vectors",
+          "justification": "Action tokenizer model trained in this work",
+          "value": "Residual VQ-VAE (RVQ)"
+        },
+        "aliases": [
+          "RVQ"
+        ],
+        "is_contributed": {
+          "quote": "The main distinction from Szot et al. [81] is that we train a single tokenizer/de-tokenizer across all continuous action spaces.",
+          "justification": "A unified multi-embodiment tokenizer is contributed",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "The tokenizer is trained with a per-GPU batch size of 256 across 8 H100 GPUs.",
+          "justification": "Trained on GPUs",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "the validation MSE loss on unseen actions had largely plateaued at ≈ 0.0038",
+          "justification": "Not numerically compared with other models",
+          "value": false
+        },
+        "execution_mode": {
+          "quote": "The model is then trained for 15k updates using the AdamW optimizer",
+          "justification": "Trained from scratch",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "Doyup Lee, Chiheon Kim, Saehoon Kim, Minsu Cho, and Wook-Shin Han. Autoregressive image generation using residual quantization.",
+          "justification": "Reference 40",
+          "value": "Autoregressive image generation using residual quantization"
+        }
+      },
+      {
+        "name": {
+          "quote": "For example, Gato [69] is a generalist model like GEA",
+          "justification": "Baseline with quoted numbers",
+          "value": "Gato"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "differences between GEA and Gato [69]",
+          "justification": "Prior work",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Gato [69] trains over all the Meta-World tasks and reports an average performance of 87.0% success rate.",
+          "justification": "Numbers quoted from the Gato paper",
+          "value": false
+        },
+        "is_compared": {
+          "quote": "GEA outperforms the generalist Gato model [69]",
+          "justification": "Compared numerically",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "Gato [69] trains over all the Meta-World tasks and reports an average performance of 87.0% success rate.",
+          "justification": "Reported as trained in its own paper",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "Scott Reed, Konrad Zolna, Emilio Parisotto, Sergio Gomez Colmenarejo, Alexander Novikov, Gabriel Barth-Maron, Mai Gimenez, Yury Sulsky, Jackie Kay, Jost Tobias Springenberg, et al. A generalist agent.",
+          "justification": "Reference 69",
+          "value": "A generalist agent"
+        }
+      },
+      {
+        "name": {
+          "quote": "GEA is outperformed by Multi-Game DT [41], which uses offline RL from suboptimal demonstrations.",
+          "justification": "Baseline with quoted numbers",
+          "value": "Multi-Game DT"
+        },
+        "aliases": [
+          "Multi-Game Decision Transformer"
+        ],
+        "is_contributed": {
+          "quote": "Multi-Game Decision Transformers [41] achieves 85 normalized score in the same scoring setting.",
+          "justification": "Prior work",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Multi-Game Decision Transformers [41] achieves 85 normalized score in the same scoring setting.",
+          "justification": "Numbers quoted",
+          "value": false
+        },
+        "is_compared": {
+          "quote": "In Atari, GEA is outperformed by Multi-Game DT [41]",
+          "justification": "Compared numerically",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "This method was trained with offline RL based on conditioning the training on the reward-to-go [13].",
+          "justification": "Trained in its own paper",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "Kuang-Huei Lee, Ofir Nachum, Mengjiao Yang, Lisa Lee, Daniel Freeman, Winnie Xu, Sergio Guadarrama, Ian Fischer, Eric Jang, Henryk Michalewski, et al. Multi-game decision transformers.",
+          "justification": "Reference 41",
+          "value": "Multi-game decision transformers"
+        }
+      },
+      {
+        "name": {
+          "quote": "3D Diffuser Actor [35] is the state-of-the-art specialist system for CALVIN ABC → D setting",
+          "justification": "Baseline",
+          "value": "3D Diffuser Actor"
+        },
+        "aliases": [
+          "IL+pointcloud"
+        ],
+        "is_contributed": {
+          "quote": "GEA also performs closely to the specialist 3D Diffuser Actor method [35]",
+          "justification": "Prior work",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "3D Diffuser Actor [35] is the state-of-the-art specialist system for CALVIN ABC → D setting and narrowly outperforms GEA.",
+          "justification": "Numbers quoted from prior work",
+          "value": false
+        },
+        "is_compared": {
+          "quote": "92.2 IL+pointcloud[35]",
+          "justification": "Compared in Table 2",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "3D Diffuser Actor [35] is the state-of-the-art specialist system",
+          "justification": "Trained in its own paper",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "Tsung-Wei Ke, Nikolaos Gkanatsios, and Katerina Fragkiadaki. 3d diffuser actor: Policy diffusion with 3d scene representations.",
+          "justification": "Reference 35",
+          "value": "3d diffuser actor: Policy diffusion with 3d scene representations"
+        }
+      },
+      {
+        "name": {
+          "quote": "RoboFlamingo [48] also adapts an MLLM for control by finetuning it with supervised learning.",
+          "justification": "Baseline",
+          "value": "RoboFlamingo"
+        },
+        "aliases": [
+          "MLLM+IL [48]"
+        ],
+        "is_contributed": {
+          "quote": "RoboFlamingo [48] also adapts an MLLM for control",
+          "justification": "Prior work",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "82.4 MLLM+IL [48]S",
+          "justification": "Numbers quoted",
+          "value": false
+        },
+        "is_compared": {
+          "quote": "In CALVIN, GEA outperforms a variety of recent specialist models.",
+          "justification": "Compared in Table 2",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "RoboFlamingo [48] also adapts an MLLM for control by finetuning it with supervised learning.",
+          "justification": "Finetuned in its own paper",
+          "value": "finetune"
+        },
+        "referenced_paper_title": {
+          "quote": "Xinghang Li, Minghuan Liu, Hanbo Zhang, Cunjun Yu, Jie Xu, Hongtao Wu, Chilam Cheang, Ya Jing, Weinan Zhang, Huaping Liu, et al. Vision-language foundation models as effective robot imitators.",
+          "justification": "Reference 48",
+          "value": "Vision-language foundation models as effective robot imitators"
+        }
+      },
+      {
+        "name": {
+          "quote": "In UI control, another discrete action task, GEA outperforms GPT-4o [64] with set of marks [93]",
+          "justification": "Baseline model",
+          "value": "GPT-4o"
+        },
+        "aliases": [
+          "GPT-4o+SoM"
+        ],
+        "is_contributed": {
+          "quote": "GEA outperforms GPT-4o [64] with set of marks",
+          "justification": "Prior model",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "The Set-of-Mark was implemented using the Ferret-UI model [49] for UI element detection to generate the marks with GPT-4o to determine the action.",
+          "justification": "Appears to be run by the authors as a baseline",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "57.3 45 GPT-4o+SoM [93]G",
+          "justification": "Compared in Table 2",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "with GPT-4o to determine the action",
+          "justification": "Used only for inference",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "OpenAI. Gpt-4o system card.",
+          "justification": "Reference 64",
+          "value": "Gpt-4o system card"
+        }
+      },
+      {
+        "name": {
+          "quote": "The Set-of-Mark was implemented using the Ferret-UI model [49] for UI element detection",
+          "justification": "Used in baseline pipeline",
+          "value": "Ferret-UI"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "The Set-of-Mark was implemented using the Ferret-UI model [49]",
+          "justification": "Prior model",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "The Set-of-Mark was implemented using the Ferret-UI model [49] for UI element detection to generate the marks",
+          "justification": "Run as part of the baseline",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "The Set-of-Mark was implemented using the Ferret-UI model [49] for UI element detection",
+          "justification": "Not compared numerically itself",
+          "value": false
+        },
+        "execution_mode": {
+          "quote": "for UI element detection to generate the marks",
+          "justification": "Inference only",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "Zhangheng Li, Keen You, Haotian Zhang, Di Feng, Harsh Agrawal, Xiujun Li, Mohana Prasad Sathya Moorthy, Jeff Nichols, Yinfei Yang, and Zhe Gan. Ferret-ui 2: Mastering universal user interface understanding across platforms.",
+          "justification": "Reference 49",
+          "value": "Ferret-ui 2: Mastering universal user interface understanding across platforms"
+        }
+      },
+      {
+        "name": {
+          "quote": "Habitat Pick/Place: We collect 50k demonstrations for each of these tasks via an expert policy trained with RL.",
+          "justification": "A trained RL expert used to generate data and as baseline",
+          "value": "RL expert policy (Habitat Pick/Place)"
+        },
+        "aliases": [
+          "RL + sim state"
+        ],
+        "is_contributed": {
+          "quote": "We use the same setup as from the skill training in Szot et al. [78] but operate from an object class to pickup rather than the original geometric goal task specification.",
+          "justification": "Adapted prior-work expert, not a contribution",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "The expert is trained for 100M steps until convergence.",
+          "justification": "Trained by the authors",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "81.0 RL + sim stateS",
+          "justification": "Reported as baseline in Table 2",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "The expert is trained for 100M steps until convergence.",
+          "justification": "Trained with RL",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "Andrew Szot, Alexander Clegg, Eric Undersander, Erik Wijmans, Yili Zhao, John Turner, Noah Maestre, Mustafa Mukadam, Devendra Singh Chaplot, Oleksandr Maksymets, et al. Habitat 2.0: Training home assistants to rearrange their habitat.",
+          "justification": "Reference 78",
+          "value": "Habitat 2.0: Training home assistants to rearrange their habitat"
+        }
+      }
+    ],
+    "data_sources": [
+      {
+        "name": {
+          "quote": "OpenX: The Open X-Embodiment dataset consists of numerous individual datasets spanning different robots.",
+          "justification": "Training dataset",
+          "value": "OpenX"
+        },
+        "aliases": [
+          "Open X-Embodiment"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "OpenX [63] Static Manip ... 1.2M",
+          "justification": "Table 1 lists trajectory count",
+          "value": "1.2M trajectories"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "Abby O’Neill, Abdul Rehman, Abhinav Gupta, ... Open x-embodiment: Robotic learning datasets and rt-x models.",
+          "justification": "Reference 63",
+          "value": "Open x-embodiment: Robotic learning datasets and rt-x models"
+        }
+      },
+      {
+        "name": {
+          "quote": "We use the Metaworld simulator [99] with the pre-defined MT-45 split",
+          "justification": "Environment and dataset",
+          "value": "Meta-World"
+        },
+        "aliases": [
+          "Metaworld",
+          "MT-45"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "Meta-World [98] Static Manip. ... 45k",
+          "justification": "Table 1",
+          "value": "45k trajectories"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "Tianhe Yu, Deirdre Quillen, Zhanpeng He, R. Julian, Karol Hausman, Chelsea Finn, and S. Levine. Meta-world: A benchmark and evaluation for multi-task and meta reinforcement learning.",
+          "justification": "Reference 98/99",
+          "value": "Meta-world: A benchmark and evaluation for multi-task and meta reinforcement learning"
+        }
+      },
+      {
+        "name": {
+          "quote": "We use the standard CALVIN ABC → D dataset provided by Mees et al. [60]",
+          "justification": "Training and evaluation benchmark",
+          "value": "CALVIN"
+        },
+        "aliases": [
+          "CALVIN (ABC→D)"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "This dataset consists of around 18k demonstrations.",
+          "justification": "Stated in appendix",
+          "value": "around 18k demonstrations"
+        },
+        "derived_from": [],
+        "sample_properties": [
+          {
+            "name": "image resolution",
+            "value": {
+              "quote": "The observations are 200×200 RGB renderings from the robot head camera.",
+              "justification": "Stated",
+              "value": "200x200"
+            },
+            "unit": "pixels"
+          }
+        ],
+        "referenced_paper_title": {
+          "quote": "Oier Mees, Lukas Hermann, Erick Rosete-Beas, and Wolfram Burgard. Calvin: A benchmark for language-conditioned policy learning for long-horizon robot manipulation tasks.",
+          "justification": "Reference 60",
+          "value": "Calvin: A benchmark for language-conditioned policy learning for long-horizon robot manipulation tasks"
+        }
+      },
+      {
+        "name": {
+          "quote": "These datasets are from the released imitation learning datasets from Gu et al. [22].",
+          "justification": "Training and evaluation",
+          "value": "Maniskill"
+        },
+        "aliases": [
+          "Maniskill2"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "The dataset from Gu et al. [22] has 1k demonstrations for each of these tasks.",
+          "justification": "Stated",
+          "value": "5k (1k demonstrations for each of 5 tasks)"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "Jiayuan Gu, Fanbo Xiang, Xuanlin Li, Zhan Ling, Xiqiang Liu, Tongzhou Mu, Yihe Tang, Stone Tao, Xinyue Wei, Yunchao Yao, et al. Maniskill2: A unified benchmark for generalizable manipulation skills.",
+          "justification": "Reference 22",
+          "value": "Maniskill2: A unified benchmark for generalizable manipulation skills"
+        }
+      },
+      {
+        "name": {
+          "quote": "Habitat Pick/Place: We collect 50k demonstrations for each of these tasks via an expert policy trained with RL.",
+          "justification": "Environment and dataset",
+          "value": "Habitat Pick"
+        },
+        "aliases": [
+          "HabPick"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "Habitat Pick [78] Mobile Manip. ... 50k",
+          "justification": "Table 1",
+          "value": "50k trajectories"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "Andrew Szot, Alexander Clegg, Eric Undersander, Erik Wijmans, Yili Zhao, John Turner, Noah Maestre, Mustafa Mukadam, Devendra Singh Chaplot, Oleksandr Maksymets, et al. Habitat 2.0: Training home assistants to rearrange their habitat.",
+          "justification": "Reference 78",
+          "value": "Habitat 2.0: Training home assistants to rearrange their habitat"
+        }
+      },
+      {
+        "name": {
+          "quote": "Habitat Place [78] Mobile Manip. Cont. Joint Position+Base Fetch 50k RL Expert",
+          "justification": "Dataset listed in Table 1",
+          "value": "Habitat Place"
+        },
+        "aliases": [],
+        "role": "used",
+        "size": {
+          "quote": "Habitat Place [78] ... 50k",
+          "justification": "Table 1",
+          "value": "50k trajectories"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "Andrew Szot, Alexander Clegg, Eric Undersander, ... Habitat 2.0: Training home assistants to rearrange their habitat.",
+          "justification": "Reference 78",
+          "value": "Habitat 2.0: Training home assistants to rearrange their habitat"
+        }
+      },
+      {
+        "name": {
+          "quote": "Habitat Nav: We collect 13k shortest path demonstrations of an agent navigating to receptacles by name in the house.",
+          "justification": "Dataset/environment",
+          "value": "Habitat Nav"
+        },
+        "aliases": [],
+        "role": "used",
+        "size": {
+          "quote": "Habitat Nav [78] Navigation ... 13k",
+          "justification": "Table 1",
+          "value": "13k trajectories"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "Andrew Szot, Alexander Clegg, Eric Undersander, ... Habitat 2.0: Training home assistants to rearrange their habitat.",
+          "justification": "Reference 78",
+          "value": "Habitat 2.0: Training home assistants to rearrange their habitat"
+        }
+      },
+      {
+        "name": {
+          "quote": "This dataset consists of 50k trajectories split equally between each of the BabyAI tasks from Chevalier-Boisvert et al. [14].",
+          "justification": "Dataset/environment",
+          "value": "BabyAI"
+        },
+        "aliases": [],
+        "role": "used",
+        "size": {
+          "quote": "This dataset consists of 50k trajectories split equally between each of the BabyAI tasks",
+          "justification": "Stated",
+          "value": "50k trajectories"
+        },
+        "derived_from": [],
+        "sample_properties": [
+          {
+            "name": "image resolution",
+            "value": {
+              "quote": "The observations are top-down RGB renderings of the image at 336 × 336 resolution.",
+              "justification": "Stated",
+              "value": "336x336"
+            },
+            "unit": "pixels"
+          }
+        ],
+        "referenced_paper_title": {
+          "quote": "Maxime Chevalier-Boisvert, Dzmitry Bahdanau, Salem Lahlou, Lucas Willems, Chitwan Saharia, Thien Huu Nguyen, and Yoshua Bengio. BabyAI: First steps towards grounded language learning with a human in the loop.",
+          "justification": "Reference 14",
+          "value": "BabyAI: First steps towards grounded language learning with a human in the loop"
+        }
+      },
+      {
+        "name": {
+          "quote": "LangR: For this work, we collect 150k demonstrations for each of the 150k unique training episodes defined by Szot et al. [80].",
+          "justification": "Dataset/environment",
+          "value": "LangR"
+        },
+        "aliases": [
+          "Language Rearrangement"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "we collect 150k demonstrations for each of the 150k unique training episodes",
+          "justification": "Stated",
+          "value": "150k demonstrations"
+        },
+        "derived_from": [],
+        "sample_properties": [
+          {
+            "name": "image resolution",
+            "value": {
+              "quote": "The observations are 336 × 336 RGB images from the robot head camera.",
+              "justification": "Stated",
+              "value": "336x336"
+            },
+            "unit": "pixels"
+          }
+        ],
+        "referenced_paper_title": {
+          "quote": "Andrew Szot, Max Schwarzer, Harsh Agrawal, Bogdan Mazoure, Walter Talbott, Katherine Metcalf, Natalie Mackraz, Devon Hjelm, and Alexander Toshev. Large language models as generalizable policies for embodied tasks.",
+          "justification": "Reference 80",
+          "value": "Large language models as generalizable policies for embodied tasks"
+        }
+      },
+      {
+        "name": {
+          "quote": "Procgen: We use the training datasets across all Procgen games provided from Mediratta et al. [59].",
+          "justification": "Dataset/environment",
+          "value": "Procgen"
+        },
+        "aliases": [],
+        "role": "used",
+        "size": {
+          "quote": "This dataset consists of 10M observation-action transitions between all the games ... These transitions amount to around 320k trajectories.",
+          "justification": "Stated",
+          "value": "10M transitions / around 320k trajectories"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "Karl Cobbe, Chris Hesse, Jacob Hilton, and John Schulman. Leveraging procedural generation to benchmark reinforcement learning.",
+          "justification": "Reference 15",
+          "value": "Leveraging procedural generation to benchmark reinforcement learning"
+        }
+      },
+      {
+        "name": {
+          "quote": "Atari: We use the DQN replay dataset [2], which consists of 50 million transitions collected while training the DQN [61] algorithm on each of the 44 environments separately.",
+          "justification": "Dataset",
+          "value": "Atari"
+        },
+        "aliases": [
+          "Arcade Learning Environment",
+          "ALE",
+          "DQN replay dataset"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "Atari [7] Video Games Discrete Virtual 286k RL Expert",
+          "justification": "Table 1 trajectory count",
+          "value": "286k trajectories"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "Marc G Bellemare, Yavar Naddaf, Joel Veness, and Michael Bowling. The arcade learning environment: An evaluation platform for general agents.",
+          "justification": "Reference 7",
+          "value": "The arcade learning environment: An evaluation platform for general agents"
+        }
+      },
+      {
+        "name": {
+          "quote": "This is the dataset from Li et al. [47] consisting of 14k human demonstrations of using apps to accomplish UI control tasks.",
+          "justification": "Dataset",
+          "value": "AndroidControl"
+        },
+        "aliases": [
+          "Android Control"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "consisting of 14k human demonstrations of using apps to accomplish UI control tasks",
+          "justification": "Stated",
+          "value": "14k human demonstrations"
+        },
+        "derived_from": [],
+        "sample_properties": [
+          {
+            "name": "image resolution",
+            "value": {
+              "quote": "The original images are 1080 × 1920, corresponding to the phone screen size.",
+              "justification": "Stated",
+              "value": "1080x1920"
+            },
+            "unit": "pixels"
+          }
+        ],
+        "referenced_paper_title": {
+          "quote": "Wei Li, William Bishop, Alice Li, Chris Rawles, Folawiyo Campbell-Ajala, Divya Tyamagundlu, and Oriana Riva. On the effects of data scale on computer control agents.",
+          "justification": "Reference 47",
+          "value": "On the effects of data scale on computer control agents"
+        }
+      },
+      {
+        "name": {
+          "quote": "We used the following datasets of text and images without any actions: VQAv2 [21]",
+          "justification": "Auxiliary training data",
+          "value": "VQAv2"
+        },
+        "aliases": [],
+        "role": "used",
+        "size": {
+          "quote": "We used the following datasets of text and images without any actions: VQAv2 [21], OKVQA [57], A-OKVQA [73], GQA [32]",
+          "justification": "Size not stated",
+          "value": "unknown"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "Yash Goyal, Tejas Khot, Douglas Summers-Stay, Dhruv Batra, and Devi Parikh. Making the v in vqa matter: Elevating the role of image understanding in visual question answering.",
+          "justification": "Reference 21",
+          "value": "Making the v in vqa matter: Elevating the role of image understanding in visual question answering"
+        }
+      },
+      {
+        "name": {
+          "quote": "We used the following datasets of text and images without any actions: VQAv2 [21], OKVQA [57]",
+          "justification": "Auxiliary training data",
+          "value": "OKVQA"
+        },
+        "aliases": [],
+        "role": "used",
+        "size": {
+          "quote": "OKVQA [57]",
+          "justification": "Size not stated",
+          "value": "unknown"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "Kenneth Marino, Mohammad Rastegari, Ali Farhadi, and Roozbeh Mottaghi. Ok-vqa: A visual question answering benchmark requiring external knowledge.",
+          "justification": "Reference 57",
+          "value": "Ok-vqa: A visual question answering benchmark requiring external knowledge"
+        }
+      },
+      {
+        "name": {
+          "quote": "A-OKVQA [73]",
+          "justification": "Auxiliary training data",
+          "value": "A-OKVQA"
+        },
+        "aliases": [],
+        "role": "used",
+        "size": {
+          "quote": "A-OKVQA [73]",
+          "justification": "Size not stated",
+          "value": "unknown"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "Dustin Schwenk, Apoorv Khandelwal, Christopher Clark, Kenneth Marino, and Roozbeh Mottaghi. A-okvqa: A benchmark for visual question answering using world knowledge.",
+          "justification": "Reference 73",
+          "value": "A-okvqa: A benchmark for visual question answering using world knowledge"
+        }
+      },
+      {
+        "name": {
+          "quote": "GQA [32]",
+          "justification": "Auxiliary training data",
+          "value": "GQA"
+        },
+        "aliases": [],
+        "role": "used",
+        "size": {
+          "quote": "GQA [32] and the LLaVA-Instruct-150k dataset [52]",
+          "justification": "Size not stated",
+          "value": "unknown"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "Drew A. Hudson and Christopher D. Manning. Gqa: a new dataset for compositional question answering over real-world images.",
+          "justification": "Reference 32",
+          "value": "Gqa: a new dataset for compositional question answering over real-world images"
+        }
+      },
+      {
+        "name": {
+          "quote": "the LLaVA-Instruct-150k dataset [52]",
+          "justification": "Auxiliary training data",
+          "value": "LLaVA-Instruct-150k"
+        },
+        "aliases": [],
+        "role": "used",
+        "size": {
+          "quote": "the LLaVA-Instruct-150k dataset [52]",
+          "justification": "Name contains size but paper does not state usage size separately",
+          "value": "unknown"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "Haotian Liu, Chunyuan Li, Yuheng Li, and Yong Jae Lee. Improved baselines with visual instruction tuning.",
+          "justification": "Reference 52",
+          "value": "Improved baselines with visual instruction tuning"
+        }
+      }
+    ],
+    "libraries": [
+      {
+        "name": {
+          "quote": "We use the object rearrangement tasks from the Habitat platform [71]",
+          "justification": "Simulation platform",
+          "value": "Habitat"
+        },
+        "aliases": [
+          "Habitat platform"
+        ],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "Manolis Savva, Abhishek Kadian, Oleksandr Maksymets, Yili Zhao, Erik Wijmans, Bhavana Jain, Julian Straub, Jia Liu, Vladlen Koltun, Jitendra Malik, Devi Parikh, and Dhruv Batra. Habitat: A Platform for Embodied AI Research.",
+          "justification": "Reference 71",
+          "value": "Habitat: A Platform for Embodied AI Research"
+        }
+      },
+      {
+        "name": {
+          "quote": "by using the same setup as the DQN replay dataset, which in turn relies on the Dopamine [12] framework",
+          "justification": "Framework used for Atari evaluation setup",
+          "value": "Dopamine"
+        },
+        "aliases": [],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "Pablo Samuel Castro, Subhodeep Moitra, Carles Gelada, Saurabh Kumar, and Marc G. Bellemare. Dopamine: A Research Framework for Deep Reinforcement Learning.",
+          "justification": "Reference 12",
+          "value": "Dopamine: A Research Framework for Deep Reinforcement Learning"
+        }
+      },
+      {
+        "name": {
+          "quote": "Specifically, we use the {GameID}NoFramskip-v4 version of the ALE simulator [6].",
+          "justification": "Simulator software",
+          "value": "ALE simulator"
+        },
+        "aliases": [
+          "ALE"
+        ],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "M. G. Bellemare, Y. Naddaf, J. Veness, and M. Bowling. The arcade learning environment: An evaluation platform for general agents.",
+          "justification": "Reference 6",
+          "value": "The arcade learning environment: An evaluation platform for general agents"
+        }
+      },
+      {
+        "name": {
+          "quote": "We use the Metaworld simulator [99] with the pre-defined MT-45 split",
+          "justification": "Simulator software",
+          "value": "Metaworld simulator"
+        },
+        "aliases": [],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "Tianhe Yu, Deirdre Quillen, Zhanpeng He, Ryan Julian, Karol Hausman, Chelsea Finn, and Sergey Levine. Meta-world: A benchmark and evaluation for multi-task and meta reinforcement learning.",
+          "justification": "Reference 99",
+          "value": "Meta-world: A benchmark and evaluation for multi-task and meta reinforcement learning"
+        }
+      }
+    ],
+    "algorithms": [
+      {
+        "name": {
+          "quote": "we then employ supervised finetuning (SFT) [87] to adapt a pretrained MLLM to predict actions",
+          "justification": "Core training procedure",
+          "value": "supervised finetuning (SFT)"
+        },
+        "aliases": [
+          "SFT",
+          "supervised-instruction finetuning"
+        ],
+        "is_contributed": {
+          "quote": "we then employ supervised finetuning (SFT) [87] to adapt a pretrained MLLM",
+          "justification": "Standard procedure",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We then train the base MLLM over all the above datasets with SFT to obtain the GEA-Base model.",
+          "justification": "Executed",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Comparative Benefit of RL to SFT.",
+          "justification": "Compared with RL variants",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "The first step of GEA is to use supervised-instruction finetuning (SFT) to adapt the base MLLM for embodied decision-making",
+          "justification": "Stage-1 training",
+          "value": "adapts the base MLLM for embodied decision-making via cross-entropy loss over actions"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Jason Wei, Maarten Bosma, Vincent Y Zhao, Kelvin Guu, Adams Wei Yu, Brian Lester, Nan Du, Andrew M Dai, and Quoc V Le. Finetuned language models are zero-shot learners.",
+          "justification": "Reference 87",
+          "value": "Finetuned language models are zero-shot learners"
+        }
+      },
+      {
+        "name": {
+          "quote": "we train the GEA-Base agent with PPO [72]",
+          "justification": "RL algorithm",
+          "value": "PPO"
+        },
+        "aliases": [
+          "Proximal Policy Optimization"
+        ],
+        "is_contributed": {
+          "quote": "For online RL, we train the GEA-Base agent with PPO [72]",
+          "justification": "Standard algorithm",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "GEA Online RL finetunes GEA-Base with PPO, which leverages online interactions with the simulator",
+          "justification": "Executed",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Online RL outperforms both Success SFT and IQL offline RL",
+          "justification": "Compared to other data-collection/learning schemes",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "For online RL, we train the GEA-Base agent with PPO [72], whose optimization loss is denoted by LPPO (Mi )",
+          "justification": "Stage-2 online RL objective",
+          "value": "the online RL objective used in stage 2 training"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "John Schulman, Filip Wolski, Prafulla Dhariwal, Alec Radford, and Oleg Klimov. Proximal policy optimization algorithms.",
+          "justification": "Reference 72",
+          "value": "Proximal policy optimization algorithms"
+        }
+      },
+      {
+        "name": {
+          "quote": "we use LoRA [29] to finetune the LLM while freezing all other components",
+          "justification": "Parameter-efficient finetuning",
+          "value": "LoRA"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "we use LoRA [29] to finetune the LLM",
+          "justification": "Standard",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "For LoRA finetuning, we use a value of r = 128, α = 32, and a dropout value of 0.1.",
+          "justification": "Executed",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "we use LoRA [29] to finetune the LLM while freezing all other components",
+          "justification": "Not compared",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "we use LoRA [29] to finetune the LLM while freezing all other components",
+          "justification": "Used in RL finetuning stage",
+          "value": "finetunes the LLM in the RL stage while freezing other components"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Edward J Hu, Yelong Shen, Phillip Wallis, Zeyuan Allen-Zhu, Yuanzhi Li, Shean Wang, Lu Wang, and Weizhu Chen. Lora: Low-rank adaptation of large language models.",
+          "justification": "Reference 29",
+          "value": "Lora: Low-rank adaptation of large language models"
+        }
+      },
+      {
+        "name": {
+          "quote": "We train for 75k updates using AdamW [53] with cosine learning rate decay",
+          "justification": "Optimizer",
+          "value": "AdamW"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "using AdamW [53]",
+          "justification": "Standard",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "The model is then trained for 15k updates using the AdamW optimizer [53]",
+          "justification": "Executed",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "We also use the AdamW optimizer for RL training but without any learning rate schedule.",
+          "justification": "Not compared",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "We train for 75k updates using AdamW [53] with cosine learning rate decay and linear learning rate warmup",
+          "justification": "Optimizer used in training",
+          "value": "optimizer used for SFT, RVQ and RL training"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Ilya Loshchilov and Frank Hutter. Decoupled weight decay regularization.",
+          "justification": "Reference 53",
+          "value": "Decoupled weight decay regularization"
+        }
+      },
+      {
+        "name": {
+          "quote": "we use PopArt [84] return normalization to account for the diverse reward distributions across these environments",
+          "justification": "Normalization procedure for RL",
+          "value": "PopArt"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "we use PopArt [84] return normalization",
+          "justification": "Standard",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "To stabilize RL training across numerous environments, we use PopArt [84] return normalization",
+          "justification": "Executed",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "we use PopArt [84] return normalization to account for the diverse reward distributions",
+          "justification": "Not compared",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "To stabilize RL training across numerous environments, we use PopArt [84] return normalization",
+          "justification": "Stabilizes RL",
+          "value": "return normalization to stabilize RL across environments"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Hado P Van Hasselt, Arthur Guez, Matteo Hessel, Volodymyr Mnih, and David Silver. Learning values across many orders of magnitude.",
+          "justification": "Reference 84",
+          "value": "Learning values across many orders of magnitude"
+        }
+      },
+      {
+        "name": {
+          "quote": "we use constrained decoding to force the autoregressive action sampling to be within the action space for the environment",
+          "justification": "Decoding procedure",
+          "value": "constrained decoding"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "we use constrained decoding to force the autoregressive action sampling to be within the action space",
+          "justification": "Not presented as novel",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Since the output space of the LLM can consist of many possible tokens, we use constrained decoding",
+          "justification": "Executed",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "we use constrained decoding to force the autoregressive action sampling",
+          "justification": "Not compared",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "we use constrained decoding to force the autoregressive action sampling to be within the action space for the environment",
+          "justification": "Decoding at action sampling time",
+          "value": "constrains the action sampling to valid actions for the environment"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "No reference given",
+          "value": "N/A"
+        }
+      },
+      {
+        "name": {
+          "quote": "We use GAE return estimation with τ = 0.95 and a discount factor of γ = 0.999.",
+          "justification": "Advantage estimation",
+          "value": "GAE"
+        },
+        "aliases": [
+          "GAE return estimation"
+        ],
+        "is_contributed": {
+          "quote": "We use GAE return estimation with τ = 0.95",
+          "justification": "Standard",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We use GAE return estimation with τ = 0.95 and a discount factor of γ = 0.999.",
+          "justification": "Executed in RL run",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "We use GAE return estimation with τ = 0.95",
+          "justification": "Not compared",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "We use GAE return estimation with τ = 0.95 and a discount factor of γ = 0.999.",
+          "justification": "Used in RL training",
+          "value": "return estimation used by PPO training"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "No reference",
+          "value": "N/A"
+        }
+      },
+      {
+        "name": {
+          "quote": "then trains on these with the IQL offline-RL algorithm [38]",
+          "justification": "Offline RL baseline procedure",
+          "value": "IQL"
+        },
+        "aliases": [
+          "offline RL"
+        ],
+        "is_contributed": {
+          "quote": "trains on these with the IQL offline-RL algorithm [38]",
+          "justification": "Prior algorithm",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "GEA-Base Offline RL collects 10k trajectories ... and then trains on these with the IQL offline-RL algorithm [38].",
+          "justification": "Executed in ablation",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Online RL outperforms both Success SFT and IQL offline RL",
+          "justification": "Compared",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "GEA-Base Offline RL collects 10k trajectories consisting of both successes and failures, both labeled with the dense Habitat Pick reward, and then trains on these with the IQL offline-RL algorithm",
+          "justification": "Alternative to online RL in analysis",
+          "value": "offline RL baseline trained on policy-collected trajectories"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Ilya Kostrikov, Ashvin Nair, and Sergey Levine. Offline reinforcement learning with implicit q-learning.",
+          "justification": "Reference 38",
+          "value": "Offline reinforcement learning with implicit q-learning"
+        }
+      },
+      {
+        "name": {
+          "quote": "GEA-Base Success SFT collects 10k successful examples in the environment with the GEA-Base policy and then trains on these successes with supervised learning.",
+          "justification": "Named ablation procedure",
+          "value": "Success SFT"
+        },
+        "aliases": [
+          "GEA-Base Success SFT"
+        ],
+        "is_contributed": {
+          "quote": "First, GEA-Base Success SFT collects 10k successful examples in the environment with the GEA-Base policy",
+          "justification": "Baseline variant studied",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Figure 4 shows the results of these variations.",
+          "justification": "Executed",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Online RL outperforms both Success SFT and IQL offline RL",
+          "justification": "Compared",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "collects 10k successful examples in the environment with the GEA-Base policy and then trains on these successes with supervised learning",
+          "justification": "Iterative SFT baseline",
+          "value": "iterative SFT on self-collected successful trajectories"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "No reference",
+          "value": "N/A"
+        }
+      },
+      {
+        "name": {
+          "quote": "we use a learned action tokenizer that maps each continuous action into a sequence of new tokens",
+          "justification": "Contributed tokenization procedure",
+          "value": "multi-embodiment action tokenizer"
+        },
+        "aliases": [
+          "Multi-Embodiment Action Tokenizer",
+          "continuous multi-embodiment tokenizer"
+        ],
+        "is_contributed": {
+          "quote": "GEA is a single unified model capable of grounding itself across these varied domains through a multi-embodiment action tokenizer.",
+          "justification": "Contribution",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "This trained RVQ tokenizer was then used to train and evaluate all models with continuous actions.",
+          "justification": "Executed",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "GEA is different from OpenVLA [36] in that it uses a learned multi-embodiment action tokenizer as opposed to a uniform discretization",
+          "justification": "Discussed as different but not numerically compared here",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "To enable GEA to control diverse embodiments, we learn a unified learned tokenization mechanism across all continuous and discrete action spaces.",
+          "justification": "Tokenizes actions into LLM vocabulary",
+          "value": "maps continuous and discrete actions into LLM vocabulary tokens"
+        },
+        "composed_of": [
+          "Residual VQ-VAE (RVQ)"
+        ],
+        "referenced_paper_title": {
+          "quote": "Andrew Szot, Bogdan Mazoure, Harsh Agrawal, Devon Hjelm, Zsolt Kira, and Alexander Toshev. Grounding multimodal large language models in actions.",
+          "justification": "Reference 81",
+          "value": "Grounding multimodal large language models in actions"
+        }
+      },
+      {
+        "name": {
+          "quote": "We compare against using a Set-of-Mark prompting with GPT-4o.",
+          "justification": "Prompting procedure for baseline",
+          "value": "Set-of-Mark"
+        },
+        "aliases": [
+          "SoM",
+          "set of marks"
+        ],
+        "is_contributed": {
+          "quote": "We compare against using a Set-of-Mark prompting with GPT-4o.",
+          "justification": "Prior method",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "The Set-of-Mark was implemented using the Ferret-UI model [49] for UI element detection to generate the marks with GPT-4o to determine the action.",
+          "justification": "Executed as baseline",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "GEA outperforms GPT-4o [64] with set of marks [93]",
+          "justification": "Compared",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "We compare against using a Set-of-Mark prompting with GPT-4o.",
+          "justification": "Baseline prompting technique for UI control",
+          "value": "prompting scheme for the GPT-4o UI control baseline"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Jianwei Yang, Hao Zhang, Feng Li, Xueyan Zou, Chunyuan Li, and Jianfeng Gao. Set-of-mark prompting unleashes extraordinary visual grounding in gpt-4v.",
+          "justification": "Reference 93",
+          "value": "Set-of-mark prompting unleashes extraordinary visual grounding in gpt-4v"
+        }
+      },
+      {
+        "name": {
+          "quote": "The superior results of 47.8% success are from Table 3 of Gu et al. [22], which train with DAPG [67] and PPO.",
+          "justification": "Baseline algorithm mentioned",
+          "value": "DAPG"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "which train with DAPG [67] and PPO",
+          "justification": "Prior work baseline",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "The superior results of 47.8% success are from Table 3 of Gu et al. [22]",
+          "justification": "Numbers quoted, not run here",
+          "value": false
+        },
+        "is_compared": {
+          "quote": "47.8 IL+PPO [22]S",
+          "justification": "Compared in Table 2",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "The superior results of 47.8% success are from Table 3 of Gu et al. [22], which train with DAPG [67] and PPO.",
+          "justification": "Baseline training method",
+          "value": "the training method of a Maniskill baseline quoted from prior work"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Aravind Rajeswaran, Vikash Kumar, Abhishek Gupta, Giulia Vezzani, John Schulman, Emanuel Todorov, and Sergey Levine. Learning complex dexterous manipulation with deep reinforcement learning and demonstrations.",
+          "justification": "Reference 67",
+          "value": "Learning complex dexterous manipulation with deep reinforcement learning and demonstrations"
+        }
+      }
+    ],
+    "runs": [
+      {
+        "models": [
+          {
+            "name": "Residual VQ-VAE (RVQ)",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "OpenX",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "Meta-World",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "CALVIN",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "Maniskill",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "Habitat Pick",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "Habitat Place",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "Habitat Nav",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "multi-embodiment action tokenizer"
+          },
+          {
+            "name": "AdamW"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "The model is then trained for 15k updates using the AdamW optimizer [53]",
+          "justification": "Tokenizer trained from scratch",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "The model is then trained for 15k updates",
+          "justification": "Updates given, not epochs",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "we use 2 codebooks, each with 512 tokens, and the token vector dimension is 1024",
+          "justification": "No parameter count stated",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "The tokenizer is trained with a per-GPU batch size of 256 across 8 H100 GPUs.",
+          "justification": "GPUs stated",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "across 8 H100 GPUs",
+          "justification": "H100 stated",
+          "value": "H100"
+        },
+        "accelerator_count": {
+          "quote": "The tokenizer is trained with a per-GPU batch size of 256 across 8 H100 GPUs.",
+          "justification": "8 GPUs",
+          "value": "8"
+        },
+        "precision": {
+          "quote": "The tokenizer is trained with a per-GPU batch size of 256 across 8 H100 GPUs.",
+          "justification": "Not stated",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "per-GPU batch size of 256 across 8 H100 GPUs",
+          "justification": "Not explicitly stated",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "The model is then trained for 15k updates",
+          "justification": "No wall-clock duration",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "Not reported",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "",
+          "justification": "Not reported",
+          "value": "unknown"
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "GEA-Base",
+            "role_in_run": "main"
+          },
+          {
+            "name": "LLaVA-OneVision",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "OpenX",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "Meta-World",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "CALVIN",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "Maniskill",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "Habitat Pick",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "Habitat Place",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "Habitat Nav",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "BabyAI",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "LangR",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "Procgen",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "Atari",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "AndroidControl",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "VQAv2",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "OKVQA",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "A-OKVQA",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "GQA",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "LLaVA-Instruct-150k",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "supervised finetuning (SFT)"
+          },
+          {
+            "name": "AdamW"
+          },
+          {
+            "name": "multi-embodiment action tokenizer"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "The entire GEA-Base model is initialized from the base MLLM. We train for 75k updates",
+          "justification": "Finetuning the pretrained MLLM",
+          "value": "finetune"
+        },
+        "epochs": {
+          "quote": "We train for 75k updates using AdamW [53]",
+          "justification": "Updates, not epochs",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "Table 3. Effect of stage 2 RL training on GEA-Base (7b model).",
+          "justification": "7b stated for the main model",
+          "value": "7b"
+        },
+        "accelerator_type": {
+          "quote": "Training takes around 2 days on 8 nodes of 8xH100 GPUs",
+          "justification": "GPUs",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "8 nodes of 8xH100 GPUs",
+          "justification": "H100",
+          "value": "H100"
+        },
+        "accelerator_count": {
+          "quote": "Training takes around 2 days on 8 nodes of 8xH100 GPUs (see Appendix B).",
+          "justification": "Stated",
+          "value": "8 nodes of 8xH100 GPUs"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Not stated",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "global batch size of 256",
+          "justification": "Not explicitly stated",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "Training takes around 2 days on 8 nodes of 8xH100 GPUs",
+          "justification": "Stated",
+          "value": "around 2 days on 8 nodes of 8xH100 GPUs"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "Not reported",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "",
+          "justification": "Not reported",
+          "value": "unknown"
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "GEA",
+            "role_in_run": "main"
+          },
+          {
+            "name": "GEA-Base",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Habitat Pick",
+            "access": "interactive",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "LangR",
+            "access": "interactive",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "Procgen",
+            "access": "interactive",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "OpenX",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "Meta-World",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "CALVIN",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "BabyAI",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "AndroidControl",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "Atari",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "PPO"
+          },
+          {
+            "name": "LoRA"
+          },
+          {
+            "name": "PopArt"
+          },
+          {
+            "name": "constrained decoding"
+          },
+          {
+            "name": "GAE"
+          },
+          {
+            "name": "supervised finetuning (SFT)"
+          },
+          {
+            "name": "AdamW"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "Next, GEA-Base is finetuned jointly with online RL (PPO) and SFT on the original data with LoRA.",
+          "justification": "Finetuning stage",
+          "value": "finetune"
+        },
+        "epochs": {
+          "quote": "We update with 2 PPO epochs, 6 minibatches per epoch",
+          "justification": "PPO epochs not dataset passes",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "Table 3. Effect of stage 2 RL training on GEA-Base (7b model).",
+          "justification": "7b model",
+          "value": "7b"
+        },
+        "accelerator_type": {
+          "quote": "RL finetuning uses 8 nodes of 8xH100 GPUs with 4 parallel environments per GPU.",
+          "justification": "GPUs",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "8 nodes of 8xH100 GPUs",
+          "justification": "H100",
+          "value": "H100"
+        },
+        "accelerator_count": {
+          "quote": "RL finetuning uses 8 nodes of 8xH100 GPUs with 4 parallel environments per GPU.",
+          "justification": "Stated",
+          "value": "8 nodes of 8xH100 GPUs"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Not stated",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "Environments are partitioned per node into 3 of the GPUs running HabPick, 3 running Procgen, and 2 running LangR.",
+          "justification": "Distributed over GPUs but strategy not named",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "We train for 100M cumulative steps across all tasks, which takes around 1 day.",
+          "justification": "Stated",
+          "value": "around 1 day"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "Not reported",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "",
+          "justification": "Not reported",
+          "value": "unknown"
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "GEA-Base",
+            "role_in_run": "main"
+          },
+          {
+            "name": "LLaVA-OneVision",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Meta-World",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "CALVIN",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "Habitat Pick",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "BabyAI",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "Procgen",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "AndroidControl",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "supervised finetuning (SFT)"
+          },
+          {
+            "name": "AdamW"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "All results in the analysis section are reported in the LLaVA-OneVision-500m setting unless specified otherwise.",
+          "justification": "Analysis-setting SFT finetuning at 500m scale",
+          "value": "finetune"
+        },
+        "epochs": {
+          "quote": "we reduce the number of updates to 40k and use a global batch size of 256 across 2 nodes of 8 H100 GPUs each",
+          "justification": "Updates, not epochs",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "we train the smaller LLaVA-OneVision-500m model",
+          "justification": "500m stated",
+          "value": "500m"
+        },
+        "accelerator_type": {
+          "quote": "global batch size of 256 across 2 nodes of 8 H100 GPUs each",
+          "justification": "GPUs",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "2 nodes of 8 H100 GPUs each",
+          "justification": "H100",
+          "value": "H100"
+        },
+        "accelerator_count": {
+          "quote": "across 2 nodes of 8 H100 GPUs each",
+          "justification": "Stated",
+          "value": "2 nodes of 8 H100 GPUs each"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Not stated",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "global batch size of 256 across 2 nodes of 8 H100 GPUs each",
+          "justification": "Not stated explicitly",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "Not stated",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "Not reported",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "We train three different random seeds for GEA-Base-500m.",
+          "justification": "Seeds plus domain-pair and ablation variants; seeds explicitly 3",
+          "value": "3 random seeds (plus domain-specific and pairwise-domain ablation variants)"
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "GEA-Base",
+            "role_in_run": "main"
+          },
+          {
+            "name": "MM1.5",
+            "role_in_run": "main"
+          },
+          {
+            "name": "LLaVA-1.5-7b",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Meta-World",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "CALVIN",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "Habitat Pick",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "BabyAI",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "Procgen",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "AndroidControl",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "supervised finetuning (SFT)"
+          },
+          {
+            "name": "AdamW"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "we analyze the impact of the base MLLM size on the GEA-Base. We use two classes of backbone models, LLaVA-OneVision [44] and MM1.5 [58]",
+          "justification": "Finetuning different larger backbones",
+          "value": "finetune"
+        },
+        "epochs": {
+          "quote": "we reduce the number of updates to 40k",
+          "justification": "Analysis setting",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "use two sizes for each of them (0.5B and 7B for the former, and 1.2B and 6.4B for the latter)",
+          "justification": "Larger-scale backbones",
+          "value": "7B / 6.4B / 1.2B"
+        },
+        "accelerator_type": {
+          "quote": "global batch size of 256 across 2 nodes of 8 H100 GPUs each",
+          "justification": "Analysis-setting hardware",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "2 nodes of 8 H100 GPUs each",
+          "justification": "H100",
+          "value": "H100"
+        },
+        "accelerator_count": {
+          "quote": "across 2 nodes of 8 H100 GPUs each",
+          "justification": "Stated for analysis setting",
+          "value": "2 nodes of 8 H100 GPUs each"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Not stated",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "Not stated",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "Not stated",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "Not reported",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "",
+          "justification": "Not stated",
+          "value": "unknown"
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "GEA-Base",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Habitat Pick",
+            "access": "interactive",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "PPO"
+          },
+          {
+            "name": "LoRA"
+          },
+          {
+            "name": "GAE"
+          },
+          {
+            "name": "AdamW"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "GEA Online RL finetunes GEA-Base with PPO, which leverages online interactions with the simulator like the GEA Stage-2 training (but omits the joint SFT loss).",
+          "justification": "Online RL finetuning at 500m scale on a single environment",
+          "value": "finetune"
+        },
+        "epochs": {
+          "quote": "Success rate on the Habitat Pick task of GEA-Base and the base MLLM when finetuning with online RL.",
+          "justification": "No epochs given",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "We again use the smaller base LLaVA-OneVision-500m model for these experiments.",
+          "justification": "500m",
+          "value": "500m"
+        },
+        "accelerator_type": {
+          "quote": "RL finetuning uses 8 nodes of 8xH100 GPUs",
+          "justification": "GPU-based RL",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "",
+          "justification": "Not stated for this analysis run",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "",
+          "justification": "Not stated for this analysis run",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Not stated",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "Not stated",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "Not stated",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "Not reported",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "",
+          "justification": "Not stated",
+          "value": "unknown"
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "LLaVA-OneVision",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Habitat Pick",
+            "access": "interactive",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "PPO"
+          },
+          {
+            "name": "LoRA"
+          },
+          {
+            "name": "GAE"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "MLLM Online RL ... MLLM methods finetune LLaVA-OV",
+          "justification": "Online RL directly on base MLLM",
+          "value": "finetune"
+        },
+        "epochs": {
+          "quote": "Success rate on the Habitat Pick task of GEA-Base and the base MLLM when finetuning with online RL.",
+          "justification": "No epochs",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "We again use the smaller base LLaVA-OneVision-500m model for these experiments.",
+          "justification": "500m",
+          "value": "500m"
+        },
+        "accelerator_type": {
+          "quote": "RL introduces GPU memory overhead via environments simulated on the GPU",
+          "justification": "GPU",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "",
+          "justification": "Not stated",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "",
+          "justification": "Not stated",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Not stated",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "Not stated",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "Not stated",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "Not reported",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "",
+          "justification": "Not stated",
+          "value": "unknown"
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "GEA-Base",
+            "role_in_run": "data-source"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Habitat Pick",
+            "access": "interactive",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Success SFT"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "We use the GEA-Base checkpoint to collect 10,000 trajectories with action sampling to allow for suboptimal trajectories to be added to the data.",
+          "justification": "A separate data collection stage using the policy in the simulator",
+          "value": "inference"
+        },
+        "epochs": {
+          "quote": "",
+          "justification": "Not applicable",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "We again use the smaller base LLaVA-OneVision-500m model for these experiments.",
+          "justification": "500m analysis setting",
+          "value": "500m"
+        },
+        "accelerator_type": {
+          "quote": "RL introduces GPU memory overhead via environments simulated on the GPU",
+          "justification": "GPU-based rollouts",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "",
+          "justification": "Not stated",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "",
+          "justification": "Not stated",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Not stated",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "Not stated",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "Not stated",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "Not reported",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "",
+          "justification": "Not stated",
+          "value": "unknown"
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "GEA-Base",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Habitat Pick",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "IQL"
+          },
+          {
+            "name": "LoRA"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "GEA-Base Offline RL collects 10k trajectories consisting of both successes and failures, both labeled with the dense Habitat Pick reward, and then trains on these with the IQL offline-RL algorithm [38].",
+          "justification": "Offline RL finetuning on a frozen collected dataset",
+          "value": "finetune"
+        },
+        "epochs": {
+          "quote": "",
+          "justification": "Not stated",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "We again use the smaller base LLaVA-OneVision-500m model for these experiments.",
+          "justification": "500m analysis setting",
+          "value": "500m"
+        },
+        "accelerator_type": {
+          "quote": "we reduce the number of updates to 40k and use a global batch size of 256 across 2 nodes of 8 H100 GPUs each",
+          "justification": "GPU analysis setting",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "",
+          "justification": "Not stated for this run",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "",
+          "justification": "Not stated for this run",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Not stated",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "Not stated",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "Not stated",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "Not reported",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "",
+          "justification": "Not stated",
+          "value": "unknown"
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "GEA",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Meta-World",
+            "access": "interactive",
+            "roles_in_run": [
+              "test"
+            ]
+          },
+          {
+            "name": "CALVIN",
+            "access": "interactive",
+            "roles_in_run": [
+              "test"
+            ]
+          },
+          {
+            "name": "Maniskill",
+            "access": "interactive",
+            "roles_in_run": [
+              "test"
+            ]
+          },
+          {
+            "name": "Habitat Pick",
+            "access": "interactive",
+            "roles_in_run": [
+              "test"
+            ]
+          },
+          {
+            "name": "Habitat Place",
+            "access": "interactive",
+            "roles_in_run": [
+              "test"
+            ]
+          },
+          {
+            "name": "Habitat Nav",
+            "access": "interactive",
+            "roles_in_run": [
+              "test"
+            ]
+          },
+          {
+            "name": "BabyAI",
+            "access": "interactive",
+            "roles_in_run": [
+              "test"
+            ]
+          },
+          {
+            "name": "Procgen",
+            "access": "interactive",
+            "roles_in_run": [
+              "test"
+            ]
+          },
+          {
+            "name": "Atari",
+            "access": "interactive",
+            "roles_in_run": [
+              "test"
+            ]
+          },
+          {
+            "name": "LangR",
+            "access": "interactive",
+            "roles_in_run": [
+              "test"
+            ]
+          },
+          {
+            "name": "AndroidControl",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "constrained decoding"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "We report the “online” performance of GEA, meaning we evaluate its performance in an interactive simulator.",
+          "justification": "Evaluation inference run",
+          "value": "inference"
+        },
+        "epochs": {
+          "quote": "",
+          "justification": "Not applicable",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "Table 3. Effect of stage 2 RL training on GEA-Base (7b model).",
+          "justification": "7b model evaluated",
+          "value": "7b"
+        },
+        "accelerator_type": {
+          "quote": "RL finetuning uses 8 nodes of 8xH100 GPUs",
+          "justification": "GPU-based evaluation assumed from same infrastructure; paper does not detail",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "",
+          "justification": "Not stated",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "",
+          "justification": "Not stated",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Not stated",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "Not stated",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "Not stated",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "Not reported",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "We evaluate each task from Chevalier-Boisvert et al. [14] and evaluate over 100 random episodes for each of the 17 tasks, resulting in 1700 total episodes",
+          "justification": "Number of evaluation episodes stated per benchmark",
+          "value": "varies per benchmark (e.g., 1700 BabyAI episodes, 1k CALVIN episodes, 500 Habitat episodes)"
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "RL expert policy (Habitat Pick/Place)",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Habitat Pick",
+            "access": "interactive",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "Habitat Place",
+            "access": "interactive",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "PPO"
+          }
+        ],
+        "produces": [
+          "Habitat Pick",
+          "Habitat Place"
+        ],
+        "execution_mode": {
+          "quote": "We collect 50k demonstrations for each of these tasks via an expert policy trained with RL. ... The expert is trained for 100M steps until convergence.",
+          "justification": "An RL expert trained by the authors",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "The expert is trained for 100M steps until convergence.",
+          "justification": "Steps rather than epochs",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "",
+          "justification": "Not stated",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "",
+          "justification": "Not stated",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "",
+          "justification": "Not stated",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "",
+          "justification": "Not stated",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Not stated",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "Not stated",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "Not stated",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "Not reported",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "",
+          "justification": "Not stated",
+          "value": "unknown"
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "GPT-4o",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Ferret-UI",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "AndroidControl",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Set-of-Mark"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "The Set-of-Mark was implemented using the Ferret-UI model [49] for UI element detection to generate the marks with GPT-4o to determine the action.",
+          "justification": "Baseline inference run",
+          "value": "inference"
+        },
+        "epochs": {
+          "quote": "",
+          "justification": "Not applicable",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "",
+          "justification": "Not stated",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "",
+          "justification": "Not stated",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "",
+          "justification": "Not stated",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "",
+          "justification": "Not stated",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Not stated",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "Not stated",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "Not stated",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "Not reported",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "We evaluate on the full 1,540 test episodes from Li et al. [47].",
+          "justification": "Evaluation set size stated",
+          "value": "1,540 test episodes"
+        }
+      }
+    ]
+  },
+  "usage": {
+    "input_tokens": 50084,
+    "output_tokens": 29520,
+    "total_tokens": 79604
+  }
+}

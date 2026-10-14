@@ -8,7 +8,7 @@ import tempfile
 import urllib.request
 from pathlib import Path
 from time import sleep
-from typing import List, Tuple
+from typing import List, Sequence, Tuple
 
 import yaml
 from pydantic import BaseModel, ValidationError
@@ -395,26 +395,86 @@ def merge_paper_extractions(
     return _update_progession(merged_extractions, f)
 
 
+#: Default source bucket, kept so an invocation with no `--bucket` behaves as
+#: it did: the historical 2024 corpus, relocated to <provider>/<model>/ by A7
+#: (#27).
+DEFAULT_BUCKETS = ("openai/legacy-2024",)
+
+
+def _buckets(specs: "Sequence[str]") -> "List[Path]":
+    """``provider/model`` strings to query directories, newest spelling first.
+
+    Several, because the annotation workflow revises TWO arms side by side: the
+    field-by-field merge collapses every field the arms agree on, so what the
+    annotator actually adjudicates is their disagreements (#111 Part B).
+    """
+    out = []
+    for spec in specs:
+        provider, _, model = spec.partition("/")
+        if not provider or not model:
+            raise ValueError(f"--bucket takes 'provider/model', got {spec!r}")
+        out.append(bucket(CFG.dir.queries, provider, model))
+    return out
+
+
+def _paper_text(paper_id: str) -> str:
+    """The paper's converted text, from either cache layout.
+
+    `cache/arxiv/<id>.txt` is the 2024 corpus. The 2023-26 corpus is keyed by
+    paperoni id at `cache/fulltext/<id>/fulltext.txt`, and **none of the 110
+    validated papers has an arXiv .txt in that cache** -- so reading only the
+    first layout cannot annotate the reference set at all. The same path
+    mismatch silently extracted nothing on the first v5 run.
+    """
+    candidates = (
+        CFG.dir.cache / "arxiv" / f"{paper_id}.txt",
+        CFG.dir.cache / "fulltext" / paper_id / "fulltext.txt",
+        CFG.dir.cache / "fulltext" / paper_id / f"{paper_id}.txt",
+    )
+    for path in candidates:
+        if path.is_file():
+            return path.read_text().lower().replace("\n", " ")
+    raise FileNotFoundError(
+        f"no converted text for {paper_id}; looked in "
+        + ", ".join(str(c) for c in candidates)
+    )
+
+
+def _paper_pdf(paper_id: str) -> Path:
+    """The paper's PDF in either cache layout; the arXiv path if neither has it.
+
+    Returning the arXiv path for a miss preserves the caller's download
+    fallback, which is the one thing here that degrades rather than fails.
+    """
+    candidates = (
+        (CFG.dir.cache / "arxiv" / f"{paper_id}.pdf"),
+        (CFG.dir.cache / "fulltext" / paper_id / "fulltext.pdf"),
+    )
+    for path in candidates:
+        if path.is_file():
+            return path
+    return candidates[0]
+
+
 def get_papers_from_file(
     papers: List[str],
-) -> List[Tuple[str, Path, ExtractionResponse]]:
+    buckets: "Sequence[str]" = DEFAULT_BUCKETS,
+) -> List[Tuple[str, str, PaperExtractions]]:
     extractions_tuple = []
 
     for paper in papers:
         paper_id = paper.strip()
         logger.info(f"Parsing {paper_id}")
-        paper = (
-            (CFG.dir.cache / f"arxiv/{paper_id}.txt")
-            .read_text()
-            .lower()
-            .replace("\n", " ")
-        )
-        # Historical 2024 corpus, relocated to <provider>/<model>/ by A7 (#27).
-        responses = list(
-            bucket(CFG.dir.queries, "openai", "legacy-2024").glob(
-                f"{paper_id}_[0-9]*.json"
-            )
-        )
+        try:
+            paper = _paper_text(paper_id)
+        except FileNotFoundError as e:
+            logger.error(e)
+            continue
+        responses = [
+            response
+            for b in _buckets(buckets)
+            for response in sorted(b.glob(f"{paper_id}_[0-9]*.json"))
+        ]
         if not responses:
             logger.info(f"No responses found for {paper_id}\nSkipping...")
             continue
@@ -429,9 +489,12 @@ def get_papers_from_file(
     return extractions_tuple
 
 
-def get_papers_from_folder() -> List[Tuple[str, Path, ExtractionResponse]]:
-    # Historical 2024 corpus, relocated to <provider>/<model>/ by A7 (#27).
-    responses = bucket(CFG.dir.queries, "openai", "legacy-2024").glob("*.json")
+def get_papers_from_folder(
+    buckets: "Sequence[str]" = DEFAULT_BUCKETS,
+) -> List[Tuple[str, str, PaperExtractions]]:
+    responses = [
+        response for b in _buckets(buckets) for response in sorted(b.glob("*.json"))
+    ]
 
     extractions_tuple = []
     for response_path in responses:
@@ -445,9 +508,11 @@ def get_papers_from_folder() -> List[Tuple[str, Path, ExtractionResponse]]:
             logger.info(f"Skipping {response_path}")
             continue
         paper_id = paper
-        paper = (
-            (CFG.dir.cache / "arxiv" / paper_id).read_text().lower().replace("\n", " ")
-        )
+        try:
+            paper = _paper_text(paper_id)
+        except FileNotFoundError as e:
+            logger.error(e)
+            continue
         extractions_tuple.append((paper_id, paper, extractions))
 
     extractions_tuple.sort(key=lambda _: _[0])
@@ -463,15 +528,24 @@ def main(argv=None):
     parser.add_argument(
         "--input", type=Path, default=None, help="List of papers to merge"
     )
+    parser.add_argument(
+        "--bucket",
+        nargs="+",
+        default=list(DEFAULT_BUCKETS),
+        metavar="PROVIDER/MODEL",
+        help="query buckets to merge, e.g. anthropic/claude-opus-5 "
+        "openai/gpt-5.6-sol. Several arms are the point: the merge collapses "
+        f"every field they agree on. Default {' '.join(DEFAULT_BUCKETS)}",
+    )
     options = parser.parse_args(argv)
 
     if options.input:
         with open(options.input, "r") as f:
-            papers = get_papers_from_file(f.readlines())
+            papers = get_papers_from_file(f.readlines(), options.bucket)
     elif options.papers:
-        papers = get_papers_from_file(options.papers)
+        papers = get_papers_from_file(options.papers, options.bucket)
     else:
-        papers = get_papers_from_folder()
+        papers = get_papers_from_folder(options.bucket)
 
     done = []
     for i, (paper_id, paper, _) in enumerate(papers):
@@ -533,7 +607,7 @@ def main(argv=None):
             if _paper_id == paper_id
         ]
 
-        pdf: Path = (CFG.dir.cache / "arxiv" / paper_id).with_suffix(".pdf")
+        pdf: Path = _paper_pdf(paper_id)
         logger.info(f"Opening {pdf}")
         try:
             _open(str(pdf))

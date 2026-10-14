@@ -1,0 +1,2429 @@
+{
+  "paper": "69a5fdd048887d403d0a5c35.txt",
+  "words": 9646,
+  "extractions": {
+    "title": {
+      "quote": "An improved column-generation-based matheuristic for learning classification trees",
+      "justification": "This is the title printed at the start of the paper.",
+      "value": "An improved column-generation-based matheuristic for learning classification trees"
+    },
+    "description": "An empirical computing study of a revised column-generation matheuristic for training univariate binary classification trees, evaluated with CPU experiments on 12 UCI datasets using CART, mathematical-programming solvers, preprocessing, pricing, and cut-generation procedures.",
+    "type": {
+      "quote": "We computationally show the significant benefits of our approach with respect to Firat et al. (2020) on datasets from the literature.",
+      "justification": "The paper implements the method and reports computational comparisons on multiple datasets.",
+      "value": "empirical"
+    },
+    "research_fields": [
+      {
+        "name": {
+          "quote": "Keywords: Machine Learning, Decision trees, Column Generation, Classification, Mixed Integer Programming.",
+          "justification": "The keyword list explicitly names the field.",
+          "value": "Machine Learning"
+        },
+        "aliases": [
+          "ML"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "Keywords: Machine Learning, Decision trees, Column Generation, Classification, Mixed Integer Programming.",
+          "justification": "The paper advances methods for learning decision trees.",
+          "value": "Decision trees"
+        },
+        "aliases": [
+          "classification trees"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "Keywords: Machine Learning, Decision trees, Column Generation, Classification, Mixed Integer Programming.",
+          "justification": "The main contribution improves a column-generation approach.",
+          "value": "Column Generation"
+        },
+        "aliases": [
+          "CG"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "Keywords: Machine Learning, Decision trees, Column Generation, Classification, Mixed Integer Programming.",
+          "justification": "Classification is the machine-learning task addressed by the method.",
+          "value": "Classification"
+        },
+        "aliases": [],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "Keywords: Machine Learning, Decision trees, Column Generation, Classification, Mixed Integer Programming.",
+          "justification": "The paper develops and solves mixed-integer optimization formulations.",
+          "value": "Mixed Integer Programming"
+        },
+        "aliases": [
+          "MIP"
+        ],
+        "role": "contributed"
+      }
+    ],
+    "models": [
+      {
+        "name": {
+          "quote": "In this work, we focus on univariate binary decision trees.",
+          "justification": "This is the learned model class trained and evaluated throughout the experiments.",
+          "value": "univariate binary decision trees"
+        },
+        "aliases": [
+          "decision trees",
+          "classification trees"
+        ],
+        "is_contributed": {
+          "quote": "In this paper, we improve the Firat et al. (2020) column generation approach to make it faster and more scalable.",
+          "justification": "The contribution is the learning approach rather than a new independently specified model class.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We trained the models with three variations of our approach",
+          "justification": "The paper explicitly says these models were trained in its experiments.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Table 7 compares training accuracy gains over CART against the column generation approach of Firat et al. (2020)",
+          "justification": "Trees produced by the revised procedure, CART, and the prior approach are compared numerically by accuracy.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "As done by Firat et al. (2020), we set a time limit of 600 seconds for the training and considered three tree depths k = 2, 3, 4.",
+          "justification": "The model was trained, so train takes precedence over later testing.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "Breiman, L., Friedman, J., Olshen, R., Stone, C., 1984. Classification and regression trees.",
+          "justification": "This is the cited foundational decision-tree reference associated with CART.",
+          "value": "Classification and regression trees"
+        }
+      }
+    ],
+    "data_sources": [
+      {
+        "name": {
+          "quote": "Tic tac toe",
+          "justification": "Named in Table 5 as an experimental UCI dataset.",
+          "value": "Tic tac toe"
+        },
+        "aliases": [],
+        "role": "used",
+        "size": {
+          "quote": "Tic tac toe | 958",
+          "justification": "Table 5 reports 958 total rows; the paper says 50% are used for training and 25% for testing.",
+          "value": "958 rows total (50% training, 25% testing)"
+        },
+        "derived_from": [],
+        "sample_properties": [
+          {
+            "name": "number of features",
+            "value": {
+              "quote": "Tic tac toe | 958 | 18 | 2",
+              "justification": "Table 5 reports 18 features per row.",
+              "value": "18"
+            },
+            "unit": "features"
+          }
+        ],
+        "referenced_paper_title": {
+          "quote": "Dua, D., Graff, C., 2017. UCI machine learning repository.",
+          "justification": "The datasets are stated to come from the UCI repository, cited to this reference.",
+          "value": "UCI machine learning repository"
+        }
+      },
+      {
+        "name": {
+          "quote": "Indian diabetes",
+          "justification": "Named in Table 5 as an experimental UCI dataset.",
+          "value": "Indian diabetes"
+        },
+        "aliases": [
+          "Indian diabeties"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "Indian diabetes | 768",
+          "justification": "Table 5 reports 768 total rows; 50% are used for training and 25% for testing.",
+          "value": "768 rows total (50% training, 25% testing)"
+        },
+        "derived_from": [],
+        "sample_properties": [
+          {
+            "name": "number of features",
+            "value": {
+              "quote": "Indian diabetes | 768 | 8 | 2",
+              "justification": "Table 5 reports 8 features per row.",
+              "value": "8"
+            },
+            "unit": "features"
+          }
+        ],
+        "referenced_paper_title": {
+          "quote": "Dua, D., Graff, C., 2017. UCI machine learning repository.",
+          "justification": "The datasets are stated to come from the UCI repository.",
+          "value": "UCI machine learning repository"
+        }
+      },
+      {
+        "name": {
+          "quote": "Car evaluation",
+          "justification": "Named in Table 5 as an experimental UCI dataset.",
+          "value": "Car evaluation"
+        },
+        "aliases": [],
+        "role": "used",
+        "size": {
+          "quote": "Car evaluation | 1728",
+          "justification": "Table 5 reports 1728 total rows; 50% are used for training and 25% for testing.",
+          "value": "1728 rows total (50% training, 25% testing)"
+        },
+        "derived_from": [],
+        "sample_properties": [
+          {
+            "name": "number of features",
+            "value": {
+              "quote": "Car evaluation | 1728 | 5 | 4",
+              "justification": "Table 5 reports 5 features per row.",
+              "value": "5"
+            },
+            "unit": "features"
+          }
+        ],
+        "referenced_paper_title": {
+          "quote": "Dua, D., Graff, C., 2017. UCI machine learning repository.",
+          "justification": "The datasets are stated to come from the UCI repository.",
+          "value": "UCI machine learning repository"
+        }
+      },
+      {
+        "name": {
+          "quote": "Seismic bumps",
+          "justification": "Named in Table 5 as an experimental UCI dataset.",
+          "value": "Seismic bumps"
+        },
+        "aliases": [],
+        "role": "used",
+        "size": {
+          "quote": "Seismic bumps | 2584",
+          "justification": "Table 5 reports 2584 total rows; 50% are used for training and 25% for testing.",
+          "value": "2584 rows total (50% training, 25% testing)"
+        },
+        "derived_from": [],
+        "sample_properties": [
+          {
+            "name": "number of features",
+            "value": {
+              "quote": "Seismic bumps | 2584 | 18 | 2",
+              "justification": "Table 5 reports 18 features per row.",
+              "value": "18"
+            },
+            "unit": "features"
+          }
+        ],
+        "referenced_paper_title": {
+          "quote": "Dua, D., Graff, C., 2017. UCI machine learning repository.",
+          "justification": "The datasets are stated to come from the UCI repository.",
+          "value": "UCI machine learning repository"
+        }
+      },
+      {
+        "name": {
+          "quote": "Spambase",
+          "justification": "Named in Table 5 as an experimental UCI dataset.",
+          "value": "Spambase"
+        },
+        "aliases": [],
+        "role": "used",
+        "size": {
+          "quote": "Spambase | 4601",
+          "justification": "Table 5 reports 4601 total rows; 50% are used for training and 25% for testing.",
+          "value": "4601 rows total (50% training, 25% testing)"
+        },
+        "derived_from": [],
+        "sample_properties": [
+          {
+            "name": "number of features",
+            "value": {
+              "quote": "Spambase | 4601 | 57 | 2",
+              "justification": "Table 5 reports 57 features per row.",
+              "value": "57"
+            },
+            "unit": "features"
+          }
+        ],
+        "referenced_paper_title": {
+          "quote": "Dua, D., Graff, C., 2017. UCI machine learning repository.",
+          "justification": "The datasets are stated to come from the UCI repository.",
+          "value": "UCI machine learning repository"
+        }
+      },
+      {
+        "name": {
+          "quote": "Statlog satellite",
+          "justification": "Named in Table 5 as an experimental UCI dataset.",
+          "value": "Statlog satellite"
+        },
+        "aliases": [],
+        "role": "used",
+        "size": {
+          "quote": "Statlog satellite | 4435",
+          "justification": "Table 5 reports 4435 total rows; 50% are used for training and 25% for testing.",
+          "value": "4435 rows total (50% training, 25% testing)"
+        },
+        "derived_from": [],
+        "sample_properties": [
+          {
+            "name": "number of features",
+            "value": {
+              "quote": "Statlog satellite | 4435 | 36 | 6",
+              "justification": "Table 5 reports 36 features per row.",
+              "value": "36"
+            },
+            "unit": "features"
+          }
+        ],
+        "referenced_paper_title": {
+          "quote": "Dua, D., Graff, C., 2017. UCI machine learning repository.",
+          "justification": "The datasets are stated to come from the UCI repository.",
+          "value": "UCI machine learning repository"
+        }
+      },
+      {
+        "name": {
+          "quote": "Default Credit",
+          "justification": "Named in Table 5 as an experimental UCI dataset.",
+          "value": "Default Credit"
+        },
+        "aliases": [],
+        "role": "used",
+        "size": {
+          "quote": "Default Credit | 30000",
+          "justification": "Table 5 reports 30000 total rows; 50% are used for training and 25% for testing.",
+          "value": "30000 rows total (50% training, 25% testing)"
+        },
+        "derived_from": [],
+        "sample_properties": [
+          {
+            "name": "number of features",
+            "value": {
+              "quote": "Default Credit | 30000 | 23 | 2",
+              "justification": "Table 5 reports 23 features per row.",
+              "value": "23"
+            },
+            "unit": "features"
+          }
+        ],
+        "referenced_paper_title": {
+          "quote": "Dua, D., Graff, C., 2017. UCI machine learning repository.",
+          "justification": "The datasets are stated to come from the UCI repository.",
+          "value": "UCI machine learning repository"
+        }
+      },
+      {
+        "name": {
+          "quote": "Hand posture",
+          "justification": "Named in Table 5 as an experimental UCI dataset.",
+          "value": "Hand posture"
+        },
+        "aliases": [],
+        "role": "used",
+        "size": {
+          "quote": "Hand posture | 78095",
+          "justification": "Table 5 reports 78095 total rows; 50% are used for training and 25% for testing.",
+          "value": "78095 rows total (50% training, 25% testing)"
+        },
+        "derived_from": [],
+        "sample_properties": [
+          {
+            "name": "number of features",
+            "value": {
+              "quote": "Hand posture | 78095 | 33 | 5",
+              "justification": "Table 5 reports 33 features per row.",
+              "value": "33"
+            },
+            "unit": "features"
+          }
+        ],
+        "referenced_paper_title": {
+          "quote": "Dua, D., Graff, C., 2017. UCI machine learning repository.",
+          "justification": "The datasets are stated to come from the UCI repository.",
+          "value": "UCI machine learning repository"
+        }
+      },
+      {
+        "name": {
+          "quote": "HTRU 2",
+          "justification": "Named in Table 5 as an experimental UCI dataset.",
+          "value": "HTRU 2"
+        },
+        "aliases": [],
+        "role": "used",
+        "size": {
+          "quote": "HTRU 2 | 17898",
+          "justification": "Table 5 reports 17898 total rows; 50% are used for training and 25% for testing.",
+          "value": "17898 rows total (50% training, 25% testing)"
+        },
+        "derived_from": [],
+        "sample_properties": [
+          {
+            "name": "number of features",
+            "value": {
+              "quote": "HTRU 2 | 17898 | 8 | 2",
+              "justification": "Table 5 reports 8 features per row.",
+              "value": "8"
+            },
+            "unit": "features"
+          }
+        ],
+        "referenced_paper_title": {
+          "quote": "Dua, D., Graff, C., 2017. UCI machine learning repository.",
+          "justification": "The datasets are stated to come from the UCI repository.",
+          "value": "UCI machine learning repository"
+        }
+      },
+      {
+        "name": {
+          "quote": "Letter Recognition",
+          "justification": "Named in Table 5 as an experimental UCI dataset.",
+          "value": "Letter Recognition"
+        },
+        "aliases": [
+          "Letter Recog"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "Letter Recognition | 20000",
+          "justification": "Table 5 reports 20000 total rows; 50% are used for training and 25% for testing.",
+          "value": "20000 rows total (50% training, 25% testing)"
+        },
+        "derived_from": [],
+        "sample_properties": [
+          {
+            "name": "number of features",
+            "value": {
+              "quote": "Letter Recognition | 20000 | 16 | 26",
+              "justification": "Table 5 reports 16 features per row.",
+              "value": "16"
+            },
+            "unit": "features"
+          }
+        ],
+        "referenced_paper_title": {
+          "quote": "Dua, D., Graff, C., 2017. UCI machine learning repository.",
+          "justification": "The datasets are stated to come from the UCI repository.",
+          "value": "UCI machine learning repository"
+        }
+      },
+      {
+        "name": {
+          "quote": "Magic04",
+          "justification": "Named in Table 5 as an experimental UCI dataset.",
+          "value": "Magic04"
+        },
+        "aliases": [],
+        "role": "used",
+        "size": {
+          "quote": "Magic04 | 19020",
+          "justification": "Table 5 reports 19020 total rows; 50% are used for training and 25% for testing.",
+          "value": "19020 rows total (50% training, 25% testing)"
+        },
+        "derived_from": [],
+        "sample_properties": [
+          {
+            "name": "number of features",
+            "value": {
+              "quote": "Magic04 | 19020 | 10 | 2",
+              "justification": "Table 5 reports 10 features per row.",
+              "value": "10"
+            },
+            "unit": "features"
+          }
+        ],
+        "referenced_paper_title": {
+          "quote": "Dua, D., Graff, C., 2017. UCI machine learning repository.",
+          "justification": "The datasets are stated to come from the UCI repository.",
+          "value": "UCI machine learning repository"
+        }
+      },
+      {
+        "name": {
+          "quote": "Shuttle",
+          "justification": "Named in Table 5 as an experimental UCI dataset.",
+          "value": "Shuttle"
+        },
+        "aliases": [],
+        "role": "used",
+        "size": {
+          "quote": "Shuttle | 43500",
+          "justification": "Table 5 reports 43500 total rows; 50% are used for training and 25% for testing.",
+          "value": "43500 rows total (50% training, 25% testing)"
+        },
+        "derived_from": [],
+        "sample_properties": [
+          {
+            "name": "number of features",
+            "value": {
+              "quote": "Shuttle | 43500 | 9 | 7",
+              "justification": "Table 5 reports 9 features per row.",
+              "value": "9"
+            },
+            "unit": "features"
+          }
+        ],
+        "referenced_paper_title": {
+          "quote": "Dua, D., Graff, C., 2017. UCI machine learning repository.",
+          "justification": "The datasets are stated to come from the UCI repository.",
+          "value": "UCI machine learning repository"
+        }
+      }
+    ],
+    "libraries": [
+      {
+        "name": {
+          "quote": "We used Python 3 for all computations",
+          "justification": "Python 3 is explicitly named as software used for every computation.",
+          "value": "Python 3"
+        },
+        "aliases": [
+          "Python"
+        ],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "No Python reference is listed.",
+          "justification": "The paper gives no reference-paper title for Python.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "scikit-learn version 1.2.2 (Pedregosa et al., 2011) for running CART",
+          "justification": "The paper explicitly names the package and version used.",
+          "value": "scikit-learn version 1.2.2"
+        },
+        "aliases": [
+          "scikit-learn"
+        ],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "Scikit-learn: Machine learning in Python.",
+          "justification": "This is the title of the cited scikit-learn paper.",
+          "value": "Scikit-learn: Machine learning in Python"
+        }
+      },
+      {
+        "name": {
+          "quote": "Gurobi 9.5.0 (Gurobi Optimization, 2021) to solve the RMP (with or without integrality requirements)",
+          "justification": "The paper explicitly names the solver and version used.",
+          "value": "Gurobi 9.5.0"
+        },
+        "aliases": [
+          "Gurobi"
+        ],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "Gurobi Optimizer Reference Manual.",
+          "justification": "This is the title given in the references.",
+          "value": "Gurobi Optimizer Reference Manual"
+        }
+      },
+      {
+        "name": {
+          "quote": "the CP-SAT solver from Google OR-Tools (Google, 2021)",
+          "justification": "Google OR-Tools is the software package supplying the CP-SAT solver.",
+          "value": "Google OR-Tools"
+        },
+        "aliases": [
+          "OR-Tools"
+        ],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "Google, 2021. OR-Tools.",
+          "justification": "This is the referenced title for the package.",
+          "value": "OR-Tools"
+        }
+      }
+    ],
+    "algorithms": [
+      {
+        "name": {
+          "quote": "our revised column generation approach",
+          "justification": "This is the paper's name for its main executed and contributed procedure.",
+          "value": "revised column generation approach"
+        },
+        "aliases": [
+          "revised column generation matheuristic",
+          "Revised CG"
+        ],
+        "is_contributed": {
+          "quote": "In this paper, we improve the Firat et al. (2020) column generation approach to make it faster and more scalable.",
+          "justification": "The revisions are the central contribution.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "The revised column generation approach achieved strictly larger gains on 13 cases",
+          "justification": "The paper reports experimental outputs from this procedure.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Table 7 compares training accuracy gains over CART against the column generation approach of Firat et al. (2020)",
+          "justification": "It is numerically compared with CART and the prior column-generation method.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "can be applied to generate decision trees",
+          "justification": "The quoted wording states the procedure's role.",
+          "value": "can be applied to generate decision trees"
+        },
+        "composed_of": [
+          "Threshold sampling",
+          "CART",
+          "pricing heuristic",
+          "merged SP model (3)",
+          "beta cuts",
+          "RMP heuristic"
+        ],
+        "referenced_paper_title": {
+          "quote": "This work presents the revised approach.",
+          "justification": "It is contributed here rather than taken from a separate reference paper.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "CART",
+          "justification": "The paper repeatedly uses this exact algorithm name.",
+          "value": "CART"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "The standard ML algorithms for training decision trees, like CART (Breiman et al., 1984)",
+          "justification": "CART predates this paper and is cited as a standard method.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "scikit-learn version 1.2.2 (Pedregosa et al., 2011) for running CART",
+          "justification": "The authors explicitly ran CART.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Table 7 compares training accuracy gains over CART",
+          "justification": "CART is the numerical accuracy baseline.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "Run 300 iterations of CART on randomly selected 90% of the training data and collect split checks for each node.",
+          "justification": "This describes CART's principal role in candidate split-check generation; it is also the accuracy baseline.",
+          "value": "run on training data to collect split checks and provide the comparison baseline"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Classification and regression trees.",
+          "justification": "This is the cited CART reference title.",
+          "value": "Classification and regression trees"
+        }
+      },
+      {
+        "name": {
+          "quote": "‘Threshold sampling’ process",
+          "justification": "The paper gives this procedure a quoted name.",
+          "value": "Threshold sampling"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "Firat et al. (2020) use the ‘Threshold sampling’ process.",
+          "justification": "It is attributed to prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "In steps 1–3 above, we follow the process of generating candidate split checks as in Firat et al. (2020).",
+          "justification": "The authors execute this process in their experiments.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "We follow the process of generating candidate split checks as in Firat et al. (2020).",
+          "justification": "It is held as part of the common setup rather than independently compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "To generate the candidate split checks, Firat et al. (2020) use the ‘Threshold sampling’ process.",
+          "justification": "The paper directly states its role.",
+          "value": "generate the candidate split checks"
+        },
+        "composed_of": [
+          "CART"
+        ],
+        "referenced_paper_title": {
+          "quote": "Column generation based heuristic for learning classification trees.",
+          "justification": "This is the Firat et al. reference from which the procedure is taken.",
+          "value": "Column generation based heuristic for learning classification trees"
+        }
+      },
+      {
+        "name": {
+          "quote": "pricing heuristic",
+          "justification": "The paper uses this exact name for the executed pricing procedure.",
+          "value": "pricing heuristic"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "In our revised column generation approach, we apply a simpler version of the pricing heuristic presented in Firat et al. (2020).",
+          "justification": "The paper contributes a simpler revision of a prior pricing heuristic.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "We repeat this process 100 times in each column generation iteration.",
+          "justification": "The described pricing procedure is repeatedly executed.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "To evaluate the effect of merging the SPs, we disabled the pricing heuristic.",
+          "justification": "Experiments change whether it is enabled, but the reported merged-SP comparison does not isolate it as the numerical target.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "randomly generates paths and evaluates their reduced costs",
+          "justification": "This is the paper's description of what the pricing heuristic does.",
+          "value": "randomly generates paths and evaluates their reduced costs"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Column generation based heuristic for learning classification trees.",
+          "justification": "The pricing heuristic is attributed to Firat et al. (2020).",
+          "value": "Column generation based heuristic for learning classification trees"
+        }
+      },
+      {
+        "name": {
+          "quote": "merged SP model (3)",
+          "justification": "The paper identifies its merged subproblem formulation by this name and equation number.",
+          "value": "merged SP model (3)"
+        },
+        "aliases": [
+          "merged SPs"
+        ],
+        "is_contributed": {
+          "quote": "We propose to merge the SPs by incorporating the target computation in the MIP model using extra variables and constraints.",
+          "justification": "This merged formulation is introduced by the paper.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "For these experiments, we used the merged SP model (3).",
+          "justification": "The paper explicitly uses the model in computation.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Figure 3: Number of columns added with original and merged SPs.",
+          "justification": "Merged and original subproblems are numerically compared.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "This reduces the number of SPs to |Nlf|.",
+          "justification": "It merges target-specific subproblems into one subproblem per leaf.",
+          "value": "reduce the number of SPs by incorporating the target computation in the MIP model"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "We propose to merge the SPs",
+          "justification": "The formulation is contributed in this paper.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "preprocessing and initialization routines",
+          "justification": "The conclusion uses this name for the contributed setup procedures.",
+          "value": "preprocessing and initialization routines"
+        },
+        "aliases": [
+          "extra initialization",
+          "preprocessing step"
+        ],
+        "is_contributed": {
+          "quote": "we described a process for better initializing the RMP and preprocessing the dataset to reduce the size of the model.",
+          "justification": "The paper presents these routines as its own modifications.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "We trained the models with three variations of our approach to evaluate the effects of the preprocessing step 5 and the initialization step 4.",
+          "justification": "Both procedures were executed in ablation experiments.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Figure 1 shows the solving time for all variations.",
+          "justification": "Default, No Preprocess, and No Init are compared numerically.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "reduce the size of the model",
+          "justification": "This is the stated role of preprocessing and better initialization.",
+          "value": "better initializing the RMP and preprocessing the dataset to reduce the size of the model"
+        },
+        "composed_of": [
+          "CART"
+        ],
+        "referenced_paper_title": {
+          "quote": "we described a process",
+          "justification": "These routines are described as contributions of this paper.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "beta cuts",
+          "justification": "The paper explicitly uses this name for constraints (1c) when treated as cuts.",
+          "value": "beta cuts"
+        },
+        "aliases": [
+          "constraints (1c)",
+          "cutting planes"
+        ],
+        "is_contributed": {
+          "quote": "we use them as cutting planes",
+          "justification": "Using the data-dependent constraints as cuts is a contribution.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "In all variants with cuts, the cut generation algorithm is invoked at every 10 iterations of column generation.",
+          "justification": "The cuts are generated and applied during experiments.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "we experimented with the following six algorithm variants: No Beta ... Extra Beta",
+          "justification": "Multiple beta-cut configurations are numerically compared.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "they are added as inequality cuts with only the upper bound",
+          "justification": "The selected Beta Ub configuration adds violated upper-bound versions during column generation.",
+          "value": "strengthen the RMP linear relaxation by adding violated data-dependent constraints as cutting planes"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "we use them as cutting planes",
+          "justification": "This usage is developed in the present paper.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "separation model",
+          "justification": "The paper consistently names model (8) the separation model.",
+          "value": "separation model"
+        },
+        "aliases": [
+          "model (8)"
+        ],
+        "is_contributed": {
+          "quote": "we develop a separation model.",
+          "justification": "The paper introduces this model.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "Model (8) is solved by constraint programming, using the CP-SAT solver.",
+          "justification": "The separation model is explicitly solved.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Extra Beta: Same as the Beta Eq variant except that additional equality cuts for unlabeled rows can be generated using model (8).",
+          "justification": "The Extra Beta variant using the model is numerically compared with alternatives.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "generating violated constraints (1c) for a given solution of the MP",
+          "justification": "This is the model's stated role.",
+          "value": "generating violated constraints (1c) for a given solution of the MP"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "we develop a separation model",
+          "justification": "The model is contributed here.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "RMP heuristic",
+          "justification": "The paper names this procedure explicitly.",
+          "value": "RMP heuristic"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "Firat et al. (2020) rather applied a RMP heuristic (Joncour et al., 2010; Sadykov et al., 2019)",
+          "justification": "It is taken from prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Solve the integer MP (1) restricted to the generated columns to get the final decision tree.",
+          "justification": "The paper's computational process executes the restricted-master integer heuristic.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "The paper does not report a standalone numerical comparison of the RMP heuristic.",
+          "justification": "It is part of the common solution pipeline.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "converting the last RMP solved into a MIP that can be solved using a commercial MIP solver without adding any new columns",
+          "justification": "This directly describes its role.",
+          "value": "converting the last RMP solved into a MIP without adding any new columns"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Column generation based primal heuristics.",
+          "justification": "This is the title of a cited reference for the RMP heuristic.",
+          "value": "Column generation based primal heuristics"
+        }
+      },
+      {
+        "name": {
+          "quote": "column generation",
+          "justification": "This exact procedure name is central throughout the paper.",
+          "value": "column generation"
+        },
+        "aliases": [
+          "CG"
+        ],
+        "is_contributed": {
+          "quote": "we describe improvements to this column generation approach.",
+          "justification": "Column generation itself is prior art; the paper contributes modifications.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Perform column generation iterations to solve the MP.",
+          "justification": "It is explicitly executed in the computational pipeline.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Table 7 compares training accuracy gains over CART against the column generation approach",
+          "justification": "Column-generation-based training is numerically compared with CART and prior results.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "Column generation is used to solve the MP.",
+          "justification": "The paper directly states its role.",
+          "value": "used to solve the MP"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Column generation based heuristic for learning classification trees.",
+          "justification": "This is the directly cited prior classification-tree column-generation paper.",
+          "value": "Column generation based heuristic for learning classification trees"
+        }
+      },
+      {
+        "name": {
+          "quote": "CP-SAT solver",
+          "justification": "This is the exact solver name used in the paper.",
+          "value": "CP-SAT solver"
+        },
+        "aliases": [
+          "CP-SAT"
+        ],
+        "is_contributed": {
+          "quote": "the CP-SAT solver from Google OR-Tools (Google, 2021)",
+          "justification": "It is supplied by existing OR-Tools software.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Model (8) is solved by constraint programming, using the CP-SAT solver.",
+          "justification": "The solver is explicitly executed.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "preliminary experiments showed that using the CP-SAT solver for the SPs is about twice as fast as using Gurobi.",
+          "justification": "Its speed is numerically compared with Gurobi.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "to solve the SPs ((2) or (3)) and to generate cutting planes by solving (8)",
+          "justification": "The paper explicitly states both roles.",
+          "value": "solve the SPs and generate cutting planes by solving model (8)"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Google, 2021. OR-Tools.",
+          "justification": "This is the cited software reference associated with CP-SAT.",
+          "value": "OR-Tools"
+        }
+      }
+    ],
+    "runs": [
+      {
+        "models": [
+          {
+            "name": "univariate binary decision trees",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Tic tac toe",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "revised column generation approach"
+          },
+          {
+            "name": "CART"
+          },
+          {
+            "name": "Threshold sampling"
+          },
+          {
+            "name": "pricing heuristic"
+          },
+          {
+            "name": "merged SP model (3)"
+          },
+          {
+            "name": "preprocessing and initialization routines"
+          },
+          {
+            "name": "beta cuts"
+          },
+          {
+            "name": "separation model"
+          },
+          {
+            "name": "RMP heuristic"
+          },
+          {
+            "name": "column generation"
+          },
+          {
+            "name": "CP-SAT solver"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "we set a time limit of 600 seconds for the training and considered three tree depths k = 2, 3, 4.",
+          "justification": "The run trains classification trees.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "The paper reports optimization time limits, not epochs.",
+          "justification": "No number of data passes is stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "The paper states tree depths but no learned parameter count.",
+          "justification": "A parameter count cannot be inferred from tree depth.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "we used a cluster of CPU servers",
+          "justification": "The run used CPUs.",
+          "value": "cpu"
+        },
+        "accelerator_model": {
+          "quote": "Intel(R) Xeon(R) Gold 6258R CPU @ 2.70GHz",
+          "justification": "This is the named CPU model.",
+          "value": "Intel(R) Xeon(R) Gold 6258R CPU @ 2.70GHz"
+        },
+        "accelerator_count": {
+          "quote": "each process was limited to 8 threads",
+          "justification": "The paper specifies the per-process compute allocation in CPU threads.",
+          "value": "8 CPU threads per process"
+        },
+        "precision": {
+          "quote": "The paper does not state floating-point or integer numerical precision for the overall run.",
+          "justification": "The 10^-5 optimization threshold is not arithmetic precision.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "each process was limited to 8 threads",
+          "justification": "Multiple threads are stated, but no data, tensor, pipeline, or expert parallelism strategy is identified.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "we set a time limit of 600 seconds for the training",
+          "justification": "This is the stated limit for the final comparative training experiments.",
+          "value": "600 seconds time limit"
+        },
+        "utilisation": {
+          "quote": "The paper reports no hardware-utilisation metric.",
+          "justification": "No CPU utilization percentage or analogous measure is stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "the split is done randomly five times ... considered three tree depths k = 2, 3, 4.",
+          "justification": "Results are averaged over five random splits and evaluated for three depth settings.",
+          "value": [
+            {
+              "kind": "variant",
+              "count": 5,
+              "what": "random train-test splits"
+            },
+            {
+              "kind": "hyperparameter",
+              "count": 3,
+              "what": "tree depths k = 2, 3, 4"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "univariate binary decision trees",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Indian diabetes",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "revised column generation approach"
+          },
+          {
+            "name": "CART"
+          },
+          {
+            "name": "Threshold sampling"
+          },
+          {
+            "name": "pricing heuristic"
+          },
+          {
+            "name": "merged SP model (3)"
+          },
+          {
+            "name": "preprocessing and initialization routines"
+          },
+          {
+            "name": "beta cuts"
+          },
+          {
+            "name": "separation model"
+          },
+          {
+            "name": "RMP heuristic"
+          },
+          {
+            "name": "column generation"
+          },
+          {
+            "name": "CP-SAT solver"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "we set a time limit of 600 seconds for the training and considered three tree depths k = 2, 3, 4.",
+          "justification": "The run trains classification trees.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "No epoch count is stated.",
+          "justification": "The optimization procedure is time-limited rather than reported in epochs.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "The paper gives no parameter count.",
+          "justification": "Do not infer it from depth.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "we used a cluster of CPU servers",
+          "justification": "CPU hardware was used.",
+          "value": "cpu"
+        },
+        "accelerator_model": {
+          "quote": "Intel(R) Xeon(R) Gold 6258R CPU @ 2.70GHz",
+          "justification": "Named CPU model.",
+          "value": "Intel(R) Xeon(R) Gold 6258R CPU @ 2.70GHz"
+        },
+        "accelerator_count": {
+          "quote": "each process was limited to 8 threads",
+          "justification": "Per-process CPU allocation.",
+          "value": "8 CPU threads per process"
+        },
+        "precision": {
+          "quote": "No arithmetic precision is stated.",
+          "justification": "Unknown by instruction.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "each process was limited to 8 threads",
+          "justification": "No recognized model-parallel strategy is stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "we set a time limit of 600 seconds for the training",
+          "justification": "Final comparison limit.",
+          "value": "600 seconds time limit"
+        },
+        "utilisation": {
+          "quote": "No utilization is reported.",
+          "justification": "Unknown.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "the split is done randomly five times ... considered three tree depths k = 2, 3, 4.",
+          "justification": "Five data splits and three depth settings.",
+          "value": [
+            {
+              "kind": "variant",
+              "count": 5,
+              "what": "random train-test splits"
+            },
+            {
+              "kind": "hyperparameter",
+              "count": 3,
+              "what": "tree depths k = 2, 3, 4"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "univariate binary decision trees",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Car evaluation",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "revised column generation approach"
+          },
+          {
+            "name": "CART"
+          },
+          {
+            "name": "Threshold sampling"
+          },
+          {
+            "name": "pricing heuristic"
+          },
+          {
+            "name": "merged SP model (3)"
+          },
+          {
+            "name": "preprocessing and initialization routines"
+          },
+          {
+            "name": "beta cuts"
+          },
+          {
+            "name": "separation model"
+          },
+          {
+            "name": "RMP heuristic"
+          },
+          {
+            "name": "column generation"
+          },
+          {
+            "name": "CP-SAT solver"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "we set a time limit of 600 seconds for the training and considered three tree depths k = 2, 3, 4.",
+          "justification": "Training run.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "No epoch count is stated.",
+          "justification": "Unknown.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "No parameter count is stated.",
+          "justification": "Unknown.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "we used a cluster of CPU servers",
+          "justification": "CPU run.",
+          "value": "cpu"
+        },
+        "accelerator_model": {
+          "quote": "Intel(R) Xeon(R) Gold 6258R CPU @ 2.70GHz",
+          "justification": "Named model.",
+          "value": "Intel(R) Xeon(R) Gold 6258R CPU @ 2.70GHz"
+        },
+        "accelerator_count": {
+          "quote": "each process was limited to 8 threads",
+          "justification": "Per process.",
+          "value": "8 CPU threads per process"
+        },
+        "precision": {
+          "quote": "No arithmetic precision is stated.",
+          "justification": "Unknown.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "each process was limited to 8 threads",
+          "justification": "No recognized strategy stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "we set a time limit of 600 seconds for the training",
+          "justification": "Final comparison limit.",
+          "value": "600 seconds time limit"
+        },
+        "utilisation": {
+          "quote": "No utilization is reported.",
+          "justification": "Unknown.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "the split is done randomly five times ... considered three tree depths k = 2, 3, 4.",
+          "justification": "Five splits and three depths.",
+          "value": [
+            {
+              "kind": "variant",
+              "count": 5,
+              "what": "random train-test splits"
+            },
+            {
+              "kind": "hyperparameter",
+              "count": 3,
+              "what": "tree depths k = 2, 3, 4"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "univariate binary decision trees",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Seismic bumps",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "revised column generation approach"
+          },
+          {
+            "name": "CART"
+          },
+          {
+            "name": "Threshold sampling"
+          },
+          {
+            "name": "pricing heuristic"
+          },
+          {
+            "name": "merged SP model (3)"
+          },
+          {
+            "name": "preprocessing and initialization routines"
+          },
+          {
+            "name": "beta cuts"
+          },
+          {
+            "name": "separation model"
+          },
+          {
+            "name": "RMP heuristic"
+          },
+          {
+            "name": "column generation"
+          },
+          {
+            "name": "CP-SAT solver"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "we set a time limit of 600 seconds for the training and considered three tree depths k = 2, 3, 4.",
+          "justification": "Training run.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "No epoch count is stated.",
+          "justification": "Unknown.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "No parameter count is stated.",
+          "justification": "Unknown.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "we used a cluster of CPU servers",
+          "justification": "CPU run.",
+          "value": "cpu"
+        },
+        "accelerator_model": {
+          "quote": "Intel(R) Xeon(R) Gold 6258R CPU @ 2.70GHz",
+          "justification": "Named model.",
+          "value": "Intel(R) Xeon(R) Gold 6258R CPU @ 2.70GHz"
+        },
+        "accelerator_count": {
+          "quote": "each process was limited to 8 threads",
+          "justification": "Per process.",
+          "value": "8 CPU threads per process"
+        },
+        "precision": {
+          "quote": "No arithmetic precision is stated.",
+          "justification": "Unknown.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "each process was limited to 8 threads",
+          "justification": "No recognized strategy stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "we set a time limit of 600 seconds for the training",
+          "justification": "Final comparison limit.",
+          "value": "600 seconds time limit"
+        },
+        "utilisation": {
+          "quote": "No utilization is reported.",
+          "justification": "Unknown.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "the split is done randomly five times ... considered three tree depths k = 2, 3, 4.",
+          "justification": "Five splits and three depths.",
+          "value": [
+            {
+              "kind": "variant",
+              "count": 5,
+              "what": "random train-test splits"
+            },
+            {
+              "kind": "hyperparameter",
+              "count": 3,
+              "what": "tree depths k = 2, 3, 4"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "univariate binary decision trees",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Spambase",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "revised column generation approach"
+          },
+          {
+            "name": "CART"
+          },
+          {
+            "name": "Threshold sampling"
+          },
+          {
+            "name": "pricing heuristic"
+          },
+          {
+            "name": "merged SP model (3)"
+          },
+          {
+            "name": "preprocessing and initialization routines"
+          },
+          {
+            "name": "beta cuts"
+          },
+          {
+            "name": "separation model"
+          },
+          {
+            "name": "RMP heuristic"
+          },
+          {
+            "name": "column generation"
+          },
+          {
+            "name": "CP-SAT solver"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "we set a time limit of 600 seconds for the training and considered three tree depths k = 2, 3, 4.",
+          "justification": "Training run.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "No epoch count is stated.",
+          "justification": "Unknown.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "No parameter count is stated.",
+          "justification": "Unknown.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "we used a cluster of CPU servers",
+          "justification": "CPU run.",
+          "value": "cpu"
+        },
+        "accelerator_model": {
+          "quote": "Intel(R) Xeon(R) Gold 6258R CPU @ 2.70GHz",
+          "justification": "Named model.",
+          "value": "Intel(R) Xeon(R) Gold 6258R CPU @ 2.70GHz"
+        },
+        "accelerator_count": {
+          "quote": "each process was limited to 8 threads",
+          "justification": "Per process.",
+          "value": "8 CPU threads per process"
+        },
+        "precision": {
+          "quote": "No arithmetic precision is stated.",
+          "justification": "Unknown.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "each process was limited to 8 threads",
+          "justification": "No recognized strategy stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "we set a time limit of 600 seconds for the training",
+          "justification": "Final comparison limit.",
+          "value": "600 seconds time limit"
+        },
+        "utilisation": {
+          "quote": "No utilization is reported.",
+          "justification": "Unknown.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "the split is done randomly five times ... considered three tree depths k = 2, 3, 4.",
+          "justification": "Five splits and three depths.",
+          "value": [
+            {
+              "kind": "variant",
+              "count": 5,
+              "what": "random train-test splits"
+            },
+            {
+              "kind": "hyperparameter",
+              "count": 3,
+              "what": "tree depths k = 2, 3, 4"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "univariate binary decision trees",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Statlog satellite",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "revised column generation approach"
+          },
+          {
+            "name": "CART"
+          },
+          {
+            "name": "Threshold sampling"
+          },
+          {
+            "name": "pricing heuristic"
+          },
+          {
+            "name": "merged SP model (3)"
+          },
+          {
+            "name": "preprocessing and initialization routines"
+          },
+          {
+            "name": "beta cuts"
+          },
+          {
+            "name": "separation model"
+          },
+          {
+            "name": "RMP heuristic"
+          },
+          {
+            "name": "column generation"
+          },
+          {
+            "name": "CP-SAT solver"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "we set a time limit of 600 seconds for the training and considered three tree depths k = 2, 3, 4.",
+          "justification": "Training run.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "No epoch count is stated.",
+          "justification": "Unknown.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "No parameter count is stated.",
+          "justification": "Unknown.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "we used a cluster of CPU servers",
+          "justification": "CPU run.",
+          "value": "cpu"
+        },
+        "accelerator_model": {
+          "quote": "Intel(R) Xeon(R) Gold 6258R CPU @ 2.70GHz",
+          "justification": "Named model.",
+          "value": "Intel(R) Xeon(R) Gold 6258R CPU @ 2.70GHz"
+        },
+        "accelerator_count": {
+          "quote": "each process was limited to 8 threads",
+          "justification": "Per process.",
+          "value": "8 CPU threads per process"
+        },
+        "precision": {
+          "quote": "No arithmetic precision is stated.",
+          "justification": "Unknown.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "each process was limited to 8 threads",
+          "justification": "No recognized strategy stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "we set a time limit of 600 seconds for the training",
+          "justification": "Final comparison limit.",
+          "value": "600 seconds time limit"
+        },
+        "utilisation": {
+          "quote": "No utilization is reported.",
+          "justification": "Unknown.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "the split is done randomly five times ... considered three tree depths k = 2, 3, 4.",
+          "justification": "Five splits and three depths.",
+          "value": [
+            {
+              "kind": "variant",
+              "count": 5,
+              "what": "random train-test splits"
+            },
+            {
+              "kind": "hyperparameter",
+              "count": 3,
+              "what": "tree depths k = 2, 3, 4"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "univariate binary decision trees",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Default Credit",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "revised column generation approach"
+          },
+          {
+            "name": "CART"
+          },
+          {
+            "name": "Threshold sampling"
+          },
+          {
+            "name": "pricing heuristic"
+          },
+          {
+            "name": "merged SP model (3)"
+          },
+          {
+            "name": "preprocessing and initialization routines"
+          },
+          {
+            "name": "beta cuts"
+          },
+          {
+            "name": "separation model"
+          },
+          {
+            "name": "RMP heuristic"
+          },
+          {
+            "name": "column generation"
+          },
+          {
+            "name": "CP-SAT solver"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "we set a time limit of 600 seconds for the training and considered three tree depths k = 2, 3, 4.",
+          "justification": "Training run.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "No epoch count is stated.",
+          "justification": "Unknown.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "No parameter count is stated.",
+          "justification": "Unknown.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "we used a cluster of CPU servers",
+          "justification": "CPU run.",
+          "value": "cpu"
+        },
+        "accelerator_model": {
+          "quote": "Intel(R) Xeon(R) Gold 6258R CPU @ 2.70GHz",
+          "justification": "Named model.",
+          "value": "Intel(R) Xeon(R) Gold 6258R CPU @ 2.70GHz"
+        },
+        "accelerator_count": {
+          "quote": "each process was limited to 8 threads",
+          "justification": "Per process.",
+          "value": "8 CPU threads per process"
+        },
+        "precision": {
+          "quote": "No arithmetic precision is stated.",
+          "justification": "Unknown.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "each process was limited to 8 threads",
+          "justification": "No recognized strategy stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "we set a time limit of 600 seconds for the training",
+          "justification": "Final comparison limit.",
+          "value": "600 seconds time limit"
+        },
+        "utilisation": {
+          "quote": "No utilization is reported.",
+          "justification": "Unknown.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "the split is done randomly five times ... considered three tree depths k = 2, 3, 4.",
+          "justification": "Five splits and three depths.",
+          "value": [
+            {
+              "kind": "variant",
+              "count": 5,
+              "what": "random train-test splits"
+            },
+            {
+              "kind": "hyperparameter",
+              "count": 3,
+              "what": "tree depths k = 2, 3, 4"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "univariate binary decision trees",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Hand posture",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "revised column generation approach"
+          },
+          {
+            "name": "CART"
+          },
+          {
+            "name": "Threshold sampling"
+          },
+          {
+            "name": "pricing heuristic"
+          },
+          {
+            "name": "merged SP model (3)"
+          },
+          {
+            "name": "preprocessing and initialization routines"
+          },
+          {
+            "name": "beta cuts"
+          },
+          {
+            "name": "separation model"
+          },
+          {
+            "name": "RMP heuristic"
+          },
+          {
+            "name": "column generation"
+          },
+          {
+            "name": "CP-SAT solver"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "we set a time limit of 600 seconds for the training and considered three tree depths k = 2, 3, 4.",
+          "justification": "Training run.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "No epoch count is stated.",
+          "justification": "Unknown.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "No parameter count is stated.",
+          "justification": "Unknown.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "we used a cluster of CPU servers",
+          "justification": "CPU run.",
+          "value": "cpu"
+        },
+        "accelerator_model": {
+          "quote": "Intel(R) Xeon(R) Gold 6258R CPU @ 2.70GHz",
+          "justification": "Named model.",
+          "value": "Intel(R) Xeon(R) Gold 6258R CPU @ 2.70GHz"
+        },
+        "accelerator_count": {
+          "quote": "each process was limited to 8 threads",
+          "justification": "Per process.",
+          "value": "8 CPU threads per process"
+        },
+        "precision": {
+          "quote": "No arithmetic precision is stated.",
+          "justification": "Unknown.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "each process was limited to 8 threads",
+          "justification": "No recognized strategy stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "we set a time limit of 600 seconds for the training",
+          "justification": "Final comparison limit.",
+          "value": "600 seconds time limit"
+        },
+        "utilisation": {
+          "quote": "No utilization is reported.",
+          "justification": "Unknown.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "the split is done randomly five times ... considered three tree depths k = 2, 3, 4.",
+          "justification": "Five splits and three depths.",
+          "value": [
+            {
+              "kind": "variant",
+              "count": 5,
+              "what": "random train-test splits"
+            },
+            {
+              "kind": "hyperparameter",
+              "count": 3,
+              "what": "tree depths k = 2, 3, 4"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "univariate binary decision trees",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "HTRU 2",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "revised column generation approach"
+          },
+          {
+            "name": "CART"
+          },
+          {
+            "name": "Threshold sampling"
+          },
+          {
+            "name": "pricing heuristic"
+          },
+          {
+            "name": "merged SP model (3)"
+          },
+          {
+            "name": "preprocessing and initialization routines"
+          },
+          {
+            "name": "beta cuts"
+          },
+          {
+            "name": "separation model"
+          },
+          {
+            "name": "RMP heuristic"
+          },
+          {
+            "name": "column generation"
+          },
+          {
+            "name": "CP-SAT solver"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "we set a time limit of 600 seconds for the training and considered three tree depths k = 2, 3, 4.",
+          "justification": "Training run.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "No epoch count is stated.",
+          "justification": "Unknown.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "No parameter count is stated.",
+          "justification": "Unknown.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "we used a cluster of CPU servers",
+          "justification": "CPU run.",
+          "value": "cpu"
+        },
+        "accelerator_model": {
+          "quote": "Intel(R) Xeon(R) Gold 6258R CPU @ 2.70GHz",
+          "justification": "Named model.",
+          "value": "Intel(R) Xeon(R) Gold 6258R CPU @ 2.70GHz"
+        },
+        "accelerator_count": {
+          "quote": "each process was limited to 8 threads",
+          "justification": "Per process.",
+          "value": "8 CPU threads per process"
+        },
+        "precision": {
+          "quote": "No arithmetic precision is stated.",
+          "justification": "Unknown.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "each process was limited to 8 threads",
+          "justification": "No recognized strategy stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "we set a time limit of 600 seconds for the training",
+          "justification": "Final comparison limit.",
+          "value": "600 seconds time limit"
+        },
+        "utilisation": {
+          "quote": "No utilization is reported.",
+          "justification": "Unknown.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "the split is done randomly five times ... considered three tree depths k = 2, 3, 4.",
+          "justification": "Five splits and three depths.",
+          "value": [
+            {
+              "kind": "variant",
+              "count": 5,
+              "what": "random train-test splits"
+            },
+            {
+              "kind": "hyperparameter",
+              "count": 3,
+              "what": "tree depths k = 2, 3, 4"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "univariate binary decision trees",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Letter Recognition",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "revised column generation approach"
+          },
+          {
+            "name": "CART"
+          },
+          {
+            "name": "Threshold sampling"
+          },
+          {
+            "name": "pricing heuristic"
+          },
+          {
+            "name": "merged SP model (3)"
+          },
+          {
+            "name": "preprocessing and initialization routines"
+          },
+          {
+            "name": "beta cuts"
+          },
+          {
+            "name": "separation model"
+          },
+          {
+            "name": "RMP heuristic"
+          },
+          {
+            "name": "column generation"
+          },
+          {
+            "name": "CP-SAT solver"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "we set a time limit of 600 seconds for the training and considered three tree depths k = 2, 3, 4.",
+          "justification": "Training run.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "No epoch count is stated.",
+          "justification": "Unknown.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "No parameter count is stated.",
+          "justification": "Unknown.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "we used a cluster of CPU servers",
+          "justification": "CPU run.",
+          "value": "cpu"
+        },
+        "accelerator_model": {
+          "quote": "Intel(R) Xeon(R) Gold 6258R CPU @ 2.70GHz",
+          "justification": "Named model.",
+          "value": "Intel(R) Xeon(R) Gold 6258R CPU @ 2.70GHz"
+        },
+        "accelerator_count": {
+          "quote": "each process was limited to 8 threads",
+          "justification": "Per process.",
+          "value": "8 CPU threads per process"
+        },
+        "precision": {
+          "quote": "No arithmetic precision is stated.",
+          "justification": "Unknown.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "each process was limited to 8 threads",
+          "justification": "No recognized strategy stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "we set a time limit of 600 seconds for the training",
+          "justification": "Final comparison limit.",
+          "value": "600 seconds time limit"
+        },
+        "utilisation": {
+          "quote": "No utilization is reported.",
+          "justification": "Unknown.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "the split is done randomly five times ... considered three tree depths k = 2, 3, 4.",
+          "justification": "Five splits and three depths.",
+          "value": [
+            {
+              "kind": "variant",
+              "count": 5,
+              "what": "random train-test splits"
+            },
+            {
+              "kind": "hyperparameter",
+              "count": 3,
+              "what": "tree depths k = 2, 3, 4"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "univariate binary decision trees",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Magic04",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "revised column generation approach"
+          },
+          {
+            "name": "CART"
+          },
+          {
+            "name": "Threshold sampling"
+          },
+          {
+            "name": "pricing heuristic"
+          },
+          {
+            "name": "merged SP model (3)"
+          },
+          {
+            "name": "preprocessing and initialization routines"
+          },
+          {
+            "name": "beta cuts"
+          },
+          {
+            "name": "separation model"
+          },
+          {
+            "name": "RMP heuristic"
+          },
+          {
+            "name": "column generation"
+          },
+          {
+            "name": "CP-SAT solver"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "we set a time limit of 600 seconds for the training and considered three tree depths k = 2, 3, 4.",
+          "justification": "Training run.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "No epoch count is stated.",
+          "justification": "Unknown.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "No parameter count is stated.",
+          "justification": "Unknown.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "we used a cluster of CPU servers",
+          "justification": "CPU run.",
+          "value": "cpu"
+        },
+        "accelerator_model": {
+          "quote": "Intel(R) Xeon(R) Gold 6258R CPU @ 2.70GHz",
+          "justification": "Named model.",
+          "value": "Intel(R) Xeon(R) Gold 6258R CPU @ 2.70GHz"
+        },
+        "accelerator_count": {
+          "quote": "each process was limited to 8 threads",
+          "justification": "Per process.",
+          "value": "8 CPU threads per process"
+        },
+        "precision": {
+          "quote": "No arithmetic precision is stated.",
+          "justification": "Unknown.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "each process was limited to 8 threads",
+          "justification": "No recognized strategy stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "we set a time limit of 600 seconds for the training",
+          "justification": "Final comparison limit.",
+          "value": "600 seconds time limit"
+        },
+        "utilisation": {
+          "quote": "No utilization is reported.",
+          "justification": "Unknown.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "the split is done randomly five times ... considered three tree depths k = 2, 3, 4.",
+          "justification": "Five splits and three depths.",
+          "value": [
+            {
+              "kind": "variant",
+              "count": 5,
+              "what": "random train-test splits"
+            },
+            {
+              "kind": "hyperparameter",
+              "count": 3,
+              "what": "tree depths k = 2, 3, 4"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "univariate binary decision trees",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Shuttle",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "revised column generation approach"
+          },
+          {
+            "name": "CART"
+          },
+          {
+            "name": "Threshold sampling"
+          },
+          {
+            "name": "pricing heuristic"
+          },
+          {
+            "name": "merged SP model (3)"
+          },
+          {
+            "name": "preprocessing and initialization routines"
+          },
+          {
+            "name": "beta cuts"
+          },
+          {
+            "name": "separation model"
+          },
+          {
+            "name": "RMP heuristic"
+          },
+          {
+            "name": "column generation"
+          },
+          {
+            "name": "CP-SAT solver"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "we set a time limit of 600 seconds for the training and considered three tree depths k = 2, 3, 4.",
+          "justification": "Training run.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "No epoch count is stated.",
+          "justification": "Unknown.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "No parameter count is stated.",
+          "justification": "Unknown.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "we used a cluster of CPU servers",
+          "justification": "CPU run.",
+          "value": "cpu"
+        },
+        "accelerator_model": {
+          "quote": "Intel(R) Xeon(R) Gold 6258R CPU @ 2.70GHz",
+          "justification": "Named model.",
+          "value": "Intel(R) Xeon(R) Gold 6258R CPU @ 2.70GHz"
+        },
+        "accelerator_count": {
+          "quote": "each process was limited to 8 threads",
+          "justification": "Per process.",
+          "value": "8 CPU threads per process"
+        },
+        "precision": {
+          "quote": "No arithmetic precision is stated.",
+          "justification": "Unknown.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "each process was limited to 8 threads",
+          "justification": "No recognized strategy stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "we set a time limit of 600 seconds for the training",
+          "justification": "Final comparison limit.",
+          "value": "600 seconds time limit"
+        },
+        "utilisation": {
+          "quote": "No utilization is reported.",
+          "justification": "Unknown.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "the split is done randomly five times ... considered three tree depths k = 2, 3, 4.",
+          "justification": "Five splits and three depths.",
+          "value": [
+            {
+              "kind": "variant",
+              "count": 5,
+              "what": "random train-test splits"
+            },
+            {
+              "kind": "hyperparameter",
+              "count": 3,
+              "what": "tree depths k = 2, 3, 4"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "usage": {
+    "input_tokens": 28431,
+    "output_tokens": 15515,
+    "total_tokens": 43946
+  }
+}

@@ -10,12 +10,49 @@ import openai
 from paperext.backends import register
 from paperext.backends.base import Backend
 
+#: Output ceiling per request, injected because the Responses API otherwise
+#: applies the model's own default and a truncation here is **much harder to
+#: read than on Anthropic**: that backend inspects `stop_reason` and raises
+#: "output truncated at max_tokens=...", while a truncated Responses reply
+#: arrives as partial JSON and surfaces as a parse or validation failure with no
+#: mention of a ceiling. Schema v5 measured mean 20.5k and max 40.4k output
+#: tokens over 25 fulltext papers (#103), so 48k matches the Anthropic default
+#: and the same evidence. Override with `max_output_tokens` in the `[openai]`
+#: config section, or PAPEREXT_OPENAI_MAX_OUTPUT_TOKENS.
+DEFAULT_MAX_OUTPUT_TOKENS = 49152
+
 
 @register
 class OpenAIBackend(Backend):
     name = "openai"
     rate_limit_errors: tuple[type[BaseException], ...] = (openai.RateLimitError,)
     api_key_env = "OPENAI_API_KEY"
+
+    @property
+    def max_output_tokens(self) -> int:
+        """``max_output_tokens`` from config, or the default."""
+        try:  # Config raises KeyError for a missing option
+            raw = self.config.max_output_tokens
+        except KeyError:
+            return DEFAULT_MAX_OUTPUT_TOKENS
+        if not str(raw).strip():
+            return DEFAULT_MAX_OUTPUT_TOKENS
+        try:
+            value = int(raw)
+        except TypeError, ValueError:
+            raise ValueError(
+                f"max_output_tokens must be an integer, got {raw!r}"
+            ) from None
+        if value <= 0:
+            raise ValueError(f"max_output_tokens must be positive, got {value}")
+        return value
+
+    @property
+    def request_defaults(self) -> "dict[str, Any]":
+        # The Responses API's parameter is `max_output_tokens`, NOT the
+        # `max_tokens` the Anthropic backend injects; sending the wrong name
+        # would be rejected rather than ignored.
+        return {"max_output_tokens": self.max_output_tokens}
 
     def build_client(self) -> instructor.AsyncInstructor:
         # The Responses API, not chat completions: reasoning models (gpt-5.x)

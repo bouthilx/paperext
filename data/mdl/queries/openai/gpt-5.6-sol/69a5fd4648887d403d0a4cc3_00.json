@@ -1,0 +1,2741 @@
+{
+  "paper": "69a5fd4648887d403d0a4cc3.txt",
+  "words": 11973,
+  "extractions": {
+    "title": {
+      "quote": "Adaptive Group Robust Ensemble Knowledge Distillation",
+      "justification": "This is the paper title shown at the beginning of the manuscript.",
+      "value": "Adaptive Group Robust Ensemble Knowledge Distillation"
+    },
+    "description": "An empirical machine-learning paper introducing and evaluating AGRE-KD, an adaptive gradient-based ensemble knowledge-distillation procedure for group robustness under spurious correlations.",
+    "type": {
+      "quote": "We perform intensive experiments on four well-known benchmarks, and the results demonstrate the superiority of the proposed method.",
+      "justification": "The paper proposes a method and evaluates it experimentally across multiple datasets and ablations.",
+      "value": "empirical"
+    },
+    "research_fields": [
+      {
+        "name": {
+          "quote": "This paper studies how knowledge distillation from multiple teachers impacts underrepresented subgroups.",
+          "justification": "The work directly advances ensemble knowledge distillation.",
+          "value": "Ensemble knowledge distillation"
+        },
+        "aliases": [
+          "ensemble KD"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "we studied bias in ensemble knowledge distillation (KD)",
+          "justification": "The paper addresses bias and worst-group performance in learned systems.",
+          "value": "Machine learning fairness"
+        },
+        "aliases": [
+          "bias mitigation",
+          "group robustness"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "Our method also operates within gradient space to enhance students’ resilience to spurious correlation.",
+          "justification": "Robustness to spurious correlations is a central technical target.",
+          "value": "Robustness to spurious correlations"
+        },
+        "aliases": [
+          "group robustness"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "We evaluate the worst-case performance of the proposed method on four classification tasks",
+          "justification": "Classification is the task setting used for evaluation.",
+          "value": "Classification"
+        },
+        "aliases": [],
+        "role": "used"
+      },
+      {
+        "name": {
+          "quote": "two real-world datasets from the vision domain (Waterbirds and CelebA datasets)",
+          "justification": "Computer vision supplies two evaluation domains and several model architectures.",
+          "value": "Computer vision"
+        },
+        "aliases": [
+          "vision"
+        ],
+        "role": "used"
+      },
+      {
+        "name": {
+          "quote": "one real-world dataset from the language domain (CivilComments).",
+          "justification": "Language classification is an evaluation domain.",
+          "value": "Natural language processing"
+        },
+        "aliases": [
+          "language"
+        ],
+        "role": "used"
+      }
+    ],
+    "models": [
+      {
+        "name": {
+          "quote": "we use MobileNetV2 (Sandler et al., 2018) for the teacher models",
+          "justification": "Named teacher architecture executed on Colored MNIST.",
+          "value": "MobileNetV2"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "we use MobileNetV2 ... for the teacher models",
+          "justification": "It is an existing architecture used by the paper.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we use MobileNetV2 ... for the teacher models",
+          "justification": "The paper trains and evaluates these teachers.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Table 1 presents the performance of different approaches on Colored MNIST",
+          "justification": "Teacher results are numerically compared with student and ensemble methods.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "We train each teacher model in the ensemble independently using standard ERM",
+          "justification": "The architecture is trained as a teacher.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "Mobilenetv2: Inverted residuals and linear bottlenecks.",
+          "justification": "This is the cited MobileNetV2 paper title.",
+          "value": "Mobilenetv2: Inverted residuals and linear bottlenecks."
+        }
+      },
+      {
+        "name": {
+          "quote": "a simple CNN with two convolutional layers as for the student model",
+          "justification": "This is the paper's named/described separable student network for Colored MNIST.",
+          "value": "simple CNN"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "a simple CNN with two convolutional layers as for the student model",
+          "justification": "It is used as a student rather than presented as a model contribution.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "a simple CNN with two convolutional layers as for the student model",
+          "justification": "The student is trained in the experiments.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Table 1 presents the performance of different approaches on Colored MNIST",
+          "justification": "Its training variants are compared numerically.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "a simple CNN with two convolutional layers as for the student model",
+          "justification": "The student network is trained in the paper.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "No reference paper is provided for this simple CNN.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "we use the Resnet-18 ... architecture for the student model",
+          "justification": "Named student architecture for the vision tasks.",
+          "value": "Resnet-18"
+        },
+        "aliases": [
+          "ResNet-18"
+        ],
+        "is_contributed": {
+          "quote": "following prior work ... we use the Resnet-18",
+          "justification": "It is an existing architecture.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we use the Resnet-18 ... architecture for the student model",
+          "justification": "It is trained and evaluated in multiple experiments.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "perform knowledge distillation to a ResNet-18 student model",
+          "justification": "The ResNet-18 student is numerically compared across methods.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "Both networks are pretrained on the ImageNet-1K ... dataset.",
+          "justification": "The paper adapts a pretrained ResNet-18 to its vision tasks.",
+          "value": "finetune"
+        },
+        "referenced_paper_title": {
+          "quote": "Deep residual learning for image recognition.",
+          "justification": "This is the cited ResNet paper title.",
+          "value": "Deep residual learning for image recognition."
+        }
+      },
+      {
+        "name": {
+          "quote": "the Resnet-50 ... architecture for the teacher models",
+          "justification": "Named teacher architecture and also used in self-distillation.",
+          "value": "Resnet-50"
+        },
+        "aliases": [
+          "ResNet-50"
+        ],
+        "is_contributed": {
+          "quote": "following prior work ... we use ... the Resnet-50",
+          "justification": "It is an existing architecture.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we use the Resnet-50 ... architecture for the teacher models",
+          "justification": "It is trained, debiased, evaluated, and used for self-distillation.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Table 3: Results on self-distillation. The student and the teacher models have the same network architecture (ResNet-50).",
+          "justification": "Its results are numerically compared.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "Both networks are pretrained on the ImageNet-1K ... dataset.",
+          "justification": "The paper adapts pretrained ResNet-50 models to its vision tasks.",
+          "value": "finetune"
+        },
+        "referenced_paper_title": {
+          "quote": "Deep residual learning for image recognition.",
+          "justification": "This is the cited ResNet paper title.",
+          "value": "Deep residual learning for image recognition."
+        }
+      },
+      {
+        "name": {
+          "quote": "varying the capacity of the student network (ResNet-18, ResNet34, and ResNet-50)",
+          "justification": "ResNet34 is executed in the capacity ablation.",
+          "value": "ResNet34"
+        },
+        "aliases": [
+          "Resnet34"
+        ],
+        "is_contributed": {
+          "quote": "varying the capacity of the student network",
+          "justification": "It is an existing ablation architecture.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "varying the capacity of the student network (ResNet-18, ResNet34, and ResNet-50)",
+          "justification": "The capacity ablation executes it.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "We plot the average and the worst-case accuracy of different ensemble distillation methods",
+          "justification": "It is numerically compared in the ablation.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "Both networks are pretrained on the ImageNet-1K ... dataset.",
+          "justification": "The vision network is used as a pretrained backbone and adapted.",
+          "value": "finetune"
+        },
+        "referenced_paper_title": {
+          "quote": "Deep residual learning for image recognition.",
+          "justification": "ResNet34 belongs to the cited ResNet family.",
+          "value": "Deep residual learning for image recognition."
+        }
+      },
+      {
+        "name": {
+          "quote": "we use the BERT ... model for teachers",
+          "justification": "Named language-task teacher model.",
+          "value": "BERT"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "we use the BERT ... model for teachers",
+          "justification": "It is an existing model.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we use the BERT ... model for teachers",
+          "justification": "It is adapted and used as teacher on CivilComments.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "CivilComment ... Teacher ... Deep Ensemble ... AGRE-KD",
+          "justification": "Teacher and distilled-model results are compared in Table 2.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "language models are pretrained on Book Corpus and English Wikipedia",
+          "justification": "The pretrained BERT model is adapted to CivilComments.",
+          "value": "finetune"
+        },
+        "referenced_paper_title": {
+          "quote": "Bert: Pre-training of deep bidirectional transformers for language understanding.",
+          "justification": "This is the cited BERT paper title.",
+          "value": "Bert: Pre-training of deep bidirectional transformers for language understanding."
+        }
+      },
+      {
+        "name": {
+          "quote": "the DistilBERT ... for the student model",
+          "justification": "Named language-task student model.",
+          "value": "DistilBERT"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "we use ... the DistilBERT ... for the student model",
+          "justification": "It is an existing model.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "the DistilBERT ... for the student model",
+          "justification": "It is trained and evaluated on CivilComments.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "CivilComment ... Random ... AVER ... AE-KD ... AGRE-KD(Ours)",
+          "justification": "DistilBERT student variants are numerically compared.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "language models are pretrained on Book Corpus and English Wikipedia",
+          "justification": "The pretrained model is adapted to the task.",
+          "value": "finetune"
+        },
+        "referenced_paper_title": {
+          "quote": "Distilbert, a distilled version of bert: smaller, faster, cheaper and lighter.",
+          "justification": "This is the cited DistilBERT paper title.",
+          "value": "Distilbert, a distilled version of bert: smaller, faster, cheaper and lighter."
+        }
+      },
+      {
+        "name": {
+          "quote": "ViT (base)",
+          "justification": "Named heterogeneous teacher architecture.",
+          "value": "ViT"
+        },
+        "aliases": [
+          "ViT (base)"
+        ],
+        "is_contributed": {
+          "quote": "We train teacher models using three different network architectures, i.e., ViT ...",
+          "justification": "It is an existing teacher architecture used in an ablation.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We train teacher models using three different network architectures, i.e., ViT",
+          "justification": "The paper trains it for heterogeneous teacher ensembles.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Table 4: Results with heterogeneous teacher ensemble",
+          "justification": "Its results are numerically compared.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "We train teacher models using three different network architectures",
+          "justification": "The paper explicitly says these teacher models are trained.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "An image is worth 16x16 words: Transformers for image recognition at scale.",
+          "justification": "This is the cited ViT paper title.",
+          "value": "An image is worth 16x16 words: Transformers for image recognition at scale."
+        }
+      },
+      {
+        "name": {
+          "quote": "ConvNeXtV2 (base)",
+          "justification": "Named heterogeneous teacher architecture.",
+          "value": "ConvNeXtV2"
+        },
+        "aliases": [
+          "ConvNeXtV2 (base)"
+        ],
+        "is_contributed": {
+          "quote": "We train teacher models using three different network architectures ... ConvNeXtV2",
+          "justification": "It is an existing architecture.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We train teacher models using three different network architectures ... ConvNeXtV2",
+          "justification": "The model is trained in the heterogeneous-ensemble ablation.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Table 4: Results with heterogeneous teacher ensemble",
+          "justification": "Its results are numerically compared.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "We train teacher models using three different network architectures",
+          "justification": "The paper explicitly says these teacher models are trained.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "Convnext v2: Co-designing and scaling convnets with masked autoencoders.",
+          "justification": "This is the cited ConvNeXt V2 paper title.",
+          "value": "Convnext v2: Co-designing and scaling convnets with masked autoencoders."
+        }
+      }
+    ],
+    "data_sources": [
+      {
+        "name": {
+          "quote": "Colored MNIST",
+          "justification": "Named synthetic benchmark used in experiments.",
+          "value": "Colored MNIST"
+        },
+        "aliases": [
+          "CMNIST"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "",
+          "justification": "The paper does not state the number of samples used.",
+          "value": "unknown"
+        },
+        "derived_from": [
+          "MNIST"
+        ],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "Learning from failure: De-biasing classifier from biased classifier.",
+          "justification": "The construction is stated to follow Nam et al. (2020).",
+          "value": "Learning from failure: De-biasing classifier from biased classifier."
+        }
+      },
+      {
+        "name": {
+          "quote": "we alter the MNIST dataset",
+          "justification": "MNIST is the named source from which Colored MNIST is built.",
+          "value": "MNIST"
+        },
+        "aliases": [],
+        "role": "used",
+        "size": {
+          "quote": "",
+          "justification": "No sample count is stated.",
+          "value": "unknown"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "Gradient-based learning applied to document recognition.",
+          "justification": "This is the cited MNIST paper title.",
+          "value": "Gradient-based learning applied to document recognition."
+        }
+      },
+      {
+        "name": {
+          "quote": "Waterbirds ... is a dataset of birds derived from Caltech-UCSD Birds (CUB)",
+          "justification": "Named real-world vision benchmark used in experiments.",
+          "value": "Waterbirds"
+        },
+        "aliases": [
+          "WaterBirds"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "(landbirds,land) ... 3498; (landbirds,water) ... 184; (waterbirds,land) ... 56; (waterbirds,water) ... 1057",
+          "justification": "Table 7 states subgroup sample counts, totaling 4,795 samples for the reported evaluation set.",
+          "value": "4,795 samples in the reported group-wise evaluation"
+        },
+        "derived_from": [
+          "Caltech-UCSD Birds (CUB)"
+        ],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "Distributionally robust neural networks for group shifts: On the importance of regularization for worst-case generalization.",
+          "justification": "This is the cited Waterbirds source paper.",
+          "value": "Distributionally robust neural networks for group shifts: On the importance of regularization for worst-case generalization."
+        }
+      },
+      {
+        "name": {
+          "quote": "Caltech-UCSD Birds (CUB)",
+          "justification": "Named original dataset from which Waterbirds is derived.",
+          "value": "Caltech-UCSD Birds (CUB)"
+        },
+        "aliases": [
+          "CUB"
+        ],
+        "role": "referenced",
+        "size": {
+          "quote": "",
+          "justification": "The paper gives no used sample count for CUB itself.",
+          "value": "unknown"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "The caltech-ucsd birds-200-2011 dataset.",
+          "justification": "This is the cited CUB dataset paper title.",
+          "value": "The caltech-ucsd birds-200-2011 dataset."
+        }
+      },
+      {
+        "name": {
+          "quote": "CelebA ... dataset contains images of celebrities with 40 facial attributes.",
+          "justification": "Named vision benchmark used in experiments.",
+          "value": "CelebA"
+        },
+        "aliases": [],
+        "role": "used",
+        "size": {
+          "quote": "(nonblond,female) 71629; (nonblond,male) 66874; (blond,female) 22880; (blond,male) 1387",
+          "justification": "Table 7 states subgroup counts, totaling 162,770 samples for the reported evaluation.",
+          "value": "162,770 samples in the reported group-wise evaluation"
+        },
+        "derived_from": [],
+        "sample_properties": [
+          {
+            "name": "facial attributes",
+            "value": {
+              "quote": "CelebA ... dataset contains images of celebrities with 40 facial attributes.",
+              "justification": "The paper states the number of attributes associated with images.",
+              "value": "40"
+            },
+            "unit": "attributes"
+          }
+        ],
+        "referenced_paper_title": {
+          "quote": "Deep learning face attributes in the wild.",
+          "justification": "This is the cited CelebA paper title.",
+          "value": "Deep learning face attributes in the wild."
+        }
+      },
+      {
+        "name": {
+          "quote": "CivilComments ... is a textual dataset collected from online comments.",
+          "justification": "Named language benchmark used in experiments.",
+          "value": "CivilComments"
+        },
+        "aliases": [
+          "CivilComment"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "",
+          "justification": "The paper does not state its sample count.",
+          "value": "unknown"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "Wilds: A benchmark of in-the-wild distribution shifts.",
+          "justification": "This is the cited paper associated with CivilComments in the manuscript.",
+          "value": "Wilds: A benchmark of in-the-wild distribution shifts."
+        }
+      },
+      {
+        "name": {
+          "quote": "ImageNet-1K",
+          "justification": "Named pretraining source for the executed ResNet vision networks.",
+          "value": "ImageNet-1K"
+        },
+        "aliases": [
+          "ImageNet"
+        ],
+        "role": "referenced",
+        "size": {
+          "quote": "",
+          "justification": "The paper does not state the number of ImageNet samples used.",
+          "value": "unknown"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "Imagenet large scale visual recognition challenge.",
+          "justification": "This is the cited ImageNet paper title.",
+          "value": "Imagenet large scale visual recognition challenge."
+        }
+      },
+      {
+        "name": {
+          "quote": "Book Corpus",
+          "justification": "Named pretraining corpus for the language models.",
+          "value": "Book Corpus"
+        },
+        "aliases": [
+          "BookCorpus"
+        ],
+        "role": "referenced",
+        "size": {
+          "quote": "",
+          "justification": "No corpus size is stated.",
+          "value": "unknown"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "No separate Book Corpus reference title is provided in the supplied references.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "English Wikipedia",
+          "justification": "Named pretraining corpus for the language models.",
+          "value": "English Wikipedia"
+        },
+        "aliases": [
+          "Wikipedia"
+        ],
+        "role": "referenced",
+        "size": {
+          "quote": "",
+          "justification": "No corpus size is stated.",
+          "value": "unknown"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "No separate Wikipedia dataset paper is cited.",
+          "value": "unknown"
+        }
+      }
+    ],
+    "libraries": [
+      {
+        "name": {
+          "quote": "Our implementation uses PyTorch",
+          "justification": "The paper explicitly states that it uses this library.",
+          "value": "PyTorch"
+        },
+        "aliases": [],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "Pytorch: An imperative style, high-performance deep learning library.",
+          "justification": "This is the principal cited PyTorch paper title.",
+          "value": "Pytorch: An imperative style, high-performance deep learning library."
+        }
+      },
+      {
+        "name": {
+          "quote": "Torch Lightning",
+          "justification": "The implementation explicitly uses this library.",
+          "value": "Torch Lightning"
+        },
+        "aliases": [
+          "PyTorch Lightning"
+        ],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "Pytorch lightning",
+          "justification": "This is the title given in the cited reference.",
+          "value": "Pytorch lightning"
+        }
+      },
+      {
+        "name": {
+          "quote": "Milkshake",
+          "justification": "The implementation explicitly uses this experimentation library.",
+          "value": "Milkshake"
+        },
+        "aliases": [],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "Milkshake: Quick and extendable experimentation with classification models.",
+          "justification": "This is the cited software reference title.",
+          "value": "Milkshake: Quick and extendable experimentation with classification models."
+        }
+      }
+    ],
+    "algorithms": [
+      {
+        "name": {
+          "quote": "Adaptive Group Robust Ensemble Knowledge Distillation (AGRE-KD)",
+          "justification": "Exact name and abbreviation of the paper's contributed procedure.",
+          "value": "Adaptive Group Robust Ensemble Knowledge Distillation (AGRE-KD)"
+        },
+        "aliases": [
+          "AGRE-KD",
+          "AGRE-KD(Ours)"
+        ],
+        "is_contributed": {
+          "quote": "we propose Adaptive Group Robust Ensemble Knowledge Distillation (AGRE-KD)",
+          "justification": "The method is the paper's principal contribution.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "Our experiments across several benchmarks demonstrated the effectiveness of our approach",
+          "justification": "The proposed algorithm is run throughout the experiments.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Comparison of ensemble KD methods",
+          "justification": "It is numerically compared with Random, AVER, and AE-KD.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "an adaptive gradient-based weighting method that improves group robustness in ensemble KD",
+          "justification": "This states the procedure's role in the paper's own words.",
+          "value": "an adaptive gradient-based weighting method that improves group robustness in ensemble KD"
+        },
+        "composed_of": [
+          "knowledge distillation",
+          "gradient-based weighting scheme",
+          "weighted average KD (wKD) loss"
+        ],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "This paper introduces the algorithm, so there is no prior reference paper.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "knowledge distillation (KD)",
+          "justification": "Named training procedure executed for student models.",
+          "value": "knowledge distillation (KD)"
+        },
+        "aliases": [
+          "KD"
+        ],
+        "is_contributed": {
+          "quote": "In KD, a student network ... is trained using the output of a higher capacity network",
+          "justification": "It is prior work, not introduced here.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we train the student model to mimic the teacher’s output",
+          "justification": "The paper executes KD in its experiments.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Comparison of ensemble KD methods",
+          "justification": "Several KD variants are numerically compared.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "a student network ... is trained using the output of a higher capacity network (teacher)",
+          "justification": "This is the paper's description of KD's role.",
+          "value": "a student network is trained using the output of a higher capacity network (teacher)"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Distilling the knowledge in a neural network.",
+          "justification": "This is the cited foundational KD paper title.",
+          "value": "Distilling the knowledge in a neural network."
+        }
+      },
+      {
+        "name": {
+          "quote": "Deep Feature Reweighting (DFR)",
+          "justification": "Exact debiasing method name used by the paper.",
+          "value": "Deep Feature Reweighting (DFR)"
+        },
+        "aliases": [
+          "DFR"
+        ],
+        "is_contributed": {
+          "quote": "DFR is a method proposed by Kirichenko et al. (2022)",
+          "justification": "It is prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we obtain debiased teachers using the approach introduced by Kirichenko et al. (2022) to retrain the last layer",
+          "justification": "The paper executes DFR on teachers and direct models.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "The Debiased column indicates whether the model involves debiasing with DFR",
+          "justification": "DFR and non-DFR results are numerically contrasted.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "retrain the last layer of the ERM model on a small proportion of the held-out group-balanced dataset",
+          "justification": "This is the role of DFR in the experiments.",
+          "value": "retrain the last layer of the ERM model on a small proportion of the held-out group-balanced dataset"
+        },
+        "composed_of": [
+          "group-balanced batch sampling"
+        ],
+        "referenced_paper_title": {
+          "quote": "Last layer re-training is sufficient for robustness to spurious correlations.",
+          "justification": "This is the cited DFR paper title.",
+          "value": "Last layer re-training is sufficient for robustness to spurious correlations."
+        }
+      },
+      {
+        "name": {
+          "quote": "ERM",
+          "justification": "The paper repeatedly identifies empirical risk minimization by this abbreviation.",
+          "value": "ERM"
+        },
+        "aliases": [
+          "empirical risk minimization"
+        ],
+        "is_contributed": {
+          "quote": "When trained with empirical risk minimization (ERM)",
+          "justification": "It is an established training procedure.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We train each teacher model in the ensemble independently using standard ERM",
+          "justification": "The paper executes ERM teacher training.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "We consider models trained using ERM or with last-layer retraining for debiasing.",
+          "justification": "ERM and debiased variants are compared.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "We train each teacher model in the ensemble independently using standard ERM and cross-entropy loss",
+          "justification": "This gives ERM's role.",
+          "value": "train each teacher model in the ensemble independently"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "No single reference paper is assigned to ERM.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "Deep Ensemble (Deep Ens.)",
+          "justification": "Exact baseline name and abbreviation.",
+          "value": "Deep Ensemble (Deep Ens.)"
+        },
+        "aliases": [
+          "Deep Ensemble",
+          "Deep Ens."
+        ],
+        "is_contributed": {
+          "quote": "This baseline corresponds to deep ensembling",
+          "justification": "It is a baseline, not a contribution.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "This baseline corresponds to deep ensembling using a majority voting scheme",
+          "justification": "The baseline is executed.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Deep Ensemble ... One-hot ... Random ... AVER ... AE-KD ... AGRE-KD",
+          "justification": "It is numerically compared in the result tables.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "deep ensembling using a majority voting scheme of models with the same capacity as the student model",
+          "justification": "This is the stated role.",
+          "value": "deep ensembling using a majority voting scheme of models with the same capacity as the student model"
+        },
+        "composed_of": [
+          "majority voting"
+        ],
+        "referenced_paper_title": {
+          "quote": "Ensemble deep learning: A review.",
+          "justification": "This is a cited deep-ensemble reference.",
+          "value": "Ensemble deep learning: A review."
+        }
+      },
+      {
+        "name": {
+          "quote": "One-hot",
+          "justification": "Exact baseline name used by the paper.",
+          "value": "One-hot"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "One-hot: A student model trained with ground truth labels without knowledge distillation.",
+          "justification": "It is a baseline.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "A student model trained with ground truth labels",
+          "justification": "The baseline is trained.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "we report the performance of the \"student\" trained only using the ground truth class labels (One-hot)",
+          "justification": "It is numerically compared to KD approaches.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "A student model trained with ground truth labels without knowledge distillation.",
+          "justification": "This directly states its role.",
+          "value": "A student model trained with ground truth labels without knowledge distillation"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "No reference paper is given for this baseline.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "Random (Fukuda et al., 2017)",
+          "justification": "Exact baseline name as listed.",
+          "value": "Random"
+        },
+        "aliases": [
+          "switched-training",
+          "Random KD"
+        ],
+        "is_contributed": {
+          "quote": "Fukuda et al. (2017) referred to this technique as switched-training",
+          "justification": "It is prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "During each mini-batch training, this method randomly selects a teacher model",
+          "justification": "The method is run as a baseline.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Random ... AVER ... AE-KD ... AGRE-KD(Ours)",
+          "justification": "It is numerically compared.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "randomly selects a teacher model from the ensemble to train the student model",
+          "justification": "This is the paper's description of its role.",
+          "value": "randomly selects a teacher model from the ensemble to train the student model"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Efficient knowledge distillation from an ensemble of teachers.",
+          "justification": "This is the cited source paper.",
+          "value": "Efficient knowledge distillation from an ensemble of teachers."
+        }
+      },
+      {
+        "name": {
+          "quote": "AVER (KD with averaged teachers’ outputs (You et al., 2017))",
+          "justification": "Exact baseline name and expansion.",
+          "value": "AVER"
+        },
+        "aliases": [
+          "KD with averaged teachers’ outputs",
+          "Average KD"
+        ],
+        "is_contributed": {
+          "quote": "You et al. (2017)",
+          "justification": "It is prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we perform standard knowledge distillation ... by minimizing the KL loss",
+          "justification": "The baseline is executed.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Random ... AVER ... AE-KD ... AGRE-KD(Ours)",
+          "justification": "It is numerically compared.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "minimizing the KL loss between the student’s softmax output and the averaged softened outputs ... from teachers",
+          "justification": "This is its experimental role.",
+          "value": "minimizing the KL loss between the student’s softmax output and the averaged softened outputs from teachers"
+        },
+        "composed_of": [
+          "knowledge distillation (KD)"
+        ],
+        "referenced_paper_title": {
+          "quote": "Learning from multiple teacher networks.",
+          "justification": "This is the cited source paper.",
+          "value": "Learning from multiple teacher networks."
+        }
+      },
+      {
+        "name": {
+          "quote": "AE-KD (Du et al., 2020)",
+          "justification": "Exact baseline name used in setup.",
+          "value": "AE-KD"
+        },
+        "aliases": [
+          "AEKD"
+        ],
+        "is_contributed": {
+          "quote": "This method is an adaptive ensembling distillation technique closest to ours.",
+          "justification": "It is prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we consider the following baseline ... AE-KD",
+          "justification": "The paper executes it.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Random ... AVER ... AE-KD ... AGRE-KD(Ours)",
+          "justification": "It is numerically compared.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "when teachers have conflicting gradient directions, a multi-objective optimization problem is solved to select the gradient direction (teachers) that satisfies most of the teachers",
+          "justification": "This is the paper's description of AE-KD.",
+          "value": "select the gradient direction (teachers) that satisfies most of the teachers"
+        },
+        "composed_of": [
+          "multi-objective optimization"
+        ],
+        "referenced_paper_title": {
+          "quote": "Agree to disagree: Adaptive ensemble knowledge distillation in gradient space.",
+          "justification": "This is the cited AE-KD paper title.",
+          "value": "Agree to disagree: Adaptive ensemble knowledge distillation in gradient space."
+        }
+      },
+      {
+        "name": {
+          "quote": "AdamW",
+          "justification": "Named optimizer used for language experiments.",
+          "value": "AdamW"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "For the optimizer, we used AdamW ... for the language ... datasets",
+          "justification": "It is an existing optimizer.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we used AdamW ... for the language ... datasets",
+          "justification": "The optimizer is executed.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "",
+          "justification": "The paper does not numerically compare AdamW against another optimizer on the same task.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "For the optimizer, we used AdamW ... for the language ... datasets",
+          "justification": "This directly states its role.",
+          "value": "the optimizer for the language datasets"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Fixing weight decay regularization in adam.",
+          "justification": "This is the cited AdamW paper title.",
+          "value": "Fixing weight decay regularization in adam."
+        }
+      },
+      {
+        "name": {
+          "quote": "SGD",
+          "justification": "Named optimizer used for vision experiments.",
+          "value": "SGD"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "we used AdamW ... and SGD for the language and vision datasets, respectively",
+          "justification": "It is an existing optimizer.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we used ... SGD for the ... vision datasets",
+          "justification": "The optimizer is executed.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "",
+          "justification": "No same-task optimizer comparison is reported.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "SGD for the ... vision datasets",
+          "justification": "This states its role.",
+          "value": "the optimizer for the vision datasets"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "No SGD reference paper is listed.",
+          "value": "unknown"
+        }
+      }
+    ],
+    "runs": [
+      {
+        "models": [
+          {
+            "name": "MobileNetV2",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Colored MNIST",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "ERM"
+          },
+          {
+            "name": "SGD"
+          },
+          {
+            "name": "Deep Feature Reweighting (DFR)"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "We train each teacher model in the ensemble independently using standard ERM ... we obtain debiased teachers ... to retrain the last layer",
+          "justification": "This run covers teacher fitting and its reported last-layer debiasing variants on Colored MNIST.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "",
+          "justification": "No epoch count is stated for vision tasks.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "",
+          "justification": "No MobileNetV2 parameter count is stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "",
+          "justification": "Hardware is not reported.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "",
+          "justification": "No accelerator model is reported.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "",
+          "justification": "No accelerator count is reported.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Precision is not reported.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "Parallelism is not reported.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "Duration is not reported.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "Utilisation is not reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "We train each model using three random seeds",
+          "justification": "Teacher/model training is repeated over three random seeds in the main experiments.",
+          "value": [
+            {
+              "kind": "seed",
+              "count": 3,
+              "what": "random seeds"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "simple CNN",
+            "role_in_run": "main"
+          },
+          {
+            "name": "MobileNetV2",
+            "role_in_run": "teacher"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Colored MNIST",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "One-hot"
+          },
+          {
+            "name": "knowledge distillation (KD)"
+          },
+          {
+            "name": "Random"
+          },
+          {
+            "name": "AVER"
+          },
+          {
+            "name": "AE-KD"
+          },
+          {
+            "name": "Adaptive Group Robust Ensemble Knowledge Distillation (AGRE-KD)"
+          },
+          {
+            "name": "SGD"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "We train every baseline under each bias ratio configuration",
+          "justification": "The Colored-MNIST student is trained under all baseline and proposed procedures.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "",
+          "justification": "No epoch count is stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "",
+          "justification": "No parameter count is stated for the simple CNN.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "",
+          "justification": "Hardware is not reported.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "",
+          "justification": "No accelerator model is reported.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "",
+          "justification": "No accelerator count is reported.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Precision is not reported.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "Parallelism is not reported.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "Duration is not reported.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "Utilisation is not reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "three random seeds ... ratios of bias-aligned samples ... {99.5%, 99%, 98%, and 95%}",
+          "justification": "The same student compute profile is evaluated over three seeds and four bias-ratio dataset configurations.",
+          "value": [
+            {
+              "kind": "seed",
+              "count": 3,
+              "what": "random seeds"
+            },
+            {
+              "kind": "variant",
+              "count": 4,
+              "what": "ratios of bias-aligned samples"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "Resnet-50",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Waterbirds",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "ERM"
+          },
+          {
+            "name": "Deep Feature Reweighting (DFR)"
+          },
+          {
+            "name": "SGD"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "Both networks are pretrained on the ImageNet-1K ... dataset.",
+          "justification": "The pretrained ResNet-50 teacher is adapted to Waterbirds, including DFR variants.",
+          "value": "finetune"
+        },
+        "epochs": {
+          "quote": "",
+          "justification": "No vision-task epoch count is stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "our ResNet-50 teacher models have around 25.6M parameters",
+          "justification": "The paper explicitly states this scale.",
+          "value": "around 25.6M"
+        },
+        "accelerator_type": {
+          "quote": "",
+          "justification": "Hardware is not reported.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "",
+          "justification": "No accelerator model is reported.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "",
+          "justification": "No accelerator count is reported.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Precision is not reported.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "Parallelism is not reported.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "Duration is not reported.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "Utilisation is not reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "We train each model using three random seeds",
+          "justification": "Main models are trained over three seeds.",
+          "value": [
+            {
+              "kind": "seed",
+              "count": 3,
+              "what": "random seeds"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "Resnet-18",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Resnet-50",
+            "role_in_run": "teacher"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Waterbirds",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "One-hot"
+          },
+          {
+            "name": "knowledge distillation (KD)"
+          },
+          {
+            "name": "Random"
+          },
+          {
+            "name": "AVER"
+          },
+          {
+            "name": "AE-KD"
+          },
+          {
+            "name": "Adaptive Group Robust Ensemble Knowledge Distillation (AGRE-KD)"
+          },
+          {
+            "name": "SGD"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "perform knowledge distillation to a ResNet-18 student model",
+          "justification": "A pretrained ResNet-18 is adapted on Waterbirds with frozen teachers and baseline variants.",
+          "value": "finetune"
+        },
+        "epochs": {
+          "quote": "",
+          "justification": "No epoch count is stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "ResNet-18 student models with approximately 11M parameters",
+          "justification": "The paper explicitly states this scale.",
+          "value": "approximately 11M"
+        },
+        "accelerator_type": {
+          "quote": "",
+          "justification": "Hardware is not reported.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "",
+          "justification": "No accelerator model is reported.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "",
+          "justification": "No accelerator count is reported.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Precision is not reported.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "Parallelism is not reported.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "Duration is not reported.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "Utilisation is not reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "We train each model using three random seeds",
+          "justification": "Main student configurations use three seeds.",
+          "value": [
+            {
+              "kind": "seed",
+              "count": 3,
+              "what": "random seeds"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "Resnet-50",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "CelebA",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "ERM"
+          },
+          {
+            "name": "Deep Feature Reweighting (DFR)"
+          },
+          {
+            "name": "SGD"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "Both networks are pretrained on the ImageNet-1K ... dataset.",
+          "justification": "The pretrained ResNet-50 teacher is adapted to CelebA.",
+          "value": "finetune"
+        },
+        "epochs": {
+          "quote": "",
+          "justification": "No epoch count is stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "our ResNet-50 teacher models have around 25.6M parameters",
+          "justification": "Explicitly stated model scale.",
+          "value": "around 25.6M"
+        },
+        "accelerator_type": {
+          "quote": "",
+          "justification": "Hardware is not reported.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "",
+          "justification": "No accelerator model is reported.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "",
+          "justification": "No accelerator count is reported.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Precision is not reported.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "Parallelism is not reported.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "Duration is not reported.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "Utilisation is not reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "We train each model using three random seeds",
+          "justification": "Main models use three seeds.",
+          "value": [
+            {
+              "kind": "seed",
+              "count": 3,
+              "what": "random seeds"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "Resnet-18",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Resnet-50",
+            "role_in_run": "teacher"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "CelebA",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "One-hot"
+          },
+          {
+            "name": "knowledge distillation (KD)"
+          },
+          {
+            "name": "Random"
+          },
+          {
+            "name": "AVER"
+          },
+          {
+            "name": "AE-KD"
+          },
+          {
+            "name": "Adaptive Group Robust Ensemble Knowledge Distillation (AGRE-KD)"
+          },
+          {
+            "name": "SGD"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "perform knowledge distillation to a ResNet-18 student model",
+          "justification": "The pretrained ResNet-18 is adapted to CelebA using teacher and baseline variants.",
+          "value": "finetune"
+        },
+        "epochs": {
+          "quote": "",
+          "justification": "No epoch count is stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "ResNet-18 student models with approximately 11M parameters",
+          "justification": "Explicitly stated model scale.",
+          "value": "approximately 11M"
+        },
+        "accelerator_type": {
+          "quote": "",
+          "justification": "Hardware is not reported.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "",
+          "justification": "No accelerator model is reported.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "",
+          "justification": "No accelerator count is reported.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Precision is not reported.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "Parallelism is not reported.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "Duration is not reported.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "Utilisation is not reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "We train each model using three random seeds",
+          "justification": "Main student configurations use three seeds.",
+          "value": [
+            {
+              "kind": "seed",
+              "count": 3,
+              "what": "random seeds"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "BERT",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "CivilComments",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "ERM"
+          },
+          {
+            "name": "Deep Feature Reweighting (DFR)"
+          },
+          {
+            "name": "AdamW"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "we use the BERT ... model for teachers",
+          "justification": "The pretrained BERT teacher is adapted to CivilComments.",
+          "value": "finetune"
+        },
+        "epochs": {
+          "quote": "For the CivilComments dataset ... train for ten epochs.",
+          "justification": "The paper explicitly states ten epochs.",
+          "value": "10"
+        },
+        "parameter_count": {
+          "quote": "",
+          "justification": "No BERT parameter count is stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "",
+          "justification": "Hardware is not reported.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "",
+          "justification": "No accelerator model is reported.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "",
+          "justification": "No accelerator count is reported.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Precision is not reported.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "Parallelism is not reported.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "Duration is not reported.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "Utilisation is not reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "We train each model using three random seeds",
+          "justification": "Main models use three random seeds.",
+          "value": [
+            {
+              "kind": "seed",
+              "count": 3,
+              "what": "random seeds"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "DistilBERT",
+            "role_in_run": "main"
+          },
+          {
+            "name": "BERT",
+            "role_in_run": "teacher"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "CivilComments",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "One-hot"
+          },
+          {
+            "name": "knowledge distillation (KD)"
+          },
+          {
+            "name": "Random"
+          },
+          {
+            "name": "AVER"
+          },
+          {
+            "name": "AE-KD"
+          },
+          {
+            "name": "Adaptive Group Robust Ensemble Knowledge Distillation (AGRE-KD)"
+          },
+          {
+            "name": "AdamW"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "we use the BERT ... model for teachers and the DistilBERT ... for the student model",
+          "justification": "The pretrained DistilBERT student is adapted to CivilComments with BERT teachers.",
+          "value": "finetune"
+        },
+        "epochs": {
+          "quote": "For the CivilComments dataset ... train for ten epochs.",
+          "justification": "The paper explicitly states ten epochs.",
+          "value": "10"
+        },
+        "parameter_count": {
+          "quote": "",
+          "justification": "No DistilBERT parameter count is stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "",
+          "justification": "Hardware is not reported.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "",
+          "justification": "No accelerator model is reported.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "",
+          "justification": "No accelerator count is reported.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Precision is not reported.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "Parallelism is not reported.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "Duration is not reported.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "Utilisation is not reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "We train each model using three random seeds",
+          "justification": "Main student configurations use three seeds.",
+          "value": [
+            {
+              "kind": "seed",
+              "count": 3,
+              "what": "random seeds"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "Resnet-50",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Resnet-50",
+            "role_in_run": "teacher"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Waterbirds",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "knowledge distillation (KD)"
+          },
+          {
+            "name": "Random"
+          },
+          {
+            "name": "AVER"
+          },
+          {
+            "name": "AE-KD"
+          },
+          {
+            "name": "Adaptive Group Robust Ensemble Knowledge Distillation (AGRE-KD)"
+          },
+          {
+            "name": "SGD"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "using self-distillation, i.e., we use the same architecture for the student and teacher models (e.g., ResNet-50 on image tasks)",
+          "justification": "This is the Waterbirds self-distillation configuration.",
+          "value": "finetune"
+        },
+        "epochs": {
+          "quote": "",
+          "justification": "No epoch count is stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "our ResNet-50 teacher models have around 25.6M parameters",
+          "justification": "The same-capacity student/teacher architecture has this stated scale.",
+          "value": "around 25.6M"
+        },
+        "accelerator_type": {
+          "quote": "",
+          "justification": "Hardware is not reported.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "",
+          "justification": "No accelerator model is reported.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "",
+          "justification": "No accelerator count is reported.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Precision is not reported.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "Parallelism is not reported.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "Duration is not reported.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "Utilisation is not reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "across three random seeds",
+          "justification": "The self-distillation results report three-seed averages.",
+          "value": [
+            {
+              "kind": "seed",
+              "count": 3,
+              "what": "random seeds"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "Resnet-50",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Resnet-50",
+            "role_in_run": "teacher"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "CelebA",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "knowledge distillation (KD)"
+          },
+          {
+            "name": "Random"
+          },
+          {
+            "name": "AVER"
+          },
+          {
+            "name": "AE-KD"
+          },
+          {
+            "name": "Adaptive Group Robust Ensemble Knowledge Distillation (AGRE-KD)"
+          },
+          {
+            "name": "SGD"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "using self-distillation, i.e., we use the same architecture for the student and teacher models",
+          "justification": "This is the CelebA same-capacity self-distillation configuration.",
+          "value": "finetune"
+        },
+        "epochs": {
+          "quote": "",
+          "justification": "No epoch count is stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "our ResNet-50 teacher models have around 25.6M parameters",
+          "justification": "The paper states this scale.",
+          "value": "around 25.6M"
+        },
+        "accelerator_type": {
+          "quote": "",
+          "justification": "Hardware is not reported.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "",
+          "justification": "No accelerator model is reported.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "",
+          "justification": "No accelerator count is reported.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Precision is not reported.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "Parallelism is not reported.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "Duration is not reported.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "Utilisation is not reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "across three random seeds",
+          "justification": "Results are averaged across three seeds.",
+          "value": [
+            {
+              "kind": "seed",
+              "count": 3,
+              "what": "random seeds"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "ResNet34",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Resnet-50",
+            "role_in_run": "teacher"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Waterbirds",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Random"
+          },
+          {
+            "name": "AVER"
+          },
+          {
+            "name": "AE-KD"
+          },
+          {
+            "name": "Adaptive Group Robust Ensemble Knowledge Distillation (AGRE-KD)"
+          },
+          {
+            "name": "SGD"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "varying the capacity of the student network (ResNet-18, ResNet34, and ResNet-50)",
+          "justification": "This distinct-scale run captures the ResNet34 capacity ablation on Waterbirds.",
+          "value": "finetune"
+        },
+        "epochs": {
+          "quote": "",
+          "justification": "No epoch count is stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "",
+          "justification": "No ResNet34 parameter count is stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "",
+          "justification": "Hardware is not reported.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "",
+          "justification": "No accelerator model is reported.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "",
+          "justification": "No accelerator count is reported.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Precision is not reported.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "Parallelism is not reported.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "Duration is not reported.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "Utilisation is not reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "across three random seeds",
+          "justification": "The capacity results are plotted across three seeds.",
+          "value": [
+            {
+              "kind": "seed",
+              "count": 3,
+              "what": "random seeds"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "ResNet34",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Resnet-50",
+            "role_in_run": "teacher"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "CelebA",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Random"
+          },
+          {
+            "name": "AVER"
+          },
+          {
+            "name": "AE-KD"
+          },
+          {
+            "name": "Adaptive Group Robust Ensemble Knowledge Distillation (AGRE-KD)"
+          },
+          {
+            "name": "SGD"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "varying the capacity of the student network (ResNet-18, ResNet34, and ResNet-50)",
+          "justification": "This distinct-scale run captures the ResNet34 capacity ablation on CelebA.",
+          "value": "finetune"
+        },
+        "epochs": {
+          "quote": "",
+          "justification": "No epoch count is stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "",
+          "justification": "No ResNet34 parameter count is stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "",
+          "justification": "Hardware is not reported.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "",
+          "justification": "No accelerator model is reported.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "",
+          "justification": "No accelerator count is reported.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Precision is not reported.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "Parallelism is not reported.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "Duration is not reported.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "Utilisation is not reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "across three random seeds",
+          "justification": "The capacity results are plotted across three seeds.",
+          "value": [
+            {
+              "kind": "seed",
+              "count": 3,
+              "what": "random seeds"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "ViT",
+            "role_in_run": "main"
+          },
+          {
+            "name": "ConvNeXtV2",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Resnet-50",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Waterbirds",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "ERM"
+          },
+          {
+            "name": "Deep Feature Reweighting (DFR)"
+          },
+          {
+            "name": "SGD"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "We train teacher models using three different network architectures, i.e., ViT ... ConvNeXtV2 ... and ResNet-50",
+          "justification": "This is the heterogeneous teacher-training stage on Waterbirds.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "",
+          "justification": "No epoch count is stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "",
+          "justification": "No common parameter count is stated for this heterogeneous configuration.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "",
+          "justification": "Hardware is not reported.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "",
+          "justification": "No accelerator model is reported.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "",
+          "justification": "No accelerator count is reported.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Precision is not reported.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "Parallelism is not reported.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "Duration is not reported.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "Utilisation is not reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "three models with each architecture, all trained using different random initialization",
+          "justification": "Each of the three architecture variants has three independently initialized models.",
+          "value": [
+            {
+              "kind": "variant",
+              "count": 3,
+              "what": "teacher architectures"
+            },
+            {
+              "kind": "seed",
+              "count": 3,
+              "what": "different random initialization for each architecture"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "Resnet-18",
+            "role_in_run": "main"
+          },
+          {
+            "name": "ViT",
+            "role_in_run": "teacher"
+          },
+          {
+            "name": "ConvNeXtV2",
+            "role_in_run": "teacher"
+          },
+          {
+            "name": "Resnet-50",
+            "role_in_run": "teacher"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Waterbirds",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Random"
+          },
+          {
+            "name": "AVER"
+          },
+          {
+            "name": "AE-KD"
+          },
+          {
+            "name": "Adaptive Group Robust Ensemble Knowledge Distillation (AGRE-KD)"
+          },
+          {
+            "name": "SGD"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "perform knowledge distillation to a ResNet-18 student model",
+          "justification": "This is the heterogeneous-teacher distillation run on Waterbirds.",
+          "value": "finetune"
+        },
+        "epochs": {
+          "quote": "",
+          "justification": "No epoch count is stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "ResNet-18 student models with approximately 11M parameters",
+          "justification": "The paper states the ResNet-18 scale.",
+          "value": "approximately 11M"
+        },
+        "accelerator_type": {
+          "quote": "",
+          "justification": "Hardware is not reported.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "",
+          "justification": "No accelerator model is reported.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "",
+          "justification": "No accelerator count is reported.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Precision is not reported.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "Parallelism is not reported.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "Duration is not reported.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "Utilisation is not reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "three models with each architecture, all trained using different random initialization",
+          "justification": "The student consumes a nine-model heterogeneous ensemble made from three models per architecture; this is ensemble membership rather than a run repetition, so no repetition factor is asserted.",
+          "value": []
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "ViT",
+            "role_in_run": "main"
+          },
+          {
+            "name": "ConvNeXtV2",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Resnet-50",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "CelebA",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "ERM"
+          },
+          {
+            "name": "Deep Feature Reweighting (DFR)"
+          },
+          {
+            "name": "SGD"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "We train teacher models using three different network architectures",
+          "justification": "Appendix Table 8 reports the corresponding heterogeneous teachers on CelebA.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "",
+          "justification": "No epoch count is stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "",
+          "justification": "No common scale is stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "",
+          "justification": "Hardware is not reported.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "",
+          "justification": "No accelerator model is reported.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "",
+          "justification": "No accelerator count is reported.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Precision is not reported.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "Parallelism is not reported.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "Duration is not reported.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "Utilisation is not reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "three models with each architecture, all trained using different random initialization",
+          "justification": "Each architecture is represented by three independently initialized models.",
+          "value": [
+            {
+              "kind": "variant",
+              "count": 3,
+              "what": "teacher architectures"
+            },
+            {
+              "kind": "seed",
+              "count": 3,
+              "what": "different random initialization for each architecture"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "Resnet-18",
+            "role_in_run": "main"
+          },
+          {
+            "name": "ViT",
+            "role_in_run": "teacher"
+          },
+          {
+            "name": "ConvNeXtV2",
+            "role_in_run": "teacher"
+          },
+          {
+            "name": "Resnet-50",
+            "role_in_run": "teacher"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "CelebA",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Random"
+          },
+          {
+            "name": "AVER"
+          },
+          {
+            "name": "AE-KD"
+          },
+          {
+            "name": "Adaptive Group Robust Ensemble Knowledge Distillation (AGRE-KD)"
+          },
+          {
+            "name": "SGD"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "perform knowledge distillation to a ResNet-18 student model",
+          "justification": "Appendix Table 8 reports the heterogeneous-teacher student configuration on CelebA.",
+          "value": "finetune"
+        },
+        "epochs": {
+          "quote": "",
+          "justification": "No epoch count is stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "ResNet-18 student models with approximately 11M parameters",
+          "justification": "The paper states this student scale.",
+          "value": "approximately 11M"
+        },
+        "accelerator_type": {
+          "quote": "",
+          "justification": "Hardware is not reported.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "",
+          "justification": "No accelerator model is reported.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "",
+          "justification": "No accelerator count is reported.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Precision is not reported.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "Parallelism is not reported.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "Duration is not reported.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "Utilisation is not reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "",
+          "justification": "The appendix table reports means and deviations but does not explicitly restate the number of student-run seeds for this configuration.",
+          "value": []
+        }
+      }
+    ]
+  },
+  "usage": {
+    "input_tokens": 35012,
+    "output_tokens": 13843,
+    "total_tokens": 48855
+  }
+}

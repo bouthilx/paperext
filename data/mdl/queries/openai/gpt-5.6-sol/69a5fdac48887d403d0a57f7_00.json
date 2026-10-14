@@ -1,0 +1,2405 @@
+{
+  "paper": "69a5fdac48887d403d0a57f7.txt",
+  "words": 19975,
+  "extractions": {
+    "title": {
+      "quote": "A Generative Model of Symmetry Transformations",
+      "justification": "The title appears at the beginning of the paper.",
+      "value": "A Generative Model of Symmetry Transformations"
+    },
+    "description": "Empirical machine-learning paper introducing and evaluating a learned symmetry-aware generative model and VAE hybrids. The extraction below catalogs only its computational artifacts and compute configurations.",
+    "type": {
+      "quote": "We verify experimentally that our SGM correctly captures affine and color symmetries.",
+      "justification": "The paper introduces a model and evaluates it experimentally on several image datasets.",
+      "value": "empirical"
+    },
+    "research_fields": [
+      {
+        "name": {
+          "quote": "we take inspiration from group theoretic ideas to construct a generative model that explicitly aims to capture the data’s approximate symmetries",
+          "justification": "The paper contributes a generative-modeling method for symmetry transformations.",
+          "value": "Generative modeling"
+        },
+        "aliases": [],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "Learning symmetries in discriminative modeling is an active field of research",
+          "justification": "The paper advances methods for learning symmetries, though in a generative rather than discriminative setting.",
+          "value": "Symmetry learning"
+        },
+        "aliases": [],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "Our model can be seen as a generative process for data augmentation.",
+          "justification": "Learned, example-dependent data augmentation is an intended use and experimentally evaluated.",
+          "value": "Data augmentation"
+        },
+        "aliases": [],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "We then learn an equivariant function fω via a self-supervised learning (SSL) scheme",
+          "justification": "Self-supervised learning is used as a setting and training mechanism for the contributed model.",
+          "value": "Self-supervised learning"
+        },
+        "aliases": [
+          "SSL"
+        ],
+        "role": "used"
+      },
+      {
+        "name": {
+          "quote": "PatchCamelyon dataset",
+          "justification": "Digital pathology is used as an evaluation domain via PatchCamelyon, but the paper does not advance pathology itself.",
+          "value": "Digital pathology"
+        },
+        "aliases": [],
+        "role": "used"
+      },
+      {
+        "name": {
+          "quote": "GalaxyMNIST",
+          "justification": "Galaxy imagery is used as an evaluation domain, but astronomy itself is not advanced.",
+          "value": "Astronomy"
+        },
+        "aliases": [],
+        "role": "used"
+      }
+    ],
+    "models": [
+      {
+        "name": {
+          "quote": "We propose a Symmetry-aware Generative Model (SGM).",
+          "justification": "This is the paper's principal contributed learned model.",
+          "value": "Symmetry-aware Generative Model"
+        },
+        "aliases": [
+          "SGM"
+        ],
+        "is_contributed": {
+          "quote": "We propose a Symmetry-aware Generative Model (SGM).",
+          "justification": "The paper explicitly proposes it.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "We verify experimentally that our SGM correctly captures affine and color symmetries.",
+          "justification": "The SGM is trained and evaluated in the experiments.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "we compare a standard VAE to two VAE-SGM hybrid models",
+          "justification": "SGM-based hybrids are numerically compared with VAE baselines.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "We propose a two-stage algorithm for learning our SGM: first learning x̂ using a self-supervised approach and then learning η via maximum likelihood.",
+          "justification": "The SGM is trained in two stages.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "This is the first such model we are aware of.",
+          "justification": "It is contributed in this paper, so there is no separate reference-paper title.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "Our generative model is a Neural Spline Flow [Durkan et al., 2019]",
+          "justification": "This learned normalizing-flow model implements the SGM transformation distribution.",
+          "value": "Neural Spline Flow"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "Our generative model is a Neural Spline Flow [Durkan et al., 2019]",
+          "justification": "It is an existing model adopted from prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Our generative model is a Neural Spline Flow [Durkan et al., 2019] with 6 bins in the range [−3, 3].",
+          "justification": "The paper trains this model as its generative network.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Figures 5b and 5c compare idealised examples of the learned pψ (η | x̂)—given a simple uni-modal Gaussian family and a more flexible bi-modal mixture-of-Gaussian family",
+          "justification": "The executed Neural Spline Flow itself is not isolated in a numerical model comparison; these are illustrative distribution-family comparisons.",
+          "value": false
+        },
+        "execution_mode": {
+          "quote": "Generative network. Our generative model is a Neural Spline Flow",
+          "justification": "The network is trained as the second SGM stage.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "Conor Durkan, Artur Bekasov, Iain Murray, and George Papamakarios. Neural spline flows.",
+          "justification": "This is the cited reference title.",
+          "value": "Neural spline flows"
+        }
+      },
+      {
+        "name": {
+          "quote": "a standard VAE",
+          "justification": "The standard variational autoencoder is an executed baseline.",
+          "value": "VAE"
+        },
+        "aliases": [
+          "standard VAE"
+        ],
+        "is_contributed": {
+          "quote": "we compare a standard VAE to two VAE-SGM hybrid models",
+          "justification": "The standard VAE is a baseline, not a contribution.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Our VAEs use a latent code size of 20.",
+          "justification": "The paper specifies and trains its VAE implementation.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "we compare a standard VAE to two VAE-SGM hybrid models",
+          "justification": "It is numerically compared against AugVAE and InvVAE.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "a VAE trained with standard data augmentation",
+          "justification": "The VAE and its baseline variants are trained.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "VAE",
+          "justification": "No foundational VAE citation/title is included in the supplied reference list.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "AugVAE is a VAE that uses our SGM to re-sample transformed examples",
+          "justification": "AugVAE is a named VAE-SGM hybrid model.",
+          "value": "AugVAE"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "two VAE-SGM hybrid models—“AugVAE” and “InvVAE”",
+          "justification": "This hybrid is introduced in the paper.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "AugVAE is a VAE that uses our SGM to re-sample transformed examples x′ = Tη|x̂ (x̂), introducing data augmentation at training time.",
+          "justification": "It is trained and evaluated.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "we compare a standard VAE to two VAE-SGM hybrid models—“AugVAE” and “InvVAE”",
+          "justification": "It is numerically compared with the other VAE configurations.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "introducing data augmentation at training time",
+          "justification": "The model is trained using SGM-resampled examples.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "two VAE-SGM hybrid models—“AugVAE” and “InvVAE”",
+          "justification": "This is contributed here rather than taken from a separately cited paper.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "InvVAE is a VAE that uses our SGM to convert each example x to its prototype x̂ at both train and test time.",
+          "justification": "InvVAE is a named VAE-SGM hybrid model.",
+          "value": "InvVAE"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "two VAE-SGM hybrid models—“AugVAE” and “InvVAE”",
+          "justification": "This hybrid is introduced in the paper.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "InvVAE is a VAE that uses our SGM to convert each example x to its prototype x̂ at both train and test time.",
+          "justification": "It is trained and evaluated.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "we compare a standard VAE to two VAE-SGM hybrid models—“AugVAE” and “InvVAE”",
+          "justification": "It is numerically compared with the other VAE configurations.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "at both train and test time",
+          "justification": "The model is trained on prototype representations.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "two VAE-SGM hybrid models—“AugVAE” and “InvVAE”",
+          "justification": "This is contributed here rather than taken from a separately cited paper.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "we compare the ability of our method to learn symmetries to LieGAN [Yang et al., 2023]",
+          "justification": "LieGAN is an executed comparison model.",
+          "value": "LieGAN"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "LieGAN [Yang et al., 2023]",
+          "justification": "It comes from prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We train the GAN for 100 epochs with a batch size of 64",
+          "justification": "The authors reimplemented and trained LieGAN.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "we compare the ability of our method to learn symmetries to LieGAN",
+          "justification": "It is numerically and qualitatively compared to SGM.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "We train the GAN for 100 epochs",
+          "justification": "LieGAN is trained in this paper.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "Jianke Yang, Robin Walters, Nima Dehmamy, and Rose Yu. Generative adversarial symmetry discovery.",
+          "justification": "This is the referenced LieGAN paper.",
+          "value": "Generative adversarial symmetry discovery"
+        }
+      },
+      {
+        "name": {
+          "quote": "a pre-trained LeNet5 feature extractor as the backbone",
+          "justification": "A pretrained LeNet5 is executed as the frozen LieGAN discriminator feature extractor.",
+          "value": "LeNet5"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "a pre-trained LeNet5 feature extractor",
+          "justification": "It is an existing pretrained model.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "The discriminator model consists of a pre-trained LeNet5 feature extractor as the backbone",
+          "justification": "It is used during the LieGAN experiment.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "the choice of using a pre-trained LeNet5 model for the discriminator",
+          "justification": "LeNet5 is a component, not itself numerically compared.",
+          "value": false
+        },
+        "execution_mode": {
+          "quote": "a pre-trained LeNet5 feature extractor",
+          "justification": "It is used as a frozen inference feature extractor rather than trained here.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "LeNet5",
+          "justification": "No explicit LeNet5 reference title is provided in the supplied references.",
+          "value": "unknown"
+        }
+      }
+    ],
+    "data_sources": [
+      {
+        "name": {
+          "quote": "dSprites [Matthey et al., 2017]",
+          "justification": "A named dataset used in the experiments.",
+          "value": "dSprites"
+        },
+        "aliases": [],
+        "role": "used",
+        "size": {
+          "quote": "The dataset consists of sprites with the outer product of these factors, for a total of 737280 examples.",
+          "justification": "The paper explicitly states the original dataset size used by its modified loader.",
+          "value": "737280 examples"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "dsprites: Disentanglement testing sprites dataset.",
+          "justification": "This is the cited dataset title.",
+          "value": "dsprites: Disentanglement testing sprites dataset"
+        }
+      },
+      {
+        "name": {
+          "quote": "MNIST",
+          "justification": "A named dataset used throughout the experiments.",
+          "value": "MNIST"
+        },
+        "aliases": [],
+        "role": "used",
+        "size": {
+          "quote": "We split the MNIST training set by removing the last 10k examples and using them exclusively for validation and hyperparameter sweeps.",
+          "justification": "The paper states only the 10k validation removal and experimental training-set sizes, not one universal total used size; report the explicit split size.",
+          "value": "last 10k training examples used for validation; training experiments use 12,500, 25,000, 37,500, or 50,000 examples"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "Yann LeCun, Corinna Cortes, and CJ Burges. Mnist handwritten digit database.",
+          "justification": "This is the cited dataset reference title.",
+          "value": "Mnist handwritten digit database"
+        }
+      },
+      {
+        "name": {
+          "quote": "GalaxyMNIST [Walmsley et al., 2022]",
+          "justification": "A named dataset used in the experiments.",
+          "value": "GalaxyMNIST"
+        },
+        "aliases": [],
+        "role": "used",
+        "size": {
+          "quote": "This dataset contains 10k examples. We use the last 2k as our test set, and the previous 1k as a validation set.",
+          "justification": "The paper explicitly gives the total and split sizes.",
+          "value": "10k examples (7k train, 1k validation, 2k test)"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "Galaxy Zoo DECaLS: Detailed visual morphology measurements from volunteers and deep learning for 314 000 galaxies.",
+          "justification": "This is the cited source paper associated with GalaxyMNIST.",
+          "value": "Galaxy Zoo DECaLS: Detailed visual morphology measurements from volunteers and deep learning for 314 000 galaxies"
+        }
+      },
+      {
+        "name": {
+          "quote": "PatchCamelyon dataset [Veeling et al., 2018]",
+          "justification": "A named dataset used for the appendix experiments.",
+          "value": "PatchCamelyon"
+        },
+        "aliases": [],
+        "role": "used",
+        "size": {
+          "quote": "The dataset has dedicated train, test, and validation splits which we use without any modifications.",
+          "justification": "No number of samples used is stated in the paper text.",
+          "value": "unknown"
+        },
+        "derived_from": [],
+        "sample_properties": [
+          {
+            "name": "image resolution before resizing",
+            "value": {
+              "quote": "We resized the images from 96 × 96 pixels to 64 × 64 using bilinear interpolation.",
+              "justification": "The paper explicitly states the original resolution.",
+              "value": "96 × 96"
+            },
+            "unit": "pixels"
+          },
+          {
+            "name": "image resolution used",
+            "value": {
+              "quote": "We resized the images from 96 × 96 pixels to 64 × 64 using bilinear interpolation.",
+              "justification": "The paper explicitly states the resolution consumed by the experiments.",
+              "value": "64 × 64"
+            },
+            "unit": "pixels"
+          }
+        ],
+        "referenced_paper_title": {
+          "quote": "Rotation equivariant cnns for digital pathology",
+          "justification": "This is the title of the cited PatchCamelyon reference.",
+          "value": "Rotation equivariant cnns for digital pathology"
+        }
+      }
+    ],
+    "libraries": [
+      {
+        "name": {
+          "quote": "We use jax with flax for NNs",
+          "justification": "Explicitly used for implementation.",
+          "value": "jax"
+        },
+        "aliases": [
+          "Jax"
+        ],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "We use jax with flax for NNs",
+          "justification": "No reference-paper title is supplied.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "We use jax with flax for NNs",
+          "justification": "Explicitly used for neural networks.",
+          "value": "flax"
+        },
+        "aliases": [],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "We use jax with flax for NNs",
+          "justification": "No reference-paper title is supplied.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "distrax for probability distributions",
+          "justification": "Explicitly used for probability distributions.",
+          "value": "distrax"
+        },
+        "aliases": [],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "distrax for probability distributions",
+          "justification": "No reference-paper title is supplied.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "optax for optimizers",
+          "justification": "Explicitly used for optimizers.",
+          "value": "optax"
+        },
+        "aliases": [],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "optax for optimizers",
+          "justification": "No reference-paper title is supplied.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "We use ciclo with clu to manage our training loops",
+          "justification": "Explicitly used to manage training loops.",
+          "value": "ciclo"
+        },
+        "aliases": [],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "We use ciclo with clu to manage our training loops",
+          "justification": "No reference-paper title is supplied.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "We use ciclo with clu to manage our training loops",
+          "justification": "Explicitly used to manage training loops.",
+          "value": "clu"
+        },
+        "aliases": [],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "We use ciclo with clu to manage our training loops",
+          "justification": "No reference-paper title is supplied.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "ml_collections to specify our configurations",
+          "justification": "Explicitly used for experiment configurations.",
+          "value": "ml_collections"
+        },
+        "aliases": [],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "ml_collections to specify our configurations",
+          "justification": "No reference-paper title is supplied.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "wandb to track our experiments",
+          "justification": "Explicitly used for experiment tracking.",
+          "value": "wandb"
+        },
+        "aliases": [
+          "Weights & Biases"
+        ],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "wandb to track our experiments",
+          "justification": "No reference-paper title is supplied.",
+          "value": "unknown"
+        }
+      }
+    ],
+    "algorithms": [
+      {
+        "name": {
+          "quote": "We propose a two-stage algorithm for learning our SGM",
+          "justification": "The paper's named learning procedure is presented as Algorithm 1, titled “Learning.”",
+          "value": "Learning"
+        },
+        "aliases": [
+          "two-stage algorithm"
+        ],
+        "is_contributed": {
+          "quote": "We propose a two-stage algorithm for learning our SGM",
+          "justification": "The algorithm is a paper contribution.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "first learning x̂ using a self-supervised approach and then learning η via maximum likelihood",
+          "justification": "Both stages are executed in the experiments.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "We verify experimentally that our SGM correctly captures affine and color symmetries.",
+          "justification": "The overall method is compared with VAE configurations and LieGAN.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "first learning x̂ using a self-supervised approach and then learning η via maximum likelihood",
+          "justification": "This directly describes the algorithm's role.",
+          "value": "first learning x̂ using a self-supervised approach and then learning η via maximum likelihood"
+        },
+        "composed_of": [
+          "SSL _ LOSS",
+          "MLE _ LOSS"
+        ],
+        "referenced_paper_title": {
+          "quote": "Algorithm 1 Learning",
+          "justification": "It is introduced in this paper.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "function SSL _ LOSS(x, ω)",
+          "justification": "This is the exact named self-supervised objective in Algorithm 1.",
+          "value": "SSL _ LOSS"
+        },
+        "aliases": [
+          "SSL loss"
+        ],
+        "is_contributed": {
+          "quote": "Our SSL loss is given in line 1 of Algorithm 1.",
+          "justification": "The exact loss is proposed here.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "update ω with ∇ω ... SSL _ LOSS",
+          "justification": "Algorithm 1 executes it to update the inference network.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "trained on fully rotated MNIST digits using both X-space and H-space SSL objectives",
+          "justification": "Variants of the SSL objective are numerically compared.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "We then learn an equivariant function fω via a self-supervised learning (SSL) scheme",
+          "justification": "It trains the transformation inference function.",
+          "value": "learn an equivariant function fω via a self-supervised learning (SSL) scheme"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "inspired by methods like BYOL ... and, more directly, BINCE",
+          "justification": "The paper's exact SSL loss is contributed here rather than identified with one prior reference title.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "function MLE _ LOSS(x, ω, ψ)",
+          "justification": "This is the exact named maximum-likelihood objective in Algorithm 1.",
+          "value": "MLE _ LOSS"
+        },
+        "aliases": [
+          "MLE loss",
+          "MLE objective"
+        ],
+        "is_contributed": {
+          "quote": "This is shown in line 8 of Algorithm 1.",
+          "justification": "The exact SGM-stage objective is part of the proposed method.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "update ψ with ∇ψ ... MLE _ LOSS",
+          "justification": "Algorithm 1 executes it to train pψ.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Averaging the loss over multiple samples—e.g., 5—of ηrnd is beneficial.",
+          "justification": "Variants are assessed, but it is not numerically compared as a standalone algorithm against different algorithms.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "we simply learn pψ (η | x̂) by maximum likelihood",
+          "justification": "It trains the generative transformation distribution.",
+          "value": "learn pψ (η | x̂) by maximum likelihood"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "MLE _ LOSS",
+          "justification": "No separate reference title is given.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "invertibility loss",
+          "justification": "This is a named auxiliary loss used in some affine-image experiments.",
+          "value": "invertibility loss"
+        },
+        "aliases": [
+          "Linvertibility"
+        ],
+        "is_contributed": {
+          "quote": "we can augment the SSL loss in Algorithm 1 with an invertibility loss",
+          "justification": "It is introduced as part of this implementation.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "The invertibility loss Linvertibility (7) is multiplied by a factor of 0.1.",
+          "justification": "It is used in the MNIST affine setup.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "We do not use an invertibility loss when training the inference network.",
+          "justification": "Its use differs by dataset, but no direct numerical algorithm comparison is reported.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "we can prevent severe information loss by constraining ηmin and ηmax ... Alternatively, we can augment the SSL loss ... with an invertibility loss",
+          "justification": "It discourages lossy/non-invertible prototype transformations.",
+          "value": "prevent severe information loss"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "invertibility loss",
+          "justification": "No separate reference title is given.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "consistency loss",
+          "justification": "This is a named auxiliary objective for robust generative-network training.",
+          "value": "consistency loss"
+        },
+        "aliases": [
+          "Lconsistency"
+        ],
+        "is_contributed": {
+          "quote": "we add a consistency loss to line 8 of Algorithm 1 the MLE objective",
+          "justification": "It is introduced in this paper.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "consistency loss multiplier ∈ [0, 1]",
+          "justification": "Its inclusion is swept and used in experiments.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "consistency loss multiplier ∈ [0, 1] (whether or not to use (25))",
+          "justification": "Use versus non-use is part of the hyperparameter search.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "To encourage pψ (η | x̂) produce the same distribution for the inconsistent prototypes produced by qω (η | x)",
+          "justification": "This is the stated role.",
+          "value": "encourage pψ (η | x̂) to produce the same distribution for inconsistent prototypes"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "consistency loss",
+          "justification": "No separate reference title is given.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "‘symmetric’ SSL loss",
+          "justification": "This exact name is used for an executed SSL variant.",
+          "value": "‘symmetric’ SSL loss"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "An alternative is to compare the prototypes given xrnd1 and xrnd2",
+          "justification": "The paper defines this variant.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "We use the ‘symmetric’ SLL loss discussed in Appendix B.",
+          "justification": "It is used for MNIST affine and GalaxyMNIST experiments (the paper writes “SLL” here).",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "while this works well for MNIST, it does not work well for dSprites",
+          "justification": "The paper compares its behavior across settings.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "it provides the inference network with additional data augmentation",
+          "justification": "This is the stated motivation.",
+          "value": "provides the inference network with additional data augmentation"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "‘symmetric’ SSL loss",
+          "justification": "No separate reference title is given.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "AdamW optimizer",
+          "justification": "This named update rule is used for model training.",
+          "value": "AdamW"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "We use the AdamW optimizer",
+          "justification": "It is an existing optimizer, not contributed.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We use the AdamW optimizer with weight decay of 1×10−4",
+          "justification": "It is explicitly used.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "We use the AdamW optimizer",
+          "justification": "No optimizer comparison is reported.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "We use the AdamW optimizer with weight decay of 1×10−4",
+          "justification": "It updates learned parameters.",
+          "value": "optimizer with weight decay of 1×10−4"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "AdamW optimizer",
+          "justification": "No AdamW reference appears in the supplied reference list.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "global norm gradient clipping",
+          "justification": "This named training procedure is explicitly used.",
+          "value": "global norm gradient clipping"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "global norm gradient clipping",
+          "justification": "It is a standard existing procedure.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We use the AdamW optimizer with weight decay of 1×10−4 , global norm gradient clipping",
+          "justification": "It is explicitly used.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "gradient clipping norm ∈ [3, 10]",
+          "justification": "Its threshold is swept, but the procedure is not compared against another algorithm.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "global norm gradient clipping",
+          "justification": "It clips gradient norms during training.",
+          "value": "global norm gradient clipping"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "global norm gradient clipping",
+          "justification": "No reference title is given.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "a linear warm-up followed by a cosine decay as a learning rate schedule",
+          "justification": "This named schedule is explicitly used.",
+          "value": "linear warm-up followed by a cosine decay"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "a linear warm-up followed by a cosine decay",
+          "justification": "It is a standard existing schedule.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We use ... a linear warm-up followed by a cosine decay as a learning rate schedule.",
+          "justification": "It is explicitly used.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "warm-up steps % ∈ [0.05, 0.1, 0.2]",
+          "justification": "Schedule hyperparameters are swept, but it is not compared to a different schedule.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "as a learning rate schedule",
+          "justification": "This directly states its role.",
+          "value": "learning rate schedule"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "a linear warm-up followed by a cosine decay",
+          "justification": "No reference title is given.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "standard data augmentation",
+          "justification": "This named baseline procedure is executed during VAE training.",
+          "value": "standard data augmentation"
+        },
+        "aliases": [
+          "data aug."
+        ],
+        "is_contributed": {
+          "quote": "We also compare against a VAE trained with standard data augmentation",
+          "justification": "It is a baseline, not a contribution.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We use rotation ∼ U (−15°, 15°), zoom ∼ U (−10%, 10%), and x/y-shift ∼ U (−2px, 2px).",
+          "justification": "The exact augmentation procedure is executed.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "we compare a standard VAE to two VAE-SGM hybrid models ... We also compare against a VAE trained with standard data augmentation",
+          "justification": "It is numerically compared with SGM-based augmentation and no augmentation.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "a VAE trained with standard data augmentation",
+          "justification": "It augments VAE training examples.",
+          "value": "used to augment VAE training data"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "standard data augmentation",
+          "justification": "No single reference paper is specified.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "test-set importance-weighted lower bound (IWLB)",
+          "justification": "This named evaluation estimator is used for model comparison.",
+          "value": "importance-weighted lower bound (IWLB)"
+        },
+        "aliases": [
+          "IWLB"
+        ],
+        "is_contributed": {
+          "quote": "[Domke and Sheldon, 2018]",
+          "justification": "It is adopted from prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "estimated with 300 samples of the VAE’s latent variable z, and η for InvVAE, to compare the models",
+          "justification": "It is explicitly computed for evaluation.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "to compare the models",
+          "justification": "It supplies the numerical comparison metric.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "to compare the models",
+          "justification": "This is its stated role.",
+          "value": "test-set model-comparison metric estimated with 300 samples"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Importance weighting and variational inference.",
+          "justification": "This is the cited reference title.",
+          "value": "Importance weighting and variational inference"
+        }
+      },
+      {
+        "name": {
+          "quote": "hyperparameter grid search",
+          "justification": "Named searches are repeatedly executed for training configurations.",
+          "value": "hyperparameter grid search"
+        },
+        "aliases": [
+          "hyperparameter sweep"
+        ],
+        "is_contributed": {
+          "quote": "we performed the following hyperparameter grid search",
+          "justification": "It is a standard selection procedure.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we performed the following hyperparameter grid search for each random seed and amount of training data",
+          "justification": "The paper explicitly executes grid searches.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "to select the best hyper-parameters",
+          "justification": "It compares numerical validation performance across settings.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "use the log-likelihood of the validation data under the generative model to select the best hyper-parameters",
+          "justification": "This directly states its role.",
+          "value": "select the best hyper-parameters using validation log-likelihood"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "hyperparameter grid search",
+          "justification": "No reference title is given.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "Gaussian blur",
+          "justification": "A named preprocessing/regularization procedure is used during initial inference-network training.",
+          "value": "Gaussian blur"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "adding a small amount of Gaussian blur to each example",
+          "justification": "The procedure itself is standard.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we add a small amount of blur to the images with a Gaussian filter of size 5 for the first 1% of training steps",
+          "justification": "It is explicitly executed in some settings.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "blur σinit ∈ [0, 3]",
+          "justification": "Its initial strength is included in sweeps.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "prevent the model from falling into this degenerate local optima",
+          "justification": "This is its stated role.",
+          "value": "prevent the inference network from falling into a degenerate local optimum"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Gaussian blur",
+          "justification": "No reference title is given.",
+          "value": "unknown"
+        }
+      }
+    ],
+    "runs": [
+      {
+        "models": [
+          {
+            "name": "Symmetry-aware Generative Model",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "dSprites",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Learning"
+          },
+          {
+            "name": "SSL _ LOSS"
+          },
+          {
+            "name": "invertibility loss"
+          },
+          {
+            "name": "AdamW"
+          },
+          {
+            "name": "global norm gradient clipping"
+          },
+          {
+            "name": "linear warm-up followed by a cosine decay"
+          },
+          {
+            "name": "hyperparameter grid search"
+          },
+          {
+            "name": "Gaussian blur"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "Inference network. ... We train for 60k steps.",
+          "justification": "This is the first, self-supervised SGM training stage on dSprites.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "We train for 60k steps.",
+          "justification": "Steps are stated, but epochs are not.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "We use a MLP with hidden layers of dimension [2048, 1024, 512, 256].",
+          "justification": "Layer widths are given, but no parameter count is stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "The experiments for this paper were performed on a cluster equipped with NVIDIA A100 GPUs.",
+          "justification": "This training used GPUs.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "NVIDIA A100 GPUs",
+          "justification": "The specific GPU model is stated.",
+          "value": "NVIDIA A100"
+        },
+        "accelerator_count": {
+          "quote": "All model training requires only a single such GPU.",
+          "justification": "Each model-training job uses one GPU.",
+          "value": "1"
+        },
+        "precision": {
+          "quote": "The experiments for this paper were performed on a cluster equipped with NVIDIA A100 GPUs.",
+          "justification": "No numerical precision is stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "we used up to 64 GPUs at a time to run our hyper-parameter searches in parallel",
+          "justification": "This is parallelism across independent jobs, not a stated model/data/tensor/pipeline strategy.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "Figure 8a: 6 days; Inference net sweeps: 4 days",
+          "justification": "The inference sweep for the dSprites figure is reported as 4 A100 GPU days.",
+          "value": "4 A100 GPU days"
+        },
+        "utilisation": {
+          "quote": "All model training requires only a single such GPU.",
+          "justification": "No utilization percentage or MFU is reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "For each example, we average the loss over 5 random augmentations.",
+          "justification": "The five augmentations are samples within each execution, not independent run repetitions; no independent run count is stated for this qualitative configuration.",
+          "value": []
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "Symmetry-aware Generative Model",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Neural Spline Flow",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "dSprites",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Learning"
+          },
+          {
+            "name": "MLE _ LOSS"
+          },
+          {
+            "name": "consistency loss"
+          },
+          {
+            "name": "AdamW"
+          },
+          {
+            "name": "global norm gradient clipping"
+          },
+          {
+            "name": "linear warm-up followed by a cosine decay"
+          },
+          {
+            "name": "hyperparameter grid search"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "Generative network. ... 60k training steps",
+          "justification": "This is the separate maximum-likelihood SGM generative-network loop on dSprites.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "60k training steps",
+          "justification": "Steps, not epochs, are stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "Our generative model is a Neural Spline Flow ... We use an MLP with hidden layers of dimension [1024, 512, 512]",
+          "justification": "Architecture dimensions are given but no parameter total.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "NVIDIA A100 GPUs",
+          "justification": "This training used GPUs.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "NVIDIA A100 GPUs",
+          "justification": "The model is stated.",
+          "value": "NVIDIA A100"
+        },
+        "accelerator_count": {
+          "quote": "All model training requires only a single such GPU.",
+          "justification": "Each job uses one GPU.",
+          "value": "1"
+        },
+        "precision": {
+          "quote": "NVIDIA A100 GPUs",
+          "justification": "Precision is not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "run our hyper-parameter searches in parallel",
+          "justification": "No within-model parallelism strategy is stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "Generative net sweeps: 2 days",
+          "justification": "The dSprites generative sweep cost is stated.",
+          "value": "2 A100 GPU days"
+        },
+        "utilisation": {
+          "quote": "All model training requires only a single such GPU.",
+          "justification": "No utilization is reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "number of training steps ∈ [7.5k, 15k, 30k, 60k], number of flow layers ∈ [4, 5, 6], shared feature extractor dropout rate ∈ [0.05, 0.1, 0.2], and consistency loss multiplier ∈ [0, 1]",
+          "justification": "These are explicit independent grid-search factors; the learning-rate and final-multiplier grids also each have two values.",
+          "value": [
+            {
+              "kind": "hyperparameter",
+              "count": 2,
+              "what": "learning rate"
+            },
+            {
+              "kind": "hyperparameter",
+              "count": 2,
+              "what": "final learning rate multiplier"
+            },
+            {
+              "kind": "hyperparameter",
+              "count": 4,
+              "what": "number of training steps"
+            },
+            {
+              "kind": "hyperparameter",
+              "count": 3,
+              "what": "number of flow layers"
+            },
+            {
+              "kind": "hyperparameter",
+              "count": 3,
+              "what": "shared feature extractor dropout rate"
+            },
+            {
+              "kind": "hyperparameter",
+              "count": 2,
+              "what": "consistency loss multiplier"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "Symmetry-aware Generative Model",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "MNIST",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Learning"
+          },
+          {
+            "name": "SSL _ LOSS"
+          },
+          {
+            "name": "‘symmetric’ SSL loss"
+          },
+          {
+            "name": "invertibility loss"
+          },
+          {
+            "name": "AdamW"
+          },
+          {
+            "name": "global norm gradient clipping"
+          },
+          {
+            "name": "linear warm-up followed by a cosine decay"
+          },
+          {
+            "name": "hyperparameter grid search"
+          },
+          {
+            "name": "Gaussian blur"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "Inference network. ... We train for 60k steps.",
+          "justification": "This groups MNIST affine/color inference-network training jobs, whose dataset and hardware profile match.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "We train for 60k steps.",
+          "justification": "No epoch count is stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "hidden layers of dimension [2048, 1024, 512, 256]",
+          "justification": "No parameter count is stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "NVIDIA A100 GPUs",
+          "justification": "Training is on GPU.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "NVIDIA A100 GPUs",
+          "justification": "Specific model stated.",
+          "value": "NVIDIA A100"
+        },
+        "accelerator_count": {
+          "quote": "All model training requires only a single such GPU.",
+          "justification": "One GPU per job.",
+          "value": "1"
+        },
+        "precision": {
+          "quote": "NVIDIA A100 GPUs",
+          "justification": "No precision stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "up to 64 GPUs at a time to run our hyper-parameter searches in parallel",
+          "justification": "No within-run parallelism strategy stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "Figure 11: 69 days; Inference net sweeps: 30 days",
+          "justification": "The principal MNIST data-efficiency inference sweeps are reported as 30 A100 GPU days.",
+          "value": "30 A100 GPU days for Figure 11 inference sweeps"
+        },
+        "utilisation": {
+          "quote": "NVIDIA A100 GPUs",
+          "justification": "No utilization reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "blur σinit ∈ [0, 3], gradient clipping norm ∈ [3, 10], learning rate ∈ [1×10−3, 3×10−4, 1×10−4], initial learning rate multiplier ∈ [3×10−2, 1×10−2], final learning rate multiplier ∈ [1×10−3, 3×10−4], and warm-up steps % ∈ [0.05, 0.1, 0.2]",
+          "justification": "These are explicit grid factors for each seed and data amount; the quantitative results use three seeds.",
+          "value": [
+            {
+              "kind": "seed",
+              "count": 3,
+              "what": "random seeds"
+            },
+            {
+              "kind": "hyperparameter",
+              "count": 2,
+              "what": "blur σinit"
+            },
+            {
+              "kind": "hyperparameter",
+              "count": 2,
+              "what": "gradient clipping norm"
+            },
+            {
+              "kind": "hyperparameter",
+              "count": 3,
+              "what": "learning rate"
+            },
+            {
+              "kind": "hyperparameter",
+              "count": 2,
+              "what": "initial learning rate multiplier"
+            },
+            {
+              "kind": "hyperparameter",
+              "count": 2,
+              "what": "final learning rate multiplier"
+            },
+            {
+              "kind": "hyperparameter",
+              "count": 3,
+              "what": "warm-up steps %"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "Symmetry-aware Generative Model",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Neural Spline Flow",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "MNIST",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Learning"
+          },
+          {
+            "name": "MLE _ LOSS"
+          },
+          {
+            "name": "consistency loss"
+          },
+          {
+            "name": "AdamW"
+          },
+          {
+            "name": "global norm gradient clipping"
+          },
+          {
+            "name": "linear warm-up followed by a cosine decay"
+          },
+          {
+            "name": "hyperparameter grid search"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "Generative network. ... number of training steps ∈ [7.5k, 15k, 30k, 60k]",
+          "justification": "This is the separate SGM generative-network loop on MNIST.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "number of training steps ∈ [7.5k, 15k, 30k, 60k]",
+          "justification": "Only steps are stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "hidden layers of dimension [1024, 512, 512]",
+          "justification": "No parameter total is stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "NVIDIA A100 GPUs",
+          "justification": "Training is on GPU.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "NVIDIA A100 GPUs",
+          "justification": "Specific model stated.",
+          "value": "NVIDIA A100"
+        },
+        "accelerator_count": {
+          "quote": "All model training requires only a single such GPU.",
+          "justification": "One GPU per model-training job.",
+          "value": "1"
+        },
+        "precision": {
+          "quote": "NVIDIA A100 GPUs",
+          "justification": "No precision stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "run our hyper-parameter searches in parallel",
+          "justification": "No within-model parallelism strategy stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "Generative net sweeps: 12 days",
+          "justification": "Figure 11's MNIST generative sweeps cost is stated.",
+          "value": "12 A100 GPU days"
+        },
+        "utilisation": {
+          "quote": "NVIDIA A100 GPUs",
+          "justification": "No utilization reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "learning rate ∈ [3×10−3, 3×10−4], final learning rate multiplier ∈ [0.3, 0.03], number of training steps ∈ [7.5k, 15k, 30k, 60k], number of flow layers ∈ [4, 5, 6], shared feature extractor dropout rate ∈ [0.05, 0.1, 0.2], and consistency loss multiplier ∈ [0, 1]",
+          "justification": "Independent grid factors and seeds are explicitly stated.",
+          "value": [
+            {
+              "kind": "seed",
+              "count": 3,
+              "what": "random seeds"
+            },
+            {
+              "kind": "hyperparameter",
+              "count": 2,
+              "what": "learning rate"
+            },
+            {
+              "kind": "hyperparameter",
+              "count": 2,
+              "what": "final learning rate multiplier"
+            },
+            {
+              "kind": "hyperparameter",
+              "count": 4,
+              "what": "number of training steps"
+            },
+            {
+              "kind": "hyperparameter",
+              "count": 3,
+              "what": "number of flow layers"
+            },
+            {
+              "kind": "hyperparameter",
+              "count": 3,
+              "what": "shared feature extractor dropout rate"
+            },
+            {
+              "kind": "hyperparameter",
+              "count": 2,
+              "what": "consistency loss multiplier"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "VAE",
+            "role_in_run": "main"
+          },
+          {
+            "name": "AugVAE",
+            "role_in_run": "main"
+          },
+          {
+            "name": "InvVAE",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "MNIST",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "AdamW"
+          },
+          {
+            "name": "global norm gradient clipping"
+          },
+          {
+            "name": "linear warm-up followed by a cosine decay"
+          },
+          {
+            "name": "standard data augmentation"
+          },
+          {
+            "name": "importance-weighted lower bound (IWLB)"
+          },
+          {
+            "name": "hyperparameter grid search"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "a standard VAE to two VAE-SGM hybrid models—“AugVAE” and “InvVAE”—for different amounts of training data",
+          "justification": "These VAE-family configurations are trained in the MNIST data-efficiency study.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "number of training steps ∈ [5k, 10k, 20k]",
+          "justification": "Steps, not epochs, are reported.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "Our VAEs use a latent code size of 20.",
+          "justification": "Latent size is stated, but parameter count is not.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "NVIDIA A100 GPUs",
+          "justification": "Training used GPUs.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "NVIDIA A100 GPUs",
+          "justification": "Specific model stated.",
+          "value": "NVIDIA A100"
+        },
+        "accelerator_count": {
+          "quote": "All model training requires only a single such GPU.",
+          "justification": "One GPU per job.",
+          "value": "1"
+        },
+        "precision": {
+          "quote": "NVIDIA A100 GPUs",
+          "justification": "No precision stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "up to 64 GPUs at a time to run our hyper-parameter searches in parallel",
+          "justification": "This is job-level sweep concurrency, not a stated model-parallel strategy.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "VAE sweeps: 27 days",
+          "justification": "The Figure 11 VAE sweeps cost is stated.",
+          "value": "27 A100 GPU days"
+        },
+        "utilisation": {
+          "quote": "NVIDIA A100 GPUs",
+          "justification": "No utilization reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "learning rate ∈ [3×10−3, 6×10−3, 9×10−3], convolutional filters ∈ [(64, 128), (64, 128, 256)], number of training steps ∈ [5k, 10k, 20k], and warm-up steps % ∈ [0.15, 0.2]",
+          "justification": "The grid is run for each seed/data-size/rotation triplet, and results report three random seeds.",
+          "value": [
+            {
+              "kind": "seed",
+              "count": 3,
+              "what": "random seeds"
+            },
+            {
+              "kind": "hyperparameter",
+              "count": 3,
+              "what": "learning rate"
+            },
+            {
+              "kind": "hyperparameter",
+              "count": 2,
+              "what": "convolutional filters"
+            },
+            {
+              "kind": "hyperparameter",
+              "count": 3,
+              "what": "number of training steps"
+            },
+            {
+              "kind": "hyperparameter",
+              "count": 2,
+              "what": "warm-up steps %"
+            },
+            {
+              "kind": "variant",
+              "count": 4,
+              "what": "VAE, AugVAE, InvVAE, and VAE with standard data augmentation"
+            },
+            {
+              "kind": "variant",
+              "count": 3,
+              "what": "maximum added rotation angle"
+            },
+            {
+              "kind": "variant",
+              "count": 4,
+              "what": "number of training examples"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "Symmetry-aware Generative Model",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "GalaxyMNIST",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Learning"
+          },
+          {
+            "name": "SSL _ LOSS"
+          },
+          {
+            "name": "‘symmetric’ SSL loss"
+          },
+          {
+            "name": "AdamW"
+          },
+          {
+            "name": "global norm gradient clipping"
+          },
+          {
+            "name": "linear warm-up followed by a cosine decay"
+          },
+          {
+            "name": "hyperparameter grid search"
+          },
+          {
+            "name": "Gaussian blur"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "Inference network. ... We train for 10k steps.",
+          "justification": "First-stage SGM inference-network training on GalaxyMNIST.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "We train for 10k steps.",
+          "justification": "No epochs reported.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "hidden layers of dimension [1024, 1024, 512, 256]",
+          "justification": "No parameter total reported.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "NVIDIA A100 GPUs",
+          "justification": "GPU training.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "NVIDIA A100 GPUs",
+          "justification": "Specific model stated.",
+          "value": "NVIDIA A100"
+        },
+        "accelerator_count": {
+          "quote": "All model training requires only a single such GPU.",
+          "justification": "One GPU per job.",
+          "value": "1"
+        },
+        "precision": {
+          "quote": "NVIDIA A100 GPUs",
+          "justification": "No precision stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "up to 64 GPUs at a time to run our hyper-parameter searches in parallel",
+          "justification": "No within-run parallelism stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "Inference net sweeps: 36 days",
+          "justification": "Figure 12 inference sweeps cost is stated.",
+          "value": "36 A100 GPU days"
+        },
+        "utilisation": {
+          "quote": "NVIDIA A100 GPUs",
+          "justification": "No utilization reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "For the VAE data-efficiency results in Figure 12, we performed the same hyperparameter grid search as above for each random seed and amount of training data.",
+          "justification": "The same six inference-grid factors as MNIST and three seeds apply.",
+          "value": [
+            {
+              "kind": "seed",
+              "count": 3,
+              "what": "random seeds"
+            },
+            {
+              "kind": "hyperparameter",
+              "count": 2,
+              "what": "blur σinit"
+            },
+            {
+              "kind": "hyperparameter",
+              "count": 2,
+              "what": "gradient clipping norm"
+            },
+            {
+              "kind": "hyperparameter",
+              "count": 3,
+              "what": "learning rate"
+            },
+            {
+              "kind": "hyperparameter",
+              "count": 2,
+              "what": "initial learning rate multiplier"
+            },
+            {
+              "kind": "hyperparameter",
+              "count": 2,
+              "what": "final learning rate multiplier"
+            },
+            {
+              "kind": "hyperparameter",
+              "count": 3,
+              "what": "warm-up steps %"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "Symmetry-aware Generative Model",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Neural Spline Flow",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "GalaxyMNIST",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Learning"
+          },
+          {
+            "name": "MLE _ LOSS"
+          },
+          {
+            "name": "consistency loss"
+          },
+          {
+            "name": "AdamW"
+          },
+          {
+            "name": "global norm gradient clipping"
+          },
+          {
+            "name": "linear warm-up followed by a cosine decay"
+          },
+          {
+            "name": "hyperparameter grid search"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "The sweep for number of training steps is [3.75k, 7.5k, 15k].",
+          "justification": "Separate second-stage SGM generative-network training on GalaxyMNIST.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "number of training steps is [3.75k, 7.5k, 15k]",
+          "justification": "No epochs reported.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "hidden layers of dimension [1024, 512, 512]",
+          "justification": "No parameter total reported.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "NVIDIA A100 GPUs",
+          "justification": "GPU training.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "NVIDIA A100 GPUs",
+          "justification": "Specific model stated.",
+          "value": "NVIDIA A100"
+        },
+        "accelerator_count": {
+          "quote": "All model training requires only a single such GPU.",
+          "justification": "One GPU per job.",
+          "value": "1"
+        },
+        "precision": {
+          "quote": "NVIDIA A100 GPUs",
+          "justification": "No precision stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "run our hyper-parameter searches in parallel",
+          "justification": "No model-parallel strategy stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "Generative net sweeps: 8 days",
+          "justification": "Figure 12 generative sweeps cost is stated.",
+          "value": "8 A100 GPU days"
+        },
+        "utilisation": {
+          "quote": "NVIDIA A100 GPUs",
+          "justification": "No utilization reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "The sweep for number of training steps is [3.75k, 7.5k, 15k].",
+          "justification": "This modifies the otherwise same six-factor generative grid, and results use three seeds.",
+          "value": [
+            {
+              "kind": "seed",
+              "count": 3,
+              "what": "random seeds"
+            },
+            {
+              "kind": "hyperparameter",
+              "count": 2,
+              "what": "learning rate"
+            },
+            {
+              "kind": "hyperparameter",
+              "count": 2,
+              "what": "final learning rate multiplier"
+            },
+            {
+              "kind": "hyperparameter",
+              "count": 3,
+              "what": "number of training steps"
+            },
+            {
+              "kind": "hyperparameter",
+              "count": 3,
+              "what": "number of flow layers"
+            },
+            {
+              "kind": "hyperparameter",
+              "count": 3,
+              "what": "shared feature extractor dropout rate"
+            },
+            {
+              "kind": "hyperparameter",
+              "count": 2,
+              "what": "consistency loss multiplier"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "VAE",
+            "role_in_run": "main"
+          },
+          {
+            "name": "AugVAE",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "GalaxyMNIST",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "AdamW"
+          },
+          {
+            "name": "global norm gradient clipping"
+          },
+          {
+            "name": "linear warm-up followed by a cosine decay"
+          },
+          {
+            "name": "importance-weighted lower bound (IWLB)"
+          },
+          {
+            "name": "hyperparameter grid search"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "Figure 12: GalaxyMNIST data-efficiency (3 seed mean & std. err.).",
+          "justification": "VAE and AugVAE are trained for the GalaxyMNIST data-efficiency experiment.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "number of training steps ∈ [5k, 10k, 20k]",
+          "justification": "No epochs stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "Our VAEs use a latent code size of 20.",
+          "justification": "No total parameter count stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "NVIDIA A100 GPUs",
+          "justification": "GPU training.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "NVIDIA A100 GPUs",
+          "justification": "Specific GPU stated.",
+          "value": "NVIDIA A100"
+        },
+        "accelerator_count": {
+          "quote": "All model training requires only a single such GPU.",
+          "justification": "One GPU per job.",
+          "value": "1"
+        },
+        "precision": {
+          "quote": "NVIDIA A100 GPUs",
+          "justification": "No precision stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "up to 64 GPUs at a time to run our hyper-parameter searches in parallel",
+          "justification": "No within-run parallelism stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "VAE sweeps: 9 days",
+          "justification": "Figure 12 VAE sweep cost is stated.",
+          "value": "9 A100 GPU days"
+        },
+        "utilisation": {
+          "quote": "NVIDIA A100 GPUs",
+          "justification": "No utilization reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "Figure 12: GalaxyMNIST data-efficiency (3 seed mean & std. err.).",
+          "justification": "Three seeds are explicit; the same VAE hyperparameter grid is used.",
+          "value": [
+            {
+              "kind": "seed",
+              "count": 3,
+              "what": "random seeds"
+            },
+            {
+              "kind": "hyperparameter",
+              "count": 3,
+              "what": "learning rate"
+            },
+            {
+              "kind": "hyperparameter",
+              "count": 2,
+              "what": "convolutional filters"
+            },
+            {
+              "kind": "hyperparameter",
+              "count": 3,
+              "what": "number of training steps"
+            },
+            {
+              "kind": "hyperparameter",
+              "count": 2,
+              "what": "warm-up steps %"
+            },
+            {
+              "kind": "variant",
+              "count": 2,
+              "what": "VAE and AugVAE"
+            },
+            {
+              "kind": "variant",
+              "count": 2,
+              "what": "number of training examples"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "Symmetry-aware Generative Model",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Neural Spline Flow",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "PatchCamelyon",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Learning"
+          },
+          {
+            "name": "SSL _ LOSS"
+          },
+          {
+            "name": "MLE _ LOSS"
+          },
+          {
+            "name": "consistency loss"
+          },
+          {
+            "name": "AdamW"
+          },
+          {
+            "name": "global norm gradient clipping"
+          },
+          {
+            "name": "linear warm-up followed by a cosine decay"
+          },
+          {
+            "name": "hyperparameter grid search"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "Inference network. We train for 20k steps. Generative network. The sweep for number of training steps is [15k, 30k, 60k].",
+          "justification": "The supplied compute accounting does not separate these appendix-stage costs, so this entry groups the PatchCamelyon SGM training jobs while noting both separate loops.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "20k steps ... [15k, 30k, 60k]",
+          "justification": "No epochs stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "We follow the same setup as for GalaxyMNIST",
+          "justification": "No parameter count stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "NVIDIA A100 GPUs",
+          "justification": "GPU training.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "NVIDIA A100 GPUs",
+          "justification": "Specific model stated.",
+          "value": "NVIDIA A100"
+        },
+        "accelerator_count": {
+          "quote": "All model training requires only a single such GPU.",
+          "justification": "One GPU per job.",
+          "value": "1"
+        },
+        "precision": {
+          "quote": "NVIDIA A100 GPUs",
+          "justification": "No precision stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "run our hyper-parameter searches in parallel",
+          "justification": "No within-run strategy stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "The sweep for number of training steps is [15k, 30k, 60k].",
+          "justification": "The paper gives steps but no A100-day breakdown for PatchCamelyon.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "NVIDIA A100 GPUs",
+          "justification": "No utilization reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "We only used a single random seed.",
+          "justification": "A single seed is stated, but per instructions a count of one is not used as a repetition factor; the generative step grid has three values.",
+          "value": [
+            {
+              "kind": "hyperparameter",
+              "count": 3,
+              "what": "number of generative-network training steps"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "VAE",
+            "role_in_run": "main"
+          },
+          {
+            "name": "AugVAE",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "PatchCamelyon",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "AdamW"
+          },
+          {
+            "name": "linear warm-up followed by a cosine decay"
+          },
+          {
+            "name": "importance-weighted lower bound (IWLB)"
+          },
+          {
+            "name": "hyperparameter grid search"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "Figure 17 compares a standard VAE with AugVAE",
+          "justification": "Both models are trained for the PatchCamelyon data-efficiency comparison.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "number of training steps ∈ [20k, 30k, 40k]",
+          "justification": "No epochs stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "Our VAEs use a latent code size of 20.",
+          "justification": "No parameter count stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "NVIDIA A100 GPUs",
+          "justification": "GPU training.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "NVIDIA A100 GPUs",
+          "justification": "Specific model stated.",
+          "value": "NVIDIA A100"
+        },
+        "accelerator_count": {
+          "quote": "All model training requires only a single such GPU.",
+          "justification": "One GPU per job.",
+          "value": "1"
+        },
+        "precision": {
+          "quote": "NVIDIA A100 GPUs",
+          "justification": "No precision stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "run our hyper-parameter searches in parallel",
+          "justification": "No within-run strategy stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "For our PatchCamelyon experiments, we use only a single random seed",
+          "justification": "No duration is stated for this run.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "NVIDIA A100 GPUs",
+          "justification": "No utilization reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "learning rate ∈ [3×10−3, 6×10−3], convolutional filters ∈ [(64, 128), (64, 128, 256), (128, 256, 512)], number of dense hidden layers ∈ [1, 2], number of training steps ∈ [20k, 30k, 40k]",
+          "justification": "These explicit hyperparameter factors are searched; the one seed is not recorded as a repetition factor.",
+          "value": [
+            {
+              "kind": "hyperparameter",
+              "count": 2,
+              "what": "learning rate"
+            },
+            {
+              "kind": "hyperparameter",
+              "count": 3,
+              "what": "convolutional filters"
+            },
+            {
+              "kind": "hyperparameter",
+              "count": 2,
+              "what": "number of dense hidden layers"
+            },
+            {
+              "kind": "hyperparameter",
+              "count": 3,
+              "what": "number of training steps"
+            },
+            {
+              "kind": "variant",
+              "count": 2,
+              "what": "VAE and AugVAE"
+            },
+            {
+              "kind": "variant",
+              "count": 3,
+              "what": "number of training examples"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "LieGAN",
+            "role_in_run": "main"
+          },
+          {
+            "name": "LeNet5",
+            "role_in_run": "data-source"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "MNIST",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [],
+        "produces": [],
+        "execution_mode": {
+          "quote": "We train the GAN for 100 epochs with a batch size of 64",
+          "justification": "This is the executed LieGAN comparison run; pretrained LeNet5 supplies frozen features.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "We train the GAN for 100 epochs",
+          "justification": "The epoch count is explicit.",
+          "value": "100"
+        },
+        "parameter_count": {
+          "quote": "we set the number of generator channels to c = 1, and consider learnable 6-dimensional Lie matrices",
+          "justification": "No total parameter count is stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "The experiments for this paper were performed on a cluster equipped with NVIDIA A100 GPUs.",
+          "justification": "The comparison experiment falls under the paper's experiments.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "NVIDIA A100 GPUs",
+          "justification": "Specific model stated.",
+          "value": "NVIDIA A100"
+        },
+        "accelerator_count": {
+          "quote": "All model training requires only a single such GPU.",
+          "justification": "One GPU per training job.",
+          "value": "1"
+        },
+        "precision": {
+          "quote": "NVIDIA A100 GPUs",
+          "justification": "No precision stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "All model training requires only a single such GPU.",
+          "justification": "No parallelism strategy is stated; one accelerator alone does not establish an explicit 'none' declaration.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "Comparisons to LieGAN",
+          "justification": "No duration is supplied for this appendix experiment.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "NVIDIA A100 GPUs",
+          "justification": "No utilization reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "We train the GAN for 100 epochs with a batch size of 64",
+          "justification": "No independent seeds or sweep count is stated for LieGAN.",
+          "value": []
+        }
+      }
+    ]
+  },
+  "usage": {
+    "input_tokens": 45297,
+    "output_tokens": 14989,
+    "total_tokens": 60286
+  }
+}

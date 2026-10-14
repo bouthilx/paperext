@@ -1,0 +1,2130 @@
+{
+  "paper": "69a5fdc648887d403d0a5aeb.txt",
+  "words": 16269,
+  "extractions": {
+    "title": {
+      "quote": "Characterizing and Classifying Developer Forum Posts with their Intentions",
+      "justification": "This is the article title shown on the first page.",
+      "value": "Characterizing and Classifying Developer Forum Posts with their Intentions"
+    },
+    "description": "Catalogues a contributed annotated developer-forum post dataset and evaluates transformer, random-forest, CNN, and Naive Bayes models for multi-label post-intention classification.",
+    "type": {
+      "quote": "We first conducted a qualitative study... Furthermore, we manually annotate... we propose an intention prediction framework... we compare the performance of six variants",
+      "justification": "The paper conducts manual studies and controlled model evaluations on sampled and annotated data.",
+      "value": "empirical"
+    },
+    "research_fields": [
+      {
+        "name": {
+          "quote": "Empirical Software Engineering",
+          "justification": "The venue and paper frame the work as software-engineering research.",
+          "value": "Software Engineering"
+        },
+        "aliases": [
+          "SE"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "we propose a framework to detect the intentions for technical QA forum posts automatically",
+          "justification": "The paper contributes to automated analysis of developer-forum content.",
+          "value": "Developer forum mining"
+        },
+        "aliases": [
+          "technical forum post analysis",
+          "online developer communities"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "formulates the process of detecting post intentions as a multi-class multi-label classification problem",
+          "justification": "The proposed framework advances text classification for post intentions.",
+          "value": "Natural language processing"
+        },
+        "aliases": [
+          "NLP",
+          "post intention classification"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "Our proposed intention detection framework can complement these tag recommendation approaches",
+          "justification": "Tag recommendation is an application context addressed by the contributed framework.",
+          "value": "Tag recommendation"
+        },
+        "aliases": [],
+        "role": "contributed"
+      }
+    ],
+    "models": [
+      {
+        "name": {
+          "quote": "We use the BERTbase in the experiment.",
+          "justification": "The BERT base model is directly evaluated.",
+          "value": "BERT"
+        },
+        "aliases": [
+          "BERTbase"
+        ],
+        "is_contributed": {
+          "quote": "Bidirectional Encoder Representations from Transformers (BERT) (Devlin et al., 2018)",
+          "justification": "BERT is prior work, not introduced here.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We compare the performances of six variants of our framework with the PTMs mentioned above.",
+          "justification": "BERT is one of the six executed PTMs.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Table 7 shows the results of our experiments on different variants... with different PTMs.",
+          "justification": "Its numerical results are compared against other PTMs and baselines.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "we fixed all parameters of the PTMs, and only updated the parameters of layers on top of the PTMs",
+          "justification": "The frozen BERT is used for inference/embedding extraction; a separate experiment also fine-tunes its pooler layer, so precedence gives finetune.",
+          "value": "finetune"
+        },
+        "referenced_paper_title": {
+          "quote": "Bert: Pretraining of deep bidirectional transformers for language understanding.",
+          "justification": "This is the BERT paper title in the references.",
+          "value": "Bert: Pre-training of deep bidirectional transformers for language understanding"
+        }
+      },
+      {
+        "name": {
+          "quote": "RoBERTa (Liu et al., 2019)",
+          "justification": "RoBERTa is directly evaluated in the framework.",
+          "value": "RoBERTa"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "RoBERTa (Liu et al., 2019) modified some hyper-parameters and training tasks",
+          "justification": "It is attributed to prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "The variant with RoBERTa consistently outperformed others",
+          "justification": "The paper reports results from executing RoBERTa.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Table 8 Comparison of variants of our framework with different PTMs",
+          "justification": "RoBERTa is numerically compared with other PTMs.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "we further fine-tune the pooler layer in the two best-performing PTMs (e.g., BERT and RoBERTa)",
+          "justification": "Its pooler layer is fine-tuned.",
+          "value": "finetune"
+        },
+        "referenced_paper_title": {
+          "quote": "Roberta: A robustly optimized bert pretraining approach.",
+          "justification": "This is the referenced RoBERTa paper title.",
+          "value": "Roberta: A robustly optimized bert pretraining approach"
+        }
+      },
+      {
+        "name": {
+          "quote": "ALBERT (Lan et al., 2019)",
+          "justification": "ALBERT is one of the six evaluated PTMs.",
+          "value": "ALBERT"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "ALBERT (Lan et al., 2019) further improve the original BERT",
+          "justification": "It is prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We compare the performances of six variants... ALBERT",
+          "justification": "It is executed in the comparison.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "ALBERT 0.465 0.371 0.413",
+          "justification": "Table 7 numerically compares it.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "During the training process, we fixed all parameters of the PTMs",
+          "justification": "ALBERT itself remains frozen and supplies embeddings, so it is inference-only.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "Albert: A lite bert for self-supervised learning of language representations.",
+          "justification": "Reference title for ALBERT.",
+          "value": "Albert: A lite bert for self-supervised learning of language representations"
+        }
+      },
+      {
+        "name": {
+          "quote": "DistilBERT (Sanh et al., 2019)",
+          "justification": "DistilBERT is evaluated as a PTM.",
+          "value": "DistilBERT"
+        },
+        "aliases": [
+          "DistilBert"
+        ],
+        "is_contributed": {
+          "quote": "DistilBERT (Sanh et al., 2019) is a distilled version",
+          "justification": "It comes from cited prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Since DistilBert is not pre-trained... we use the output of a linear classification head.",
+          "justification": "The paper directly executes DistilBERT.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "DistilBERT 0.576 0.454 0.508",
+          "justification": "Table 7 gives a numerical comparison.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "During the training process, we fixed all parameters of the PTMs",
+          "justification": "It is frozen and used for embedding inference.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "Distilbert, a distilled version of bert: smaller, faster, cheaper and lighter.",
+          "justification": "Reference title for DistilBERT.",
+          "value": "Distilbert, a distilled version of bert: smaller, faster, cheaper and lighter"
+        }
+      },
+      {
+        "name": {
+          "quote": "BERTOverflow (Tabassum et al., 2020)",
+          "justification": "BERTOverflow is evaluated as a domain-specific PTM.",
+          "value": "BERTOverflow"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "BERTOverflow (Tabassum et al., 2020) is proposed",
+          "justification": "It is cited prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "The worst performance was achieved by the variant with BERTOverflow",
+          "justification": "The variant was directly run.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "BERTOverflow 0.402 0.295 0.340",
+          "justification": "Table 7 compares its numerical results.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "During the training process, we fixed all parameters of the PTMs",
+          "justification": "It is used frozen for inference/embeddings.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "Code and named entity recognition in stackoverflow.",
+          "justification": "This is the cited BERTOverflow paper.",
+          "value": "Code and named entity recognition in stackoverflow"
+        }
+      },
+      {
+        "name": {
+          "quote": "CodeBERT (Feng et al., 2020)",
+          "justification": "CodeBERT is one of the evaluated PTMs.",
+          "value": "CodeBERT"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "CodeBERT (Feng et al., 2020)",
+          "justification": "It is cited prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "another domain-specific PTM (i.e., CodeBERT) achieved a moderate result",
+          "justification": "The paper reports its executed result.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "CodeBERT 0.567 0.435 0.492",
+          "justification": "Table 7 compares it numerically.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "During the training process, we fixed all parameters of the PTMs",
+          "justification": "It is used frozen for embedding inference.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "Codebert: A pre-trained model for programming and natural languages.",
+          "justification": "Reference title for CodeBERT.",
+          "value": "Codebert: A pre-trained model for programming and natural languages"
+        }
+      },
+      {
+        "name": {
+          "quote": "a set of random forest binary classifiers",
+          "justification": "This is the first trained baseline model.",
+          "value": "Random Forest Binary Classifiers"
+        },
+        "aliases": [
+          "Baseline 1",
+          "Random Forest"
+        ],
+        "is_contributed": {
+          "quote": "used in Beyer et al. (2020)",
+          "justification": "The model is reproduced from prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we... train a set of random forest classifiers for our intention categories",
+          "justification": "The paper trains these classifiers.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "The performance of our approach after fine-tuning the PTMs compared with baselines.",
+          "justification": "It is numerically compared with the proposed models and CNN baseline.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "train a set of random forest classifiers for our intention categories",
+          "justification": "The classifiers are trained on this paper's dataset.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "What kind of questions do developers ask on stack overflow? a comparison of automated approaches to classify posts into question categories.",
+          "justification": "The baseline is attributed to this reference.",
+          "value": "What kind of questions do developers ask on stack overflow? a comparison of automated approaches to classify posts into question categories"
+        }
+      },
+      {
+        "name": {
+          "quote": "a convolution neural network (CNN)-based approach",
+          "justification": "This is the second trained baseline.",
+          "value": "CNN-based approach"
+        },
+        "aliases": [
+          "Baseline 2",
+          "CNN-based"
+        ],
+        "is_contributed": {
+          "quote": "from Huang et al. (2018)",
+          "justification": "The architecture is adapted from prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we utilize the same CNN architecture while we substitute the cross entropy loss with the BCE loss",
+          "justification": "The adapted CNN is run on this paper's data.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Baseline 2 (CNN-based) 0.558 0.577 0.567",
+          "justification": "Its results are numerically compared.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "we utilize the same CNN architecture",
+          "justification": "The adapted network is trained and evaluated using cross-validation.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "Automating intention mining.",
+          "justification": "Reference title for the CNN baseline.",
+          "value": "Automating intention mining"
+        }
+      },
+      {
+        "name": {
+          "quote": "a multinomial Naive Bayes classifier",
+          "justification": "This learned classifier predicts code-block content categories.",
+          "value": "Multinomial Naive Bayes classifier"
+        },
+        "aliases": [
+          "code block classifier"
+        ],
+        "is_contributed": {
+          "quote": "we constructed a multinomial Naive Bayes classifier",
+          "justification": "This classifier is constructed within the paper.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "Based on the document-term matrix... we trained the classifier.",
+          "justification": "It is directly trained and tested.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "The classifier achieved an accuracy of 83.3% on the test set.",
+          "justification": "A result is reported, but it is not numerically compared with another content classifier.",
+          "value": false
+        },
+        "execution_mode": {
+          "quote": "we trained the classifier",
+          "justification": "The classifier is trained from the paper's code-block data.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "No separate reference paper is provided for this constructed classifier.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "the pre-trained GloVe word embeddings (Pennington et al., 2014)",
+          "justification": "GloVe vectors are executed as learned input representations for the CNN baseline.",
+          "value": "GloVe word embeddings"
+        },
+        "aliases": [
+          "GloVe"
+        ],
+        "is_contributed": {
+          "quote": "pre-trained GloVe word embeddings (Pennington et al., 2014)",
+          "justification": "They are imported from prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "to transform words into the corresponding vector representations as the input to the CNN model",
+          "justification": "The embeddings are executed as a frozen feature source.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "",
+          "justification": "GloVe itself is not separately compared.",
+          "value": false
+        },
+        "execution_mode": {
+          "quote": "pre-trained GloVe word embeddings",
+          "justification": "They are used for inference only, not fitted here.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "Glove: Global vectors for word representation.",
+          "justification": "Reference title for GloVe.",
+          "value": "Glove: Global vectors for word representation"
+        }
+      }
+    ],
+    "data_sources": [
+      {
+        "name": {
+          "quote": "Finally, we constructed a dataset with 384 posts, of which 198 were from Stack Exchange, 137 from Lithium and 49 from Discourse forums",
+          "justification": "Stack Exchange is a named source sampled for the manual dataset.",
+          "value": "Stack Exchange"
+        },
+        "aliases": [],
+        "role": "used",
+        "size": {
+          "quote": "Stack Exchange 4,058,490 198 (52%)",
+          "justification": "The table states both the source total and sampled posts; 198 are used in the 384-post manual sample.",
+          "value": "198 posts in the manual-study sample"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "No dataset reference-paper title is supplied.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "137 from Lithium",
+          "justification": "Lithium forums are a named post source.",
+          "value": "Lithium"
+        },
+        "aliases": [
+          "Lithium forums"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "Lithium 2,694,643 137 (36%)",
+          "justification": "The table states 137 sampled posts.",
+          "value": "137 posts in the manual-study sample"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "No dataset reference-paper title is supplied.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "49 from Discourse forums",
+          "justification": "Discourse forums are a named post source.",
+          "value": "Discourse"
+        },
+        "aliases": [
+          "Discourse forums"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "Discourse 948,580 49 (12%)",
+          "justification": "The table states 49 sampled posts.",
+          "value": "49 posts in the manual-study sample"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "No dataset reference-paper title is supplied.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "we were able to extend our intention annotation dataset to the size of 784",
+          "justification": "This is the contributed labeled dataset used to train and evaluate intention models.",
+          "value": "intention annotation dataset"
+        },
+        "aliases": [
+          "annotated dataset",
+          "post intention dataset",
+          "Intention Dataset"
+        ],
+        "role": "contributed",
+        "size": {
+          "quote": "In total, we have 784 samples.",
+          "justification": "The paper explicitly states the final sample count.",
+          "value": "784 samples"
+        },
+        "derived_from": [
+          "Stack Exchange",
+          "Lithium",
+          "Discourse"
+        ],
+        "sample_properties": [
+          {
+            "name": "description length",
+            "value": {
+              "quote": "The average, median and maximum lengths are 112, 83 and 1168, respectively, in our dataset.",
+              "justification": "These are explicitly reported per-post description-token statistics.",
+              "value": "average 112; median 83; maximum 1168"
+            },
+            "unit": "tokens"
+          }
+        ],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "This dataset is contributed by the current paper.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "The code block dataset has 10k samples in total",
+          "justification": "This named constructed dataset trains and evaluates the content classifier.",
+          "value": "code block dataset"
+        },
+        "aliases": [],
+        "role": "contributed",
+        "size": {
+          "quote": "The code block dataset has 10k samples in total",
+          "justification": "The size is explicitly stated.",
+          "value": "10k samples"
+        },
+        "derived_from": [
+          "Stack Exchange",
+          "Lithium",
+          "Discourse"
+        ],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "This dataset is constructed in the current paper.",
+          "value": "unknown"
+        }
+      }
+    ],
+    "libraries": [
+      {
+        "name": {
+          "quote": "we employ PTMs released in the Hugging Face (Wolf et al., 2019)",
+          "justification": "The paper explicitly uses Hugging Face-hosted PTMs.",
+          "value": "Hugging Face"
+        },
+        "aliases": [
+          "HuggingFace"
+        ],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "Huggingface’s transformers: State-of-the-art natural language processing.",
+          "justification": "This is the corresponding reference title.",
+          "value": "Huggingface’s transformers: State-of-the-art natural language processing"
+        }
+      }
+    ],
+    "algorithms": [
+      {
+        "name": {
+          "quote": "we adopted a stratified random sampling strategy",
+          "justification": "This named sampling procedure creates the manual-study subset.",
+          "value": "stratified random sampling"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "we adopted",
+          "justification": "It is a standard adopted procedure.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "to sample 384 posts",
+          "justification": "The paper executes it.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "",
+          "justification": "No alternative sampling algorithms are numerically compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "to sample 384 posts in order to obtain precise estimates of the characteristics of posts from different platforms",
+          "justification": "This directly states its role.",
+          "value": "to sample 384 posts in order to obtain precise estimates of the characteristics of posts from different platforms"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "No specific algorithm paper is cited for stratified random sampling.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "an open coding approach (Khandkar, 2009)",
+          "justification": "Open coding is used in the manual content and intention studies.",
+          "value": "open coding approach"
+        },
+        "aliases": [
+          "open coding method"
+        ],
+        "is_contributed": {
+          "quote": "employing an additional manual annotation process",
+          "justification": "The procedure is adopted, not introduced.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "the two authors summarized a list of content types",
+          "justification": "The paper executes open coding to derive categories.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "",
+          "justification": "It is not numerically compared with another coding method.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "developed a content type taxonomy through an open coding approach",
+          "justification": "This states its role.",
+          "value": "developed a content type taxonomy"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Open coding.",
+          "justification": "Reference title associated with the procedure.",
+          "value": "Open coding"
+        }
+      },
+      {
+        "name": {
+          "quote": "Krippendorff’s Alpha score (Krippendorff, 2011)",
+          "justification": "This named agreement procedure is executed.",
+          "value": "Krippendorff’s Alpha score"
+        },
+        "aliases": [
+          "Krippendorff’s Alpha"
+        ],
+        "is_contributed": {
+          "quote": "a standard and flexible coefficient",
+          "justification": "It is an established method.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We measured the inter-rater agreement between two coders",
+          "justification": "The procedure is directly applied.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "",
+          "justification": "No agreement coefficients are compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "for measuring inter-coder agreement",
+          "justification": "This is its stated role.",
+          "value": "for measuring inter-coder agreement"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Computing krippendorff’s alpha-reliability.",
+          "justification": "Reference title for the method.",
+          "value": "Computing krippendorff’s alpha-reliability"
+        }
+      },
+      {
+        "name": {
+          "quote": "head-only truncation",
+          "justification": "This named truncation method is applied to long PTM inputs.",
+          "value": "head-only truncation"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "we adopt the head-only truncation",
+          "justification": "It is adopted rather than introduced.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "For sequences longer than 256 tokens, we adopt the head-only truncation.",
+          "justification": "The procedure is explicitly executed.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "",
+          "justification": "No truncation procedures are numerically compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "For sequences longer than 256 tokens",
+          "justification": "It truncates descriptions exceeding the input limit.",
+          "value": "for sequences longer than 256 tokens"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "No specific reference title is given.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "TF-IDF (term frequency-inverse document frequency)",
+          "justification": "TF-IDF transforms code-block tokens for Naive Bayes.",
+          "value": "TF-IDF"
+        },
+        "aliases": [
+          "term frequency-inverse document frequency"
+        ],
+        "is_contributed": {
+          "quote": "We then employed TF-IDF",
+          "justification": "It is adopted.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "to transform tokens into numerical arrays",
+          "justification": "The paper directly executes it.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "",
+          "justification": "No vectorizers are compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "to transform tokens into numerical arrays, representing each token frequency across the dataset",
+          "justification": "This is the stated role.",
+          "value": "to transform tokens into numerical arrays, representing each token frequency across the dataset"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "No specific reference paper is given.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "grid-search",
+          "justification": "Grid search tunes the Naive Bayes smoothing parameter.",
+          "value": "grid-search"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "We adopted grid-search",
+          "justification": "It is a standard adopted method.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "to tune the hyperparameter (i.e., Additive smoothing parameter)",
+          "justification": "It is explicitly executed.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "",
+          "justification": "Search methods are not compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "to tune the hyperparameter (i.e., Additive smoothing parameter) of the Multinomial Naive Bayes classifier",
+          "justification": "This directly states the role.",
+          "value": "to tune the hyperparameter (i.e., Additive smoothing parameter) of the Multinomial Naive Bayes classifier"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "No reference paper is given.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "SMOTE resampling (Chawla et al., 2002)",
+          "justification": "SMOTE is applied in content-classifier training.",
+          "value": "SMOTE resampling"
+        },
+        "aliases": [
+          "SMOTE"
+        ],
+        "is_contributed": {
+          "quote": "We utilized SMOTE resampling",
+          "justification": "It is adopted prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "to address class imbalance during the training process",
+          "justification": "It is directly executed.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "",
+          "justification": "No resampling alternatives are compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "to address class imbalance during the training process",
+          "justification": "This is its role in the paper.",
+          "value": "to address class imbalance during the training process"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Smote: synthetic minority over-sampling technique.",
+          "justification": "Reference title for SMOTE.",
+          "value": "Smote: synthetic minority over-sampling technique"
+        }
+      },
+      {
+        "name": {
+          "quote": "Binary Cross Entropy loss (BCE loss)",
+          "justification": "This named objective trains the multi-label neural classifiers.",
+          "value": "Binary Cross Entropy loss (BCE loss)"
+        },
+        "aliases": [
+          "BCE loss"
+        ],
+        "is_contributed": {
+          "quote": "we... adopt the Binary Cross Entropy loss",
+          "justification": "It is adopted, not introduced.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "the loss function for our model is the summation of the BCE losses",
+          "justification": "It is used in model training.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "",
+          "justification": "Loss objectives are not numerically compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "for each output node, which is between the target and the predicted probabilities",
+          "justification": "This states its training role.",
+          "value": "for each output node, between the target and the predicted probabilities"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "No specific reference paper is given.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "five-fold cross-validation",
+          "justification": "This evaluates the PTM framework and ablation models.",
+          "value": "five-fold cross-validation"
+        },
+        "aliases": [
+          "5-fold cross-validation"
+        ],
+        "is_contributed": {
+          "quote": "We used five-fold cross-validation",
+          "justification": "It is an adopted evaluation procedure.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We randomly divided our annotated dataset into five folds.",
+          "justification": "The procedure is directly executed.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "",
+          "justification": "It is not itself compared with another evaluation procedure.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "to counter the limited size of the dataset, aiming to enhance the reliability of our evaluation",
+          "justification": "This directly states its role.",
+          "value": "to counter the limited size of the dataset and enhance evaluation reliability"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "No specific reference paper is supplied.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "10-fold cross-validation",
+          "justification": "The baseline/fine-tuning comparison section explicitly reports this evaluation procedure.",
+          "value": "10-fold cross-validation"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "we performed 10-fold cross-validation",
+          "justification": "It is an adopted method.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "To better evaluate the performance of our proposed approach, we performed 10-fold cross-validation",
+          "justification": "The paper explicitly says it was performed.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "",
+          "justification": "Cross-validation methods are not compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "calculated the metrics over all the posts in our dataset",
+          "justification": "This states its evaluation role.",
+          "value": "to evaluate the proposed approach and baselines over all posts"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "No specific reference paper is given.",
+          "value": "unknown"
+        }
+      }
+    ],
+    "runs": [
+      {
+        "models": [
+          {
+            "name": "Multinomial Naive Bayes classifier",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "code block dataset",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "TF-IDF"
+          },
+          {
+            "name": "grid-search"
+          },
+          {
+            "name": "SMOTE resampling"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "Based on the document-term matrix of textual data in code blocks, we trained the classifier.",
+          "justification": "This is a classifier-training run.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "",
+          "justification": "The paper does not state epochs.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "",
+          "justification": "No parameter count is stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "",
+          "justification": "No hardware is stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "",
+          "justification": "No accelerator model is stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "",
+          "justification": "No accelerator count is stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "No numerical precision is stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "No parallelism strategy is stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "No duration is stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "No utilization is stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "",
+          "justification": "The train/validation/test proportions are data splits, not independent repetition factors; no repetition count is stated.",
+          "value": []
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "BERT",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "intention annotation dataset",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "head-only truncation"
+          },
+          {
+            "name": "Binary Cross Entropy loss (BCE loss)"
+          },
+          {
+            "name": "five-fold cross-validation"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "we fixed all parameters of the PTMs, and only updated the parameters of layers on top of the PTMs",
+          "justification": "The BERT encoder is frozen, but the framework classifier is trained.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "",
+          "justification": "Epoch count is not stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "In total, it contains 110M parameters",
+          "justification": "The paper explicitly states BERTbase's parameter count.",
+          "value": "110M"
+        },
+        "accelerator_type": {
+          "quote": "",
+          "justification": "No hardware is stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "",
+          "justification": "No model is stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "",
+          "justification": "No count is stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "No precision is stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "No parallelism is stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "No duration is stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "No utilization is stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "We randomly divided our annotated dataset into five folds.",
+          "justification": "Each fold serves once as test data.",
+          "value": [
+            {
+              "kind": "fold",
+              "count": 5,
+              "what": "five folds"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "RoBERTa",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "intention annotation dataset",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "head-only truncation"
+          },
+          {
+            "name": "Binary Cross Entropy loss (BCE loss)"
+          },
+          {
+            "name": "five-fold cross-validation"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "we fixed all parameters of the PTMs",
+          "justification": "The frozen PTM feeds a trained classifier.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "",
+          "justification": "Not stated for this run.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "We randomly divided our annotated dataset into five folds.",
+          "justification": "Five cross-validation folds are explicit.",
+          "value": [
+            {
+              "kind": "fold",
+              "count": 5,
+              "what": "five folds"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "ALBERT",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "intention annotation dataset",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "head-only truncation"
+          },
+          {
+            "name": "Binary Cross Entropy loss (BCE loss)"
+          },
+          {
+            "name": "five-fold cross-validation"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "only updated the parameters of layers on top of the PTMs",
+          "justification": "The framework head is trained over frozen ALBERT representations.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "five-fold cross-validation",
+          "justification": "The evaluation uses five folds.",
+          "value": [
+            {
+              "kind": "fold",
+              "count": 5,
+              "what": "five folds"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "DistilBERT",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "intention annotation dataset",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "head-only truncation"
+          },
+          {
+            "name": "Binary Cross Entropy loss (BCE loss)"
+          },
+          {
+            "name": "five-fold cross-validation"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "only updated the parameters of layers on top of the PTMs",
+          "justification": "The classification layers are trained over frozen DistilBERT.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "",
+          "justification": "The paper gives only a relative reduction, not an explicit run parameter count.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "five-fold cross-validation",
+          "justification": "Five evaluation folds are explicit.",
+          "value": [
+            {
+              "kind": "fold",
+              "count": 5,
+              "what": "five folds"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "BERTOverflow",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "intention annotation dataset",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "head-only truncation"
+          },
+          {
+            "name": "Binary Cross Entropy loss (BCE loss)"
+          },
+          {
+            "name": "five-fold cross-validation"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "only updated the parameters of layers on top of the PTMs",
+          "justification": "The head is trained while BERTOverflow stays frozen.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "five-fold cross-validation",
+          "justification": "Five evaluation folds are explicit.",
+          "value": [
+            {
+              "kind": "fold",
+              "count": 5,
+              "what": "five folds"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "CodeBERT",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "intention annotation dataset",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "head-only truncation"
+          },
+          {
+            "name": "Binary Cross Entropy loss (BCE loss)"
+          },
+          {
+            "name": "five-fold cross-validation"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "only updated the parameters of layers on top of the PTMs",
+          "justification": "The head is trained over frozen CodeBERT.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "five-fold cross-validation",
+          "justification": "Five evaluation folds are explicit.",
+          "value": [
+            {
+              "kind": "fold",
+              "count": 5,
+              "what": "five folds"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "BERT",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "intention annotation dataset",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "head-only truncation"
+          },
+          {
+            "name": "Binary Cross Entropy loss (BCE loss)"
+          },
+          {
+            "name": "10-fold cross-validation"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "we further fine-tune the pooler layer in the two best-performing PTMs (e.g., BERT and RoBERTa)",
+          "justification": "This run fine-tunes BERT's pooler layer.",
+          "value": "finetune"
+        },
+        "epochs": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "In total, it contains 110M parameters",
+          "justification": "BERTbase's explicit parameter count.",
+          "value": "110M"
+        },
+        "accelerator_type": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "we performed 10-fold cross-validation",
+          "justification": "The fine-tuned/baseline comparison explicitly says 10-fold CV.",
+          "value": [
+            {
+              "kind": "fold",
+              "count": 10,
+              "what": "10-fold cross-validation"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "RoBERTa",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "intention annotation dataset",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "head-only truncation"
+          },
+          {
+            "name": "Binary Cross Entropy loss (BCE loss)"
+          },
+          {
+            "name": "10-fold cross-validation"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "we further fine-tune the pooler layer in the two best-performing PTMs (e.g., BERT and RoBERTa)",
+          "justification": "This run fine-tunes RoBERTa's pooler layer.",
+          "value": "finetune"
+        },
+        "epochs": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "we performed 10-fold cross-validation",
+          "justification": "Ten folds are explicitly stated for this comparison.",
+          "value": [
+            {
+              "kind": "fold",
+              "count": 10,
+              "what": "10-fold cross-validation"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "Random Forest Binary Classifiers",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "intention annotation dataset",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "10-fold cross-validation"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "train a set of random forest classifiers for our intention categories with our dataset",
+          "justification": "This run trains the baseline classifiers.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "",
+          "justification": "Epochs do not apply or are not stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "",
+          "justification": "No hardware is stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "we performed 10-fold cross-validation",
+          "justification": "Ten folds are the explicit repetition factor.",
+          "value": [
+            {
+              "kind": "fold",
+              "count": 10,
+              "what": "10-fold cross-validation"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "CNN-based approach",
+            "role_in_run": "main"
+          },
+          {
+            "name": "GloVe word embeddings",
+            "role_in_run": "data-source"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "intention annotation dataset",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Binary Cross Entropy loss (BCE loss)"
+          },
+          {
+            "name": "10-fold cross-validation"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "we utilize the same CNN architecture while we substitute the cross entropy loss with the BCE loss",
+          "justification": "The adapted CNN is trained as a baseline.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "we performed 10-fold cross-validation",
+          "justification": "Ten folds are explicitly stated.",
+          "value": [
+            {
+              "kind": "fold",
+              "count": 10,
+              "what": "10-fold cross-validation"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "BERT",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "intention annotation dataset",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "head-only truncation"
+          },
+          {
+            "name": "Binary Cross Entropy loss (BCE loss)"
+          },
+          {
+            "name": "five-fold cross-validation"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "We train and evaluate the ablated framework with 5-fold cross-validation",
+          "justification": "This is the BERT ablation training run without the code-block classifier feature.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "In total, it contains 110M parameters",
+          "justification": "BERTbase's count is explicit.",
+          "value": "110M"
+        },
+        "accelerator_type": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "with 5-fold cross-validation",
+          "justification": "Five folds are explicit.",
+          "value": [
+            {
+              "kind": "fold",
+              "count": 5,
+              "what": "5-fold cross-validation"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "RoBERTa",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "intention annotation dataset",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "head-only truncation"
+          },
+          {
+            "name": "Binary Cross Entropy loss (BCE loss)"
+          },
+          {
+            "name": "five-fold cross-validation"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "We train and evaluate the ablated framework with 5-fold cross-validation",
+          "justification": "This is the RoBERTa ablation run without code-block classifier features.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "with 5-fold cross-validation",
+          "justification": "Five folds are explicit.",
+          "value": [
+            {
+              "kind": "fold",
+              "count": 5,
+              "what": "5-fold cross-validation"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "usage": {
+    "input_tokens": 37541,
+    "output_tokens": 10593,
+    "total_tokens": 48134
+  }
+}

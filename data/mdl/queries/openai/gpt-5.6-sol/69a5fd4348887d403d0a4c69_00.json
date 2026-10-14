@@ -1,0 +1,1427 @@
+{
+  "paper": "69a5fd4348887d403d0a4c69.txt",
+  "words": 19886,
+  "extractions": {
+    "title": {
+      "quote": "LLMs and Stack Overflow Discussions: Reliability, Impact, and Challenges",
+      "justification": "This is the title printed at the beginning of the paper.",
+      "value": "LLMs and Stack Overflow Discussions: Reliability, Impact, and Challenges"
+    },
+    "description": "An empirical software-engineering study that mines Stack Overflow activity, prompts ChatGPT-3.5 and LLaMA-2-7b on sampled questions, and evaluates generated answers with embedding similarity, semantic judgments, sentiment analysis, manual categorization, and statistical tests.",
+    "type": {
+      "quote": "We conducted an empirical study analyzing questions from Stack Overflow and using these LLMs to address them.",
+      "justification": "The work collects data, executes models, and performs quantitative and manual analyses.",
+      "value": "empirical"
+    },
+    "research_fields": [
+      {
+        "name": {
+          "quote": "evaluating the reliability of LLMs in Software Engineering while assisting developers with their daily tasks is a relevant and important topic",
+          "justification": "The paper evaluates LLM-generated answers in a software-engineering setting.",
+          "value": "Software Engineering"
+        },
+        "aliases": [
+          "SE"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "Previous studies also investigate the impact of ChatGPT on posting activities on Q&A communities.",
+          "justification": "The paper advances study of developer Q&A communities by measuring Stack Overflow activity and user behavior.",
+          "value": "Online Q&A communities"
+        },
+        "aliases": [
+          "Q&A communities",
+          "Q&A web forums"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "With the advance of Large Language Models (LLMs), practitioners and researchers have explored the potential of leveraging LLMs for different software engineering tasks",
+          "justification": "LLM evaluation is central to the paper, though the application and claimed contribution are specifically tied to software-engineering questions.",
+          "value": "Large Language Models"
+        },
+        "aliases": [
+          "LLMs"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "we mined SO posts and collected the data using SO’s API",
+          "justification": "Mining and analyzing repository/forum data is a central empirical setting of the study.",
+          "value": "Mining Software Repositories"
+        },
+        "aliases": [
+          "MSR"
+        ],
+        "role": "used"
+      },
+      {
+        "name": {
+          "quote": "For that, we perform a sentiment analysis of the generated answers.",
+          "justification": "NLP methods including embeddings and sentiment analysis are used to evaluate answer text.",
+          "value": "Natural Language Processing"
+        },
+        "aliases": [
+          "NLP"
+        ],
+        "role": "used"
+      }
+    ],
+    "models": [
+      {
+        "name": {
+          "quote": "we focus on ChatGPT-3.5",
+          "justification": "This is the principal OpenAI model evaluated in the study.",
+          "value": "ChatGPT-3.5"
+        },
+        "aliases": [
+          "ChatGPT 3.5",
+          "ChatGPT",
+          "GPT-3.5-turbo"
+        ],
+        "is_contributed": {
+          "quote": "ChatGPT is a language model developed by OpenAI.",
+          "justification": "It was developed externally, not contributed by this paper.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We used the GPT-3.5-turbo variant for our research, interacting with it through its API.",
+          "justification": "The authors queried this model through its API.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "A Wilcoxon test reports that ChatGPT was statistically superior to LLaMA-2 (p-value <0.01)",
+          "justification": "The model was numerically compared against LLaMA-2.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "For subsequent analysis, we randomly selected 384 questions from each set ... to prompt ChatGPT and LLaMA-2",
+          "justification": "The paper uses the already trained model to generate answers and judgments without fitting it.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "unknown",
+          "justification": "The paper does not attach a dedicated bibliographic reference title to ChatGPT-3.5/GPT-3.5-turbo.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "we consider LLaMA-2-7b",
+          "justification": "This is the principal Meta model evaluated by the study.",
+          "value": "LLaMA-2-7b"
+        },
+        "aliases": [
+          "LLaMA-2",
+          "LLaMA",
+          "Llama-2-7b-chat-hf"
+        ],
+        "is_contributed": {
+          "quote": "LLaMA, released by Meta AI, is a series of large language models",
+          "justification": "It was released by Meta AI rather than contributed by this paper.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Unlike ChatGPT, we call LLaMA by locally loading it. For our experiments, we used the 7B-sized LLaMA-2 model (Llama-2-7b-chat-hf checkpoint in its base configuration)",
+          "justification": "The checkpoint was loaded and run locally.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "A Wilcoxon test reports that ChatGPT was statistically superior to LLaMA-2 (p-value <0.01)",
+          "justification": "Its answer similarity was compared numerically with ChatGPT.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "we randomly selected 384 questions from each set ... to prompt ChatGPT and LLaMA-2",
+          "justification": "The pretrained model was prompted for inference only.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "Llama 2: Open Foundation and Fine-Tuned Chat Models",
+          "justification": "Reference [14] is the cited paper for LLaMA 2.",
+          "value": "Llama 2: Open Foundation and Fine-Tuned Chat Models"
+        }
+      },
+      {
+        "name": {
+          "quote": "a pre-trained Sentence Transformers model (all-MiniLM-L6-v2)",
+          "justification": "This model was used to embed accepted and generated answers.",
+          "value": "all-MiniLM-L6-v2"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "we relied on a pre-trained Sentence Transformers model (all-MiniLM-L6-v2)",
+          "justification": "It is explicitly described as pre-trained and was not introduced by this paper.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "First, we take the accepted and LLM-generated answers for a given question and compute their embeddings.",
+          "justification": "The authors executed the model to compute embeddings.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "To assess the similarity between answers from Stack Overflow and those generated by LLMs, we employed the cosine similarity metric",
+          "justification": "The model supplies embeddings for a metric, but it is not itself compared with another embedding model.",
+          "value": false
+        },
+        "execution_mode": {
+          "quote": "compute their embeddings",
+          "justification": "It was used only to infer embeddings.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "unknown",
+          "justification": "No reference-list paper title is given for all-MiniLM-L6-v2.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "a pre-trained Transformers model (sentiment-analysis)",
+          "justification": "This is the only model identifier given for the sentiment classifier.",
+          "value": "sentiment-analysis"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "we perform a sentiment analysis on answers generated by the LLMs using a pre-trained Transformers model (sentiment-analysis)",
+          "justification": "The model is pre-trained and external.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we perform a sentiment analysis on answers generated by the LLMs using a pre-trained Transformers model (sentiment-analysis)",
+          "justification": "The classifier was executed on answer texts.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Subsequently, we statistically compared the sentiment outcome achieved by each LLM using the Wilcoxon test.",
+          "justification": "The outcomes for answer sources were compared, not the sentiment model against other sentiment models.",
+          "value": false
+        },
+        "execution_mode": {
+          "quote": "using a pre-trained Transformers model (sentiment-analysis)",
+          "justification": "The pretrained model was used for classification inference.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "unknown",
+          "justification": "The paper gives a software URL but no reference-paper title for this model.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "like GPT-4 and LLaMA 4, not evaluated here",
+          "justification": "GPT-4 is discussed but explicitly not evaluated.",
+          "value": "GPT-4"
+        },
+        "aliases": [
+          "ChatGPT-4"
+        ],
+        "is_contributed": {
+          "quote": "like GPT-4 and LLaMA 4, not evaluated here",
+          "justification": "It is external and not a paper contribution.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "like GPT-4 and LLaMA 4, not evaluated here",
+          "justification": "The paper explicitly says it was not evaluated.",
+          "value": false
+        },
+        "is_compared": {
+          "quote": "GPT-4 was released in March 2023 but was only accessible to (i) ChatGPT Plus subscribers or (ii) API users with a waitlist.",
+          "justification": "It is contextually discussed, not numerically compared in this study.",
+          "value": false
+        },
+        "execution_mode": {
+          "quote": "not evaluated here",
+          "justification": "No execution mode in this paper applies.",
+          "value": "unknown"
+        },
+        "referenced_paper_title": {
+          "quote": "Benefits, limits, and risks of GPT-4 as an AI chatbot for medicine",
+          "justification": "Reference [21] is the paper's cited GPT-4 study.",
+          "value": "Benefits, limits, and risks of GPT-4 as an AI chatbot for medicine"
+        }
+      },
+      {
+        "name": {
+          "quote": "like GPT-4 and LLaMA 4, not evaluated here",
+          "justification": "LLaMA 4 is mentioned as a newer version but not evaluated.",
+          "value": "LLaMA 4"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "like GPT-4 and LLaMA 4, not evaluated here",
+          "justification": "It is an external model and not introduced here.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "not evaluated here",
+          "justification": "The model was not run.",
+          "value": false
+        },
+        "is_compared": {
+          "quote": "Although there are newer versions of the selected LLMs in this study, like GPT-4 and LLaMA 4, not evaluated here",
+          "justification": "No numerical comparison involving LLaMA 4 was conducted.",
+          "value": false
+        },
+        "execution_mode": {
+          "quote": "not evaluated here",
+          "justification": "No execution mode is stated because it was not evaluated.",
+          "value": "unknown"
+        },
+        "referenced_paper_title": {
+          "quote": "unknown",
+          "justification": "No reference-list title is given for LLaMA 4.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "like StarCoder [30], Copilot [31], and CodeBERT [32]",
+          "justification": "StarCoder is named as an example of an LLM for software-engineering tasks.",
+          "value": "StarCoder"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "Different LLMs have been proposed for tasks related to software engineering, like StarCoder",
+          "justification": "It is prior work, not contributed here.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Different LLMs have been proposed for tasks related to software engineering, like StarCoder [30], Copilot [31], and CodeBERT [32].",
+          "justification": "It is only cited as background.",
+          "value": false
+        },
+        "is_compared": {
+          "quote": "Different LLMs have been proposed for tasks related to software engineering",
+          "justification": "No study result for StarCoder is reported.",
+          "value": false
+        },
+        "execution_mode": {
+          "quote": "unknown",
+          "justification": "The paper does not execute it or state a mode for a quoted result.",
+          "value": "unknown"
+        },
+        "referenced_paper_title": {
+          "quote": "StarCoder: may the source be with you!",
+          "justification": "Reference [30] gives this title.",
+          "value": "StarCoder: may the source be with you!"
+        }
+      },
+      {
+        "name": {
+          "quote": "like StarCoder [30], Copilot [31], and CodeBERT [32]",
+          "justification": "Copilot is named as an example of an AI model/product for software engineering.",
+          "value": "Copilot"
+        },
+        "aliases": [
+          "GitHub Copilot"
+        ],
+        "is_contributed": {
+          "quote": "Different LLMs have been proposed for tasks related to software engineering, like StarCoder [30], Copilot [31], and CodeBERT [32].",
+          "justification": "It is prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "like StarCoder [30], Copilot [31], and CodeBERT [32]",
+          "justification": "It is only mentioned, not run.",
+          "value": false
+        },
+        "is_compared": {
+          "quote": "Different LLMs have been proposed for tasks related to software engineering",
+          "justification": "No numerical Copilot result is included.",
+          "value": false
+        },
+        "execution_mode": {
+          "quote": "unknown",
+          "justification": "No execution is described.",
+          "value": "unknown"
+        },
+        "referenced_paper_title": {
+          "quote": "Github Copilot: Your AI pair programmer",
+          "justification": "Reference [31] supplies this title.",
+          "value": "Github Copilot: Your AI pair programmer"
+        }
+      },
+      {
+        "name": {
+          "quote": "like StarCoder [30], Copilot [31], and CodeBERT [32]",
+          "justification": "CodeBERT is named as a software-engineering language model.",
+          "value": "CodeBERT"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "Different LLMs have been proposed for tasks related to software engineering, like StarCoder [30], Copilot [31], and CodeBERT [32].",
+          "justification": "It is prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "like StarCoder [30], Copilot [31], and CodeBERT [32]",
+          "justification": "It is background only.",
+          "value": false
+        },
+        "is_compared": {
+          "quote": "Different LLMs have been proposed for tasks related to software engineering",
+          "justification": "No numerical comparison uses CodeBERT.",
+          "value": false
+        },
+        "execution_mode": {
+          "quote": "unknown",
+          "justification": "No run is reported.",
+          "value": "unknown"
+        },
+        "referenced_paper_title": {
+          "quote": "CodeBERT: A Pre-Trained Model for Programming and Natural Languages",
+          "justification": "Reference [32] gives this title.",
+          "value": "CodeBERT: A Pre-Trained Model for Programming and Natural Languages"
+        }
+      },
+      {
+        "name": {
+          "quote": "Blip-2: Bootstrapping language-image pre-training with frozen image encoders and large language models",
+          "justification": "BLIP-2 appears in the cited discussion of support for non-textual information.",
+          "value": "BLIP-2"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "LLMs could also further explore new ways of supporting non-textual information sources [56].",
+          "justification": "It is cited prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "LLMs could also further explore new ways of supporting non-textual information sources [56].",
+          "justification": "It is not executed in this study.",
+          "value": false
+        },
+        "is_compared": {
+          "quote": "LLMs could also further explore new ways of supporting non-textual information sources [56].",
+          "justification": "No numerical comparison involving BLIP-2 is given.",
+          "value": false
+        },
+        "execution_mode": {
+          "quote": "unknown",
+          "justification": "No execution mode is described in this paper.",
+          "value": "unknown"
+        },
+        "referenced_paper_title": {
+          "quote": "Blip-2: Bootstrapping language-image pre-training with frozen image encoders and large language models",
+          "justification": "This is reference [56].",
+          "value": "Blip-2: Bootstrapping language-image pre-training with frozen image encoders and large language models"
+        }
+      }
+    ],
+    "data_sources": [
+      {
+        "name": {
+          "quote": "we mined SO posts and collected the data using SO’s API",
+          "justification": "Stack Overflow is the named source of all questions, answers, comments, tags, and user records analyzed.",
+          "value": "Stack Overflow"
+        },
+        "aliases": [
+          "SO"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "we were able to collect 674 425, 578 115 and 296 718 questions before, after, and one-year milestone ChatGPT’s release, respectively.",
+          "justification": "These are the explicitly stated question counts collected for the three study windows; the paper also reports associated answer and comment counts in Table 1.",
+          "value": "674,425 pre-release questions; 578,115 post-release questions; 296,718 one-year-milestone questions"
+        },
+        "derived_from": [],
+        "sample_properties": [
+          {
+            "name": "maximum token count for questions retained for LLM prompting",
+            "value": {
+              "quote": "To adhere to the 2048 token limitation for the LLMs under study, questions exceeding this token count were excluded",
+              "justification": "The prompted subset excluded any question over this stated threshold.",
+              "value": "2048"
+            },
+            "unit": "tokens"
+          }
+        ],
+        "referenced_paper_title": {
+          "quote": "What are developers talking about? An analysis of topics and trends in Stack Overflow",
+          "justification": "Reference [28] is used for Stack Overflow background and the domain taxonomy, though Stack Overflow itself is a web platform rather than a dataset paper.",
+          "value": "What are developers talking about? An analysis of topics and trends in Stack Overflow"
+        }
+      }
+    ],
+    "libraries": [
+      {
+        "name": {
+          "quote": "https://pypi.org/project/tiktoken/",
+          "justification": "The footnote identifies tiktoken as the package used in connection with token-count calculation.",
+          "value": "tiktoken"
+        },
+        "aliases": [],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "unknown",
+          "justification": "No reference-paper title is supplied for tiktoken.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "we relied on a pre-trained Sentence Transformers model (all-MiniLM-L6-v2)",
+          "justification": "Sentence Transformers is the explicitly named software used to compute embeddings and cosine similarity.",
+          "value": "Sentence Transformers"
+        },
+        "aliases": [
+          "sentence-transformers"
+        ],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "unknown",
+          "justification": "The paper links the GitHub project but gives no reference-paper title.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "The model was loaded via Hugging Face support",
+          "justification": "Hugging Face software support was used to obtain/load the LLaMA checkpoint.",
+          "value": "Hugging Face"
+        },
+        "aliases": [],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "unknown",
+          "justification": "No reference-paper title for Hugging Face is listed.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "using a pre-trained Transformers model (sentiment-analysis)",
+          "justification": "The paper explicitly uses the Transformers software/model pipeline for sentiment analysis.",
+          "value": "Transformers"
+        },
+        "aliases": [
+          "Hugging Face Transformers"
+        ],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "unknown",
+          "justification": "Only the GitHub project URL is provided.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "we collected the data using SO’s API",
+          "justification": "The Stack Overflow API was explicitly used to query and retrieve posts and users.",
+          "value": "Stack Overflow API"
+        },
+        "aliases": [
+          "SO’s API"
+        ],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "unknown",
+          "justification": "No reference-paper title is given for the API.",
+          "value": "unknown"
+        }
+      }
+    ],
+    "algorithms": [
+      {
+        "name": {
+          "quote": "we employed the cosine similarity metric (θ)",
+          "justification": "This named metric was executed to compare answer embeddings.",
+          "value": "cosine similarity metric (θ)"
+        },
+        "aliases": [
+          "cosine similarity",
+          "cos_sim"
+        ],
+        "is_contributed": {
+          "quote": "we employed the cosine similarity metric (θ) [44, 45]",
+          "justification": "It is a cited existing procedure.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we used the function cos sim from the same model, passing the previous embeddings and computing the metric.",
+          "justification": "The procedure was run on accepted/generated answer embeddings.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "we also relied on LLMs’ judgments to compute the semantic similarity between answers",
+          "justification": "Textual cosine similarity and semantic-judgment results are both analyzed, but not treated as competing algorithm benchmarks.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "To assess the similarity between answers from Stack Overflow and those generated by LLMs",
+          "justification": "This directly states its role.",
+          "value": "assess the similarity between answers from Stack Overflow and those generated by LLMs"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Cosine similarity to determine similarity measure: Study case in online essay assessment",
+          "justification": "Reference [45] is a cited source for cosine similarity.",
+          "value": "Cosine similarity to determine similarity measure: Study case in online essay assessment"
+        }
+      },
+      {
+        "name": {
+          "quote": "we perform a sentiment analysis of the generated answers",
+          "justification": "Sentiment analysis is the named procedure used on human and generated answers.",
+          "value": "sentiment analysis"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "we perform a sentiment analysis on answers generated by the LLMs using a pre-trained Transformers model",
+          "justification": "It is an applied existing analysis, not a contribution.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we perform a sentiment analysis on answers generated by the LLMs",
+          "justification": "It was executed in the study.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "we statistically compared the sentiment outcome achieved by each LLM using the Wilcoxon test.",
+          "justification": "The sentiment outcomes were compared across answer sources.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "we aim to assess how close the generated answers fit with general users’ preferences. For that, we perform a sentiment analysis of the generated answers.",
+          "justification": "This states why the procedure was used.",
+          "value": "assess how close the generated answers fit with general users’ preferences"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "unknown",
+          "justification": "No specific reference paper is attached to the sentiment-analysis procedure.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "we compute Krippendorff’s alpha coefficient [46] with an ordinal distance function",
+          "justification": "This coefficient was used for inter-rater agreement.",
+          "value": "Krippendorff’s alpha coefficient"
+        },
+        "aliases": [
+          "Krippendorff alpha"
+        ],
+        "is_contributed": {
+          "quote": "we compute Krippendorff’s alpha coefficient [46]",
+          "justification": "It is a cited existing method.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we compute Krippendorff’s alpha coefficient [46] with an ordinal distance function",
+          "justification": "The coefficient was computed for model/model and model/human agreement.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "When computing the Krippendorff alpha between ChatGPT and LLaMA-2, we observe a coefficient of 0.02.",
+          "justification": "It numerically compares agreement among raters/runs, though not against another agreement algorithm.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "assessing the level of inter-rater agreement between our manual analysis and the assessments provided by LLMs, and the agreements between the LLMs themselves",
+          "justification": "This is the stated role.",
+          "value": "assessing the level of inter-rater agreement between manual analysis and LLM assessments, and between the LLMs themselves"
+        },
+        "composed_of": [
+          "ordinal distance function"
+        ],
+        "referenced_paper_title": {
+          "quote": "Computing Krippendorff’s alpha-reliability",
+          "justification": "Reference [46] provides this title.",
+          "value": "Computing Krippendorff’s alpha-reliability"
+        }
+      },
+      {
+        "name": {
+          "quote": "we employed the non-parametric Wilcoxon test",
+          "justification": "The named test is repeatedly used to compare distributions and sentiment outcomes.",
+          "value": "Wilcoxon test"
+        },
+        "aliases": [
+          "Wilcoxon rank sum test"
+        ],
+        "is_contributed": {
+          "quote": "we employed the non-parametric Wilcoxon test",
+          "justification": "This is an established statistical test.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "A Wilcoxon test reports that ChatGPT was statistically superior to LLaMA-2 (p-value <0.01)",
+          "justification": "The paper reports multiple outputs of this test.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "we statistically compared the sentiment outcome achieved by each LLM using the Wilcoxon test.",
+          "justification": "It is used for numerical comparisons across models, periods, and content distributions.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "compare the distributions of each evaluated group",
+          "justification": "This is the paper's stated role for the test.",
+          "value": "compare the distributions of each evaluated group"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "On a test of whether one of two random variables is stochastically larger than the other",
+          "justification": "Reference [48] is given for the rank test.",
+          "value": "On a test of whether one of two random variables is stochastically larger than the other"
+        }
+      },
+      {
+        "name": {
+          "quote": "as verified by the Shapiro-Wilk test",
+          "justification": "The procedure tests whether study distributions are normal.",
+          "value": "Shapiro-Wilk test"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "as verified by the Shapiro-Wilk test [47]",
+          "justification": "It is a cited existing method.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Since our dataset was not drawn from a normally distributed population, as confirmed by a Shapiro-Wilk test",
+          "justification": "The paper ran it to assess normality.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Knowing that our data did not follow a normal distribution, as verified by the Shapiro-Wilk test, we employed the non-parametric Wilcoxon test",
+          "justification": "It selects later tests rather than serving as a compared algorithm.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "verified by the Shapiro-Wilk test",
+          "justification": "Its role was to verify normality assumptions.",
+          "value": "verify whether the data followed a normal distribution"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "An analysis of variance test for normality (complete samples)",
+          "justification": "Reference [47] gives this title.",
+          "value": "An analysis of variance test for normality (complete samples)"
+        }
+      },
+      {
+        "name": {
+          "quote": "we used the non-parametric Spearman test",
+          "justification": "This procedure evaluates correlation between context measures and textual similarity.",
+          "value": "Spearman test"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "we used the non-parametric Spearman test",
+          "justification": "It is an established statistical test, not introduced here.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we verify whether the context used to prompt the LLMs correlates with the textual similarity level previously computed (for that, we rely on the Spearman test).",
+          "justification": "The paper explicitly runs it for correlation analysis.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "the results show only a statistically significant correlation between the number of tags adopted for a question and the similarity",
+          "justification": "It evaluates variable relationships, not alternative algorithms.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "verify whether the context used to prompt the LLMs correlates with the textual similarity level previously computed",
+          "justification": "This directly states its purpose.",
+          "value": "verify whether prompt context correlates with textual similarity"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "unknown",
+          "justification": "No specific reference-paper title for Spearman's procedure is provided.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "Cliff’s delta, 0.1",
+          "justification": "Cliff's delta is the named effect-size procedure reported for model comparison.",
+          "value": "Cliff’s delta"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "Cliff’s delta, 0.1",
+          "justification": "This is an existing measure.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "but with a small effect size (Cliff’s delta, 0.1)",
+          "justification": "The paper reports its computed value.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "ChatGPT was statistically superior to LLaMA-2 ... but with a small effect size (Cliff’s delta, 0.1)",
+          "justification": "It quantifies the magnitude of the ChatGPT/LLaMA comparison.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "with a small effect size (Cliff’s delta, 0.1)",
+          "justification": "Its role is effect-size estimation.",
+          "value": "measure the effect size of model and activity comparisons"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "unknown",
+          "justification": "No reference-paper title is provided for Cliff's delta.",
+          "value": "unknown"
+        }
+      }
+    ],
+    "runs": [
+      {
+        "models": [],
+        "data_sources": [
+          {
+            "name": "Stack Overflow",
+            "access": "oracle",
+            "roles_in_run": [
+              "unknown"
+            ]
+          }
+        ],
+        "algorithms": [],
+        "produces": [],
+        "execution_mode": {
+          "quote": "we mined SO posts and collected the data using SO’s API",
+          "justification": "This run queried Stack Overflow to create the paper's local analysis data, without fitting a model.",
+          "value": "generate"
+        },
+        "epochs": {
+          "quote": "unknown",
+          "justification": "Epochs do not apply and none are stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "unknown",
+          "justification": "No model is involved.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "unknown",
+          "justification": "No hardware is reported for data collection.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "unknown",
+          "justification": "No accelerator model is stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "unknown",
+          "justification": "No accelerator count is stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "unknown",
+          "justification": "No numerical precision is stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "unknown",
+          "justification": "No parallelism strategy is stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "unknown",
+          "justification": "No run duration is stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "unknown",
+          "justification": "No hardware utilization is reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "unknown",
+          "justification": "The many API requests reflect workload/row limits, not independent repeated configurations.",
+          "value": []
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "ChatGPT-3.5",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Stack Overflow",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [],
+        "produces": [],
+        "execution_mode": {
+          "quote": "we randomly selected 384 questions from each set (before and after ChatGPT release) ... to prompt ChatGPT and LLaMA-2",
+          "justification": "ChatGPT generated answers for 768 fixed Stack Overflow questions.",
+          "value": "inference"
+        },
+        "epochs": {
+          "quote": "unknown",
+          "justification": "No training occurred and no epochs are stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "unknown",
+          "justification": "The paper does not state GPT-3.5-turbo's parameter count.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "interacting with it through its API",
+          "justification": "The API hides the execution hardware, so its type is unknown.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "unknown",
+          "justification": "No accelerator model is given.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "unknown",
+          "justification": "No accelerator count is given.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "unknown",
+          "justification": "No precision is stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "unknown",
+          "justification": "No parallelism is stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "unknown",
+          "justification": "No duration is reported.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "unknown",
+          "justification": "No utilization is reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "Finally, for each question, we prompt each model once.",
+          "justification": "A single prompt per item is workload rather than an independent repetition factor, so no repetition factor is recorded.",
+          "value": []
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "LLaMA-2-7b",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Stack Overflow",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [],
+        "produces": [],
+        "execution_mode": {
+          "quote": "we randomly selected 384 questions from each set ... to prompt ChatGPT and LLaMA-2",
+          "justification": "The local checkpoint generated answers for the fixed sample.",
+          "value": "inference"
+        },
+        "epochs": {
+          "quote": "unknown",
+          "justification": "No fitting or epochs are reported.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "For our experiments, we used the 7B-sized LLaMA-2 model",
+          "justification": "The paper explicitly states the scale used.",
+          "value": "7B"
+        },
+        "accelerator_type": {
+          "quote": "The model was loaded via Hugging Face support, on a machine equipped with 40GB RAM.",
+          "justification": "RAM capacity does not identify whether inference used a CPU or GPU.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "unknown",
+          "justification": "No CPU/GPU/accelerator model is named.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "unknown",
+          "justification": "No accelerator count is stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "unknown",
+          "justification": "No numerical precision is stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "unknown",
+          "justification": "No parallelism strategy is stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "unknown",
+          "justification": "No duration is reported.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "unknown",
+          "justification": "No utilization is reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "Finally, for each question, we prompt each model once.",
+          "justification": "One query per question is workload, not a repetition factor.",
+          "value": []
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "all-MiniLM-L6-v2",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Stack Overflow",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "cosine similarity metric (θ)"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "we take the accepted and LLM-generated answers for a given question and compute their embeddings. Second, we used the function cos sim",
+          "justification": "The pretrained model inferred embeddings, followed by cosine computation.",
+          "value": "inference"
+        },
+        "epochs": {
+          "quote": "unknown",
+          "justification": "No training or epochs occurred.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "unknown",
+          "justification": "No parameter count is stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "unknown",
+          "justification": "Hardware is not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "unknown",
+          "justification": "No accelerator is named.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "unknown",
+          "justification": "No count is reported.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "unknown",
+          "justification": "No precision is reported.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "unknown",
+          "justification": "No parallelism is reported.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "unknown",
+          "justification": "No duration is reported.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "unknown",
+          "justification": "No utilization is reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "unknown",
+          "justification": "The paper states no independent repeated executions for embedding inference.",
+          "value": []
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "ChatGPT-3.5",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Stack Overflow",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Krippendorff’s alpha coefficient"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "we prompted ChatGPT to classify the 1,535 answers three times",
+          "justification": "ChatGPT performed semantic-similarity classification inference.",
+          "value": "inference"
+        },
+        "epochs": {
+          "quote": "unknown",
+          "justification": "No training was performed.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "unknown",
+          "justification": "No parameter count is stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "interacting with it through its API",
+          "justification": "API hardware is undisclosed.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "unknown",
+          "justification": "No accelerator model is stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "unknown",
+          "justification": "No accelerator count is stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "unknown",
+          "justification": "No precision is stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "unknown",
+          "justification": "No parallelism is stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "unknown",
+          "justification": "No duration is stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "unknown",
+          "justification": "No utilization is stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "we prompted ChatGPT to classify the 1,535 answers three times.",
+          "justification": "The semantic-classification configuration was independently run three times.",
+          "value": [
+            {
+              "kind": "other",
+              "count": 3,
+              "what": "classify the 1,535 answers"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "LLaMA-2-7b",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Stack Overflow",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Krippendorff’s alpha coefficient"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "ChatGPT did not classify one answer, while LLaMA did not classify 72 answers due to resource constraints, resulting in 1,464 answers that could be analyzed.",
+          "justification": "LLaMA performed semantic-similarity judgment inference.",
+          "value": "inference"
+        },
+        "epochs": {
+          "quote": "unknown",
+          "justification": "No training is described.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "For our experiments, we used the 7B-sized LLaMA-2 model",
+          "justification": "This same local checkpoint was used in the study.",
+          "value": "7B"
+        },
+        "accelerator_type": {
+          "quote": "on a machine equipped with 40GB RAM",
+          "justification": "This does not establish accelerator type.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "unknown",
+          "justification": "No accelerator model is named.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "unknown",
+          "justification": "No accelerator count is stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "unknown",
+          "justification": "No precision is stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "unknown",
+          "justification": "No parallelism is stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "unknown",
+          "justification": "No duration is stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "unknown",
+          "justification": "No utilization is stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "unknown",
+          "justification": "No independent repetition count is stated for LLaMA semantic judgments.",
+          "value": []
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "sentiment-analysis",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Stack Overflow",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "sentiment analysis"
+          },
+          {
+            "name": "Wilcoxon test"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "we perform a sentiment analysis on answers generated by the LLMs using a pre-trained Transformers model (sentiment-analysis)",
+          "justification": "The pretrained classifier inferred answer sentiments.",
+          "value": "inference"
+        },
+        "epochs": {
+          "quote": "unknown",
+          "justification": "No training is described.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "unknown",
+          "justification": "No parameter count is stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "unknown",
+          "justification": "No hardware is stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "unknown",
+          "justification": "No accelerator model is stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "unknown",
+          "justification": "No accelerator count is stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "unknown",
+          "justification": "No precision is stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "unknown",
+          "justification": "No parallelism is stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "unknown",
+          "justification": "No duration is stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "unknown",
+          "justification": "No utilization is stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "unknown",
+          "justification": "No independent repetition count is given.",
+          "value": []
+        }
+      },
+      {
+        "models": [],
+        "data_sources": [
+          {
+            "name": "Stack Overflow",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Wilcoxon test"
+          },
+          {
+            "name": "Shapiro-Wilk test"
+          },
+          {
+            "name": "Spearman test"
+          },
+          {
+            "name": "Cliff’s delta"
+          },
+          {
+            "name": "Krippendorff’s alpha coefficient"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "we performed a correlation analysis ... we used the non-parametric Spearman test",
+          "justification": "This is non-model statistical computation; the schema has no dedicated analysis mode.",
+          "value": "unknown"
+        },
+        "epochs": {
+          "quote": "unknown",
+          "justification": "Epochs do not apply.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "unknown",
+          "justification": "No model is involved in this statistical run.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "unknown",
+          "justification": "No hardware is stated for statistical analysis.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "unknown",
+          "justification": "No accelerator model is stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "unknown",
+          "justification": "No accelerator count is stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "unknown",
+          "justification": "No numerical precision is stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "unknown",
+          "justification": "No parallelism strategy is stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "unknown",
+          "justification": "No duration is stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "unknown",
+          "justification": "No utilization is stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "unknown",
+          "justification": "No repeated statistical configurations are stated.",
+          "value": []
+        }
+      }
+    ]
+  },
+  "usage": {
+    "input_tokens": 43197,
+    "output_tokens": 10360,
+    "total_tokens": 53557
+  }
+}

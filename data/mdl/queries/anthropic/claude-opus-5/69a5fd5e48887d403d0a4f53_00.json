@@ -1,0 +1,2356 @@
+{
+  "paper": "69a5fd5e48887d403d0a4f53.txt",
+  "words": 17628,
+  "extractions": {
+    "title": {
+      "quote": "NovoMolGen: Rethinking Molecular Language Model Pretraining",
+      "justification": "Title as written on the paper",
+      "value": "NovoMolGen: Rethinking Molecular Language Model Pretraining"
+    },
+    "description": "The paper introduces NovoMolGen, a family of Llama-architecture decoder-only transformer models (32M, 157M, 300M) pretrained on 1.5B molecules from ZINC-22 in SMILES, SELFIES, SAFE and DeepSMILES representations with atomwise and BPE tokenization. It studies the effect of representation, tokenization, model size and dataset scale on unconstrained generation metrics (validity, FCD, novelty, etc.) and on downstream goal-directed tasks (PMO benchmark, protein-ligand docking) using a REINVENT-style reinforcement learning fine-tuning with top-k sampling and experience replay.",
+    "type": {
+      "quote": "Our large-scale empirical analysis, encompassing over 30,000 experiments and the evaluation of more than one billion molecules",
+      "justification": "Large-scale empirical study with >30,000 experiments and benchmark tables",
+      "value": "empirical"
+    },
+    "research_fields": [
+      {
+        "name": {
+          "quote": "we systematically investigate these critical aspects by introducing NovoMolGen, a family of transformer-based foundation models pretrained on 1.5 billion molecules for de novo molecule generation",
+          "justification": "The paper's core contribution is on Mol-LLM pretraining for de novo molecule generation",
+          "value": "Molecular Language Models / de novo molecule generation"
+        },
+        "aliases": [
+          "Mol-LLMs",
+          "Molecular Large Language Models"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "Discovering new drugs for oncology, immunology, and rare or infectious diseases remains challenging",
+          "justification": "Tasks and motivation are drug discovery oriented",
+          "value": "Drug discovery"
+        },
+        "aliases": [],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "Reinforcement learning-based fine-tuning for goal-directed molecular design.",
+          "justification": "RL-based fine-tuning used for goal-directed generation",
+          "value": "Reinforcement learning"
+        },
+        "aliases": [
+          "RL"
+        ],
+        "role": "used"
+      },
+      {
+        "name": {
+          "quote": "While molecular language models draw inspiration from recent breakthroughs in natural language processing (NLP)",
+          "justification": "Referenced as inspiration and point of comparison",
+          "value": "Natural language processing"
+        },
+        "aliases": [
+          "NLP"
+        ],
+        "role": "referenced"
+      },
+      {
+        "name": {
+          "quote": "Goal-Directed Molecular Optimization: Protein-Ligand Docking",
+          "justification": "Protein-ligand docking evaluation is performed",
+          "value": "Molecular docking"
+        },
+        "aliases": [],
+        "role": "used"
+      }
+    ],
+    "models": [
+      {
+        "name": {
+          "quote": "we systematically investigate these critical aspects by introducing NovoMolGen, a family of transformer-based foundation models",
+          "justification": "The contributed family of models",
+          "value": "NovoMolGen"
+        },
+        "aliases": [
+          "NovoMolGen-SMILES",
+          "NovoMolGen-SELFIES",
+          "NovoMolGen-SAFE",
+          "NovoMolGen-DeepSMILES"
+        ],
+        "is_contributed": {
+          "quote": "We introduce NovoMolGen, a family of transformer-based models pretrained on 1.5 billion molecules",
+          "justification": "Introduced by the authors",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "Each model is trained with fixed global batch size of 19,200 (1.2M tokens/step) across 4×A100 GPUs.",
+          "justification": "Pretrained on 4 A100 GPUs",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Comprehensive performance metrics for baseline models and NovoMolGen",
+          "justification": "Compared against baselines in tables",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "We pretrain three model sizes (32M, 157M, 300M parameters) to study scaling effects.",
+          "justification": "Pretrained from scratch then fine-tuned",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "Contributed model, no reference paper",
+          "value": ""
+        }
+      },
+      {
+        "name": {
+          "quote": "We adopt the Llama architecture [Dubey et al., 2024]",
+          "justification": "Architecture adopted for NovoMolGen",
+          "value": "Llama"
+        },
+        "aliases": [
+          "Llama 3"
+        ],
+        "is_contributed": {
+          "quote": "We adopt the Llama architecture [Dubey et al., 2024]",
+          "justification": "External architecture",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "utilizing its Llama implementation within the HuggingFace Trainer framework",
+          "justification": "The FlashAttention Llama implementation was used for pretraining",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "We adopt the Llama architecture [Dubey et al., 2024]",
+          "justification": "Not compared as a baseline",
+          "value": false
+        },
+        "execution_mode": {
+          "quote": "utilizing its Llama implementation within the HuggingFace Trainer framework",
+          "justification": "The Llama architecture was trained as NovoMolGen",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "Abhimanyu Dubey, ... The llama 3 herd of models. arXiv preprint arXiv:2407.21783, 2024.",
+          "justification": "Cited reference",
+          "value": "The llama 3 herd of models"
+        }
+      },
+      {
+        "name": {
+          "quote": "GP-MoLFormer [Ross et al., 2024] extends this approach to autoregressive generation",
+          "justification": "Baseline whose numbers are taken from its publication",
+          "value": "GP-MoLFormer"
+        },
+        "aliases": [
+          "GP-Molformer"
+        ],
+        "is_contributed": {
+          "quote": "the results for LIMO, MolGen-7B, and GP-Molformer are taken from Ross et al. [2024]",
+          "justification": "External model",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "the results for LIMO, MolGen-7B, and GP-Molformer are taken from Ross et al. [2024]",
+          "justification": "Results quoted from original paper",
+          "value": false
+        },
+        "is_compared": {
+          "quote": "We evaluated models with 32M, 157M, and 300M parameters using atomwise tokenization and compared them to the GP-MoLFormer baseline",
+          "justification": "Compared in Table 1",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "training a 46.8M-parameter decoder on 1.1 billion SMILES",
+          "justification": "Reported generation results only",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "Jerret Ross, ... GP-MoLFormer: A Foundation Model For Molecular Generation, April 2024.",
+          "justification": "Cited reference",
+          "value": "GP-MoLFormer: A Foundation Model For Molecular Generation"
+        }
+      },
+      {
+        "name": {
+          "quote": "the results for LIMO, MolGen-7B, and GP-Molformer are taken from Ross et al. [2024]",
+          "justification": "Baseline with quoted results",
+          "value": "MolGen-7b"
+        },
+        "aliases": [
+          "MolGen"
+        ],
+        "is_contributed": {
+          "quote": "MolGen [Fang et al., 2023] further improved robustness and validity",
+          "justification": "External model",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "the results for LIMO, MolGen-7B, and GP-Molformer are taken from Ross et al. [2024]",
+          "justification": "Numbers quoted",
+          "value": false
+        },
+        "is_compared": {
+          "quote": "Mol Gen- 7b [Fang et al., 2023]",
+          "justification": "Listed in comparison table",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "Mol Gen- 7b [Fang et al., 2023] Atomwise 7B",
+          "justification": "Only generation results reported",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "Yin Fang, ... Domain-Agnostic Molecular Generation with Chemical Feedback.",
+          "justification": "Cited reference",
+          "value": "Domain-Agnostic Molecular Generation with Chemical Feedback"
+        }
+      },
+      {
+        "name": {
+          "quote": "LI MO [Eckmann et al., 2022]",
+          "justification": "Baseline with quoted results",
+          "value": "LIMO"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "the results for LIMO, MolGen-7B, and GP-Molformer are taken from Ross et al. [2024]",
+          "justification": "External model",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "the results for LIMO, MolGen-7B, and GP-Molformer are taken from Ross et al. [2024]",
+          "justification": "Numbers quoted",
+          "value": false
+        },
+        "is_compared": {
+          "quote": "LI MO [Eckmann et al., 2022] Atomwise",
+          "justification": "Included in Table 1",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "LIMO: Latent Inceptionism for Targeted Molecule Generation",
+          "justification": "Only reported generation metrics",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "Peter Eckmann, ... LIMO: Latent Inceptionism for Targeted Molecule Generation.",
+          "justification": "Cited reference",
+          "value": "LIMO: Latent Inceptionism for Targeted Molecule Generation"
+        }
+      },
+      {
+        "name": {
+          "quote": "The baselines for CharRNN, VAE, and JT-VAE are sourced from Polykovskiy et al. [2020]",
+          "justification": "Baseline from MOSES",
+          "value": "CharRNN"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "The baselines for CharRNN, VAE, and JT-VAE are sourced from Polykovskiy et al. [2020]",
+          "justification": "External baseline",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "The baselines for CharRNN, VAE, and JT-VAE are sourced from Polykovskiy et al. [2020]",
+          "justification": "Numbers sourced from another paper",
+          "value": false
+        },
+        "is_compared": {
+          "quote": "C h arR N N [Polykovskiy et al., 2020]",
+          "justification": "In the comparison table",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "C h arR N N [Polykovskiy et al., 2020]",
+          "justification": "Generation results only",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "Daniil Polykovskiy, ... Molecular Sets (MOSES): A Benchmarking Platform for Molecular Generation Models.",
+          "justification": "Cited reference",
+          "value": "Molecular Sets (MOSES): A Benchmarking Platform for Molecular Generation Models"
+        }
+      },
+      {
+        "name": {
+          "quote": "The baselines for CharRNN, VAE, and JT-VAE are sourced from Polykovskiy et al. [2020]",
+          "justification": "Baseline from MOSES",
+          "value": "VAE"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "VA E [Polykovskiy et al., 2020]",
+          "justification": "External baseline",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "The baselines for CharRNN, VAE, and JT-VAE are sourced from Polykovskiy et al. [2020]",
+          "justification": "Numbers sourced",
+          "value": false
+        },
+        "is_compared": {
+          "quote": "VA E [Polykovskiy et al., 2020]",
+          "justification": "In Table 1",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "VA E [Polykovskiy et al., 2020]",
+          "justification": "Generation results only",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "Daniil Polykovskiy, ... Molecular Sets (MOSES)",
+          "justification": "Cited reference",
+          "value": "Molecular Sets (MOSES): A Benchmarking Platform for Molecular Generation Models"
+        }
+      },
+      {
+        "name": {
+          "quote": "J T-VA E [Jin et al., 2018]",
+          "justification": "Baseline from MOSES/Jin et al.",
+          "value": "JT-VAE"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "J T-VA E [Jin et al., 2018]",
+          "justification": "External baseline",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "The baselines for CharRNN, VAE, and JT-VAE are sourced from Polykovskiy et al. [2020]",
+          "justification": "Numbers sourced",
+          "value": false
+        },
+        "is_compared": {
+          "quote": "J T-VA E [Jin et al., 2018]",
+          "justification": "In Table 1",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "J T-VA E [Jin et al., 2018]",
+          "justification": "Generation results only",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "Wengong Jin, Regina Barzilay, and Tommi Jaakkola. Junction Tree Variational Autoencoder for Molecular Graph Generation.",
+          "justification": "Cited reference",
+          "value": "Junction Tree Variational Autoencoder for Molecular Graph Generation"
+        }
+      },
+      {
+        "name": {
+          "quote": "such as Hier-VAE [Jin et al., 2020b]",
+          "justification": "Docking baseline",
+          "value": "HierVAE"
+        },
+        "aliases": [
+          "Hier-VAE"
+        ],
+        "is_contributed": {
+          "quote": "such as Hier-VAE [Jin et al., 2020b]",
+          "justification": "External baseline",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Baseline data is sourced from Lee et al. [2024b].",
+          "justification": "Baseline numbers taken from literature",
+          "value": false
+        },
+        "is_compared": {
+          "quote": "HierVAE −9.49 (0.28)",
+          "justification": "In Table 2",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "HierVAE",
+          "justification": "Only results reported",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "Wengong Jin, Regina Barzilay, and Tommi Jaakkola. Hierarchical generation of molecular graphs using structural motifs.",
+          "justification": "Cited reference",
+          "value": "Hierarchical generation of molecular graphs using structural motifs"
+        }
+      },
+      {
+        "name": {
+          "quote": "we include MOOD [Lee et al., 2023], a diffusion model that uses out-of-distribution control",
+          "justification": "Docking baseline, a diffusion model",
+          "value": "MOOD"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "we include MOOD [Lee et al., 2023]",
+          "justification": "External baseline",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Baseline data is sourced from Lee et al. [2024b].",
+          "justification": "Numbers taken from literature",
+          "value": false
+        },
+        "is_compared": {
+          "quote": "MOOD −10.87 (0.11)",
+          "justification": "In Table 2",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "MOOD",
+          "justification": "Only results reported",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "Seul Lee, Jaehyeong Jo, and Sung Ju Hwang. Exploring Chemical Space with Score-based Out-of-distribution Generation.",
+          "justification": "Cited reference",
+          "value": "Exploring Chemical Space with Score-based Out-of-distribution Generation"
+        }
+      },
+      {
+        "name": {
+          "quote": "GDSS −9.97 (0.03)",
+          "justification": "Docking baseline",
+          "value": "GDSS"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "GDSS −9.97 (0.03)",
+          "justification": "External baseline",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Baseline data is sourced from Lee et al. [2024b].",
+          "justification": "Numbers from literature",
+          "value": false
+        },
+        "is_compared": {
+          "quote": "GDSS −9.97 (0.03)",
+          "justification": "In Table 2",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "GDSS",
+          "justification": "Only results reported",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "Jaehyeong Jo, Seul Lee, and Sung Ju Hwang. Score-based Generative Modeling of Graphs via the System of Stochastic Differential Equations.",
+          "justification": "Likely reference (Jo et al., 2022)",
+          "value": "Score-based Generative Modeling of Graphs via the System of Stochastic Differential Equations"
+        }
+      },
+      {
+        "name": {
+          "quote": "GEAM [Lee et al., 2024b]",
+          "justification": "Docking baseline",
+          "value": "GEAM"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "GEAM [Lee et al., 2024b]",
+          "justification": "External baseline",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Baseline data is sourced from Lee et al. [2024b].",
+          "justification": "Baseline data sourced",
+          "value": false
+        },
+        "is_compared": {
+          "quote": "GEAM −12.89 (0.16)",
+          "justification": "In Table 2",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "GEAM",
+          "justification": "Only results reported",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "Seul Lee, Seanie Lee, Kenji Kawaguchi, and Sung Ju Hwang. Drug discovery with dynamic goal-aware fragments.",
+          "justification": "Cited reference",
+          "value": "Drug discovery with dynamic goal-aware fragments"
+        }
+      },
+      {
+        "name": {
+          "quote": "MORLD [Jeon and Kim, 2020] on molecular graphs",
+          "justification": "Docking baseline",
+          "value": "MORLD"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "MORLD [Jeon and Kim, 2020]",
+          "justification": "External baseline",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Baseline data is sourced from Lee et al. [2024b].",
+          "justification": "Numbers from literature",
+          "value": false
+        },
+        "is_compared": {
+          "quote": "MORLD −7.53 (0.26)",
+          "justification": "In Table 2",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "MORLD",
+          "justification": "Only results reported",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "Woosung Jeon and Dongsup Kim. Autonomous molecule generation using reinforcement learning and docking to develop potential novel inhibitors.",
+          "justification": "Cited reference",
+          "value": "Autonomous molecule generation using reinforcement learning and docking to develop potential novel inhibitors"
+        }
+      },
+      {
+        "name": {
+          "quote": "FREED-QS −10.58 (0.10)",
+          "justification": "Docking baseline",
+          "value": "FREED-QS"
+        },
+        "aliases": [
+          "FREED"
+        ],
+        "is_contributed": {
+          "quote": "FREED [Yang et al., 2021]",
+          "justification": "External baseline",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Baseline data is sourced from Lee et al. [2024b].",
+          "justification": "Numbers from literature",
+          "value": false
+        },
+        "is_compared": {
+          "quote": "FREED-QS −10.58 (0.10)",
+          "justification": "In Table 2",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "FREED-QS",
+          "justification": "Only results reported",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "Soojung Yang, Doyeong Hwang, Seul Lee, Seongok Ryu, and Sung Ju Hwang. Hit and lead discovery with explorative rl and fragment-based molecule generation.",
+          "justification": "Cited reference",
+          "value": "Hit and lead discovery with explorative rl and fragment-based molecule generation"
+        }
+      },
+      {
+        "name": {
+          "quote": "𝑓 -RAG [Lee et al., 2024a], the current state-of-the-art",
+          "justification": "State-of-the-art baseline",
+          "value": "f-RAG"
+        },
+        "aliases": [
+          "f_RAG"
+        ],
+        "is_contributed": {
+          "quote": "𝑓 -RAG [Lee et al., 2024a], the current state-of-the-art",
+          "justification": "External baseline",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Results for REINVENT and 𝑓 -RAG are taken directly from their respective publications.",
+          "justification": "Results taken from publications",
+          "value": false
+        },
+        "is_compared": {
+          "quote": "surpassing 𝑓 -RAG across most tasks",
+          "justification": "Compared on PMO and docking",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "Results for REINVENT and 𝑓 -RAG are taken directly from their respective publications.",
+          "justification": "Only reported results",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "Seul Lee, Karsten Kreis, ... Molecule Generation with Fragment Retrieval Augmentation.",
+          "justification": "Cited reference",
+          "value": "Molecule Generation with Fragment Retrieval Augmentation"
+        }
+      },
+      {
+        "name": {
+          "quote": "REINVENT [Olivecrona et al., 2017], a top performer in the original PMO analysis",
+          "justification": "Baseline model/method compared",
+          "value": "REINVENT"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "REINVENT [Olivecrona et al., 2017]",
+          "justification": "External baseline",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Results for REINVENT and 𝑓 -RAG are taken directly from their respective publications.",
+          "justification": "Results taken from publications",
+          "value": false
+        },
+        "is_compared": {
+          "quote": "achieving substantial improvements over REINVENT",
+          "justification": "Compared in PMO and docking tables",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "Results for REINVENT and 𝑓 -RAG are taken directly from their respective publications.",
+          "justification": "Only results reported",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "Marcus Olivecrona, Thomas Blaschke, Ola Engkvist, and Hongming Chen. Molecular de-novo design through deep reinforcement learning.",
+          "justification": "Cited reference",
+          "value": "Molecular de-novo design through deep reinforcement learning"
+        }
+      },
+      {
+        "name": {
+          "quote": "two genetic algorithms, Graph-GA [Gao et al., 2022] and Mol-GA [Tripp and Hernández-Lobato, 2023]",
+          "justification": "Genetic algorithm baseline mentioned as benchmark model",
+          "value": "Graph-GA"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "Graph-GA [Gao et al., 2022]",
+          "justification": "External baseline",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We benchmark our method against four key baselines",
+          "justification": "No indication authors ran it",
+          "value": false
+        },
+        "is_compared": {
+          "quote": "Graph-GA",
+          "justification": "Shown in Figure 4 comparison",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "two genetic algorithms, Graph-GA [Gao et al., 2022] and Mol-GA",
+          "justification": "Not stated",
+          "value": "unknown"
+        },
+        "referenced_paper_title": {
+          "quote": "Wenhao Gao, Tianfan Fu, Jimeng Sun, and Connor W. Coley. Sample Efficiency Matters: A Benchmark for Practical Molecular Optimization",
+          "justification": "Cited reference",
+          "value": "Sample Efficiency Matters: A Benchmark for Practical Molecular Optimization"
+        }
+      },
+      {
+        "name": {
+          "quote": "Mol-GA [Tripp and Hernández-Lobato, 2023]",
+          "justification": "Genetic algorithm baseline",
+          "value": "Mol-GA"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "Mol-GA [Tripp and Hernández-Lobato, 2023]",
+          "justification": "External baseline",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We benchmark our method against four key baselines",
+          "justification": "No indication authors ran it",
+          "value": false
+        },
+        "is_compared": {
+          "quote": "Mol-GA",
+          "justification": "Shown in Figure 4",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "Mol-GA [Tripp and Hernández-Lobato, 2023]",
+          "justification": "Not stated",
+          "value": "unknown"
+        },
+        "referenced_paper_title": {
+          "quote": "Austin Tripp and José Miguel Hernández-Lobato. Genetic algorithms are strong baselines for molecule generation.",
+          "justification": "Cited reference",
+          "value": "Genetic algorithms are strong baselines for molecule generation"
+        }
+      },
+      {
+        "name": {
+          "quote": "Derived from the activations of the penultimate layer of ChemNet, a deep neural network trained to predict the biological activities of drugs",
+          "justification": "Used to compute the FCD metric",
+          "value": "ChemNet"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "Derived from the activations of the penultimate layer of ChemNet",
+          "justification": "External model used for evaluation",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Activations for canonical SMILES representations of molecules are compared between the generated and reference sets.",
+          "justification": "Used to compute FCD values reported",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Derived from the activations of the penultimate layer of ChemNet",
+          "justification": "Not a comparison baseline",
+          "value": false
+        },
+        "execution_mode": {
+          "quote": "Activations for canonical SMILES representations of molecules are compared between the generated and reference sets.",
+          "justification": "Used for computing activations only",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "Derived from the activations of the penultimate layer of ChemNet",
+          "justification": "No explicit reference entry for ChemNet",
+          "value": "unknown"
+        }
+      }
+    ],
+    "data_sources": [
+      {
+        "name": {
+          "quote": "We use the ZINC-22 database, the largest publicly available molecular library (≈70B synthesizable compounds as of Sept 2024), as the source for pretraining.",
+          "justification": "Pretraining source",
+          "value": "ZINC-22"
+        },
+        "aliases": [
+          "ZINC"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "we randomly sample 1.5B molecules using a stratified strategy based on heavy atom count, followed by deduplication and SMILES canonicalization",
+          "justification": "Paper states sampling",
+          "value": "1.5B molecules sampled for pretraining; two 10M validation sets"
+        },
+        "derived_from": [],
+        "sample_properties": [
+          {
+            "name": "heavy atom count",
+            "value": {
+              "quote": "Molecules are encoded in SMILES and organized based on their heavy atom count, which ranges from 4 to 49.",
+              "justification": "Stated in data preparation",
+              "value": "4 to 49"
+            },
+            "unit": "heavy atoms"
+          }
+        ],
+        "referenced_paper_title": {
+          "quote": "Benjamin I. Tingle, ... ZINC-22-A Free Multi-Billion-Scale Database of Tangible Compounds for Ligand Discovery.",
+          "justification": "Cited reference",
+          "value": "ZINC-22-A Free Multi-Billion-Scale Database of Tangible Compounds for Ligand Discovery"
+        }
+      },
+      {
+        "name": {
+          "quote": "two reference sets: Test (ZINC-Random) and TestSF (ZINC-Scaffold), which correspond to molecules derived from a random split and a scaffold-based split",
+          "justification": "Random validation split used as reference set",
+          "value": "ZINC-Random"
+        },
+        "aliases": [
+          "Test",
+          "random validation set"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "we sample 10M molecules randomly from the remaining data to form a random validation set",
+          "justification": "Stated in paper",
+          "value": "10M molecules sampled; 175,000-molecule subset used for metrics"
+        },
+        "derived_from": [
+          "ZINC-22"
+        ],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "we sample 10M molecules randomly from the remaining data to form a random validation set",
+          "justification": "Constructed by the authors",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "a 10M molecules scaffold-based split using Bemis–Murcko scaffolds [Bemis and Murcko, 1996], ensuring no scaffold overlap with the training set",
+          "justification": "Scaffold-based validation split",
+          "value": "ZINC-Scaffold"
+        },
+        "aliases": [
+          "TestSF",
+          "scaffold-split validation set"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "First, a 10M molecules scaffold-based split using Bemis–Murcko scaffolds",
+          "justification": "Stated in paper",
+          "value": "10M molecules; 175,000 held-out test set used for evaluation"
+        },
+        "derived_from": [
+          "ZINC-22"
+        ],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "a 10M molecules scaffold-based split using Bemis–Murcko scaffolds",
+          "justification": "Constructed by the authors",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "is pre-initialized with task specific top-100 molecules from the ZINC250k dataset [Irwin et al., 2012]",
+          "justification": "Used to pre-initialize the experience replay buffer",
+          "value": "ZINC250k"
+        },
+        "aliases": [
+          "ZINC-250k"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "pre-initialized with task specific top-100 molecules from the ZINC250k dataset",
+          "justification": "Only the top-100 molecules used",
+          "value": "top-100 molecules per task used"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "John J Irwin, ... Zinc: a free tool to discover chemistry for biology.",
+          "justification": "Cited reference",
+          "value": "Zinc: a free tool to discover chemistry for biology"
+        }
+      },
+      {
+        "name": {
+          "quote": "We assess the goal-directed generation capabilities of NovoMolGen using the Practical Molecular Optimization (PMO) benchmark [Gao et al., 2022].",
+          "justification": "Goal-directed optimization oracles consumed during fine-tuning",
+          "value": "PMO benchmark"
+        },
+        "aliases": [
+          "Practical Molecular Optimization"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "a constrained budget of 10,000 oracle function evaluations for each task",
+          "justification": "Budget stated",
+          "value": "10,000 oracle function evaluations per task"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "Wenhao Gao, Tianfan Fu, Jimeng Sun, and Connor W. Coley. Sample Efficiency Matters: A Benchmark for Practical Molecular Optimization",
+          "justification": "Cited reference",
+          "value": "Sample Efficiency Matters: A Benchmark for Practical Molecular Optimization"
+        }
+      },
+      {
+        "name": {
+          "quote": "Our approach is compared against established methods across five diverse protein targets: parp1, fa7, 5ht1b, braf, and jak2",
+          "justification": "Docking targets used as reward oracles",
+          "value": "protein targets (parp1, fa7, 5ht1b, braf, jak2)"
+        },
+        "aliases": [
+          "parp1",
+          "fa7",
+          "5ht1b",
+          "braf",
+          "jak2"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "For each target, we generated 3,000 molecules",
+          "justification": "Stated generation budget",
+          "value": "3,000 molecules generated per target"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "Box sizes and center coordinates for the target proteins are taken from Lee et al. [2023].",
+          "justification": "Box sizes and coordinates from Lee et al. 2023",
+          "value": "Exploring Chemical Space with Score-based Out-of-distribution Generation"
+        }
+      },
+      {
+        "name": {
+          "quote": "prior work typically computes it with respect to the much smaller MOSES dataset (≈1.5M molecules)",
+          "justification": "Referenced dataset used by prior work for novelty computation",
+          "value": "MOSES"
+        },
+        "aliases": [],
+        "role": "referenced",
+        "size": {
+          "quote": "the much smaller MOSES dataset (≈1.5M molecules)",
+          "justification": "Stated in text",
+          "value": "≈1.5M molecules"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "Daniil Polykovskiy, ... Molecular Sets (MOSES): A Benchmarking Platform for Molecular Generation Models.",
+          "justification": "Cited reference",
+          "value": "Molecular Sets (MOSES): A Benchmarking Platform for Molecular Generation Models"
+        }
+      },
+      {
+        "name": {
+          "quote": "In contrast, GP-MoLFormer was trained on PubChem, a broader and more diverse chemical space",
+          "justification": "Named as GP-MoLFormer's training data",
+          "value": "PubChem"
+        },
+        "aliases": [],
+        "role": "referenced",
+        "size": {
+          "quote": "GP-MoLFormer was trained on PubChem",
+          "justification": "Not stated",
+          "value": "unknown"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "GP-MoLFormer was trained on PubChem",
+          "justification": "No reference entry",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "making them well-suited for large-scale pretraining on datasets like GDB-13 [Ruddigkeit et al., 2012] and ZINC [Tingle et al., 2023]",
+          "justification": "Mentioned as a large-scale pretraining dataset",
+          "value": "GDB-13"
+        },
+        "aliases": [],
+        "role": "referenced",
+        "size": {
+          "quote": "large-scale pretraining on datasets like GDB-13",
+          "justification": "Not stated for this paper",
+          "value": "unknown"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "Lars Ruddigkeit, ... Enumeration of 166 Billion Organic Small Molecules in the Chemical Universe Database GDB-17.",
+          "justification": "Cited reference for Ruddigkeit et al. 2012",
+          "value": "Enumeration of 166 Billion Organic Small Molecules in the Chemical Universe Database GDB-17"
+        }
+      },
+      {
+        "name": {
+          "quote": "a method like 𝑓 -RAG , which builds its fragment vocabulary from the UniChem database",
+          "justification": "Mentioned as f-RAG's fragment vocabulary source",
+          "value": "UniChem"
+        },
+        "aliases": [],
+        "role": "referenced",
+        "size": {
+          "quote": "builds its fragment vocabulary from the UniChem database",
+          "justification": "Not stated",
+          "value": "unknown"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "builds its fragment vocabulary from the UniChem database",
+          "justification": "No reference entry",
+          "value": "unknown"
+        }
+      }
+    ],
+    "libraries": [
+      {
+        "name": {
+          "quote": "Training is done with FlashAttention [Dao et al., 2024] integrated into HuggingFace’s Trainer [Wolf et al., 2019]",
+          "justification": "Training framework used",
+          "value": "HuggingFace Trainer"
+        },
+        "aliases": [
+          "HuggingFace transformers"
+        ],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "Thomas Wolf, ... Huggingface's transformers: State-of-the-art natural language processing.",
+          "justification": "Cited reference",
+          "value": "Huggingface's transformers: State-of-the-art natural language processing"
+        }
+      },
+      {
+        "name": {
+          "quote": "Our pretraining experiments leverage the computational enhancements of the FlashAttention library [Dao et al., 2024], utilizing its Llama implementation",
+          "justification": "Explicitly called a library used for pretraining",
+          "value": "FlashAttention library"
+        },
+        "aliases": [],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "Tri Dao, ... FLASHATTENTION: fast and memory-efficient exact attention with IO-awareness.",
+          "justification": "Cited reference",
+          "value": "FLASHATTENTION: fast and memory-efficient exact attention with IO-awareness"
+        }
+      },
+      {
+        "name": {
+          "quote": "Validity is determined using RDKit’s molecular structure parser",
+          "justification": "Used for validity computation",
+          "value": "RDKit"
+        },
+        "aliases": [],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "Validity is determined using RDKit’s molecular structure parser",
+          "justification": "No reference entry",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "We employ the docking program QuickVina 2 [Alhossary et al., 2015] to compute docking scores",
+          "justification": "Docking program used",
+          "value": "QuickVina 2"
+        },
+        "aliases": [],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "Amr Alhossary, ... Fast, accurate, and reliable molecular docking with QuickVina 2.",
+          "justification": "Cited reference",
+          "value": "Fast, accurate, and reliable molecular docking with QuickVina 2"
+        }
+      }
+    ],
+    "algorithms": [
+      {
+        "name": {
+          "quote": "followed by deduplication and SMILES canonicalization",
+          "justification": "Data preparation step named",
+          "value": "SMILES canonicalization"
+        },
+        "aliases": [
+          "canonicalization"
+        ],
+        "is_contributed": {
+          "quote": "followed by deduplication and SMILES canonicalization",
+          "justification": "Standard preprocessing",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "(a) SMILES deduplication, canonicalization, and conversion to SELFIES, SAFE, and DeepSMILES",
+          "justification": "Applied to 1.5B molecules",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "followed by deduplication and SMILES canonicalization",
+          "justification": "Not compared",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "we randomly sample 1.5B molecules using a stratified strategy based on heavy atom count, followed by deduplication and SMILES canonicalization",
+          "justification": "Stated in data preparation",
+          "value": "Preprocessing of the pretraining corpus"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "followed by deduplication and SMILES canonicalization",
+          "justification": "No specific citation",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "Atomwise tokenization [Schwaller et al., 2019] segments molecules into chemically meaningful units (atoms, bonds, stereochemistry)",
+          "justification": "Tokenization strategy studied",
+          "value": "Atomwise tokenization"
+        },
+        "aliases": [
+          "AtomWise"
+        ],
+        "is_contributed": {
+          "quote": "Atomwise tokenization [Schwaller et al., 2019]",
+          "justification": "Existing approach",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we pre-trained 32M models using SMILES, SELFIES, SAFE, and DeepSMILES with atomwise and BPE tokenization",
+          "justification": "Used to train models",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "We compare atomwise and BPE tokenization across molecular representations",
+          "justification": "Compared against BPE",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "we adopt the Llama architecture ... and explore two tokenization strategies",
+          "justification": "Stated role",
+          "value": "Tokenization strategy for molecular strings"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Philippe Schwaller, ... Molecular Transformer: A Model for Uncertainty-Calibrated Chemical Reaction Prediction.",
+          "justification": "Cited reference",
+          "value": "Molecular Transformer: A Model for Uncertainty-Calibrated Chemical Reaction Prediction"
+        }
+      },
+      {
+        "name": {
+          "quote": "BPE [Kudo, 2018], trained on 100M molecules with a vocab size of 500 and dropout 0.1",
+          "justification": "Tokenization strategy",
+          "value": "BPE"
+        },
+        "aliases": [
+          "Byte Pair Encoding"
+        ],
+        "is_contributed": {
+          "quote": "Byte Pair Encoding (BPE) [Sennrich et al., 2016]",
+          "justification": "Existing method",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "BPE [Kudo, 2018], trained on 100M molecules with a vocab size of 500 and dropout 0.1",
+          "justification": "Trained on 100M molecules",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "We compare atomwise and BPE tokenization across molecular representations",
+          "justification": "Compared with atomwise",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "captures frequent substructures and balances granularity and efficiency",
+          "justification": "Paper's description",
+          "value": "captures frequent substructures and balances granularity and efficiency"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Taku Kudo. Subword Regularization: Improving Neural Network Translation Models with Multiple Subword Candidates.",
+          "justification": "Cited as Kudo 2018",
+          "value": "Subword Regularization: Improving Neural Network Translation Models with Multiple Subword Candidates"
+        }
+      },
+      {
+        "name": {
+          "quote": "We use the AdamW optimizer with a cosine learning rate schedule peaking at 6 × 10−4 .",
+          "justification": "Optimizer used",
+          "value": "AdamW"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "We adopted the AdamW optimizer with a learning rate of 6 × 10−4",
+          "justification": "Standard optimizer",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We adopted the AdamW optimizer with a learning rate of 6 × 10−4",
+          "justification": "Used in pretraining",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "We use the AdamW optimizer",
+          "justification": "Not compared",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "We use the AdamW optimizer with a cosine learning rate schedule",
+          "justification": "Stated",
+          "value": "optimizer used during pretraining"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "We use the AdamW optimizer",
+          "justification": "No citation given",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "paired with a cosine learning rate scheduler",
+          "justification": "Named schedule",
+          "value": "cosine learning rate schedule"
+        },
+        "aliases": [
+          "cosine learning rate scheduler"
+        ],
+        "is_contributed": {
+          "quote": "paired with a cosine learning rate scheduler",
+          "justification": "Standard",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "The scheduler includes a warmup phase of 2% of the total training steps",
+          "justification": "Used in pretraining",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "paired with a cosine learning rate scheduler",
+          "justification": "Not compared",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "The scheduler includes a warmup phase of 2% of the total training steps, during which the learning rate linearly increases to its peak value",
+          "justification": "Stated",
+          "value": "learning rate schedule with warmup used during pretraining"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "paired with a cosine learning rate scheduler",
+          "justification": "No citation",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "Weight decay was set to 0.01 to prevent overfitting",
+          "justification": "Named regularization procedure",
+          "value": "weight decay"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "Weight decay was set to 0.01",
+          "justification": "Standard",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Weight decay was set to 0.01 to prevent overfitting",
+          "justification": "Used in pretraining",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Weight decay was set to 0.01",
+          "justification": "Not compared",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "Weight decay was set to 0.01 to prevent overfitting",
+          "justification": "Paper's words",
+          "value": "to prevent overfitting"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Weight decay was set to 0.01",
+          "justification": "No citation",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "gradient clipping was applied with a maximum gradient norm of 1.0",
+          "justification": "Named procedure",
+          "value": "gradient clipping"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "gradient clipping was applied with a maximum gradient norm of 1.0",
+          "justification": "Standard",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "gradient clipping was applied with a maximum gradient norm of 1.0",
+          "justification": "Used during pretraining",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "gradient clipping was applied with a maximum gradient norm of 1.0",
+          "justification": "Not compared",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "gradient clipping was applied with a maximum gradient norm of 1.0",
+          "justification": "Stated among training details",
+          "value": "stabilizing pretraining"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "gradient clipping was applied with a maximum gradient norm of 1.0",
+          "justification": "No citation",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "with gradient accumulation and per-device batch size selected to fit within the memory constraints",
+          "justification": "Named procedure to fit batch size",
+          "value": "gradient accumulation"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "with gradient accumulation and per-device batch size selected",
+          "justification": "Standard",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "with gradient accumulation and per-device batch size selected to fit within the memory constraints of 4 NVIDIA A100 GPUs",
+          "justification": "Used in pretraining",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "with gradient accumulation",
+          "justification": "Not compared",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "we maintained a fixed global batch size of 19,200 molecules, with gradient accumulation and per-device batch size selected to fit within the memory constraints",
+          "justification": "Paper's words",
+          "value": "to maintain fixed global batch size within GPU memory constraints"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "with gradient accumulation",
+          "justification": "No citation",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "Training is done with FlashAttention [Dao et al., 2024] integrated into HuggingFace’s Trainer",
+          "justification": "Procedure integrated for training speed",
+          "value": "FlashAttention"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "Training is done with FlashAttention [Dao et al., 2024]",
+          "justification": "Existing method",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "allowing large batch sizes and significantly improving training speed",
+          "justification": "Used in pretraining",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Training is done with FlashAttention",
+          "justification": "Not compared",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "allowing large batch sizes and significantly improving training speed",
+          "justification": "Paper's words",
+          "value": "allowing large batch sizes and significantly improving training speed"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Tri Dao, ... FLASHATTENTION: fast and memory-efficient exact attention with IO-awareness.",
+          "justification": "Cited reference",
+          "value": "FLASHATTENTION: fast and memory-efficient exact attention with IO-awareness"
+        }
+      },
+      {
+        "name": {
+          "quote": "Trained via next-token prediction on string-based representations",
+          "justification": "Pretraining objective",
+          "value": "next-token prediction"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "Trained via next-token prediction on string-based representations",
+          "justification": "Standard objective",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Trained via next-token prediction on string-based representations, these models inherently learn the principles of chemical syntax",
+          "justification": "Used in pretraining",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Trained via next-token prediction",
+          "justification": "Not compared",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "Trained via next-token prediction on string-based representations",
+          "justification": "Paper's words",
+          "value": "the pretraining objective of the decoder-only transformers"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Trained via next-token prediction",
+          "justification": "No citation",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "sampling 30,000 molecules using temperature sampling (𝑇 = 1.0) without top-𝑘 or top-𝑝 filtering",
+          "justification": "Decoding strategy used during generation",
+          "value": "temperature sampling"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "using temperature sampling (𝑇 = 1.0)",
+          "justification": "Standard decoding",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We evaluated the pretrained models by sampling 30,000 molecules using temperature sampling",
+          "justification": "Used to produce evaluation molecules",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "using temperature sampling (𝑇 = 1.0) without top-𝑘 or top-𝑝 filtering",
+          "justification": "Not compared",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "We evaluated the pretrained models by sampling 30,000 molecules using temperature sampling (𝑇 = 1.0)",
+          "justification": "Used for sampling molecules",
+          "value": "decoding strategy at evaluation time"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "using temperature sampling (𝑇 = 1.0)",
+          "justification": "No citation",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "We adopt and extend the REINVENT framework [Olivecrona et al., 2017], a well-established reinforcement learning (RL) approach",
+          "justification": "RL framework adopted and extended for fine-tuning",
+          "value": "REINVENT"
+        },
+        "aliases": [
+          "REINVENT-inspired Hill Climbing framework"
+        ],
+        "is_contributed": {
+          "quote": "We adopt and extend the REINVENT framework [Olivecrona et al., 2017]",
+          "justification": "Existing framework, though extended",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we fine-tuned our pretrained models using the reinforcement learning-based fine-tuning approach described in Section 2.3",
+          "justification": "Used for fine-tuning NovoMolGen",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "achieving substantial improvements over REINVENT",
+          "justification": "REINVENT results compared as baseline",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "Fine-tuning with reinforcement learning optimizes task-specific reward functions",
+          "justification": "Paper's words",
+          "value": "reinforcement learning fine-tuning approach to optimize task-specific reward functions"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Marcus Olivecrona, Thomas Blaschke, Ola Engkvist, and Hongming Chen. Molecular de-novo design through deep reinforcement learning.",
+          "justification": "Cited reference",
+          "value": "Molecular de-novo design through deep reinforcement learning"
+        }
+      },
+      {
+        "name": {
+          "quote": "we adapt the learning objective by incorporating a top-𝑘 sampling strategy, a concept central to the Augmented Hill-Climb method [Thomas et al., 2022]",
+          "justification": "Named method whose top-k concept is adapted",
+          "value": "Augmented Hill-Climb"
+        },
+        "aliases": [
+          "AHC"
+        ],
+        "is_contributed": {
+          "quote": "a concept central to the Augmented Hill-Climb method [Thomas et al., 2022]",
+          "justification": "Existing method",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "the loss is computed exclusively on the subset of the top-𝑘 highest-scoring molecules generated in each batch",
+          "justification": "The top-k loss was implemented in fine-tuning",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "a concept central to the Augmented Hill-Climb method",
+          "justification": "Not compared numerically",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "To enhance exploration and focus the optimization on high-quality candidates, we adapt the learning objective by incorporating a top-𝑘 sampling strategy",
+          "justification": "Paper's words",
+          "value": "top-k sampling strategy incorporated into the learning objective to enhance exploration"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Morgan Thomas, Noel M O’Boyle, Andreas Bender, and Chris De Graaf. Augmented hill-climb increases reinforcement learning efficiency for language-based de novo molecule generation.",
+          "justification": "Cited reference",
+          "value": "Augmented hill-climb increases reinforcement learning efficiency for language-based de novo molecule generation"
+        }
+      },
+      {
+        "name": {
+          "quote": "we incorporate an experience replay buffer [Guo and Schwaller, 2024]",
+          "justification": "Named component of fine-tuning procedure",
+          "value": "experience replay buffer"
+        },
+        "aliases": [
+          "experience replay"
+        ],
+        "is_contributed": {
+          "quote": "we incorporate an experience replay buffer [Guo and Schwaller, 2024]",
+          "justification": "Taken from prior work",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "The buffer stores the 100 top-performing molecules generated during fine-tuning",
+          "justification": "Used in fine-tuning",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "we incorporate an experience replay buffer",
+          "justification": "Not compared",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "To enhance sample efficiency and stabilize training, we incorporate an experience replay buffer",
+          "justification": "Paper's words",
+          "value": "To enhance sample efficiency and stabilize training"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Jeff Guo and Philippe Schwaller. Saturn: Sample-efficient generative molecular design using memory manipulation.",
+          "justification": "Cited reference",
+          "value": "Saturn: Sample-efficient generative molecular design using memory manipulation"
+        }
+      },
+      {
+        "name": {
+          "quote": "a 10M molecules scaffold-based split using Bemis–Murcko scaffolds [Bemis and Murcko, 1996]",
+          "justification": "Named decomposition procedure used for splitting and metrics",
+          "value": "Bemis–Murcko scaffolds"
+        },
+        "aliases": [
+          "Bemis-Murcko decomposition"
+        ],
+        "is_contributed": {
+          "quote": "using Bemis–Murcko scaffolds [Bemis and Murcko, 1996]",
+          "justification": "Existing procedure",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "this comparison uses Bemis-Murcko scaffolds instead of BRICS fragments",
+          "justification": "Used to construct validation split and metrics",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "using Bemis–Murcko scaffolds",
+          "justification": "Not compared",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "a 10M molecules scaffold-based split using Bemis–Murcko scaffolds ... ensuring no scaffold overlap with the training set",
+          "justification": "Paper's words",
+          "value": "used to create the scaffold-based validation split and scaffold similarity metric"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Guy W. Bemis and Mark A. Murcko. The Properties of Known Drugs. 1. Molecular Frameworks.",
+          "justification": "Cited reference",
+          "value": "The Properties of Known Drugs. 1. Molecular Frameworks"
+        }
+      },
+      {
+        "name": {
+          "quote": "The distribution of BRICS fragments [Degen et al., 2008] is compared between the generated and reference sets.",
+          "justification": "Fragment decomposition for Frag metric",
+          "value": "BRICS"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "The distribution of BRICS fragments [Degen et al., 2008]",
+          "justification": "Existing procedure",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "fragment and scaffold similarities based on BRICS and Bemis–Murcko decompositions",
+          "justification": "Used in evaluation",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "The distribution of BRICS fragments",
+          "justification": "Not compared",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "Fragment Similarity (Frag): The distribution of BRICS fragments [Degen et al., 2008] is compared",
+          "justification": "Paper's words",
+          "value": "evaluation metric computation (fragment similarity)"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Jörg Degen, Christof Wegscheid-Gerlach, Andrea Zaliani, and Matthias Rarey. On the Art of Compiling and Using ’Drug-Like’ Chemical Fragment Spaces.",
+          "justification": "Cited reference",
+          "value": "On the Art of Compiling and Using 'Drug-Like' Chemical Fragment Spaces"
+        }
+      },
+      {
+        "name": {
+          "quote": "Fréchet ChemNet Distance (FCD): Derived from the activations of the penultimate layer of ChemNet",
+          "justification": "Named evaluation metric procedure",
+          "value": "Fréchet ChemNet Distance (FCD)"
+        },
+        "aliases": [
+          "FCD"
+        ],
+        "is_contributed": {
+          "quote": "Fréchet ChemNet Distance (FCD)",
+          "justification": "Existing metric",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Metrics that require a reference distribution (e.g., FCD, SNN) were computed using a 175,000-molecule subset",
+          "justification": "Computed for all models",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Fréchet ChemNet Distance (FCD)",
+          "justification": "It is a metric, not compared as a method",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "Generated molecules were assessed using standard metrics, including Validity, Novelty, Internal Diversity (IntDiv), Fréchet ChemNet Distance (FCD)",
+          "justification": "Paper's words",
+          "value": "distribution learning evaluation metric"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Fréchet ChemNet Distance (FCD)",
+          "justification": "No explicit reference",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "we first performed an exhaustive hyperparameter search using the Perindopril_MPO and Zaleplon_MPO tasks",
+          "justification": "Systematic search procedure described",
+          "value": "hyperparameter search"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "we first performed an exhaustive hyperparameter search",
+          "justification": "Standard procedure",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We evaluated 96 unique hyperparameter configurations, with each configuration run three times using different random seeds, totaling 576 experimental runs.",
+          "justification": "576 experimental runs performed",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "we first performed an exhaustive hyperparameter search",
+          "justification": "Not compared",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "We conducted two separate hyperparameter searches to identify the optimal settings for each task category.",
+          "justification": "Paper's words",
+          "value": "to identify optimal fine-tuning settings for each task category"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "we first performed an exhaustive hyperparameter search",
+          "justification": "No citation",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "we randomly sample 1.5B molecules using a stratified strategy based on heavy atom count",
+          "justification": "Named sampling procedure for dataset construction",
+          "value": "stratified strategy based on heavy atom count"
+        },
+        "aliases": [
+          "stratified sampling"
+        ],
+        "is_contributed": {
+          "quote": "using a stratified strategy based on heavy atom count",
+          "justification": "Standard sampling",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "To ensure diversity, we randomly sample 1.5B molecules using a stratified strategy based on heavy atom count",
+          "justification": "Used to build the pretraining set",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "using a stratified strategy based on heavy atom count",
+          "justification": "Not compared",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "To ensure diversity, we randomly sample 1.5B molecules using a stratified strategy based on heavy atom count",
+          "justification": "Paper's words",
+          "value": "to ensure diversity when sampling the pretraining corpus"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "using a stratified strategy based on heavy atom count",
+          "justification": "No citation",
+          "value": "unknown"
+        }
+      }
+    ],
+    "runs": [
+      {
+        "models": [
+          {
+            "name": "NovoMolGen",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Llama",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "ZINC-22",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "ZINC-Random",
+            "access": "fixed",
+            "roles_in_run": [
+              "validation"
+            ]
+          },
+          {
+            "name": "ZINC-Scaffold",
+            "access": "fixed",
+            "roles_in_run": [
+              "validation"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "next-token prediction"
+          },
+          {
+            "name": "AdamW"
+          },
+          {
+            "name": "cosine learning rate schedule"
+          },
+          {
+            "name": "weight decay"
+          },
+          {
+            "name": "gradient clipping"
+          },
+          {
+            "name": "gradient accumulation"
+          },
+          {
+            "name": "FlashAttention"
+          },
+          {
+            "name": "Atomwise tokenization"
+          },
+          {
+            "name": "BPE"
+          },
+          {
+            "name": "SMILES canonicalization"
+          },
+          {
+            "name": "stratified strategy based on heavy atom count"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "we pre-trained 32M models using SMILES, SELFIES, SAFE, and DeepSMILES with atomwise and BPE tokenization",
+          "justification": "Pretraining of 32M models from scratch",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "All results use the 75000 step checkpoint (one full epoch).",
+          "justification": "Stated checkpoint corresponds to one epoch",
+          "value": "one full epoch (75000 steps)"
+        },
+        "parameter_count": {
+          "quote": "We pretrain three model sizes (32M, 157M, 300M parameters) to study scaling effects.",
+          "justification": "Model size stated",
+          "value": "32M"
+        },
+        "accelerator_type": {
+          "quote": "Each model is trained with fixed global batch size of 19,200 (1.2M tokens/step) across 4×A100 GPUs.",
+          "justification": "A100 GPUs",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "to fit within the memory constraints of 4 NVIDIA A100 GPUs (80 GB each)",
+          "justification": "Stated in Appendix C",
+          "value": "NVIDIA A100 (80 GB)"
+        },
+        "accelerator_count": {
+          "quote": "across 4×A100 GPUs",
+          "justification": "Stated",
+          "value": "4"
+        },
+        "precision": {
+          "quote": "Training was conducted in mixed precision mode using bfloat16 to maximize GPU efficiency.",
+          "justification": "Stated mixed precision with bfloat16",
+          "value": "bf16"
+        },
+        "parallelism": {
+          "quote": "with gradient accumulation and per-device batch size selected to fit within the memory constraints of 4 NVIDIA A100 GPUs",
+          "justification": "Not explicitly stated",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "Each model is trained with fixed global batch size of 19,200 (1.2M tokens/step) across 4×A100 GPUs.",
+          "justification": "No duration reported",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "Training was conducted in mixed precision mode using bfloat16 to maximize GPU efficiency.",
+          "justification": "No utilisation figure",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "All results are averaged over three independent model initialization seeds.",
+          "justification": "4 representations × 2 tokenizers at 32M; results averaged over 3 seeds",
+          "value": "8 representation/tokenizer combinations, averaged over three independent model initializations"
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "NovoMolGen",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Llama",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "ZINC-22",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "ZINC-Random",
+            "access": "fixed",
+            "roles_in_run": [
+              "validation"
+            ]
+          },
+          {
+            "name": "ZINC-Scaffold",
+            "access": "fixed",
+            "roles_in_run": [
+              "validation"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "next-token prediction"
+          },
+          {
+            "name": "AdamW"
+          },
+          {
+            "name": "cosine learning rate schedule"
+          },
+          {
+            "name": "weight decay"
+          },
+          {
+            "name": "gradient clipping"
+          },
+          {
+            "name": "FlashAttention"
+          },
+          {
+            "name": "Atomwise tokenization"
+          },
+          {
+            "name": "BPE"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "We pretrain three model sizes (32M, 157M, 300M parameters) to study scaling effects.",
+          "justification": "Pretraining at 157M scale",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "All results use the 75000 step checkpoint (one full epoch).",
+          "justification": "Stated",
+          "value": "one full epoch (75000 steps)"
+        },
+        "parameter_count": {
+          "quote": "We pretrain three model sizes (32M, 157M, 300M parameters)",
+          "justification": "Stated model size",
+          "value": "157M"
+        },
+        "accelerator_type": {
+          "quote": "across 4×A100 GPUs",
+          "justification": "A100 GPUs used",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "4 NVIDIA A100 GPUs (80 GB each)",
+          "justification": "Stated",
+          "value": "NVIDIA A100 (80 GB)"
+        },
+        "accelerator_count": {
+          "quote": "across 4×A100 GPUs",
+          "justification": "Stated",
+          "value": "4"
+        },
+        "precision": {
+          "quote": "Training was conducted in mixed precision mode using bfloat16",
+          "justification": "Stated",
+          "value": "bf16"
+        },
+        "parallelism": {
+          "quote": "across 4×A100 GPUs",
+          "justification": "Not stated",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "Each model is trained with fixed global batch size of 19,200 (1.2M tokens/step) across 4×A100 GPUs.",
+          "justification": "Not reported",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "to maximize GPU efficiency",
+          "justification": "Not reported",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "All results are averaged over three independent model initialization seeds.",
+          "justification": "157M SMILES models reported for both tokenizers and 3 seeds",
+          "value": "two tokenizations (atomwise, BPE), averaged over three independent model initializations"
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "NovoMolGen",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Llama",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "ZINC-22",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "ZINC-Random",
+            "access": "fixed",
+            "roles_in_run": [
+              "validation"
+            ]
+          },
+          {
+            "name": "ZINC-Scaffold",
+            "access": "fixed",
+            "roles_in_run": [
+              "validation"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "next-token prediction"
+          },
+          {
+            "name": "AdamW"
+          },
+          {
+            "name": "cosine learning rate schedule"
+          },
+          {
+            "name": "weight decay"
+          },
+          {
+            "name": "gradient clipping"
+          },
+          {
+            "name": "FlashAttention"
+          },
+          {
+            "name": "Atomwise tokenization"
+          },
+          {
+            "name": "BPE"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "We pretrain three model sizes (32M, 157M, 300M parameters) to study scaling effects.",
+          "justification": "Pretraining at 300M scale",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "All results use the 75000 step checkpoint (one full epoch).",
+          "justification": "Stated",
+          "value": "one full epoch (75000 steps)"
+        },
+        "parameter_count": {
+          "quote": "We pretrain three model sizes (32M, 157M, 300M parameters)",
+          "justification": "Stated model size",
+          "value": "300M"
+        },
+        "accelerator_type": {
+          "quote": "across 4×A100 GPUs",
+          "justification": "A100 GPUs used",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "4 NVIDIA A100 GPUs (80 GB each)",
+          "justification": "Stated",
+          "value": "NVIDIA A100 (80 GB)"
+        },
+        "accelerator_count": {
+          "quote": "across 4×A100 GPUs",
+          "justification": "Stated",
+          "value": "4"
+        },
+        "precision": {
+          "quote": "Training was conducted in mixed precision mode using bfloat16",
+          "justification": "Stated",
+          "value": "bf16"
+        },
+        "parallelism": {
+          "quote": "across 4×A100 GPUs",
+          "justification": "Not stated",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "Each model is trained with fixed global batch size of 19,200 (1.2M tokens/step) across 4×A100 GPUs.",
+          "justification": "Not reported",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "to maximize GPU efficiency",
+          "justification": "Not reported",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "All results are averaged over three independent model initialization seeds.",
+          "justification": "Reported for both tokenizers and 3 seeds",
+          "value": "two tokenizations (atomwise, BPE), averaged over three independent model initializations"
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "NovoMolGen",
+            "role_in_run": "main"
+          },
+          {
+            "name": "ChemNet",
+            "role_in_run": "unknown"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "ZINC-Random",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          },
+          {
+            "name": "ZINC-Scaffold",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "temperature sampling"
+          },
+          {
+            "name": "Fréchet ChemNet Distance (FCD)"
+          },
+          {
+            "name": "BRICS"
+          },
+          {
+            "name": "Bemis–Murcko scaffolds"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "We evaluated the pretrained models by sampling 30,000 molecules using temperature sampling (𝑇 = 1.0)",
+          "justification": "Sampling molecules from pretrained models and evaluating",
+          "value": "inference"
+        },
+        "epochs": {
+          "quote": "We evaluated the pretrained models by sampling 30,000 molecules",
+          "justification": "Inference run",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "We evaluated models with 32M, 157M, and 300M parameters using atomwise tokenization",
+          "justification": "Models evaluated across these sizes",
+          "value": "32M, 157M, 300M"
+        },
+        "accelerator_type": {
+          "quote": "We evaluated the pretrained models by sampling 30,000 molecules using temperature sampling",
+          "justification": "Hardware for sampling not stated",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "We evaluated the pretrained models by sampling 30,000 molecules",
+          "justification": "Not stated",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "We evaluated the pretrained models by sampling 30,000 molecules",
+          "justification": "Not stated",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "We evaluated the pretrained models by sampling 30,000 molecules",
+          "justification": "Not stated for inference",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "We evaluated the pretrained models by sampling 30,000 molecules",
+          "justification": "Not stated",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "We evaluated the pretrained models by sampling 30,000 molecules",
+          "justification": "Not stated",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "We evaluated the pretrained models by sampling 30,000 molecules",
+          "justification": "Not stated",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "All results are averaged over three independent model initialization seeds.",
+          "justification": "Stated",
+          "value": "three independent model initializations"
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "NovoMolGen",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "PMO benchmark",
+            "access": "oracle",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          },
+          {
+            "name": "ZINC250k",
+            "access": "fixed",
+            "roles_in_run": [
+              "reference"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "REINVENT"
+          },
+          {
+            "name": "Augmented Hill-Climb"
+          },
+          {
+            "name": "experience replay buffer"
+          },
+          {
+            "name": "hyperparameter search"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "For each PMO task, we fine-tuned our pretrained models using the reinforcement learning-based fine-tuning approach described in Section 2.3.",
+          "justification": "RL fine-tuning of pretrained models on PMO tasks",
+          "value": "finetune"
+        },
+        "epochs": {
+          "quote": "a constrained budget of 10,000 oracle function evaluations for each task",
+          "justification": "Budget expressed in oracle calls, not epochs",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "We evaluate different models with 32M, 157M, and 300M parameters using both atomwise and BPE tokenization to assess their impact on optimization performance.",
+          "justification": "Stated model sizes fine-tuned",
+          "value": "32M, 157M, 300M"
+        },
+        "accelerator_type": {
+          "quote": "For each PMO task, we fine-tuned our pretrained models using the reinforcement learning-based fine-tuning approach",
+          "justification": "Fine-tuning hardware not specified",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "For each PMO task, we fine-tuned our pretrained models",
+          "justification": "Not stated",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "For each PMO task, we fine-tuned our pretrained models",
+          "justification": "Not stated",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "For each PMO task, we fine-tuned our pretrained models",
+          "justification": "Not stated for fine-tuning",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "For each PMO task, we fine-tuned our pretrained models",
+          "justification": "Not stated",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "For each PMO task, we fine-tuned our pretrained models",
+          "justification": "Not stated",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "For each PMO task, we fine-tuned our pretrained models",
+          "justification": "Not stated",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "We evaluated 96 unique hyperparameter configurations, with each configuration run three times using different random seeds, totaling 576 experimental runs.",
+          "justification": "Stated in appendix and tables",
+          "value": "three independent runs per configuration; 96 hyperparameter configurations × 3 seeds = 576 runs in the search"
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "NovoMolGen",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "protein targets (parp1, fa7, 5ht1b, braf, jak2)",
+            "access": "oracle",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          },
+          {
+            "name": "ZINC250k",
+            "access": "fixed",
+            "roles_in_run": [
+              "reference"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "REINVENT"
+          },
+          {
+            "name": "Augmented Hill-Climb"
+          },
+          {
+            "name": "experience replay buffer"
+          },
+          {
+            "name": "hyperparameter search"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "A similar, independent hyperparameter search was performed for the protein-ligand docking tasks using the fa7 and jak2 targets.",
+          "justification": "RL fine-tuning against docking rewards",
+          "value": "finetune"
+        },
+        "epochs": {
+          "quote": "For each target, we generated 3,000 molecules",
+          "justification": "Budget in generated molecules/oracle calls",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "3 2M -Atomwise 15 7M -Atomwise 30 0M -Atomwise",
+          "justification": "Table 2 reports these sizes",
+          "value": "32M, 157M, 300M"
+        },
+        "accelerator_type": {
+          "quote": "We employ the docking program QuickVina 2 [Alhossary et al., 2015] to compute docking scores",
+          "justification": "Not stated",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "We employ the docking program QuickVina 2",
+          "justification": "Not stated",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "We employ the docking program QuickVina 2",
+          "justification": "Not stated",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "We employ the docking program QuickVina 2",
+          "justification": "Not stated",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "We employ the docking program QuickVina 2",
+          "justification": "Not stated",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "The timeout for 3D conformer generation is set to 20 seconds, while the docking score calculation timeout is set to 50 seconds.",
+          "justification": "Not stated",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "We employ the docking program QuickVina 2",
+          "justification": "Not stated",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "The results are the means and standard deviations of 3 independent runs.",
+          "justification": "Stated",
+          "value": "3 independent runs"
+        }
+      }
+    ]
+  },
+  "usage": {
+    "input_tokens": 68811,
+    "output_tokens": 26791,
+    "total_tokens": 95602
+  }
+}

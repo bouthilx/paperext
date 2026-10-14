@@ -1,0 +1,1936 @@
+{
+  "paper": "69a5fda748887d403d0a5769.txt",
+  "words": 11731,
+  "extractions": {
+    "title": {
+      "quote": "G RAPH T EXT: G RAPH R EASONING IN T EXT S PACE",
+      "justification": "The title appears at the beginning of the preprint.",
+      "value": "GRAPH TEXT: GRAPH REASONING IN TEXT SPACE"
+    },
+    "description": "Introduces GRAPH TEXT, a graph-to-natural-language prompting framework evaluated with closed-source LLM inference, open-source LLM instruction tuning, and supervised GNN baselines on citation and WebKB node-classification datasets.",
+    "type": {
+      "quote": "We conduct extensive experiments to demonstrate the effectiveness of G RAPH T EXT.",
+      "justification": "The paper reports numerical experiments, comparisons, ablations, and interaction studies.",
+      "value": "empirical"
+    },
+    "research_fields": [
+      {
+        "name": {
+          "quote": "the realm of graph machine learning",
+          "justification": "The paper explicitly positions its contribution in this field.",
+          "value": "graph machine learning"
+        },
+        "aliases": [
+          "graph ML"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "perform graph reasoning in text space",
+          "justification": "The proposed framework directly advances graph reasoning using natural-language representations.",
+          "value": "graph reasoning"
+        },
+        "aliases": [],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "models graph reasoning as text generation",
+          "justification": "Text generation and LLM prompting are the computational setting used to perform graph tasks.",
+          "value": "natural language processing"
+        },
+        "aliases": [
+          "NLP"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "we take node classification as an example to introduce our idea",
+          "justification": "Node classification is the principal experimental task and evaluation setting.",
+          "value": "node classification"
+        },
+        "aliases": [],
+        "role": "used"
+      }
+    ],
+    "models": [
+      {
+        "name": {
+          "quote": "ChatGPT",
+          "justification": "Named as the closed-source LLM used across the experiments.",
+          "value": "ChatGPT"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "G RAPH T EXT utilizes a single pre-trained LLM (ChatGPT)",
+          "justification": "It is a pre-existing model, not introduced by this paper.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Experiments are conducted using in-context learning with ChatGPT",
+          "justification": "The paper queried ChatGPT for predictions.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "ChatGPT-text ... ChatGPT-feat ... ChatGPT-feat+text",
+          "justification": "Its numerical results are compared across settings and against other models.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "Experiments are conducted using in-context learning with ChatGPT",
+          "justification": "ChatGPT is used without graph-specific parameter training.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "OpenAI. Introducing chatgpt.",
+          "justification": "This is the ChatGPT entry in the references.",
+          "value": "Introducing chatgpt"
+        }
+      },
+      {
+        "name": {
+          "quote": "GPT-4",
+          "justification": "Named in the interactive graph-reasoning experiment.",
+          "value": "GPT-4"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "We leverage G RAPH T EXT with ChatGPT and GPT-4",
+          "justification": "GPT-4 is a pre-existing model.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We leverage G RAPH T EXT with ChatGPT and GPT-4 to perform graph reasoning",
+          "justification": "The authors executed GPT-4 for graph reasoning.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "The table showcases the performance of GPT-4 and ChatGPT",
+          "justification": "GPT-4 and ChatGPT receive numerical comparison.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "We leverage G RAPH T EXT with ChatGPT and GPT-4 to perform graph reasoning",
+          "justification": "Only prediction-time prompting is described.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "Sparks of artificial general intelligence: Early experiments with GPT-4.",
+          "justification": "This GPT-4 reference appears in the bibliography.",
+          "value": "Sparks of artificial general intelligence: Early experiments with GPT-4"
+        }
+      },
+      {
+        "name": {
+          "quote": "Llama-2-7B",
+          "justification": "This exact model name appears in Table 4.",
+          "value": "Llama-2-7B"
+        },
+        "aliases": [
+          "LLaMA2-7b",
+          "Llama-2"
+        ],
+        "is_contributed": {
+          "quote": "currently available open-source LLMs, such as Llama-2",
+          "justification": "It is an existing open-source LLM.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we further explored the potential of instruction tuning on currently available open-source LLMs, such as Llama-2",
+          "justification": "The model was fine-tuned and evaluated.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "our best results from instruction tuning across various settings surpass those of ChatGPT and approach the GNN baselines",
+          "justification": "Its results are numerically compared with ChatGPT and GNNs.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "fine-tune the large language model by the widely-used and efficient Low-Rank Adaptation (LoRA)",
+          "justification": "The model is fine-tuned rather than trained from scratch.",
+          "value": "finetune"
+        },
+        "referenced_paper_title": {
+          "quote": "Llama 2: Open foundation and fine-tuned chat models.",
+          "justification": "This is the Llama 2 reference title.",
+          "value": "Llama 2: Open foundation and fine-tuned chat models"
+        }
+      },
+      {
+        "name": {
+          "quote": "GCN",
+          "justification": "Named as a supervised GNN baseline.",
+          "value": "GCN"
+        },
+        "aliases": [
+          "Graph Convolutional Network"
+        ],
+        "is_contributed": {
+          "quote": "We selected standard GNNs, including GCN",
+          "justification": "It is an existing baseline.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "These GNN baselines are supervised and specific to individual graphs, trained solely for inference on one dataset.",
+          "justification": "The paper trained the baseline.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Node classification results (accuracy %).",
+          "justification": "Tables report its accuracy against the proposed framework and other GNNs.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "These GNN baselines are supervised and specific to individual graphs, trained solely for inference on one dataset.",
+          "justification": "The baseline is trained by this paper.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "Semi-supervised classification with graph convolutional networks.",
+          "justification": "Reference title for GCN.",
+          "value": "Semi-supervised classification with graph convolutional networks"
+        }
+      },
+      {
+        "name": {
+          "quote": "GAT",
+          "justification": "Named as a supervised GNN baseline.",
+          "value": "GAT"
+        },
+        "aliases": [
+          "Graph Attention Network"
+        ],
+        "is_contributed": {
+          "quote": "We selected standard GNNs, including GCN ... and GAT",
+          "justification": "It is an existing baseline.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "These GNN baselines are supervised and specific to individual graphs, trained solely for inference on one dataset.",
+          "justification": "The paper trained the baseline.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Node classification results (accuracy %).",
+          "justification": "Its accuracies are reported in the comparison tables.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "These GNN baselines are supervised and specific to individual graphs, trained solely for inference on one dataset.",
+          "justification": "The baseline is trained by this paper.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "Graph attention networks.",
+          "justification": "Reference title for GAT.",
+          "value": "Graph attention networks"
+        }
+      },
+      {
+        "name": {
+          "quote": "GCNII",
+          "justification": "Named as a recent GNN baseline variant.",
+          "value": "GCNII"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "along with their more recent variants GCNII",
+          "justification": "It is an existing baseline model.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "These GNN baselines are supervised and specific to individual graphs, trained solely for inference on one dataset.",
+          "justification": "The baseline is reported as trained in this work.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "GCNII ... 81.2 ... 69.8 ... 56.8 ... 51.0 ... 40.5",
+          "justification": "Table 1 reports its numerical results.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "These GNN baselines are supervised and specific to individual graphs, trained solely for inference on one dataset.",
+          "justification": "The model was trained.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "Simple and deep graph convolutional networks.",
+          "justification": "Reference title for GCNII.",
+          "value": "Simple and deep graph convolutional networks"
+        }
+      },
+      {
+        "name": {
+          "quote": "GATv2",
+          "justification": "Named as a recent GNN baseline variant.",
+          "value": "GATv2"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "and GATv2 ... as our baselines",
+          "justification": "It is an existing baseline model.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "These GNN baselines are supervised and specific to individual graphs, trained solely for inference on one dataset.",
+          "justification": "The baseline was trained in the experiments.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "GATv2 ... 82.3 ... 69.9 ... 62.2 ... 52.9 ... 43.2",
+          "justification": "Table 1 reports its numerical results.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "These GNN baselines are supervised and specific to individual graphs, trained solely for inference on one dataset.",
+          "justification": "The model was trained.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "How attentive are graph attention networks?",
+          "justification": "Reference title for GATv2.",
+          "value": "How attentive are graph attention networks?"
+        }
+      }
+    ],
+    "data_sources": [
+      {
+        "name": {
+          "quote": "Cora",
+          "justification": "Listed as an experimental citation-network benchmark.",
+          "value": "Cora"
+        },
+        "aliases": [],
+        "role": "used",
+        "size": {
+          "quote": "Cora 2708",
+          "justification": "Table 5 reports 2,708 nodes.",
+          "value": "2708 nodes"
+        },
+        "derived_from": [],
+        "sample_properties": [
+          {
+            "name": "number of features",
+            "value": {
+              "quote": "Cora ... #Features 1433",
+              "justification": "Table 5 states the node feature dimensionality.",
+              "value": "1433"
+            },
+            "unit": "features"
+          }
+        ],
+        "referenced_paper_title": {
+          "quote": "Automating the construction of internet portals with machine learning.",
+          "justification": "Cora is attributed to McCallum et al. (2000).",
+          "value": "Automating the construction of internet portals with machine learning"
+        }
+      },
+      {
+        "name": {
+          "quote": "Citeseer",
+          "justification": "Listed as an experimental citation-network benchmark.",
+          "value": "Citeseer"
+        },
+        "aliases": [],
+        "role": "used",
+        "size": {
+          "quote": "Citeseer 3327",
+          "justification": "Table 5 reports 3,327 nodes.",
+          "value": "3327 nodes"
+        },
+        "derived_from": [],
+        "sample_properties": [
+          {
+            "name": "number of features",
+            "value": {
+              "quote": "Citeseer ... #Features 3703",
+              "justification": "Table 5 states the node feature dimensionality.",
+              "value": "3703"
+            },
+            "unit": "features"
+          }
+        ],
+        "referenced_paper_title": {
+          "quote": "Citeseer: An automatic citation indexing system.",
+          "justification": "Reference title associated with Citeseer.",
+          "value": "Citeseer: An automatic citation indexing system"
+        }
+      },
+      {
+        "name": {
+          "quote": "Texas",
+          "justification": "One of the three WebKB subsets used in experiments.",
+          "value": "Texas"
+        },
+        "aliases": [],
+        "role": "used",
+        "size": {
+          "quote": "Texas 183",
+          "justification": "Table 5 reports 183 nodes.",
+          "value": "183 nodes"
+        },
+        "derived_from": [
+          "WebKB"
+        ],
+        "sample_properties": [
+          {
+            "name": "number of features",
+            "value": {
+              "quote": "Texas ... #Features 1703",
+              "justification": "Table 5 states the node feature dimensionality.",
+              "value": "1703"
+            },
+            "unit": "features"
+          }
+        ],
+        "referenced_paper_title": {
+          "quote": "Geom-gcn: Geometric graph convolutional networks.",
+          "justification": "The WebKB subsets are cited to Pei et al. (2020).",
+          "value": "Geom-gcn: Geometric graph convolutional networks"
+        }
+      },
+      {
+        "name": {
+          "quote": "Wisconsin",
+          "justification": "One of the three WebKB subsets used in experiments.",
+          "value": "Wisconsin"
+        },
+        "aliases": [],
+        "role": "used",
+        "size": {
+          "quote": "Wisconsin 251",
+          "justification": "Table 5 reports 251 nodes.",
+          "value": "251 nodes"
+        },
+        "derived_from": [
+          "WebKB"
+        ],
+        "sample_properties": [
+          {
+            "name": "number of features",
+            "value": {
+              "quote": "Wisconsin ... #Features 1703",
+              "justification": "Table 5 states the node feature dimensionality.",
+              "value": "1703"
+            },
+            "unit": "features"
+          }
+        ],
+        "referenced_paper_title": {
+          "quote": "Geom-gcn: Geometric graph convolutional networks.",
+          "justification": "The WebKB subsets are cited to Pei et al. (2020).",
+          "value": "Geom-gcn: Geometric graph convolutional networks"
+        }
+      },
+      {
+        "name": {
+          "quote": "Cornell",
+          "justification": "One of the three WebKB subsets used in experiments.",
+          "value": "Cornell"
+        },
+        "aliases": [],
+        "role": "used",
+        "size": {
+          "quote": "Cornell 183",
+          "justification": "Table 5 reports 183 nodes.",
+          "value": "183 nodes"
+        },
+        "derived_from": [
+          "WebKB"
+        ],
+        "sample_properties": [
+          {
+            "name": "number of features",
+            "value": {
+              "quote": "Cornell ... #Features 1703",
+              "justification": "Table 5 states the node feature dimensionality.",
+              "value": "1703"
+            },
+            "unit": "features"
+          }
+        ],
+        "referenced_paper_title": {
+          "quote": "Geom-gcn: Geometric graph convolutional networks.",
+          "justification": "The WebKB subsets are cited to Pei et al. (2020).",
+          "value": "Geom-gcn: Geometric graph convolutional networks"
+        }
+      },
+      {
+        "name": {
+          "quote": "WebKB graphs",
+          "justification": "Named as the source collection from which Cornell, Texas, and Wisconsin are selected.",
+          "value": "WebKB"
+        },
+        "aliases": [
+          "WebKB graphs"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "",
+          "justification": "The paper gives sizes only for the three selected subsets.",
+          "value": "unknown"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "Geom-gcn: Geometric graph convolutional networks.",
+          "justification": "The collection is cited through Pei et al. (2020).",
+          "value": "Geom-gcn: Geometric graph convolutional networks"
+        }
+      },
+      {
+        "name": {
+          "quote": "Cora-TAG",
+          "justification": "Named text-attributed-graph version of Cora used in experiments.",
+          "value": "Cora-TAG"
+        },
+        "aliases": [],
+        "role": "used",
+        "size": {
+          "quote": "Cora-TAG 2708",
+          "justification": "Table 5 reports 2,708 nodes.",
+          "value": "2708 nodes"
+        },
+        "derived_from": [
+          "Cora"
+        ],
+        "sample_properties": [
+          {
+            "name": "number of features",
+            "value": {
+              "quote": "Cora-TAG ... #Features 1433",
+              "justification": "Table 5 states the feature dimensionality.",
+              "value": "1433"
+            },
+            "unit": "features"
+          }
+        ],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "No separate dataset paper title is provided for this TAG version.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "Citeseer-TAG",
+          "justification": "Named text-attributed-graph version of Citeseer used in experiments.",
+          "value": "Citeseer-TAG"
+        },
+        "aliases": [],
+        "role": "used",
+        "size": {
+          "quote": "Citeseer-TAG 3327",
+          "justification": "Table 5 reports 3,327 nodes.",
+          "value": "3327 nodes"
+        },
+        "derived_from": [
+          "Citeseer"
+        ],
+        "sample_properties": [
+          {
+            "name": "number of features",
+            "value": {
+              "quote": "Citeseer-TAG ... #Features 3703",
+              "justification": "Table 5 states the feature dimensionality.",
+              "value": "3703"
+            },
+            "unit": "features"
+          }
+        ],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "No separate dataset paper title is provided for this TAG version.",
+          "value": "unknown"
+        }
+      }
+    ],
+    "libraries": [
+      {
+        "name": {
+          "quote": "DeepSpeed",
+          "justification": "Explicitly named as software used for LLaMA2-7b training.",
+          "value": "DeepSpeed"
+        },
+        "aliases": [],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "Deepspeed: System optimizations enable training deep learning models with over 100 billion parameters.",
+          "justification": "The bibliography supplies this DeepSpeed reference.",
+          "value": "Deepspeed: System optimizations enable training deep learning models with over 100 billion parameters"
+        }
+      },
+      {
+        "name": {
+          "quote": "huggingface LLaMA2-7b model",
+          "justification": "The implementation states that the Hugging Face-hosted model was trained.",
+          "value": "huggingface"
+        },
+        "aliases": [
+          "Hugging Face"
+        ],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "No Hugging Face library paper is cited.",
+          "value": "unknown"
+        }
+      }
+    ],
+    "algorithms": [
+      {
+        "name": {
+          "quote": "G RAPH T EXT",
+          "justification": "The paper's named contributed framework.",
+          "value": "GRAPH TEXT"
+        },
+        "aliases": [
+          "GraphText"
+        ],
+        "is_contributed": {
+          "quote": "we bridge this gap with a novel framework, G RAPH T EXT",
+          "justification": "Explicitly introduced as novel.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "We conduct extensive experiments to demonstrate the effectiveness of G RAPH T EXT.",
+          "justification": "It is executed throughout the experiments.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Node classification results (accuracy %).",
+          "justification": "Its results are numerically compared against GNN baselines and ablations.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "translates graphs to natural language",
+          "justification": "This is the paper's concise statement of its role.",
+          "value": "translates graphs to natural language"
+        },
+        "composed_of": [
+          "graph-syntax tree construction",
+          "graph-syntax tree traversal"
+        ],
+        "referenced_paper_title": {
+          "quote": "G RAPH T EXT: G RAPH R EASONING IN T EXT S PACE",
+          "justification": "It is contributed by the present paper.",
+          "value": "GRAPH TEXT: GRAPH REASONING IN TEXT SPACE"
+        }
+      },
+      {
+        "name": {
+          "quote": "in-context learning (ICL)",
+          "justification": "Named prediction procedure used with closed-source LLMs.",
+          "value": "in-context learning (ICL)"
+        },
+        "aliases": [
+          "ICL"
+        ],
+        "is_contributed": {
+          "quote": "Inspired by prompt tuning",
+          "justification": "It is an existing prompting approach.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Experiments are conducted using in-context learning with ChatGPT",
+          "justification": "Explicitly used in experiments.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "in-context learning with ChatGPT, as well as instruction tuning with Llama-2-7B",
+          "justification": "The two adaptation settings receive numerical comparisons.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "training-free graph reasoning by in-context learning (ICL)",
+          "justification": "The paper states its role directly.",
+          "value": "training-free graph reasoning"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Language models are few-shot learners.",
+          "justification": "Brown et al. is the cited foundational reference.",
+          "value": "Language models are few-shot learners"
+        }
+      },
+      {
+        "name": {
+          "quote": "instruction tuning",
+          "justification": "Named adaptation procedure used on Llama-2.",
+          "value": "instruction tuning"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "we further explored the potential of instruction tuning",
+          "justification": "It is explored, not introduced as a new algorithm.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we further explored the potential of instruction tuning on currently available open-source LLMs",
+          "justification": "Explicitly executed.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "in-context learning with ChatGPT, as well as instruction tuning with Llama-2-7B",
+          "justification": "Results are compared across these settings.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "fine-tune smaller open-source LLMs",
+          "justification": "This states what instruction tuning does in the paper.",
+          "value": "fine-tune smaller open-source LLMs"
+        },
+        "composed_of": [
+          "Low-Rank Adaptation (LoRA)",
+          "AdamW"
+        ],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "No single reference title is assigned to generic instruction tuning.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "K-means",
+          "justification": "Named discretization method used on continuous graph features.",
+          "value": "K-means"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "we propose to use discretization methods, e.g. clustering",
+          "justification": "K-means itself is not introduced by this paper.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we use K-means to discretize continuous features",
+          "justification": "The implementation explicitly uses it.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "",
+          "justification": "K-means is not numerically compared to another clustering algorithm.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "use K-means to discretize continuous features",
+          "justification": "Direct role statement.",
+          "value": "discretize continuous features"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "No K-means reference is provided.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "Low-Rank Adaptation (LoRA)",
+          "justification": "Exact named fine-tuning procedure.",
+          "value": "Low-Rank Adaptation (LoRA)"
+        },
+        "aliases": [
+          "LoRA"
+        ],
+        "is_contributed": {
+          "quote": "widely-used and efficient Low-Rank Adaptation (LoRA)",
+          "justification": "Described as an existing procedure.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "fine-tune the large language model by the widely-used and efficient Low-Rank Adaptation (LoRA)",
+          "justification": "Explicitly used for Llama-2 fine-tuning.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "",
+          "justification": "No alternative parameter-efficient tuning method is compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "fine-tune the large language model",
+          "justification": "Directly describes its role.",
+          "value": "fine-tune the large language model"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Lora: Low-rank adaptation of large language models.",
+          "justification": "The LoRA reference title.",
+          "value": "Lora: Low-rank adaptation of large language models"
+        }
+      },
+      {
+        "name": {
+          "quote": "AdamW",
+          "justification": "Named optimizer used in instruction tuning.",
+          "value": "AdamW"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "We utilize AdamW",
+          "justification": "It is an existing optimizer.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We utilize AdamW ... to train the huggingface LLaMA2-7b model",
+          "justification": "Explicitly executed.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "",
+          "justification": "No optimizer comparison is reported.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "to train the huggingface LLaMA2-7b model",
+          "justification": "The optimizer's role is directly stated.",
+          "value": "to train the huggingface LLaMA2-7b model"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Decoupled weight decay regularization.",
+          "justification": "The AdamW reference title.",
+          "value": "Decoupled weight decay regularization"
+        }
+      },
+      {
+        "name": {
+          "quote": "personalized pagerank",
+          "justification": "Named procedure used to construct synthetic graph relations and pseudo-label sequences.",
+          "value": "personalized pagerank"
+        },
+        "aliases": [
+          "PPR",
+          "pagerank"
+        ],
+        "is_contributed": {
+          "quote": "synthetic relations based on feature similarity, shortest-path distance, and personalized pagerank",
+          "justification": "It is an existing procedure used by the framework.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "with restart probability α = 0.25, denoted as Π",
+          "justification": "A concrete personalized PageRank configuration is used.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "The reasoning metrics include PPR, Center-node",
+          "justification": "PPR-based reasoning is numerically contrasted with center-node reasoning.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "synthetic relations based on ... personalized pagerank",
+          "justification": "Its role is generating synthetic relations.",
+          "value": "construct synthetic relations and ranked pseudo-label sequences"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Predict then propagate: Graph neural networks meet personalized pagerank.",
+          "justification": "The cited PageRank-related graph method.",
+          "value": "Predict then propagate: Graph neural networks meet personalized pagerank"
+        }
+      },
+      {
+        "name": {
+          "quote": "zero-shot chain of thought reasoning",
+          "justification": "Named reasoning procedure used in Appendix C.",
+          "value": "zero-shot chain of thought reasoning"
+        },
+        "aliases": [
+          "chain of thought reasoning"
+        ],
+        "is_contributed": {
+          "quote": "in the setting of standard zero-shot chain of thought reasoning",
+          "justification": "Described as a standard existing method.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Below is the example of graph reasoning on Cora node #2188 in the setting of standard zero-shot chain of thought reasoning",
+          "justification": "It is executed on the interactive example.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "We performed 15 times of evaluation",
+          "justification": "Outputs from ChatGPT and GPT-4 are evaluated, though not against another decoding procedure.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "perform reasoning with explanation",
+          "justification": "The appendix states this function for ChatGPT and GPT-4.",
+          "value": "perform reasoning with explanation"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Chain-of-thought prompting elicits reasoning in large language models.",
+          "justification": "The cited chain-of-thought paper.",
+          "value": "Chain-of-thought prompting elicits reasoning in large language models"
+        }
+      }
+    ],
+    "runs": [
+      {
+        "models": [
+          {
+            "name": "GCN",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Cora",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          },
+          {
+            "name": "Citeseer",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          },
+          {
+            "name": "Texas",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          },
+          {
+            "name": "Wisconsin",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          },
+          {
+            "name": "Cornell",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [],
+        "produces": [],
+        "execution_mode": {
+          "quote": "These GNN baselines are supervised and specific to individual graphs, trained solely for inference on one dataset.",
+          "justification": "GCN was supervised-trained separately on the listed graphs; the grouped entry summarizes the same undocumented compute profile across datasets.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": []
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "GAT",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Cora",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          },
+          {
+            "name": "Citeseer",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          },
+          {
+            "name": "Texas",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          },
+          {
+            "name": "Wisconsin",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          },
+          {
+            "name": "Cornell",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [],
+        "produces": [],
+        "execution_mode": {
+          "quote": "These GNN baselines are supervised and specific to individual graphs, trained solely for inference on one dataset.",
+          "justification": "GAT was supervised-trained on each listed graph.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": []
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "GCNII",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Cora",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          },
+          {
+            "name": "Citeseer",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          },
+          {
+            "name": "Texas",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          },
+          {
+            "name": "Wisconsin",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          },
+          {
+            "name": "Cornell",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [],
+        "produces": [],
+        "execution_mode": {
+          "quote": "These GNN baselines are supervised and specific to individual graphs, trained solely for inference on one dataset.",
+          "justification": "GCNII was supervised-trained on each listed graph.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": []
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "GATv2",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Cora",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          },
+          {
+            "name": "Citeseer",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          },
+          {
+            "name": "Texas",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          },
+          {
+            "name": "Wisconsin",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          },
+          {
+            "name": "Cornell",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [],
+        "produces": [],
+        "execution_mode": {
+          "quote": "These GNN baselines are supervised and specific to individual graphs, trained solely for inference on one dataset.",
+          "justification": "GATv2 was supervised-trained on each listed graph.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": []
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "GCN",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Cora-TAG",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          },
+          {
+            "name": "Citeseer-TAG",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [],
+        "produces": [],
+        "execution_mode": {
+          "quote": "GNNs GCN GAT",
+          "justification": "Table 4 reports trained GNN baselines on the two text-attributed graphs.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": []
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "GAT",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Cora-TAG",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          },
+          {
+            "name": "Citeseer-TAG",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [],
+        "produces": [],
+        "execution_mode": {
+          "quote": "GNNs GCN GAT",
+          "justification": "Table 4 reports trained GAT baselines on the text-attributed graphs.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": []
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "ChatGPT",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Cora",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          },
+          {
+            "name": "Citeseer",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          },
+          {
+            "name": "Texas",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          },
+          {
+            "name": "Wisconsin",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          },
+          {
+            "name": "Cornell",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "GRAPH TEXT"
+          },
+          {
+            "name": "in-context learning (ICL)"
+          },
+          {
+            "name": "K-means"
+          },
+          {
+            "name": "personalized pagerank"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "G RAPH T EXT utilizes a single pre-trained LLM (ChatGPT) for all datasets without any graph-specific training.",
+          "justification": "This is inference-only prompting across the five general-graph datasets.",
+          "value": "inference"
+        },
+        "epochs": {
+          "quote": "",
+          "justification": "No training epochs apply.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "",
+          "justification": "Closed-source service hardware is not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "We perform 1, 3, 5, 10, 15, and 20-shot node classification on Citeseer and Texas datasets.",
+          "justification": "Six shot-count variants are explicitly evaluated on Citeseer and Texas; because the run entry groups datasets, this factor applies to that reported sub-experiment.",
+          "value": [
+            {
+              "kind": "hyperparameter",
+              "count": 6,
+              "what": "1, 3, 5, 10, 15, and 20-shot"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "ChatGPT",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Cora-TAG",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          },
+          {
+            "name": "Citeseer-TAG",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "GRAPH TEXT"
+          },
+          {
+            "name": "in-context learning (ICL)"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "Experiments are conducted using in-context learning with ChatGPT",
+          "justification": "Inference-only experiments on text-attributed graphs.",
+          "value": "inference"
+        },
+        "epochs": {
+          "quote": "",
+          "justification": "No training epochs apply.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "ChatGPT-text ChatGPT-feat ChatGPT-feat+text",
+          "justification": "Three input-attribute variants are explicitly reported.",
+          "value": [
+            {
+              "kind": "variant",
+              "count": 3,
+              "what": "text, feat, and feat+text settings"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "GPT-4",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Cora",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "GRAPH TEXT"
+          },
+          {
+            "name": "in-context learning (ICL)"
+          },
+          {
+            "name": "zero-shot chain of thought reasoning"
+          },
+          {
+            "name": "personalized pagerank"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "We leverage G RAPH T EXT with ChatGPT and GPT-4 to perform graph reasoning on the provided example.",
+          "justification": "GPT-4 is queried for predictions and explanations.",
+          "value": "inference"
+        },
+        "epochs": {
+          "quote": "",
+          "justification": "No training epochs apply.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "with 15 times of evaluation",
+          "justification": "The interactive study explicitly repeats evaluation 15 times.",
+          "value": [
+            {
+              "kind": "other",
+              "count": 15,
+              "what": "times of evaluation"
+            },
+            {
+              "kind": "variant",
+              "count": 2,
+              "what": "Before and After human interaction"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "Llama-2-7B",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Cora-TAG",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          },
+          {
+            "name": "Citeseer-TAG",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "GRAPH TEXT"
+          },
+          {
+            "name": "instruction tuning"
+          },
+          {
+            "name": "Low-Rank Adaptation (LoRA)"
+          },
+          {
+            "name": "AdamW"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "fine-tune the large language model by the widely-used and efficient Low-Rank Adaptation (LoRA)",
+          "justification": "Llama-2-7B is instruction-tuned with LoRA.",
+          "value": "finetune"
+        },
+        "epochs": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "Llama-2-7B",
+          "justification": "The model name explicitly states the 7B scale used in this configuration.",
+          "value": "7B"
+        },
+        "accelerator_type": {
+          "quote": "",
+          "justification": "The paper does not state accelerator hardware.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "with FP16 activated",
+          "justification": "The implementation explicitly states FP16.",
+          "value": "fp16"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "DeepSpeed alone does not establish a parallelism strategy.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "Llama-2-7B-text Llama-2-7B-feat Llama-2-7B-feat+text",
+          "justification": "Three input-attribute tuning variants are reported.",
+          "value": [
+            {
+              "kind": "variant",
+              "count": 3,
+              "what": "text, feat, and feat+text settings"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "usage": {
+    "input_tokens": 37208,
+    "output_tokens": 11507,
+    "total_tokens": 48715
+  }
+}

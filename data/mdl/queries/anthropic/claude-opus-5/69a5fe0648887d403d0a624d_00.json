@@ -1,0 +1,1663 @@
+{
+  "paper": "69a5fe0648887d403d0a624d.txt",
+  "words": 8857,
+  "extractions": {
+    "title": {
+      "quote": "A Diffusion-Model of Joint Interactive Navigation",
+      "justification": "Title at top of paper.",
+      "value": "A Diffusion-Model of Joint Interactive Navigation"
+    },
+    "description": "The paper introduces DJINN, a diffusion model that jointly generates traffic scenarios for all agents in a scene, conditioned on a flexible set of observed agent states and map context. It is evaluated on Argoverse and INTERACTION trajectory forecasting benchmarks and demonstrates goal-based sampling, behavior-class sampling via classifier guidance, and scenario editing.",
+    "type": {
+      "quote": "On popular trajectory forecasting datasets, we report state of the art performance on joint trajectory metrics.",
+      "justification": "Trains and evaluates models on datasets with reported metrics.",
+      "value": "empirical"
+    },
+    "research_fields": [
+      {
+        "name": {
+          "quote": "Producing these synthetic traffic scenarios involves generating the joint future motion of all the agents in a scene, a task which is closely related to the problem of trajectory forecasting.",
+          "justification": "The paper's evaluation and contribution target trajectory forecasting / motion prediction.",
+          "value": "Trajectory Forecasting"
+        },
+        "aliases": [
+          "Motion Forecasting",
+          "Motion Prediction"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "Simulation of autonomous vehicle systems requires that simulated traffic participants exhibit diverse and realistic behaviors.",
+          "justification": "Paper motivates and contributes a traffic scenario generation method for AV simulation.",
+          "value": "Autonomous Vehicle Simulation"
+        },
+        "aliases": [
+          "Autonomous Driving",
+          "Traffic Simulation"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "DJINN is a diffusion model over the joint states of all agents in the scene.",
+          "justification": "The contribution is a diffusion-based generative model.",
+          "value": "Generative Models"
+        },
+        "aliases": [
+          "Diffusion Models"
+        ],
+        "role": "contributed"
+      }
+    ],
+    "models": [
+      {
+        "name": {
+          "quote": "we present DJINN – a diffusion based method of generating traffic scenarios",
+          "justification": "The contributed diffusion model.",
+          "value": "DJINN"
+        },
+        "aliases": [
+          "Ours"
+        ],
+        "is_contributed": {
+          "quote": "To alleviate these issues we propose DJINN, a model which generatively produces joint traffic scenarios with flexible conditioning.",
+          "justification": "Core contribution.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "We train DJINN on two A100 GPUs for 150 epochs.",
+          "justification": "Trained on A100 GPUs.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Ego-only and Scene motion forecasting performance is shown in Table 2.",
+          "justification": "Compared in Tables 1 and 2.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "Training takes approximately 6 days to complete from scratch.",
+          "justification": "Trained from scratch.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "we present DJINN – a diffusion based method of generating traffic scenarios",
+          "justification": "Own model.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "We compare DJINN against a reproduction of Scene Transformer trained for joint motion forecasting, using their reported hyperparameters.",
+          "justification": "A reproduction was trained for joint motion forecasting comparison.",
+          "value": "Scene Transformer"
+        },
+        "aliases": [
+          "SceneTransformer",
+          "Scene Transformer (Joint)"
+        ],
+        "is_contributed": {
+          "quote": "Scene Transformer [30], which uses a similar backbone architecture to our method",
+          "justification": "Prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We compare DJINN’s runtime to SceneTransformer [30], varying the input size as measured by the number of agents in the scene.",
+          "justification": "Reproduced and trained, and runtime measured.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "DJINN produces better joint samples than SceneTransformer when measured by minSceneADE and minSceneFDE.",
+          "justification": "Compared on joint metrics.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "a reproduction of Scene Transformer trained for joint motion forecasting, using their reported hyperparameters",
+          "justification": "Reproduction trained by authors.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "Scene transformer: A unified architecture for predicting future trajectories of multiple agents. In International Conference on Learning Representations, 2022.",
+          "justification": "Reference [30].",
+          "value": "Scene transformer: A unified architecture for predicting future trajectories of multiple agents"
+        }
+      },
+      {
+        "name": {
+          "quote": "We trained a two layer MLP classifier with 128 dimensions per hidden layer.",
+          "justification": "A two-layer MLP classifier trained for classifier guidance.",
+          "value": "cut-in classifier"
+        },
+        "aliases": [
+          "two layer MLP classifier"
+        ],
+        "is_contributed": {
+          "quote": "To train the classifier, we first mined a dataset of cut-in behaviors trajectory pairs from the \"DR_CHN_Merging_ZS\" location",
+          "justification": "Trained by the authors for this demonstration.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "Using this classifier, we generate synthetic cut-in scenarios via Eq. (3).",
+          "justification": "Trained and used for guidance.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "We condition DJINN trained on INTERACTION using a simple cut-in classifier.",
+          "justification": "No numeric comparison.",
+          "value": false
+        },
+        "execution_mode": {
+          "quote": "We trained a two layer MLP classifier with 128 dimensions per hidden layer.",
+          "justification": "Trained by the authors.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "We trained a two layer MLP classifier with 128 dimensions per hidden layer.",
+          "justification": "No reference.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "Jean [27] 0.98 1.42",
+          "justification": "Baseline row in Table 1a, numbers quoted.",
+          "value": "Jean"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "Jean [27]",
+          "justification": "Prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Jean [27] 0.98 1.42",
+          "justification": "Numbers quoted only.",
+          "value": false
+        },
+        "is_compared": {
+          "quote": "Table 1: Ego-only motion forecasting performance on Argoverse and INTERACTION datasets.",
+          "justification": "Listed in comparison table.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "Jean [27] 0.98 1.42",
+          "justification": "Reported forecasting results.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "Multi-head attention for multi-modal joint vehicle motion forecasting. In 2020 IEEE International Conference on Robotics and Automation (ICRA)",
+          "justification": "Reference [27].",
+          "value": "Multi-head attention for multi-modal joint vehicle motion forecasting"
+        }
+      },
+      {
+        "name": {
+          "quote": "mmTransformer [25] 0.87 1.34",
+          "justification": "Baseline row in Table 1a.",
+          "value": "mmTransformer"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "mmTransformer [25]",
+          "justification": "Prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "mmTransformer [25] 0.87 1.34",
+          "justification": "Quoted numbers.",
+          "value": false
+        },
+        "is_compared": {
+          "quote": "mmTransformer [25] 0.87 1.34",
+          "justification": "In comparison table.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "mmTransformer [25] 0.87 1.34",
+          "justification": "Forecast results quoted.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "Multimodal motion prediction with stacked transformers. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition",
+          "justification": "Reference [25].",
+          "value": "Multimodal motion prediction with stacked transformers"
+        }
+      },
+      {
+        "name": {
+          "quote": "DenseTNT [9] 0.88 1.28",
+          "justification": "Baseline row in Table 1a.",
+          "value": "DenseTNT"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "DenseTNT [9]",
+          "justification": "Prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "DenseTNT [9] 0.88 1.28",
+          "justification": "Quoted numbers.",
+          "value": false
+        },
+        "is_compared": {
+          "quote": "DenseTNT [9] 0.88 1.28",
+          "justification": "In comparison table.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "DenseTNT [9] 0.88 1.28",
+          "justification": "Forecast results quoted.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "Densetnt: End-to-end trajectory prediction from dense goal sets.",
+          "justification": "Reference [9].",
+          "value": "Densetnt: End-to-end trajectory prediction from dense goal sets"
+        }
+      },
+      {
+        "name": {
+          "quote": "MultiPath++[47] 0.79 1.214",
+          "justification": "Baseline row in Table 1a.",
+          "value": "MultiPath++"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "MultiPath++[47]",
+          "justification": "Prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "MultiPath++[47] 0.79 1.214",
+          "justification": "Quoted numbers.",
+          "value": false
+        },
+        "is_compared": {
+          "quote": "MultiPath++[47] 0.79 1.214",
+          "justification": "In comparison table.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "MultiPath++[47] 0.79 1.214",
+          "justification": "Forecast results quoted.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "Multipath++: Efficient information fusion and trajectory aggregation for behavior prediction.",
+          "justification": "Reference [47].",
+          "value": "Multipath++: Efficient information fusion and trajectory aggregation for behavior prediction"
+        }
+      },
+      {
+        "name": {
+          "quote": "DCMS [50] 0.77 1.14",
+          "justification": "Baseline row in Table 1a.",
+          "value": "DCMS"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "DCMS [50]",
+          "justification": "Prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "DCMS [50] 0.77 1.14",
+          "justification": "Quoted numbers.",
+          "value": false
+        },
+        "is_compared": {
+          "quote": "DCMS [50] 0.77 1.14",
+          "justification": "In comparison table.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "DCMS [50] 0.77 1.14",
+          "justification": "Forecast results quoted.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "Dcms: Motion forecasting with dual consistency and multi-pseudo-target supervision.",
+          "justification": "Reference [50].",
+          "value": "Dcms: Motion forecasting with dual consistency and multi-pseudo-target supervision"
+        }
+      },
+      {
+        "name": {
+          "quote": "DESIRE [23] 0.32 0.88",
+          "justification": "Baseline row in Table 1b.",
+          "value": "DESIRE"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "DESIRE [23]",
+          "justification": "Prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "DESIRE [23] 0.32 0.88",
+          "justification": "Quoted numbers.",
+          "value": false
+        },
+        "is_compared": {
+          "quote": "DESIRE [23] 0.32 0.88",
+          "justification": "In comparison table.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "DESIRE [23] 0.32 0.88",
+          "justification": "Forecast results quoted.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "Desire: Distant future prediction in dynamic scenes with interacting agents.",
+          "justification": "Reference [23].",
+          "value": "Desire: Distant future prediction in dynamic scenes with interacting agents"
+        }
+      },
+      {
+        "name": {
+          "quote": "TNT [54] 0.21 0.67",
+          "justification": "Baseline row in Table 1b.",
+          "value": "TNT"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "TNT [54]",
+          "justification": "Prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "TNT [54] 0.21 0.67",
+          "justification": "Quoted numbers.",
+          "value": false
+        },
+        "is_compared": {
+          "quote": "TNT [54] 0.21 0.67",
+          "justification": "In comparison table.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "TNT [54] 0.21 0.67",
+          "justification": "Forecast results quoted.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "Tnt: Target-driven trajectory prediction. In Conference on Robot Learning",
+          "justification": "Reference [54].",
+          "value": "Tnt: Target-driven trajectory prediction"
+        }
+      },
+      {
+        "name": {
+          "quote": "ReCoG [28] 0.19 0.65",
+          "justification": "Baseline row in Table 1b.",
+          "value": "ReCoG"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "ReCoG [28]",
+          "justification": "Prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "ReCoG [28] 0.19 0.65",
+          "justification": "Quoted numbers.",
+          "value": false
+        },
+        "is_compared": {
+          "quote": "ReCoG [28] 0.19 0.65",
+          "justification": "In comparison table.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "ReCoG [28] 0.19 0.65",
+          "justification": "Forecast results quoted.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "Recog: A deep learning framework with heterogeneous graph for interaction-aware trajectory prediction.",
+          "justification": "Reference [28].",
+          "value": "Recog: A deep learning framework with heterogeneous graph for interaction-aware trajectory prediction"
+        }
+      },
+      {
+        "name": {
+          "quote": "ITRA [40] 0.17 0.49",
+          "justification": "Baseline row in Table 1b.",
+          "value": "ITRA"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "ITRA [40]",
+          "justification": "Prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "ITRA [40] 0.17 0.49",
+          "justification": "Quoted numbers.",
+          "value": false
+        },
+        "is_compared": {
+          "quote": "ITRA [40] 0.17 0.49",
+          "justification": "In comparison table.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "ITRA [40] 0.17 0.49",
+          "justification": "Forecast results quoted.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "Imagining the road ahead: Multi-agent trajectory prediction via differentiable simulation.",
+          "justification": "Reference [40].",
+          "value": "Imagining the road ahead: Multi-agent trajectory prediction via differentiable simulation"
+        }
+      },
+      {
+        "name": {
+          "quote": "StarNet [19] 0.13 0.38",
+          "justification": "Baseline row in Table 1b.",
+          "value": "StarNet"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "StarNet [19]",
+          "justification": "Prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "StarNet [19] 0.13 0.38",
+          "justification": "Quoted numbers.",
+          "value": false
+        },
+        "is_compared": {
+          "quote": "StarNet [19] 0.13 0.38",
+          "justification": "In comparison table.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "StarNet [19] 0.13 0.38",
+          "justification": "Forecast results quoted.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "Starnet: Joint action-space prediction with star graphs and implicit global frame self-attention.",
+          "justification": "Reference [19].",
+          "value": "Starnet: Joint action-space prediction with star graphs and implicit global frame self-attention"
+        }
+      },
+      {
+        "name": {
+          "quote": "SAN [18] 0.10 0.29",
+          "justification": "Baseline row in Table 1b.",
+          "value": "SAN"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "SAN [18]",
+          "justification": "Prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "SAN [18] 0.10 0.29",
+          "justification": "Quoted numbers.",
+          "value": false
+        },
+        "is_compared": {
+          "quote": "SAN [18] 0.10 0.29",
+          "justification": "In comparison table.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "SAN [18] 0.10 0.29",
+          "justification": "Forecast results quoted.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "San: Scene anchor networks for joint action-space prediction.",
+          "justification": "Reference [18].",
+          "value": "San: Scene anchor networks for joint action-space prediction"
+        }
+      }
+    ],
+    "data_sources": [
+      {
+        "name": {
+          "quote": "We evaluate the quality of sampled trajectories with both joint and ego-only motion forecasting on the Argoverse [4] and INTERACTION [53] datasets.",
+          "justification": "Used for training and evaluation.",
+          "value": "Argoverse"
+        },
+        "aliases": [],
+        "role": "used",
+        "size": {
+          "quote": "On the Argoverse dataset [4] our model observes agent states over the first two seconds of the scene and generates the next three seconds.",
+          "justification": "Size not stated.",
+          "value": "unknown"
+        },
+        "derived_from": [],
+        "sample_properties": [
+          {
+            "name": "observed history length",
+            "value": {
+              "quote": "On the Argoverse dataset [4] our model observes agent states over the first two seconds of the scene and generates the next three seconds.",
+              "justification": "Stated in experiments.",
+              "value": "first two seconds of the scene"
+            },
+            "unit": "seconds"
+          },
+          {
+            "name": "prediction horizon",
+            "value": {
+              "quote": "our model observes agent states over the first two seconds of the scene and generates the next three seconds",
+              "justification": "Stated in experiments.",
+              "value": "three seconds"
+            },
+            "unit": "seconds"
+          }
+        ],
+        "referenced_paper_title": {
+          "quote": "Argoverse: 3d tracking and forecasting with rich maps.",
+          "justification": "Reference [4].",
+          "value": "Argoverse: 3d tracking and forecasting with rich maps"
+        }
+      },
+      {
+        "name": {
+          "quote": "For the INTERACTION dataset [53] scenes, we observe the state of all agents over the first second of the scene and generate the next three seconds.",
+          "justification": "Used for training and evaluation.",
+          "value": "INTERACTION"
+        },
+        "aliases": [
+          "INTERACTION dataset"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "For the INTERACTION dataset [53] scenes, we observe the state of all agents over the first second of the scene and generate the next three seconds.",
+          "justification": "Size not stated.",
+          "value": "unknown"
+        },
+        "derived_from": [],
+        "sample_properties": [
+          {
+            "name": "observed history length",
+            "value": {
+              "quote": "we observe the state of all agents over the first second of the scene and generate the next three seconds",
+              "justification": "Stated in experiments.",
+              "value": "first second of the scene"
+            },
+            "unit": "seconds"
+          },
+          {
+            "name": "prediction horizon",
+            "value": {
+              "quote": "we observe the state of all agents over the first second of the scene and generate the next three seconds",
+              "justification": "Stated in experiments.",
+              "value": "three seconds"
+            },
+            "unit": "seconds"
+          }
+        ],
+        "referenced_paper_title": {
+          "quote": "Interaction dataset: An international, adversarial and cooperative motion dataset in interactive driving scenarios with semantic maps.",
+          "justification": "Reference [53].",
+          "value": "Interaction dataset: An international, adversarial and cooperative motion dataset in interactive driving scenarios with semantic maps"
+        }
+      },
+      {
+        "name": {
+          "quote": "we first mined a dataset of cut-in behaviors trajectory pairs from the \"DR_CHN_Merging_ZS\" location",
+          "justification": "Mined dataset used to train the cut-in classifier.",
+          "value": "cut-in behaviors trajectory pair dataset (DR_CHN_Merging_ZS)"
+        },
+        "aliases": [
+          "cut-in dataset"
+        ],
+        "role": "contributed",
+        "size": {
+          "quote": "Using these heuristics, we collect a dataset of 2013 positive and 296751 negative examples.",
+          "justification": "Explicitly stated.",
+          "value": "2013 positive and 296751 negative examples"
+        },
+        "derived_from": [
+          "INTERACTION"
+        ],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "we first mined a dataset of cut-in behaviors trajectory pairs from the \"DR_CHN_Merging_ZS\" location – a highway driving scene with some cut-in examples",
+          "justification": "Mined by the authors.",
+          "value": "unknown"
+        }
+      }
+    ],
+    "libraries": [],
+    "algorithms": [
+      {
+        "name": {
+          "quote": "We utilize the diffusion parameterization introduced in EDM [21] in our work for its excellent performance and separation of training and sampling procedures.",
+          "justification": "Diffusion parameterization/training objective adopted.",
+          "value": "EDM"
+        },
+        "aliases": [
+          "Elucidating the Design Space of Diffusion-Based Generative Models"
+        ],
+        "is_contributed": {
+          "quote": "We train our network on a modification of the objective from EDM [21]",
+          "justification": "Prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "In the design of our diffusion process, we follow the choices from EDM [21]",
+          "justification": "Used in training and sampling.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "We utilize the diffusion parameterization introduced in EDM [21]",
+          "justification": "Not compared numerically.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "We train our network on a modification of the objective from EDM [21]",
+          "justification": "Describes its use.",
+          "value": "diffusion parameterization and training objective"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Elucidating the design space of diffusion-based generative models. In Advances in Neural Information Processing Systems, 2022.",
+          "justification": "Reference [21].",
+          "value": "Elucidating the design space of diffusion-based generative models"
+        }
+      },
+      {
+        "name": {
+          "quote": "We use the Heun 2nd order sampler from [21] to sample traffic scenarios with no changes to the reported hyperparameters.",
+          "justification": "Used for sampling.",
+          "value": "Heun 2nd order sampler"
+        },
+        "aliases": [
+          "ODE solver"
+        ],
+        "is_contributed": {
+          "quote": "We use the Heun 2nd order sampler from [21]",
+          "justification": "From EDM.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Unless otherwise noted all samples are produced using 50 iterations of the ODE solver",
+          "justification": "Used to sample.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Empirically, we found that deterministic sampling, corresponding to integrating the PF ODE, leads to higher quality samples than using an SDE solver.",
+          "justification": "Sampling-step ablation but not alternative solvers compared numerically... deterministic vs SDE noted qualitatively.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "We use the Heun 2nd order sampler from [21] to sample traffic scenarios",
+          "justification": "Described as the sampling procedure.",
+          "value": "sampler used to produce traffic scenarios"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Elucidating the design space of diffusion-based generative models.",
+          "justification": "Reference [21].",
+          "value": "Elucidating the design space of diffusion-based generative models"
+        }
+      },
+      {
+        "name": {
+          "quote": "we demonstrate conditioning on scene semantics via classifier guidance as well as conditioning on arbitrary state observations ... and control the strength of conditioning using classifier-free guidance",
+          "justification": "Used to control conditioning strength.",
+          "value": "classifier-free guidance"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "classifier-free guidance [13], utilizes a conditional score network",
+          "justification": "Prior work [13].",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We sample traffic scenes with varying levels of classifier-free guidance strength",
+          "justification": "Used in goal-conditioned sampling experiments.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "In Fig. 2, we demonstrate how classifier-free guidance can be utilized to handle user uncertainty in conditioning agent states.",
+          "justification": "Not benchmarked against other methods numerically.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "the strength of the classifier guidance weight controls the emphasis of the goal conditioning",
+          "justification": "Paper's description.",
+          "value": "controls the strength of goal conditioning at test time"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Classifier-free diffusion guidance. In NeurIPS 2021 Workshop on Deep Generative Models and Downstream Applications, 2021.",
+          "justification": "Reference [13].",
+          "value": "Classifier-free diffusion guidance"
+        }
+      },
+      {
+        "name": {
+          "quote": "DJINN uses classifier guidance to conditioned scenes on these behavior classes.",
+          "justification": "Used with the cut-in classifier.",
+          "value": "Classifier guidance"
+        },
+        "aliases": [
+          "classifier guidance"
+        ],
+        "is_contributed": {
+          "quote": "By using the gradient of a pretrained classifier pϕ (y|xτ ), glassifier guidance [6] approximates the conditional score function",
+          "justification": "Prior work [6].",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Using this classifier, we generate synthetic cut-in scenarios via Eq. (3).",
+          "justification": "Used to generate cut-in scenarios.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Examples of our synthetic cut-in scenarios are found in Fig. 3.",
+          "justification": "Qualitative only.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "DJINN uses classifier guidance to conditioned scenes on these behavior classes.",
+          "justification": "Paper's words.",
+          "value": "conditions sampled scenes on behavior classes"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Diffusion models beat gans on image synthesis.",
+          "justification": "Reference [6].",
+          "value": "Diffusion models beat gans on image synthesis"
+        }
+      },
+      {
+        "name": {
+          "quote": "the ability to edit generated or recorded traffic scenarios through stochastic differential editing [26]",
+          "justification": "Used for scenario editing.",
+          "value": "stochastic differential editing"
+        },
+        "aliases": [
+          "SDEdit",
+          "differential stochastic editing"
+        ],
+        "is_contributed": {
+          "quote": "stochastic differential editing [26]",
+          "justification": "Prior work [26].",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Through stochastic differential editing, we show that DJINN is able to produce realistic driving scenes",
+          "justification": "Used in scenario fine-tuning experiments.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "In Fig. 4, we demonstrate how DJINN can fine-tune existing scenarios",
+          "justification": "Qualitative demonstration.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "Given a recorded or sampled traffic scene, differential stochastic editing can be used to fine-tune the scene through the use of a manually specified guide.",
+          "justification": "Paper's description.",
+          "value": "fine-tunes/edits recorded or sampled traffic scenes using a manual guide scene"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Sdedit: Guided image synthesis and editing with stochastic differential equations.",
+          "justification": "Reference [26].",
+          "value": "Sdedit: Guided image synthesis and editing with stochastic differential equations"
+        }
+      },
+      {
+        "name": {
+          "quote": "we draw a collection of 60 samples for each scenario and fit a 6 component Gaussian mixture model with diagonal covariances using EM in a method similar to [47]",
+          "justification": "Used to fit the Gaussian mixture over samples.",
+          "value": "EM"
+        },
+        "aliases": [
+          "Expectation Maximization"
+        ],
+        "is_contributed": {
+          "quote": "fit a 6 component Gaussian mixture model with diagonal covariances using EM",
+          "justification": "Standard procedure.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We use the means of the mixture components as the final DJINN prediction for motion forecasting benchmarks.",
+          "justification": "Used in benchmark evaluation.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "fit a 6 component Gaussian mixture model with diagonal covariances using EM",
+          "justification": "Not compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "we draw a collection of 60 samples for each scenario and fit a 6 component Gaussian mixture model with diagonal covariances using EM",
+          "justification": "Paper's description.",
+          "value": "aggregates 60 samples into 6 trajectory predictions for benchmark metrics"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "using EM in a method similar to [47]",
+          "justification": "Method similar to [47].",
+          "value": "Multipath++: Efficient information fusion and trajectory aggregation for behavior prediction"
+        }
+      },
+      {
+        "name": {
+          "quote": "We utilize the Adam optimizer with learning rate of 3E-4 and default values for β1 and β2 .",
+          "justification": "Optimizer used in training.",
+          "value": "Adam"
+        },
+        "aliases": [
+          "Adam optimizer"
+        ],
+        "is_contributed": {
+          "quote": "We utilize the Adam optimizer",
+          "justification": "Standard optimizer.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We utilize the Adam optimizer with learning rate of 3E-4",
+          "justification": "Used for training DJINN.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "We utilize the Adam optimizer with learning rate of 3E-4",
+          "justification": "Not compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "We utilize the Adam optimizer with learning rate of 3E-4 and default values for β1 and β2 .",
+          "justification": "Stated in training details.",
+          "value": "optimizer for training DJINN"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "We utilize the Adam optimizer with learning rate of 3E-4",
+          "justification": "No reference entry.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "We clip gradients to a maximum norm of 5.",
+          "justification": "Paper states gradient clipping to max norm 5.",
+          "value": "gradient clipping"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "We clip gradients to a maximum norm of 5.",
+          "justification": "Standard technique.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We clip gradients to a maximum norm of 5.",
+          "justification": "Used during training.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "We clip gradients to a maximum norm of 5.",
+          "justification": "Not compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "We clip gradients to a maximum norm of 5.",
+          "justification": "Stated in training details.",
+          "value": "training stabilization during DJINN training"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "We clip gradients to a maximum norm of 5.",
+          "justification": "No reference.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "We use a linear learning rate ramp up, scaling from 0 to 3E-4 over 0.1 epochs.",
+          "justification": "Warmup schedule stated.",
+          "value": "linear learning rate ramp up"
+        },
+        "aliases": [
+          "learning rate warmup"
+        ],
+        "is_contributed": {
+          "quote": "We use a linear learning rate ramp up",
+          "justification": "Standard technique.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We use a linear learning rate ramp up, scaling from 0 to 3E-4 over 0.1 epochs.",
+          "justification": "Used in training.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "We use a linear learning rate ramp up",
+          "justification": "Not compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "We use a linear learning rate ramp up, scaling from 0 to 3E-4 over 0.1 epochs.",
+          "justification": "Stated in training details.",
+          "value": "learning rate schedule used for training"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "We use a linear learning rate ramp up, scaling from 0 to 3E-4 over 0.1 epochs.",
+          "justification": "No reference.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "diffusion models learn an approximation of the score function sθ (xτ , τ ) ≈ ∇xτ log p(xτ ) via score matching [16, 43, 44]",
+          "justification": "Used to learn the score function approximation.",
+          "value": "score matching"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "via score matching [16, 43, 44]",
+          "justification": "Prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We train our network on a modification of the objective from EDM [21]",
+          "justification": "Underlies the training objective used.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "via score matching [16, 43, 44]",
+          "justification": "Not compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "diffusion models learn an approximation of the score function sθ (xτ , τ ) ≈ ∇xτ log p(xτ ) via score matching",
+          "justification": "Paper's words.",
+          "value": "learning an approximation of the score function"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Estimation of non-normalized statistical models by score matching. Journal of Machine Learning Research, 6(4), 2005.",
+          "justification": "Reference [16].",
+          "value": "Estimation of non-normalized statistical models by score matching"
+        }
+      },
+      {
+        "name": {
+          "quote": "We use sinusoidal positional embeddings [48] to produce initial feature tensors.",
+          "justification": "Used in feature encoding.",
+          "value": "sinusoidal positional embeddings"
+        },
+        "aliases": [
+          "sinusoidal positional encoding"
+        ],
+        "is_contributed": {
+          "quote": "We use sinusoidal positional embeddings [48]",
+          "justification": "From Transformer paper.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We encode the observed agent states xobs , the noisy latent states xlat,τ , the scenario time t and the diffusion time τ using sinusoidal positional encoding [48].",
+          "justification": "Part of the executed model.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "We use sinusoidal positional embeddings [48] to produce initial feature tensors.",
+          "justification": "Not compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "We use sinusoidal positional embeddings [48] to produce initial feature tensors.",
+          "justification": "Paper's description.",
+          "value": "encodes input features into embeddings"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Attention is all you need. Advances in neural information processing systems, 30, 2017.",
+          "justification": "Reference [48].",
+          "value": "Attention is all you need"
+        }
+      }
+    ],
+    "runs": [
+      {
+        "models": [
+          {
+            "name": "DJINN",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "INTERACTION",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "EDM"
+          },
+          {
+            "name": "score matching"
+          },
+          {
+            "name": "Adam"
+          },
+          {
+            "name": "gradient clipping"
+          },
+          {
+            "name": "linear learning rate ramp up"
+          },
+          {
+            "name": "sinusoidal positional embeddings"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "We train DJINN on two A100 GPUs for 150 epochs.",
+          "justification": "DJINN was trained on INTERACTION.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "We train DJINN on two A100 GPUs for 150 epochs.",
+          "justification": "Stated in training details.",
+          "value": "150"
+        },
+        "parameter_count": {
+          "quote": "Our network is comprised of 15 total transformer layers with a fixed feature dimension of 256.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "We train DJINN on two A100 GPUs for 150 epochs.",
+          "justification": "A100 GPUs.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "We train DJINN on two A100 GPUs",
+          "justification": "Stated.",
+          "value": "A100"
+        },
+        "accelerator_count": {
+          "quote": "We train DJINN on two A100 GPUs for 150 epochs.",
+          "justification": "Stated.",
+          "value": "2"
+        },
+        "precision": {
+          "quote": "We train DJINN on two A100 GPUs for 150 epochs.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "We train DJINN on two A100 GPUs for 150 epochs.",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "Training takes approximately 6 days to complete from scratch.",
+          "justification": "Stated.",
+          "value": "approximately 6 days"
+        },
+        "utilisation": {
+          "quote": "We train DJINN on two A100 GPUs for 150 epochs.",
+          "justification": "Not reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "we compare the sample quality of a DJINN model trained trained on the full observation distribution to one which is trained exclusively on the \"Predictive Task.\"",
+          "justification": "An ablation trained a second DJINN model on the predictive task only.",
+          "value": [
+            {
+              "kind": "variant",
+              "count": 2,
+              "what": "models trained with varying observation distributions (full mixture vs. Predictive-only)"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "DJINN",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Argoverse",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "EDM"
+          },
+          {
+            "name": "score matching"
+          },
+          {
+            "name": "Adam"
+          },
+          {
+            "name": "gradient clipping"
+          },
+          {
+            "name": "linear learning rate ramp up"
+          },
+          {
+            "name": "sinusoidal positional embeddings"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "On the Argoverse dataset [4] our model observes agent states over the first two seconds of the scene and generates the next three seconds. Training hyperparameters for both models are found in Appendix A.",
+          "justification": "A separate DJINN model trained on Argoverse.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "We train DJINN on two A100 GPUs for 150 epochs.",
+          "justification": "Training details apply to both models.",
+          "value": "150"
+        },
+        "parameter_count": {
+          "quote": "Our network is comprised of 15 total transformer layers with a fixed feature dimension of 256.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "We train DJINN on two A100 GPUs for 150 epochs.",
+          "justification": "A100 GPUs.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "We train DJINN on two A100 GPUs",
+          "justification": "Stated.",
+          "value": "A100"
+        },
+        "accelerator_count": {
+          "quote": "We train DJINN on two A100 GPUs for 150 epochs.",
+          "justification": "Stated.",
+          "value": "2"
+        },
+        "precision": {
+          "quote": "We train DJINN on two A100 GPUs for 150 epochs.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "We train DJINN on two A100 GPUs for 150 epochs.",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "Training takes approximately 6 days to complete from scratch.",
+          "justification": "Stated.",
+          "value": "approximately 6 days"
+        },
+        "utilisation": {
+          "quote": "We train DJINN on two A100 GPUs for 150 epochs.",
+          "justification": "Not reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "Training hyperparameters for both models are found in Appendix A.",
+          "justification": "Not stated.",
+          "value": []
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "Scene Transformer",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Argoverse",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation"
+            ]
+          }
+        ],
+        "algorithms": [],
+        "produces": [],
+        "execution_mode": {
+          "quote": "We compare DJINN against a reproduction of Scene Transformer trained for joint motion forecasting, using their reported hyperparameters.",
+          "justification": "Reproduction trained for joint motion forecasting.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "using their reported hyperparameters",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "a reproduction of Scene Transformer trained for joint motion forecasting",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "We compare DJINN against a reproduction of Scene Transformer trained for joint motion forecasting",
+          "justification": "Not stated for this reproduction.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "a reproduction of Scene Transformer trained for joint motion forecasting",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "a reproduction of Scene Transformer trained for joint motion forecasting",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "a reproduction of Scene Transformer trained for joint motion forecasting",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "a reproduction of Scene Transformer trained for joint motion forecasting",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "a reproduction of Scene Transformer trained for joint motion forecasting",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "a reproduction of Scene Transformer trained for joint motion forecasting",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "a reproduction of Scene Transformer trained for joint motion forecasting",
+          "justification": "Not stated.",
+          "value": []
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "cut-in classifier",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "cut-in behaviors trajectory pair dataset (DR_CHN_Merging_ZS)",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [],
+        "produces": [],
+        "execution_mode": {
+          "quote": "We trained a two layer MLP classifier with 128 dimensions per hidden layer.",
+          "justification": "Classifier trained on the mined dataset.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "We trained a two layer MLP classifier with 128 dimensions per hidden layer.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "We trained a two layer MLP classifier with 128 dimensions per hidden layer.",
+          "justification": "Only hidden dimension stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "We trained a two layer MLP classifier with 128 dimensions per hidden layer.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "We trained a two layer MLP classifier with 128 dimensions per hidden layer.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "We trained a two layer MLP classifier with 128 dimensions per hidden layer.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "We trained a two layer MLP classifier with 128 dimensions per hidden layer.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "We trained a two layer MLP classifier with 128 dimensions per hidden layer.",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "We trained a two layer MLP classifier with 128 dimensions per hidden layer.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "We trained a two layer MLP classifier with 128 dimensions per hidden layer.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "We trained a two layer MLP classifier with 128 dimensions per hidden layer.",
+          "justification": "Not stated.",
+          "value": []
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "DJINN",
+            "role_in_run": "main"
+          },
+          {
+            "name": "cut-in classifier",
+            "role_in_run": "critic"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "INTERACTION",
+            "access": "fixed",
+            "roles_in_run": [
+              "validation"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Heun 2nd order sampler"
+          },
+          {
+            "name": "Classifier guidance"
+          },
+          {
+            "name": "classifier-free guidance"
+          },
+          {
+            "name": "stochastic differential editing"
+          },
+          {
+            "name": "EM"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "Using this classifier, we generate synthetic cut-in scenarios via Eq. (3).",
+          "justification": "Sampling scenarios with guidance at test time.",
+          "value": "inference"
+        },
+        "epochs": {
+          "quote": "Samples are generated from the INTERACTION validation set conditioned on the first 10 agent states.",
+          "justification": "Inference run.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "Our network is comprised of 15 total transformer layers with a fixed feature dimension of 256.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "Unless otherwise noted all samples are produced using 50 iterations of the ODE solver",
+          "justification": "Not stated for these sampling experiments.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "Unless otherwise noted all samples are produced using 50 iterations of the ODE solver",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "Unless otherwise noted all samples are produced using 50 iterations of the ODE solver",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "Unless otherwise noted all samples are produced using 50 iterations of the ODE solver",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "Unless otherwise noted all samples are produced using 50 iterations of the ODE solver",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "Unless otherwise noted all samples are produced using 50 iterations of the ODE solver",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "Unless otherwise noted all samples are produced using 50 iterations of the ODE solver",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "Table 7: Trajectory forecasting performance versus the number of timesteps used in the diffusion sampling procedure.",
+          "justification": "Ablation over sampling steps on INTERACTION validation set.",
+          "value": [
+            {
+              "kind": "hyperparameter",
+              "count": 5,
+              "what": "number of diffusion sampling steps (10, 20, 30, 40, 50)"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "DJINN",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Argoverse",
+            "access": "fixed",
+            "roles_in_run": [
+              "test",
+              "validation"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Heun 2nd order sampler"
+          },
+          {
+            "name": "EM"
+          },
+          {
+            "name": "stochastic differential editing"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "we draw a collection of 60 samples for each scenario and fit a 6 component Gaussian mixture model with diagonal covariances using EM",
+          "justification": "Sampling and evaluating on Argoverse, plus scenario editing demos.",
+          "value": "inference"
+        },
+        "epochs": {
+          "quote": "Using two recorded validation set scenes from Argoverse, we aim to edit the scenes to generate more interactive trajectories between the agents.",
+          "justification": "Inference.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "Our network is comprised of 15 total transformer layers with a fixed feature dimension of 256.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "Unless otherwise noted all samples are produced using 50 iterations of the ODE solver",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "Unless otherwise noted all samples are produced using 50 iterations of the ODE solver",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "Unless otherwise noted all samples are produced using 50 iterations of the ODE solver",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "Unless otherwise noted all samples are produced using 50 iterations of the ODE solver",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "Unless otherwise noted all samples are produced using 50 iterations of the ODE solver",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "Unless otherwise noted all samples are produced using 50 iterations of the ODE solver",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "Unless otherwise noted all samples are produced using 50 iterations of the ODE solver",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "we draw a collection of 60 samples for each scenario",
+          "justification": "Not stated as repetitions.",
+          "value": []
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "DJINN",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Scene Transformer",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [],
+        "algorithms": [
+          {
+            "name": "Heun 2nd order sampler"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "Runtimes are measured across 1000 samples on a GeForce RTX 2070 Mobile GPU.",
+          "justification": "Runtime benchmarking of scenario generation.",
+          "value": "inference"
+        },
+        "epochs": {
+          "quote": "We compare DJINN’s runtime to SceneTransformer [30], varying the input size as measured by the number of agents in the scene.",
+          "justification": "Inference.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "We compare DJINN’s runtime to SceneTransformer [30]",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "Runtimes are measured across 1000 samples on a GeForce RTX 2070 Mobile GPU.",
+          "justification": "GeForce RTX 2070 Mobile GPU.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "Runtimes are measured across 1000 samples on a GeForce RTX 2070 Mobile GPU.",
+          "justification": "Stated.",
+          "value": "GeForce RTX 2070 Mobile GPU"
+        },
+        "accelerator_count": {
+          "quote": "Runtimes are measured across 1000 samples on a GeForce RTX 2070 Mobile GPU.",
+          "justification": "Single GPU implied but count not explicitly given.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "Runtimes are measured across 1000 samples on a GeForce RTX 2070 Mobile GPU.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "Runtimes are measured across 1000 samples on a GeForce RTX 2070 Mobile GPU.",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "Table 8: Average scenario generation time for DJINN and Scene Transformer across varying scene sizes.",
+          "justification": "Per-sample runtimes reported, total not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "Runtimes are measured across 1000 samples on a GeForce RTX 2070 Mobile GPU.",
+          "justification": "Not reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "Agent Count Scene Transformer DJINN - 50 Steps DJINN - 25 Steps",
+          "justification": "Table 8 varies agent counts and step settings.",
+          "value": [
+            {
+              "kind": "variant",
+              "count": 4,
+              "what": "agent counts (8, 16, 32, 64)"
+            },
+            {
+              "kind": "variant",
+              "count": 2,
+              "what": "DJINN sampling step settings (50 Steps, 25 Steps)"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "usage": {
+    "input_tokens": 34266,
+    "output_tokens": 18417,
+    "total_tokens": 52683
+  }
+}

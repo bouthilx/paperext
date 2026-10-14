@@ -1,0 +1,2075 @@
+{
+  "paper": "69a5fdad48887d403d0a5807.txt",
+  "words": 19443,
+  "extractions": {
+    "title": {
+      "quote": "On the Scalability of GNNs for Molecular Graphs",
+      "justification": "Title as given at the top of the paper",
+      "value": "On the Scalability of GNNs for Molecular Graphs"
+    },
+    "description": "An empirical study of the scaling behavior of graph neural networks (message-passing networks, graph Transformers and hybrid architectures) on large collections of 2D molecular graphs, covering pretraining scaling in width, depth, number of molecules, labels and datasets, plus finetuning and probing on 38 downstream tasks, resulting in the MolGPS foundation model.",
+    "type": {
+      "quote": "We address this drawback of GNNs by studying their scaling behavior.",
+      "justification": "The paper runs large-scale pretraining/finetuning experiments and reports measured scaling trends.",
+      "value": "empirical"
+    },
+    "research_fields": [
+      {
+        "name": {
+          "quote": "structure-based architectures such as Graph Neural Networks (GNNs) are yet to show the benefits of scale",
+          "justification": "The paper studies scaling of GNN architectures.",
+          "value": "Graph Neural Networks"
+        },
+        "aliases": [
+          "GNNs"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "We hope that our work paves the way for an era where foundational GNNs drive pharmaceutical drug discovery.",
+          "justification": "The application domain targeted and advanced by the paper.",
+          "value": "Molecular property prediction / drug discovery"
+        },
+        "aliases": [
+          "drug discovery",
+          "molecular machine learning"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "Recent work in model scaling has demonstrated that performant models follow a power law relationship",
+          "justification": "The paper fits power-law scaling constants and discusses scaling laws.",
+          "value": "Scaling Laws"
+        },
+        "aliases": [],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "This gives rise to MolGPS, a new graph foundation model",
+          "justification": "MolGPS is presented as a graph foundation model.",
+          "value": "Foundation models"
+        },
+        "aliases": [
+          "graph foundation model"
+        ],
+        "role": "contributed"
+      }
+    ],
+    "models": [
+      {
+        "name": {
+          "quote": "We select MPNN++ [39] which improves quantum prediction over the MPNN [18]",
+          "justification": "One of the three core architectures pretrained and evaluated.",
+          "value": "MPNN++"
+        },
+        "aliases": [
+          "MPNN"
+        ],
+        "is_contributed": {
+          "quote": "We select MPNN++ [39] which improves quantum prediction over the MPNN [18]",
+          "justification": "Taken from the GPS++ paper.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We used multi-gpu training (with up to 8 NVIDIA A100-SXM4-40GB GPUs)",
+          "justification": "Pretrained on GPUs at multiple scales.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "MPNN++ vs Transformer. MPNN++ models are more parameter efficient",
+          "justification": "Compared against Transformer and GPS++ and baselines.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "All pretraining has been conducted with a batch size of 1024.",
+          "justification": "Pretrained from scratch, then finetuned/probed.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "D. Masters, J. Dean, K. Klaser, Z. Li, S. Maddrell-Mander, A. Sanders, H. Helal, D. Beker, L. Rampášek, and D. Beaini. Gps++: An optimised hybrid mpnn/transformer for molecular property prediction.",
+          "justification": "Reference [39] where MPNN++ is defined.",
+          "value": "Gps++: An optimised hybrid mpnn/transformer for molecular property prediction"
+        }
+      },
+      {
+        "name": {
+          "quote": "Hybrid GPS++ [39] along with the use of positional encodings",
+          "justification": "The hybrid architecture used.",
+          "value": "GPS++"
+        },
+        "aliases": [
+          "Hybrid GPS++",
+          "hybrid"
+        ],
+        "is_contributed": {
+          "quote": "and was empirically proven very successful [39]",
+          "justification": "From prior work [39].",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Figure 6: Model performance on the test set throughout training for MPNN++, Transformer, and GPS++ architectures with width scaling.",
+          "justification": "Pretrained and probed in the paper.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "The hybrid GPS++ seems to benefit from the MPNN++ expressivity in low-parameter regimes",
+          "justification": "Compared to MPNN++ and Transformer.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "Our base MPNN++, Transformer and hybrid GPS++ models are trained using Adam",
+          "justification": "Pretrained from scratch.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "Gps++: An optimised hybrid mpnn/transformer for molecular property prediction. arXiv preprint arXiv:2212.02229, 2022.",
+          "justification": "Reference [39].",
+          "value": "Gps++: An optimised hybrid mpnn/transformer for molecular property prediction"
+        }
+      },
+      {
+        "name": {
+          "quote": "Transformer. This model is identical to GPS++, but without the MPNN++ module and concatenation.",
+          "justification": "The graph Transformer variant, GPS++ without MPNN++ module.",
+          "value": "Transformer"
+        },
+        "aliases": [
+          "graph Transformer"
+        ],
+        "is_contributed": {
+          "quote": "Graph Transformers [44]",
+          "justification": "Standard graph Transformer baseline architecture.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Model performance on the test set throughout training for MPNN++, Transformer, and GPS++ architectures",
+          "justification": "Pretrained and probed.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "MPNN++ vs. Transformer.",
+          "justification": "Compared across architectures.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "Our base MPNN++, Transformer and hybrid GPS++ models are trained using Adam with a base learning rate of 0.003, 0.001, and 0.001, respectively.",
+          "justification": "Trained from scratch in pretraining.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "L. Müller, M. Galkin, C. Morris, and L. Rampášek. Attending to graph transformers.",
+          "justification": "Reference [44] cited for graph Transformers.",
+          "value": "Attending to graph transformers"
+        }
+      },
+      {
+        "name": {
+          "quote": "MolGPS. We introduce a final graph foundation model that leverages the various findings of this paper.",
+          "justification": "The final contributed foundation model.",
+          "value": "MolGPS"
+        },
+        "aliases": [
+          "3B MolGPS",
+          "1B MolGPS"
+        ],
+        "is_contributed": {
+          "quote": "we propose MolGPS, a foundation model derived from our findings on how to best scale molecular GNNs",
+          "justification": "Presented as the paper's final model.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "Our 1B and 3B MolGPS combines fingerprints from MPNN++, Transformer, and GPS++ models",
+          "justification": "Built from pretrained models and probed on benchmarks.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Figure 4 compares this model across the TDC, Polaris and MoleculeNet benchmark collections to the current SOTA for each task and to MolE.",
+          "justification": "Compared to SOTA and MolE.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "combines fingerprints from MPNN++, Transformer, and GPS++ models (of scale 1B and 3B, respectively) ... followed by a specialized probing MLP",
+          "justification": "A probing MLP is trained on fingerprints from the pretrained backbones.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "MolGPS inherits many architecture design choices from the General, Powerful, Scalable Graph Transformer method [53]",
+          "justification": "MolGPS inherits design choices from GPS [53].",
+          "value": "Recipe for a general, powerful, scalable graph transformer"
+        }
+      },
+      {
+        "name": {
+          "quote": "the MolE foundational model [43], a gold standard for molecular property prediction",
+          "justification": "Baseline foundation model compared to numerically.",
+          "value": "MolE"
+        },
+        "aliases": [
+          "MolE (only self-supervised)",
+          "MolE-FuncEnv",
+          "MolE-AtomEnv"
+        ],
+        "is_contributed": {
+          "quote": "Méndez-Lucio et al. [43] study binding interactions",
+          "justification": "Prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Comparison of MolGPS variants to the self-supervised variants of MolE and the standard MolE",
+          "justification": "Only its published numbers are quoted.",
+          "value": false
+        },
+        "is_compared": {
+          "quote": "MolGPS models outperform all MolE models by a large margin",
+          "justification": "Tables compare MolGPS to MolE.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "MolE .47 .72 ...",
+          "justification": "Only reported numbers; execution not described.",
+          "value": "unknown"
+        },
+        "referenced_paper_title": {
+          "quote": "O. Méndez-Lucio, C. Nicolaou, and B. Earnshaw. Mole: a molecular foundation model for drug discovery, 2022.",
+          "justification": "Reference [43].",
+          "value": "Mole: a molecular foundation model for drug discovery"
+        }
+      },
+      {
+        "name": {
+          "quote": "The 1B MPNN++ only slightly trails MapLight+GNN [46], the best-performing single model on the TDC benchmark.",
+          "justification": "Baseline from the TDC leaderboard.",
+          "value": "MapLight+GNN"
+        },
+        "aliases": [
+          "MapLight + GNN"
+        ],
+        "is_contributed": {
+          "quote": "MapLight+GNN [46] that established SOTA on 5 TDC tasks",
+          "justification": "Prior work on leaderboard.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We report scores from the TDC leaderboards extracted on March 15, 2024.",
+          "justification": "Scores extracted from TDC leaderboards.",
+          "value": false
+        },
+        "is_compared": {
+          "quote": "MapLight + GNN: best single model (2024)",
+          "justification": "Plotted as a baseline in Figure 5.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "We report scores from the TDC leaderboards extracted on March 15, 2024.",
+          "justification": "Not run by authors.",
+          "value": "unknown"
+        },
+        "referenced_paper_title": {
+          "quote": "J. H. Notwell and M. W. Wood. Admet property prediction through combinations of molecular fingerprints.",
+          "justification": "Reference [46].",
+          "value": "Admet property prediction through combinations of molecular fingerprints"
+        }
+      },
+      {
+        "name": {
+          "quote": "In Table 1, we compare to the self-supervised GraphMVP [35] model on MoleculeNet.",
+          "justification": "Self-supervised baseline compared on MoleculeNet.",
+          "value": "GraphMVP"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "For MoleculeNet, we use the same split as GraphMVP [35], thus report the best results from their table.",
+          "justification": "Prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "thus report the best results from their table",
+          "justification": "Results taken from their table.",
+          "value": false
+        },
+        "is_compared": {
+          "quote": "Comparison of MolGPS variants to the self-supervised GraphMVP model on the MoleculeNet dataset",
+          "justification": "Table 1 comparison.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "report the best results from their table",
+          "justification": "Not executed here.",
+          "value": "unknown"
+        },
+        "referenced_paper_title": {
+          "quote": "S. Liu, H. Wang, W. Liu, J. Lasenby, H. Guo, and J. Tang. Pre-training molecular graph representation with 3d geometry.",
+          "justification": "Reference [35].",
+          "value": "Pre-training molecular graph representation with 3d geometry"
+        }
+      },
+      {
+        "name": {
+          "quote": "SOTA on TDC is established by a group of 8 different models, namely Chemprop-RDKit [78]",
+          "justification": "Named among SOTA models on TDC.",
+          "value": "Chemprop-RDKit"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "namely Chemprop-RDKit [78], MapLight, MapLight+GNN [46]",
+          "justification": "Prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We report scores from the TDC leaderboards extracted on March 15, 2024.",
+          "justification": "Leaderboard numbers only.",
+          "value": false
+        },
+        "is_compared": {
+          "quote": "SOTA refers to the maximum value for each dataset.",
+          "justification": "Part of the SOTA comparison set.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "We report scores from the TDC leaderboards",
+          "justification": "Not run here.",
+          "value": "unknown"
+        },
+        "referenced_paper_title": {
+          "quote": "K. Yang, K. Swanson, W. Jin, C. Coley, P. Eiden, H. Gao, A. Guzman-Perez, T. Hopper, B. Kelley, M. Mathea, et al. Analyzing learned molecular representations for property prediction.",
+          "justification": "Reference [78].",
+          "value": "Analyzing learned molecular representations for property prediction"
+        }
+      },
+      {
+        "name": {
+          "quote": "CFA [49], SimGCN, ZairaChem [48] and ContextPred [85]",
+          "justification": "Named among SOTA models on TDC.",
+          "value": "ZairaChem"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "ZairaChem [48]",
+          "justification": "Prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We report scores from the TDC leaderboards extracted on March 15, 2024.",
+          "justification": "Leaderboard numbers only.",
+          "value": false
+        },
+        "is_compared": {
+          "quote": "SOTA on TDC is established by a group of 8 different models",
+          "justification": "Part of SOTA comparison.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "We report scores from the TDC leaderboards",
+          "justification": "Not executed in this paper.",
+          "value": "unknown"
+        },
+        "referenced_paper_title": {
+          "quote": "S. O. Oselusi, P. Dube, A. I. Odugbemi, ... The role and potential of computer-aided drug discovery strategies in the discovery of novel antimicrobials.",
+          "justification": "Reference [48].",
+          "value": "The role and potential of computer-aided drug discovery strategies in the discovery of novel antimicrobials"
+        }
+      }
+    ],
+    "data_sources": [
+      {
+        "name": {
+          "quote": "We study the scaling behavior of GNNs on the LargeMix dataset mixture [7].",
+          "justification": "Primary pretraining dataset mixture.",
+          "value": "LargeMix"
+        },
+        "aliases": [
+          "LargeMix dataset mixture"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "LargeMix dataset mixture consists of 5 million molecules grouped into 5 different tasks at different graph levels",
+          "justification": "Stated in the paper.",
+          "value": "5 million molecules grouped into 5 different tasks"
+        },
+        "derived_from": [
+          "L1000_VCAP",
+          "L1000_MCF7",
+          "PCBA_1328",
+          "PCQM4M_G25",
+          "PCQM4M_N4"
+        ],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "D. Beaini, S. Huang, J. A. Cunha, G. Moisescu-Pareja, O. Dymov, S. Maddrell-Mander, C. McLean, F. Wenkel, L. Müller, J. H. Mohamud, et al. Towards foundational models for molecular learning on large-scale multi-task datasets.",
+          "justification": "Reference [7] (Graphium paper).",
+          "value": "Towards foundational models for molecular learning on large-scale multi-task datasets"
+        }
+      },
+      {
+        "name": {
+          "quote": "L1000_VCAP and L1000_MCF7 are two datasets of 16k and 20k molecules, respectively, with 998 graph-level classification labels",
+          "justification": "A pretraining dataset in LargeMix.",
+          "value": "L1000_VCAP"
+        },
+        "aliases": [
+          "L1000_*"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "two datasets of 16k and 20k molecules, respectively",
+          "justification": "Stated.",
+          "value": "16k molecules"
+        },
+        "derived_from": [],
+        "sample_properties": [
+          {
+            "name": "graph-level classification labels",
+            "value": {
+              "quote": "with 998 graph-level classification labels corresponding to transcriptomics changes",
+              "justification": "Stated in text.",
+              "value": "998"
+            },
+            "unit": "labels"
+          }
+        ],
+        "referenced_paper_title": {
+          "quote": "We study the scaling behavior of GNNs on the LargeMix dataset mixture [7].",
+          "justification": "Part of LargeMix from [7].",
+          "value": "Towards foundational models for molecular learning on large-scale multi-task datasets"
+        }
+      },
+      {
+        "name": {
+          "quote": "L1000_VCAP and L1000_MCF7 are two datasets of 16k and 20k molecules",
+          "justification": "A pretraining dataset in LargeMix.",
+          "value": "L1000_MCF7"
+        },
+        "aliases": [
+          "L1000_*"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "two datasets of 16k and 20k molecules, respectively",
+          "justification": "Stated.",
+          "value": "20k molecules"
+        },
+        "derived_from": [],
+        "sample_properties": [
+          {
+            "name": "graph-level classification labels",
+            "value": {
+              "quote": "with 998 graph-level classification labels",
+              "justification": "Stated.",
+              "value": "998"
+            },
+            "unit": "labels"
+          }
+        ],
+        "referenced_paper_title": {
+          "quote": "the LargeMix dataset mixture [7]",
+          "justification": "Part of LargeMix from [7].",
+          "value": "Towards foundational models for molecular learning on large-scale multi-task datasets"
+        }
+      },
+      {
+        "name": {
+          "quote": "PCBA_1328 is a dataset of 1.6M molecules with 1,328 binary classification labels.",
+          "justification": "A pretraining dataset in LargeMix.",
+          "value": "PCBA_1328"
+        },
+        "aliases": [],
+        "role": "used",
+        "size": {
+          "quote": "PCBA_1328 is a dataset of 1.6M molecules",
+          "justification": "Stated.",
+          "value": "1.6M molecules"
+        },
+        "derived_from": [
+          "PubChem"
+        ],
+        "sample_properties": [
+          {
+            "name": "binary classification labels",
+            "value": {
+              "quote": "with 1,328 binary classification labels",
+              "justification": "Stated.",
+              "value": "1,328"
+            },
+            "unit": "labels"
+          }
+        ],
+        "referenced_paper_title": {
+          "quote": "Each label corresponds to the activity tags of the molecules in a bioassay reported on PubChem [29].",
+          "justification": "Labels come from bioassays reported on PubChem [29].",
+          "value": "Pubchem 2023 update"
+        }
+      },
+      {
+        "name": {
+          "quote": "PCQM4M_G25 and PCQM4M_N4 are two datasets of 3.8M molecules with 25 graph-level labels and 4 node-level labels.",
+          "justification": "A pretraining dataset in LargeMix.",
+          "value": "PCQM4M_G25"
+        },
+        "aliases": [
+          "PCQM4M"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "two datasets of 3.8M molecules",
+          "justification": "Stated.",
+          "value": "3.8M molecules"
+        },
+        "derived_from": [],
+        "sample_properties": [
+          {
+            "name": "graph-level labels",
+            "value": {
+              "quote": "with 25 graph-level labels",
+              "justification": "Stated.",
+              "value": "25"
+            },
+            "unit": "labels"
+          }
+        ],
+        "referenced_paper_title": {
+          "quote": "the LargeMix dataset mixture [7]",
+          "justification": "Part of LargeMix from [7].",
+          "value": "Towards foundational models for molecular learning on large-scale multi-task datasets"
+        }
+      },
+      {
+        "name": {
+          "quote": "PCQM4M_G25 and PCQM4M_N4 are two datasets of 3.8M molecules with 25 graph-level labels and 4 node-level labels.",
+          "justification": "A pretraining dataset in LargeMix.",
+          "value": "PCQM4M_N4"
+        },
+        "aliases": [
+          "PCQM4M"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "two datasets of 3.8M molecules",
+          "justification": "Stated.",
+          "value": "3.8M molecules"
+        },
+        "derived_from": [],
+        "sample_properties": [
+          {
+            "name": "node-level labels",
+            "value": {
+              "quote": "and 4 node-level labels",
+              "justification": "Stated.",
+              "value": "4"
+            },
+            "unit": "labels"
+          }
+        ],
+        "referenced_paper_title": {
+          "quote": "the LargeMix dataset mixture [7]",
+          "justification": "Part of LargeMix from [7].",
+          "value": "Towards foundational models for molecular learning on large-scale multi-task datasets"
+        }
+      },
+      {
+        "name": {
+          "quote": "TDC. Therapeutics Data Commons [26] is one of the common benchmarks for drug discovery.",
+          "justification": "Downstream benchmark.",
+          "value": "Therapeutics Data Commons"
+        },
+        "aliases": [
+          "TDC"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "Our study focuses on 22 ADMET (Absorption, Distribution, Metabolism, Excretion and Toxicity) tasks.",
+          "justification": "Paper states the number of tasks used.",
+          "value": "22 ADMET tasks"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "K. Huang, T. Fu, W. Gao, Y. Zhao, Y. Roohani, J. Leskovec, C. W. Coley, C. Xiao, J. Sun, and M. Zitnik. Therapeutics data commons",
+          "justification": "Reference [26].",
+          "value": "Therapeutics data commons: Machine learning datasets and tasks for drug discovery and development"
+        }
+      },
+      {
+        "name": {
+          "quote": "Polaris. This is a recent collection of benchmarks addressing concerns over previous datasets.",
+          "justification": "Downstream benchmark collection.",
+          "value": "Polaris"
+        },
+        "aliases": [
+          "PolarisHub"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "Our analysis considers 12 of the top tasks from either ADME ... or DTI ... group",
+          "justification": "Stated.",
+          "value": "12 of the top tasks"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "PolarisHub: https://polarishub.io/",
+          "justification": "Only a URL footnote is given.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "MoleculeNet. This is a benchmark dataset for molecular machine learning that is built upon public datasets [71].",
+          "justification": "Downstream benchmark.",
+          "value": "MoleculeNet"
+        },
+        "aliases": [],
+        "role": "used",
+        "size": {
+          "quote": "We investigate 4 datasets that are commonly used in similar studies",
+          "justification": "Stated.",
+          "value": "4 datasets"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "Z. Wu, B. Ramsundar, E. N. Feinberg, J. Gomes, C. Geniesse, A. S. Pappu, K. Leswing, and V. Pande. Moleculenet: a benchmark for molecular machine learning.",
+          "justification": "Reference [71].",
+          "value": "Moleculenet: a benchmark for molecular machine learning"
+        }
+      },
+      {
+        "name": {
+          "quote": "The dataset contains 6k labels for 500k molecules that were derived from phenomic imaging [8] of cells perturbed with either a dose of a compound or a gene knockout.",
+          "justification": "Additional pretraining data described with size and labels.",
+          "value": "phenomic imaging dataset"
+        },
+        "aliases": [
+          "Phenomics"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "The dataset contains 6k labels for 500k molecules",
+          "justification": "Stated.",
+          "value": "500k molecules"
+        },
+        "derived_from": [],
+        "sample_properties": [
+          {
+            "name": "labels per molecule",
+            "value": {
+              "quote": "6k labels for 500k molecules",
+              "justification": "Stated.",
+              "value": "6k"
+            },
+            "unit": "labels"
+          }
+        ],
+        "referenced_paper_title": {
+          "quote": "derived from phenomic imaging [8] of cells",
+          "justification": "Reference [8] cited for phenomic imaging.",
+          "value": "Cell painting, a high-content image-based assay for morphological profiling using multiplexed fluorescent dyes"
+        }
+      }
+    ],
+    "libraries": [
+      {
+        "name": {
+          "quote": "Since our analysis consists of multiple tasks on a large scale, we utilize the Graphium library [7].",
+          "justification": "Explicitly used for multi-task training at scale.",
+          "value": "Graphium"
+        },
+        "aliases": [],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "D. Beaini, S. Huang, ... Towards foundational models for molecular learning on large-scale multi-task datasets. ICLR 2024, 2024.",
+          "justification": "Reference [7].",
+          "value": "Towards foundational models for molecular learning on large-scale multi-task datasets"
+        }
+      }
+    ],
+    "algorithms": [
+      {
+        "name": {
+          "quote": "Our base MPNN++, Transformer and hybrid GPS++ models are trained using Adam with a base learning rate of 0.003, 0.001, and 0.001, respectively.",
+          "justification": "Optimizer used for pretraining.",
+          "value": "Adam"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "trained using Adam",
+          "justification": "Standard optimizer.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "models are trained using Adam",
+          "justification": "Used during training.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "trained using Adam with a base learning rate",
+          "justification": "Not compared to other optimizers.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "Our base MPNN++, Transformer and hybrid GPS++ models are trained using Adam",
+          "justification": "Stated as the training optimizer.",
+          "value": "optimizer for pretraining the base models"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "trained using Adam with a base learning rate of 0.003",
+          "justification": "No citation given.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "For scaling on width, zero-shot scaling from µP [76] was used.",
+          "justification": "Used for zero-shot hyperparameter scaling.",
+          "value": "µP"
+        },
+        "aliases": [
+          "muP"
+        ],
+        "is_contributed": {
+          "quote": "zero-shot scaling from µP [76]",
+          "justification": "From prior work [76].",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "µP was used to scale the model with 10M parameters used as the base model",
+          "justification": "Applied to scale models.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "µP was used to scale the model",
+          "justification": "Not compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "For scaling on width, zero-shot scaling from µP [76] was used.",
+          "justification": "Paper's description.",
+          "value": "used for zero-shot scaling of hyperparameters when scaling width"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "G. Yang, E. J. Hu, I. Babuschkin, ... Tensor programs v: Tuning large neural networks via zero-shot hyperparameter transfer, 2022.",
+          "justification": "Reference [76].",
+          "value": "Tensor programs v: Tuning large neural networks via zero-shot hyperparameter transfer"
+        }
+      },
+      {
+        "name": {
+          "quote": "In the case of depth scaling, we adjusted the learning rate as suggested by depth-µP [77].",
+          "justification": "Used to adjust learning rate for depth scaling.",
+          "value": "depth-µP"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "as suggested by depth-µP [77]",
+          "justification": "From prior work [77].",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we adjusted the learning rate as suggested by depth-µP [77]",
+          "justification": "Applied for depth scaling runs.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "as suggested by depth-µP",
+          "justification": "Not compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "In the case of depth scaling, we adjusted the learning rate as suggested by depth-µP [77].",
+          "justification": "Paper's own words.",
+          "value": "adjusting the learning rate during depth scaling"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "G. Yang, D. Yu, C. Zhu, and S. Hayou. Tensor programs vi: Feature learning in infinite-depth neural networks, 2023.",
+          "justification": "Reference [77].",
+          "value": "Tensor programs vi: Feature learning in infinite-depth neural networks"
+        }
+      },
+      {
+        "name": {
+          "quote": "We used multi-gpu training (with up to 8 NVIDIA A100-SXM4-40GB GPUs) and gradient accumulation, while adjusting batch size to keep the effective batch size constant.",
+          "justification": "Named training strategy for large models.",
+          "value": "gradient accumulation"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "and gradient accumulation",
+          "justification": "Standard technique.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We used multi-gpu training ... and gradient accumulation",
+          "justification": "Used during large-model pretraining.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "and gradient accumulation, while adjusting batch size",
+          "justification": "Not compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "while adjusting batch size to keep the effective batch size constant",
+          "justification": "Paper's words.",
+          "value": "advanced training strategy to keep the effective batch size constant for large models"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "and gradient accumulation",
+          "justification": "No reference.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "We use 5 warm-up epochs followed by linear learning rate decay.",
+          "justification": "Named schedule.",
+          "value": "linear learning rate decay"
+        },
+        "aliases": [
+          "warm-up"
+        ],
+        "is_contributed": {
+          "quote": "5 warm-up epochs followed by linear learning rate decay",
+          "justification": "Standard schedule.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We use 5 warm-up epochs followed by linear learning rate decay.",
+          "justification": "Used during pretraining.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "followed by linear learning rate decay",
+          "justification": "Not compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "We use 5 warm-up epochs followed by linear learning rate decay.",
+          "justification": "Paper's words.",
+          "value": "learning rate schedule during pretraining"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "linear learning rate decay",
+          "justification": "No reference given.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "In addition to GNN models, we make use of Positional and Structural Encodings (PSEs) to improve the expressivity of MPNNs",
+          "justification": "Named encoding procedure applied to graphs.",
+          "value": "Positional and Structural Encodings (PSEs)"
+        },
+        "aliases": [
+          "PSEs"
+        ],
+        "is_contributed": {
+          "quote": "These are important design choices when training GNN architectures [53, 34]",
+          "justification": "Based on prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Specifically, we use three PSE schemes.",
+          "justification": "Used in all models.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "we use three PSE schemes",
+          "justification": "Not individually compared numerically.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "we make use of Positional and Structural Encodings (PSEs) to improve the expressivity of MPNNs and introduce a soft bias into the Transformer",
+          "justification": "Paper's own words.",
+          "value": "improve the expressivity of MPNNs and introduce a soft bias into the Transformer"
+        },
+        "composed_of": [
+          "random-walk diagonals",
+          "Laplacian eigenvectors",
+          "Laplacian eigenvalues"
+        ],
+        "referenced_paper_title": {
+          "quote": "R. Liu, S. Cantürk, O. Lapointe-Gagné, V. Létourneau, G. Wolf, D. Beaini, and L. Rampášek. Graph positional and structural encoder, 2023.",
+          "justification": "Reference [34] cited alongside PSEs.",
+          "value": "Graph positional and structural encoder"
+        }
+      },
+      {
+        "name": {
+          "quote": "Probing and Fingerprinting. Similar to finetuning, we employ probing using an MLP as a strategy for solving new downstream tasks.",
+          "justification": "Named downstream adaptation strategy.",
+          "value": "probing"
+        },
+        "aliases": [
+          "fingerprinting",
+          "multi-fingerprint probing"
+        ],
+        "is_contributed": {
+          "quote": "we employ probing using an MLP as a strategy for solving new downstream tasks",
+          "justification": "Standard strategy, though multi-fingerprint variant is explored.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we limit our evaluation to probing for most experiments",
+          "justification": "Extensively executed.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Probing vs. finetuning.",
+          "justification": "Compared to finetuning.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "For probing, the base model is kept frozen and only the new layers are trained.",
+          "justification": "Paper's words.",
+          "value": "strategy for solving new downstream tasks where the base model is kept frozen and only the new layers are trained"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "we employ probing using an MLP",
+          "justification": "No specific reference.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "Finetuning. Since our training setup consists of multiple tasks and our architectures incorporate multiple task heads, we need to identify a finetuning module",
+          "justification": "Named downstream adaptation strategy.",
+          "value": "finetuning"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "Following pretraining, we finetune our pretrained models on a range of unseen downstream tasks.",
+          "justification": "Standard procedure.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "except for MPNN++ where we also finetune the model",
+          "justification": "Executed for MPNN++.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Probing vs. finetuning.",
+          "justification": "Compared to probing.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "a finetuning module is selected from one of the layers of the pretraining architecture and a newly initialized MLP is appended to that layer",
+          "justification": "Paper's description.",
+          "value": "retraining all weights of the pretrained model with a newly initialized MLP head on downstream tasks"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Following pretraining, we finetune our pretrained models",
+          "justification": "No specific reference.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "we compute the Spearman's rank correlation coefficient [58] between model performance on a given metric and the scale of model/data used",
+          "justification": "Named evaluation procedure for summarizing scaling trends.",
+          "value": "Spearman's rank correlation coefficient"
+        },
+        "aliases": [
+          "Spearman"
+        ],
+        "is_contributed": {
+          "quote": "the Spearman's rank correlation coefficient [58]",
+          "justification": "Standard statistic.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "To summarize scaling trends, we compute the Spearman's rank correlation coefficient",
+          "justification": "Computed throughout the results.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "we compute the Spearman's rank correlation coefficient",
+          "justification": "It is a measure, not compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "To summarize scaling trends, we compute the Spearman's rank correlation coefficient [58] between model performance on a given metric and the scale of model/data used.",
+          "justification": "Paper's words.",
+          "value": "used to summarize scaling trends between model performance and scale"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "P. Schober, C. Boer, and L. A. Schwarte. Correlation coefficients: appropriate use and interpretation.",
+          "justification": "Reference [58].",
+          "value": "Correlation coefficients: appropriate use and interpretation"
+        }
+      },
+      {
+        "name": {
+          "quote": "Average Standardized Score. The standardized score of a model M for a specific task T is derived as follows.",
+          "justification": "Named evaluation metric/procedure defined by the paper.",
+          "value": "Average Standardized Score"
+        },
+        "aliases": [
+          "standardized mean",
+          "normalized performance"
+        ],
+        "is_contributed": {
+          "quote": "The standardized score of a model M for a specific task T is derived as follows.",
+          "justification": "An aggregation procedure described for evaluation, not a research contribution.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "The standardized mean is calculated as mean of standardized scores for every task in a dataset group",
+          "justification": "Used in figures.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Average Standardized Score.",
+          "justification": "Not compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "The normalized performance of a model on a benchmark collection is calculated by first deriving the z-scores of the model's performance per task relative to the leaderboard.",
+          "justification": "Described in the metrics appendix.",
+          "value": "aggregation metric to summarize performance across benchmark tasks"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Average Standardized Score.",
+          "justification": "Defined in the paper itself.",
+          "value": "unknown"
+        }
+      }
+    ],
+    "runs": [
+      {
+        "models": [
+          {
+            "name": "MPNN++",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "LargeMix",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Adam"
+          },
+          {
+            "name": "µP"
+          },
+          {
+            "name": "linear learning rate decay"
+          },
+          {
+            "name": "Positional and Structural Encodings (PSEs)"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "Most models were trained on sigle gpus but our 300M and 1B parameter models used 4 and 8 gpus, respectively.",
+          "justification": "Supervised multi-task pretraining of MPNN++ at widths from 1M to 300M parameters on single or few GPUs.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "Further, we trained larger models for fewer epochs as the loss converged faster",
+          "justification": "Only mentions larger models trained for fewer epochs, no numbers.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "1M\n3M\n10M\n30M\n100M\n300M\n1B",
+          "justification": "Width scaling rows reported in Figure 9 and 6.",
+          "value": "1M, 3M, 10M, 30M, 100M"
+        },
+        "accelerator_type": {
+          "quote": "We used multi-gpu training (with up to 8 NVIDIA A100-SXM4-40GB GPUs)",
+          "justification": "GPUs used for pretraining.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "with up to 8 NVIDIA A100-SXM4-40GB GPUs",
+          "justification": "Stated.",
+          "value": "NVIDIA A100-SXM4-40GB"
+        },
+        "accelerator_count": {
+          "quote": "Most models were trained on sigle gpus",
+          "justification": "Most models trained on single GPUs.",
+          "value": "1"
+        },
+        "precision": {
+          "quote": "All pretraining has been conducted with a batch size of 1024.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "Most models were trained on sigle gpus",
+          "justification": "Not stated for single-GPU runs.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "All pretraining has been conducted with a batch size of 1024.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "All pretraining has been conducted with a batch size of 1024.",
+          "justification": "Not reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "1M\n3M\n10M\n30M\n100M",
+          "justification": "Width scaling sweep over model sizes trained on single GPUs.",
+          "value": [
+            {
+              "kind": "variant",
+              "count": 5,
+              "what": "model widths (1M, 3M, 10M, 30M, 100M)"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "MPNN++",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "LargeMix",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Adam"
+          },
+          {
+            "name": "µP"
+          },
+          {
+            "name": "gradient accumulation"
+          },
+          {
+            "name": "linear learning rate decay"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "our 300M and 1B parameter models used 4 and 8 gpus, respectively",
+          "justification": "Pretraining the 300M model on 4 GPUs.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "we trained larger models for fewer epochs",
+          "justification": "Not stated numerically.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "our 300M and 1B parameter models used 4 and 8 gpus, respectively",
+          "justification": "Stated model scale.",
+          "value": "300M"
+        },
+        "accelerator_type": {
+          "quote": "We used multi-gpu training (with up to 8 NVIDIA A100-SXM4-40GB GPUs)",
+          "justification": "Multi-GPU training.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "with up to 8 NVIDIA A100-SXM4-40GB GPUs",
+          "justification": "Stated.",
+          "value": "NVIDIA A100-SXM4-40GB"
+        },
+        "accelerator_count": {
+          "quote": "our 300M and 1B parameter models used 4 and 8 gpus, respectively",
+          "justification": "Stated for 300M models.",
+          "value": "4"
+        },
+        "precision": {
+          "quote": "All pretraining has been conducted with a batch size of 1024.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "We used multi-gpu training ... and gradient accumulation",
+          "justification": "Multi-gpu training mentioned but strategy not specified.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "All pretraining has been conducted with a batch size of 1024.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "All pretraining has been conducted with a batch size of 1024.",
+          "justification": "Not reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "our 300M and 1B parameter models used 4 and 8 gpus, respectively",
+          "justification": "Paper does not state repetitions.",
+          "value": []
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "MPNN++",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "LargeMix",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Adam"
+          },
+          {
+            "name": "µP"
+          },
+          {
+            "name": "gradient accumulation"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "our 300M and 1B parameter models used 4 and 8 gpus, respectively",
+          "justification": "Pretraining the 1B model on 8 GPUs.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "we trained larger models for fewer epochs",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "our 300M and 1B parameter models used 4 and 8 gpus, respectively",
+          "justification": "Stated model scale.",
+          "value": "1B"
+        },
+        "accelerator_type": {
+          "quote": "We used multi-gpu training (with up to 8 NVIDIA A100-SXM4-40GB GPUs)",
+          "justification": "Multi-GPU training.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "with up to 8 NVIDIA A100-SXM4-40GB GPUs",
+          "justification": "Stated.",
+          "value": "NVIDIA A100-SXM4-40GB"
+        },
+        "accelerator_count": {
+          "quote": "our 300M and 1B parameter models used 4 and 8 gpus, respectively",
+          "justification": "Stated for 1B models.",
+          "value": "8"
+        },
+        "precision": {
+          "quote": "All pretraining has been conducted with a batch size of 1024.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "We used multi-gpu training (with up to 8 NVIDIA A100-SXM4-40GB GPUs) and gradient accumulation",
+          "justification": "Not specified.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "All pretraining has been conducted with a batch size of 1024.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "All pretraining has been conducted with a batch size of 1024.",
+          "justification": "Not reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "our 300M and 1B parameter models used 4 and 8 gpus, respectively",
+          "justification": "Not stated.",
+          "value": []
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "Transformer",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "LargeMix",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Adam"
+          },
+          {
+            "name": "µP"
+          },
+          {
+            "name": "depth-µP"
+          },
+          {
+            "name": "Positional and Structural Encodings (PSEs)"
+          },
+          {
+            "name": "linear learning rate decay"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "Model performance on the test set throughout training for MPNN++, Transformer, and GPS++ architectures with width scaling.",
+          "justification": "Graph Transformer pretraining across widths and depths.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "All pretraining has been conducted with a batch size of 1024.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "1M\n3M\n10M\n30M\n100M\n300M\n1B",
+          "justification": "Width scaling rows in the Transformer tables.",
+          "value": "1M, 3M, 10M, 30M, 100M, 300M, 1B"
+        },
+        "accelerator_type": {
+          "quote": "We used multi-gpu training (with up to 8 NVIDIA A100-SXM4-40GB GPUs)",
+          "justification": "Same pretraining setup.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "with up to 8 NVIDIA A100-SXM4-40GB GPUs",
+          "justification": "Stated.",
+          "value": "NVIDIA A100-SXM4-40GB"
+        },
+        "accelerator_count": {
+          "quote": "Most models were trained on sigle gpus but our 300M and 1B parameter models used 4 and 8 gpus, respectively.",
+          "justification": "Stated across scales.",
+          "value": "up to 8"
+        },
+        "precision": {
+          "quote": "All pretraining has been conducted with a batch size of 1024.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "We used multi-gpu training",
+          "justification": "Not specified.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "All pretraining has been conducted with a batch size of 1024.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "All pretraining has been conducted with a batch size of 1024.",
+          "justification": "Not reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "1\n2\n4\n8\n16\n32",
+          "justification": "Width and depth sweeps are reported for the Transformer.",
+          "value": [
+            {
+              "kind": "variant",
+              "count": 7,
+              "what": "model widths (1M to 1B parameters)"
+            },
+            {
+              "kind": "variant",
+              "count": 6,
+              "what": "depths (1, 2, 4, 8, 16, 32 layers)"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "GPS++",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "LargeMix",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Adam"
+          },
+          {
+            "name": "µP"
+          },
+          {
+            "name": "depth-µP"
+          },
+          {
+            "name": "Positional and Structural Encodings (PSEs)"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "Model performance on the test set throughout training for MPNN++, Transformer, and GPS++ architectures with depth scaling.",
+          "justification": "Hybrid GPS++ pretraining across widths and depths.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "All pretraining has been conducted with a batch size of 1024.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "1M\n3M\n10M\n30M\n100M\n300M\n1B",
+          "justification": "Width scaling rows reported.",
+          "value": "1M, 3M, 10M, 30M, 100M, 300M, 1B"
+        },
+        "accelerator_type": {
+          "quote": "We used multi-gpu training (with up to 8 NVIDIA A100-SXM4-40GB GPUs)",
+          "justification": "Same pretraining setup.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "with up to 8 NVIDIA A100-SXM4-40GB GPUs",
+          "justification": "Stated.",
+          "value": "NVIDIA A100-SXM4-40GB"
+        },
+        "accelerator_count": {
+          "quote": "Most models were trained on sigle gpus but our 300M and 1B parameter models used 4 and 8 gpus, respectively.",
+          "justification": "Stated across scales.",
+          "value": "up to 8"
+        },
+        "precision": {
+          "quote": "All pretraining has been conducted with a batch size of 1024.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "We used multi-gpu training",
+          "justification": "Not specified.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "All pretraining has been conducted with a batch size of 1024.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "All pretraining has been conducted with a batch size of 1024.",
+          "justification": "Not reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "1\n2\n4\n8\n16",
+          "justification": "Width and depth sweeps reported for GPS++.",
+          "value": [
+            {
+              "kind": "variant",
+              "count": 7,
+              "what": "model widths (1M to 1B parameters)"
+            },
+            {
+              "kind": "variant",
+              "count": 5,
+              "what": "depths (1, 2, 4, 8, 16 layers)"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "MPNN++",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "LargeMix",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Adam"
+          },
+          {
+            "name": "µP"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "In this setting, we randomly sub-sample a number of molecules in the training set by 12.5%, 25% and 50% to study their effect on downstream tasks.",
+          "justification": "Pretraining repeated with subsampled molecules and labels and with ablated datasets.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "All pretraining has been conducted with a batch size of 1024.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "Performance of probed 100M parameter MPNN++ models on TDC benchmark tasks (in columns) after pretrained without certain datasets (in rows).",
+          "justification": "Ablations used 100M parameter models.",
+          "value": "100M"
+        },
+        "accelerator_type": {
+          "quote": "We used multi-gpu training (with up to 8 NVIDIA A100-SXM4-40GB GPUs)",
+          "justification": "Pretraining on GPUs.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "with up to 8 NVIDIA A100-SXM4-40GB GPUs",
+          "justification": "Stated.",
+          "value": "NVIDIA A100-SXM4-40GB"
+        },
+        "accelerator_count": {
+          "quote": "Most models were trained on sigle gpus",
+          "justification": "Not specified for these ablations.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "All pretraining has been conducted with a batch size of 1024.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "We used multi-gpu training",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "All pretraining has been conducted with a batch size of 1024.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "All pretraining has been conducted with a batch size of 1024.",
+          "justification": "Not reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "we randomly sub-sample a number of molecules in the training set by 12.5%, 25% and 50% ... we repeat pretraining of the models without specific pretraining datasets (dataset ablation)",
+          "justification": "The paper describes molecule, label and dataset-ablation pretraining sweeps.",
+          "value": [
+            {
+              "kind": "variant",
+              "count": 4,
+              "what": "molecule fractions (12.5%, 25%, 50%, 100%)"
+            },
+            {
+              "kind": "variant",
+              "count": 4,
+              "what": "label fractions (12.5%, 25%, 50%, 100%)"
+            },
+            {
+              "kind": "variant",
+              "count": 3,
+              "what": "dataset ablations (No L1000_*, No PCBA_1328, No PCQM4M_N4)"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "MPNN++",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "PCBA_1328",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "PCQM4M_G25",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "PCQM4M_N4",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "phenomic imaging dataset",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Adam"
+          },
+          {
+            "name": "µP"
+          },
+          {
+            "name": "gradient accumulation"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "Adding phenomics data to our pretraining data mix (i.e., PCBA_1328 and PCQM4M), improved our downstream task performance across the board.",
+          "justification": "New pretraining runs with phenomics data added and L1000 removed, scaling to 3B.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "All pretraining has been conducted with a batch size of 1024.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "we were also able to extend our scaling study to the 3B parameter regime",
+          "justification": "The phenomics pretraining extends scaling to 3B parameters.",
+          "value": "3B"
+        },
+        "accelerator_type": {
+          "quote": "We used multi-gpu training (with up to 8 NVIDIA A100-SXM4-40GB GPUs)",
+          "justification": "GPU pretraining setup.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "with up to 8 NVIDIA A100-SXM4-40GB GPUs",
+          "justification": "Stated.",
+          "value": "NVIDIA A100-SXM4-40GB"
+        },
+        "accelerator_count": {
+          "quote": "our 300M and 1B parameter models used 4 and 8 gpus, respectively",
+          "justification": "Not stated for the 3B runs.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "All pretraining has been conducted with a batch size of 1024.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "methods that unlock even larger models such as model parallelism",
+          "justification": "Not stated; the paper even notes model parallelism as future work.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "All pretraining has been conducted with a batch size of 1024.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "All pretraining has been conducted with a batch size of 1024.",
+          "justification": "Not reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "we pretrained new models without the L1000_* pretraining tasks",
+          "justification": "Not stated.",
+          "value": []
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "MPNN++",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Therapeutics Data Commons",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          },
+          {
+            "name": "Polaris",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "finetuning"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "Following pretraining, we finetune our pretrained models on a range of unseen downstream tasks.",
+          "justification": "Pretrained MPNN++ models are finetuned on downstream tasks.",
+          "value": "finetune"
+        },
+        "epochs": {
+          "quote": "we set the dropout rate to zero and train for 40 epochs using a batch size of 256 and a constant learning rate of 0.0001",
+          "justification": "Stated in experimental details.",
+          "value": "40 epochs"
+        },
+        "parameter_count": {
+          "quote": "1M\n3M\n10M\n30M\n100M\n300M\n1B",
+          "justification": "Finetuning performed across the width-scaled models.",
+          "value": "1M, 3M, 10M, 30M, 100M, 300M, 1B"
+        },
+        "accelerator_type": {
+          "quote": "We finally note that all downstream task experiments were conducted on single cpus.",
+          "justification": "All downstream experiments on CPUs.",
+          "value": "cpu"
+        },
+        "accelerator_model": {
+          "quote": "all downstream task experiments were conducted on single cpus",
+          "justification": "Only 'single cpus' stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "all downstream task experiments were conducted on single cpus",
+          "justification": "Stated.",
+          "value": "single"
+        },
+        "precision": {
+          "quote": "train for 40 epochs using a batch size of 256",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "all downstream task experiments were conducted on single cpus",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "train for 40 epochs using a batch size of 256",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "all downstream task experiments were conducted on single cpus",
+          "justification": "Not reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "Due to the large number of downstream tasks spread across 38 tasks",
+          "justification": "The paper states finetuning/probing is done across 38 downstream tasks; seeded runs mentioned but count not given.",
+          "value": [
+            {
+              "kind": "variant",
+              "count": 38,
+              "what": "downstream tasks"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "MPNN++",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Transformer",
+            "role_in_run": "main"
+          },
+          {
+            "name": "GPS++",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Therapeutics Data Commons",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          },
+          {
+            "name": "Polaris",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          },
+          {
+            "name": "MoleculeNet",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "probing"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "For probing, the base model is kept frozen and only the new layers are trained.",
+          "justification": "Only a new MLP probing head is trained on cached frozen fingerprints.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "We choose a hidden dimension of 128 and train for 30 epochs with a batch size of 128 and a constant learning rate of 0.0001.",
+          "justification": "Stated.",
+          "value": "30 epochs"
+        },
+        "parameter_count": {
+          "quote": "we apply a 2-layer MLP to the fingerprints derived from the pretrained model",
+          "justification": "Probing head size described by hidden dimension, not parameter count.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "We finally note that all downstream task experiments were conducted on single cpus.",
+          "justification": "Downstream experiments on CPUs.",
+          "value": "cpu"
+        },
+        "accelerator_model": {
+          "quote": "all downstream task experiments were conducted on single cpus",
+          "justification": "Not specified.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "all downstream task experiments were conducted on single cpus",
+          "justification": "Stated.",
+          "value": "single"
+        },
+        "precision": {
+          "quote": "train for 30 epochs with a batch size of 128",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "yielding an optimized strategy for downstream tasks capable of parallelization across multiple inexpensive devices",
+          "justification": "Mentions parallelization across devices but no strategy stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "train for 30 epochs with a batch size of 128",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "all downstream task experiments were conducted on single cpus",
+          "justification": "Not reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "Due to the large number of downstream tasks spread across 38 tasks, we limit our evaluation to probing for most experiments",
+          "justification": "Probing is performed for the three architectures across 38 downstream tasks.",
+          "value": [
+            {
+              "kind": "variant",
+              "count": 38,
+              "what": "downstream tasks"
+            },
+            {
+              "kind": "variant",
+              "count": 3,
+              "what": "architectures (MPNN++, Transformer, GPS++)"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "MolGPS",
+            "role_in_run": "main"
+          },
+          {
+            "name": "MPNN++",
+            "role_in_run": "data-source"
+          },
+          {
+            "name": "Transformer",
+            "role_in_run": "data-source"
+          },
+          {
+            "name": "GPS++",
+            "role_in_run": "data-source"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Therapeutics Data Commons",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          },
+          {
+            "name": "Polaris",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          },
+          {
+            "name": "MoleculeNet",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "probing"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "Our 1B and 3B MolGPS combines fingerprints from MPNN++, Transformer, and GPS++ models (of scale 1B and 3B, respectively) ... followed by a specialized probing MLP",
+          "justification": "A specialized probing MLP is trained on combined fingerprints from frozen pretrained models.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "followed by a specialized probing MLP",
+          "justification": "Not separately stated for MolGPS.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "Our 1B and 3B MolGPS combines fingerprints from MPNN++, Transformer, and GPS++ models (of scale 1B and 3B, respectively)",
+          "justification": "Stated backbone scales.",
+          "value": "1B and 3B"
+        },
+        "accelerator_type": {
+          "quote": "We finally note that all downstream task experiments were conducted on single cpus.",
+          "justification": "Downstream experiments on CPUs.",
+          "value": "cpu"
+        },
+        "accelerator_model": {
+          "quote": "all downstream task experiments were conducted on single cpus",
+          "justification": "Not specified.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "all downstream task experiments were conducted on single cpus",
+          "justification": "Stated.",
+          "value": "single"
+        },
+        "precision": {
+          "quote": "followed by a specialized probing MLP",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "all downstream task experiments were conducted on single cpus",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "followed by a specialized probing MLP",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "all downstream task experiments were conducted on single cpus",
+          "justification": "Not reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "establishing state-of-the-art on 26 out of 38 highly competitive downstream tasks",
+          "justification": "MolGPS is evaluated on 38 downstream tasks.",
+          "value": [
+            {
+              "kind": "variant",
+              "count": 38,
+              "what": "downstream tasks"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "usage": {
+    "input_tokens": 72545,
+    "output_tokens": 22448,
+    "total_tokens": 94993
+  }
+}
