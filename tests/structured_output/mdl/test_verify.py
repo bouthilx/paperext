@@ -295,6 +295,7 @@ def _run_with_reference_source():
             "name": "Wikipedia",
             "access": "fixed",
             "roles_in_run": ["reference"],
+            "consumed": _expl("unknown"),
         }
     ]
     return run
@@ -367,3 +368,49 @@ def test_a_generic_alias_does_not_make_a_named_source_unnamed():
     # The name itself being the description is still caught.
     bad = acceptance(_corpus(data_sources=[_data_source("synthetic dataset")]))
     assert _by_name(bad, "unnamed description").ok is False
+
+
+def test_consumed_is_defaulted_so_older_records_still_load():
+    """A required `consumed` invalidated 49 of 51 existing extractions at once.
+
+    The annotation sessions read those files, so the field is defaulted. The
+    default does not weaken the extraction: `strict_schema` marks every
+    property required whatever pydantic says.
+    """
+    from paperext.backends.anthropic import strict_schema
+    from paperext.structured_output.mdl.model_v5 import RunDataSource
+
+    old = RunDataSource.model_validate(
+        {"name": "ImageNet", "access": "fixed", "roles_in_run": ["train"]}
+    )
+    assert old.consumed.value == "unknown"
+
+    rds = strict_schema(model_v5.PaperExtractions.model_json_schema())["$defs"][
+        "RunDataSource"
+    ]
+    assert "consumed" in rds["required"]
+
+
+def test_consumed_coverage_singles_out_interactive_sources():
+    """Zero on an RL sample is the finding: a step count recorded as the
+    SOURCE's size instead is the error the field exists to prevent."""
+
+    def source(access, consumed):
+        return {
+            "name": "MuJoCo",
+            "access": access,
+            "roles_in_run": ["train"],
+            "consumed": _expl(consumed),
+        }
+
+    run = _run()
+    run["data_sources"] = [
+        source("interactive", "1M environment steps"),
+        source("interactive", "unknown"),
+        source("fixed", "unknown"),
+    ]
+    found = _by_name(measurements(_corpus(runs=[run])), "consumed coverage")
+    assert found.ok is None
+    assert "1/3 source mentions" in found.detail
+    assert "2 INTERACTIVE mentions, 1 do" in found.detail
+    assert "1M environment steps" in found.detail

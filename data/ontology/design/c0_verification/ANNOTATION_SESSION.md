@@ -192,6 +192,17 @@ extraction. **The check is mechanical enough to run yourself**: for every
 `referenced` field, name the entity that carries it. If you cannot, drop the
 field.
 
+**How much a run processed goes on the MENTION**, in
+`runs[].data_sources[].consumed`: `'1M environment steps'`, `'200k frames'`,
+`'10% of the training split'`. An interactive environment has **no size of its
+own** — 1M steps is a fact about one run, and two papers stepping the same
+simulator would otherwise contend for the entity's `size`. This is the same
+mention-versus-entity split that puts `access` here and `provenance` on the
+entity. Owner, 2026-10-13: *"The number of frames or steps in RL experiments is
+not really the 'size' of the environment, but in our case, this 'scale' of data
+is useful."* `RefDataSource.size` stays what the paper says the SOURCE is; a
+run may consume a fraction of it or many passes over it.
+
 **Never infer.** Every compute field is reported only when the paper states it.
 `utilisation` especially: do not record an assumed 30–50%.
 

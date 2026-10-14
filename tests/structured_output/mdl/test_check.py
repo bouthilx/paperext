@@ -60,7 +60,12 @@ def _run(*, models=(), data_sources=(), algorithms=(), mode="train"):
     return {
         "models": [{"name": n, "role_in_run": "main"} for n in models],
         "data_sources": [
-            {"name": n, "access": "fixed", "roles_in_run": ["train"]}
+            {
+                "name": n,
+                "access": "fixed",
+                "roles_in_run": ["train"],
+                "consumed": _expl("unknown"),
+            }
             for n in data_sources
         ],
         "algorithms": [{"name": n} for n in algorithms],

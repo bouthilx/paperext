@@ -163,6 +163,10 @@ SYSTEM_MESSAGE = (
     "online reports 'interactive' for the same source.\n"
     "If a Run produced a NAMED Data Source that later runs consume, name it in "
     "the Run's `produces`.\n"
+    "HOW MUCH data a Run processed goes in that run's `data_sources[].consumed` "
+    "-- '1M environment steps', '200k frames', '10% of the training split'. An "
+    "interactive environment has NO SIZE OF ITS OWN, so a step or frame count "
+    "is reported on the run that spent it, never as the Data Source's `size`.\n"
     "Only Models THIS PAPER executed get a Run. A Model whose numbers are "
     "QUOTED -- from another paper, from a leaderboard, or from a shared "
     "benchmark's published results -- is reported with is_executed=false and "
@@ -680,6 +684,34 @@ class RunDataSource(BaseModel):
         "'reference' for a corpus it only queried at inference without "
         "training on it (a retrieval corpus, a knowledge base). Usually one. "
         "['unknown'] if the paper does not say",
+    )
+    # On the MENTION, not on RefDataSource, for the reason `access` is here:
+    # an environment has no inherent size. 1M steps is a fact about one run,
+    # and two papers stepping the same simulator would otherwise contend for
+    # the entity's `size`. Owner, 2026-10-13: "The number of frames or steps in
+    # RL experiments is not really the 'size' of the environment, but in our
+    # case, this 'scale' of data is useful."
+    consumed: Explained[str] = Field(
+        # Defaulted so records written before this field existed still load --
+        # 49 of 51 extractions stopped validating the moment it was required,
+        # and the annotation sessions read those files. The default does NOT
+        # weaken the extraction: `strict_schema` marks every property required
+        # whatever pydantic says, so the API still demands it. A backend that
+        # does not go through strict mode could omit it, and `verify.py`'s
+        # `consumed coverage` is what would show that.
+        default_factory=lambda: Explained[str](
+            quote="", justification="not asked for by this extraction", value="unknown"
+        ),
+        description="How much of this Data Source this Run processed, as the "
+        "paper states it: '1M environment steps', '200k frames', '10% of the "
+        "training split', '3 epochs over 50k images'. This is the RUN's data "
+        "scale, which is why it is reported here and not on the Data Source "
+        "-- an interactive environment has no size of its own, and the step "
+        "count belongs to the run that spent it. Differs from the Data "
+        "Source's `size`, which is how large the paper says the SOURCE is: a "
+        "run may consume a fraction of it, or many passes over it. 'unknown' "
+        "if the paper does not state it; NEVER infer it from the source's "
+        "name, its reputation, or the parameter count",
     )
 
     def __lt__(self, other: "RunDataSource"):

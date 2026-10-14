@@ -595,6 +595,38 @@ def measurements(corpus: Corpus) -> list[Finding]:
             )
         )
 
+    # `consumed` is the run's data scale -- environment steps, frames, the
+    # fraction of a split. Reported per (run, source) because an interactive
+    # environment has no size of its own. Measured against `interactive`
+    # specifically: zero there on an RL sample means the field is not reaching
+    # the prompt, which is the case it was added for.
+    mentions = [(p, ds) for p, r in runs for ds in r.data_sources or []]
+    consumed_stated = [m for m in mentions if _stated(m[1], "consumed")]
+    interactive = [m for m in mentions if str(_value(m[1], "access")) == "interactive"]
+    inter_stated = [m for m in interactive if _stated(m[1], "consumed")]
+    out.append(
+        Finding(
+            kind="MEASURE",
+            name="consumed coverage",
+            ok=None,
+            detail=(
+                f"{len(consumed_stated)}/{len(mentions)} source mentions state how much "
+                f"the run processed; of the {len(interactive)} INTERACTIVE "
+                f"mentions, {len(inter_stated)} do"
+                + (
+                    ": "
+                    + "; ".join(
+                        str(_value(ds, "consumed"))[:32] for _, ds in inter_stated[:4]
+                    )
+                    if inter_stated
+                    else ". Zero here on a sample containing RL is the thing to "
+                    "notice: a step count recorded as the SOURCE's size instead "
+                    "is the error this field exists to prevent"
+                )
+            ),
+        )
+    )
+
     access = Counter(
         str(_value(ds, "access")) for _, r in runs for ds in r.data_sources or []
     )
