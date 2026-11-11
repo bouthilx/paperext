@@ -109,6 +109,31 @@ comparable with the cloud backends'.
 
 ## Usage
 
+**End to end**: `docs/running-the-procedure.md` gives the full sequence -- corpus
+assembly, extraction, verification, ontology construction -- with the decision
+points marked and the places it currently stops.
+`docs/annotation-and-ontology-handoff.md` carries the reasoning behind it: what
+each check is for, which numbers mean what, and the failure modes to expect.
+
+The sections below document the corpus and extraction commands. The rest of the
+surface, not documented here:
+
+| command | what it does |
+|---|---|
+| `backend-check` | one trivial completion proving auth + model access |
+| `python -m paperext.structured_output.mdl.verify` | prompt-level CHECK / PROBE / MEASURE over a bucket of extractions |
+| `python -m paperext.structured_output.mdl.check` | per-record invariants (unresolved references, run/mode contradictions) |
+| `python -m paperext.annotate_pdf` | highlight a paper's PDF with what each extraction arm claimed |
+| `python -m paperext.adjudication_report` | agreement between a session's recommendations and the decisions taken |
+| `categorize-items` | fold the extraction corpus into one decidable item per distinct name |
+| `python -m paperext.ontology.convert_axes` | authored axis TSVs -> loadable ontology snapshots |
+| `python -m paperext.ontology.migrate` | build the legacy `v0` snapshots |
+| `categorize` | place names into a dimension's ontology (`--interactive` to review each) |
+| `categorize-eval` | held-out categorization eval and decision gate |
+| `categorize-report` | read back what a `categorize` run did, from its `decisions.jsonl` |
+
+Each takes `--help`.
+
 ### download-convert
 
 Locates and downloads each paper's PDF with paperoni's fulltext resolver
@@ -218,14 +243,28 @@ abstract), and the run ends with the coverage summary above.
 
 ### query
 
-An OpenAI API Key is required to run this utility:
+Credentials for the selected backend are required. Which variable depends on
+`--platform` (`[env]` in the config holds blank placeholders; supply the value at
+runtime):
 
 ```console
-export OPENAI_API_KEY=sk-proj-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+export OPENAI_API_KEY=...        # --platform openai
+export ANTHROPIC_API_KEY=...     # --platform anthropic
 ```
 
+`backend-check` (below) proves the credentials and model access in one trivial
+completion before a run spends anything.
+
+**`PAPEREXT_DIR_CACHE` must point at the directory holding the converted
+fulltexts** (`<cache>/fulltext/<paper_id>/`). `Paper._pdfs` globs `CFG.dir.cache`,
+so with the wrong value every paper resolves to `None` and the run has nothing to
+query. `query` refuses an empty list rather than succeeding at nothing, but verify
+first -- `docs/running-the-procedure.md` §2b has the one-liner.
+
 ```console
-usage: query [-h] [--platform {openai}] [--papers [PAPERS ...]] [--input TXT] [--paperoni JSON]
+usage: query [-h] [--platform {anthropic,claude,gemini,local,openai}]
+             [--papers [PAPERS ...]] [--input TXT] [--concurrency CONCURRENCY]
+             [--paperoni JSON]
 
 Utility to query Chat-GPT on papers
 
@@ -233,15 +272,29 @@ Queries logs will be written in ${PAPEREXT_DIR_LOG}/DATE.query.dbg
 
 options:
   -h, --help            show this help message and exit
-  --platform {openai}   Platform to use
+  --platform {anthropic,claude,gemini,local,openai}
+                        Platform to use
   --papers [PAPERS ...]
                         Papers to analyse
   --input TXT           List of papers to analyse
-  --paperoni JSON       Paperoni json output of papers to query on converted pdfs -> txts
+  --concurrency CONCURRENCY
+                        papers in flight at once (default 4); the ceiling is
+                        the provider's rate limit, not this code
+  --paperoni JSON       Paperoni json output of papers to query on converted
+                        pdfs -> txts
 
 Example:
-  $ query --input data/query_set.txt
+  $ query --platform anthropic --concurrency 4 --paperoni data/papers.json
 ```
+
+Output lands under `data/mdl/queries/<provider>/<model-slug>/`. The provider comes
+from `--platform` and **the model half comes from that backend's own config
+section, not from the flag** -- so changing `[anthropic] model` changes the output
+directory with it. Omitting `--platform` uses `[platform] select`.
+
+The run is resumable: re-running queries only what is missing or stale, and says
+how many papers are already extracted versus how many it will query (the ETA
+covers only the second number).
 
 ### parse-validation-errors
 
@@ -314,10 +367,42 @@ Example:
 
 ### merge-papers
 
-### analysis
+Interactive field-by-field merge of several arms' extractions for one paper into
+a human-validated reference annotation under `data/mdl/merged/<paper_id>.yaml`.
+Each field where the arms disagree is opened in `$EDITOR`; fields they agree on
+are collapsed automatically.
 
 ```console
-usage: perf-analysis [-h] [--papers [PAPERS ...]] [--input TXT]
+usage: merge-papers [-h] [--papers [PAPERS ...]] [--input INPUT]
+                    [--bucket PROVIDER/MODEL [PROVIDER/MODEL ...]]
+
+options:
+  -h, --help            show this help message and exit
+  --papers [PAPERS ...] Papers to merge
+  --input INPUT         List of papers to merge
+  --bucket PROVIDER/MODEL [PROVIDER/MODEL ...]
+                        query buckets to merge, e.g. anthropic/claude-opus-5
+                        openai/gpt-5.6-sol. Several arms are the point: the
+                        merge collapses every field they agree on. Default
+                        openai/legacy-2024
+
+Example:
+  $ merge-papers --bucket anthropic/claude-opus-5 openai/gpt-5.6-sol --papers <paper_id>
+```
+
+The conversational alternative -- adjudicating with the evidence in front of you
+and writing the YAML directly -- is described in
+`data/ontology/design/c0_verification/ANNOTATION_SESSION.md`, together with
+`annotate_pdf` and `adjudication_report`, which exist for that workflow.
+
+### analysis
+
+The entry point is `evaluate` (it was named `perf-analysis` in an earlier
+release). It scores extractions against the human-validated annotations in
+`data/mdl/merged/`.
+
+```console
+usage: evaluate [-h] [--papers [PAPERS ...]] [--input TXT]
 
 Utility to analyses Chat-GPT responses on papers
 
@@ -330,8 +415,12 @@ options:
   --input TXT           List of papers to analyse
 
 Example:
-  $ perf-analysis --input data/validation_set.txt
+  $ evaluate --input data/validation_set.txt
 ```
+
+Frequency and workload aggregation live in `paperext.analysis` and have no console
+scripts; invoke them with `python -m paperext.analysis.frequency` /
+`python -m paperext.analysis.workload`.
 
 ## License
 

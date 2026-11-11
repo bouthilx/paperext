@@ -1,0 +1,2699 @@
+{
+  "paper": "69a5fe1148887d403d0a63a7.txt",
+  "words": 10495,
+  "extractions": {
+    "title": {
+      "quote": "Graph Inductive Biases in Transformers without Message Passing",
+      "justification": "The title appears at the start of the paper.",
+      "value": "Graph Inductive Biases in Transformers without Message Passing"
+    },
+    "description": "Introduces and evaluates GRIT, a graph Transformer with learned relative random-walk positional encodings, pair-aware attention, and degree scaling, on graph-learning benchmarks and synthetic attention experiments.",
+    "type": {
+      "quote": "Along with theoretical justification, we provide ample empirical evidence to demonstrate the effectiveness of our design choices.",
+      "justification": "The paper includes proofs, but its principal claims are tested through benchmark, ablation, sensitivity, runtime, and synthetic experiments.",
+      "value": "empirical"
+    },
+    "research_fields": [
+      {
+        "name": {
+          "quote": "Graph Transformers without Message-Passing",
+          "justification": "The paper proposes an advance specifically for this research area.",
+          "value": "Graph Transformers"
+        },
+        "aliases": [],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "These benchmarks cover diverse graph learning tasks including node classification, graph classification, and graph regression",
+          "justification": "The proposed model advances graph learning across several task types.",
+          "value": "graph learning"
+        },
+        "aliases": [
+          "graph representation learning"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "PCQM4Mv2 large-scale graph regression benchmark",
+          "justification": "Molecular graph property prediction is used as an application and evaluation setting.",
+          "value": "molecular graph regression"
+        },
+        "aliases": [
+          "molecular property prediction"
+        ],
+        "role": "used"
+      },
+      {
+        "name": {
+          "quote": "Transformers have achieved ground-breaking successes in various domains, including but not limited to natural language processing",
+          "justification": "NLP is discussed as related Transformer context rather than evaluated.",
+          "value": "natural language processing"
+        },
+        "aliases": [
+          "NLP"
+        ],
+        "role": "referenced"
+      },
+      {
+        "name": {
+          "quote": "and computer vision",
+          "justification": "Computer vision is discussed as related Transformer context and supplies image-derived graph benchmarks.",
+          "value": "computer vision"
+        },
+        "aliases": [],
+        "role": "used"
+      }
+    ],
+    "models": [
+      {
+        "name": {
+          "quote": "Graph Inductive bias Transformer (GRIT)",
+          "justification": "This is the paper's proposed model.",
+          "value": "Graph Inductive bias Transformer (GRIT)"
+        },
+        "aliases": [
+          "GRIT",
+          "GRIT (ours)"
+        ],
+        "is_contributed": {
+          "quote": "we propose the Graph Inductive bias Transformer (GRIT)",
+          "justification": "The paper introduces GRIT.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "We evaluate our proposed method",
+          "justification": "GRIT is trained and evaluated in the reported experiments.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "GRIT achieves state-of-the-art empirical performance across a variety of graph learning benchmarks",
+          "justification": "GRIT is numerically compared against many baselines.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "We train these attention mechanisms",
+          "justification": "GRIT is trained in benchmark and synthetic experiments.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "Graph Inductive Biases in Transformers without Message Passing",
+          "justification": "GRIT is contributed by the present paper.",
+          "value": "Graph Inductive Biases in Transformers without Message Passing"
+        }
+      },
+      {
+        "name": {
+          "quote": "Transformer+RWSE",
+          "justification": "This model variant is trained in the synthetic experiment.",
+          "value": "Transformer+RWSE"
+        },
+        "aliases": [
+          "Transf.+RWSE"
+        ],
+        "is_contributed": {
+          "quote": "vanilla Transformer+RWSE (the Transformer branch of GraphGPS",
+          "justification": "It is an existing baseline, not a contribution.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We train these attention mechanisms",
+          "justification": "The variant is trained in the synthetic experiment.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Synthetic Experiment on Learning to Attend K-hop Neighborhoods",
+          "justification": "Its MAE and R2 are compared numerically.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "we train each method for 2000 epochs on each graph separately",
+          "justification": "The variant is trained.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "Recipe for a General, Powerful, Scalable Graph Transformer",
+          "justification": "The paper identifies it as the Transformer branch of GraphGPS.",
+          "value": "Recipe for a General, Powerful, Scalable Graph Transformer"
+        }
+      },
+      {
+        "name": {
+          "quote": "SAN+LapPE*",
+          "justification": "This exact variant is used in the synthetic experiment.",
+          "value": "SAN+LapPE*"
+        },
+        "aliases": [
+          "SAN+LapPE"
+        ],
+        "is_contributed": {
+          "quote": "SAN+LapPE* (global attention component with the LapPE transformer) (Kreuzer et al., 2021)",
+          "justification": "It is derived from prior SAN work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We train these attention mechanisms",
+          "justification": "The variant is trained in the synthetic experiment.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "SAN+LapPE .044 ± .011",
+          "justification": "It receives numerical synthetic-experiment results.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "we train each method for 2000 epochs on each graph separately",
+          "justification": "The variant is trained.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "Rethinking Graph Transformers with Spectral Attention.",
+          "justification": "This is the cited SAN reference title.",
+          "value": "Rethinking Graph Transformers with Spectral Attention"
+        }
+      },
+      {
+        "name": {
+          "quote": "Graphormer+SPDPE",
+          "justification": "This exact variant is trained in the synthetic experiment.",
+          "value": "Graphormer+SPDPE"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "Graphormer+SPDPE (Ying et al., 2021)",
+          "justification": "It comes from prior Graphormer work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We train these attention mechanisms",
+          "justification": "The variant is trained in the synthetic experiment.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Graphormer+SPDPE .043 ± .010",
+          "justification": "It receives numerical synthetic-experiment results.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "we train each method for 2000 epochs on each graph separately",
+          "justification": "The variant is trained.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "Do Transformers Really Perform Badly for Graph Representation?",
+          "justification": "This is the cited Graphormer paper.",
+          "value": "Do Transformers Really Perform Badly for Graph Representation?"
+        }
+      },
+      {
+        "name": {
+          "quote": "EGT+SVDPE",
+          "justification": "This model appears with numerical results in Table 11.",
+          "value": "EGT+SVDPE"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "EGT+SVDPE",
+          "justification": "It is an EGT baseline variant, not the paper's contribution.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "EGT+SVDPE 0.55 ± 0.21",
+          "justification": "The paper reports synthetic-experiment results for this variant, indicating execution in that experiment.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "EGT+SVDPE 0.55 ± 0.21",
+          "justification": "It is numerically compared in Table 11.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "we train each method for 2000 epochs on each graph separately",
+          "justification": "The synthetic methods are trained.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "Global Self-Attention as a Replacement for Graph Convolution.",
+          "justification": "This is the cited EGT reference.",
+          "value": "Global Self-Attention as a Replacement for Graph Convolution"
+        }
+      },
+      {
+        "name": {
+          "quote": "GCN",
+          "justification": "GCN is a benchmark comparison model.",
+          "value": "GCN"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "GCN (Kipf & Welling, 2017)",
+          "justification": "It is prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "The baselines’ results are taken from (Rampášek et al., 2022)",
+          "justification": "The benchmark values are imported rather than generated by this paper.",
+          "value": false
+        },
+        "is_compared": {
+          "quote": "GCN 0.367 ± 0.011",
+          "justification": "GCN is numerically compared in the benchmark tables.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "The baselines’ results are taken from (Rampášek et al., 2022)",
+          "justification": "The cited benchmark model was trained in the source results, but not by this paper.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "Semi-Supervised Classification with Graph Convolutional Networks.",
+          "justification": "This is the GCN reference title.",
+          "value": "Semi-Supervised Classification with Graph Convolutional Networks"
+        }
+      },
+      {
+        "name": {
+          "quote": "GIN",
+          "justification": "GIN is a benchmark comparison model.",
+          "value": "GIN"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "GIN (Xu et al., 2019)",
+          "justification": "It is prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "The baselines’ results are taken from (Rampášek et al., 2022)",
+          "justification": "Its reported benchmark results are imported.",
+          "value": false
+        },
+        "is_compared": {
+          "quote": "GIN 0.526 ± 0.051",
+          "justification": "It is numerically compared.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "The baselines’ results are taken from (Rampášek et al., 2022)",
+          "justification": "The quoted source results concern a trained model.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "How Powerful are Graph Neural Networks?",
+          "justification": "This is the cited GIN paper.",
+          "value": "How Powerful are Graph Neural Networks?"
+        }
+      },
+      {
+        "name": {
+          "quote": "GAT",
+          "justification": "GAT is a benchmark comparison model.",
+          "value": "GAT"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "GAT (Veličković et al., 2018)",
+          "justification": "It is prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "The baselines’ results are taken from (Rampášek et al., 2022)",
+          "justification": "Its benchmark result is imported.",
+          "value": false
+        },
+        "is_compared": {
+          "quote": "GAT 0.384 ± 0.007",
+          "justification": "It is numerically compared.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "The baselines’ results are taken from (Rampášek et al., 2022)",
+          "justification": "The source results concern a trained model.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "Graph Attention Networks.",
+          "justification": "This is the GAT reference title.",
+          "value": "Graph Attention Networks"
+        }
+      },
+      {
+        "name": {
+          "quote": "GatedGCN",
+          "justification": "GatedGCN is a benchmark comparison model.",
+          "value": "GatedGCN"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "GatedGCN (Bresson & Laurent, 2018)",
+          "justification": "It is prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "The baselines’ results are taken from (Rampášek et al., 2022)",
+          "justification": "Its benchmark results are imported.",
+          "value": false
+        },
+        "is_compared": {
+          "quote": "GatedGCN 0.282 ± 0.015",
+          "justification": "It is numerically compared.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "The baselines’ results are taken from (Rampášek et al., 2022)",
+          "justification": "The source results concern training.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "Residual Gated Graph ConvNets.",
+          "justification": "This is the cited GatedGCN paper.",
+          "value": "Residual Gated Graph ConvNets"
+        }
+      },
+      {
+        "name": {
+          "quote": "PNA",
+          "justification": "PNA is a benchmark comparison model.",
+          "value": "PNA"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "PNA (Corso et al., 2020)",
+          "justification": "It is prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "The baselines’ results are taken from (Rampášek et al., 2022)",
+          "justification": "Its benchmark values are imported.",
+          "value": false
+        },
+        "is_compared": {
+          "quote": "PNA 0.188 ± 0.004",
+          "justification": "It is numerically compared.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "The baselines’ results are taken from (Rampášek et al., 2022)",
+          "justification": "The source results concern training.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "Principal Neighbourhood Aggregation for Graph Nets.",
+          "justification": "This is the cited PNA paper.",
+          "value": "Principal Neighbourhood Aggregation for Graph Nets"
+        }
+      },
+      {
+        "name": {
+          "quote": "Graphormer",
+          "justification": "Graphormer is a benchmark comparison model.",
+          "value": "Graphormer"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "Graphormer (Ying et al., 2021)",
+          "justification": "It is prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "The baselines’ results are taken from (Rampášek et al., 2022)",
+          "justification": "The main benchmark result is imported; only the separately named Graphormer+SPDPE variant is executed synthetically.",
+          "value": false
+        },
+        "is_compared": {
+          "quote": "Graphormer 0.122 ± 0.006",
+          "justification": "It is numerically compared.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "The baselines’ results are taken from (Rampášek et al., 2022)",
+          "justification": "The source benchmark model was trained.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "Do Transformers Really Perform Badly for Graph Representation?",
+          "justification": "This is the cited Graphormer paper.",
+          "value": "Do Transformers Really Perform Badly for Graph Representation?"
+        }
+      },
+      {
+        "name": {
+          "quote": "SAN",
+          "justification": "SAN is a benchmark comparison model.",
+          "value": "SAN"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "SAN (Kreuzer et al., 2021)",
+          "justification": "It is prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "The baselines’ results are taken from (Rampášek et al., 2022)",
+          "justification": "The benchmark accuracy is imported; the separately named SAN+LapPE* component is executed synthetically.",
+          "value": false
+        },
+        "is_compared": {
+          "quote": "SAN 0.139 ± 0.006",
+          "justification": "It is numerically compared.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "The baselines’ results are taken from (Rampášek et al., 2022)",
+          "justification": "The source model was trained.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "Rethinking Graph Transformers with Spectral Attention.",
+          "justification": "This is the SAN reference title.",
+          "value": "Rethinking Graph Transformers with Spectral Attention"
+        }
+      },
+      {
+        "name": {
+          "quote": "EGT",
+          "justification": "EGT is a benchmark comparison model.",
+          "value": "EGT"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "EGT (Hussain et al., 2022)",
+          "justification": "It is prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "The baselines’ results are taken from (Rampášek et al., 2022)",
+          "justification": "The main benchmark values are imported; EGT+SVDPE is separately represented for the synthetic run.",
+          "value": false
+        },
+        "is_compared": {
+          "quote": "EGT 0.108 ± 0.009",
+          "justification": "It is numerically compared.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "The baselines’ results are taken from (Rampášek et al., 2022)",
+          "justification": "The source benchmark model was trained.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "Global Self-Attention as a Replacement for Graph Convolution.",
+          "justification": "This is the cited EGT paper.",
+          "value": "Global Self-Attention as a Replacement for Graph Convolution"
+        }
+      },
+      {
+        "name": {
+          "quote": "GPS",
+          "justification": "GPS is the name used in several comparison tables for GraphGPS.",
+          "value": "GPS"
+        },
+        "aliases": [
+          "GraphGPS"
+        ],
+        "is_contributed": {
+          "quote": "GraphGPS (Rampášek et al., 2022)",
+          "justification": "It is prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "The baselines’ results are taken from (Rampášek et al., 2022)",
+          "justification": "Its benchmark values are imported.",
+          "value": false
+        },
+        "is_compared": {
+          "quote": "GPS 0.070 ± 0.004",
+          "justification": "It is numerically compared.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "The baselines’ results are taken from (Rampášek et al., 2022)",
+          "justification": "The source model was trained.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "Recipe for a General, Powerful, Scalable Graph Transformer.",
+          "justification": "This is the GraphGPS reference title.",
+          "value": "Recipe for a General, Powerful, Scalable Graph Transformer"
+        }
+      },
+      {
+        "name": {
+          "quote": "SignNet",
+          "justification": "SignNet is compared on ZINC-full.",
+          "value": "SignNet"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "SignNet (Lim et al., 2023)",
+          "justification": "It is prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we also compare our method with other domain agnostic methods",
+          "justification": "The text reports comparison but does not say this paper executed SignNet.",
+          "value": false
+        },
+        "is_compared": {
+          "quote": "SignNet 0.024 ± 0.003",
+          "justification": "It is numerically compared.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "SignNet 0.024 ± 0.003",
+          "justification": "The quoted result is from a trained model.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "Sign and Basis Invariant Networks for Spectral Graph Representation Learning.",
+          "justification": "This is the cited SignNet paper.",
+          "value": "Sign and Basis Invariant Networks for Spectral Graph Representation Learning"
+        }
+      },
+      {
+        "name": {
+          "quote": "GRPE",
+          "justification": "GRPE is compared on PCQM4Mv2.",
+          "value": "GRPE"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "GRPE (Park et al., 2022)",
+          "justification": "It is prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we compare our method against",
+          "justification": "The paper does not state that it reran GRPE.",
+          "value": false
+        },
+        "is_compared": {
+          "quote": "GRPE 0.0890",
+          "justification": "It is numerically compared.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "GRPE 0.0890",
+          "justification": "The quoted result is from a trained model.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "GRPE: Relative Positional Encoding for Graph Transformer.",
+          "justification": "This is the GRPE reference title.",
+          "value": "GRPE: Relative Positional Encoding for Graph Transformer"
+        }
+      },
+      {
+        "name": {
+          "quote": "TokenGT",
+          "justification": "TokenGT variants are compared on PCQM4Mv2.",
+          "value": "TokenGT"
+        },
+        "aliases": [
+          "TokenGT (ORF)",
+          "TokenGT (Lap)"
+        ],
+        "is_contributed": {
+          "quote": "TokenGT (Kim et al., 2022)",
+          "justification": "It is prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we compare our method against",
+          "justification": "The paper does not state that it reran TokenGT.",
+          "value": false
+        },
+        "is_compared": {
+          "quote": "TokenGT (ORF) 0.0962",
+          "justification": "TokenGT variants are numerically compared.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "TokenGT (ORF) 0.0962",
+          "justification": "The quoted result is from a trained model.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "Pure Transformers are Powerful Graph Learners.",
+          "justification": "This is the TokenGT reference title.",
+          "value": "Pure Transformers are Powerful Graph Learners"
+        }
+      }
+    ],
+    "data_sources": [
+      {
+        "name": {
+          "quote": "ZINC",
+          "justification": "ZINC is used for benchmarks, ablations, sensitivity analysis, runtime measurement, and synthetic experiments.",
+          "value": "ZINC"
+        },
+        "aliases": [],
+        "role": "used",
+        "size": {
+          "quote": "ZINC(-full) 12,000 (250,000)",
+          "justification": "The first figure is the ZINC benchmark size.",
+          "value": "12,000 graphs"
+        },
+        "derived_from": [],
+        "sample_properties": [
+          {
+            "name": "Avg. # nodes",
+            "value": {
+              "quote": "ZINC(-full) ... 23.2",
+              "justification": "Table 8 reports the average nodes per graph.",
+              "value": "23.2"
+            },
+            "unit": "nodes"
+          },
+          {
+            "name": "Avg. # edges",
+            "value": {
+              "quote": "ZINC(-full) ... 24.9",
+              "justification": "Table 8 reports the average edges per graph.",
+              "value": "24.9"
+            },
+            "unit": "edges"
+          }
+        ],
+        "referenced_paper_title": {
+          "quote": "Benchmarking Graph Neural Networks.",
+          "justification": "The 12,000-graph benchmark is attributed to Benchmarking GNNs.",
+          "value": "Benchmarking Graph Neural Networks"
+        }
+      },
+      {
+        "name": {
+          "quote": "ZINC-full",
+          "justification": "The full ZINC dataset is evaluated separately.",
+          "value": "ZINC-full"
+        },
+        "aliases": [],
+        "role": "used",
+        "size": {
+          "quote": "ZINC-full dataset ... has 250,000 graphs",
+          "justification": "The paper states the size directly.",
+          "value": "250,000 graphs"
+        },
+        "derived_from": [
+          "ZINC"
+        ],
+        "sample_properties": [
+          {
+            "name": "Avg. # nodes",
+            "value": {
+              "quote": "ZINC(-full) ... 23.2",
+              "justification": "Table 8 gives this statistic for ZINC(-full).",
+              "value": "23.2"
+            },
+            "unit": "nodes"
+          },
+          {
+            "name": "Avg. # edges",
+            "value": {
+              "quote": "ZINC(-full) ... 24.9",
+              "justification": "Table 8 gives this statistic for ZINC(-full).",
+              "value": "24.9"
+            },
+            "unit": "edges"
+          }
+        ],
+        "referenced_paper_title": {
+          "quote": "ZINC: A Free Tool to Discover Chemistry for Biology.",
+          "justification": "This is the cited ZINC source paper.",
+          "value": "ZINC: A Free Tool to Discover Chemistry for Biology"
+        }
+      },
+      {
+        "name": {
+          "quote": "MNIST",
+          "justification": "MNIST is one of the five Benchmarking GNNs datasets used.",
+          "value": "MNIST"
+        },
+        "aliases": [],
+        "role": "used",
+        "size": {
+          "quote": "MNIST 70,000",
+          "justification": "Table 8 reports the number of graphs.",
+          "value": "70,000 graphs"
+        },
+        "derived_from": [],
+        "sample_properties": [
+          {
+            "name": "Avg. # nodes",
+            "value": {
+              "quote": "MNIST 70,000 70.6",
+              "justification": "Table 8 reports average nodes.",
+              "value": "70.6"
+            },
+            "unit": "nodes"
+          },
+          {
+            "name": "Avg. # edges",
+            "value": {
+              "quote": "MNIST ... 564.5",
+              "justification": "Table 8 reports average edges.",
+              "value": "564.5"
+            },
+            "unit": "edges"
+          }
+        ],
+        "referenced_paper_title": {
+          "quote": "Benchmarking Graph Neural Networks.",
+          "justification": "The graph-form MNIST benchmark is attributed to this work.",
+          "value": "Benchmarking Graph Neural Networks"
+        }
+      },
+      {
+        "name": {
+          "quote": "CIFAR10",
+          "justification": "CIFAR10 is one of the five Benchmarking GNNs datasets used.",
+          "value": "CIFAR10"
+        },
+        "aliases": [],
+        "role": "used",
+        "size": {
+          "quote": "CIFAR10 60,000",
+          "justification": "Table 8 reports the number of graphs.",
+          "value": "60,000 graphs"
+        },
+        "derived_from": [],
+        "sample_properties": [
+          {
+            "name": "Avg. # nodes",
+            "value": {
+              "quote": "CIFAR10 60,000 117.6",
+              "justification": "Table 8 reports average nodes.",
+              "value": "117.6"
+            },
+            "unit": "nodes"
+          },
+          {
+            "name": "Avg. # edges",
+            "value": {
+              "quote": "CIFAR10 ... 941.1",
+              "justification": "Table 8 reports average edges.",
+              "value": "941.1"
+            },
+            "unit": "edges"
+          }
+        ],
+        "referenced_paper_title": {
+          "quote": "Benchmarking Graph Neural Networks.",
+          "justification": "The graph-form CIFAR10 benchmark is attributed to this work.",
+          "value": "Benchmarking Graph Neural Networks"
+        }
+      },
+      {
+        "name": {
+          "quote": "PATTERN",
+          "justification": "PATTERN is used as a node-classification benchmark.",
+          "value": "PATTERN"
+        },
+        "aliases": [],
+        "role": "used",
+        "size": {
+          "quote": "PATTERN 14,000",
+          "justification": "Table 8 reports the number of graphs.",
+          "value": "14,000 graphs"
+        },
+        "derived_from": [],
+        "sample_properties": [
+          {
+            "name": "Avg. # nodes",
+            "value": {
+              "quote": "PATTERN 14,000 118.9",
+              "justification": "Table 8 reports average nodes.",
+              "value": "118.9"
+            },
+            "unit": "nodes"
+          },
+          {
+            "name": "Avg. # edges",
+            "value": {
+              "quote": "PATTERN ... 3,039.3",
+              "justification": "Table 8 reports average edges.",
+              "value": "3,039.3"
+            },
+            "unit": "edges"
+          }
+        ],
+        "referenced_paper_title": {
+          "quote": "Benchmarking Graph Neural Networks.",
+          "justification": "PATTERN is sourced from this benchmark.",
+          "value": "Benchmarking Graph Neural Networks"
+        }
+      },
+      {
+        "name": {
+          "quote": "CLUSTER",
+          "justification": "CLUSTER is used as a node-classification benchmark.",
+          "value": "CLUSTER"
+        },
+        "aliases": [],
+        "role": "used",
+        "size": {
+          "quote": "CLUSTER 12,000",
+          "justification": "Table 8 reports the number of graphs.",
+          "value": "12,000 graphs"
+        },
+        "derived_from": [],
+        "sample_properties": [
+          {
+            "name": "Avg. # nodes",
+            "value": {
+              "quote": "CLUSTER 12,000 117.2",
+              "justification": "Table 8 reports average nodes.",
+              "value": "117.2"
+            },
+            "unit": "nodes"
+          },
+          {
+            "name": "Avg. # edges",
+            "value": {
+              "quote": "CLUSTER ... 2,150.9",
+              "justification": "Table 8 reports average edges.",
+              "value": "2,150.9"
+            },
+            "unit": "edges"
+          }
+        ],
+        "referenced_paper_title": {
+          "quote": "Benchmarking Graph Neural Networks.",
+          "justification": "CLUSTER is sourced from this benchmark.",
+          "value": "Benchmarking Graph Neural Networks"
+        }
+      },
+      {
+        "name": {
+          "quote": "Peptides-func",
+          "justification": "Peptides-func is evaluated from LRGB.",
+          "value": "Peptides-func"
+        },
+        "aliases": [],
+        "role": "used",
+        "size": {
+          "quote": "Peptides-func 15,535",
+          "justification": "Table 8 reports its graph count.",
+          "value": "15,535 graphs"
+        },
+        "derived_from": [],
+        "sample_properties": [
+          {
+            "name": "Avg. # nodes",
+            "value": {
+              "quote": "Peptides-func 15,535 150.9",
+              "justification": "Table 8 reports average nodes.",
+              "value": "150.9"
+            },
+            "unit": "nodes"
+          },
+          {
+            "name": "Avg. # edges",
+            "value": {
+              "quote": "Peptides-func ... 307.3",
+              "justification": "Table 8 reports average edges.",
+              "value": "307.3"
+            },
+            "unit": "edges"
+          }
+        ],
+        "referenced_paper_title": {
+          "quote": "Long Range Graph Benchmark.",
+          "justification": "This is the cited benchmark paper.",
+          "value": "Long Range Graph Benchmark"
+        }
+      },
+      {
+        "name": {
+          "quote": "Peptides-struct",
+          "justification": "Peptides-struct is evaluated from LRGB.",
+          "value": "Peptides-struct"
+        },
+        "aliases": [],
+        "role": "used",
+        "size": {
+          "quote": "Peptides-struct 15,535",
+          "justification": "Table 8 reports its graph count.",
+          "value": "15,535 graphs"
+        },
+        "derived_from": [],
+        "sample_properties": [
+          {
+            "name": "Avg. # nodes",
+            "value": {
+              "quote": "Peptides-struct 15,535 150.9",
+              "justification": "Table 8 reports average nodes.",
+              "value": "150.9"
+            },
+            "unit": "nodes"
+          },
+          {
+            "name": "Avg. # edges",
+            "value": {
+              "quote": "Peptides-struct ... 307.3",
+              "justification": "Table 8 reports average edges.",
+              "value": "307.3"
+            },
+            "unit": "edges"
+          }
+        ],
+        "referenced_paper_title": {
+          "quote": "Long Range Graph Benchmark.",
+          "justification": "This is the cited benchmark paper.",
+          "value": "Long Range Graph Benchmark"
+        }
+      },
+      {
+        "name": {
+          "quote": "PCQM4Mv2",
+          "justification": "PCQM4Mv2 is the large-scale graph-regression benchmark.",
+          "value": "PCQM4Mv2"
+        },
+        "aliases": [],
+        "role": "used",
+        "size": {
+          "quote": "PCQM4Mv2 3,746,620",
+          "justification": "Table 8 gives the exact graph count.",
+          "value": "3,746,620 graphs"
+        },
+        "derived_from": [],
+        "sample_properties": [
+          {
+            "name": "Avg. # nodes",
+            "value": {
+              "quote": "PCQM4Mv2 3,746,620 14.1",
+              "justification": "Table 8 reports average nodes.",
+              "value": "14.1"
+            },
+            "unit": "nodes"
+          },
+          {
+            "name": "Avg. # edges",
+            "value": {
+              "quote": "PCQM4Mv2 ... 14.6",
+              "justification": "Table 8 reports average edges.",
+              "value": "14.6"
+            },
+            "unit": "edges"
+          }
+        ],
+        "referenced_paper_title": {
+          "quote": "Ogb-lsc: A large-scale challenge for machine learning on graphs.",
+          "justification": "This is the cited PCQM4Mv2 source paper.",
+          "value": "Ogb-lsc: A large-scale challenge for machine learning on graphs"
+        }
+      }
+    ],
+    "libraries": [
+      {
+        "name": {
+          "quote": "pipeline of GraphGPS",
+          "justification": "The paper explicitly says this pipeline supplied timing measurements.",
+          "value": "GraphGPS pipeline"
+        },
+        "aliases": [],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "Recipe for a General, Powerful, Scalable Graph Transformer.",
+          "justification": "This is the GraphGPS reference title.",
+          "value": "Recipe for a General, Powerful, Scalable Graph Transformer"
+        }
+      },
+      {
+        "name": {
+          "quote": "NVIDIA System Management Interface (nvidia-smi)",
+          "justification": "This software tool is explicitly used to measure memory.",
+          "value": "NVIDIA System Management Interface"
+        },
+        "aliases": [
+          "nvidia-smi"
+        ],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "No reference-paper title is supplied.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "tools available at https://www.statskingdom.com/140MeanT2eq.html",
+          "justification": "The web tool is explicitly used for the statistical tests.",
+          "value": "StatsKingdom two-sample mean T-test tool"
+        },
+        "aliases": [
+          "statskingdom.com/140MeanT2eq.html"
+        ],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "No reference-paper title is supplied.",
+          "value": "unknown"
+        }
+      }
+    ],
+    "algorithms": [
+      {
+        "name": {
+          "quote": "Relative Random Walk Probabilities (RRWP)",
+          "justification": "This is the paper's named positional-encoding procedure.",
+          "value": "Relative Random Walk Probabilities (RRWP)"
+        },
+        "aliases": [
+          "RRWP"
+        ],
+        "is_contributed": {
+          "quote": "The proposed relative random walk probabilities (RRWP) initial positional encoding",
+          "justification": "The paper proposes and analyzes RRWP in its architecture.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "RRWP (Pre-compute)",
+          "justification": "RRWP is precomputed and used in GRIT experiments.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "RRWP → RWSE",
+          "justification": "RRWP is numerically ablated against alternative encodings.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "we use RRWP as an initialization of learned relative positional encodings in our architecture",
+          "justification": "This directly states its role.",
+          "value": "initialization of learned relative positional encodings"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Graph Inductive Biases in Transformers without Message Passing",
+          "justification": "The named RRWP procedure is contributed here.",
+          "value": "Graph Inductive Biases in Transformers without Message Passing"
+        }
+      },
+      {
+        "name": {
+          "quote": "Random Walk Structural Encodings (RWSE)",
+          "justification": "RWSE is executed in synthetic and ablation variants.",
+          "value": "Random Walk Structural Encodings (RWSE)"
+        },
+        "aliases": [
+          "RWSE"
+        ],
+        "is_contributed": {
+          "quote": "used in past work (Dwivedi et al., 2021; Rampášek et al., 2022)",
+          "justification": "It predates this paper.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "substituting RRWP with RWSE",
+          "justification": "The paper executes an RWSE ablation and Transformer+RWSE baseline.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "RRWP → RWSE 0.081 ± 0.010",
+          "justification": "It is numerically compared.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "substituting RRWP with RWSE",
+          "justification": "It is an alternative positional/structural encoding in ablations and synthetic tests.",
+          "value": "substituting RRWP with RWSE"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Graph Neural Networks with Learnable Structural and Positional Representations.",
+          "justification": "This is the cited RWSE-related reference.",
+          "value": "Graph Neural Networks with Learnable Structural and Positional Representations"
+        }
+      },
+      {
+        "name": {
+          "quote": "Laplacian Positional Encoding (LapPE)",
+          "justification": "LapPE is executed by the SAN+LapPE* synthetic variant.",
+          "value": "Laplacian Positional Encoding (LapPE)"
+        },
+        "aliases": [
+          "LapPE"
+        ],
+        "is_contributed": {
+          "quote": "with Laplacian Positional Encoding (LapPE)",
+          "justification": "It is attributed to prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "SAN+LapPE*",
+          "justification": "The synthetic experiment executes a LapPE variant.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "SAN+LapPE .044 ± .011",
+          "justification": "It is numerically compared.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "global attention component with the LapPE transformer",
+          "justification": "This states its role in the synthetic baseline.",
+          "value": "the positional encoding for the SAN synthetic baseline"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "A Generalization of Transformer Networks to Graphs.",
+          "justification": "This is the cited early LapPE Graph Transformer work.",
+          "value": "A Generalization of Transformer Networks to Graphs"
+        }
+      },
+      {
+        "name": {
+          "quote": "shortest-path distance positional encodings (SPDPE)",
+          "justification": "SPDPE is executed in ablations and the Graphormer synthetic baseline.",
+          "value": "shortest-path distance positional encodings (SPDPE)"
+        },
+        "aliases": [
+          "SPDPE"
+        ],
+        "is_contributed": {
+          "quote": "such as shortest-path distance positional encodings (SPDPE) (Ying et al., 2021",
+          "justification": "It is prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "RRWP → SPDPE",
+          "justification": "The paper executes this substitution.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "RRWP → SPDPE 0.067 ± 0.002",
+          "justification": "It is numerically compared.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "substituting RRWP with ... SPDPE",
+          "justification": "It serves as an alternative positional encoding.",
+          "value": "substituting RRWP with SPDPE"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Do Transformers Really Perform Badly for Graph Representation?",
+          "justification": "This is the cited source associated with SPDPE.",
+          "value": "Do Transformers Really Perform Badly for Graph Representation?"
+        }
+      },
+      {
+        "name": {
+          "quote": "two-sample one-tailed T-test",
+          "justification": "This named statistical test evaluates significance.",
+          "value": "two-sample one-tailed T-test"
+        },
+        "aliases": [
+          "Two-sample One-tailed T-Test"
+        ],
+        "is_contributed": {
+          "quote": "We conduct a two-sample one-tailed T-test",
+          "justification": "It is a standard existing evaluation procedure.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We conduct a two-sample one-tailed T-test",
+          "justification": "The paper explicitly executes it.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "to compare the results of our method with the second-best model on each dataset",
+          "justification": "It statistically compares GRIT and second-best models.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "to compare the results of our method with the second-best model on each dataset",
+          "justification": "This is the stated role.",
+          "value": "compare the results of our method with the second-best model on each dataset"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "No reference paper is given for the test.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "l1-loss",
+          "justification": "This is the named synthetic training objective.",
+          "value": "l1-loss"
+        },
+        "aliases": [
+          "L1 loss"
+        ],
+        "is_contributed": {
+          "quote": "using the l1-loss as the training objective",
+          "justification": "It is a standard objective, not contributed.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "using the l1-loss as the training objective",
+          "justification": "It is explicitly used in synthetic training.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "",
+          "justification": "The loss itself is not numerically compared with alternative objectives.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "using the l1-loss as the training objective",
+          "justification": "This is its exact role.",
+          "value": "the training objective"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "No reference paper is given.",
+          "value": "unknown"
+        }
+      }
+    ],
+    "runs": [
+      {
+        "models": [
+          {
+            "name": "Graph Inductive bias Transformer (GRIT)",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "ZINC",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Relative Random Walk Probabilities (RRWP)"
+          },
+          {
+            "name": "two-sample one-tailed T-test"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "We evaluate our proposed method on five benchmarks from the Benchmarking GNNs work",
+          "justification": "GRIT is trained under the listed ZINC hyperparameters.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "# Epochs 2000",
+          "justification": "Table 9 gives 2,000 epochs for ZINC/ZINC-full.",
+          "value": "2000"
+        },
+        "parameter_count": {
+          "quote": "# Parameters 473,473",
+          "justification": "Table 9 states the ZINC/ZINC-full model size.",
+          "value": "473,473"
+        },
+        "accelerator_type": {
+          "quote": "timing is conducted on a single NVIDIA V100 GPU",
+          "justification": "The ZINC timing run uses a GPU.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "single NVIDIA V100 GPU",
+          "justification": "The accelerator model is stated.",
+          "value": "NVIDIA V100"
+        },
+        "accelerator_count": {
+          "quote": "single NVIDIA V100 GPU",
+          "justification": "One GPU is stated.",
+          "value": "1"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Precision is not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "No parallelism strategy is stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "Training time ... 29.4 sec/epoch",
+          "justification": "Table 12 reports GRIT's ZINC training time.",
+          "value": "29.4 sec/epoch"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "No hardware-utilisation percentage is reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "4 runs with different random seeds (0,1,2,3)",
+          "justification": "Four random seeds are used.",
+          "value": [
+            {
+              "kind": "seed",
+              "count": 4,
+              "what": "random seeds (0,1,2,3)"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "Graph Inductive bias Transformer (GRIT)",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "ZINC-full",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Relative Random Walk Probabilities (RRWP)"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "We also test our model on the ZINC-full dataset",
+          "justification": "GRIT is trained and tested on ZINC-full.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "# Epochs 2000",
+          "justification": "Table 9 gives this for ZINC/ZINC-full.",
+          "value": "2000"
+        },
+        "parameter_count": {
+          "quote": "# Parameters 473,473",
+          "justification": "Table 9 gives this size.",
+          "value": "473,473"
+        },
+        "accelerator_type": {
+          "quote": "",
+          "justification": "Hardware is not stated for this run.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "",
+          "justification": "Hardware model is not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "",
+          "justification": "Accelerator count is not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Precision is not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "Parallelism is not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "Duration is not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "Utilisation is not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "Shown is the mean ± s.d. of 4 runs with different random seeds.",
+          "justification": "Four seeds are used.",
+          "value": [
+            {
+              "kind": "seed",
+              "count": 4,
+              "what": "different random seeds"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "Graph Inductive bias Transformer (GRIT)",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "MNIST",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Relative Random Walk Probabilities (RRWP)"
+          },
+          {
+            "name": "two-sample one-tailed T-test"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "We evaluate our proposed method on five benchmarks",
+          "justification": "GRIT is trained on MNIST.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "MNIST ... # Epochs 200",
+          "justification": "Table 9 states 200 epochs.",
+          "value": "200"
+        },
+        "parameter_count": {
+          "quote": "# Parameters 102,138",
+          "justification": "Table 9 states this size.",
+          "value": "102,138"
+        },
+        "accelerator_type": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "4 runs with different random seeds (0,1,2,3)",
+          "justification": "Four seeds are used.",
+          "value": [
+            {
+              "kind": "seed",
+              "count": 4,
+              "what": "random seeds (0,1,2,3)"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "Graph Inductive bias Transformer (GRIT)",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "CIFAR10",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Relative Random Walk Probabilities (RRWP)"
+          },
+          {
+            "name": "two-sample one-tailed T-test"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "We evaluate our proposed method on five benchmarks",
+          "justification": "GRIT is trained on CIFAR10.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "CIFAR10 ... # Epochs 200",
+          "justification": "Table 9 states 200 epochs.",
+          "value": "200"
+        },
+        "parameter_count": {
+          "quote": "# Parameters 99486",
+          "justification": "Table 9 states this size.",
+          "value": "99486"
+        },
+        "accelerator_type": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "4 runs with different random seeds (0,1,2,3)",
+          "justification": "Four seeds are used.",
+          "value": [
+            {
+              "kind": "seed",
+              "count": 4,
+              "what": "random seeds (0,1,2,3)"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "Graph Inductive bias Transformer (GRIT)",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "PATTERN",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Relative Random Walk Probabilities (RRWP)"
+          },
+          {
+            "name": "two-sample one-tailed T-test"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "We evaluate our proposed method on five benchmarks",
+          "justification": "GRIT is trained on PATTERN.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "PATTERN ... # Epochs 100",
+          "justification": "Table 9 states 100 epochs.",
+          "value": "100"
+        },
+        "parameter_count": {
+          "quote": "# Parameters 477,953",
+          "justification": "Table 9 states this size.",
+          "value": "477,953"
+        },
+        "accelerator_type": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "4 runs with different random seeds (0,1,2,3)",
+          "justification": "Four seeds are used.",
+          "value": [
+            {
+              "kind": "seed",
+              "count": 4,
+              "what": "random seeds (0,1,2,3)"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "Graph Inductive bias Transformer (GRIT)",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "CLUSTER",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Relative Random Walk Probabilities (RRWP)"
+          },
+          {
+            "name": "two-sample one-tailed T-test"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "We evaluate our proposed method on five benchmarks",
+          "justification": "GRIT is trained on CLUSTER.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "CLUSTER ... # Epochs 100",
+          "justification": "Table 9 states 100 epochs.",
+          "value": "100"
+        },
+        "parameter_count": {
+          "quote": "# Parameters 432,206",
+          "justification": "Table 9 states this size.",
+          "value": "432,206"
+        },
+        "accelerator_type": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "4 runs with different random seeds (0,1,2,3)",
+          "justification": "Four seeds are used.",
+          "value": [
+            {
+              "kind": "seed",
+              "count": 4,
+              "what": "random seeds (0,1,2,3)"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "Graph Inductive bias Transformer (GRIT)",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Peptides-func",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Relative Random Walk Probabilities (RRWP)"
+          },
+          {
+            "name": "two-sample one-tailed T-test"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "we evaluate our method on ... Peptides-func",
+          "justification": "GRIT is trained on this benchmark.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "Peptides-func ... # Epochs 200",
+          "justification": "Table 10 states 200 epochs.",
+          "value": "200"
+        },
+        "parameter_count": {
+          "quote": "# Parameters 443,338",
+          "justification": "Table 10 states this size.",
+          "value": "443,338"
+        },
+        "accelerator_type": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "4 runs with different random seeds (0,1,2,3)",
+          "justification": "Four seeds are used.",
+          "value": [
+            {
+              "kind": "seed",
+              "count": 4,
+              "what": "random seeds (0,1,2,3)"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "Graph Inductive bias Transformer (GRIT)",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Peptides-struct",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Relative Random Walk Probabilities (RRWP)"
+          },
+          {
+            "name": "two-sample one-tailed T-test"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "we evaluate our method on ... Peptides-struct",
+          "justification": "GRIT is trained on this benchmark.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "Peptides-struct ... # Epochs 200",
+          "justification": "Table 10 states 200 epochs.",
+          "value": "200"
+        },
+        "parameter_count": {
+          "quote": "# Parameters 438,827",
+          "justification": "Table 10 states this size.",
+          "value": "438,827"
+        },
+        "accelerator_type": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "4 runs with different random seeds (0,1,2,3)",
+          "justification": "Four seeds are used.",
+          "value": [
+            {
+              "kind": "seed",
+              "count": 4,
+              "what": "random seeds (0,1,2,3)"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "Graph Inductive bias Transformer (GRIT)",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "PCQM4Mv2",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Relative Random Walk Probabilities (RRWP)"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "we conduct an experiment on the PCQM4Mv2",
+          "justification": "GRIT is trained for this large benchmark.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "PCQM4Mv2 ... # Epochs 150",
+          "justification": "Table 10 states 150 epochs.",
+          "value": "150"
+        },
+        "parameter_count": {
+          "quote": "# Parameters ... 15.3M",
+          "justification": "Table 10 states the run size.",
+          "value": "15.3M"
+        },
+        "accelerator_type": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "The result of a single random seed run is reported",
+          "justification": "The paper explicitly reports one seed for this run.",
+          "value": [
+            {
+              "kind": "seed",
+              "count": 1,
+              "what": "single random seed"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "Graph Inductive bias Transformer (GRIT)",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "ZINC",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Relative Random Walk Probabilities (RRWP)"
+          },
+          {
+            "name": "Random Walk Structural Encodings (RWSE)"
+          },
+          {
+            "name": "shortest-path distance positional encodings (SPDPE)"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "We conduct several ablation experiments on ZINC",
+          "justification": "Ablated GRIT variants are trained.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "# Epochs 2000",
+          "justification": "The ZINC hyperparameter table states 2,000 epochs.",
+          "value": "2000"
+        },
+        "parameter_count": {
+          "quote": "# Param ∼ 500K",
+          "justification": "The ZINC experiments use an approximately 500K budget; exact counts of each ablation are not stated.",
+          "value": "∼500K"
+        },
+        "accelerator_type": {
+          "quote": "",
+          "justification": "Not separately stated for ablations.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "",
+          "justification": "Not separately stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "",
+          "justification": "Not separately stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "Shown is the mean ± s.d. of 4 runs with different random seeds.",
+          "justification": "Eight listed architecture settings are each evaluated with four seeds.",
+          "value": [
+            {
+              "kind": "variant",
+              "count": 8,
+              "what": "architectural design choices"
+            },
+            {
+              "kind": "seed",
+              "count": 4,
+              "what": "different random seeds"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "Graph Inductive bias Transformer (GRIT)",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "ZINC",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Relative Random Walk Probabilities (RRWP)"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "We also conduct a sensitivity analysis on the parameter K of RRWP on ZINC.",
+          "justification": "GRIT is trained for several K values.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "# Epochs 2000",
+          "justification": "The ZINC run uses 2,000 epochs.",
+          "value": "2000"
+        },
+        "parameter_count": {
+          "quote": "# Param ∼ 500K",
+          "justification": "The ZINC setting has an approximately 500K budget; exact size for each K is not stated.",
+          "value": "∼500K"
+        },
+        "accelerator_type": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "K 2 7 14 18 21 24 42 ... mean ± s.d. of 4 runs with different random seeds",
+          "justification": "Seven K settings are each evaluated over four seeds.",
+          "value": [
+            {
+              "kind": "hyperparameter",
+              "count": 7,
+              "what": "K-order RRWP"
+            },
+            {
+              "kind": "seed",
+              "count": 4,
+              "what": "different random seeds"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "Transformer+RWSE",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "ZINC",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Random Walk Structural Encodings (RWSE)"
+          },
+          {
+            "name": "l1-loss"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "we train each method for 2000 epochs on each graph separately",
+          "justification": "This synthetic baseline is trained.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "2000 epochs",
+          "justification": "The paper states the training length.",
+          "value": "2000"
+        },
+        "parameter_count": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "",
+          "justification": "The 20 sampled graphs and three target neighborhoods are experimental workload, not reported repetition factors.",
+          "value": []
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "SAN+LapPE*",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "ZINC",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Laplacian Positional Encoding (LapPE)"
+          },
+          {
+            "name": "l1-loss"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "we train each method for 2000 epochs on each graph separately",
+          "justification": "This synthetic baseline is trained.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "2000 epochs",
+          "justification": "The paper states the training length.",
+          "value": "2000"
+        },
+        "parameter_count": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "",
+          "justification": "No valid repetition factor is stated beyond processing sampled graphs and target neighborhoods.",
+          "value": []
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "Graphormer+SPDPE",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "ZINC",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "shortest-path distance positional encodings (SPDPE)"
+          },
+          {
+            "name": "l1-loss"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "we train each method for 2000 epochs on each graph separately",
+          "justification": "This synthetic baseline is trained.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "2000 epochs",
+          "justification": "The paper states the training length.",
+          "value": "2000"
+        },
+        "parameter_count": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "",
+          "justification": "No valid repetition factor is stated.",
+          "value": []
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "EGT+SVDPE",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "ZINC",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "l1-loss"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "EGT+SVDPE 0.55 ± 0.21",
+          "justification": "The reported synthetic result indicates a trained attention variant.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "we train each method for 2000 epochs",
+          "justification": "The synthetic methods use 2,000 epochs.",
+          "value": "2000"
+        },
+        "parameter_count": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "",
+          "justification": "No valid repetition factor is stated.",
+          "value": []
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "Graph Inductive bias Transformer (GRIT)",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "ZINC",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Relative Random Walk Probabilities (RRWP)"
+          },
+          {
+            "name": "l1-loss"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "we train each method for 2000 epochs on each graph separately",
+          "justification": "The one-layer, one-head GRIT attention model is trained synthetically.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "2000 epochs",
+          "justification": "The paper states the training length.",
+          "value": "2000"
+        },
+        "parameter_count": {
+          "quote": "",
+          "justification": "Not stated for the synthetic one-layer model.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "",
+          "justification": "No valid repetition factor is stated; sampled graphs and target neighborhoods are workload.",
+          "value": []
+        }
+      }
+    ]
+  },
+  "usage": {
+    "input_tokens": 32404,
+    "output_tokens": 15522,
+    "total_tokens": 47926
+  }
+}

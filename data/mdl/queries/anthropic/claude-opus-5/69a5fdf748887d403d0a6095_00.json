@@ -1,0 +1,1338 @@
+{
+  "paper": "69a5fdf748887d403d0a6095.txt",
+  "words": 10624,
+  "extractions": {
+    "title": {
+      "quote": "Transductive Learning for Textual Few-Shot Classification in API-based Embedding Models",
+      "justification": "Title as given at the top of the paper",
+      "value": "Transductive Learning for Textual Few-Shot Classification in API-based Embedding Models"
+    },
+    "description": "The paper proposes an API-based few-shot text classification scenario where only a black-box encoder's embeddings are available, introduces a parameter-free transductive regularizer based on the Fisher-Rao distance, and benchmarks inductive and transductive few-shot classifiers over eight datasets, four languages and ten backbone encoders with episodic evaluation over 1,000 episodes.",
+    "type": {
+      "quote": "We evaluate our methods using eight backbone models, along with an episodic evaluation over 1,000 episodes, which demonstrate the superiority of transductive inference over the standard inductive setting.",
+      "justification": "The paper builds a benchmark and runs extensive experiments, although it also includes a proposition with proof",
+      "value": "empirical"
+    },
+    "research_fields": [
+      {
+        "name": {
+          "quote": "Recent advances in Natural Language Processing (NLP) have been largely driven by the scaling paradigm",
+          "justification": "The paper works on textual classification tasks within NLP",
+          "value": "Natural Language Processing"
+        },
+        "aliases": [
+          "NLP"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "This paper is centered on the fundamental task of few-shot text classification",
+          "justification": "The paper contributes a new textual few-shot scenario and baseline",
+          "value": "Few-shot learning"
+        },
+        "aliases": [
+          "FSL"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "our benchmark relies on a total of eight datasets, covering multiclass classification tasks",
+          "justification": "The benchmark is on multiclass text classification",
+          "value": "Text classification"
+        },
+        "aliases": [],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "we propose a transductive inference, a learning paradigm that has been overlooked by the NLP community",
+          "justification": "The paper revisits transduction for NLP and proposes a new transductive regularizer",
+          "value": "Transductive inference"
+        },
+        "aliases": [
+          "transductive learning"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "Our findings corroborate recent findings in computer vision",
+          "justification": "Mentioned as the field where transductive FSL gains have been observed",
+          "value": "computer vision"
+        },
+        "aliases": [],
+        "role": "referenced"
+      }
+    ],
+    "models": [
+      {
+        "name": {
+          "quote": "4. text-davinci model: to mimic the typical setting of API-based models, we also conduct experiments on text-davinci, only accessible through OpenAI’s API.",
+          "justification": "Used as an API-based backbone and also in in-context learning",
+          "value": "text-davinci"
+        },
+        "aliases": [
+          "davinci"
+        ],
+        "is_contributed": {
+          "quote": "only accessible through OpenAI’s API",
+          "justification": "OpenAI model accessed through the API",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "In this experiment, we investigate the performance of text-davinci in both its language model and embedding-based model forms.",
+          "justification": "Queried for embeddings and ICL predictions",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "the higher amount of information conveyed by text-davinci learned embeddings over other backbones",
+          "justification": "Its results are compared with other backbones",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "The black-box API provides embeddings from the pretrained encoder fθ .",
+          "justification": "Only used through its API to produce embeddings / ICL predictions; the backbone itself is not trained",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "text-davinci model: to mimic the typical setting of API-based models",
+          "justification": "No specific reference paper given for text-davinci",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "namely RoBERTa (B) with 124M parameters",
+          "justification": "Listed as a backbone with parameter count",
+          "value": "RoBERTa (B)"
+        },
+        "aliases": [
+          "roberta-base"
+        ],
+        "is_contributed": {
+          "quote": "Three different sizes of RoBERTa based models (Liu et al., 2019b)",
+          "justification": "Pre-existing model",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we have included a diverse range of transformer-based backbone models in our study",
+          "justification": "Used as backbone to produce embeddings in experiments",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "the inverse-scaling-law details are found for the RoBERTa(B/L) and XLM-RoBERTa (B/L) models per dataset",
+          "justification": "Performance compared across backbones",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "This scenario, allows tuning a classification head gϕ (using induction or transduction) at low computational cost",
+          "justification": "Backbone frozen, only the head is trained",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "Three different sizes of RoBERTa based models (Liu et al., 2019b)",
+          "justification": "Cited reference for RoBERTa",
+          "value": "Roberta: A robustly optimized bert pretraining approach"
+        }
+      },
+      {
+        "name": {
+          "quote": "RoBERTa (L) with 355M parameters",
+          "justification": "Listed as a backbone with parameter count",
+          "value": "RoBERTa (L)"
+        },
+        "aliases": [
+          "roberta-large"
+        ],
+        "is_contributed": {
+          "quote": "Three different sizes of RoBERTa based models (Liu et al., 2019b)",
+          "justification": "Pre-existing model",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "RoBERTa (L) with 355M parameters",
+          "justification": "Used as backbone",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "We observed an inverse scaling law for both the RoBERTa and XLM-RoBERTa family of models",
+          "justification": "Compared across backbones",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "The black-box API provides embeddings from the pretrained encoder fθ .",
+          "justification": "Backbone frozen, embeddings only",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "Three different sizes of RoBERTa based models (Liu et al., 2019b)",
+          "justification": "Cited reference",
+          "value": "Roberta: A robustly optimized bert pretraining approach"
+        }
+      },
+      {
+        "name": {
+          "quote": "DistilRoBERTa, a lighter version of RoBERTa trained through a distillation process (Hinton et al., 2015), for a total of 82M parameters",
+          "justification": "Listed as a lighter RoBERTa backbone",
+          "value": "DistilRoBERTa"
+        },
+        "aliases": [
+          "distilroberta-base"
+        ],
+        "is_contributed": {
+          "quote": "DistilRoBERTa, a lighter version of RoBERTa",
+          "justification": "Pre-existing model",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "model = distilroberta-base",
+          "justification": "Used as backbone",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "model = distilroberta-base",
+          "justification": "Results reported per backbone",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "The black-box API provides embeddings from the pretrained encoder fθ .",
+          "justification": "Only embeddings used",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "trained through a distillation process (Hinton et al., 2015)",
+          "justification": "Reference cited for distillation",
+          "value": "Distilling the knowledge in a neural network"
+        }
+      },
+      {
+        "name": {
+          "quote": "we consider MPNET-base (Song et al., 2020), MiniLM (Wang et al., 2020), and Albert Small V2 (Lan et al., 2019)",
+          "justification": "One of the sentence-transformer backbones",
+          "value": "MPNET-base"
+        },
+        "aliases": [
+          "all-mpnet-base-v2"
+        ],
+        "is_contributed": {
+          "quote": "Three sentence-transformers encoder (Reimers and Gurevych, 2019)",
+          "justification": "Pre-existing model",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "model = all-mpnet-base-v2",
+          "justification": "Used as backbone",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "model = all-mpnet-base-v2",
+          "justification": "Compared across backbones",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "The black-box API provides embeddings from the pretrained encoder fθ .",
+          "justification": "Embeddings only",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "MPNET-base (Song et al., 2020)",
+          "justification": "Cited reference",
+          "value": "Mpnet: Masked and permuted pre-training for language understanding"
+        }
+      },
+      {
+        "name": {
+          "quote": "MiniLM (Wang et al., 2020)",
+          "justification": "One of the sentence-transformer backbones",
+          "value": "MiniLM"
+        },
+        "aliases": [
+          "all-MiniLM-L12-v2"
+        ],
+        "is_contributed": {
+          "quote": "Three sentence-transformers encoder",
+          "justification": "Pre-existing model",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "model = all-MiniLM-L12-v2",
+          "justification": "Used as backbone",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "model = all-MiniLM-L12-v2",
+          "justification": "Compared across backbones",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "The black-box API provides embeddings from the pretrained encoder fθ .",
+          "justification": "Embeddings only",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "MiniLM (Wang et al., 2020)",
+          "justification": "Cited reference",
+          "value": "Minilm: Deep self-attention distillation for task-agnostic compression of pre-trained transformers"
+        }
+      },
+      {
+        "name": {
+          "quote": "Albert Small V2 (Lan et al., 2019)",
+          "justification": "One of the sentence-transformer backbones",
+          "value": "Albert Small V2"
+        },
+        "aliases": [
+          "Albert Small V2 (XS)"
+        ],
+        "is_contributed": {
+          "quote": "Three sentence-transformers encoder",
+          "justification": "Pre-existing model",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Albert Small V2 (XS) 11M",
+          "justification": "Results reported in Table 5",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Albert Small V2 (XS) 11M",
+          "justification": "Results compared across backbones",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "The black-box API provides embeddings from the pretrained encoder fθ .",
+          "justification": "Embeddings only",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "Albert Small V2 (Lan et al., 2019)",
+          "justification": "Cited reference",
+          "value": "Albert: A lite bert for self-supervised learning of language representations"
+        }
+      },
+      {
+        "name": {
+          "quote": "we rely on three sizes of XLM-RoBERTa (Conneau et al., 2020, 2019): base (B), large (L) and XL (XL)",
+          "justification": "Multilingual backbone",
+          "value": "XLM-RoBERTa (B)"
+        },
+        "aliases": [
+          "xlm-roberta-base"
+        ],
+        "is_contributed": {
+          "quote": "we rely on three sizes of XLM-RoBERTa",
+          "justification": "Pre-existing model",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "model = xlm-roberta-base",
+          "justification": "Used as backbone",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "model = xlm-roberta-base",
+          "justification": "Compared across backbones",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "The black-box API provides embeddings from the pretrained encoder fθ .",
+          "justification": "Embeddings only",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "XLM-RoBERTa (Conneau et al., 2020, 2019)",
+          "justification": "Cited reference",
+          "value": "Unsupervised cross-lingual representation learning at scale"
+        }
+      },
+      {
+        "name": {
+          "quote": "three sizes of XLM-RoBERTa (Conneau et al., 2020, 2019): base (B), large (L) and XL (XL)",
+          "justification": "Multilingual backbone",
+          "value": "XLM-RoBERTa (L)"
+        },
+        "aliases": [
+          "xlm-roberta-large"
+        ],
+        "is_contributed": {
+          "quote": "three sizes of XLM-RoBERTa",
+          "justification": "Pre-existing model",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "model = xlm-roberta-large",
+          "justification": "Used as backbone",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "model = xlm-roberta-large",
+          "justification": "Compared across backbones",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "The black-box API provides embeddings from the pretrained encoder fθ .",
+          "justification": "Embeddings only",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "XLM-RoBERTa (Conneau et al., 2020, 2019)",
+          "justification": "Cited reference",
+          "value": "Unsupervised cross-lingual representation learning at scale"
+        }
+      },
+      {
+        "name": {
+          "quote": "three sizes of XLM-RoBERTa (Conneau et al., 2020, 2019): base (B), large (L) and XL (XL)",
+          "justification": "Multilingual backbone",
+          "value": "XLM-RoBERTa (XL)"
+        },
+        "aliases": [
+          "xlm-roberta-xl"
+        ],
+        "is_contributed": {
+          "quote": "three sizes of XLM-RoBERTa",
+          "justification": "Pre-existing model",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "model = xlm-roberta-xl",
+          "justification": "Used as backbone",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "the CE-based method seems to perform slightly better than I for XLM-RoBERTa-xl",
+          "justification": "Compared across backbones",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "The black-box API provides embeddings from the pretrained encoder fθ .",
+          "justification": "Embeddings only",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "XLM-RoBERTa (Conneau et al., 2020, 2019)",
+          "justification": "Cited reference",
+          "value": "Unsupervised cross-lingual representation learning at scale"
+        }
+      },
+      {
+        "name": {
+          "quote": "the seminal work (Schick and Schütze, 2020a) proposed a model called PET",
+          "justification": "Referenced prompt-based FSL model, not executed here",
+          "value": "PET"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "proposed a model called PET",
+          "justification": "Prior work",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "PET (Schick and Schütze, 2020a) entails a training time of 20 minutes on A100",
+          "justification": "Only mentioned, with training time quoted from prior work",
+          "value": false
+        },
+        "is_compared": {
+          "quote": "we can compare our method with existing approaches (in the light of R2). For instance, PET ... entails a training time of 20 minutes on A100",
+          "justification": "Only its reported training time is referenced, not numerically benchmarked here",
+          "value": false
+        },
+        "execution_mode": {
+          "quote": "PET (Schick and Schütze, 2020a) entails a training time of 20 minutes on A100",
+          "justification": "Not executed in this paper",
+          "value": "unknown"
+        },
+        "referenced_paper_title": {
+          "quote": "the seminal work (Schick and Schütze, 2020a) proposed a model called PET",
+          "justification": "Cited reference for PET",
+          "value": "Exploiting cloze questions for few shot text classification and natural language inference"
+        }
+      },
+      {
+        "name": {
+          "quote": "while ADAPET (Tam et al., 2021) necessitates 10 minutes on the same hardware",
+          "justification": "Referenced prior model with quoted training time",
+          "value": "ADAPET"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "ADAPET (Tam et al., 2021)",
+          "justification": "Prior work",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "ADAPET (Tam et al., 2021) necessitates 10 minutes on the same hardware",
+          "justification": "Not run in this paper",
+          "value": false
+        },
+        "is_compared": {
+          "quote": "ADAPET (Tam et al., 2021) necessitates 10 minutes on the same hardware",
+          "justification": "Only training time referenced",
+          "value": false
+        },
+        "execution_mode": {
+          "quote": "ADAPET (Tam et al., 2021) necessitates 10 minutes on the same hardware",
+          "justification": "Not executed in this paper",
+          "value": "unknown"
+        },
+        "referenced_paper_title": {
+          "quote": "ADAPET (Tam et al., 2021)",
+          "justification": "Cited reference",
+          "value": "Improving and simplifying pattern exploiting training"
+        }
+      },
+      {
+        "name": {
+          "quote": "A recent example is T-FEW (Liu et al., 2022), which adds learned vectors that rescale the network’s internal activations.",
+          "justification": "Referenced parameter-efficient finetuning model",
+          "value": "T-FEW"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "A recent example is T-FEW (Liu et al., 2022)",
+          "justification": "Prior work",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "A recent example is T-FEW (Liu et al., 2022)",
+          "justification": "Only discussed",
+          "value": false
+        },
+        "is_compared": {
+          "quote": "A recent example is T-FEW (Liu et al., 2022)",
+          "justification": "Not numerically compared",
+          "value": false
+        },
+        "execution_mode": {
+          "quote": "A recent example is T-FEW (Liu et al., 2022)",
+          "justification": "Not executed",
+          "value": "unknown"
+        },
+        "referenced_paper_title": {
+          "quote": "T-FEW (Liu et al., 2022)",
+          "justification": "Cited reference",
+          "value": "Few-shot parameter-efficient fine-tuning is better and cheaper than in-context learning"
+        }
+      }
+    ],
+    "data_sources": [
+      {
+        "name": {
+          "quote": "we choose Go Emotion (Demszky et al., 2020)",
+          "justification": "Listed among benchmark datasets",
+          "value": "Go Emotion"
+        },
+        "aliases": [
+          "Emotion",
+          "Emotions",
+          "GoEmotions"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "Emotion 25",
+          "justification": "Only the number of classes is given",
+          "value": "unknown"
+        },
+        "derived_from": [],
+        "sample_properties": [
+          {
+            "name": "Classes (K)",
+            "value": {
+              "quote": "Emotion 25",
+              "justification": "Table 1 statistics",
+              "value": "25"
+            },
+            "unit": "classes"
+          }
+        ],
+        "referenced_paper_title": {
+          "quote": "Go Emotion (Demszky et al., 2020)",
+          "justification": "Cited reference",
+          "value": "GoEmotions: A Dataset of Fine-Grained Emotions"
+        }
+      },
+      {
+        "name": {
+          "quote": "Tweet Eval (Barbieri et al., 2020)",
+          "justification": "Listed among benchmark datasets",
+          "value": "Tweet Eval"
+        },
+        "aliases": [
+          "Tweet",
+          "Twitter"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "Tweet 20",
+          "justification": "Only class count given",
+          "value": "unknown"
+        },
+        "derived_from": [],
+        "sample_properties": [
+          {
+            "name": "Classes (K)",
+            "value": {
+              "quote": "Tweet 20",
+              "justification": "Table 1 statistics",
+              "value": "20"
+            },
+            "unit": "classes"
+          }
+        ],
+        "referenced_paper_title": {
+          "quote": "Tweet Eval (Barbieri et al., 2020)",
+          "justification": "Cited reference",
+          "value": "TweetEval: Unified Benchmark and Comparative Evaluation for Tweet Classification"
+        }
+      },
+      {
+        "name": {
+          "quote": "Clinc (Larson et al., 2019)",
+          "justification": "Listed among benchmark datasets",
+          "value": "Clinc"
+        },
+        "aliases": [
+          "Clinic"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "Clinc 151",
+          "justification": "Only class count given",
+          "value": "unknown"
+        },
+        "derived_from": [],
+        "sample_properties": [
+          {
+            "name": "Classes (K)",
+            "value": {
+              "quote": "Clinc 151",
+              "justification": "Table 1 statistics",
+              "value": "151"
+            },
+            "unit": "classes"
+          }
+        ],
+        "referenced_paper_title": {
+          "quote": "Clinc (Larson et al., 2019)",
+          "justification": "Cited reference",
+          "value": "An evaluation dataset for intent classification and out-of-scope prediction"
+        }
+      },
+      {
+        "name": {
+          "quote": "Banking (Casanueva et al., 2020)",
+          "justification": "Listed among benchmark datasets",
+          "value": "Banking"
+        },
+        "aliases": [
+          "B77"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "B77 77",
+          "justification": "Only class count given",
+          "value": "unknown"
+        },
+        "derived_from": [],
+        "sample_properties": [
+          {
+            "name": "Classes (K)",
+            "value": {
+              "quote": "B77 77",
+              "justification": "Table 1 statistics",
+              "value": "77"
+            },
+            "unit": "classes"
+          }
+        ],
+        "referenced_paper_title": {
+          "quote": "Banking (Casanueva et al., 2020)",
+          "justification": "Cited reference",
+          "value": "Efficient intent detection with dual sentence encoders"
+        }
+      },
+      {
+        "name": {
+          "quote": "the Multilingual Amazon Reviews Corpus (Keung et al., 2020)",
+          "justification": "Listed among benchmark datasets and used for multilingual experiments",
+          "value": "Multilingual Amazon Reviews Corpus"
+        },
+        "aliases": [
+          "Amazon"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "Amazon 30",
+          "justification": "Only class count given",
+          "value": "unknown"
+        },
+        "derived_from": [],
+        "sample_properties": [
+          {
+            "name": "Classes (K)",
+            "value": {
+              "quote": "Amazon 30",
+              "justification": "Table 1 statistics",
+              "value": "30"
+            },
+            "unit": "classes"
+          }
+        ],
+        "referenced_paper_title": {
+          "quote": "the Multilingual Amazon Reviews Corpus (Keung et al., 2020)",
+          "justification": "Cited reference",
+          "value": "The multilingual Amazon reviews corpus"
+        }
+      }
+    ],
+    "libraries": [
+      {
+        "name": {
+          "quote": "Datasets are available in Dataset (Lhoest et al., 2021)",
+          "justification": "Stated as the source of the datasets",
+          "value": "Dataset"
+        },
+        "aliases": [
+          "Datasets",
+          "HuggingFace Datasets"
+        ],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "Dataset (Lhoest et al., 2021)",
+          "justification": "Cited reference",
+          "value": "Datasets: A community library for natural language processing"
+        }
+      },
+      {
+        "name": {
+          "quote": "text-davinci, only accessible through OpenAI’s API",
+          "justification": "Used to access text-davinci embeddings",
+          "value": "OpenAI’s API"
+        },
+        "aliases": [
+          "OpenAI API"
+        ],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "only accessible through OpenAI’s API",
+          "justification": "No reference given",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "Three sentence-transformers encoder (Reimers and Gurevych, 2019).",
+          "justification": "Backbones are sentence-transformers encoders",
+          "value": "sentence-transformers"
+        },
+        "aliases": [],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "Three sentence-transformers encoder (Reimers and Gurevych, 2019).",
+          "justification": "Cited reference",
+          "value": "Sentence-BERT: Sentence embeddings using Siamese BERT-networks"
+        }
+      }
+    ],
+    "algorithms": [
+      {
+        "name": {
+          "quote": "The proposed transductive regularizer denoted by RQ FR , for each single few-shot task, can be described as measuring the Fisher-Rao distance between pairs of query samples",
+          "justification": "The paper's proposed Fisher-Rao based transductive regularizer",
+          "value": "FR"
+        },
+        "aliases": [
+          "Fisher-Rao based regularizer",
+          "Fisher-Rao loss"
+        ],
+        "is_contributed": {
+          "quote": "We also introduce a new parameter-free transductive regularizer based on the Fisher-Rao loss",
+          "justification": "Introduced as a new parameter-free transductive regularizer",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "we found that transductive approaches I and FR outperform their inductive counterparts",
+          "justification": "Evaluated across datasets and backbones",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "FR surpasses traditional fine-tuning based on cross-entropy by a margin of 3.7%.",
+          "justification": "Compared against CE, PT, H, I, SSL",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "we introduce a new parameter-free transductive regularizer that fits into the InfoMax framework",
+          "justification": "Described as the paper's transductive baseline loss",
+          "value": "a novel parameter-free transductive regularizer used to train the classification head on the query set"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "which is given by (Picot et al., 2023)",
+          "justification": "Fisher-Rao distance expression cited to Picot et al., 2023",
+          "value": "Adversarial robustness via fisher-rao regularization"
+        }
+      },
+      {
+        "name": {
+          "quote": "Entropic Minimization (H) An effective regularizer for transductive FSL can be derived from the field of semi-supervised learning",
+          "justification": "One of the transductive regularizers evaluated",
+          "value": "Entropic Minimization (H)"
+        },
+        "aliases": [
+          "H"
+        ],
+        "is_contributed": {
+          "quote": "This regularizer, proposed in (Dhillon et al., 2019)",
+          "justification": "From prior work",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "vanilla entropy minimization, which solely relies on H, consistently underperforms in all considered scenarios",
+          "justification": "Results reported for H",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "the underperformance of the entropic-minimization-based strategy (H)",
+          "justification": "Compared with other losses",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "utilizes the conditional Shannon Entropy (Cover, 1999) of forecast results from query samples during testing to enhance model generalization",
+          "justification": "Paper's own description",
+          "value": "a transductive regularizer utilising the conditional Shannon Entropy of forecast results from query samples during testing"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "This regularizer, proposed in (Dhillon et al., 2019)",
+          "justification": "Cited as proposing this regularizer",
+          "value": "A baseline for few-shot image classification"
+        }
+      },
+      {
+        "name": {
+          "quote": "Mutual Information Maximization (I) A promising alternative to entropic minimization for addressing the challenges of transductive FSL is to adopt the Info-max principle.",
+          "justification": "Another transductive regularizer evaluated",
+          "value": "Mutual Information Maximization (I)"
+        },
+        "aliases": [
+          "I",
+          "InfoMax"
+        ],
+        "is_contributed": {
+          "quote": "(Boudiaf et al., 2020) extended this idea, introduced in (Hu et al., 2017), and propose as regularizer a surrogate of the mutual-information",
+          "justification": "From prior work (Boudiaf et al., 2020)",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "transductive approaches I and FR outperform their inductive counterparts (CE and PT)",
+          "justification": "Results reported for I",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "we note that FR is comparable in speed to I",
+          "justification": "Compared to FR and others",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "propose as regularizer a surrogate of the mutual-information",
+          "justification": "Described this way in Section 3.2",
+          "value": "a transductive regularizer that is a surrogate of the mutual information used on the query set"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "(Boudiaf et al., 2020) extended this idea",
+          "justification": "Cited reference",
+          "value": "Information maximization for few-shot learning"
+        }
+      },
+      {
+        "name": {
+          "quote": "Prototypical Networks (PT) PT learn a metric space where the distance between two points corresponds to their degree of similarity.",
+          "justification": "One of the inductive baselines",
+          "value": "Prototypical Networks (PT)"
+        },
+        "aliases": [
+          "PT"
+        ],
+        "is_contributed": {
+          "quote": "PT has been widely used in NLP and is considered as a strong baseline (Snell et al., 2017; Sun et al., 2019b; Gao et al., 2019).",
+          "justification": "Prior work baseline",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "PT is faster as it does not involve any optimization",
+          "justification": "Results reported for PT",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "transductive approaches I and FR outperform their inductive counterparts (CE and PT)",
+          "justification": "Compared with other methods",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "the distance between the query example and each class prototype is computed, and the predicted label is the class with the closest prototype",
+          "justification": "Paper's description",
+          "value": "an inductive few-shot baseline classifier where the predicted label is the class with the closest prototype"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "(Snell et al., 2017; Sun et al., 2019b; Gao et al., 2019)",
+          "justification": "Cited reference",
+          "value": "Prototypical networks for few-shot learning"
+        }
+      },
+      {
+        "name": {
+          "quote": "Linear Probing (CE) Fine-tuning a linear head on top of a pretrained model is a popular approach to learn a classifier for classification tasks",
+          "justification": "Inductive baseline with cross-entropy",
+          "value": "Linear Probing (CE)"
+        },
+        "aliases": [
+          "CE",
+          "cross-entropy"
+        ],
+        "is_contributed": {
+          "quote": "was originally proposed in (Devlin et al., 2018)",
+          "justification": "Pre-existing approach",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "SSL performs comparably to CE, which is simpler to use and will be considered as the baseline in the next part of our study",
+          "justification": "Used as baseline in all experiments",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "FR surpasses traditional fine-tuning based on cross-entropy by a margin of 3.7%",
+          "justification": "Baseline for comparisons",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "Fine-tuning a linear head on top of a pretrained model is a popular approach to learn a classifier",
+          "justification": "Paper's description",
+          "value": "the inductive baseline of fine-tuning a linear head on top of a pretrained model"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "was originally proposed in (Devlin et al., 2018)",
+          "justification": "Cited reference",
+          "value": "Bert: Pre-training of deep bidirectional transformers for language understanding"
+        }
+      },
+      {
+        "name": {
+          "quote": "Semi-supervised Baselines (SSL). We additionally propose two semi-supervised baselines following two steps.",
+          "justification": "Baseline proposed in the paper with two steps of pseudo-labelling",
+          "value": "Semi-supervised Baselines (SSL)"
+        },
+        "aliases": [
+          "SSL"
+        ],
+        "is_contributed": {
+          "quote": "We additionally propose two semi-supervised baselines following two steps.",
+          "justification": "Proposed by the authors as additional baselines",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "SSL performs comparably to CE",
+          "justification": "Results reported for SSL",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "we observe that SSL performs comparably to CE",
+          "justification": "Compared with other losses",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "In the first step, a classifier is trained using the support set S and used to label Q. In the second step, the final classifier is trained on both S and Q with the pseudo label obtained from the first step.",
+          "justification": "Paper's own description",
+          "value": "a two-step baseline where a classifier trained on the support set labels the query set and a final classifier is trained on both with pseudo labels"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "We additionally propose two semi-supervised baselines following two steps.",
+          "justification": "No specific reference",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "explore the language model’s performance when applied in an in-context learning (ICL) setup with prompting",
+          "justification": "Evaluated on text-davinci in the case study",
+          "value": "In Context Learning (ICL)"
+        },
+        "aliases": [
+          "ICL"
+        ],
+        "is_contributed": {
+          "quote": "In-context learning models are models that utilize input-to-output training examples as prompts to make predictions",
+          "justification": "Existing paradigm",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Although ICL slightly outperforms CE, its implementation comes at a significant cost.",
+          "justification": "ICL results reported in Table 2",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "ICL is 60 times more expensive than CE",
+          "justification": "Compared with CE in Table 2",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "explore the language model’s performance when applied in an in-context learning (ICL) setup with prompting",
+          "justification": "Paper's description",
+          "value": "a prompting-based prediction setup used with the text-davinci language model in the case study"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "without any parameter updates (Wei et al., 2022)",
+          "justification": "ICL discussion cites Wei et al., 2022",
+          "value": "Chain of thought prompting elicits reasoning in large language models"
+        }
+      },
+      {
+        "name": {
+          "quote": "we utilize an episodic learning framework that generates a large number of N-shots K-ways tasks",
+          "justification": "The evaluation procedure used, generating N-shot K-way tasks over 1000 episodes",
+          "value": "episodic learning framework"
+        },
+        "aliases": [
+          "episodic evaluation",
+          "episodic training"
+        ],
+        "is_contributed": {
+          "quote": "This framework has gained popularity through inductive meta-learning approaches",
+          "justification": "Existing practice from meta-learning literature, adopted here",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we average the results for each dataset over 1000 episodes",
+          "justification": "Used throughout experiments",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "we average the results for each dataset over 1000 episodes",
+          "justification": "An evaluation protocol, not compared",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "episodic training implies that a different model is initialized for each generated few-shot task, and all tasks are compiled independently in parallel",
+          "justification": "Paper's description",
+          "value": "evaluation protocol where a different model is initialized for each generated few-shot task and results are averaged over 1000 episodes"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "episodic evaluation on 1,000 episodes (Hospedales et al., 2021)",
+          "justification": "Cited for episodic evaluation",
+          "value": "Meta-learning in neural networks: A survey"
+        }
+      }
+    ],
+    "runs": [
+      {
+        "models": [
+          {
+            "name": "text-davinci",
+            "role_in_run": "main"
+          },
+          {
+            "name": "RoBERTa (B)",
+            "role_in_run": "main"
+          },
+          {
+            "name": "RoBERTa (L)",
+            "role_in_run": "main"
+          },
+          {
+            "name": "DistilRoBERTa",
+            "role_in_run": "main"
+          },
+          {
+            "name": "MPNET-base",
+            "role_in_run": "main"
+          },
+          {
+            "name": "MiniLM",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Albert Small V2",
+            "role_in_run": "main"
+          },
+          {
+            "name": "XLM-RoBERTa (B)",
+            "role_in_run": "main"
+          },
+          {
+            "name": "XLM-RoBERTa (L)",
+            "role_in_run": "main"
+          },
+          {
+            "name": "XLM-RoBERTa (XL)",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Go Emotion",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          },
+          {
+            "name": "Tweet Eval",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          },
+          {
+            "name": "Clinc",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          },
+          {
+            "name": "Banking",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          },
+          {
+            "name": "Multilingual Amazon Reviews Corpus",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "FR"
+          },
+          {
+            "name": "Mutual Information Maximization (I)"
+          },
+          {
+            "name": "Entropic Minimization (H)"
+          },
+          {
+            "name": "Linear Probing (CE)"
+          },
+          {
+            "name": "Prototypical Networks (PT)"
+          },
+          {
+            "name": "Semi-supervised Baselines (SSL)"
+          },
+          {
+            "name": "episodic learning framework"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "This scenario, allows tuning a classification head gϕ (using induction or transduction) at low computational cost (R2)",
+          "justification": "A classification head is trained per episode on top of frozen embeddings",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "episodic training implies that a different model is initialized for each generated few-shot task",
+          "justification": "Not stated",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "RoBERTa (B) with 124M parameters and RoBERTa (L) with 355M parameters",
+          "justification": "Backbone sizes are stated but the trained head's parameter count is not; the run spans many backbones",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "we report the training speed of one episode on a MAC with CPU",
+          "justification": "Training times are reported on a MAC with CPU",
+          "value": "cpu"
+        },
+        "accelerator_model": {
+          "quote": "Table 4: Training time for 1 episode on a M1-CPU.",
+          "justification": "Table 4 states training time on an M1-CPU",
+          "value": "M1-CPU"
+        },
+        "accelerator_count": {
+          "quote": "we report the training speed of one episode on a MAC with CPU",
+          "justification": "Not stated",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "we report the training speed of one episode on a MAC with CPU",
+          "justification": "Not stated",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "all tasks are compiled independently in parallel",
+          "justification": "Tasks are said to be compiled independently in parallel but no strategy stated",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "CE 0.45s FR 0.83s H 0.75s I 0.83s PT 0.01s SSL 0.80s",
+          "justification": "Table 4 reports per-episode CPU times",
+          "value": "0.45s to 0.83s per episode depending on loss"
+        },
+        "utilisation": {
+          "quote": "we report the training speed of one episode on a MAC with CPU",
+          "justification": "Not reported",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "we average the results for each dataset over 1000 episodes, with the N considered classes varying in every episode",
+          "justification": "The paper states averaging over 1000 episodes, with six methods and the (N,K) grid",
+          "value": [
+            {
+              "kind": "other",
+              "count": 1000,
+              "what": "episodes per dataset"
+            },
+            {
+              "kind": "variant",
+              "count": 6,
+              "what": "loss functions (CE, FR, H, I, PT, SSL)"
+            },
+            {
+              "kind": "variant",
+              "count": 4,
+              "what": "N-shots/K-ways settings, (N, K) ∈ {5, 10}2"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "text-davinci",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Go Emotion",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          },
+          {
+            "name": "Tweet Eval",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          },
+          {
+            "name": "Clinc",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          },
+          {
+            "name": "Banking",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          },
+          {
+            "name": "Multilingual Amazon Reviews Corpus",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "In Context Learning (ICL)"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "These models, such as text-davinci, rely solely on the provided examples to generate predictions, without any additional training.",
+          "justification": "ICL makes predictions without parameter updates via the API",
+          "value": "inference"
+        },
+        "epochs": {
+          "quote": "without any parameter updates",
+          "justification": "No training",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "text-davinci 175B",
+          "justification": "Table 5 lists text-davinci params as 175B",
+          "value": "175B"
+        },
+        "accelerator_type": {
+          "quote": "only accessible through OpenAI’s API",
+          "justification": "Run through OpenAI's API; hardware not stated",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "only accessible through OpenAI’s API",
+          "justification": "Not stated",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "only accessible through OpenAI’s API",
+          "justification": "Not stated",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "only accessible through OpenAI’s API",
+          "justification": "Not stated",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "only accessible through OpenAI’s API",
+          "justification": "Not stated",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "ICL is 60 times more expensive than CE",
+          "justification": "Only relative cost stated, not duration",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "ICL is 60 times more expensive than CE",
+          "justification": "Not reported",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "N-shots K-ways ... ICL 74.3 65.2 76.24 68.9",
+          "justification": "Table 2 reports ICL results across the N/K grid",
+          "value": [
+            {
+              "kind": "variant",
+              "count": 4,
+              "what": "N-shots/K-ways settings, (N, K) ∈ {5, 10}2"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "usage": {
+    "input_tokens": 41365,
+    "output_tokens": 14419,
+    "total_tokens": 55784
+  }
+}

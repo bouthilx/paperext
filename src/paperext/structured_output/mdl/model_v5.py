@@ -33,7 +33,7 @@ SYSTEM_MESSAGE = (
     "methods.\n\n"
     "Your role is to extract, from a given research paper, its Research Fields, "
     "Models, Data Sources, Libraries, Algorithms, and the Runs it executed.\n\n"
-    "DATA SOURCES. A Data Source is a NAMED SOURCE OF THE EXAMPLES A RUN "
+    "DATA SOURCES. A Data Source is a SOURCE OF THE EXAMPLES A RUN "
     "CONSUMES. That covers a fixed dataset (ImageNet), an interactive "
     "environment whose observations depend on the actions taken in it "
     "(MuJoCo, Atari, a driving simulator), and a generator that produces "
@@ -41,8 +41,14 @@ SYSTEM_MESSAGE = (
     "three are Data Sources -- a fixed dataset is a frozen sample of what a "
     "generator would produce -- so do NOT omit an environment or a simulator "
     "because it is not a dataset.\n"
-    "Out of scope: UNNAMED descriptions, so 'synthetic data' and 'our "
-    "simulated dataset' are not entries while 'Moving MNIST' is; the "
+    "Report a source under the NAME the paper gives it whenever one exists. "
+    "When a run consumes examples that come from no named source, report the "
+    "paper's own DESCRIPTION of them instead -- 'curated reference image "
+    "gallery' -- rather than leaving the run with no source at all. A "
+    "description never replaces a named source that covers the same "
+    "examples.\n"
+    "Out of scope: a VENDOR or website the examples were obtained from (a "
+    "stock-photo site the images were licensed from is not a dataset); the "
     "SOFTWARE that implements a source, which is a Library (the MuJoCo "
     "physics engine is a Library, the MuJoCo benchmark environments are Data "
     "Sources). A source that IS a Model -- a teacher network queried for "
@@ -59,7 +65,14 @@ SYSTEM_MESSAGE = (
     "transformation the paper does not name is NOT a new Data Source: 'we "
     "trained on rotated MNIST' is MNIST plus an augmentation Algorithm, and "
     "a subset or split of a source is the same source with a different "
-    "size.\n\n"
+    "size.\n"
+    "A SUBSET IS THE SAME SOURCE unless it is a STANDARD artifact named and "
+    "reused beyond this paper: TinyImageNet is its own Data Source, not "
+    "ImageNet with a smaller size. The test is whether others use the subset "
+    "under that name, NOT whether this paper gave it one. A selection this "
+    "paper made for itself is the original source, however much work the "
+    "selection took and however specific the label -- report the original and "
+    "let the Run record what was selected.\n\n"
     "RESEARCH FIELDS. Report every field as one list entry with a role: "
     "'contributed' if the paper advances that field or addresses a claim to it "
     "(several fields may be contributed -- do not rank them, and do not force a "
@@ -96,7 +109,11 @@ SYSTEM_MESSAGE = (
     "RUNS. A Run is a distinct COMPUTE CONFIGURATION, not a distinct execution. "
     "Two executions are the SAME run when they share a compute profile, and "
     "DIFFERENT runs only when one of these differs: execution mode, precision, "
-    "parallelism, accelerator count or type, scale, or dataset. Positive test: "
+    "parallelism, accelerator count or type, scale, or the AMOUNT OF DATA "
+    "PROCESSED. The last one changes with a different dataset, a split or "
+    "subset of a different size (the test set vs the validation set, the full "
+    "set vs a handful of examples shown in a figure), or a different number of "
+    "samples drawn per example. Positive test: "
     "a paper that trains one model on one dataset with 5 seeds and 20 learning "
     "rates is ONE run with repetitions=100, because none of those six things "
     "changes. Negative test: a paper that trains the same model at 7B and 70B, "
@@ -112,7 +129,10 @@ SYSTEM_MESSAGE = (
     "critic are ONE run; an encoder and its decoder are ONE run. A network that "
     "is FROZEN and only supplies targets or scores is a participant of the run, "
     "not a run of its own -- a distillation teacher is reported in the run's "
-    "models with role_in_run='teacher', not as a second run.\n"
+    "models with role_in_run='teacher', not as a second run, and a frozen "
+    "network that scores the main model's inputs or outputs -- a reward model "
+    "during PPO, a classifier guiding a diffusion sampler -- with "
+    "role_in_run='scorer'.\n"
     "A run that PRODUCES DATA without fitting anything is also a run, and is "
     "worth reporting when the paper describes the production as a distinct "
     "stage -- for instance one run that generates a corpus, followed by "
@@ -143,9 +163,15 @@ SYSTEM_MESSAGE = (
     "online reports 'interactive' for the same source.\n"
     "If a Run produced a NAMED Data Source that later runs consume, name it in "
     "the Run's `produces`.\n"
-    "Only Models the paper actually executed get a Run. A baseline whose "
-    "numbers are quoted from another paper is reported with is_executed=false "
-    "and gets no Run.\n\n"
+    "HOW MUCH data a Run processed goes in that run's `data_sources[].consumed` "
+    "-- '1M environment steps', '200k frames', '10% of the training split'. An "
+    "interactive environment has NO SIZE OF ITS OWN, so a step or frame count "
+    "is reported on the run that spent it, never as the Data Source's `size`.\n"
+    "Only Models THIS PAPER executed get a Run. A Model whose numbers are "
+    "QUOTED -- from another paper, from a leaderboard, or from a shared "
+    "benchmark's published results -- is reported with is_executed=false and "
+    "gets NO RUN, however much compute someone else spent on it. A comparison "
+    "table is not evidence that this paper ran the rows.\n\n"
     "NEVER INFER. Report the parameter count, the dataset size, the per-sample "
     "measures, the epochs, the accelerator, the precision, the parallelism "
     "strategy, the duration, the utilisation and the repetitions ONLY when the "
@@ -262,6 +288,15 @@ class ModelRunRole(str, enum.Enum):
     # cooperative is a question the algorithms `signal` axis already asks, and
     # asking it twice is the conflation these dimensions keep paying for.
     CRITIC = "critic"
+    # A FROZEN network that scores the main model's inputs or outputs during the
+    # run: a guidance classifier at sampling time, a reward model during PPO, a
+    # verifier reranking best-of-n samples, a VGG network inside a perceptual
+    # loss. `critic`'s frozen counterpart. Added 2026-10-13 (owner) when the
+    # #111 reference annotation of 2309.12508 met a classifier-guided sampling
+    # run: the rules already said a frozen scorer is a non-`main` participant,
+    # but no value existed for one that is neither a distillation teacher nor a
+    # source of examples, so `unknown` was the only honest answer.
+    SCORER = "scorer"
     # The Model was the source of this run's training examples: a teacher
     # queried for targets, an LLM sampled for synthetic data, a learned world
     # model an agent trained inside. Admitted as of 2026-10-08 (owner): the
@@ -348,6 +383,47 @@ def _lt(this: BaseModel, other: BaseModel, skip: tuple[str, ...]) -> bool:
 # |             | X           | X           | has been executed (trained or finetuned or inference) and compared to other models
 # |             |             | X           | is compared to other models using only results from a referenced paper
 # |             |             |             | is only referenced in the paper but is not used in any comparison
+class RepetitionKind(str, enum.Enum):
+    """What kind of factor multiplied the number of executions."""
+
+    #: Random seeds, or independent reruns of an identical configuration.
+    SEED = "seed"
+    #: A swept hyperparameter value: learning rate, weight decay, dropout.
+    HYPERPARAMETER = "hyperparameter"
+    #: A cross-validation fold or data split.
+    FOLD = "fold"
+    #: An ablation or configuration variant that shares the compute profile.
+    VARIANT = "variant"
+    OTHER = "other"
+
+
+class Repetition(BaseModel):
+    """One factor that multiplies how many times a run's configuration ran.
+
+    Structured rather than free text because the first v5 run returned prose:
+    of 81 runs that stated repetitions, **2 gave a number** and 79 gave a
+    description -- `'63 settings x 6 fine-tuning methods x 10 random seeds'`,
+    `'5 seeds per game (20 games for analyses, 60 games for full suite)'`. Those
+    carry real structure and are unaggregatable as strings, and asking the
+    extractor for the product instead invites arithmetic it got wrong at least
+    once (one answer read `96 configurations x 3 seeds = 576`).
+
+    So the factors are reported and the product is computed here, where it can
+    be checked.
+    """
+
+    kind: RepetitionKind = Field(
+        description="Which kind of factor this is",
+    )
+    count: int = Field(
+        description="How many values this factor took, e.g. 5 for five seeds",
+    )
+    what: str = Field(
+        description="What varied, in the paper's own words: 'random seeds', "
+        "'learning rates', 'cross-validation folds'",
+    )
+
+
 class RefModel(BaseModel):
     name: Explained[str] = Field(
         description="Name of the Model",
@@ -450,7 +526,9 @@ class RefDataSource(BaseModel):
         "MNIST, an offline RL dataset from a simulator. Empty otherwise. An "
         "unnamed transformation is not a derivation: 'rotated MNIST' is "
         "MNIST plus an augmentation, and a subset or split is the same "
-        "source",
+        "source -- unless the subset is a standard artifact reused beyond "
+        "this paper under its own name (TinyImageNet), which IS its own Data "
+        "Source with ImageNet in derived_from",
     )
     sample_properties: list[SampleProperty] = Field(
         description="Per-sample measures of this Dataset that the paper states, "
@@ -575,7 +653,10 @@ class RunModel(BaseModel):
         description="How this Run used the Model: 'main' for the model the run "
         "produces or executes, 'critic' for a second network co-optimised in "
         "the same loop to score the first (a GAN discriminator, an RL value "
-        "network), 'teacher'/'student' in a distillation run, "
+        "network), 'scorer' for a FROZEN network that scores the main one's "
+        "inputs or outputs without being updated (a reward model during PPO, "
+        "a guidance classifier during sampling), "
+        "'teacher'/'student' in a distillation run, "
         "'ensemble-member', or 'unknown'",
     )
 
@@ -603,6 +684,34 @@ class RunDataSource(BaseModel):
         "'reference' for a corpus it only queried at inference without "
         "training on it (a retrieval corpus, a knowledge base). Usually one. "
         "['unknown'] if the paper does not say",
+    )
+    # On the MENTION, not on RefDataSource, for the reason `access` is here:
+    # an environment has no inherent size. 1M steps is a fact about one run,
+    # and two papers stepping the same simulator would otherwise contend for
+    # the entity's `size`. Owner, 2026-10-13: "The number of frames or steps in
+    # RL experiments is not really the 'size' of the environment, but in our
+    # case, this 'scale' of data is useful."
+    consumed: Explained[str] = Field(
+        # Defaulted so records written before this field existed still load --
+        # 49 of 51 extractions stopped validating the moment it was required,
+        # and the annotation sessions read those files. The default does NOT
+        # weaken the extraction: `strict_schema` marks every property required
+        # whatever pydantic says, so the API still demands it. A backend that
+        # does not go through strict mode could omit it, and `verify.py`'s
+        # `consumed coverage` is what would show that.
+        default_factory=lambda: Explained[str](
+            quote="", justification="not asked for by this extraction", value="unknown"
+        ),
+        description="How much of this Data Source this Run processed, as the "
+        "paper states it: '1M environment steps', '200k frames', '10% of the "
+        "training split', '3 epochs over 50k images'. This is the RUN's data "
+        "scale, which is why it is reported here and not on the Data Source "
+        "-- an interactive environment has no size of its own, and the step "
+        "count belongs to the run that spent it. Differs from the Data "
+        "Source's `size`, which is how large the paper says the SOURCE is: a "
+        "run may consume a fraction of it, or many passes over it. 'unknown' "
+        "if the paper does not state it; NEVER infer it from the source's "
+        "name, its reputation, or the parameter count",
     )
 
     def __lt__(self, other: "RunDataSource"):
@@ -698,11 +807,21 @@ class Run(BaseModel):
         "figure -- an assumed utilisation is applied later, in analysis, and "
         "must not be recorded here as if the paper had stated it",
     )
-    repetitions: Explained[str] = Field(
-        description="How many executions shared this compute configuration -- "
-        "seeds times hyperparameter settings, e.g. '100' for 5 seeds of 20 "
-        "learning rates. Often stated ('mean over 5 seeds', 'we swept 20 "
-        "configurations'). 'unknown' rather than 1 when the paper does not say",
+    repetitions: Explained[list[Repetition]] = Field(
+        description="The factors that multiply how many times this run's "
+        "configuration was executed: ONE ENTRY PER INDEPENDENT FACTOR, so 5 "
+        "seeds of 20 learning rates is two entries (seed 5, hyperparameter 20) "
+        "and means 100 executions. Do not multiply them yourself. "
+        "Sweeps that are NOT crossed -- 5 sampling-step settings in one table, "
+        "2 model variants in another -- are not independent factors: report "
+        "one entry whose count is their sum (7). "
+        "AN EMPTY LIST MEANS THE PAPER DOES NOT SAY -- never report a count of "
+        "1 to mean that. "
+        "NEVER report how many examples, episodes, items, molecules or "
+        "structures the run PROCESSED: that is the run's workload, not a "
+        "repetition. '1,540 test episodes', '20k crystal structures evaluated' "
+        "and '10 samples analyzed' are NOT repetitions; '3 random seeds' and "
+        "'a grid over 5 learning rates' are",
     )
 
     def __lt__(self, other: "Run"):
@@ -725,10 +844,34 @@ class PaperExtractions(BaseModel):
     # 1999-paper legacy corpus, with an informative field sitting in the
     # optional list for 186 of those 187 papers.
     research_fields: list[ResearchField] = Field(
+        # The admission bar, owner 2026-10-09: a field mentioned only in related
+        # work was being reported as `referenced`. One real case: `offline
+        # reinforcement learning`, admitted on the strength of "Diffuser [20]
+        # uses diffusion models to generate trajectories for offline
+        # reinforcement learning tasks" -- while `Diffuser` appears nowhere else
+        # in the extraction. Nothing in the paper's own work touches the field,
+        # so the field does not belong to the paper.
         description="All Research Fields and application domains of the paper, "
-        "each with its role. Do not rank them",
+        "each with its role. Do not rank them. A field the paper only MENTIONS "
+        "-- named in related work and absent from the experiments, the "
+        "contributions and the baselines -- is NOT a Research Field of this "
+        "paper: leave it out. It is 'referenced' only when a Model, Data Source "
+        "or Algorithm you are also reporting belongs to that field, for "
+        "instance a baseline the paper compares against",
     )
-    models: list[RefModel] = Field(description="All Models found in the paper")
+    models: list[RefModel] = Field(
+        # #95's admission rule, which lived only in MODELS_BRIEF.md B.1 until a
+        # real run put a SAT solver, a local-search solver and a proof checker
+        # in this slot with `execution_mode='inference'` -- none of which has a
+        # single learned parameter, so the 6ND/2ND estimates would have been
+        # applied to procedures that have no N.
+        description="All Models found in the paper. A Model is a separable "
+        "learned object: parameters that could be run independently of the "
+        "procedure that produced them. A procedure with no learned parameters "
+        "is an Algorithm or a Library, never a Model -- a SAT solver, a proof "
+        "checker or a hand-written heuristic is not a Model even when the "
+        "paper compares against it"
+    )
     data_sources: list[RefDataSource] = Field(
         # The two exclusions are here rather than only in the issue because
         # both were measured to double-count: one string, two entities, three
@@ -812,5 +955,10 @@ def empty_model(model_cls):
     empty_fields["runs"][0]["accelerator_type"]["value"] = "unknown"
     empty_fields["runs"][0]["precision"]["value"] = "unknown"
     empty_fields["runs"][0]["parallelism"]["value"] = ["unknown"]
+    # Empty, not `__EMPTY__`: `repetitions` is a list of factors, and an empty
+    # list is also its real "the paper did not say" value. Any future
+    # list-valued field has to be registered here too -- the sentinel builder
+    # fills every field with a string otherwise.
+    empty_fields["runs"][0]["repetitions"]["value"] = []
 
     return model_cls(**empty_fields)

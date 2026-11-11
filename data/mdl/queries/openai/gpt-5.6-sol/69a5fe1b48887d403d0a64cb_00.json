@@ -1,0 +1,1430 @@
+{
+  "paper": "69a5fe1b48887d403d0a64cb.txt",
+  "words": 5432,
+  "extractions": {
+    "title": {
+      "quote": "Video Killed the HD-Map: Predicting Multi-Agent Behavior Directly From Aerial Images",
+      "justification": "This is the paper title shown at the beginning of the manuscript.",
+      "value": "Video Killed the HD-Map: Predicting Multi-Agent Behavior Directly From Aerial Images"
+    },
+    "description": "An empirical computer-vision and autonomous-driving study that trains and evaluates ITRA trajectory-prediction variants using aerial image-based maps instead of rasterized HD maps, including vehicle, pedestrian, image-quality, traffic-light, and Bing-imagery evaluations.",
+    "type": {
+      "quote": "We evaluate multi-agent trajectory prediction using the AIM by incorporating it into a differentiable driving simulator as an image-texture-based differentiable rendering module.",
+      "justification": "The paper trains models and reports quantitative validation experiments and ablations.",
+      "value": "empirical"
+    },
+    "research_fields": [
+      {
+        "name": {
+          "quote": "multi-agent trajectory prediction",
+          "justification": "The paper explicitly identifies this as the prediction problem it studies.",
+          "value": "Multi-agent trajectory prediction"
+        },
+        "aliases": [],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "in the field of autonomous driving",
+          "justification": "The proposed representation and simulator experiments address learned traffic behavior for autonomous-driving simulation.",
+          "value": "Autonomous driving"
+        },
+        "aliases": [
+          "self-driving"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "arXiv:2305.11856v2 [cs.CV]",
+          "justification": "The paper is categorized in computer vision and uses aerial imagery and image encoders as core inputs.",
+          "value": "Computer vision"
+        },
+        "aliases": [
+          "CV"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "Creating realistic simulation environments is crucial for evaluating self-driving vehicles",
+          "justification": "The work advances learned, differentiable traffic simulation through a new map representation and renderer.",
+          "value": "Traffic simulation"
+        },
+        "aliases": [
+          "driving simulation"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "pedestrian trajectory prediction",
+          "justification": "Pedestrian motion prediction is a separately trained and evaluated application domain in the experiments.",
+          "value": "Pedestrian trajectory prediction"
+        },
+        "aliases": [],
+        "role": "contributed"
+      }
+    ],
+    "models": [
+      {
+        "name": {
+          "quote": "ITRA-P-HDM",
+          "justification": "This exact trained pedestrian baseline model name appears in Table I and the implementation description.",
+          "value": "ITRA-P-HDM"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "to compare ITRA-AIM with the original ITRA that utilizes the rasterized HD map (ITRA-HDM)",
+          "justification": "It is the original HD-map baseline rather than the paper's proposed AIM variant.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we train separate models for the two agent types (ITRA-V and ITRA-P)",
+          "justification": "The paper trained the pedestrian model and reports its validation results.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "ITRA-P-AIM outperforms ITRA-P-HDM across all evaluation metrics",
+          "justification": "The two pedestrian models are numerically compared in Table I.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "we train separate models for the two agent types (ITRA-V and ITRA-P)",
+          "justification": "The model was trained from scratch in this paper.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "“Imagining the road ahead: Multi-agent trajectory prediction via differentiable simulation,”",
+          "justification": "ITRA is attributed to reference [3].",
+          "value": "Imagining the road ahead: Multi-agent trajectory prediction via differentiable simulation"
+        }
+      },
+      {
+        "name": {
+          "quote": "ITRA-P-AIM",
+          "justification": "This exact pedestrian AIM model name is used in the experiments and results.",
+          "value": "ITRA-P-AIM"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "to demonstrate the impact of AIM on motion prediction for pedestrian and vehicle agents, we train separate models for the two agent types",
+          "justification": "This is the paper's AIM-based pedestrian adaptation of ITRA.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "On the pedestrian dataset, ITRA-P-AIM outperforms ITRA-P-HDM across all evaluation metrics",
+          "justification": "The paper trained and evaluated this model.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "ITRA-P-AIM outperforms ITRA-P-HDM across all evaluation metrics",
+          "justification": "It is numerically compared with ITRA-P-HDM.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "training each component of the network from scratch",
+          "justification": "The AIM models were trained from scratch.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "“Imagining the road ahead: Multi-agent trajectory prediction via differentiable simulation,”",
+          "justification": "The model is an AIM-based variant of ITRA from reference [3].",
+          "value": "Imagining the road ahead: Multi-agent trajectory prediction via differentiable simulation"
+        }
+      },
+      {
+        "name": {
+          "quote": "ITRA-V-HDM",
+          "justification": "This exact vehicle HD-map baseline name appears in Tables II and the text.",
+          "value": "ITRA-V-HDM"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "the original ITRA that utilizes the rasterized HD map (ITRA-HDM)",
+          "justification": "It is the HD-map baseline, not the proposed AIM adaptation.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we train separate models for the two agent types (ITRA-V and ITRA-P)",
+          "justification": "The vehicle model was trained and evaluated by the authors.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Figure 4 presents validation examples comparing ITRA-V-HDM and ITRA-V-AIM on the vehicle dataset.",
+          "justification": "It is quantitatively compared in Table II and visually in Figure 4.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "we train separate models for the two agent types (ITRA-V and ITRA-P)",
+          "justification": "This vehicle baseline was trained in the paper.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "“Imagining the road ahead: Multi-agent trajectory prediction via differentiable simulation,”",
+          "justification": "ITRA is attributed to reference [3].",
+          "value": "Imagining the road ahead: Multi-agent trajectory prediction via differentiable simulation"
+        }
+      },
+      {
+        "name": {
+          "quote": "ITRA-V-AIM",
+          "justification": "This exact vehicle AIM model name is used throughout the experimental section.",
+          "value": "ITRA-V-AIM"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "We compare ITRA trained with AIM representation (ITRA-AIM)",
+          "justification": "This is the paper's proposed AIM-based vehicle variant of ITRA.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "We present our results on the validation dataset ... for ITRA-V in Tab. II.",
+          "justification": "The model was trained and evaluated in the paper.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Figure 4 presents validation examples comparing ITRA-V-HDM and ITRA-V-AIM",
+          "justification": "It is compared numerically against ITRA-V-HDM and an AIM ResNet-18 variant.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "training each component of the network from scratch",
+          "justification": "The AIM model was trained from scratch.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "“Imagining the road ahead: Multi-agent trajectory prediction via differentiable simulation,”",
+          "justification": "The model adapts ITRA from reference [3].",
+          "value": "Imagining the road ahead: Multi-agent trajectory prediction via differentiable simulation"
+        }
+      },
+      {
+        "name": {
+          "quote": "ITRA-V-AIM-ResNet18",
+          "justification": "This exact model label appears in Table II.",
+          "value": "ITRA-V-AIM-ResNet18"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "also experiment with a ResNet-18 backbone on the vehicle dataset to encode the AIM representation",
+          "justification": "It is a paper-created ITRA AIM variant using a ResNet-18 encoder.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "ITRA-V-AIM-ResNet18",
+          "justification": "Table II reports this model's validation metrics, showing it was executed.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "ITRA-V-AIM-ResNet18",
+          "justification": "Table II numerically compares it with ITRA-V-HDM and ITRA-V-AIM.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "also experiment with a ResNet-18 backbone on the vehicle dataset",
+          "justification": "This backbone variant was trained as part of the vehicle AIM experiments.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "“Imagining the road ahead: Multi-agent trajectory prediction via differentiable simulation,”",
+          "justification": "The full model remains an ITRA variant; no separate ResNet citation is given.",
+          "value": "Imagining the road ahead: Multi-agent trajectory prediction via differentiable simulation"
+        }
+      }
+    ],
+    "data_sources": [
+      {
+        "name": {
+          "quote": "aerial image-based map (AIM)",
+          "justification": "AIM is the named aerial-image source consumed as road-context input by the proposed models.",
+          "value": "aerial image-based map (AIM)"
+        },
+        "aliases": [
+          "AIM"
+        ],
+        "role": "contributed",
+        "size": {
+          "quote": "",
+          "justification": "The paper states traffic duration and segment counts for unnamed vehicle and pedestrian datasets, but does not state a sample count for AIM itself.",
+          "value": "unknown"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "AIM is introduced in this paper rather than cited from another paper.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "Bing aerial imagery",
+          "justification": "The paper uses an aerial image acquired from Bing in an additional evaluation.",
+          "value": "Bing aerial imagery"
+        },
+        "aliases": [
+          "Bing Maps"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "we acquired an aerial image from Bing aerial imagery",
+          "justification": "The paper explicitly says that one aerial image was acquired for this evaluation.",
+          "value": "1 aerial image"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "“Bing Maps,”",
+          "justification": "Reference [34] identifies the online source.",
+          "value": "Bing Maps"
+        }
+      },
+      {
+        "name": {
+          "quote": "Argoverse",
+          "justification": "Argoverse is shown as a public motion-planning dataset example but is not used in the paper's experiments.",
+          "value": "Argoverse"
+        },
+        "aliases": [],
+        "role": "referenced",
+        "size": {
+          "quote": "",
+          "justification": "No Argoverse sample count used by this paper is stated.",
+          "value": "unknown"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "“Argoverse: 3d tracking and forecasting with rich maps,”",
+          "justification": "This is the title of reference [10].",
+          "value": "Argoverse: 3d tracking and forecasting with rich maps"
+        }
+      },
+      {
+        "name": {
+          "quote": "Nuplan",
+          "justification": "Nuplan is shown as an example of a public motion-planning dataset and is not used for training or testing.",
+          "value": "Nuplan"
+        },
+        "aliases": [
+          "nuPlan"
+        ],
+        "role": "referenced",
+        "size": {
+          "quote": "",
+          "justification": "No Nuplan sample count used by this paper is stated.",
+          "value": "unknown"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "“nuplan: A closed-loop ml-based planning benchmark for autonomous vehicles,”",
+          "justification": "This is the title of reference [6].",
+          "value": "nuplan: A closed-loop ml-based planning benchmark for autonomous vehicles"
+        }
+      },
+      {
+        "name": {
+          "quote": "INTERACTION Dataset",
+          "justification": "The paper says its drone recording setup is similar to reference [11], but does not consume this dataset.",
+          "value": "INTERACTION Dataset"
+        },
+        "aliases": [
+          "INTERACTION"
+        ],
+        "role": "referenced",
+        "size": {
+          "quote": "",
+          "justification": "No INTERACTION samples are reported as used.",
+          "value": "unknown"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "“INTERACTION Dataset: An INTERnational, Adversarial and Cooperative moTION Dataset in Interactive Driving Scenarios with Semantic Maps,”",
+          "justification": "This is the title of reference [11].",
+          "value": "INTERACTION Dataset: An INTERnational, Adversarial and Cooperative moTION Dataset in Interactive Driving Scenarios with Semantic Maps"
+        }
+      }
+    ],
+    "libraries": [
+      {
+        "name": {
+          "quote": "Pytorch3D",
+          "justification": "The custom differentiable renderer is explicitly implemented with this library.",
+          "value": "Pytorch3D"
+        },
+        "aliases": [
+          "PyTorch3D"
+        ],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "“Accelerating 3d deep learning with pytorch3d,”",
+          "justification": "This is the title of reference [31].",
+          "value": "Accelerating 3d deep learning with pytorch3d"
+        }
+      }
+    ],
+    "algorithms": [
+      {
+        "name": {
+          "quote": "image-texture-based differentiable rendering",
+          "justification": "This exact name is used for the paper's proposed rendering procedure.",
+          "value": "image-texture-based differentiable rendering"
+        },
+        "aliases": [
+          "image-texture-based differentiable rendering module"
+        ],
+        "is_contributed": {
+          "quote": "We introduce our image-texture-based differentiable rendering module",
+          "justification": "The renderer is introduced as a contribution of this paper.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "By employing the AIM in a driving simulator through our image-texture-based differentiable rendering",
+          "justification": "It is used to render model inputs in the experiments.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Comparison between with and without traffic light rendered",
+          "justification": "Rendering conditions are numerically ablated, though the rendering algorithm itself is not compared to another renderer.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "produce ego-rotated and egocentric birdview images ... that utilize the proposed aerial image-based map (AIM)",
+          "justification": "This directly states the renderer's role.",
+          "value": "produce ego-rotated and egocentric birdview images that utilize the proposed aerial image-based map (AIM)"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "This rendering procedure is introduced in the present paper.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "classmates forcing",
+          "justification": "This exact named training procedure is stated in the implementation details.",
+          "value": "classmates forcing"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "ITRA adopts classmates forcing [20]",
+          "justification": "It is inherited from prior work rather than introduced here.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "ITRA adopts classmates forcing [20] in the training phase",
+          "justification": "The training runs use it.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "",
+          "justification": "No numerical comparison against a different forcing procedure is reported.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "provides ground truth states to the model for all agents beside the ego agent",
+          "justification": "This is the paper's own description of its role.",
+          "value": "provides ground truth states to the model for all agents beside the ego agent"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "“Multiple futures prediction,”",
+          "justification": "Classmates forcing is cited to reference [20].",
+          "value": "Multiple futures prediction"
+        }
+      },
+      {
+        "name": {
+          "quote": "evidence lower bound (ELBO)",
+          "justification": "The named objective is explicitly given for ITRA training.",
+          "value": "evidence lower bound (ELBO)"
+        },
+        "aliases": [
+          "ELBO"
+        ],
+        "is_contributed": {
+          "quote": "The model is trained ... by maximizing the evidence lower bound (ELBO)",
+          "justification": "The objective belongs to the existing ITRA/CVRNN method rather than being a new contribution here.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "The model is trained jointly with a separate inference network ... by maximizing the evidence lower bound (ELBO)",
+          "justification": "The training run optimizes this objective.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "",
+          "justification": "No alternative training objective is numerically compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "The model is trained jointly with a separate inference network ... by maximizing the evidence lower bound (ELBO)",
+          "justification": "This states its role as the training objective.",
+          "value": "the training objective maximized jointly with a separate inference network"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "No single reference is explicitly attached to ELBO in the text.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "kinematic bicycle model",
+          "justification": "This exact procedure is used for vehicle state transitions.",
+          "value": "kinematic bicycle model"
+        },
+        "aliases": [
+          "bicycle model"
+        ],
+        "is_contributed": {
+          "quote": "followed by a bicycle kinematic model [17]",
+          "justification": "It is cited prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "the bicycle model we use for vehicles",
+          "justification": "It is executed in vehicle model runs.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "",
+          "justification": "It is assigned to vehicles rather than numerically compared against another dynamics model on the same data.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "The next state ... is produced using a kinematic bicycle model",
+          "justification": "This directly describes its function.",
+          "value": "produces the next state from the current vehicle state and generated action"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "“The kinematic bicycle model: A consistent model for planning feasible trajectories for autonomous vehicles?”",
+          "justification": "This is reference [17].",
+          "value": "The kinematic bicycle model: A consistent model for planning feasible trajectories for autonomous vehicles?"
+        }
+      },
+      {
+        "name": {
+          "quote": "unicycle dynamics model",
+          "justification": "This exact named dynamics procedure is used for pedestrians.",
+          "value": "unicycle dynamics model"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "we apply a unicycle dynamics model [35]",
+          "justification": "It is sourced from existing material rather than introduced here.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we apply a unicycle dynamics model [35] as fkin for pedestrians",
+          "justification": "It is executed in pedestrian runs.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "",
+          "justification": "No same-dataset comparison with a different pedestrian dynamics procedure is reported.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "as fkin for pedestrians instead of the bicycle model we use for vehicles",
+          "justification": "This is the stated role.",
+          "value": "serves as fkin for pedestrians"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "“Mobile Robot Kinematics,”",
+          "justification": "This is reference [35].",
+          "value": "Mobile Robot Kinematics"
+        }
+      },
+      {
+        "name": {
+          "quote": "Gaussian blur",
+          "justification": "This named transformation is applied in the image-quality ablation.",
+          "value": "Gaussian blur"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "we first apply Gaussian blur",
+          "justification": "It is a standard existing transformation, not presented as a contribution.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we first apply Gaussian blur to our original aerial images",
+          "justification": "The paper applies it to produce degraded evaluation imagery.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Original AIM ... Blurred and noise-added AIM",
+          "justification": "Table IV compares original and degraded inputs numerically.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "To simulate a deterioration in these quality factors, we first apply Gaussian blur",
+          "justification": "This states its experimental role.",
+          "value": "simulate a deterioration in aerial image quality"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "No reference is given for Gaussian blur.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "Gaussian noise",
+          "justification": "This named transformation is applied after blurring in the image-quality ablation.",
+          "value": "Gaussian noise"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "then add Gaussian noise",
+          "justification": "It is a standard transformation rather than a contribution.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "then add Gaussian noise with a standard deviation of 0.2",
+          "justification": "The paper executes it for the degraded-AIM evaluation.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Original AIM ... Blurred and noise-added AIM",
+          "justification": "The combined degradation is numerically compared with original AIM.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "To simulate a deterioration in these quality factors ... add Gaussian noise",
+          "justification": "This states its role.",
+          "value": "simulate a deterioration in aerial image quality"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "No reference is given.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "minADE",
+          "justification": "The minimum Average Displacement Error evaluation procedure is explicitly used.",
+          "value": "minADE"
+        },
+        "aliases": [
+          "minimum Average Displacement Error"
+        ],
+        "is_contributed": {
+          "quote": "widely used metrics such as minimum Average Displacement Error (minADE)",
+          "justification": "The paper describes it as a widely used metric, not a new contribution.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "the generated trajectory with the minimum error is selected for calculating minADEK",
+          "justification": "It is calculated in the reported experiments.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "minADE6",
+          "justification": "Tables I–IV use it for numerical model comparisons.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "measure how close the sampled trajectory is to the ground truth trajectory",
+          "justification": "This is its stated evaluation role.",
+          "value": "measure how close the sampled trajectory is to the ground truth trajectory"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "No specific reference is attached to ADE/minADE.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "minFDE",
+          "justification": "The minimum Final Displacement Error evaluation procedure is explicitly used.",
+          "value": "minFDE"
+        },
+        "aliases": [
+          "minimum Final Displacement Error"
+        ],
+        "is_contributed": {
+          "quote": "widely used metrics such as ... minimum Final Displacement Error (minFDE)",
+          "justification": "It is an existing metric.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "the generated trajectory with the minimum error is selected for calculating minADEK and minFDEK",
+          "justification": "It is calculated in the experiments.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "minFDE6",
+          "justification": "Tables I–IV use it in numerical comparisons.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "measure how close the sampled trajectory is to the ground truth trajectory",
+          "justification": "This is its stated role.",
+          "value": "measure how close the sampled trajectory is to the ground truth trajectory"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "No specific reference is attached.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "off-road rate",
+          "justification": "This named evaluation procedure is used for vehicle predictions.",
+          "value": "off-road rate"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "using the method described in [36]",
+          "justification": "The method is taken from prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we calculate the off-road rate using the method described in [36]",
+          "justification": "It is computed in the experiments.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Off-road rate",
+          "justification": "Tables II–IV compare models and input conditions using it.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "evaluate the prediction performance ... on how often it commits off-road infractions",
+          "justification": "This directly states its role.",
+          "value": "evaluate how often the vehicle model commits off-road infractions"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "“TITRATED: Learned human driving behavior without infractions via amortized inference,”",
+          "justification": "The procedure is attributed to reference [36].",
+          "value": "TITRATED: Learned human driving behavior without infractions via amortized inference"
+        }
+      },
+      {
+        "name": {
+          "quote": "intersection over union (IOU)-based collision metric",
+          "justification": "This exact named collision evaluation procedure is stated.",
+          "value": "intersection over union (IOU)-based collision metric"
+        },
+        "aliases": [
+          "IOU-based collision metric",
+          "collision rate"
+        ],
+        "is_contributed": {
+          "quote": "from [36]",
+          "justification": "It is adopted from prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we also measure the collision rate ... using the intersection over union (IOU)-based collision metric from [36]",
+          "justification": "It is computed in the experiments.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "collision rate",
+          "justification": "Tables II–IV numerically compare collision rates.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "measure the collision rate in a multi-agent prediction setting",
+          "justification": "This is its stated role.",
+          "value": "measure the collision rate in a multi-agent prediction setting"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "“TITRATED: Learned human driving behavior without infractions via amortized inference,”",
+          "justification": "The metric is attributed to reference [36].",
+          "value": "TITRATED: Learned human driving behavior without infractions via amortized inference"
+        }
+      },
+      {
+        "name": {
+          "quote": "Maximum Final Distance (MFD)",
+          "justification": "This exact named diversity metric is used for pedestrians.",
+          "value": "Maximum Final Distance (MFD)"
+        },
+        "aliases": [
+          "MFD"
+        ],
+        "is_contributed": {
+          "quote": "introduced in [3]",
+          "justification": "It comes from prior ITRA work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we also measure the diversity of trajectories generated for pedestrians by measuring the Maximum Final Distance (MFD)",
+          "justification": "It is computed for pedestrian experiments.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "MFD6",
+          "justification": "Table I numerically compares pedestrian models with MFD.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "measure the diversity of trajectories generated for pedestrians",
+          "justification": "This is its stated role.",
+          "value": "measure the diversity of trajectories generated for pedestrians"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "“Imagining the road ahead: Multi-agent trajectory prediction via differentiable simulation,”",
+          "justification": "MFD is attributed to reference [3].",
+          "value": "Imagining the road ahead: Multi-agent trajectory prediction via differentiable simulation"
+        }
+      }
+    ],
+    "runs": [
+      {
+        "models": [
+          {
+            "name": "ITRA-P-AIM",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "aerial image-based map (AIM)",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "image-texture-based differentiable rendering"
+          },
+          {
+            "name": "classmates forcing"
+          },
+          {
+            "name": "evidence lower bound (ELBO)"
+          },
+          {
+            "name": "unicycle dynamics model"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "training each component of the network from scratch",
+          "justification": "This run trains the pedestrian AIM model from scratch.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "they are trained until the validation loss converges",
+          "justification": "No numerical epoch count is given.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "",
+          "justification": "No parameter count is stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "on 4 NVIDIA GeForce RTX 2080 Ti GPUs",
+          "justification": "The run uses GPUs.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "NVIDIA GeForce RTX 2080 Ti GPUs",
+          "justification": "This is the specific accelerator model stated.",
+          "value": "NVIDIA GeForce RTX 2080 Ti"
+        },
+        "accelerator_count": {
+          "quote": "on 4 NVIDIA GeForce RTX 2080 Ti GPUs",
+          "justification": "The paper states four GPUs.",
+          "value": "4"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Numerical precision is not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "No parallelism strategy is stated; it cannot be inferred from the four GPUs.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "The training time of ITRA-AIM is comparable to that of ITRA-HDM",
+          "justification": "No numerical duration or chip-time is given.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "No hardware-utilisation figure is reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "",
+          "justification": "No seeds or repeat count is stated.",
+          "value": []
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "ITRA-P-HDM",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [],
+        "algorithms": [
+          {
+            "name": "classmates forcing"
+          },
+          {
+            "name": "evidence lower bound (ELBO)"
+          },
+          {
+            "name": "unicycle dynamics model"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "we apply the same training procedure on ITRA-AIM as our baseline",
+          "justification": "This is the separately trained pedestrian HD-map baseline.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "they are trained until the validation loss converges",
+          "justification": "No numerical epoch count is stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "",
+          "justification": "No parameter count is stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "on 4 NVIDIA GeForce RTX 2080 Ti GPUs",
+          "justification": "The stated training hardware is GPU-based.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "NVIDIA GeForce RTX 2080 Ti GPUs",
+          "justification": "This is the named accelerator.",
+          "value": "NVIDIA GeForce RTX 2080 Ti"
+        },
+        "accelerator_count": {
+          "quote": "on 4 NVIDIA GeForce RTX 2080 Ti GPUs",
+          "justification": "Four GPUs were used.",
+          "value": "4"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Precision is not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "Parallelism is not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "The training time of ITRA-AIM is comparable to that of ITRA-HDM",
+          "justification": "No numerical duration is provided.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "No utilisation is reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "",
+          "justification": "No repetition count is stated.",
+          "value": []
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "ITRA-V-AIM",
+            "role_in_run": "main"
+          },
+          {
+            "name": "ITRA-V-AIM-ResNet18",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "aerial image-based map (AIM)",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "image-texture-based differentiable rendering"
+          },
+          {
+            "name": "classmates forcing"
+          },
+          {
+            "name": "evidence lower bound (ELBO)"
+          },
+          {
+            "name": "kinematic bicycle model"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "training each component of the network from scratch",
+          "justification": "This configuration trains the vehicle AIM models, including the CNN and ResNet-18 backbone variants.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "they are trained until the validation loss converges",
+          "justification": "No epoch count is stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "",
+          "justification": "No parameter count is stated for either backbone variant.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "on 4 NVIDIA GeForce RTX 2080 Ti GPUs",
+          "justification": "The models are trained on GPUs.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "NVIDIA GeForce RTX 2080 Ti GPUs",
+          "justification": "This is the named accelerator.",
+          "value": "NVIDIA GeForce RTX 2080 Ti"
+        },
+        "accelerator_count": {
+          "quote": "on 4 NVIDIA GeForce RTX 2080 Ti GPUs",
+          "justification": "The paper states four GPUs.",
+          "value": "4"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Precision is not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "No parallelism method is stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "The training time of ITRA-AIM is comparable to that of ITRA-HDM",
+          "justification": "No numerical duration is given.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "No utilisation is reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "",
+          "justification": "The paper identifies backbone variants but gives no seeds or explicit repeat count.",
+          "value": []
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "ITRA-V-HDM",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [],
+        "algorithms": [
+          {
+            "name": "classmates forcing"
+          },
+          {
+            "name": "evidence lower bound (ELBO)"
+          },
+          {
+            "name": "kinematic bicycle model"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "we apply the same training procedure on ITRA-AIM as our baseline",
+          "justification": "This is the separately trained vehicle HD-map baseline.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "they are trained until the validation loss converges",
+          "justification": "No epoch count is stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "",
+          "justification": "No parameter count is stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "on 4 NVIDIA GeForce RTX 2080 Ti GPUs",
+          "justification": "The stated training hardware uses GPUs.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "NVIDIA GeForce RTX 2080 Ti GPUs",
+          "justification": "This is the accelerator model.",
+          "value": "NVIDIA GeForce RTX 2080 Ti"
+        },
+        "accelerator_count": {
+          "quote": "on 4 NVIDIA GeForce RTX 2080 Ti GPUs",
+          "justification": "Four GPUs were used.",
+          "value": "4"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Precision is not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "Parallelism is not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "The training time of ITRA-AIM is comparable to that of ITRA-HDM",
+          "justification": "No numerical duration is given.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "No utilisation is reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "",
+          "justification": "No repeat count is stated.",
+          "value": []
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "ITRA-P-AIM",
+            "role_in_run": "main"
+          },
+          {
+            "name": "ITRA-P-HDM",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "aerial image-based map (AIM)",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "image-texture-based differentiable rendering"
+          },
+          {
+            "name": "unicycle dynamics model"
+          },
+          {
+            "name": "minADE"
+          },
+          {
+            "name": "minFDE"
+          },
+          {
+            "name": "Maximum Final Distance (MFD)"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "We present our results on the validation dataset for ITRA-P in Tab. I",
+          "justification": "This run performs pedestrian-model inference and validation scoring.",
+          "value": "inference"
+        },
+        "epochs": {
+          "quote": "",
+          "justification": "Epochs do not apply to inference and are not stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "",
+          "justification": "No parameter count is stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "",
+          "justification": "Inference hardware is not separately stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "",
+          "justification": "Inference accelerator model is not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "",
+          "justification": "Inference accelerator count is not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Inference precision is not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "Inference parallelism is not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "Inference duration is not reported.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "No utilisation is reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "",
+          "justification": "Numbers of sampled trajectories are evaluation workload, not independent run repetitions; no repeat count is stated.",
+          "value": []
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "ITRA-V-AIM",
+            "role_in_run": "main"
+          },
+          {
+            "name": "ITRA-V-AIM-ResNet18",
+            "role_in_run": "main"
+          },
+          {
+            "name": "ITRA-V-HDM",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "aerial image-based map (AIM)",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "image-texture-based differentiable rendering"
+          },
+          {
+            "name": "kinematic bicycle model"
+          },
+          {
+            "name": "Gaussian blur"
+          },
+          {
+            "name": "Gaussian noise"
+          },
+          {
+            "name": "minADE"
+          },
+          {
+            "name": "minFDE"
+          },
+          {
+            "name": "off-road rate"
+          },
+          {
+            "name": "intersection over union (IOU)-based collision metric"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "We present our results on the validation dataset ... for ITRA-V in Tab. II.",
+          "justification": "This groups vehicle validation inference, including traffic-light and image-quality ablations sharing the same model scale and source.",
+          "value": "inference"
+        },
+        "epochs": {
+          "quote": "",
+          "justification": "Epochs are not applicable to inference and are not stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "",
+          "justification": "No parameter count is stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "",
+          "justification": "Inference hardware is not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "",
+          "justification": "Inference accelerator model is not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "",
+          "justification": "Inference accelerator count is not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Inference precision is not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "Inference parallelism is not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "Inference duration is not reported.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "No utilisation is reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "",
+          "justification": "The paper reports several evaluation conditions but no independent repetition count such as seeds.",
+          "value": []
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "ITRA-V-AIM",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Bing aerial imagery",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "image-texture-based differentiable rendering"
+          },
+          {
+            "name": "kinematic bicycle model"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "our trained ITRA-V-AIM achieves good prediction performance on this larger map with validation data segments",
+          "justification": "The already-trained vehicle model is run for inference on Bing imagery.",
+          "value": "inference"
+        },
+        "epochs": {
+          "quote": "",
+          "justification": "No epochs apply or are stated for this inference run.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "",
+          "justification": "No parameter count is stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "",
+          "justification": "Hardware for the Bing inference is not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "",
+          "justification": "No accelerator model is stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "",
+          "justification": "No accelerator count is stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Precision is not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "Parallelism is not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "Duration is not reported.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "Utilisation is not reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "",
+          "justification": "The five sampled trajectories in the figure are output samples, not repeated executions; no run repetition count is stated.",
+          "value": []
+        }
+      }
+    ]
+  },
+  "usage": {
+    "input_tokens": 22084,
+    "output_tokens": 11039,
+    "total_tokens": 33123
+  }
+}

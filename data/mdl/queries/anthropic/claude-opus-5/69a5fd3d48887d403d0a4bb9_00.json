@@ -1,0 +1,1127 @@
+{
+  "paper": "69a5fd3d48887d403d0a4bb9.txt",
+  "words": 22416,
+  "extractions": {
+    "title": {
+      "quote": "An Empirical Study of Self-Admitted Technical Debt in Machine Learning Software",
+      "justification": "Title of the paper as given.",
+      "value": "An Empirical Study of Self-Admitted Technical Debt in Machine Learning Software"
+    },
+    "description": "An empirical mining-software-repositories study of self-admitted technical debt (SATD) in 318 open-source machine learning projects and 318 non-ML Python projects from GitHub. The authors extract code comments, detect SATD with an NLP-based SATD detector tool, manually classify a sample of 611 SATD comments into a taxonomy and into ML pipeline stages, perform Kaplan-Meier survival analysis of SATD introduction/removal, and build a Random Forest explanatory model (interpreted with SHAP) of long-lasting SATD.",
+    "type": {
+      "quote": "This paper aims to investigate the occurrence of SATD in ML code by analyzing 318 open-source ML projects across five domains, along with 318 non-ML projects.",
+      "justification": "The study mines and analyses real project data empirically.",
+      "value": "empirical"
+    },
+    "research_fields": [
+      {
+        "name": {
+          "quote": "Software Engineering for Machine Learning (SE4ML) is a recent and rapidly evolving field",
+          "justification": "The paper positions itself within and advances SE4ML research.",
+          "value": "Software Engineering for Machine Learning (SE4ML)"
+        },
+        "aliases": [
+          "SE4ML"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "we present the first extensive empirical study to compare the prevalence of SATD between Machine Learning (ML) software and traditional software",
+          "justification": "The study contributes to the self-admitted technical debt research area.",
+          "value": "Self-Admitted Technical Debt"
+        },
+        "aliases": [
+          "SATD",
+          "Technical Debt"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "We use the Python framework PyDriller to extract all commits submitted to the repositories of our studied projects.",
+          "justification": "The methodology is mining software repositories.",
+          "value": "Mining Software Repositories"
+        },
+        "aliases": [
+          "MSR"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "we use the state of the art SATD detection tool, proposed by Liu et al. [37], which employs a NLP-based pre-trained text classification ML model",
+          "justification": "NLP-based classification is used as a tool, not advanced.",
+          "value": "Natural Language Processing"
+        },
+        "aliases": [
+          "NLP"
+        ],
+        "role": "used"
+      }
+    ],
+    "models": [
+      {
+        "name": {
+          "quote": "We chose the Random Forest classifier for our explanatory model.",
+          "justification": "The authors trained a Random Forest classifier to explain long-lasting SATD.",
+          "value": "Random Forest classifier"
+        },
+        "aliases": [
+          "Random Forest"
+        ],
+        "is_contributed": {
+          "quote": "In this RQ, we build a explanatory ML models to obtain important features used to classify long-lasting and quickly removed SATD.",
+          "justification": "The model is built for the study's analysis, not contributed as a new model to the field.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We used the Python SciKit Learn framework for building the models.",
+          "justification": "The model was trained and validated by the authors.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "We use Random Forest for its fast prediction speed via parallelizability, robustness against feature scaling, and robustness against outliers and non-linear data.",
+          "justification": "No numerical comparison with other classifiers is reported.",
+          "value": false
+        },
+        "execution_mode": {
+          "quote": "We build and test models on each training and testing set to draw statistically robust conclusions",
+          "justification": "The classifier was trained from scratch on the mined metrics.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "unknown",
+          "justification": "No reference paper given for Random Forest itself.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "we use the state of the art SATD detection tool, proposed by Liu et al. [37], which employs a NLP-based pre-trained text classification ML model to automatically detect the presence of SATD in a code comment",
+          "justification": "A pre-trained text classification model used for inference on comments.",
+          "value": "SATD Detector"
+        },
+        "aliases": [
+          "SATDDetector-Core",
+          "SATD detection tool"
+        ],
+        "is_contributed": {
+          "quote": "We employed the text mining-based SATD detector tool developed by Liu et al. [37] in our study",
+          "justification": "Tool from prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We qualify whether a comment is SATD using the SATD detection tool",
+          "justification": "Run over 0.4M and 1.5M comments.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "As compared to other contemporary SATD detection tools that rely on pattern matching, this tool demonstrates a higher recall [37].",
+          "justification": "Comparison is qualitative citation, not numerical evaluation in this paper.",
+          "value": false
+        },
+        "execution_mode": {
+          "quote": "which employs a NLP-based pre-trained text classification ML model to automatically detect the presence of SATD in a code comment",
+          "justification": "Pre-trained model applied for inference only.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "Z. Liu, Q. Huang, X. Xia, E. Shihab, D. Lo, and S. Li, “Satd detector: A text-mining-based self-admitted technical debt detection tool,”",
+          "justification": "The reference listed for the tool.",
+          "value": "Satd detector: A text-mining-based self-admitted technical debt detection tool"
+        }
+      }
+    ],
+    "data_sources": [
+      {
+        "name": {
+          "quote": "we gathered ML-based open source projects from GitHub",
+          "justification": "GitHub is the named source from which repositories were mined.",
+          "value": "GitHub"
+        },
+        "aliases": [
+          "GitHub Search API v3"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "#Projects 318 318 #Python-Files 20,319 65,748 #Comments 424,248 1,505,458",
+          "justification": "Sizes of both sub-corpora stated in Table 3.",
+          "value": "318 ML projects (20,319 Python files, 424,248 comments) and 318 non-ML projects (65,748 Python files, 1,505,458 comments)"
+        },
+        "derived_from": [],
+        "sample_properties": [
+          {
+            "name": "median project size",
+            "value": {
+              "quote": "We find that the median project size is 80,477 lines of code across the entire ML project dataset",
+              "justification": "Stated median LOC per ML project.",
+              "value": "80,477"
+            },
+            "unit": "lines of code"
+          }
+        ],
+        "referenced_paper_title": {
+          "quote": "unknown",
+          "justification": "No reference paper for GitHub.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "we gathered ML-based open source projects from GitHub. We used the GitHub Search API v3 to look for keywords specific to each domain",
+          "justification": "The curated set of 318 ML projects is a dataset derived from GitHub.",
+          "value": "318 ML projects"
+        },
+        "aliases": [
+          "ML Software dataset"
+        ],
+        "role": "contributed",
+        "size": {
+          "quote": "After applying the five selection criteria to our list of projects for each of the five domains, we obtained a total of 318 projects on which we perform our analysis.",
+          "justification": "Stated project count.",
+          "value": "318 projects, 20,319 Python files, 424,248 comments"
+        },
+        "derived_from": [
+          "GitHub"
+        ],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "unknown",
+          "justification": "Dataset built by this paper.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "we followed the sampling process outlined in Subsection 4.1 and collected 318 non-ML Python projects from GitHub (matching the count of ML projects).",
+          "justification": "Baseline corpus curated by the authors.",
+          "value": "318 non-ML projects"
+        },
+        "aliases": [
+          "Non-ML Software dataset"
+        ],
+        "role": "contributed",
+        "size": {
+          "quote": "#Projects 318 ... #Python-Files 65,748 #Comments 1,505,458",
+          "justification": "Table 3 gives the non-ML counts.",
+          "value": "318 projects, 65,748 Python files, 1,505,458 comments"
+        },
+        "derived_from": [
+          "GitHub"
+        ],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "unknown",
+          "justification": "Dataset built by this paper.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "we randomly sampled a total of 611 SATD comments from the SATD data set obtained in RQ1",
+          "justification": "A named sample used for manual qualitative analysis.",
+          "value": "611 SATD comments sample"
+        },
+        "aliases": [
+          "sample of 611 SATD instances"
+        ],
+        "role": "contributed",
+        "size": {
+          "quote": "we apply stratified sampling across our five domains using a 99% confidence level and 5% confidence interval and randomly sampled a total of 611 SATD comments",
+          "justification": "Stated sample size.",
+          "value": "611 SATD comments"
+        },
+        "derived_from": [
+          "318 ML projects"
+        ],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "unknown",
+          "justification": "Produced by this paper.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "After computing SATD duration time for a total of 6,427 SATD instances in our dataset, we computed the quartiles of the obtained distribution",
+          "justification": "The commit-level SATD instance dataset used for the explanatory model.",
+          "value": "6,427 SATD instances dataset"
+        },
+        "aliases": [
+          "SATD duration dataset"
+        ],
+        "role": "contributed",
+        "size": {
+          "quote": "In total, we obtained 2,595 SATD instances with duration times above 75th percentile. ... We obtained the first quantile, i.e., 2,595 instances of with duration times below the 25th percentile as the quick removal SATD.",
+          "justification": "Sizes stated for the full set and the two labelled classes.",
+          "value": "6,427 SATD instances; 2,595 long-lasting and 2,595 quick-removal"
+        },
+        "derived_from": [
+          "318 ML projects"
+        ],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "unknown",
+          "justification": "Produced by this paper.",
+          "value": "unknown"
+        }
+      }
+    ],
+    "libraries": [
+      {
+        "name": {
+          "quote": "we extract comments using Comment-Parser, a PyPi framework",
+          "justification": "Used to extract comments from source files.",
+          "value": "Comment-Parser"
+        },
+        "aliases": [],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "unknown",
+          "justification": "Only a PyPI link is given.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "We use the Python framework PyDriller to extract all commits submitted to the repositories of our studied projects.",
+          "justification": "Used for commit mining and metric computation.",
+          "value": "PyDriller"
+        },
+        "aliases": [],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "unknown",
+          "justification": "No reference entry given.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "We used the Python SciKit Learn framework for building the models.",
+          "justification": "Used to build the Random Forest model.",
+          "value": "SciKit Learn"
+        },
+        "aliases": [
+          "sklearn"
+        ],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "unknown",
+          "justification": "No reference entry.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "We used the R package Hmisc to identify the correlated variables.",
+          "justification": "Used for correlation and redundancy analysis.",
+          "value": "Hmisc"
+        },
+        "aliases": [],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "unknown",
+          "justification": "Only a CRAN link is given.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "We compute these values using the Python framework, SHAP which provides a collaborative game theory approach",
+          "justification": "Used to interpret the model.",
+          "value": "SHAP"
+        },
+        "aliases": [
+          "SHapely Additive exPlanations"
+        ],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "L. S. Shapley, 17. A value for n-person games. Princeton University Press, 2016.",
+          "justification": "Cited reference for Shapley values.",
+          "value": "A value for n-person games"
+        }
+      },
+      {
+        "name": {
+          "quote": "we use the state of the art SATD detection tool, proposed by Liu et al. [37]",
+          "justification": "The SATDDetector-Core repository is the software implementing the detector.",
+          "value": "SATDDetector-Core"
+        },
+        "aliases": [
+          "SATD detector tool"
+        ],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "Z. Liu, Q. Huang, X. Xia, E. Shihab, D. Lo, and S. Li, “Satd detector: A text-mining-based self-admitted technical debt detection tool,”",
+          "justification": "Reference for the tool.",
+          "value": "Satd detector: A text-mining-based self-admitted technical debt detection tool"
+        }
+      }
+    ],
+    "algorithms": [
+      {
+        "name": {
+          "quote": "We perform sampling with replacement (bootstrapping) and compare the amount of SATD in ML and Non-ML projects across 1,000 runs.",
+          "justification": "Bootstrapping is executed as the statistical procedure for RQ1 and model validation.",
+          "value": "bootstrapping"
+        },
+        "aliases": [
+          "sampling with replacement",
+          "100-out-of-sample bootstrapping"
+        ],
+        "is_contributed": {
+          "quote": "We perform sampling with replacement (bootstrapping)",
+          "justification": "Standard statistical technique.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "compare the amount of SATD in ML and Non-ML projects across 1,000 runs",
+          "justification": "Run 1,000 times for RQ1 and 100 times for model validation.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "bootstrapping prevents our results to be dependent on any one-specific sample seed",
+          "justification": "Not compared against other procedures numerically.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "To ensure the statistical robustness of our results, we perform a 100-out-of-sample bootstrapping.",
+          "justification": "Used both for prevalence comparison and model validation.",
+          "value": "used to compare SATD proportions robustly and to validate the explanatory models"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "C. Tantithamthavorn, S. McIntosh, A. E. Hassan, and K. Matsumoto, “An empirical comparison of model validation techniques for defect prediction models,”",
+          "justification": "Cited as support for out-of-sample bootstrap validation.",
+          "value": "An empirical comparison of model validation techniques for defect prediction models"
+        }
+      },
+      {
+        "name": {
+          "quote": "We perform survival analysis [77] to examine, for each project, (i) the time until the introduction of SATD",
+          "justification": "Named analysis procedure executed for RQ4.",
+          "value": "survival analysis"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "Survival analysis [77] is a statistical technique for analyzing the expected duration of time until the occurrence of an event of interest",
+          "justification": "Standard statistical method.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Figure 12 shows the survival curves in ML and non-ML code",
+          "justification": "Curves computed and reported.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "we plot the survival curve and estimate the survival probability using the non-parametric Kaplan-Meier estimator",
+          "justification": "Not compared to alternative procedures numerically.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "we aim to provide insights into how the unique characteristics of ML development impact the evolution of technical debt",
+          "justification": "Used to study introduction and removal timing of SATD.",
+          "value": "used to examine time until introduction and removal of SATD"
+        },
+        "composed_of": [
+          "Kaplan-Meier estimator"
+        ],
+        "referenced_paper_title": {
+          "quote": "R. G. Miller Jr, Survival analysis. John Wiley & Sons, 2011, vol. 66.",
+          "justification": "Reference 77.",
+          "value": "Survival analysis"
+        }
+      },
+      {
+        "name": {
+          "quote": "we plot the survival curve and estimate the survival probability using the non-parametric Kaplan-Meier estimator [78]",
+          "justification": "Named estimator executed.",
+          "value": "Kaplan-Meier estimator"
+        },
+        "aliases": [
+          "Kaplan-Meier"
+        ],
+        "is_contributed": {
+          "quote": "the non-parametric Kaplan-Meier estimator [78]",
+          "justification": "Classic estimator.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "The Kaplan-Meier estimation is computed following Equation 1",
+          "justification": "Computed on the data.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "While Maldonado et al. presented average timelines for debt survival, we employed survival analysis using the Kaplan-Meier metric.",
+          "justification": "Contrasted qualitatively with averages, not numerically benchmarked.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "we plot the survival curve and estimate the survival probability using the non-parametric Kaplan-Meier estimator",
+          "justification": "Used to estimate survival probabilities.",
+          "value": "estimating the survival probability of SATD-free code and of SATD instances"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "E. L. Kaplan and P. Meier, “Nonparametric estimation from incomplete observations,”",
+          "justification": "Reference 78.",
+          "value": "Nonparametric estimation from incomplete observations"
+        }
+      },
+      {
+        "name": {
+          "quote": "The comparisons provided in Figure 5 are statistically significant with the Wilcoxon Signed Rank test 𝑝-value lower than 0.05",
+          "justification": "Named statistical test executed.",
+          "value": "Wilcoxon Signed Rank test"
+        },
+        "aliases": [
+          "Wilcoxon Rank Sum test",
+          "Wilcoxon Rank-sums test"
+        ],
+        "is_contributed": {
+          "quote": "We also used the non-parametric Wilcoxon Rank Sum test to compare populations.",
+          "justification": "Standard test.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Wilcoxon Rank Sum test 𝑝 < 0.01, Cliff’s 𝛿 = 0.8",
+          "justification": "Applied to the data.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Both these tests do not require the data to be normally distributed.",
+          "justification": "Not benchmarked numerically.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "We also used the non-parametric Wilcoxon Rank Sum test to compare populations.",
+          "justification": "Used for significance testing between ML and non-ML populations.",
+          "value": "used to compare populations of ML and non-ML measurements"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "unknown",
+          "justification": "No reference given.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "with large effect sizes (Cohen’s 𝛿>0.7)",
+          "justification": "Named effect size measure computed.",
+          "value": "Cohen's d"
+        },
+        "aliases": [
+          "Cohen's δ"
+        ],
+        "is_contributed": {
+          "quote": "a large Cohen’s 𝑑 effect size difference",
+          "justification": "Standard statistic.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "All comparisons in Figure 4 are statistically significant (Wilcoxon Rank-sums test with p-value<0.01), with large effect sizes (Cohen’s 𝛿>0.7).",
+          "justification": "Computed on the data.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "a large Cohen’s 𝑑 effect size difference",
+          "justification": "Not benchmarked.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "with large effect sizes (Cohen’s 𝛿>0.7)",
+          "justification": "Used to quantify effect size of comparisons.",
+          "value": "effect size measure accompanying significance tests"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "unknown",
+          "justification": "No reference.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "Wilcoxon Rank Sum test 𝑝 < 0.01, Cliff’s 𝛿 = 0.2 for SATD files",
+          "justification": "Named effect size measure computed.",
+          "value": "Cliff's delta"
+        },
+        "aliases": [
+          "Cliff's δ"
+        ],
+        "is_contributed": {
+          "quote": "Cliff’s 𝛿 = 0.8",
+          "justification": "Standard statistic.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "the number of files changed per commit also shows negligible differences (Figure 6(a); Cliff’s 𝛿 < 0.1)",
+          "justification": "Computed.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Cliff’s 𝛿 = 0.8",
+          "justification": "Not benchmarked.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "ML code indeed experiences significantly higher code churn compared to non-ML code (Wilcoxon Rank Sum test 𝑝 < 0.01, Cliff’s 𝛿 = 0.8)",
+          "justification": "Used to quantify magnitude of differences.",
+          "value": "effect size measure for churn and complexity comparisons"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "unknown",
+          "justification": "No reference.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "They used card sorting to categorize the SATDs using the extended taxonomy proposed by Bavota and Russo [11].",
+          "justification": "Named qualitative procedure executed.",
+          "value": "card sorting"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "A similar process was adopted by Bhatia et al. [2] for the expansion of a prior taxonomy",
+          "justification": "Established qualitative method.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "the first author manually classified the remaining 546 SATD comments",
+          "justification": "Applied to 611 comments.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "They used card sorting to categorize the SATDs",
+          "justification": "Not compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "They used card sorting to categorize the SATDs using the extended taxonomy proposed by Bavota and Russo [11].",
+          "justification": "Used for the qualitative classification of SATD types.",
+          "value": "categorizing SATD comments into debt types"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "G. Bavota and B. Russo, “A large-scale empirical study on self-admitted technical debt,”",
+          "justification": "Taxonomy source.",
+          "value": "A large-scale empirical study on self-admitted technical debt"
+        }
+      },
+      {
+        "name": {
+          "quote": "we apply stratified sampling across our five domains using a 99% confidence level and 5% confidence interval",
+          "justification": "Named sampling procedure executed.",
+          "value": "stratified sampling"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "We apply stratified sampling to avoid biasing our dataset towards SATDs from a specific domain.",
+          "justification": "Standard sampling method.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "randomly sampled a total of 611 SATD comments from the SATD data set obtained in RQ1",
+          "justification": "Used to build the qualitative sample.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "We apply stratified sampling to avoid biasing our dataset",
+          "justification": "Not compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "We apply stratified sampling to avoid biasing our dataset towards SATDs from a specific domain.",
+          "justification": "Used to select the qualitative sample.",
+          "value": "drawing the 611-comment SATD sample across domains"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "unknown",
+          "justification": "No reference.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "the authors separately classified another set of 65 samples (from a pool of 611), then computed the inter-rater agreement on this new sample using Cohen Kappa",
+          "justification": "Named agreement statistic computed.",
+          "value": "Cohen Kappa"
+        },
+        "aliases": [
+          "Cohen's Kappa"
+        ],
+        "is_contributed": {
+          "quote": "computed the inter-rater agreement on this new sample using Cohen Kappa, and obtained a value of 94%",
+          "justification": "Standard statistic.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "The inter-rater agreement, measured by Cohen’s Kappa, was 81% among the first two authors for a subset of 65 comments.",
+          "justification": "Computed for RQ2 and RQ3.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "obtained a value of 94%, which is very high",
+          "justification": "Not compared against other methods.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "computed the inter-rater agreement on this new sample using Cohen Kappa",
+          "justification": "Used to validate the manual coding reliability.",
+          "value": "measuring inter-rater agreement of manual SATD classification"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "unknown",
+          "justification": "No reference.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "We used the threshold of 0.7 on the Spearman’s rank correlation between the exploratory variables.",
+          "justification": "Named correlation statistic computed.",
+          "value": "Spearman's rank correlation"
+        },
+        "aliases": [
+          "Spearman ρ"
+        ],
+        "is_contributed": {
+          "quote": "We used the threshold of 0.7 on the Spearman’s rank correlation",
+          "justification": "Standard statistic.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "From an initial set of 14 metrics, we removed four metrics.",
+          "justification": "Applied to remove correlated features.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "A pictorial representation of our correlation analysis is provided in Figure 14.",
+          "justification": "Not compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "Before training our explanatory models, we performed correlation and redundancy analysis to prevent issues related to multicollinearity between variables.",
+          "justification": "Feature selection step.",
+          "value": "correlation analysis to remove multicollinear metrics before modelling"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "unknown",
+          "justification": "No reference.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "After removing the correlated metrics, LA_[diff] was removed during the redundancy analysis",
+          "justification": "Named analysis step executed via Hmisc redun.",
+          "value": "redundancy analysis"
+        },
+        "aliases": [
+          "redun"
+        ],
+        "is_contributed": {
+          "quote": "we performed correlation and redundancy analysis to prevent issues related to multicollinearity",
+          "justification": "Standard procedure.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "LA_[diff] was removed during the redundancy analysis",
+          "justification": "Performed on the metrics.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "we performed correlation and redundancy analysis",
+          "justification": "Not compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "Before training our explanatory models, we performed correlation and redundancy analysis",
+          "justification": "Feature selection step.",
+          "value": "removing redundant metrics prior to model building"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "unknown",
+          "justification": "No reference.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "We use SHAP (SHapely Additive exPlanations), to interpret and explain our models.",
+          "justification": "Named interpretation procedure executed.",
+          "value": "SHAP (SHapely Additive exPlanations)"
+        },
+        "aliases": [
+          "SHAP",
+          "Shapley values"
+        ],
+        "is_contributed": {
+          "quote": "A Shapley value is the average marginal contribution of a feature value across all possible coalitions [81].",
+          "justification": "Existing technique.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Figure 15 shows mean Shapely values obtained for the best performing Random Forest model",
+          "justification": "Computed on the trained model.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "We use SHAP (SHapely Additive exPlanations), to interpret and explain our models.",
+          "justification": "Not compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "We use SHAP (SHapely Additive exPlanations), to interpret and explain our models.",
+          "justification": "Model interpretation.",
+          "value": "interpreting the explanatory Random Forest model's features"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "L. S. Shapley, 17. A value for n-person games. Princeton University Press, 2016.",
+          "justification": "Reference 81.",
+          "value": "A value for n-person games"
+        }
+      },
+      {
+        "name": {
+          "quote": "A common approach to challenge prevailing assumptions and explore alternative explanations for an empirical observation is the Advocatus Diaboli (a.k.a. the devil’s advocate) approach [62].",
+          "justification": "Named analysis methodology executed in the discussion of RQ1.",
+          "value": "Advocatus Diaboli"
+        },
+        "aliases": [
+          "devil's advocate approach"
+        ],
+        "is_contributed": {
+          "quote": "This approach is a recognized methodology used in prior software engineering and broader scientific research",
+          "justification": "Existing methodology.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we adopt Devil’s Advocate approach, individually testing each potential confound—churn, file changes, and complexity",
+          "justification": "Applied in the explanatory analysis.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "we apply this technique not to claim causation via metrics like churn or complexity, but to challenge the robustness of our own explanation",
+          "justification": "Not compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "we adopt the devil’s advocate perspective to examine the high debt prevalence in ML and Non-ML settings by assessing three potential predictors",
+          "justification": "Used to test alternative explanations.",
+          "value": "testing alternative explanations for the higher SATD prevalence in ML code"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "S. Vysali, S. McIntosh, and B. Adams, “Quantifying, characterizing, and mitigating flakily covered program elements,”",
+          "justification": "Reference 62 cited for the approach.",
+          "value": "Quantifying, characterizing, and mitigating flakily covered program elements"
+        }
+      }
+    ],
+    "runs": [
+      {
+        "models": [
+          {
+            "name": "SATD Detector",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "318 ML projects",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          },
+          {
+            "name": "318 non-ML projects",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "bootstrapping"
+          },
+          {
+            "name": "Wilcoxon Signed Rank test"
+          },
+          {
+            "name": "Cohen's d"
+          }
+        ],
+        "produces": [
+          "611 SATD comments sample"
+        ],
+        "execution_mode": {
+          "quote": "We qualify whether a comment is SATD using the SATD detection tool",
+          "justification": "A pre-trained classifier applied to all extracted comments.",
+          "value": "inference"
+        },
+        "epochs": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "unknown",
+          "justification": "No hardware described.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "unknown",
+          "justification": "No hardware described.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "unknown",
+          "justification": "No hardware described.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "We perform sampling with replacement (bootstrapping) and compare the amount of SATD in ML and Non-ML projects across 1,000 runs.",
+          "justification": "The bootstrap comparison was repeated 1,000 times.",
+          "value": [
+            {
+              "kind": "other",
+              "count": 1000,
+              "what": "bootstrap resampling runs"
+            }
+          ]
+        }
+      },
+      {
+        "models": [],
+        "data_sources": [
+          {
+            "name": "318 ML projects",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          },
+          {
+            "name": "318 non-ML projects",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "survival analysis"
+          },
+          {
+            "name": "Kaplan-Meier estimator"
+          },
+          {
+            "name": "Wilcoxon Signed Rank test"
+          }
+        ],
+        "produces": [
+          "6,427 SATD instances dataset"
+        ],
+        "execution_mode": {
+          "quote": "We use the Python framework PyDriller to extract all commits submitted to the repositories of our studied projects.",
+          "justification": "This stage mines commit histories and computes survival curves and metrics, producing data rather than fitting a model.",
+          "value": "generate"
+        },
+        "epochs": {
+          "quote": "unknown",
+          "justification": "Not applicable/stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "unknown",
+          "justification": "No hardware described.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "unknown",
+          "justification": "No hardware described.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "unknown",
+          "justification": "No hardware described.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "",
+          "justification": "The paper does not state repetition factors for this analysis.",
+          "value": []
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "Random Forest classifier",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "6,427 SATD instances dataset",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "bootstrapping"
+          },
+          {
+            "name": "Spearman's rank correlation"
+          },
+          {
+            "name": "redundancy analysis"
+          },
+          {
+            "name": "SHAP (SHapely Additive exPlanations)"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "We build and test models on each training and testing set to draw statistically robust conclusions as suggested by [80]",
+          "justification": "Random Forest models were trained from scratch.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "unknown",
+          "justification": "Not applicable/stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "unknown",
+          "justification": "No hardware described.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "unknown",
+          "justification": "No hardware described.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "unknown",
+          "justification": "No hardware described.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "To ensure the statistical robustness of our results, we perform a 100-out-of-sample bootstrapping.",
+          "justification": "100 bootstrap train/test iterations.",
+          "value": [
+            {
+              "kind": "other",
+              "count": 100,
+              "what": "out-of-sample bootstrap iterations"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "usage": {
+    "input_tokens": 66259,
+    "output_tokens": 12720,
+    "total_tokens": 78979
+  }
+}

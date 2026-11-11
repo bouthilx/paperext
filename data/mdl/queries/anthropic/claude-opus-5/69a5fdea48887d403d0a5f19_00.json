@@ -1,0 +1,1291 @@
+{
+  "paper": "69a5fdea48887d403d0a5f19.txt",
+  "words": 8837,
+  "extractions": {
+    "title": {
+      "quote": "L EARNING C ONDITIONAL P OLICIES FOR C RYSTAL D ESIGN USING O FFLINE R EINFORCEMENT L EARNING",
+      "justification": "Title as written in the paper header.",
+      "value": "Learning Conditional Policies for Crystal Design Using Offline Reinforcement Learning"
+    },
+    "description": "The paper formulates crystal structure composition design as a sequential decision-making problem and trains conditional policies with conservative Q-learning (CQL) on offline trajectories built from Materials Project MP-20 crystals, with rewards derived from DFT (Quantum Espresso) total energy and band gap. Generated crystals are evaluated with DFT and compared against random policy, behavioral cloning, and unconditioned CQL baselines.",
+    "type": {
+      "quote": "Our experiments show that our conditioned policies achieve more targeted crystal structure designs",
+      "justification": "The paper trains models and reports experimental metrics.",
+      "value": "empirical"
+    },
+    "research_fields": [
+      {
+        "name": {
+          "quote": "This work aims to design novel and stable crystalline materials conditioned on a desired band gap.",
+          "justification": "Core application domain advanced by the paper.",
+          "value": "Materials Discovery / Crystal Structure Design"
+        },
+        "aliases": [
+          "material discovery",
+          "crystal design"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "we apply offline reinforcement learning using the conservative Q-learning (CQL) approach",
+          "justification": "The paper applies and adapts offline RL to crystal design.",
+          "value": "Offline Reinforcement Learning"
+        },
+        "aliases": [
+          "offline RL"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "we leverage an expressive graph neural network (GNN) for crystal representation",
+          "justification": "GNNs used as the representation backbone.",
+          "value": "Graph Neural Networks"
+        },
+        "aliases": [
+          "GNN"
+        ],
+        "role": "used"
+      },
+      {
+        "name": {
+          "quote": "we evaluate 20k crystal structures using the Quantum Espresso (Giannozzi et al., 2009) package for DFT calculation",
+          "justification": "DFT used as evaluation and reward engine.",
+          "value": "Density Functional Theory / Computational Chemistry"
+        },
+        "aliases": [
+          "DFT"
+        ],
+        "role": "used"
+      }
+    ],
+    "models": [
+      {
+        "name": {
+          "quote": "Our conditional Q-network Qθ (s, a; p̂) consists of two components: 1) a graph neural network that extracts meaningful state representation of the input multigraph; 2) linear layers for computing Q-values from this representation.",
+          "justification": "The contributed model trained with CQL.",
+          "value": "Conditional Q-network (MEGNet-based policy)"
+        },
+        "aliases": [
+          "conditional CQL policy",
+          "Qθ"
+        ],
+        "is_contributed": {
+          "quote": "We train a graph neueral network based policy based on MEGNet (Chen et al., 2019) to achieve property conditioned crystal generation.",
+          "justification": "The conditional policy is the paper's contribution.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "Number of steps trained: 500000",
+          "justification": "Trained in the paper.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Our baselines are 1) Random Policy, 2) Behavioral Cloning (BC), and 3) Unconditional CQL Policy",
+          "justification": "Compared against baselines.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "Number of steps trained: 500000",
+          "justification": "Trained from scratch.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "Our conditional Q-network Qθ (s, a; p̂)",
+          "justification": "Contributed model, no reference paper.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "we adopt the MEGNet model Chen et al. (2019), a universal graph machine learning framework for molecules and materials",
+          "justification": "Backbone architecture used.",
+          "value": "MEGNet"
+        },
+        "aliases": [
+          "MEGNet blocks"
+        ],
+        "is_contributed": {
+          "quote": "we adopt the MEGNet model Chen et al. (2019)",
+          "justification": "Pre-existing model adopted.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "A graph G̃ with embedded and encoded features is then passed through K MEGNet layers",
+          "justification": "Executed as part of the policy network.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "we adopt the MEGNet model Chen et al. (2019)",
+          "justification": "Not numerically compared as a baseline.",
+          "value": false
+        },
+        "execution_mode": {
+          "quote": "Number of MEGNet blocks: 3",
+          "justification": "Trained as part of the Q-network.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "Chi Chen, Weike Ye, Yunxing Zuo, Chen Zheng, and Shyue Ping Ong. Graph networks as a universal machine learning framework for molecules and crystals.",
+          "justification": "Reference for MEGNet.",
+          "value": "Graph networks as a universal machine learning framework for molecules and crystals"
+        }
+      },
+      {
+        "name": {
+          "quote": "Our baselines are 1) Random Policy, 2) Behavioral Cloning (BC)2 , and 3) Unconditional CQL Policy",
+          "justification": "Baseline policy trained in the paper.",
+          "value": "Behavioral Cloning (BC)"
+        },
+        "aliases": [
+          "BC"
+        ],
+        "is_contributed": {
+          "quote": "Our baselines are 1) Random Policy, 2) Behavioral Cloning (BC)",
+          "justification": "Baseline.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "behavioral cloning (BC), being the most conservative approach with no reward signal, performed the best for all pre-simulation metrics",
+          "justification": "Trained and evaluated.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "the CQL-based policies outfperform BC in κ",
+          "justification": "Numerically compared.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "Trained with supervised classification loss",
+          "justification": "Trained in the paper.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "Behavioral Cloning (BC)2 ... Trained with supervised classification loss",
+          "justification": "No reference given.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "3) Unconditional CQL Policy (where p̂ is removed in the state feature vector and the reward is only in terms of Etot )",
+          "justification": "Baseline policy trained in the paper.",
+          "value": "Unconditional CQL Policy"
+        },
+        "aliases": [
+          "No Condition"
+        ],
+        "is_contributed": {
+          "quote": "Our baselines are ... 3) Unconditional CQL Policy",
+          "justification": "Baseline variant.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Unconditioned policies manage to recreate the original distributions better than conditioned distributions.",
+          "justification": "Trained and evaluated.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Unconditioned policies manage to recreate the original distributions better than conditioned distributions.",
+          "justification": "Compared.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "N o Condition ... Accuracy (%) ω=1 ω=5",
+          "justification": "Trained with CQL.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "Aviral Kumar, Aurick Zhou, George Tucker, and Sergey Levine. Conservative q-learning for offline reinforcement learning.",
+          "justification": "CQL reference.",
+          "value": "Conservative q-learning for offline reinforcement learning"
+        }
+      },
+      {
+        "name": {
+          "quote": "Our baselines are 1) Random Policy",
+          "justification": "Baseline executed for generation.",
+          "value": "Random Policy"
+        },
+        "aliases": [
+          "Random"
+        ],
+        "is_contributed": {
+          "quote": "Our baselines are 1) Random Policy",
+          "justification": "Baseline.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Random policy generates many unrealistic crystals, since many of the DFT runs validating the crystals failed (Table 3)",
+          "justification": "Executed to generate crystals.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Conditioned policies outperform random policy",
+          "justification": "Compared.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "Random policy generates many unrealistic crystals",
+          "justification": "No training; only rollouts.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "Our baselines are 1) Random Policy",
+          "justification": "No reference.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "CDVAE (Xie et al., 2021) introduced a diffusion-based framework with highly expressive graph representation learning techniques to generate stable and valid crystal structures in 3 dimensions.",
+          "justification": "Mentioned in related work.",
+          "value": "CDVAE"
+        },
+        "aliases": [
+          "Crystal Diffusion Variational Autoencoder"
+        ],
+        "is_contributed": {
+          "quote": "CDVAE (Xie et al., 2021) introduced a diffusion-based framework",
+          "justification": "Prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "CDVAE (Xie et al., 2021) introduced a diffusion-based framework",
+          "justification": "Only cited.",
+          "value": false
+        },
+        "is_compared": {
+          "quote": "CDVAE (Xie et al., 2021) introduced a diffusion-based framework",
+          "justification": "Not compared numerically.",
+          "value": false
+        },
+        "execution_mode": {
+          "quote": "CDVAE (Xie et al., 2021) introduced a diffusion-based framework",
+          "justification": "Not executed here.",
+          "value": "unknown"
+        },
+        "referenced_paper_title": {
+          "quote": "Tian Xie, Xiang Fu, Octavian-Eugen Ganea, Regina Barzilay, and Tommi Jaakkola. Crystal diffusion variational autoencoder for periodic material generation.",
+          "justification": "Reference entry.",
+          "value": "Crystal diffusion variational autoencoder for periodic material generation"
+        }
+      },
+      {
+        "name": {
+          "quote": "Zheng et al. (2023) used their Distributional Graphormer to generate structures of carbon polymorphs with the desired band gap.",
+          "justification": "Mentioned in related work.",
+          "value": "Distributional Graphormer"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "Zheng et al. (2023) used their Distributional Graphormer",
+          "justification": "Prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Zheng et al. (2023) used their Distributional Graphormer",
+          "justification": "Only cited.",
+          "value": false
+        },
+        "is_compared": {
+          "quote": "Zheng et al. (2023) used their Distributional Graphormer",
+          "justification": "Not compared.",
+          "value": false
+        },
+        "execution_mode": {
+          "quote": "Zheng et al. (2023) used their Distributional Graphormer",
+          "justification": "Not executed here.",
+          "value": "unknown"
+        },
+        "referenced_paper_title": {
+          "quote": "Shuxin Zheng, Jiyan He, Chang Liu, Yu Shi, Ziheng Lu, Weitao Feng, Fusong Ju, Jiaxi Wang, Jianwei Zhu, Yaosen Min, et al. Towards predicting equilibrium distributions for molecular systems with deep learning.",
+          "justification": "Reference entry.",
+          "value": "Towards predicting equilibrium distributions for molecular systems with deep learning"
+        }
+      }
+    ],
+    "data_sources": [
+      {
+        "name": {
+          "quote": "we used a subset of the Materials Project database, referred to as MP-20, that was previously used by Xie et al. (2021). MP-20 consists of ∼ 45k metallic and nonmetallic crystals",
+          "justification": "Main dataset used.",
+          "value": "MP-20"
+        },
+        "aliases": [
+          "MP-20 subset of Materials Project"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "MP-20 consists of ∼ 45k metallic and nonmetallic crystals with different structure and composition, covering 88 elements in the periodic table. ... In the end, our training set included 8832 crystals, and our validation set included 2486 crystals.",
+          "justification": "Stated explicitly.",
+          "value": "~45k crystals; training set 8832 crystals, validation set 2486 crystals after filtering"
+        },
+        "derived_from": [
+          "Materials Project"
+        ],
+        "sample_properties": [
+          {
+            "name": "maximum number of atoms per crystal",
+            "value": {
+              "quote": "All of them have at most 20 atoms.",
+              "justification": "Stated.",
+              "value": "at most 20 atoms"
+            },
+            "unit": "atoms"
+          }
+        ],
+        "referenced_paper_title": {
+          "quote": "that was previously used by Xie et al. (2021)",
+          "justification": "MP-20 introduced/used in CDVAE paper.",
+          "value": "Crystal diffusion variational autoencoder for periodic material generation"
+        }
+      },
+      {
+        "name": {
+          "quote": "We construct a state transition dataset from highquality nonmetallic crystal structures present in the Materials Project database (Jain et al., 2013).",
+          "justification": "Source database.",
+          "value": "Materials Project"
+        },
+        "aliases": [
+          "MP"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "crystal structures present in the Materials Project database (Jain et al., 2013)",
+          "justification": "No size stated for the full database.",
+          "value": "unknown"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "Anubhav Jain, Shyue Ping Ong, Geoffroy Hautier, Wei Chen, William Davidson Richards, Stephen Dacek, Shreyas Cholia, Dan Gunter, David Skinner, Gerbrand Ceder, et al. Commentary: The materials project: A materials genome approach to accelerating materials innovation.",
+          "justification": "Reference entry.",
+          "value": "Commentary: The materials project: A materials genome approach to accelerating materials innovation"
+        }
+      },
+      {
+        "name": {
+          "quote": "Open-Source Crystal Structure Design Trajectory Data: To ensure consistency in our reward calculation, we evaluate 20k crystal structures using the Quantum Espresso (Giannozzi et al., 2009) package for DFT calculation and subsequently construct offline RL trajectories based on the data.",
+          "justification": "Contributed dataset of transitions used for offline training.",
+          "value": "Offline RL crystal design trajectory dataset"
+        },
+        "aliases": [
+          "static dataset D",
+          "state transition dataset"
+        ],
+        "role": "contributed",
+        "size": {
+          "quote": "This way, we obtained ∼ 520k transitions to train our offline RL policies.",
+          "justification": "Stated.",
+          "value": "~520k transitions"
+        },
+        "derived_from": [
+          "MP-20"
+        ],
+        "sample_properties": [
+          {
+            "name": "trajectories per crystal",
+            "value": {
+              "quote": "we obtain up to 5 trajectories for each crystal by varying the order of nodes with breadth-first traversals of the graph from different source nodes",
+              "justification": "Stated.",
+              "value": "up to 5"
+            },
+            "unit": "trajectories"
+          }
+        ],
+        "referenced_paper_title": {
+          "quote": "We plan to release the dataset of trajectories and calculations as part of the paper",
+          "justification": "Contributed dataset.",
+          "value": "unknown"
+        }
+      }
+    ],
+    "libraries": [
+      {
+        "name": {
+          "quote": "we make use of the open-source Quantum Espresso software suite (Giannozzi et al., 2009) to perform self-consistent field (SCF calculations)",
+          "justification": "Software used for DFT.",
+          "value": "Quantum Espresso"
+        },
+        "aliases": [
+          "QE"
+        ],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "Paolo Giannozzi, Stefano Baroni, Nicola Bonini, Matteo Calandra, Roberto Car, Carlo Cavazzoni, Davide Ceresoli, Guido L Chiarotti, Matteo Cococcioni, Ismaila Dabo, et al. Quantum espresso: a modular and open-source software project for quantum simulations of materials.",
+          "justification": "Reference entry.",
+          "value": "Quantum espresso: a modular and open-source software project for quantum simulations of materials"
+        }
+      },
+      {
+        "name": {
+          "quote": "a generated crystal is valid if it has an overall neutral charge, as computed by SMACT (Davies et al., 2019)",
+          "justification": "Used for validity computation.",
+          "value": "SMACT"
+        },
+        "aliases": [],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "Daniel W Davies, Keith T Butler, Adam J Jackson, Jonathan M Skelton, Kazuki Morita, and Aron Walsh. Smact: Semiconducting materials by analogy and chemical theory.",
+          "justification": "Reference entry.",
+          "value": "Smact: Semiconducting materials by analogy and chemical theory"
+        }
+      }
+    ],
+    "algorithms": [
+      {
+        "name": {
+          "quote": "we apply offline reinforcement learning using the conservative Q-learning (CQL) approach (Kumar et al., 2020)",
+          "justification": "Main training algorithm.",
+          "value": "conservative Q-learning (CQL)"
+        },
+        "aliases": [
+          "CQL"
+        ],
+        "is_contributed": {
+          "quote": "conservative Q-learning (CQL), which regularizes Q-values",
+          "justification": "From prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Compute total CQL loss LCQL (θ) = ωLC (θ) + 12 LT D (θ)",
+          "justification": "Used in training.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "the CQL-based policies outfperform BC in κ",
+          "justification": "Compared with BC and random.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "Using CQL as our offline RL framework, we demonstrate that conservatism ... can lead the agent to generate crystals with a favorable shift in the distribution of properties of interest.",
+          "justification": "Paper's description.",
+          "value": "offline RL framework used to learn a conditional policy from trajectories"
+        },
+        "composed_of": [
+          "DQN"
+        ],
+        "referenced_paper_title": {
+          "quote": "Aviral Kumar, Aurick Zhou, George Tucker, and Sergey Levine. Conservative q-learning for offline reinforcement learning.",
+          "justification": "Reference entry.",
+          "value": "Conservative q-learning for offline reinforcement learning"
+        }
+      },
+      {
+        "name": {
+          "quote": "The optimization objective of the DQN (Mnih et al., 2015) version (discrete action space) of CQL is given below",
+          "justification": "Discrete-action base algorithm.",
+          "value": "DQN"
+        },
+        "aliases": [
+          "deep Q learning"
+        ],
+        "is_contributed": {
+          "quote": "The optimization objective of the DQN (Mnih et al., 2015) version",
+          "justification": "Prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Training Conditional CQL: DQN Version for Crystal Design with Target Property p̂",
+          "justification": "Used in the training algorithm.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "The optimization objective of the DQN (Mnih et al., 2015) version (discrete action space) of CQL",
+          "justification": "Not independently compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "The optimization objective of the DQN (Mnih et al., 2015) version (discrete action space) of CQL is given below",
+          "justification": "Paper's description.",
+          "value": "discrete action-space version of CQL used for the Q-network objective"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Volodymyr Mnih, Koray Kavukcuoglu, David Silver, Andrei A Rusu, Joel Veness, Marc G Bellemare, Alex Graves, Martin Riedmiller, Andreas K Fidjeland, Georg Ostrovski, et al. Human-level control through deep reinforcement learning.",
+          "justification": "Reference entry.",
+          "value": "Human-level control through deep reinforcement learning"
+        }
+      },
+      {
+        "name": {
+          "quote": "Our baselines are 1) Random Policy, 2) Behavioral Cloning (BC)2",
+          "justification": "Baseline training procedure.",
+          "value": "Behavioral Cloning (BC)"
+        },
+        "aliases": [
+          "BC"
+        ],
+        "is_contributed": {
+          "quote": "2) Behavioral Cloning (BC)",
+          "justification": "Standard baseline.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Trained with supervised classification loss",
+          "justification": "Trained in the paper.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "behavioral cloning (BC), being the most conservative approach with no reward signal, performed the best for all pre-simulation metrics",
+          "justification": "Compared.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "Trained with supervised classification loss",
+          "justification": "Paper's words.",
+          "value": "baseline, trained with supervised classification loss"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "2) Behavioral Cloning (BC)2",
+          "justification": "No reference given.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "Edges connect neighboring atoms based on the CrystalNN scheme proposed by Pan et al. (2021) for determining the presence and type (i.e., (c1 , c2 , c3 ) triplet) of edges.",
+          "justification": "Graph construction procedure.",
+          "value": "CrystalNN"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "the CrystalNN scheme proposed by Pan et al. (2021)",
+          "justification": "Prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Edges connect neighboring atoms based on the CrystalNN scheme",
+          "justification": "Used to build graphs.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "the CrystalNN scheme proposed by Pan et al. (2021)",
+          "justification": "Not compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "for determining the presence and type (i.e., (c1 , c2 , c3 ) triplet) of edges",
+          "justification": "Paper's words.",
+          "value": "determining the presence and type of edges in the crystal multigraph"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Hillary Pan, Alex M Ganose, Matthew Horton, Muratahan Aykol, Kristin A Persson, Nils ER Zimmermann, and Anubhav Jain. Benchmarking coordination number prediction algorithms on inorganic crystal structures.",
+          "justification": "Reference entry.",
+          "value": "Benchmarking coordination number prediction algorithms on inorganic crystal structures"
+        }
+      },
+      {
+        "name": {
+          "quote": "READOU T Function: Order-invariant set2set (Vinyals et al., 2015)",
+          "justification": "Readout procedure.",
+          "value": "set2set"
+        },
+        "aliases": [
+          "Order-invariant set2set"
+        ],
+        "is_contributed": {
+          "quote": "Order-invariant set2set (Vinyals et al., 2015)",
+          "justification": "Prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "READOU T Function: Order-invariant set2set (Vinyals et al., 2015)",
+          "justification": "Used in the architecture.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "READOU T Function: Order-invariant set2set",
+          "justification": "Not compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "followed by a readout layer (Appendix A.2) to obtain a graph-level representation",
+          "justification": "Paper's words.",
+          "value": "readout layer to obtain a graph-level representation"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Oriol Vinyals, Samy Bengio, and Manjunath Kudlur. Order matters: Sequence to sequence for sets.",
+          "justification": "Reference entry.",
+          "value": "Order matters: Sequence to sequence for sets"
+        }
+      },
+      {
+        "name": {
+          "quote": "to perform self-consistent field (SCF calculations) using the Perdew–Burke-Ernzerhof (PBE) exchange-correlation functional",
+          "justification": "DFT evaluation procedure.",
+          "value": "self-consistent field (SCF calculations)"
+        },
+        "aliases": [
+          "SCF"
+        ],
+        "is_contributed": {
+          "quote": "perform self-consistent field (SCF calculations)",
+          "justification": "Standard procedure.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Calculation: SCF",
+          "justification": "Executed via Quantum Espresso.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Calculation: SCF",
+          "justification": "Not compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "The output produced by the DFT simulation consists of two important properties that we are interested in – total energy (in Rydberg) and band gap (in eV).",
+          "justification": "Paper's words.",
+          "value": "DFT calculation used to compute total energy and band gap for reward and evaluation"
+        },
+        "composed_of": [
+          "Perdew–Burke-Ernzerhof (PBE) exchange-correlation functional"
+        ],
+        "referenced_paper_title": {
+          "quote": "we make use of the open-source Quantum Espresso software suite (Giannozzi et al., 2009) to perform self-consistent field (SCF calculations)",
+          "justification": "Implemented via QE.",
+          "value": "Quantum espresso: a modular and open-source software project for quantum simulations of materials"
+        }
+      },
+      {
+        "name": {
+          "quote": "using the Perdew–Burke-Ernzerhof (PBE) exchange-correlation functional",
+          "justification": "Named functional used in DFT runs.",
+          "value": "Perdew–Burke-Ernzerhof (PBE) exchange-correlation functional"
+        },
+        "aliases": [
+          "PBE"
+        ],
+        "is_contributed": {
+          "quote": "using the Perdew–Burke-Ernzerhof (PBE) exchange-correlation functional",
+          "justification": "Standard functional.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we used PBE because of its lower computational costs and superiority over DFTB",
+          "justification": "Used in all DFT calculations.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "we used PBE because of its lower computational costs and superiority over DFTB",
+          "justification": "Qualitative discussion only.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "to perform self-consistent field (SCF calculations) using the Perdew–Burke-Ernzerhof (PBE) exchange-correlation functional",
+          "justification": "Paper's words.",
+          "value": "exchange-correlation functional used in the DFT SCF calculations"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "the PBE functional is known for its systematic underestimation of band gap energies (Seidl et al., 1996)",
+          "justification": "Closest associated reference.",
+          "value": "Generalized kohn-sham schemes and the band-gap problem"
+        }
+      },
+      {
+        "name": {
+          "quote": "we obtain up to 5 trajectories for each crystal by varying the order of nodes with breadth-first traversals of the graph from different source nodes",
+          "justification": "Data augmentation procedure for trajectories.",
+          "value": "breadth-first traversals"
+        },
+        "aliases": [
+          "BFS"
+        ],
+        "is_contributed": {
+          "quote": "varying the order of nodes with breadth-first traversals of the graph from different source nodes",
+          "justification": "Standard procedure.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "This way, we obtained ∼ 520k transitions to train our offline RL policies.",
+          "justification": "Used to generate the dataset.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "varying the order of nodes with breadth-first traversals",
+          "justification": "Not compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "To mitigate the effects of bias due to this order dependency, we obtain up to 5 trajectories for each crystal by varying the order of nodes with breadth-first traversals",
+          "justification": "Paper's words.",
+          "value": "used to augment trajectories and mitigate node order dependency bias"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "breadth-first traversals of the graph from different source nodes",
+          "justification": "No reference.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "The post-simulation metrics are 1) Earth Mover Distance (EMD) between the generated and true band gap distributions",
+          "justification": "Evaluation metric procedure.",
+          "value": "Earth Mover Distance (EMD)"
+        },
+        "aliases": [
+          "EMD",
+          "Wasserstein distance"
+        ],
+        "is_contributed": {
+          "quote": "Earth Mover Distance (EMD) between the generated and true band gap distributions",
+          "justification": "Standard metric.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Band gap EMD (generated vs true) for various policies",
+          "justification": "Computed in evaluation.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Earth Mover Distance (EMD) between the generated and true band gap distributions",
+          "justification": "It is a metric, not compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "The post-simulation metrics are 1) Earth Mover Distance (EMD) between the generated and true band gap distributions",
+          "justification": "Paper's words.",
+          "value": "post-simulation metric comparing generated and true property distributions"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Earth Mover Distance (EMD)",
+          "justification": "No reference.",
+          "value": "unknown"
+        }
+      }
+    ],
+    "runs": [
+      {
+        "models": [],
+        "data_sources": [
+          {
+            "name": "MP-20",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation"
+            ]
+          },
+          {
+            "name": "Materials Project",
+            "access": "fixed",
+            "roles_in_run": [
+              "reference"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "self-consistent field (SCF calculations)"
+          },
+          {
+            "name": "Perdew–Burke-Ernzerhof (PBE) exchange-correlation functional"
+          },
+          {
+            "name": "breadth-first traversals"
+          }
+        ],
+        "produces": [
+          "Offline RL crystal design trajectory dataset"
+        ],
+        "execution_mode": {
+          "quote": "we evaluate 20k crystal structures using the Quantum Espresso (Giannozzi et al., 2009) package for DFT calculation and subsequently construct offline RL trajectories based on the data",
+          "justification": "A distinct data production stage using DFT simulation.",
+          "value": "generate"
+        },
+        "epochs": {
+          "quote": "we evaluate 20k crystal structures using the Quantum Espresso package for DFT calculation",
+          "justification": "Not applicable/stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "DFT calculation",
+          "justification": "No model parameters.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "we make use of the open-source Quantum Espresso software suite (Giannozzi et al., 2009) to perform self-consistent field (SCF calculations)",
+          "justification": "Hardware not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "Quantum Espresso software suite",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "Quantum Espresso software suite",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "Tolerance: 1e − 6",
+          "justification": "Numerical precision not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "due to the high-throughput nature of our evaluation pipeline",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "the time it takes for performing DFT simulation ranges between 6 seconds to more than 20 minutes for each input depending on its size and type",
+          "justification": "Stated per-calculation duration.",
+          "value": "6 seconds to more than 20 minutes per input"
+        },
+        "utilisation": {
+          "quote": "high-throughput nature of our evaluation pipeline",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "we evaluate 20k crystal structures using the Quantum Espresso (Giannozzi et al., 2009) package for DFT calculation",
+          "justification": "Number of DFT calculations stated.",
+          "value": "20k crystal structures evaluated"
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "Conditional Q-network (MEGNet-based policy)",
+            "role_in_run": "main"
+          },
+          {
+            "name": "MEGNet",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Offline RL crystal design trajectory dataset",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "conservative Q-learning (CQL)"
+          },
+          {
+            "name": "DQN"
+          },
+          {
+            "name": "set2set"
+          },
+          {
+            "name": "CrystalNN"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "Number of steps trained: 500000",
+          "justification": "Offline RL training of the conditional policy.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "Number of steps trained: 500000",
+          "justification": "Steps given, not epochs.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "Node embedding dimensions: 16",
+          "justification": "Parameter count not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "Batch size: 1024",
+          "justification": "Hardware not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "Batch size: 1024",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "Batch size: 1024",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "Learning rate: 3e − 4",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "Number of steps trained: 500000",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "Number of steps trained: 500000",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "Number of steps trained: 500000",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "As such, we trained 16 models for each target band gap.",
+          "justification": "Stated.",
+          "value": "16 models for each target band gap (4 targets)"
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "Behavioral Cloning (BC)",
+            "role_in_run": "main"
+          },
+          {
+            "name": "MEGNet",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Offline RL crystal design trajectory dataset",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Behavioral Cloning (BC)"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "Behavioral Cloning (BC)2 ... Trained with supervised classification loss",
+          "justification": "Separate supervised training loop.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "Trained with supervised classification loss",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "Trained with supervised classification loss",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "Trained with supervised classification loss",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "Trained with supervised classification loss",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "Trained with supervised classification loss",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "Trained with supervised classification loss",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "Trained with supervised classification loss",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "Trained with supervised classification loss",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "Trained with supervised classification loss",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "Trained with supervised classification loss",
+          "justification": "Not stated.",
+          "value": "unknown"
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "Unconditional CQL Policy",
+            "role_in_run": "main"
+          },
+          {
+            "name": "MEGNet",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Offline RL crystal design trajectory dataset",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "conservative Q-learning (CQL)"
+          },
+          {
+            "name": "DQN"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "3) Unconditional CQL Policy (where p̂ is removed in the state feature vector and the reward is only in terms of Etot )",
+          "justification": "Separate training of unconditioned policy.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "Number of steps trained: 500000",
+          "justification": "Not stated per policy.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "N o Condition",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "N o Condition",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "N o Condition",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "N o Condition",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "N o Condition",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "N o Condition",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "N o Condition",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "N o Condition",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "we varied the CQL ω term using weight of 1 and 5",
+          "justification": "Table reports ω=1 and ω=5 columns for No Condition.",
+          "value": "2 (ω = 1 and ω = 5)"
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "Conditional Q-network (MEGNet-based policy)",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Unconditional CQL Policy",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Behavioral Cloning (BC)",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Random Policy",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "MP-20",
+            "access": "fixed",
+            "roles_in_run": [
+              "validation"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Earth Mover Distance (EMD)"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "we start with an empty crystal skeleton graph G0 as the initial state s0 , and perform a rollout using the learned conditional offline policy πo (a|s, p̂) to sequentially fill atoms in the crystal",
+          "justification": "Policy rollouts to generate crystals.",
+          "value": "inference"
+        },
+        "epochs": {
+          "quote": "perform a rollout using the learned conditional offline policy",
+          "justification": "Not applicable.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "perform a rollout using the learned conditional offline policy",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "perform a rollout using the learned conditional offline policy",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "perform a rollout using the learned conditional offline policy",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "perform a rollout using the learned conditional offline policy",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "perform a rollout using the learned conditional offline policy",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "perform a rollout using the learned conditional offline policy",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "perform a rollout using the learned conditional offline policy",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "perform a rollout using the learned conditional offline policy",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "Analysis of average band gap and average energy of generated crystals in the validation set.",
+          "justification": "Number of rollouts not stated.",
+          "value": "unknown"
+        }
+      },
+      {
+        "models": [],
+        "data_sources": [],
+        "algorithms": [
+          {
+            "name": "self-consistent field (SCF calculations)"
+          },
+          {
+            "name": "Perdew–Burke-Ernzerhof (PBE) exchange-correlation functional"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "Next, we performed DFT simulation for all the valid crystals to estimate the total energy and band gap.",
+          "justification": "DFT evaluation of generated crystals as a distinct stage.",
+          "value": "generate"
+        },
+        "epochs": {
+          "quote": "we performed DFT simulation for all the valid crystals",
+          "justification": "Not applicable.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "we performed DFT simulation for all the valid crystals",
+          "justification": "Not applicable.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "due to the high-throughput nature of our evaluation pipeline",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "due to the high-throughput nature of our evaluation pipeline",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "due to the high-throughput nature of our evaluation pipeline",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "Tolerance: 1e − 6",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "high-throughput nature of our evaluation pipeline",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "we had to ignore crystals that did not converge in 12 minutes",
+          "justification": "Time limit stated per calculation.",
+          "value": "crystals that did not converge in 12 minutes were ignored"
+        },
+        "utilisation": {
+          "quote": "high-throughput nature of our evaluation pipeline",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "we performed DFT simulation for all the valid crystals to estimate the total energy and band gap",
+          "justification": "Exact count not stated.",
+          "value": "unknown"
+        }
+      }
+    ]
+  },
+  "usage": {
+    "input_tokens": 32929,
+    "output_tokens": 14564,
+    "total_tokens": 47493
+  }
+}

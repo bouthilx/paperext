@@ -1,0 +1,1836 @@
+{
+  "paper": "69a5fd6548887d403d0a502b.txt",
+  "words": 7952,
+  "extractions": {
+    "title": {
+      "quote": "Training Plug-and-Play Knowledge Modules\nwith Deep Context Distillation",
+      "justification": "Title on first page",
+      "value": "Training Plug-and-Play Knowledge Modules with Deep Context Distillation"
+    },
+    "description": "The paper proposes document-level Knowledge Modules (KMs) implemented as LoRA adapters, trained with a Deep Context Distillation (DCD) objective that matches hidden states and logits of a teacher conditioned on the document. Evaluated on QuALITY, NarrativeQA and LongHealth with Phi-3 3B and Llama-3.1 8B, in closed-book and open-book (RAG, ICL) settings, with synthetic data generation (summaries, QA pairs, Entigraph) from GPT-4o.",
+    "type": {
+      "quote": "We evaluate our method on two long-context question answering datasets (QuALITY and NarrativeQA) and two base models (Phi-3 3B and Llama-3.1 8B)",
+      "justification": "The paper reports experiments and benchmark tables.",
+      "value": "empirical"
+    },
+    "research_fields": [
+      {
+        "name": {
+          "quote": "Pre-training large language models (LLMs) on massive corpora has shown to be extremely effective",
+          "justification": "The work concerns language models and question answering.",
+          "value": "Natural Language Processing"
+        },
+        "aliases": [
+          "NLP"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "KMs are lightweight components implemented as parameter-efficient LoRA modules",
+          "justification": "KMs are LoRA modules and the paper advances modular LLM approaches.",
+          "value": "Parameter-efficient fine-tuning / Modular LLMs"
+        },
+        "aliases": [
+          "PEFT",
+          "modular LLMs"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "we propose a more effective approach to learn KMs, by relying on distillation (Hinton, 2015)",
+          "justification": "The proposed loss is a distillation objective.",
+          "value": "Knowledge Distillation"
+        },
+        "aliases": [],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "Finally, we highlight synergies between KMs and RAG.",
+          "justification": "RAG used as baseline and combined with KMs.",
+          "value": "Retrieval-Augmented Generation"
+        },
+        "aliases": [
+          "RAG"
+        ],
+        "role": "used"
+      },
+      {
+        "name": {
+          "quote": "We experiment with two question-answering datasets QuALITY (Pang et al., 2022) and NarrativeQA",
+          "justification": "Evaluation venue is long-context QA datasets.",
+          "value": "Question Answering"
+        },
+        "aliases": [
+          "QA"
+        ],
+        "role": "used"
+      },
+      {
+        "name": {
+          "quote": "KV Cache Compression Our work can be seen as an instantiation of context compression",
+          "justification": "Discussed as related context and a baseline compared.",
+          "value": "KV Cache Compression"
+        },
+        "aliases": [],
+        "role": "referenced"
+      }
+    ],
+    "models": [
+      {
+        "name": {
+          "quote": "two base models, Phi-3 3B1 (Abdin et al., 2024) and Llama-3.1 8B2",
+          "justification": "One of the two base models used.",
+          "value": "Phi-3 3B"
+        },
+        "aliases": [
+          "Phi-3",
+          "Phi-3-mini-4k-instruct",
+          "phi-3"
+        ],
+        "is_contributed": {
+          "quote": "Phi-3 3B1 (Abdin et al., 2024)",
+          "justification": "Pre-existing model from Microsoft.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Results for QuALITY and NarrativeQA on Phi-3 (3B) and Llama3.1 (8B).",
+          "justification": "Used as base/teacher/student in experiments.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Closed Book\nBase Model",
+          "justification": "Base model results reported alongside KM variants.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "KMs and KEs methods use LoRA as parameter-efficient adapter with a rank of 16",
+          "justification": "LoRA KMs/KEs are trained on top of the frozen base model; base model also used for inference and synthetic generation.",
+          "value": "finetune"
+        },
+        "referenced_paper_title": {
+          "quote": "Phi-3 technical report: A highly capable language model locally on your phone, 2024.",
+          "justification": "Reference in bibliography.",
+          "value": "Phi-3 technical report: A highly capable language model locally on your phone"
+        }
+      },
+      {
+        "name": {
+          "quote": "Llama-3.1 8B2 (Grattafiori et al., 2024)",
+          "justification": "Second base model.",
+          "value": "Llama-3.1 8B"
+        },
+        "aliases": [
+          "Llama3.1 (8B)",
+          "meta-llama/Llama-3.1-8B-Instruct",
+          "llama 3 8B-Instruct"
+        ],
+        "is_contributed": {
+          "quote": "Llama-3.1 8B2 (Grattafiori et al., 2024)",
+          "justification": "Pre-existing Meta model.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Results for QuALITY and NarrativeQA on Phi-3 (3B) and Llama3.1 (8B).",
+          "justification": "Used in all experiments.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "We evaluate Llama 3.1 (8B) augmented with a random Knowledge Module on the multiple-choice MMLU dataset",
+          "justification": "Results compared across methods.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "KMs and KEs methods use LoRA as parameter-efficient adapter with a rank of 16",
+          "justification": "LoRA modules trained on top of it; also inference.",
+          "value": "finetune"
+        },
+        "referenced_paper_title": {
+          "quote": "Aaron Grattafiori, Abhimanyu Dubey, ... The llama 3 herd of models. arXiv preprint arXiv:2407.21783, 2024.",
+          "justification": "Bibliography entry.",
+          "value": "The llama 3 herd of models"
+        }
+      },
+      {
+        "name": {
+          "quote": "we propose a way of modularizing knowledge by training document-level Knowledge Modules (KMs)",
+          "justification": "Contributed LoRA module storing document knowledge.",
+          "value": "Knowledge Module (KM)"
+        },
+        "aliases": [
+          "KM",
+          "KM_SDCD",
+          "KM_DDCD",
+          "KM_LM",
+          "KM_PIT"
+        ],
+        "is_contributed": {
+          "quote": "We introduce Knowledge Modules trained with Deep Context Distillation",
+          "justification": "Main contribution.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "In closed book evaluation, we experiment with different ways of training KMs.",
+          "justification": "Trained and evaluated.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "DCD-based Knowledge Modules outperform all other methods",
+          "justification": "Compared to RAG, ICL, PIT.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "Training KMs requires gradient descent.",
+          "justification": "KM LoRA parameters are trained from scratch per document.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "We introduce Knowledge Modules trained with Deep Context Distillation",
+          "justification": "Contributed in this paper.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "we train a Knowledge Extractor (KE), θKE , a parameter-efficient module (LoRA)",
+          "justification": "Contributed task-adaptation LoRA module.",
+          "value": "Knowledge Extractor (KE)"
+        },
+        "aliases": [
+          "KE"
+        ],
+        "is_contributed": {
+          "quote": "Task specific Knowledge Extractors (KE) can be trained and combined with document-level KMs in a zero-shot manner.",
+          "justification": "Introduced in this paper.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "For all methods, KEs are always trained solely on the training documents",
+          "justification": "Trained on training documents.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Comparing RAG + KE and RAG + KM + KE",
+          "justification": "KE-only vs KM+KE comparisons.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "we can train θKE to minimize the negative log-likelihood of the answers",
+          "justification": "KE LoRA is trained.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "we train a Knowledge Extractor (KE)",
+          "justification": "Contributed here.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "use SFR-embedding-2 (Meng et al., 2024) to embed passages and questions",
+          "justification": "Retriever embedding model used for RAG.",
+          "value": "SFR-embedding-2"
+        },
+        "aliases": [
+          "SFR-Embedding-2 R"
+        ],
+        "is_contributed": {
+          "quote": "use SFR-embedding-2 (Meng et al., 2024)",
+          "justification": "External model.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "to embed passages and questions to perform retrieval of the top-5 relevant passages",
+          "justification": "Used to embed passages and questions.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "use SFR-embedding-2 (Meng et al., 2024) to embed passages and questions",
+          "justification": "Only a component, not compared.",
+          "value": false
+        },
+        "execution_mode": {
+          "quote": "to embed passages and questions to perform retrieval",
+          "justification": "Used only for embedding.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "Sfr-embedding-2: Advanced text embedding with multi-stage training, 2024.",
+          "justification": "Bibliography entry.",
+          "value": "Sfr-embedding-2: Advanced text embedding with multi-stage training"
+        }
+      },
+      {
+        "name": {
+          "quote": "we test our approach by leveraging different types of data sampled from GPT-4o (OpenAI, 2024)",
+          "justification": "Used to generate synthetic data for ablations.",
+          "value": "GPT-4o"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "data sampled from GPT-4o (OpenAI, 2024)",
+          "justification": "External model.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we test our approach by leveraging different types of data sampled from GPT-4o",
+          "justification": "Sampled to produce synthetic data.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "generating from a stronger model yields stronger results",
+          "justification": "Used as data generator, not compared as a QA system.",
+          "value": false
+        },
+        "execution_mode": {
+          "quote": "data sampled from GPT-4o (OpenAI, 2024)",
+          "justification": "Sampled for data generation.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "OpenAI. Hello gpt-4o. 2024.",
+          "justification": "Bibliography entry.",
+          "value": "Hello gpt-4o"
+        }
+      }
+    ],
+    "data_sources": [
+      {
+        "name": {
+          "quote": "We experiment with two question-answering datasets QuALITY (Pang et al., 2022)",
+          "justification": "Main evaluation dataset.",
+          "value": "QuALITY"
+        },
+        "aliases": [],
+        "role": "used",
+        "size": {
+          "quote": "QuALITY is a multi-choice question-answering dataset consisting of 150 training documents and 115 valid documents.",
+          "justification": "Stated in setup.",
+          "value": "150 training documents and 115 valid documents"
+        },
+        "derived_from": [],
+        "sample_properties": [
+          {
+            "name": "average document length",
+            "value": {
+              "quote": "The average length of documents in the dataset is ∼5,000 tokens.",
+              "justification": "Stated.",
+              "value": "~5,000 tokens"
+            },
+            "unit": "tokens"
+          }
+        ],
+        "referenced_paper_title": {
+          "quote": "QuALITY: Question answering with long input texts, yes!",
+          "justification": "Bibliography entry.",
+          "value": "QuALITY: Question answering with long input texts, yes!"
+        }
+      },
+      {
+        "name": {
+          "quote": "NarrativeQA (Kočiskỳ et al., 2018)",
+          "justification": "Main evaluation dataset.",
+          "value": "NarrativeQA"
+        },
+        "aliases": [
+          "NQA"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "The dataset has 1,102 training documents, 115 dev documents and 355 test documents.",
+          "justification": "Stated.",
+          "value": "1,102 training documents, 115 dev documents and 355 test documents"
+        },
+        "derived_from": [],
+        "sample_properties": [
+          {
+            "name": "average document length",
+            "value": {
+              "quote": "NarrativeQA is a question-answering dataset where documents are longer, ∼60,000 tokens on average.",
+              "justification": "Stated.",
+              "value": "~60,000 tokens"
+            },
+            "unit": "tokens"
+          }
+        ],
+        "referenced_paper_title": {
+          "quote": "The narrativeqa reading comprehension challenge. Transactions of the Association for Computational Linguistics",
+          "justification": "Bibliography entry.",
+          "value": "The narrativeqa reading comprehension challenge"
+        }
+      },
+      {
+        "name": {
+          "quote": "We leverage the LongHealth dataset (Adams et al., 2024), a collection of clinical reports for 20 fictional patients",
+          "justification": "Used for KE transfer experiments.",
+          "value": "LongHealth"
+        },
+        "aliases": [],
+        "role": "used",
+        "size": {
+          "quote": "a collection of clinical reports for 20 fictional patients, totalling roughly 11K tokens per patient. The benchmark contains 20 questions per patients, totalling 400 five-way multiple choice questions.",
+          "justification": "Stated.",
+          "value": "20 fictional patients, 400 five-way multiple choice questions"
+        },
+        "derived_from": [],
+        "sample_properties": [
+          {
+            "name": "tokens per patient",
+            "value": {
+              "quote": "totalling roughly 11K tokens per patient",
+              "justification": "Stated.",
+              "value": "roughly 11K tokens"
+            },
+            "unit": "tokens"
+          }
+        ],
+        "referenced_paper_title": {
+          "quote": "Longhealth: A question answering benchmark with long clinical documents. arXiv preprint arXiv:2401.14490, 2024.",
+          "justification": "Bibliography entry.",
+          "value": "Longhealth: A question answering benchmark with long clinical documents"
+        }
+      },
+      {
+        "name": {
+          "quote": "We evaluate the KMs on the MMLU (Hendrycks et al., 2021) dataset",
+          "justification": "Used to test forgetting.",
+          "value": "MMLU"
+        },
+        "aliases": [],
+        "role": "used",
+        "size": {
+          "quote": "We use a subset of 400 examples, evenly split across all MMLU subjects.",
+          "justification": "Stated.",
+          "value": "a subset of 400 examples"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "Measuring massive multitask language understanding. arXiv preprint arXiv:2009.03300, 2021.",
+          "justification": "Bibliography entry.",
+          "value": "Measuring massive multitask language understanding"
+        }
+      },
+      {
+        "name": {
+          "quote": "we use the publicly available Entigraph generated dataset on the QuALITY dataset available on HuggingFace under zitongyang/entigraph-quality-corpus",
+          "justification": "Publicly available Entigraph generated dataset used for synthetic data.",
+          "value": "entigraph-quality-corpus"
+        },
+        "aliases": [
+          "Entigraph generated dataset"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "The dataset provised 1 (large) synthetically generated document per document in the original dataset.",
+          "justification": "Stated.",
+          "value": "1 (large) synthetically generated document per document in the original dataset"
+        },
+        "derived_from": [
+          "QuALITY"
+        ],
+        "sample_properties": [
+          {
+            "name": "chunk length",
+            "value": {
+              "quote": "which gives us chunks of 7̃00 tokes on average describing a specific relationship between two entities",
+              "justification": "Stated.",
+              "value": "7̃00 tokes on average"
+            },
+            "unit": "tokens"
+          }
+        ],
+        "referenced_paper_title": {
+          "quote": "Zitong Yang, Neil Band, Shuangping Li, Emmanuel Candes, and Tatsunori Hashimoto. Synthetic continued pretraining.",
+          "justification": "Entigraph reference.",
+          "value": "Synthetic continued pretraining"
+        }
+      }
+    ],
+    "libraries": [
+      {
+        "name": {
+          "quote": "This can be done efficiently with serving libraries such as VLLM (Kwon et al., 2023).",
+          "justification": "Mentioned as serving library for synthetic generation.",
+          "value": "VLLM"
+        },
+        "aliases": [
+          "vLLM"
+        ],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "Efficient memory management for large language model serving with pagedattention.",
+          "justification": "Bibliography entry.",
+          "value": "Efficient memory management for large language model serving with pagedattention"
+        }
+      },
+      {
+        "name": {
+          "quote": "using RecursiveCharacterTextSplitter from the langchain text splitters package",
+          "justification": "Used for chunking documents.",
+          "value": "langchain text splitters"
+        },
+        "aliases": [
+          "langchain"
+        ],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "using RecursiveCharacterTextSplitter from the langchain text splitters package",
+          "justification": "No citation given.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "available on HuggingFace under zitongyang/entigraph-quality-corpus",
+          "justification": "Dataset and model hosting referenced.",
+          "value": "HuggingFace"
+        },
+        "aliases": [],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "available on HuggingFace under zitongyang/entigraph-quality-corpus",
+          "justification": "No citation.",
+          "value": "unknown"
+        }
+      }
+    ],
+    "algorithms": [
+      {
+        "name": {
+          "quote": "We dub this method “Deep Context Distillation” (DCD).",
+          "justification": "Core contributed objective.",
+          "value": "Deep Context Distillation"
+        },
+        "aliases": [
+          "DCD"
+        ],
+        "is_contributed": {
+          "quote": "we propose Deep Context Distillation",
+          "justification": "Proposed by the authors.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "Then, we apply our document DCD loss KMDDCD .",
+          "justification": "Used to train KMs.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "outperforming both LM, PIT and DDCD",
+          "justification": "Compared to LM and PIT.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "we learn KMs parameters such as to simulate hidden states and logits of a teacher that takes the document in context",
+          "justification": "Described as such.",
+          "value": "the training objective for Knowledge Modules, matching teacher hidden states and logits"
+        },
+        "composed_of": [
+          "document DCD (DDCD)",
+          "synthetic DCD (SDCD)"
+        ],
+        "referenced_paper_title": {
+          "quote": "We dub this method “Deep Context Distillation” (DCD).",
+          "justification": "Contributed here.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "the first is document DCD (DDCD)",
+          "justification": "Variant of DCD using document chunks.",
+          "value": "document DCD (DDCD)"
+        },
+        "aliases": [
+          "DDCD"
+        ],
+        "is_contributed": {
+          "quote": "We propose two versions of our context-distillation loss: the first is document DCD (DDCD)",
+          "justification": "Proposed variant.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "Then, we apply our document DCD loss KMDDCD .",
+          "justification": "Results reported.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "our distillation objective (DDCD) proves to be a better learning signal than next-work prediction (LM)",
+          "justification": "Compared in tables.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "This approach allows us to leverage the available document as-is, without requiring any augmented data to perform the distillation step.",
+          "justification": "As stated.",
+          "value": "distillation on contiguous document chunks without requiring augmented data"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "the first is document DCD (DDCD)",
+          "justification": "Contributed.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "the second is synthetic DCD (SDCD)",
+          "justification": "Variant using synthetic data.",
+          "value": "synthetic DCD (SDCD)"
+        },
+        "aliases": [
+          "SDCD"
+        ],
+        "is_contributed": {
+          "quote": "In SDCD, we instead allow ourselves to generate synthetic data from the document D.",
+          "justification": "Proposed variant.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "We proceed to benchmark our KMSDCD",
+          "justification": "Main results.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "SDCD performs best across the board in the closed book setting",
+          "justification": "Best performing method compared to others.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "which uses either generated summaries, QA pairs or both as target for deep context distillation",
+          "justification": "Stated.",
+          "value": "deep context distillation using generated summaries, QA pairs or Entigraph data as distillation targets"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "the second is synthetic DCD (SDCD)",
+          "justification": "Contributed.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "We parameterize KMs as parameter-efficient adapters using LoRA (Hu et al., 2022).",
+          "justification": "Parameterization of modules.",
+          "value": "LoRA"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "LoRA (Hu et al., 2022)",
+          "justification": "Existing method.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "KMs and KEs methods use LoRA as parameter-efficient adapter with a rank of 16",
+          "justification": "Used for all modules.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "We parameterize KMs as parameter-efficient adapters using LoRA",
+          "justification": "Used as the parameterization throughout, not compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "Here, we parameterize KMs as LoRA modules",
+          "justification": "Stated.",
+          "value": "parameter-efficient adapter used to implement Knowledge Modules and Knowledge Extractors"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Edward J Hu, yelong shen, ... LoRA: Low-rank adaptation of large language models.",
+          "justification": "Bibliography.",
+          "value": "LoRA: Low-rank adaptation of large language models"
+        }
+      },
+      {
+        "name": {
+          "quote": "The first is using the standard LM loss KM LM , akin to continual pre-training.",
+          "justification": "LM loss baseline.",
+          "value": "next-token prediction"
+        },
+        "aliases": [
+          "LM loss",
+          "LM"
+        ],
+        "is_contributed": {
+          "quote": "a language modeling (LM) loss such as next-token prediction",
+          "justification": "Standard objective.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "The first is using the standard LM loss KM LM",
+          "justification": "Baseline trained.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "outperforming both LM, PIT and DDCD",
+          "justification": "Compared against DCD.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "The first is using the standard LM loss KM LM , akin to continual pre-training.",
+          "justification": "Stated.",
+          "value": "baseline training objective for KMs, akin to continual pre-training"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "a language modeling (LM) loss such as next-token prediction",
+          "justification": "No specific reference.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "Finally, we experiment with Pre-Instruction Tuning (PIT) (Jiang et al., 2024)",
+          "justification": "Baseline method.",
+          "value": "Pre-Instruction Tuning (PIT)"
+        },
+        "aliases": [
+          "PIT"
+        ],
+        "is_contributed": {
+          "quote": "Pre-Instruction Tuning (PIT) (Jiang et al., 2024)",
+          "justification": "From prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We denote this variant as KMPIT .",
+          "justification": "KM_PIT results reported.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "outperforming both LM, PIT and DDCD",
+          "justification": "Compared.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "where they propose to concatenate task data (query/answer pairs) before the documents during continual pre-training",
+          "justification": "Stated.",
+          "value": "baseline that concatenates task data before documents during continual pre-training"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Instruction-tuned language models are better knowledge learners. arXiv preprint arXiv:2402.12847, 2024.",
+          "justification": "Bibliography.",
+          "value": "Instruction-tuned language models are better knowledge learners"
+        }
+      },
+      {
+        "name": {
+          "quote": "In the open book setting, we use RAG and ICL as baselines",
+          "justification": "Used as baseline and combined.",
+          "value": "RAG"
+        },
+        "aliases": [
+          "Retrieval-augmented generation"
+        ],
+        "is_contributed": {
+          "quote": "Retrieval-augmented generation (RAG) partially addresses these limitations",
+          "justification": "Existing method.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we split each document into passages of 256 tokens and use SFR-embedding-2 ... to perform retrieval of the top-5 relevant passages",
+          "justification": "Run as baseline.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Comparing RAG + KE and RAG + KM + KE",
+          "justification": "Compared with KM methods.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "In the open book setting, we use RAG and ICL as baselines",
+          "justification": "Stated.",
+          "value": "open-book baseline that retrieves relevant passages conditioned on the question"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Retrieval-augmented generation for knowledge-intensive NLP tasks.",
+          "justification": "Bibliography.",
+          "value": "Retrieval-augmented generation for knowledge-intensive NLP tasks"
+        }
+      },
+      {
+        "name": {
+          "quote": "In the open book setting, we use RAG and ICL as baselines",
+          "justification": "In-context learning baseline.",
+          "value": "ICL"
+        },
+        "aliases": [
+          "In-Context Learning"
+        ],
+        "is_contributed": {
+          "quote": "A standard solution to these problems is in-context learning",
+          "justification": "Standard.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "ICL\nRAG",
+          "justification": "Reported in tables.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "achieves 1.3% accuracy improvement over ICL",
+          "justification": "Baseline numbers.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "wherein new, up-to-date information is provided in the context of the LLM",
+          "justification": "Stated.",
+          "value": "baseline that places the document in the model's context"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "A standard solution to these problems is in-context learning",
+          "justification": "No single citation.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "we also explore the use of Entigraph (Yang et al., 2025), which queries the generator to extract entities and reason about their relationship to one another",
+          "justification": "Synthetic data generation procedure.",
+          "value": "Entigraph"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "Entigraph (Yang et al., 2025)",
+          "justification": "From prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "For the Entigraph data, we use the publicly available Entigraph generated dataset",
+          "justification": "Used (via released corpus) for training KMs.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Summary\nQA\nEntigraph\nSum. + QA + Entig.",
+          "justification": "Compared to summary/QA synthetic data types.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "which prompts the model to extract relevant entities, and how they relate to one another",
+          "justification": "Stated.",
+          "value": "synthetic data generation method that prompts the model to extract relevant entities and how they relate to one another"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Zitong Yang, Neil Band, Shuangping Li, Emmanuel Candes, and Tatsunori Hashimoto. Synthetic continued pretraining.",
+          "justification": "Bibliography.",
+          "value": "Synthetic continued pretraining"
+        }
+      },
+      {
+        "name": {
+          "quote": "We experiment with KV compression methods such as the recently proposed L2 compress (Devoto et al., 2024b)",
+          "justification": "KV compression baseline.",
+          "value": "L2 compress"
+        },
+        "aliases": [
+          "L2 PRESS"
+        ],
+        "is_contributed": {
+          "quote": "the recently proposed L2 compress (Devoto et al., 2024b)",
+          "justification": "Prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We also benchmark a recent KV-cache compression method based on the l2 norm of the key vectors",
+          "justification": "Benchmarked in Figure 2.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "L2 PRESS",
+          "justification": "Plotted against KM methods.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "to analyze tradeoffs between performance and storage cost",
+          "justification": "Stated.",
+          "value": "KV-cache compression method benchmarked to analyze tradeoffs between performance and storage cost"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "A simple and effective l2 norm-based strategy for kv cache compression, 2024b.",
+          "justification": "Bibliography.",
+          "value": "A simple and effective L2 norm-based strategy for KV cache compression"
+        }
+      },
+      {
+        "name": {
+          "quote": "We use greedy decoding to sample the responses for NarrativeQA.",
+          "justification": "Decoding strategy stated.",
+          "value": "greedy decoding"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "We use greedy decoding",
+          "justification": "Standard decoding.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We use greedy decoding to sample the responses for NarrativeQA.",
+          "justification": "Used at evaluation.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "We use greedy decoding to sample the responses for NarrativeQA.",
+          "justification": "Not compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "We use greedy decoding to sample the responses for NarrativeQA.",
+          "justification": "Stated.",
+          "value": "the decoding strategy used to sample responses for NarrativeQA"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "We use greedy decoding",
+          "justification": "No reference.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "We split documents into non-overlapping chunks of 2048 tokens, using RecursiveCharacterTextSplitter",
+          "justification": "Chunking procedure named.",
+          "value": "RecursiveCharacterTextSplitter"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "using RecursiveCharacterTextSplitter from the langchain text splitters package",
+          "justification": "From langchain.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We split documents into non-overlapping chunks of 2048 tokens, using RecursiveCharacterTextSplitter",
+          "justification": "Used for preprocessing.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "using RecursiveCharacterTextSplitter",
+          "justification": "Not compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "We split documents into non-overlapping chunks of 2048 tokens",
+          "justification": "Stated.",
+          "value": "splitting documents into non-overlapping chunks of 2048 tokens for synthetic data generation"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "from the langchain text splitters package",
+          "justification": "No reference.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "trained with 1500 steps with batch size of 8 and cosine learning rate scheduler",
+          "justification": "Training detail named.",
+          "value": "cosine learning rate scheduler"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "cosine learning rate scheduler",
+          "justification": "Standard.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "trained with 1500 steps with batch size of 8 and cosine learning rate scheduler",
+          "justification": "Used in training.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "cosine learning rate scheduler",
+          "justification": "Not compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "trained with 1500 steps with batch size of 8 and cosine learning rate scheduler",
+          "justification": "Stated.",
+          "value": "learning rate schedule used when training KMs and KEs"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "cosine learning rate scheduler",
+          "justification": "No reference.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "Concatenating Synthetic Data In its current form, Knowledge Module training may suffer from a distribution shift",
+          "justification": "Named procedure in a paragraph heading.",
+          "value": "Concatenating Synthetic Data"
+        },
+        "aliases": [
+          "w/ concat"
+        ],
+        "is_contributed": {
+          "quote": "we propose to concatenate several synthetic data samples stemming from the same document chunk",
+          "justification": "Proposed by authors.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "- w/ concat",
+          "justification": "Reported as '- w/ concat' rows.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "we see that training with longer concatenated samples addresses this gap",
+          "justification": "Compared to non-concat variant.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "in order to artificially increase the training context for the student",
+          "justification": "Stated.",
+          "value": "concatenating several synthetic samples from the same chunk to artificially increase the training context for the student"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "we propose to concatenate several synthetic data samples",
+          "justification": "Contributed.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "For NarrativeQA, we evaluate performance using multi-reference Rouge-L with the gold answer",
+          "justification": "Evaluation procedure named.",
+          "value": "multi-reference Rouge-L"
+        },
+        "aliases": [
+          "Rouge-L"
+        ],
+        "is_contributed": {
+          "quote": "multi-reference Rouge-L",
+          "justification": "Standard metric.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we evaluate performance using multi-reference Rouge-L with the gold answer",
+          "justification": "Used to report results.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "multi-reference Rouge-L",
+          "justification": "Metric, not compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "For NarrativeQA, we evaluate performance using multi-reference Rouge-L",
+          "justification": "Stated.",
+          "value": "evaluation metric for NarrativeQA"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "multi-reference Rouge-L",
+          "justification": "No reference.",
+          "value": "unknown"
+        }
+      }
+    ],
+    "runs": [
+      {
+        "models": [
+          {
+            "name": "Phi-3 3B",
+            "role_in_run": "data-source"
+          },
+          {
+            "name": "GPT-4o",
+            "role_in_run": "data-source"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "QuALITY",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "NarrativeQA",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "LongHealth",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "RecursiveCharacterTextSplitter"
+          },
+          {
+            "name": "Entigraph"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "we sample a chunk of N tokens from document C, Ck and ask the base LM to create synthetic data Sk pertaining to the specific chunk",
+          "justification": "Base LM / GPT-4o sampled to produce synthetic summaries and QA pairs.",
+          "value": "inference"
+        },
+        "epochs": {
+          "quote": "SDCDalso requires generating summaries from the document.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "data sampled from GPT-4o (OpenAI, 2024)",
+          "justification": "Not stated per run.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "This can be done efficiently with serving libraries such as VLLM (Kwon et al., 2023).",
+          "justification": "No hardware stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "This can be done efficiently with serving libraries such as VLLM",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "This can be done efficiently with serving libraries such as VLLM",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "This can be done efficiently with serving libraries such as VLLM",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "This can be done efficiently with serving libraries such as VLLM",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "This can be done efficiently with serving libraries such as VLLM",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "This can be done efficiently with serving libraries such as VLLM",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "We generate a maximum of 16 summaries for each chunk. For our main experiments, we use a default of 8 summaries per chunk",
+          "justification": "Stated in appendix.",
+          "value": "We generate a maximum of 16 summaries for each chunk; default of 8 summaries per chunk"
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "Knowledge Module (KM)",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Phi-3 3B",
+            "role_in_run": "teacher"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "QuALITY",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "NarrativeQA",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "entigraph-quality-corpus",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Deep Context Distillation"
+          },
+          {
+            "name": "document DCD (DDCD)"
+          },
+          {
+            "name": "synthetic DCD (SDCD)"
+          },
+          {
+            "name": "LoRA"
+          },
+          {
+            "name": "next-token prediction"
+          },
+          {
+            "name": "Pre-Instruction Tuning (PIT)"
+          },
+          {
+            "name": "Concatenating Synthetic Data"
+          },
+          {
+            "name": "cosine learning rate scheduler"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "KMs and KEs methods use LoRA as parameter-efficient adapter with a rank of 16, LoRA alpha of 16, learning rate of 1e-3, are trained with 1500 steps with batch size of 8",
+          "justification": "KM LoRA parameters trained per document.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "are trained with 1500 steps with batch size of 8",
+          "justification": "Steps stated instead of epochs.",
+          "value": "1500 steps with batch size of 8"
+        },
+        "parameter_count": {
+          "quote": "LoRA as parameter-efficient adapter with a rank of 16",
+          "justification": "Only LoRA rank stated, not parameter count.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "Training KMs requires gradient descent.",
+          "justification": "Hardware not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "Training KMs requires gradient descent.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "Training KMs requires gradient descent.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "Training KMs requires gradient descent.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "Training knowledge modules on a set of documents D = { Di } can be done in an embarassingly parallel fashion.",
+          "justification": "Only says embarrassingly parallel across documents, no strategy stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "Training KMs requires gradient descent.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "Training KMs requires gradient descent.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "In closed book evaluation, we experiment with different ways of training KMs.",
+          "justification": "One KM per document across many documents and loss variants, exact count not given.",
+          "value": "unknown"
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "Knowledge Module (KM)",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Llama-3.1 8B",
+            "role_in_run": "teacher"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "QuALITY",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "NarrativeQA",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "LongHealth",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "entigraph-quality-corpus",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Deep Context Distillation"
+          },
+          {
+            "name": "document DCD (DDCD)"
+          },
+          {
+            "name": "synthetic DCD (SDCD)"
+          },
+          {
+            "name": "LoRA"
+          },
+          {
+            "name": "next-token prediction"
+          },
+          {
+            "name": "Pre-Instruction Tuning (PIT)"
+          },
+          {
+            "name": "Concatenating Synthetic Data"
+          },
+          {
+            "name": "cosine learning rate scheduler"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "two base models, Phi-3 3B1 (Abdin et al., 2024) and Llama-3.1 8B2",
+          "justification": "KMs trained with Llama-3.1 8B backbone.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "are trained with 1500 steps with batch size of 8",
+          "justification": "Stated.",
+          "value": "1500 steps with batch size of 8"
+        },
+        "parameter_count": {
+          "quote": "Llama-3.1 8B2 (Grattafiori et al., 2024)",
+          "justification": "Model scale given in the paper.",
+          "value": "8B"
+        },
+        "accelerator_type": {
+          "quote": "Training KMs requires gradient descent.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "Training KMs requires gradient descent.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "Training KMs requires gradient descent.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "Training KMs requires gradient descent.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "Training knowledge modules on a set of documents D = { Di } can be done in an embarassingly parallel fashion.",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "Training KMs requires gradient descent.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "Training KMs requires gradient descent.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "In closed book evaluation, we experiment with different ways of training KMs.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "Knowledge Extractor (KE)",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Knowledge Module (KM)",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Phi-3 3B",
+            "role_in_run": "main"
+          },
+          {
+            "name": "SFR-embedding-2",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "QuALITY",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "NarrativeQA",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "LoRA"
+          },
+          {
+            "name": "RAG"
+          },
+          {
+            "name": "cosine learning rate scheduler"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "we can train θKE to minimize the negative log-likelihood of the answers when it is combined with every document KM trained separately",
+          "justification": "KE LoRA trained jointly with document KMs on task data.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "KMs and KEs methods use LoRA ... are trained with 1500 steps with batch size of 8",
+          "justification": "Stated for KMs and KEs.",
+          "value": "1500 steps with batch size of 8"
+        },
+        "parameter_count": {
+          "quote": "a parameter-efficient module (LoRA)",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "training a KE requires having the set of KMs available for joint multi-task training",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "training a KE requires having the set of KMs available for joint multi-task training",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "training a KE requires having the set of KMs available for joint multi-task training",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "training a KE requires having the set of KMs available for joint multi-task training",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "training a KE requires having the set of KMs available for joint multi-task training",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "training a KE requires having the set of KMs available for joint multi-task training",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "training a KE requires having the set of KMs available for joint multi-task training",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "For all methods, KEs are always trained solely on the training documents",
+          "justification": "Not stated.",
+          "value": "unknown"
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "Knowledge Extractor (KE)",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Knowledge Module (KM)",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Llama-3.1 8B",
+            "role_in_run": "main"
+          },
+          {
+            "name": "SFR-embedding-2",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "QuALITY",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "NarrativeQA",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "LoRA"
+          },
+          {
+            "name": "RAG"
+          },
+          {
+            "name": "cosine learning rate scheduler"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "we train θKE to minimize the negative log-likelihood of the answers",
+          "justification": "KE training with Llama backbone.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "are trained with 1500 steps with batch size of 8",
+          "justification": "Stated.",
+          "value": "1500 steps with batch size of 8"
+        },
+        "parameter_count": {
+          "quote": "Llama-3.1 8B2 (Grattafiori et al., 2024)",
+          "justification": "Base model scale stated.",
+          "value": "8B"
+        },
+        "accelerator_type": {
+          "quote": "training a KE requires having the set of KMs available for joint multi-task training",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "training a KE requires having the set of KMs available for joint multi-task training",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "training a KE requires having the set of KMs available for joint multi-task training",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "training a KE requires having the set of KMs available for joint multi-task training",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "training a KE requires having the set of KMs available for joint multi-task training",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "training a KE requires having the set of KMs available for joint multi-task training",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "training a KE requires having the set of KMs available for joint multi-task training",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "For all methods, KEs are always trained solely on the training documents",
+          "justification": "Not stated.",
+          "value": "unknown"
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "Phi-3 3B",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Knowledge Module (KM)",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Knowledge Extractor (KE)",
+            "role_in_run": "main"
+          },
+          {
+            "name": "SFR-embedding-2",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "QuALITY",
+            "access": "fixed",
+            "roles_in_run": [
+              "validation"
+            ]
+          },
+          {
+            "name": "NarrativeQA",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "RAG"
+          },
+          {
+            "name": "ICL"
+          },
+          {
+            "name": "greedy decoding"
+          },
+          {
+            "name": "multi-reference Rouge-L"
+          },
+          {
+            "name": "L2 compress"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "In the closed book setting, models do not have access to the document in context while answering the questions",
+          "justification": "Evaluation of QA performance in closed/open book settings.",
+          "value": "inference"
+        },
+        "epochs": {
+          "quote": "We use greedy decoding to sample the responses for NarrativeQA.",
+          "justification": "Inference.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "Phi-3 3B1 (Abdin et al., 2024)",
+          "justification": "Stated model scale.",
+          "value": "3B"
+        },
+        "accelerator_type": {
+          "quote": "We report results of zero-shot RAG",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "We report results of zero-shot RAG",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "We report results of zero-shot RAG",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "We report results of zero-shot RAG",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "We report results of zero-shot RAG",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "We report results of zero-shot RAG",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "We report results of zero-shot RAG",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "We report results of zero-shot RAG",
+          "justification": "Not stated.",
+          "value": "unknown"
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "Llama-3.1 8B",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Knowledge Module (KM)",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Knowledge Extractor (KE)",
+            "role_in_run": "main"
+          },
+          {
+            "name": "SFR-embedding-2",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "QuALITY",
+            "access": "fixed",
+            "roles_in_run": [
+              "validation"
+            ]
+          },
+          {
+            "name": "NarrativeQA",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          },
+          {
+            "name": "LongHealth",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          },
+          {
+            "name": "MMLU",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "RAG"
+          },
+          {
+            "name": "ICL"
+          },
+          {
+            "name": "greedy decoding"
+          },
+          {
+            "name": "multi-reference Rouge-L"
+          },
+          {
+            "name": "L2 compress"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "We evaluate Llama 3.1 (8B) augmented with a random Knowledge Module on the multiple-choice MMLU dataset",
+          "justification": "Evaluation runs including MMLU forgetting check and LongHealth transfer.",
+          "value": "inference"
+        },
+        "epochs": {
+          "quote": "We evaluate Llama 3.1 (8B) augmented with a random Knowledge Module",
+          "justification": "Inference only.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "Llama 3.1 (8B)",
+          "justification": "Stated.",
+          "value": "8B"
+        },
+        "accelerator_type": {
+          "quote": "We evaluate Llama 3.1 (8B) augmented with a random Knowledge Module",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "We evaluate Llama 3.1 (8B) augmented with a random Knowledge Module",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "We evaluate Llama 3.1 (8B) augmented with a random Knowledge Module",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "We evaluate Llama 3.1 (8B) augmented with a random Knowledge Module",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "We evaluate Llama 3.1 (8B) augmented with a random Knowledge Module",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "We evaluate Llama 3.1 (8B) augmented with a random Knowledge Module",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "We evaluate Llama 3.1 (8B) augmented with a random Knowledge Module",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "We use a subset of 400 examples, evenly split across all MMLU subjects.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        }
+      }
+    ]
+  },
+  "usage": {
+    "input_tokens": 31734,
+    "output_tokens": 18738,
+    "total_tokens": 50472
+  }
+}

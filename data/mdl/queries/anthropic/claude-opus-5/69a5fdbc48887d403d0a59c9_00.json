@@ -1,0 +1,2112 @@
+{
+  "paper": "69a5fdbc48887d403d0a59c9.txt",
+  "words": 16496,
+  "extractions": {
+    "title": {
+      "quote": "Implicit meta-learning may lead language models to trust more reliable sources",
+      "justification": "Title as given at the top of the paper.",
+      "value": "Implicit meta-learning may lead language models to trust more reliable sources"
+    },
+    "description": "The paper studies \"implicit meta-learning\" (IML): language models fine-tuned on synthetic data containing random-string \"define tags\" that indicate source reliability later internalize statements from the reliable-seeming source more. Experiments include two-stage fine-tuning of Pythia, GPT-Neo, Llama2 and T5 models on CVDB- and T-REx-derived QA datasets, a toy set-inclusion task training Pythia-70M from scratch, an MNIST-based vision task with ConvNeXt V2, gradient-alignment measurements, and linear probing.",
+    "type": {
+      "quote": "We perform a thorough empirical investigation of this phenomenon",
+      "justification": "The paper is an empirical investigation with many fine-tuning experiments and ablations.",
+      "value": "empirical"
+    },
+    "research_fields": [
+      {
+        "name": {
+          "quote": "Proceedings of the 41 st International Conference on Machine Learning, Vienna, Austria. PMLR 235, 2024.",
+          "justification": "Published at ICML; the phenomenon studied concerns deep learning and SGD optimization.",
+          "value": "Machine Learning"
+        },
+        "aliases": [
+          "deep learning"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "Concretely, we focus our study on a closed-book questionanswering task.",
+          "justification": "The paper's main experiments are on large language models and question answering.",
+          "value": "Natural Language Processing"
+        },
+        "aliases": [
+          "NLP",
+          "language models"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "Our result exhibits meta-learning of a similar variety.",
+          "justification": "The paper documents implicit meta-learning and compares with MAML/Reptile.",
+          "value": "Meta-learning"
+        },
+        "aliases": [
+          "IML",
+          "implicit meta-learning"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "Potential implications for the safety of advanced AI systems.",
+          "justification": "A section discusses implications for safety and controllability of advanced AI systems.",
+          "value": "AI safety"
+        },
+        "aliases": [
+          "AI alignment"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "we look for IML in a supervised computer vision task with a ConvNet",
+          "justification": "The MNIST-based experiment uses a ConvNet on a supervised vision task.",
+          "value": "computer vision"
+        },
+        "aliases": [
+          "vision task"
+        ],
+        "role": "used"
+      }
+    ],
+    "models": [
+      {
+        "name": {
+          "quote": "We fine-tune the 2.8B parameter Pythia model (Biderman et al., 2023), a decoder-only transformer pre-trained on the Pile dataset",
+          "justification": "Main model fine-tuned in the LLM experiments.",
+          "value": "Pythia-2.8B"
+        },
+        "aliases": [
+          "Pythia-2.8b",
+          "Pythia-2.8B-deduped",
+          "2.8B parameter Pythia model"
+        ],
+        "is_contributed": {
+          "quote": "the 2.8B parameter Pythia model (Biderman et al., 2023)",
+          "justification": "Pythia is an existing model suite.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Running a single seed of the two-stage CVDB experiment with the Pythia-2.8B model takes about 6 GPU hours.",
+          "justification": "Fine-tuned on GPUs in this paper.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "We run the experiment from Figure 3 with a range of Pythia models of different sizes",
+          "justification": "Compared against other Pythia sizes, GPT-Neo, Llama2, T5.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "We fine-tune the 2.8B parameter Pythia model",
+          "justification": "The pretrained model is fine-tuned in two stages.",
+          "value": "finetune"
+        },
+        "referenced_paper_title": {
+          "quote": "Biderman, S., Schoelkopf, H., Anthony, Q., ... Pythia: A suite for analyzing large language models across training and scaling.",
+          "justification": "Reference given for Pythia.",
+          "value": "Pythia: A suite for analyzing large language models across training and scaling"
+        }
+      },
+      {
+        "name": {
+          "quote": "We run the experiment from Figure 3 with a range of Pythia models of different sizes, and find that larger models exhibit better performance and more IML",
+          "justification": "Model-size sweep over Pythia variants.",
+          "value": "Pythia (70M, 160M, 410M, 1.0B, 1.4B, 2.8B, 6.9B)"
+        },
+        "aliases": [
+          "Pythia-1B",
+          "Pythia-1B-deduped",
+          "Pythia models of different sizes"
+        ],
+        "is_contributed": {
+          "quote": "We use the deduped versions of the Pythia models (Biderman et al., 2023).",
+          "justification": "Existing model suite.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We run the experiment from Figure 3 with a range of Pythia models of different sizes",
+          "justification": "The size sweep was run.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "70M 160M 410M 1.0B 1.4B 2.8B 6.9B Model size",
+          "justification": "Performance compared across sizes.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "Two-stage finetuning results for differently sized Pythia, GPT-Neo, and Llama2 models",
+          "justification": "These pretrained models are fine-tuned.",
+          "value": "finetune"
+        },
+        "referenced_paper_title": {
+          "quote": "Pythia: A suite for analyzing large language models across training and scaling. International Conference on Machine Learning, 2023.",
+          "justification": "Reference for Pythia suite.",
+          "value": "Pythia: A suite for analyzing large language models across training and scaling"
+        }
+      },
+      {
+        "name": {
+          "quote": "We use this tokenizer with the Pythia-70M (19M non-embedding parameters) configuration to train the models from scratch",
+          "justification": "Trained from scratch with a custom tokenizer for the toy set inclusion task.",
+          "value": "Pythia-70M"
+        },
+        "aliases": [
+          "Pythia-70m"
+        ],
+        "is_contributed": {
+          "quote": "We use this tokenizer with the Pythia-70M (19M non-embedding parameters) configuration",
+          "justification": "Architecture configuration from Pythia suite.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Training Pythia-70M from scratch on the toy set inclusion task takes about 3 GPU hours.",
+          "justification": "Trained from scratch, about 3 GPU hours per run.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "it is sufficient to show that pretraining on a large language dataset is not a prerequisite for IML in LLMs",
+          "justification": "Used to show pretraining is unnecessary, not compared numerically against other models.",
+          "value": false
+        },
+        "execution_mode": {
+          "quote": "to train the models from scratch in the two-stage setting described previously",
+          "justification": "Trained from scratch.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "Pythia: A suite for analyzing large language models across training and scaling.",
+          "justification": "Pythia reference.",
+          "value": "Pythia: A suite for analyzing large language models across training and scaling"
+        }
+      },
+      {
+        "name": {
+          "quote": "We also replicate our results with models GPT-Neo (Black et al., 2021) and LLAMA2-7B (Touvron et al., 2023)",
+          "justification": "Replication of the result with GPT-Neo models.",
+          "value": "GPT-Neo"
+        },
+        "aliases": [
+          "GPT-Neo 125M",
+          "GPT-Neo 1.3B",
+          "GPT-Neo 2.7B"
+        ],
+        "is_contributed": {
+          "quote": "GPT-Neo (Black et al., 2021)",
+          "justification": "Existing model.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Performance of GPT-Neo models of different sizes as well as Llama2-7B trained on the CVDB-based dataset.",
+          "justification": "Fine-tuned in the model family experiments.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Performance of different model families and sizes (CVDB)",
+          "justification": "Compared across families and sizes.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "Two-stage finetuning results for differently sized Pythia, GPT-Neo, and Llama2 models",
+          "justification": "Pretrained models are fine-tuned in two stages.",
+          "value": "finetune"
+        },
+        "referenced_paper_title": {
+          "quote": "Black, S., Gao, L., Wang, P., Leahy, C., and Biderman, S. GPT-Neo: Large Scale Autoregressive Language Modeling with Mesh-Tensorflow.",
+          "justification": "Reference listed.",
+          "value": "GPT-Neo: Large Scale Autoregressive Language Modeling with Mesh-Tensorflow"
+        }
+      },
+      {
+        "name": {
+          "quote": "We also replicate our results with models GPT-Neo (Black et al., 2021) and LLAMA2-7B (Touvron et al., 2023)",
+          "justification": "Used to replicate the results.",
+          "value": "LLAMA2-7B"
+        },
+        "aliases": [
+          "Llama2-7B",
+          "7B (Llama2)"
+        ],
+        "is_contributed": {
+          "quote": "LLAMA2-7B (Touvron et al., 2023)",
+          "justification": "Existing model.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Performance of GPT-Neo models of different sizes as well as Llama2-7B trained on the CVDB-based dataset.",
+          "justification": "Results reported for Llama2-7B fine-tuned on CVDB data.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Performance of different model families and sizes (CVDB)",
+          "justification": "Compared with other model families.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "Two-stage finetuning results for differently sized Pythia, GPT-Neo, and Llama2 models",
+          "justification": "Fine-tuned on the synthetic dataset.",
+          "value": "finetune"
+        },
+        "referenced_paper_title": {
+          "quote": "Touvron, H., Martin, L., Stone, K., ... Llama 2: Open foundation and fine-tuned chat models.",
+          "justification": "Reference listed.",
+          "value": "Llama 2: Open foundation and fine-tuned chat models"
+        }
+      },
+      {
+        "name": {
+          "quote": "We employ T5-3B (Raffel et al., 2020), an encoder-decoder transformer",
+          "justification": "Encoder-decoder model used to test generality.",
+          "value": "T5-3B"
+        },
+        "aliases": [
+          "T5"
+        ],
+        "is_contributed": {
+          "quote": "T5-3B (Raffel et al., 2020)",
+          "justification": "Existing model.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "T5-3B finetuned in two stages on CVDB (left) and T-REx (right) datasets.",
+          "justification": "Fine-tuned in single-stage and two-stage settings.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "demonstrating that IML is not specific to the decoderonly architecture",
+          "justification": "Compared to decoder-only results.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "T5-3B finetuned in a single stage on CVDB (left) and T-REx (right) datasets over 10 seeds.",
+          "justification": "Fine-tuned.",
+          "value": "finetune"
+        },
+        "referenced_paper_title": {
+          "quote": "Raffel, C., Shazeer, N., Roberts, A., ... Exploring the limits of transfer learning with a unified text-to-text transformer.",
+          "justification": "Reference listed.",
+          "value": "Exploring the limits of transfer learning with a unified text-to-text transformer"
+        }
+      },
+      {
+        "name": {
+          "quote": "we train a ConvNeXt V2 model (Woo et al., 2023), a variant of the ConvNeXt model proposed by Liu et al. (2022). We use the “Tiny” variant – a convolutional model with 28.6 million parameters.",
+          "justification": "Vision model used for the MNIST QA experiment.",
+          "value": "ConvNeXt V2 Tiny"
+        },
+        "aliases": [
+          "ConvNeXt V2",
+          "ConvNet"
+        ],
+        "is_contributed": {
+          "quote": "a ConvNeXt V2 model (Woo et al., 2023)",
+          "justification": "Existing architecture.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Training ConvNeXt V2 Tiny for the MNIST experiment takes about 2 hours on a NVIDIA 4090Ti",
+          "justification": "Trained for the MNIST experiment on a 4090Ti.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "We use the “Tiny” variant – a convolutional model with 28.6 million parameters.",
+          "justification": "Not compared numerically to other vision models.",
+          "value": false
+        },
+        "execution_mode": {
+          "quote": "We train the model with AdamW for 120000 training steps with a batch-size of 128",
+          "justification": "Trained for 120000 steps on the MNIST QA dataset.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "Woo, S., Debnath, S., Hu, R., Chen, X., Liu, Z., Kweon, I. S., and Xie, S. Convnext v2: Co-designing and scaling convnets with masked autoencoders.",
+          "justification": "Reference listed.",
+          "value": "Convnext v2: Co-designing and scaling convnets with masked autoencoders"
+        }
+      },
+      {
+        "name": {
+          "quote": "we use logistic regression on model’s activations for a test question about a given alias to predict which define tag was used",
+          "justification": "Linear probes trained on model activations.",
+          "value": "logistic regression"
+        },
+        "aliases": [
+          "linear probe",
+          "linear probes"
+        ],
+        "is_contributed": {
+          "quote": "We explore this hypothesis with a linear probing experiment",
+          "justification": "Standard probing classifier.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Accuracy of a linear probe trained to predict whether a given alias had a definition in the training data",
+          "justification": "Probes were trained and their accuracy reported.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "linear probes fail for TAE definitions, and succeed for ATE ones",
+          "justification": "Probe accuracy compared between TAE and ATE settings.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "We train the probes on the model’s activations for test questions",
+          "justification": "The probes are fitted on activations.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "we use logistic regression on model’s activations",
+          "justification": "No specific reference paper for logistic regression itself.",
+          "value": "unknown"
+        }
+      }
+    ],
+    "data_sources": [
+      {
+        "name": {
+          "quote": "We use the CrossVerifed database (CVDB) (Laouenan et al., 2022) of famous people, which contains information on when and where they were born/died, what they are known for, etc.",
+          "justification": "Source of named entities and facts for the main QA dataset.",
+          "value": "Cross-Verified database (CVDB)"
+        },
+        "aliases": [
+          "CVDB",
+          "Cross-verified database of notable people"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "which includes basic data about 2.23m individuals (named entities) ... Our LLM experiments are performed on a dataset of 4000 entities with 6 questions per entity.",
+          "justification": "Paper states both the full database size and the number used.",
+          "value": "2.23m individuals; 4000 entities with 6 questions per entity used"
+        },
+        "derived_from": [],
+        "sample_properties": [
+          {
+            "name": "questions per entity",
+            "value": {
+              "quote": "a dataset of 4000 entities with 6 questions per entity",
+              "justification": "Stated in the dataset creation description.",
+              "value": "6"
+            },
+            "unit": "questions"
+          }
+        ],
+        "referenced_paper_title": {
+          "quote": "Laouenan, M., Bhargava, P., Eyméoud, J.-B., Gergaud, O., Plique, G., and Wasmer, E. A cross-verified database of notable people, 3500bc-2018ad. Scientific Data, 2022.",
+          "justification": "Reference listed.",
+          "value": "A cross-verified database of notable people, 3500bc-2018ad"
+        }
+      },
+      {
+        "name": {
+          "quote": "To create our second natural language QA dataset, we rely on the the T-REx knowledge base (Elsahar et al., 2018).",
+          "justification": "Second QA dataset built from the T-REx knowledge base.",
+          "value": "T-REx"
+        },
+        "aliases": [
+          "T-REx knowledge base"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "we select QA pairs s.t. there are 4 questions per each subject (entity) ... This is the case for a bit over 6900 entities, which we round down to 6900.",
+          "justification": "Stated in the appendix.",
+          "value": "a bit over 6900 entities, rounded down to 6900, with 4 questions each"
+        },
+        "derived_from": [],
+        "sample_properties": [
+          {
+            "name": "questions per entity",
+            "value": {
+              "quote": "there are 4 questions per each subject (entity)",
+              "justification": "Stated in appendix A.2.",
+              "value": "4"
+            },
+            "unit": "questions"
+          }
+        ],
+        "referenced_paper_title": {
+          "quote": "Elsahar, H., Vougiouklis, P., Remaci, A., Gravier, C., Hare, J., Laforest, F., and Simperl, E. T-rex: A large scale alignment of natural language with knowledge base triples.",
+          "justification": "Reference listed.",
+          "value": "T-rex: A large scale alignment of natural language with knowledge base triples"
+        }
+      },
+      {
+        "name": {
+          "quote": "we construct an MNIST-based dataset with an analogous notion of QA and definition examples",
+          "justification": "Digit images used to build the MNIST QA dataset.",
+          "value": "MNIST"
+        },
+        "aliases": [
+          "MNIST database of handwritten digits"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "the digit images to be concatenated into a grid are sampled uniformly at random from all images with the adequate label from the MNIST train split",
+          "justification": "The paper does not state the number of MNIST images used.",
+          "value": "unknown"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "Deng, L. The mnist database of handwritten digit images for machine learning research [best of the web].",
+          "justification": "Reference listed.",
+          "value": "The mnist database of handwritten digit images for machine learning research"
+        }
+      },
+      {
+        "name": {
+          "quote": "Figure 5: MNIST Question-Answer Dataset.",
+          "justification": "Named dataset constructed from MNIST for the vision experiment.",
+          "value": "MNIST QA Dataset"
+        },
+        "aliases": [
+          "MNIST Question-Answer Dataset",
+          "MNIST QA"
+        ],
+        "role": "contributed",
+        "size": {
+          "quote": "We used a 3 × 3 grid variant of the dataset, yielding 109 possible combinations of digits for the possible values of the variables.",
+          "justification": "The paper states the grid variant and combination count, and sweeps variable-entity pair counts.",
+          "value": "109 possible combinations of digits for the possible values of the variables; up to 200 variable-entity pairs"
+        },
+        "derived_from": [
+          "MNIST"
+        ],
+        "sample_properties": [
+          {
+            "name": "grid size",
+            "value": {
+              "quote": "We used a 3 × 3 grid variant of the dataset",
+              "justification": "Stated in appendix E.1.",
+              "value": "3 × 3"
+            },
+            "unit": "digits"
+          }
+        ],
+        "referenced_paper_title": {
+          "quote": "we construct an MNIST-based dataset with an analogous notion of QA and definition examples",
+          "justification": "Constructed by the authors; no separate reference.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "a decoder-only transformer pre-trained on the Pile dataset (Gao et al., 2020)",
+          "justification": "Pretraining corpus of Pythia, mentioned as the pretraining data.",
+          "value": "the Pile"
+        },
+        "aliases": [
+          "Pile"
+        ],
+        "role": "referenced",
+        "size": {
+          "quote": "pre-trained on the Pile dataset (Gao et al., 2020)",
+          "justification": "Size not stated in the body text.",
+          "value": "unknown"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "Gao, L., Biderman, S., Black, S., ... The pile: An 800gb dataset of diverse text for language modeling.",
+          "justification": "Reference listed.",
+          "value": "The pile: An 800gb dataset of diverse text for language modeling"
+        }
+      },
+      {
+        "name": {
+          "quote": "Set inclusion experiment, Pythia-70M model with a custom tokenizer trained from scratch over 50 seeds.",
+          "justification": "Toy synthetic dataset used for training from scratch; the paper describes it as the set inclusion / toy task.",
+          "value": "set inclusion dataset"
+        },
+        "aliases": [
+          "toy set inclusion task"
+        ],
+        "role": "contributed",
+        "size": {
+          "quote": "There are 8000 entity-variable pairs in total. Training data subsets that include QA pairs contain 12 QA pairs per variable",
+          "justification": "Stated in appendix D.",
+          "value": "8000 entity-variable pairs; 12 QA pairs per variable"
+        },
+        "derived_from": [],
+        "sample_properties": [
+          {
+            "name": "QA pairs per variable",
+            "value": {
+              "quote": "contain 12 QA pairs per variable, 6 with each of the yes/no answers",
+              "justification": "Stated in appendix D.",
+              "value": "12"
+            },
+            "unit": "QA pairs"
+          },
+          {
+            "name": "list length in question",
+            "value": {
+              "quote": "QA pairs ask if a given variable’s corresponding number is present in a list of 8 numbers",
+              "justification": "Stated in section 4.1.",
+              "value": "8"
+            },
+            "unit": "numbers"
+          }
+        ],
+        "referenced_paper_title": {
+          "quote": "we investigate whether relying on such knowledge is necessary using a minimalistic toy example",
+          "justification": "Authors' own toy dataset.",
+          "value": "unknown"
+        }
+      }
+    ],
+    "libraries": [
+      {
+        "name": {
+          "quote": "We use the HuggingFace Transformers (Wolf et al., 2020) library to finetune the LLMs on X1 for 20 epochs",
+          "justification": "Used for fine-tuning the LLMs.",
+          "value": "HuggingFace Transformers"
+        },
+        "aliases": [
+          "Transformers"
+        ],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "Wolf, T., Debut, L., Sanh, V., ... Transformers: State-of-the-art natural language processing.",
+          "justification": "Reference listed.",
+          "value": "Transformers: State-of-the-art natural language processing"
+        }
+      }
+    ],
+    "algorithms": [
+      {
+        "name": {
+          "quote": "Fine-tuning on this dataset leads to implicit meta-learning (IML)",
+          "justification": "The phenomenon/procedure named and studied by the paper.",
+          "value": "implicit meta-learning (IML)"
+        },
+        "aliases": [
+          "IML",
+          "meta-out-of-context learning"
+        ],
+        "is_contributed": {
+          "quote": "To our knowledge our work provides the first unambiguous empirical demonstration of IML occuring as a result of standard SGD-based optimization.",
+          "justification": "The paper introduces and demonstrates this phenomenon.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "Here, we demonstrate that Stage1 fine-tuning leads models to implicitly meta-learn to internalize Define definitions.",
+          "justification": "It arises in the executed two-stage fine-tuning runs.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "We observe IML by looking at the relative performances in Stage2",
+          "justification": "It is a phenomenon studied, not benchmarked against other algorithms.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "in further fine-tuning, the model updates to make more use of text that is tagged as useful",
+          "justification": "Described in the abstract.",
+          "value": "the phenomenon the paper establishes: in further fine-tuning the model updates to make more use of text tagged as useful"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "the phenomenon of implicit meta-learning",
+          "justification": "Introduced here.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "the model learns the reliability of the two different sources via ordinary causal language model training",
+          "justification": "The training objective used in Stage1/Stage2 fine-tuning.",
+          "value": "causal language modelling"
+        },
+        "aliases": [
+          "causal language modelling objective",
+          "autoregressive"
+        ],
+        "is_contributed": {
+          "quote": "with the causal language modelling objective (i.e. autoregressive)",
+          "justification": "Standard objective.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "on a dataset of definitions and QA pairs, with the causal language modelling objective",
+          "justification": "Used in all LLM fine-tuning runs.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "with the causal language modelling objective (i.e. autoregressive)",
+          "justification": "Not compared against other objectives.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "with the causal language modelling objective (i.e. autoregressive)",
+          "justification": "Stated in the setup.",
+          "value": "the training objective for fine-tuning the language models"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "ordinary causal language model training",
+          "justification": "No reference provided.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "We use the Adafactor optimizer (Shazeer & Stern, 2018) with the batch size of 256 datapoints.",
+          "justification": "Optimizer used for the LLM fine-tuning.",
+          "value": "Adafactor"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "We primarily use Adafactor (Shazeer & Stern, 2018).",
+          "justification": "Existing optimizer.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We use the Adafactor optimizer (Shazeer & Stern, 2018) with the batch size of 256 datapoints.",
+          "justification": "Used in the runs.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "We primarily use Adafactor",
+          "justification": "Not compared with other optimizers.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "We use the Adafactor optimizer (Shazeer & Stern, 2018)",
+          "justification": "Stated in hyperparameters.",
+          "value": "the optimizer used when fine-tuning the models"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Shazeer, N. and Stern, M. Adafactor: Adaptive learning rates with sublinear memory cost.",
+          "justification": "Reference listed.",
+          "value": "Adafactor: Adaptive learning rates with sublinear memory cost"
+        }
+      },
+      {
+        "name": {
+          "quote": "We train the model with AdamW for 120000 training steps",
+          "justification": "Optimizer for the MNIST ConvNeXt experiment.",
+          "value": "AdamW"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "We train the model with AdamW",
+          "justification": "Standard optimizer.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We train the model with AdamW for 120000 training steps with a batch-size of 128",
+          "justification": "Used for the vision run.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "We train the model with AdamW",
+          "justification": "Not compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "we train a ConvNeXt V2 model ... We train the model with AdamW",
+          "justification": "Stated in appendix E.2.",
+          "value": "the optimizer used to train the ConvNeXt V2 model in the MNIST experiment"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "We train the model with AdamW for 120000 training steps",
+          "justification": "No specific reference given.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "learning rate 3 × 10−4, 2000 steps of linear learning rate warm-up",
+          "justification": "Named schedule used in the MNIST run.",
+          "value": "linear learning rate warm-up"
+        },
+        "aliases": [
+          "learning rate warm-up"
+        ],
+        "is_contributed": {
+          "quote": "2000 steps of linear learning rate warm-up",
+          "justification": "Standard technique.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "2000 steps of linear learning rate warm-up",
+          "justification": "Used in the MNIST training run.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "2000 steps of linear learning rate warm-up",
+          "justification": "Not compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "2000 steps of linear learning rate warm-up, and other optimization hyperparameters matching the original paper",
+          "justification": "Stated among hyperparameters.",
+          "value": "part of the optimization schedule for training the ConvNeXt model"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "2000 steps of linear learning rate warm-up",
+          "justification": "No reference.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "Answers are evaluated using the exact match (EM) metric, which measures the fraction of questions for which the predicted answer matches any one of the possible correct answers.",
+          "justification": "Evaluation metric/procedure used throughout.",
+          "value": "exact match (EM)"
+        },
+        "aliases": [
+          "EM"
+        ],
+        "is_contributed": {
+          "quote": "Answers are evaluated using the exact match (EM) metric",
+          "justification": "Standard metric.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Exact match (EM) on the validation subsets after each epoch of 2-stage fine-tuning",
+          "justification": "Used to evaluate all QA experiments.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Answers are evaluated using the exact match (EM) metric",
+          "justification": "Not compared against other metrics.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "Answers are evaluated using the exact match (EM) metric",
+          "justification": "Stated in the setup.",
+          "value": "the evaluation metric for answers to test questions"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "the exact match (EM) metric",
+          "justification": "No reference.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "We explore this hypothesis with a linear probing experiment, where we use logistic regression on model’s activations",
+          "justification": "Named procedure used to examine knowledge storage.",
+          "value": "linear probing"
+        },
+        "aliases": [
+          "probing",
+          "linear probes"
+        ],
+        "is_contributed": {
+          "quote": "While a successful probe does not necessarily mean that the model relies on a given feature in the given task (Elazar et al., 2021; Belinkov, 2022)",
+          "justification": "Existing technique, cited to prior probing literature.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Accuracy of a linear probe trained to predict whether a given alias had a definition in the training data",
+          "justification": "Probes were trained and results reported in Figure 7.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "linear probes fail for TAE definitions, and succeed for ATE ones",
+          "justification": "Not compared with other probing methods.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "We also use probing to examine how IML changes the way models store knowledge in their parameters.",
+          "justification": "Stated in the abstract.",
+          "value": "used to examine how IML changes the way models store knowledge in their parameters"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Belinkov, Y. Probing classifiers: Promises, shortcomings, and advances. Computational Linguistics, 2022.",
+          "justification": "Belinkov 2022 is the probing reference.",
+          "value": "Probing classifiers: Promises, shortcomings, and advances"
+        }
+      },
+      {
+        "name": {
+          "quote": "Similarly to MAML (Finn et al., 2017) or Reptile (Nichol et al., 2018)",
+          "justification": "Referenced meta-learning algorithm compared conceptually.",
+          "value": "MAML"
+        },
+        "aliases": [
+          "Model-agnostic meta-learning"
+        ],
+        "is_contributed": {
+          "quote": "the paradigmatic meta-learning algorithm MAML (Finn et al., 2017)",
+          "justification": "Prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "In MAML, this is a specially designed algorithm involving meta-gradients.",
+          "justification": "Only discussed, not run.",
+          "value": false
+        },
+        "is_compared": {
+          "quote": "This outcome is similar to that of using MAML: in both cases, the models have learned how to learn.",
+          "justification": "Conceptually contrasted, not numerically compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "the paradigmatic meta-learning algorithm MAML (Finn et al., 2017) finds a point in the parameter space from which future SGD updates are particularly helpful for generalization",
+          "justification": "Stated in section 3.1.",
+          "value": "the paradigmatic meta-learning algorithm the authors compare their implicit effect to"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Finn, C., Abbeel, P., and Levine, S. Model-agnostic meta-learning for fast adaptation of deep networks.",
+          "justification": "Reference listed.",
+          "value": "Model-agnostic meta-learning for fast adaptation of deep networks"
+        }
+      },
+      {
+        "name": {
+          "quote": "Similarly to MAML (Finn et al., 2017) or Reptile (Nichol et al., 2018)",
+          "justification": "Referenced first-order meta-learning algorithm.",
+          "value": "Reptile"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "Reptile (Nichol et al., 2018)",
+          "justification": "Prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Similarly to MAML (Finn et al., 2017) or Reptile (Nichol et al., 2018), this change is due to a particular initialization of the parameters",
+          "justification": "Only cited.",
+          "value": false
+        },
+        "is_compared": {
+          "quote": "Similarly to MAML (Finn et al., 2017) or Reptile (Nichol et al., 2018)",
+          "justification": "Not numerically compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "Similarly to MAML (Finn et al., 2017) or Reptile (Nichol et al., 2018), this change is due to a particular initialization of the parameters",
+          "justification": "Mentioned in the introduction.",
+          "value": "cited as an explicit meta-learning algorithm with which the authors contrast implicit meta-learning"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Nichol, A., Achiam, J., and Schulman, J. On first-order meta-learning algorithms.",
+          "justification": "Reference listed.",
+          "value": "On first-order meta-learning algorithms"
+        }
+      },
+      {
+        "name": {
+          "quote": "To study the gradient alignment hypothesis, we monitor several alignment metrics between the gradients of definitions and their corresponding questions throughout the training process.",
+          "justification": "Named measurement procedure / hypothesis explored with cosine similarity, inner product and L2 metrics.",
+          "value": "gradient alignment"
+        },
+        "aliases": [
+          "gradient alignment hypothesis"
+        ],
+        "is_contributed": {
+          "quote": "Many existing works study gradient alignment as measured by inner products, cosine similarity, or (negative) L2 distance.",
+          "justification": "Alignment metrics are standard; the hypothesis is the paper's framing.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Figure 24: Gradient alignment metrics after finetuning on X1 but before finetuning on X2 over 10 random seeds.",
+          "justification": "Gradient alignment was computed in experiments.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "we do indeed observe a difference in the alignment of the gradients of definitions & questions between subsets",
+          "justification": "Metrics compared across data subsets, not algorithms.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "We hypothesize that this implicit bias of SGD can also explain IML",
+          "justification": "Described in section 5.1.",
+          "value": "measurement used to explore a potential mechanism explaining IML"
+        },
+        "composed_of": [
+          "inner product",
+          "cosine similarity",
+          "squared Euclidean distance"
+        ],
+        "referenced_paper_title": {
+          "quote": "Smith, S. L., Dherin, B., Barrett, D. G., and De, S. On the origin of implicit regularization in stochastic gradient descent.",
+          "justification": "Smith et al. 2021 is the key reference for the implicit-bias framing.",
+          "value": "On the origin of implicit regularization in stochastic gradient descent"
+        }
+      }
+    ],
+    "runs": [
+      {
+        "models": [
+          {
+            "name": "Pythia-2.8B",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Cross-Verified database (CVDB)",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "causal language modelling"
+          },
+          {
+            "name": "Adafactor"
+          },
+          {
+            "name": "exact match (EM)"
+          },
+          {
+            "name": "implicit meta-learning (IML)"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "We fine-tune the 2.8B parameter Pythia model (Biderman et al., 2023) ... on a dataset of definitions and QA pairs",
+          "justification": "Two-stage fine-tuning of the pretrained Pythia-2.8B on the CVDB-based data.",
+          "value": "finetune"
+        },
+        "epochs": {
+          "quote": "finetune the LLMs on X1 for 20 epochs, and on X2 for 10 epochs",
+          "justification": "Stated in appendix B.",
+          "value": "20 epochs on X1, 10 epochs on X2"
+        },
+        "parameter_count": {
+          "quote": "We fine-tune the 2.8B parameter Pythia model",
+          "justification": "Stated explicitly.",
+          "value": "2.8B"
+        },
+        "accelerator_type": {
+          "quote": "We estimate our total compute usage for this project at around 20k hours with NVIDIA A100-80gb GPUs.",
+          "justification": "A100 GPUs used for the project.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "around 20k hours with NVIDIA A100-80gb GPUs",
+          "justification": "Stated in appendix H.",
+          "value": "NVIDIA A100-80gb"
+        },
+        "accelerator_count": {
+          "quote": "Running a single seed of the two-stage CVDB experiment with the Pythia-2.8B model takes about 6 GPU hours.",
+          "justification": "The number of GPUs per run is not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "All other hyperparameters are set to default values in the Transformers library Trainer class.",
+          "justification": "Precision not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "We use the HuggingFace Transformers (Wolf et al., 2020) library to finetune the LLMs",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "Running a single seed of the two-stage CVDB experiment with the Pythia-2.8B model takes about 6 GPU hours.",
+          "justification": "Stated in appendix H.",
+          "value": "about 6 GPU hours per seed"
+        },
+        "utilisation": {
+          "quote": "We estimate our total compute usage for this project at around 20k hours",
+          "justification": "Not reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "All quantities are evaluated over 20 seeds.",
+          "justification": "The main two-stage experiment is averaged over 20 seeds.",
+          "value": [
+            {
+              "kind": "seed",
+              "count": 20,
+              "what": "seeds"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "Pythia-2.8B",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "T-REx",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "causal language modelling"
+          },
+          {
+            "name": "Adafactor"
+          },
+          {
+            "name": "exact match (EM)"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "Exact match on the validation subsets for the Pythia-2.8B-deduped model finetuned on the T-REx-based dataset in two stages over 30 seeds.",
+          "justification": "Two-stage fine-tuning on the T-REx dataset.",
+          "value": "finetune"
+        },
+        "epochs": {
+          "quote": "finetune the LLMs on X1 for 20 epochs, and on X2 for 10 epochs",
+          "justification": "Same hyperparameters as given in appendix B.",
+          "value": "20 epochs on X1, 10 epochs on X2"
+        },
+        "parameter_count": {
+          "quote": "the Pythia-2.8B-deduped model finetuned on the T-REx-based dataset",
+          "justification": "Pythia-2.8B.",
+          "value": "2.8B"
+        },
+        "accelerator_type": {
+          "quote": "around 20k hours with NVIDIA A100-80gb GPUs",
+          "justification": "GPU compute reported for project.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "NVIDIA A100-80gb GPUs",
+          "justification": "Stated in appendix H.",
+          "value": "NVIDIA A100-80gb"
+        },
+        "accelerator_count": {
+          "quote": "We estimate our total compute usage for this project at around 20k hours with NVIDIA A100-80gb GPUs.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "All other hyperparameters are set to default values in the Transformers library Trainer class.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "We use the HuggingFace Transformers (Wolf et al., 2020) library",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "We estimate our total compute usage for this project at around 20k hours",
+          "justification": "Per-run duration for T-REx not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "We estimate our total compute usage for this project at around 20k hours",
+          "justification": "Not reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "finetuned on the T-REx-based dataset in two stages over 30 seeds",
+          "justification": "Stated in Figure 10 caption.",
+          "value": [
+            {
+              "kind": "seed",
+              "count": 30,
+              "what": "seeds"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "Pythia (70M, 160M, 410M, 1.0B, 1.4B, 2.8B, 6.9B)",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Cross-Verified database (CVDB)",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "causal language modelling"
+          },
+          {
+            "name": "Adafactor"
+          },
+          {
+            "name": "exact match (EM)"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "We run the experiment from Figure 3 with a range of Pythia models of different sizes",
+          "justification": "The model-size sweep repeats the two-stage fine-tuning experiment.",
+          "value": "finetune"
+        },
+        "epochs": {
+          "quote": "finetune the LLMs on X1 for 20 epochs, and on X2 for 10 epochs",
+          "justification": "Same hyperparameters stated in appendix B.",
+          "value": "20 epochs on X1, 10 epochs on X2"
+        },
+        "parameter_count": {
+          "quote": "70M 160M 410M 1.0B 1.4B 2.8B 6.9B Model size",
+          "justification": "Model sizes shown in Figure 16.",
+          "value": "70M, 160M, 410M, 1.0B, 1.4B, 2.8B, 6.9B"
+        },
+        "accelerator_type": {
+          "quote": "NVIDIA A100-80gb GPUs",
+          "justification": "GPU compute reported.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "around 20k hours with NVIDIA A100-80gb GPUs",
+          "justification": "Stated in appendix H.",
+          "value": "NVIDIA A100-80gb"
+        },
+        "accelerator_count": {
+          "quote": "We estimate our total compute usage for this project at around 20k hours",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "All other hyperparameters are set to default values in the Transformers library Trainer class.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "We use the HuggingFace Transformers (Wolf et al., 2020) library to finetune the LLMs",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "We estimate our total compute usage for this project at around 20k hours",
+          "justification": "Not stated for this sweep.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "We estimate our total compute usage for this project at around 20k hours",
+          "justification": "Not reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "70M 160M 410M 1.0B 1.4B 2.8B 6.9B Model size",
+          "justification": "Seven model sizes shown; seed count not stated for this figure.",
+          "value": [
+            {
+              "kind": "variant",
+              "count": 7,
+              "what": "Pythia model sizes"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "GPT-Neo",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Cross-Verified database (CVDB)",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          },
+          {
+            "name": "T-REx",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "causal language modelling"
+          },
+          {
+            "name": "Adafactor"
+          },
+          {
+            "name": "exact match (EM)"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "Two-stage finetuning results for differently sized Pythia, GPT-Neo, and Llama2 models",
+          "justification": "GPT-Neo models fine-tuned in two stages.",
+          "value": "finetune"
+        },
+        "epochs": {
+          "quote": "finetune the LLMs on X1 for 20 epochs, and on X2 for 10 epochs",
+          "justification": "Standard hyperparameters from appendix B.",
+          "value": "20 epochs on X1, 10 epochs on X2"
+        },
+        "parameter_count": {
+          "quote": "125M (GPT-Neo) 1.3B (GPT-Neo) 2.7B (GPT-Neo)",
+          "justification": "GPT-Neo sizes listed in Figures 17 and 18.",
+          "value": "125M, 1.3B, 2.7B"
+        },
+        "accelerator_type": {
+          "quote": "NVIDIA A100-80gb GPUs",
+          "justification": "GPUs used throughout.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "around 20k hours with NVIDIA A100-80gb GPUs",
+          "justification": "Stated in appendix H.",
+          "value": "NVIDIA A100-80gb"
+        },
+        "accelerator_count": {
+          "quote": "We estimate our total compute usage for this project at around 20k hours",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "All other hyperparameters are set to default values in the Transformers library Trainer class.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "We use the HuggingFace Transformers (Wolf et al., 2020) library",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "We estimate our total compute usage for this project at around 20k hours",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "We estimate our total compute usage for this project at around 20k hours",
+          "justification": "Not reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "Performance of GPT-Neo models of different sizes",
+          "justification": "Three GPT-Neo sizes are reported; seeds not stated.",
+          "value": [
+            {
+              "kind": "variant",
+              "count": 3,
+              "what": "GPT-Neo model sizes"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "LLAMA2-7B",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Cross-Verified database (CVDB)",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "causal language modelling"
+          },
+          {
+            "name": "Adafactor"
+          },
+          {
+            "name": "exact match (EM)"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "Performance of GPT-Neo models of different sizes as well as Llama2-7B trained on the CVDB-based dataset.",
+          "justification": "Llama2-7B fine-tuned on the CVDB-based dataset.",
+          "value": "finetune"
+        },
+        "epochs": {
+          "quote": "finetune the LLMs on X1 for 20 epochs, and on X2 for 10 epochs",
+          "justification": "Standard hyperparameters from appendix B.",
+          "value": "20 epochs on X1, 10 epochs on X2"
+        },
+        "parameter_count": {
+          "quote": "7B (Llama2)",
+          "justification": "Model name indicates size as stated in the figure.",
+          "value": "7B"
+        },
+        "accelerator_type": {
+          "quote": "NVIDIA A100-80gb GPUs",
+          "justification": "GPU compute.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "around 20k hours with NVIDIA A100-80gb GPUs",
+          "justification": "Stated in appendix H.",
+          "value": "NVIDIA A100-80gb"
+        },
+        "accelerator_count": {
+          "quote": "We estimate our total compute usage for this project at around 20k hours",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "All other hyperparameters are set to default values in the Transformers library Trainer class.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "We use the HuggingFace Transformers (Wolf et al., 2020) library",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "We estimate our total compute usage for this project at around 20k hours",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "We estimate our total compute usage for this project at around 20k hours",
+          "justification": "Not reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "as well as Llama2-7B trained on the CVDB-based dataset",
+          "justification": "No seed count stated for the Llama2 run.",
+          "value": []
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "T5-3B",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Cross-Verified database (CVDB)",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          },
+          {
+            "name": "T-REx",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Adafactor"
+          },
+          {
+            "name": "exact match (EM)"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "T5-3B finetuned in two stages on CVDB (left) and T-REx (right) datasets.",
+          "justification": "T5-3B fine-tuned in single- and two-stage settings.",
+          "value": "finetune"
+        },
+        "epochs": {
+          "quote": "finetune the LLMs on X1 for 20 epochs, and on X2 for 10 epochs. Finetuning on X1 ∪ X2 is done for 20 epochs.",
+          "justification": "Hyperparameters stated in appendix B apply to the LLM fine-tuning.",
+          "value": "20 epochs on X1, 10 epochs on X2 (single-stage 20 epochs)"
+        },
+        "parameter_count": {
+          "quote": "We employ T5-3B (Raffel et al., 2020), an encoder-decoder transformer",
+          "justification": "T5-3B named.",
+          "value": "3B"
+        },
+        "accelerator_type": {
+          "quote": "NVIDIA A100-80gb GPUs",
+          "justification": "GPUs used.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "around 20k hours with NVIDIA A100-80gb GPUs",
+          "justification": "Stated in appendix H.",
+          "value": "NVIDIA A100-80gb"
+        },
+        "accelerator_count": {
+          "quote": "We estimate our total compute usage for this project at around 20k hours",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "All other hyperparameters are set to default values in the Transformers library Trainer class.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "We use the HuggingFace Transformers (Wolf et al., 2020) library",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "We estimate our total compute usage for this project at around 20k hours",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "We estimate our total compute usage for this project at around 20k hours",
+          "justification": "Not reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "T5-3B finetuned in a single stage on CVDB (left) and T-REx (right) datasets over 10 seeds.",
+          "justification": "Figure 19 states 10 seeds.",
+          "value": [
+            {
+              "kind": "seed",
+              "count": 10,
+              "what": "seeds (single-stage T5 experiments)"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "Pythia-2.8B",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Cross-Verified database (CVDB)",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "causal language modelling"
+          },
+          {
+            "name": "Adafactor"
+          },
+          {
+            "name": "exact match (EM)"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "We vary the batch size while fine-tuning Pythia-2.8b in a single stage until convergence",
+          "justification": "Single-stage fine-tuning on X1 ∪ X2, including batch size sweep.",
+          "value": "finetune"
+        },
+        "epochs": {
+          "quote": "Finetuning on X1 ∪ X2 is done for 20 epochs.",
+          "justification": "Stated for joint fine-tuning.",
+          "value": "20 epochs"
+        },
+        "parameter_count": {
+          "quote": "fine-tuning Pythia-2.8b in a single stage until convergence",
+          "justification": "Pythia-2.8b named.",
+          "value": "2.8B"
+        },
+        "accelerator_type": {
+          "quote": "NVIDIA A100-80gb GPUs",
+          "justification": "GPU compute.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "around 20k hours with NVIDIA A100-80gb GPUs",
+          "justification": "Stated in appendix H.",
+          "value": "NVIDIA A100-80gb"
+        },
+        "accelerator_count": {
+          "quote": "We estimate our total compute usage for this project at around 20k hours",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "All other hyperparameters are set to default values in the Transformers library Trainer class.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "We use the HuggingFace Transformers (Wolf et al., 2020) library",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "We estimate our total compute usage for this project at around 20k hours",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "We estimate our total compute usage for this project at around 20k hours",
+          "justification": "Not reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "Exact match on the validation subsets for the Pythia-2.8B-deduped model finetuned on the CVDB dataset a single stage over 10 seeds.",
+          "justification": "Batch size sweep shown in Figure 4c and single-stage results over 10 seeds.",
+          "value": [
+            {
+              "kind": "hyperparameter",
+              "count": 8,
+              "what": "batch sizes (512, 1k, 2k, 4k, 8k, 16k and others shown)"
+            },
+            {
+              "kind": "seed",
+              "count": 10,
+              "what": "seeds for the single-stage CVDB experiment"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "Pythia (70M, 160M, 410M, 1.0B, 1.4B, 2.8B, 6.9B)",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Cross-Verified database (CVDB)",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "causal language modelling"
+          },
+          {
+            "name": "Adafactor"
+          },
+          {
+            "name": "exact match (EM)"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "Extent of IML exhibited by the Pythia-1B-deduped model on the CVDB dataset across a range of batch sizes used in single-stage finetuning.",
+          "justification": "Pythia-1B single-stage fine-tuning batch size sweep.",
+          "value": "finetune"
+        },
+        "epochs": {
+          "quote": "Models are trained until convergence over 5 seeds.",
+          "justification": "Models trained until convergence; epochs not stated for this sweep.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "the Pythia-1B-deduped model on the CVDB dataset",
+          "justification": "Pythia-1B-deduped named.",
+          "value": "1B"
+        },
+        "accelerator_type": {
+          "quote": "NVIDIA A100-80gb GPUs",
+          "justification": "GPU compute.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "around 20k hours with NVIDIA A100-80gb GPUs",
+          "justification": "Stated in appendix H.",
+          "value": "NVIDIA A100-80gb"
+        },
+        "accelerator_count": {
+          "quote": "We estimate our total compute usage for this project at around 20k hours",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "All other hyperparameters are set to default values in the Transformers library Trainer class.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "We use the HuggingFace Transformers (Wolf et al., 2020) library",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "We estimate our total compute usage for this project at around 20k hours",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "We estimate our total compute usage for this project at around 20k hours",
+          "justification": "Not reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "Models are trained until convergence over 5 seeds.",
+          "justification": "Figure 13 shows batch sizes 32..32k over 5 seeds.",
+          "value": [
+            {
+              "kind": "hyperparameter",
+              "count": 11,
+              "what": "batch sizes from 32 to 32k"
+            },
+            {
+              "kind": "seed",
+              "count": 5,
+              "what": "seeds"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "Pythia-2.8B",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Cross-Verified database (CVDB)",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "gradient alignment"
+          },
+          {
+            "name": "causal language modelling"
+          },
+          {
+            "name": "Adafactor"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "We look at the alignment of the gradients within Ḋcons5 and D̄cons6 while the model is being trained on X1",
+          "justification": "Model is trained on X1 while gradient alignment metrics are computed.",
+          "value": "finetune"
+        },
+        "epochs": {
+          "quote": "Gradient alignment metrics after finetuning on X1 but before finetuning on X2 over 10 random seeds.",
+          "justification": "Not stated for the gradient alignment measurement runs.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "models we’re interested in have >1B parameters",
+          "justification": "Stated in the footnote about memory constraints.",
+          "value": ">1B parameters"
+        },
+        "accelerator_type": {
+          "quote": "we cannot cache more than a few gradients even using GPUs with 80gb memory",
+          "justification": "GPUs with 80gb memory mentioned.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "around 20k hours with NVIDIA A100-80gb GPUs",
+          "justification": "The project used A100-80gb GPUs.",
+          "value": "NVIDIA A100-80gb"
+        },
+        "accelerator_count": {
+          "quote": "we cannot cache more than a few gradients even using GPUs with 80gb memory",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "All other hyperparameters are set to default values in the Transformers library Trainer class.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "We use the HuggingFace Transformers (Wolf et al., 2020) library",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "We estimate our total compute usage for this project at around 20k hours",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "We estimate our total compute usage for this project at around 20k hours",
+          "justification": "Not reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "Gradient alignment metrics after finetuning on X1 but before finetuning on X2 over 10 random seeds.",
+          "justification": "Figure 24 states 10 random seeds across batch sizes.",
+          "value": [
+            {
+              "kind": "seed",
+              "count": 10,
+              "what": "random seeds"
+            },
+            {
+              "kind": "hyperparameter",
+              "count": 7,
+              "what": "batch sizes (128, 256, 512, 1k, 4k, 8k, 16k)"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "logistic regression",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Pythia-2.8B",
+            "role_in_run": "data-source"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Cross-Verified database (CVDB)",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "linear probing"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "We train the probes on the model’s activations for test questions from Ḋcons1 QA1, D̄incons2 QA2, and QA3 after the model was fine-tuned on X1 but not X2.",
+          "justification": "Probes are trained on model activations.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "We train the probes on the model’s activations for test questions",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "we use logistic regression on model’s activations",
+          "justification": "Not stated for the probe.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "We explore this hypothesis with a linear probing experiment",
+          "justification": "Hardware for probing is not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "We explore this hypothesis with a linear probing experiment",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "We explore this hypothesis with a linear probing experiment",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "We explore this hypothesis with a linear probing experiment",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "We explore this hypothesis with a linear probing experiment",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "We explore this hypothesis with a linear probing experiment",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "We explore this hypothesis with a linear probing experiment",
+          "justification": "Not reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "there is a substantial difference between models trained on TAE (tag, variable, entity – our standard setting) and ATE definitions",
+          "justification": "Probes trained for both TAE and ATE definition orderings.",
+          "value": [
+            {
+              "kind": "variant",
+              "count": 2,
+              "what": "definition word orders (TAE and ATE)"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "Pythia-70M",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "set inclusion dataset",
+            "access": "generator",
+            "roles_in_run": [
+              "train",
+              "validation"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "causal language modelling"
+          },
+          {
+            "name": "Adafactor"
+          },
+          {
+            "name": "exact match (EM)"
+          },
+          {
+            "name": "implicit meta-learning (IML)"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "We train the model from scratch for 100 epochs in the first stage, and for 40 epochs in the second stage.",
+          "justification": "Model trained from scratch in two stages on the toy task.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "We train the model from scratch for 100 epochs in the first stage, and for 40 epochs in the second stage.",
+          "justification": "Stated in appendix D.",
+          "value": "100 epochs first stage, 40 epochs second stage"
+        },
+        "parameter_count": {
+          "quote": "We use this tokenizer with the Pythia-70M (19M non-embedding parameters) configuration",
+          "justification": "Stated in section 4.1.",
+          "value": "Pythia-70M (19M non-embedding parameters)"
+        },
+        "accelerator_type": {
+          "quote": "Training Pythia-70M from scratch on the toy set inclusion task takes about 3 GPU hours.",
+          "justification": "GPU hours reported.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "around 20k hours with NVIDIA A100-80gb GPUs",
+          "justification": "Project compute used A100-80gb GPUs.",
+          "value": "NVIDIA A100-80gb"
+        },
+        "accelerator_count": {
+          "quote": "Training Pythia-70M from scratch on the toy set inclusion task takes about 3 GPU hours.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "all the other hyperparameters are Pythia-70m defaults",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "We use the Adafactor optimizer (Shazeer & Stern, 2018) with the batch size of 512 datapoints",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "Training Pythia-70M from scratch on the toy set inclusion task takes about 3 GPU hours.",
+          "justification": "Stated in appendix H.",
+          "value": "about 3 GPU hours"
+        },
+        "utilisation": {
+          "quote": "We estimate our total compute usage for this project at around 20k hours",
+          "justification": "Not reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "Set inclusion experiment, Pythia-70M model with a custom tokenizer trained from scratch over 50 seeds.",
+          "justification": "Figure 22 states 50 seeds.",
+          "value": [
+            {
+              "kind": "seed",
+              "count": 50,
+              "what": "seeds"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "ConvNeXt V2 Tiny",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "MNIST QA Dataset",
+            "access": "generator",
+            "roles_in_run": [
+              "train",
+              "validation"
+            ]
+          },
+          {
+            "name": "MNIST",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "AdamW"
+          },
+          {
+            "name": "linear learning rate warm-up"
+          },
+          {
+            "name": "implicit meta-learning (IML)"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "We train the model with AdamW for 120000 training steps with a batch-size of 128",
+          "justification": "ConvNeXt V2 Tiny trained on the MNIST QA data.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "At each step of training, we sample a new batch of examples in this way, effectively giving us one-epoch training",
+          "justification": "Stated in appendix E.1.",
+          "value": "one-epoch training (new batch sampled at each step)"
+        },
+        "parameter_count": {
+          "quote": "a convolutional model with 28.6 million parameters",
+          "justification": "Stated in appendix E.2.",
+          "value": "28.6 million parameters"
+        },
+        "accelerator_type": {
+          "quote": "Training ConvNeXt V2 Tiny for the MNIST experiment takes about 2 hours on a NVIDIA 4090Ti",
+          "justification": "NVIDIA 4090Ti used.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "takes about 2 hours on a NVIDIA 4090Ti",
+          "justification": "Stated in appendix H.",
+          "value": "NVIDIA 4090Ti"
+        },
+        "accelerator_count": {
+          "quote": "takes about 2 hours on a NVIDIA 4090Ti",
+          "justification": "Count not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "other optimization hyperparameters matching the original paper",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "We train the model with AdamW for 120000 training steps with a batch-size of 128",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "takes about 2 hours on a NVIDIA 4090Ti, contributing about 1k GPU hours for the 50 runs in the reported experiments",
+          "justification": "Stated in appendix H.",
+          "value": "about 2 hours per run; about 1k GPU hours for 50 runs"
+        },
+        "utilisation": {
+          "quote": "contributing about 1k GPU hours for the 50 runs in the reported experiments",
+          "justification": "Not reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "contributing about 1k GPU hours for the 50 runs in the reported experiments",
+          "justification": "The paper reports 50 runs and sweeps the number of variable-entity pairs.",
+          "value": [
+            {
+              "kind": "other",
+              "count": 50,
+              "what": "runs in the reported experiments"
+            },
+            {
+              "kind": "variant",
+              "count": 4,
+              "what": "numbers of variable-entity pairs (10, 50, 100, 150, 200)"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "usage": {
+    "input_tokens": 50912,
+    "output_tokens": 24135,
+    "total_tokens": 75047
+  }
+}

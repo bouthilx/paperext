@@ -1,0 +1,2696 @@
+{
+  "paper": "69a5fd3f48887d403d0a4beb.txt",
+  "words": 33480,
+  "extractions": {
+    "title": {
+      "quote": "Long-Horizon Model-Based Offline Reinforcement Learning Without Explicit Conservatism",
+      "justification": "The title appears at the head of the paper.",
+      "value": "Long-Horizon Model-Based Offline Reinforcement Learning Without Explicit Conservatism"
+    },
+    "description": "Computational-artifact catalogue for a paper introducing and evaluating the NEUBAY offline reinforcement-learning procedure, including its learned world-model and recurrent-agent components, benchmark data, software stack, baseline procedures, and reported compute configurations.",
+    "type": {
+      "quote": "We evaluate NEUBAY on the D4RL (Fu et al., 2020) and NeoRL (Qin et al., 2022) benchmarks, covering 33 datasets.",
+      "justification": "The paper performs benchmark experiments, sensitivity studies, ablations, and statistical tests, so it is empirical despite also containing theory.",
+      "value": "empirical"
+    },
+    "research_fields": [
+      {
+        "name": {
+          "quote": "Popular offline reinforcement learning (RL) methods rely on explicit conservatism",
+          "justification": "The paper directly advances offline RL.",
+          "value": "offline reinforcement learning"
+        },
+        "aliases": [
+          "offline RL"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "These results position NEUBAY as a practical direction for model-based and offline RL from a Bayesian perspective",
+          "justification": "The proposed method advances model-based RL.",
+          "value": "model-based reinforcement learning"
+        },
+        "aliases": [
+          "model-based RL",
+          "MBRL"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "We revisit a complementary Bayesian perspective for test-time adaptation.",
+          "justification": "Bayesian RL is a central methodological field advanced by the work.",
+          "value": "Bayesian reinforcement learning"
+        },
+        "aliases": [
+          "Bayesian RL"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "This formulation enables test-time adaptation through history-dependent Bayes-optimal policies.",
+          "justification": "The paper advances adaptive history-dependent RL at deployment.",
+          "value": "test-time adaptation"
+        },
+        "aliases": [
+          "Bayes-adaptivity"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "Each aligns with a major research area: offline RL, model-based RL, and partially observable RL.",
+          "justification": "Partially observable RL is explicitly identified as one of the research areas addressed.",
+          "value": "partially observable reinforcement learning"
+        },
+        "aliases": [
+          "POMDP",
+          "partially observable RL"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "We evaluate on two widely used offline RL suites for continuous control",
+          "justification": "Continuous control is the experimental setting rather than the primary methodological contribution.",
+          "value": "continuous control"
+        },
+        "aliases": [],
+        "role": "used"
+      },
+      {
+        "name": {
+          "quote": "a 28-DoF robotic arm manipulates objects to solve tasks",
+          "justification": "Robotic manipulation is used as an Adroit evaluation domain.",
+          "value": "robotic manipulation"
+        },
+        "aliases": [],
+        "role": "used"
+      }
+    ],
+    "models": [
+      {
+        "name": {
+          "quote": "World ensemble: mθ",
+          "justification": "This is a learned ensemble that can be run independently.",
+          "value": "world model ensemble"
+        },
+        "aliases": [
+          "world ensemble",
+          "mθ"
+        ],
+        "is_contributed": {
+          "quote": "we introduce simple and effective architectural choices for the world model ensemble",
+          "justification": "The particular world-model design is part of the paper's contribution.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "Train mθ on D until convergence",
+          "justification": "The ensemble is trained and sampled in the authors' runs.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "reducing the ensemble size N to 20 or 5 degrades performance",
+          "justification": "Different ensemble configurations are numerically ablated.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "Train mθ on D until convergence",
+          "justification": "The world model is trained from random initialization.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "This contributed model has no separate reference paper.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "Recurrent actor: πν",
+          "justification": "The actor is a separately parameterized learned policy.",
+          "value": "recurrent actor"
+        },
+        "aliases": [
+          "πν"
+        ],
+        "is_contributed": {
+          "quote": "we extend memoroid to actor-critic architectures using linear recurrent units (LRUs)",
+          "justification": "Its use in the proposed actor-critic construction is contributed.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "Optimize RL loss L(Qω, πν; τ, κ)",
+          "justification": "The actor is trained in the agent loop.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "we replace the history-dependent agent in NEUBAY with a Markov one",
+          "justification": "The recurrent actor configuration is numerically compared with a Markov ablation.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "Optimize RL loss L(Qω, πν; τ, κ)",
+          "justification": "The actor is trained.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "No separate reference paper for this contributed learned object.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "Recurrent critic: Qω",
+          "justification": "The critic is a separately parameterized learned value model.",
+          "value": "recurrent critic"
+        },
+        "aliases": [
+          "Qω"
+        ],
+        "is_contributed": {
+          "quote": "we extend memoroid to actor-critic architectures using linear recurrent units (LRUs)",
+          "justification": "The recurrent critic construction is part of the method.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "Optimize RL loss L(Qω, πν; τ, κ)",
+          "justification": "The critic is trained in the agent loop.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "replacing REDQ with standard SAC only causes a moderate drop in performance",
+          "justification": "Critic-training variants are numerically ablated.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "Optimize RL loss L(Qω, πν; τ, κ)",
+          "justification": "The critic is trained.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "No separate reference paper for this contributed learned object.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "an ensemble of reward models mθ using Gaussian outputs",
+          "justification": "The bandit study trains a learned reward-model ensemble distinct from the continuous-control world models.",
+          "value": "ensemble of reward models"
+        },
+        "aliases": [
+          "mθ"
+        ],
+        "is_contributed": {
+          "quote": "we approximate the posterior by fitting an ensemble of reward models mθ",
+          "justification": "It is an implementation of the paper's bandit experiment, not a new standalone model contribution.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "after training on D, the ensemble predictions concentrate around the observed arm 0",
+          "justification": "The reward ensemble is trained and evaluated.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "estimated uncertainty about 10× larger than on arm 0",
+          "justification": "Its predictions are analyzed but it is not numerically compared as a model against alternatives.",
+          "value": false
+        },
+        "execution_mode": {
+          "quote": "after training on D",
+          "justification": "The reward models are trained.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "No separate cited paper names this experiment-specific model.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "Markov agent",
+          "justification": "This is a learned ablation model with no recurrent encoder.",
+          "value": "Markov agent"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "For the ablation study with Markov agent, we remove the LRU encoder and only train the actor-critic MLP.",
+          "justification": "It is an ablation, not a contributed model.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we replace the history-dependent agent in NEUBAY with a Markov one",
+          "justification": "The paper trains and evaluates this ablation.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "The Markov version performs similarly to the history-dependent one on most locomotion tasks",
+          "justification": "It is numerically compared with the recurrent agent.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "only train the actor-critic MLP",
+          "justification": "The Markov actor-critic is trained.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "No separate reference paper is given for this ablation.",
+          "value": "unknown"
+        }
+      }
+    ],
+    "data_sources": [
+      {
+        "name": {
+          "quote": "The bandit dataset.",
+          "justification": "The paper explicitly names this experimental source.",
+          "value": "bandit dataset"
+        },
+        "aliases": [
+          "skewed two-armed bandit dataset"
+        ],
+        "role": "contributed",
+        "size": {
+          "quote": "We collect 10 trajectories of length T = 100, yielding |D| = 1000 action–reward pairs.",
+          "justification": "The paper states the collected sample count.",
+          "value": "1000 action–reward pairs"
+        },
+        "derived_from": [],
+        "sample_properties": [
+          {
+            "name": "trajectory length",
+            "value": {
+              "quote": "10 trajectories of length T = 100",
+              "justification": "The paper states the length of each trajectory.",
+              "value": "100"
+            },
+            "unit": "steps"
+          }
+        ],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "This source is constructed in the paper.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "D4RL locomotion benchmark",
+          "justification": "The paper explicitly uses this named benchmark source.",
+          "value": "D4RL locomotion benchmark"
+        },
+        "aliases": [
+          "D4RL locomotion"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "Dataset sizes vary: 100k-200k transitions for medium-replay, 1M for random and medium, and 2M for medium-expert.",
+          "justification": "These are the sizes used for the D4RL locomotion regimes.",
+          "value": "100k-200k, 1M, or 2M transitions per dataset"
+        },
+        "derived_from": [
+          "D4RL"
+        ],
+        "sample_properties": [
+          {
+            "name": "maximum episode step",
+            "value": {
+              "quote": "The maximum episode step T is 1000.",
+              "justification": "The paper states the common maximum episode length.",
+              "value": "1000"
+            },
+            "unit": "steps"
+          }
+        ],
+        "referenced_paper_title": {
+          "quote": "D4rl: Datasets for deep data-driven reinforcement learning.",
+          "justification": "This is the cited D4RL paper title.",
+          "value": "D4rl: Datasets for deep data-driven reinforcement learning."
+        }
+      },
+      {
+        "name": {
+          "quote": "NeoRL locomotion benchmark",
+          "justification": "The paper explicitly uses this named benchmark source.",
+          "value": "NeoRL locomotion benchmark"
+        },
+        "aliases": [
+          "NeoRL locomotion"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "Dataset sizes range from roughly 200k to 1M transitions.",
+          "justification": "The paper states the range used.",
+          "value": "roughly 200k to 1M transitions per dataset"
+        },
+        "derived_from": [
+          "NeoRL"
+        ],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "Neorl: A near real-world benchmark for offline reinforcement learning.",
+          "justification": "This is the cited NeoRL paper title.",
+          "value": "Neorl: A near real-world benchmark for offline reinforcement learning."
+        }
+      },
+      {
+        "name": {
+          "quote": "D4RL Adroit benchmark",
+          "justification": "The paper explicitly uses this benchmark source.",
+          "value": "D4RL Adroit benchmark"
+        },
+        "aliases": [
+          "Adroit"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "The human demonstration datasets (human-v1) contain only 5k–10k transitions, whereas the cloned datasets (cloned-v1) ... contain 500k–1M transitions.",
+          "justification": "The paper states sizes by data regime.",
+          "value": "5k–10k transitions for human-v1; 500k–1M transitions for cloned-v1"
+        },
+        "derived_from": [
+          "D4RL"
+        ],
+        "sample_properties": [
+          {
+            "name": "maximum episode length",
+            "value": {
+              "quote": "Pen (S ⊂ R45, A ⊂ R24, T = 100), Door (S ⊂ R39, A ⊂ R28, T = 200), Hammer (S ⊂ R46, A ⊂ R26, T = 200).",
+              "justification": "The benchmark task episode limits are explicit.",
+              "value": "100 for Pen; 200 for Door and Hammer"
+            },
+            "unit": "steps"
+          }
+        ],
+        "referenced_paper_title": {
+          "quote": "D4rl: Datasets for deep data-driven reinforcement learning.",
+          "justification": "Adroit is consumed through D4RL.",
+          "value": "D4rl: Datasets for deep data-driven reinforcement learning."
+        }
+      },
+      {
+        "name": {
+          "quote": "D4RL AntMaze benchmark",
+          "justification": "The paper explicitly uses this benchmark source.",
+          "value": "D4RL AntMaze benchmark"
+        },
+        "aliases": [
+          "AntMaze"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "For each layout, two datasets (play and diverse) are provided, each containing 1M transitions.",
+          "justification": "The paper states the size of each AntMaze dataset.",
+          "value": "1M transitions per dataset"
+        },
+        "derived_from": [
+          "D4RL"
+        ],
+        "sample_properties": [
+          {
+            "name": "maximum episode length",
+            "value": {
+              "quote": "The maximum episode length is T = 700 for umaze and T = 1000 for medium and large mazes.",
+              "justification": "The episode limits are explicit.",
+              "value": "700 for umaze; 1000 for medium and large"
+            },
+            "unit": "steps"
+          }
+        ],
+        "referenced_paper_title": {
+          "quote": "D4rl: Datasets for deep data-driven reinforcement learning.",
+          "justification": "AntMaze is consumed through D4RL.",
+          "value": "D4rl: Datasets for deep data-driven reinforcement learning."
+        }
+      },
+      {
+        "name": {
+          "quote": "halfcheetah-medium-expert-v2",
+          "justification": "This individual dataset is singled out for compute-cost measurement and compounding-error experiments.",
+          "value": "halfcheetah-medium-expert-v2"
+        },
+        "aliases": [],
+        "role": "used",
+        "size": {
+          "quote": "2M for medium-expert.",
+          "justification": "The D4RL details state the medium-expert size.",
+          "value": "2M transitions"
+        },
+        "derived_from": [
+          "D4RL locomotion benchmark"
+        ],
+        "sample_properties": [
+          {
+            "name": "maximum episode step",
+            "value": {
+              "quote": "The maximum episode step T is 1000.",
+              "justification": "This applies to the D4RL locomotion task.",
+              "value": "1000"
+            },
+            "unit": "steps"
+          }
+        ],
+        "referenced_paper_title": {
+          "quote": "D4rl: Datasets for deep data-driven reinforcement learning.",
+          "justification": "This is a D4RL dataset.",
+          "value": "D4rl: Datasets for deep data-driven reinforcement learning."
+        }
+      }
+    ],
+    "libraries": [
+      {
+        "name": {
+          "quote": "built on JAX (Bradbury et al., 2018)",
+          "justification": "The codebase explicitly uses JAX.",
+          "value": "JAX"
+        },
+        "aliases": [],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "JAX: composable transformations of Python+NumPy programs",
+          "justification": "The reference gives this title.",
+          "value": "JAX: composable transformations of Python+NumPy programs"
+        }
+      },
+      {
+        "name": {
+          "quote": "and Equinox (Kidger & Garcia, 2021)",
+          "justification": "The codebase explicitly uses Equinox.",
+          "value": "Equinox"
+        },
+        "aliases": [],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "Equinox: neural networks in JAX via callable PyTrees and filtered transformations.",
+          "justification": "The reference gives this title.",
+          "value": "Equinox: neural networks in JAX via callable PyTrees and filtered transformations."
+        }
+      },
+      {
+        "name": {
+          "quote": "pandas.DataFrame.ffill",
+          "justification": "Pandas is explicitly used in the compounding-error plotting pipeline.",
+          "value": "pandas"
+        },
+        "aliases": [],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "No pandas reference title is supplied.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "The underlying environments are OpenAI Gym tasks",
+          "justification": "OpenAI Gym provides the benchmark task implementation.",
+          "value": "OpenAI Gym"
+        },
+        "aliases": [
+          "Gym"
+        ],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "No reference-paper title is given in the supplied text.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "It involves controlling a MuJoCo Ant",
+          "justification": "MuJoCo is the physics software underlying AntMaze and locomotion environments.",
+          "value": "MuJoCo"
+        },
+        "aliases": [],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "No MuJoCo reference-paper title is shown.",
+          "value": "unknown"
+        }
+      }
+    ],
+    "algorithms": [
+      {
+        "name": {
+          "quote": "yielding our algorithm, NEUBAY",
+          "justification": "This is the paper's principal contributed algorithm.",
+          "value": "NEUBAY"
+        },
+        "aliases": [
+          "NEUtral BAYesian"
+        ],
+        "is_contributed": {
+          "quote": "We build a practical algorithm, NEUBAY",
+          "justification": "The paper introduces it.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "We evaluate NEUBAY on the D4RL and NeoRL benchmarks",
+          "justification": "It is trained and evaluated.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "NEUBAY is competitive with leading conservative algorithms",
+          "justification": "It is numerically compared with many baselines.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "using single-step models and no uncertainty penalty, while addressing the challenges of Bayesian offline RL",
+          "justification": "This directly states its role.",
+          "value": "a practical Bayesian offline RL algorithm using long-horizon model rollouts without an uncertainty penalty"
+        },
+        "composed_of": [
+          "Uncertainty threshold U(ζ) for rollout truncation",
+          "maximum likelihood estimation (MLE)",
+          "REDQ",
+          "memoroid",
+          "linear recurrent units (LRUs)"
+        ],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "It is introduced here.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "Uncertainty threshold U(ζ) for rollout truncation (design choice 1).",
+          "justification": "This named procedure adaptively stops generated rollouts.",
+          "value": "Uncertainty threshold U(ζ) for rollout truncation"
+        },
+        "aliases": [
+          "uncertainty truncation",
+          "adaptive long-horizon rollout"
+        ],
+        "is_contributed": {
+          "quote": "we remove any fixed cap and use uncertainty alone to determine truncation adaptively",
+          "justification": "This form is contributed as a core design choice.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "trunc = (Uθ(ŝt, ât) > U(ζ))",
+          "justification": "Algorithm 2 executes it.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "We vary the uncertainty quantile ζ ∈ {0.9, 0.99, 0.999, 1.0}",
+          "justification": "It is numerically ablated.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "use uncertainty alone to determine truncation adaptively, allowing rollouts to remain long wherever the model is reliable",
+          "justification": "This states its role in the paper.",
+          "value": "determine rollout truncation adaptively and preserve long rollouts where the world model is reliable"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "The exact procedure is introduced in this paper.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "maximum likelihood estimation (MLE)",
+          "justification": "The paper names MLE as the world-model fitting procedure.",
+          "value": "maximum likelihood estimation (MLE)"
+        },
+        "aliases": [
+          "MLE"
+        ],
+        "is_contributed": {
+          "quote": "Each model is trained using standard maximum likelihood estimation (MLE).",
+          "justification": "It is standard, not contributed.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Each model is trained using standard maximum likelihood estimation (MLE).",
+          "justification": "It is used to train every ensemble member.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Model selection is based on a held-out validation set.",
+          "justification": "MLE itself is not compared against another fitting algorithm.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "Each model is trained using standard maximum likelihood estimation (MLE).",
+          "justification": "Direct role statement.",
+          "value": "train each world-model ensemble member"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "No single reference paper is assigned to generic MLE.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "we follow a recent recurrent off-policy RL algorithm RESeL ... to use REDQ",
+          "justification": "REDQ is the continuous-control actor-critic update used by the authors.",
+          "value": "REDQ"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "REDQ builds on SAC",
+          "justification": "It is prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we adopt REDQ as the actor-critic backbone",
+          "justification": "It is executed in the main continuous-control experiments.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "replacing REDQ with standard SAC",
+          "justification": "It is compared numerically against SAC.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "it mainly serves as a critic-stabilization component",
+          "justification": "The paper explicitly states the role.",
+          "value": "a critic-stabilization component and the per-step continuous-control loss"
+        },
+        "composed_of": [
+          "SAC"
+        ],
+        "referenced_paper_title": {
+          "quote": "Randomized ensembled double q-learning: Learning fast without a model.",
+          "justification": "The cited REDQ reference title.",
+          "value": "Randomized ensembled double q-learning: Learning fast without a model."
+        }
+      },
+      {
+        "name": {
+          "quote": "replacing REDQ with standard SAC",
+          "justification": "SAC is executed as an ablation.",
+          "value": "SAC"
+        },
+        "aliases": [
+          "soft actor-critic"
+        ],
+        "is_contributed": {
+          "quote": "SAC (Haarnoja et al., 2018a)",
+          "justification": "It is prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "replacing REDQ with standard SAC",
+          "justification": "The authors run this ablation.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "replacing REDQ with standard SAC only causes a moderate drop",
+          "justification": "It is numerically compared with REDQ.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "standard SAC to show that REDQ plays a secondary role on NEUBAY",
+          "justification": "This states its ablation role.",
+          "value": "an ablation actor-critic backbone used to test whether gains come from REDQ"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Soft actor-critic: Off-policy maximum entropy deep reinforcement learning with a stochastic actor.",
+          "justification": "The reference title is given.",
+          "value": "Soft actor-critic: Off-policy maximum entropy deep reinforcement learning with a stochastic actor."
+        }
+      },
+      {
+        "name": {
+          "quote": "we adopt dueling DQN",
+          "justification": "This is the discrete-control update used for the bandit agent.",
+          "value": "dueling DQN"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "dueling DQN (Wang et al., 2016)",
+          "justification": "It is prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "For the bandit task, we adopt dueling DQN",
+          "justification": "It is run in the bandit experiment.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "",
+          "justification": "No direct algorithm comparison against another discrete-control update is reported.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "as the discrete control algorithm",
+          "justification": "Direct role statement.",
+          "value": "the discrete control algorithm for the bandit task"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Dueling network architectures for deep reinforcement learning.",
+          "justification": "The cited paper title.",
+          "value": "Dueling network architectures for deep reinforcement learning."
+        }
+      },
+      {
+        "name": {
+          "quote": "Exploration is ε-greedy",
+          "justification": "This named action-selection procedure is executed in the bandit run.",
+          "value": "ε-greedy"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "Exploration is ε-greedy",
+          "justification": "It is a standard prior procedure.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "annealed from 1.0 to 0.1 over the first 10% of gradient steps",
+          "justification": "The paper specifies its execution.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "",
+          "justification": "No direct comparison is reported.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "Exploration is ε-greedy",
+          "justification": "Direct role statement.",
+          "value": "exploration for the bandit agent"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "No specific reference title is supplied.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "We use AdamW optimizer",
+          "justification": "This is the named parameter-update procedure for world models.",
+          "value": "AdamW"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "AdamW optimizer (Loshchilov & Hutter, 2019)",
+          "justification": "It is prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We use AdamW optimizer",
+          "justification": "It is used in training.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "",
+          "justification": "No optimizer comparison is reported.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "We use AdamW optimizer ... with a weight decay coefficient",
+          "justification": "It updates the world-model parameters.",
+          "value": "the optimizer for world-model ensemble training"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Decoupled weight decay regularization.",
+          "justification": "The cited AdamW paper title.",
+          "value": "Decoupled weight decay regularization."
+        }
+      },
+      {
+        "name": {
+          "quote": "Following MBPO-style branching mechanism",
+          "justification": "This named procedure chooses rollout starting states from the dataset.",
+          "value": "MBPO-style branching mechanism"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "Following MBPO-style branching mechanism",
+          "justification": "It is adopted from prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we sample starting states st ∼ D from any timestep t",
+          "justification": "The procedure is used in planning.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "",
+          "justification": "No direct branching-mechanism comparison is reported.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "sample starting states st ∼ D from any timestep t to maintain coverage",
+          "justification": "This states its role.",
+          "value": "sample planning rollout starts from arbitrary dataset timesteps to maintain coverage"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "When to trust your model: Model-based policy optimization.",
+          "justification": "The cited MBPO paper title.",
+          "value": "When to trust your model: Model-based policy optimization."
+        }
+      },
+      {
+        "name": {
+          "quote": "extend memoroid ... using linear recurrent units (LRUs)",
+          "justification": "Both named procedures are executed as the recurrent-memory implementation.",
+          "value": "memoroid"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "memoroid was originally designed for online POMDPs",
+          "justification": "It is prior work, although extended here.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we adopt the memoroid framework",
+          "justification": "It is used by the recurrent agents.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "we remove the LRU encoder and only train the actor-critic MLP",
+          "justification": "Its recurrent use is compared with a Markov ablation.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "enabling long-term memory with parallel optimization",
+          "justification": "This is its role in the paper.",
+          "value": "provide long-term recurrent memory with parallel optimization"
+        },
+        "composed_of": [
+          "linear recurrent units (LRUs)",
+          "tape-based batching"
+        ],
+        "referenced_paper_title": {
+          "quote": "Recurrent reinforcement learning with memoroids.",
+          "justification": "The cited paper title.",
+          "value": "Recurrent reinforcement learning with memoroids."
+        }
+      },
+      {
+        "name": {
+          "quote": "linear recurrent units (LRUs)",
+          "justification": "LRUs are the named recurrent procedure used in memoroid encoders.",
+          "value": "linear recurrent units (LRUs)"
+        },
+        "aliases": [
+          "LRU"
+        ],
+        "is_contributed": {
+          "quote": "(Orvieto et al., 2023)",
+          "justification": "It is prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "use the linear recurrent unit (LRU) ... as the backbone encoder",
+          "justification": "The procedure is used in actor and critic encoders.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "we remove the LRU encoder",
+          "justification": "It is ablated through the Markov agent.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "as the backbone encoder for both νϕ and ωϕ",
+          "justification": "Direct role statement.",
+          "value": "the backbone recurrent encoder for actor and critic"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Resurrecting recurrent neural networks for long sequences.",
+          "justification": "The cited LRU paper title.",
+          "value": "Resurrecting recurrent neural networks for long sequences."
+        }
+      },
+      {
+        "name": {
+          "quote": "Welch’s one-sided t-test (p < 0.05)",
+          "justification": "This named evaluation procedure is executed.",
+          "value": "Welch’s one-sided t-test"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "To assess statistical significance, we conduct Welch’s one-sided t-test",
+          "justification": "It is standard, not contributed.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we conduct Welch’s one-sided t-test (p < 0.05)",
+          "justification": "The paper executes it.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "highlight all methods whose average scores are not significantly different",
+          "justification": "It supports numerical method comparisons.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "To assess statistical significance",
+          "justification": "Direct role statement.",
+          "value": "assess statistical significance among benchmark scores"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "No specific reference title is supplied.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "behavior cloning (BC), CQL, IQL, EDAC, ReBRAC",
+          "justification": "These are named conservative model-free baselines.",
+          "value": "BC"
+        },
+        "aliases": [
+          "behavior cloning"
+        ],
+        "is_contributed": {
+          "quote": "Baselines. We compare against offline RL baselines",
+          "justification": "It is prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we adopt the results of CQL, EDAC, and MOPO from the MOBILE paper",
+          "justification": "BC/CQL-family table values are sourced from prior publications rather than rerun here.",
+          "value": false
+        },
+        "is_compared": {
+          "quote": "We compare against offline RL baselines",
+          "justification": "BC is numerically compared in the paper's tables.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "conservative model-free RL (behavior cloning (BC)...)",
+          "justification": "The paper classifies its baseline role.",
+          "value": "a conservative model-free RL baseline"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "No single BC reference title is identified in the supplied baseline sentence.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "CQL",
+          "justification": "Named baseline exactly as written.",
+          "value": "CQL"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "Baselines. We compare against offline RL baselines",
+          "justification": "Prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we adopt the results of CQL ... from the MOBILE paper",
+          "justification": "Its scores are imported.",
+          "value": false
+        },
+        "is_compared": {
+          "quote": "Table 1. Comparison of offline RL methods",
+          "justification": "It is numerically compared.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "conservative model-free RL",
+          "justification": "Baseline category in the paper.",
+          "value": "a conservative model-free RL baseline"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Conservative q-learning for offline reinforcement learning.",
+          "justification": "The cited CQL title.",
+          "value": "Conservative q-learning for offline reinforcement learning."
+        }
+      },
+      {
+        "name": {
+          "quote": "IQL",
+          "justification": "Named baseline exactly as written.",
+          "value": "IQL"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "IQL (Kostrikov et al., 2022)",
+          "justification": "Prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we report BC, IQL, and ReBRAC results from the CORL paper",
+          "justification": "Its numbers are imported.",
+          "value": false
+        },
+        "is_compared": {
+          "quote": "Comparison of offline RL methods on the D4RL Adroit benchmark",
+          "justification": "It is numerically compared.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "conservative model-free RL",
+          "justification": "Baseline category.",
+          "value": "a conservative model-free RL baseline"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Offline reinforcement learning with implicit q-learning.",
+          "justification": "The cited title.",
+          "value": "Offline reinforcement learning with implicit q-learning."
+        }
+      },
+      {
+        "name": {
+          "quote": "EDAC",
+          "justification": "Named baseline exactly as written.",
+          "value": "EDAC"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "EDAC (An et al., 2021)",
+          "justification": "Prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we adopt the results of CQL, EDAC, and MOPO from the MOBILE paper",
+          "justification": "Its scores are imported.",
+          "value": false
+        },
+        "is_compared": {
+          "quote": "Table 1. Comparison of offline RL methods",
+          "justification": "It is numerically compared.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "conservative model-free RL",
+          "justification": "Baseline category.",
+          "value": "a conservative model-free RL baseline"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Uncertainty-based offline reinforcement learning with diversified q-ensemble.",
+          "justification": "The reference title.",
+          "value": "Uncertainty-based offline reinforcement learning with diversified q-ensemble."
+        }
+      },
+      {
+        "name": {
+          "quote": "MOPO",
+          "justification": "Named model-based baseline.",
+          "value": "MOPO"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "MOPO (Yu et al., 2020)",
+          "justification": "Prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we adopt ... MOPO from the MOBILE paper",
+          "justification": "Its reported scores are imported.",
+          "value": false
+        },
+        "is_compared": {
+          "quote": "Comparison of offline RL methods",
+          "justification": "It is numerically compared.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "conservative model-based RL",
+          "justification": "Baseline category.",
+          "value": "a conservative model-based RL baseline"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Mopo: Model-based offline policy optimization.",
+          "justification": "The cited title.",
+          "value": "Mopo: Model-based offline policy optimization."
+        }
+      },
+      {
+        "name": {
+          "quote": "COMBO",
+          "justification": "Named baseline exactly as written.",
+          "value": "COMBO"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "COMBO (Yu et al., 2021)",
+          "justification": "Prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we report ... COMBO ... from the LEQ paper",
+          "justification": "Its scores are imported.",
+          "value": false
+        },
+        "is_compared": {
+          "quote": "Comparison of offline RL methods",
+          "justification": "It is numerically compared.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "conservative model-based RL",
+          "justification": "Baseline category.",
+          "value": "a conservative model-based RL baseline"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Combo: Conservative offline model-based policy optimization.",
+          "justification": "The reference title.",
+          "value": "Combo: Conservative offline model-based policy optimization."
+        }
+      },
+      {
+        "name": {
+          "quote": "RAMBO",
+          "justification": "Named baseline exactly as written.",
+          "value": "RAMBO"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "RAMBO (Rigter et al., 2022)",
+          "justification": "Prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we report ... RAMBO ... from the LEQ paper",
+          "justification": "Its scores are imported.",
+          "value": false
+        },
+        "is_compared": {
+          "quote": "Comparison of offline model-based RL methods",
+          "justification": "It is numerically compared.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "conservative model-based RL",
+          "justification": "Baseline category.",
+          "value": "a conservative model-based RL baseline"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Rambo-rl: Robust adversarial model-based offline reinforcement learning.",
+          "justification": "The reference title.",
+          "value": "Rambo-rl: Robust adversarial model-based offline reinforcement learning."
+        }
+      },
+      {
+        "name": {
+          "quote": "MOBILE",
+          "justification": "Named baseline exactly as written.",
+          "value": "MOBILE"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "MOBILE (Sun et al., 2023)",
+          "justification": "Prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Results for the remaining baselines are taken directly from their respective original publications.",
+          "justification": "Its benchmark values are sourced, not rerun.",
+          "value": false
+        },
+        "is_compared": {
+          "quote": "Comparison of offline RL methods",
+          "justification": "It is numerically compared.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "conservative model-based RL",
+          "justification": "Baseline category.",
+          "value": "a conservative model-based RL baseline"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Model-bellman inconsistency for model-based offline reinforcement learning.",
+          "justification": "The reference title.",
+          "value": "Model-bellman inconsistency for model-based offline reinforcement learning."
+        }
+      },
+      {
+        "name": {
+          "quote": "LEQ",
+          "justification": "Named baseline exactly as written.",
+          "value": "LEQ"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "LEQ (Park & Lee, 2025)",
+          "justification": "Prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we report ... LEQ from the LEQ paper",
+          "justification": "Its scores are imported.",
+          "value": false
+        },
+        "is_compared": {
+          "quote": "Comparison of offline model-based RL methods",
+          "justification": "It is numerically compared.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "conservative model-based RL",
+          "justification": "Baseline category.",
+          "value": "a conservative model-based RL baseline"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Model-based offline reinforcement learning with lower expectile q-learning.",
+          "justification": "The reference title.",
+          "value": "Model-based offline reinforcement learning with lower expectile q-learning."
+        }
+      },
+      {
+        "name": {
+          "quote": "APE-V",
+          "justification": "Named Bayesian-inspired baseline.",
+          "value": "APE-V"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "APE-V (Ghosh et al., 2022)",
+          "justification": "Prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Results for the remaining baselines are taken directly from their respective original publications.",
+          "justification": "Its scores are imported.",
+          "value": false
+        },
+        "is_compared": {
+          "quote": "Bayesian-inspired RL (APE-V ... )",
+          "justification": "It is numerically compared.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "Bayesian-inspired RL",
+          "justification": "Baseline category.",
+          "value": "a Bayesian-inspired offline RL baseline"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Offline rl policies should be trained to be adaptive.",
+          "justification": "The reference title.",
+          "value": "Offline rl policies should be trained to be adaptive."
+        }
+      },
+      {
+        "name": {
+          "quote": "MAPLE",
+          "justification": "Named Bayesian-inspired baseline.",
+          "value": "MAPLE"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "MAPLE (Chen et al., 2021c)",
+          "justification": "Prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "For MAPLE, we report the improved variant",
+          "justification": "The wording indicates reported prior results, not a rerun.",
+          "value": false
+        },
+        "is_compared": {
+          "quote": "Bayesian-inspired RL (APE-V, MAPLE...)",
+          "justification": "It is numerically compared.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "Bayesian-inspired RL",
+          "justification": "Baseline category.",
+          "value": "a Bayesian-inspired offline RL baseline"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Offline model-based adaptable policy learning.",
+          "justification": "The reference title.",
+          "value": "Offline model-based adaptable policy learning."
+        }
+      },
+      {
+        "name": {
+          "quote": "CBOP",
+          "justification": "Named Bayesian-inspired baseline.",
+          "value": "CBOP"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "CBOP (Jeong et al., 2023)",
+          "justification": "Prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we report CBOP ... from the LEQ paper",
+          "justification": "Its scores are imported.",
+          "value": false
+        },
+        "is_compared": {
+          "quote": "Bayesian-inspired RL",
+          "justification": "It is numerically compared.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "Bayesian-inspired RL",
+          "justification": "Baseline category.",
+          "value": "a Bayesian-inspired offline RL baseline"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Conservative bayesian model-based value expansion for offline policy optimization.",
+          "justification": "The reference title.",
+          "value": "Conservative bayesian model-based value expansion for offline policy optimization."
+        }
+      },
+      {
+        "name": {
+          "quote": "MoDAP",
+          "justification": "Named Bayesian-inspired baseline.",
+          "value": "MoDAP"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "MoDAP (Choi et al., 2024)",
+          "justification": "Prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "For MoDAP ... we report the improved result",
+          "justification": "The score is reported from prior work.",
+          "value": false
+        },
+        "is_compared": {
+          "quote": "Bayesian-inspired RL",
+          "justification": "It is numerically compared.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "Bayesian-inspired RL",
+          "justification": "Baseline category.",
+          "value": "a Bayesian-inspired offline RL baseline"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Diversification of adaptive policy for effective offline reinforcement learning.",
+          "justification": "The reference title.",
+          "value": "Diversification of adaptive policy for effective offline reinforcement learning."
+        }
+      }
+    ],
+    "runs": [
+      {
+        "models": [
+          {
+            "name": "ensemble of reward models",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "bandit dataset",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "maximum likelihood estimation (MLE)"
+          },
+          {
+            "name": "AdamW"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "after training on D, the ensemble predictions concentrate around the observed arm 0",
+          "justification": "This run fits the bandit reward-model ensemble.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "",
+          "justification": "No epoch count is stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "",
+          "justification": "No parameter count is stated for the bandit ensemble.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "All experiments were run on a single NVIDIA L40S GPU (48 GB)",
+          "justification": "The statement covers all experiments.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "single NVIDIA L40S GPU (48 GB)",
+          "justification": "Specific accelerator named.",
+          "value": "NVIDIA L40S GPU (48 GB)"
+        },
+        "accelerator_count": {
+          "quote": "a single NVIDIA L40S GPU",
+          "justification": "The paper states one GPU.",
+          "value": "1"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Training precision is not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "with 3 seeds in parallel",
+          "justification": "This states parallel independent executions, which is data-style parallelism across seeds.",
+          "value": [
+            "data"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "No duration is stated for the bandit model training.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "No hardware utilisation is reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "",
+          "justification": "The number of model-training seeds for the bandit study is not stated unambiguously.",
+          "value": []
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "recurrent critic",
+            "role_in_run": "main"
+          },
+          {
+            "name": "ensemble of reward models",
+            "role_in_run": "data-source"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "bandit dataset",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "NEUBAY"
+          },
+          {
+            "name": "dueling DQN"
+          },
+          {
+            "name": "ε-greedy"
+          },
+          {
+            "name": "memoroid"
+          },
+          {
+            "name": "linear recurrent units (LRUs)"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "20k in bandit",
+          "justification": "The bandit agent is optimized for 20k gradient steps.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "",
+          "justification": "No epochs are stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "",
+          "justification": "No total bandit-agent parameter count is stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "All experiments were run on a single NVIDIA L40S GPU (48 GB)",
+          "justification": "The statement covers this experiment.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "single NVIDIA L40S GPU (48 GB)",
+          "justification": "Specific accelerator named.",
+          "value": "NVIDIA L40S GPU (48 GB)"
+        },
+        "accelerator_count": {
+          "quote": "a single NVIDIA L40S GPU",
+          "justification": "One GPU is stated.",
+          "value": "1"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "all problems are assessed in parallel",
+          "justification": "The five test problems and episodes are vectorized in parallel.",
+          "value": [
+            "data"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "",
+          "justification": "The 100 evaluation episodes are workload, not independent training repetitions.",
+          "value": []
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "world model ensemble",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "D4RL locomotion benchmark",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "maximum likelihood estimation (MLE)"
+          },
+          {
+            "name": "AdamW"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "world-model training",
+          "justification": "This is the separate world-model fitting phase for locomotion datasets.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "Training is terminated early if the validation MSE fails to improve by more than 0.01 relative within five consecutive epochs",
+          "justification": "Only an early-stopping condition, not a fixed epoch count, is stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "the world model ensemble with N = 100 contains fewer than 15M parameters in total",
+          "justification": "This count is stated for locomotion benchmarks.",
+          "value": "fewer than 15M"
+        },
+        "accelerator_type": {
+          "quote": "All experiments were run on a single NVIDIA L40S GPU (48 GB)",
+          "justification": "Hardware is explicit.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "NVIDIA L40S GPU (48 GB)",
+          "justification": "Specific accelerator named.",
+          "value": "NVIDIA L40S GPU (48 GB)"
+        },
+        "accelerator_count": {
+          "quote": "a single NVIDIA L40S GPU",
+          "justification": "One GPU.",
+          "value": "1"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "The entire planning process is parallelized on a GPU",
+          "justification": "World-ensemble and rollout batches are vectorized; the exact canonical strategy beyond batching is not stated.",
+          "value": [
+            "data"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "A general locomotion duration is not stated; only halfcheetah-medium-expert-v2 is timed separately.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "No utilisation metric.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "Our results use 6 seeds",
+          "justification": "The main benchmark results are reported over six seeds.",
+          "value": [
+            {
+              "kind": "seed",
+              "count": 6,
+              "what": "seeds"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "recurrent actor",
+            "role_in_run": "main"
+          },
+          {
+            "name": "recurrent critic",
+            "role_in_run": "critic"
+          },
+          {
+            "name": "world model ensemble",
+            "role_in_run": "data-source"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "D4RL locomotion benchmark",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "NEUBAY"
+          },
+          {
+            "name": "Uncertainty threshold U(ζ) for rollout truncation"
+          },
+          {
+            "name": "REDQ"
+          },
+          {
+            "name": "MBPO-style branching mechanism"
+          },
+          {
+            "name": "memoroid"
+          },
+          {
+            "name": "linear recurrent units (LRUs)"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "2M gradient steps",
+          "justification": "The recurrent actor and critic are trained.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "",
+          "justification": "No epoch count is stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "The recurrent encoder has fewer than 600k parameters, the actor MLP head fewer than 200k, and the critic MLP head ... fewer than 1.5M.",
+          "justification": "The paper states component counts rather than a single total.",
+          "value": "encoder <600k; actor head <200k; critic head <1.5M"
+        },
+        "accelerator_type": {
+          "quote": "All experiments were run on a single NVIDIA L40S GPU (48 GB)",
+          "justification": "Explicit hardware.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "NVIDIA L40S GPU (48 GB)",
+          "justification": "Specific model.",
+          "value": "NVIDIA L40S GPU (48 GB)"
+        },
+        "accelerator_count": {
+          "quote": "a single NVIDIA L40S GPU",
+          "justification": "One GPU.",
+          "value": "1"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "with 3 seeds in parallel, using a fully vectorized JAX implementation",
+          "justification": "Parallel seeds and vectorized rollouts constitute data-style parallel execution.",
+          "value": [
+            "data"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "Only the singled-out halfcheetah configuration has a stated duration.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "No utilisation metric.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "Our results use 6 seeds",
+          "justification": "Main results use six random seeds.",
+          "value": [
+            {
+              "kind": "seed",
+              "count": 6,
+              "what": "seeds"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "world model ensemble",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "halfcheetah-medium-expert-v2",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "maximum likelihood estimation (MLE)"
+          },
+          {
+            "name": "AdamW"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "world-model training costs 6 hours per seed",
+          "justification": "A separate fitting phase trains the world ensemble.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "",
+          "justification": "No fixed epoch count is stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "the world model ensemble with N = 100 contains fewer than 15M parameters in total",
+          "justification": "Explicit locomotion ensemble parameter count.",
+          "value": "fewer than 15M"
+        },
+        "accelerator_type": {
+          "quote": "single NVIDIA L40S GPU (48 GB)",
+          "justification": "Explicit.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "NVIDIA L40S GPU (48 GB)",
+          "justification": "Explicit.",
+          "value": "NVIDIA L40S GPU (48 GB)"
+        },
+        "accelerator_count": {
+          "quote": "a single NVIDIA L40S GPU",
+          "justification": "Explicit.",
+          "value": "1"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "fully vectorized JAX implementation",
+          "justification": "Models are vectorized on one device; no tensor/pipeline/expert strategy is named.",
+          "value": [
+            "data"
+          ]
+        },
+        "duration": {
+          "quote": "world-model training costs 6 hours per seed",
+          "justification": "Explicit duration.",
+          "value": "6 hours per seed"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "Our results use 6 seeds",
+          "justification": "Main locomotion results use six seeds.",
+          "value": [
+            {
+              "kind": "seed",
+              "count": 6,
+              "what": "seeds"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "recurrent actor",
+            "role_in_run": "main"
+          },
+          {
+            "name": "recurrent critic",
+            "role_in_run": "critic"
+          },
+          {
+            "name": "world model ensemble",
+            "role_in_run": "data-source"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "halfcheetah-medium-expert-v2",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "NEUBAY"
+          },
+          {
+            "name": "Uncertainty threshold U(ζ) for rollout truncation"
+          },
+          {
+            "name": "REDQ"
+          },
+          {
+            "name": "memoroid"
+          },
+          {
+            "name": "linear recurrent units (LRUs)"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "recurrent agent training costs 4.4 hours per seed",
+          "justification": "The recurrent agent is trained separately from the world model.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "",
+          "justification": "No epochs stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "The recurrent encoder has fewer than 600k parameters, the actor MLP head fewer than 200k, and the critic MLP head ... fewer than 1.5M.",
+          "justification": "Explicit component counts.",
+          "value": "encoder <600k; actor head <200k; critic head <1.5M"
+        },
+        "accelerator_type": {
+          "quote": "single NVIDIA L40S GPU (48 GB)",
+          "justification": "Explicit.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "NVIDIA L40S GPU (48 GB)",
+          "justification": "Explicit.",
+          "value": "NVIDIA L40S GPU (48 GB)"
+        },
+        "accelerator_count": {
+          "quote": "a single NVIDIA L40S GPU",
+          "justification": "Explicit.",
+          "value": "1"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "with 3 seeds in parallel, using a fully vectorized JAX implementation",
+          "justification": "Parallel seeds and rollouts are vectorized on one GPU.",
+          "value": [
+            "data"
+          ]
+        },
+        "duration": {
+          "quote": "recurrent agent training costs 4.4 hours per seed",
+          "justification": "Explicit duration.",
+          "value": "4.4 hours per seed"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "Our results use 6 seeds",
+          "justification": "Main results use six seeds.",
+          "value": [
+            {
+              "kind": "seed",
+              "count": 6,
+              "what": "seeds"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "world model ensemble",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "NeoRL locomotion benchmark",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "maximum likelihood estimation (MLE)"
+          },
+          {
+            "name": "AdamW"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "world model is trained once per seed",
+          "justification": "Separate world-model fitting phase.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "",
+          "justification": "No fixed count.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "the world model ensemble with N = 100 contains fewer than 15M parameters in total",
+          "justification": "NeoRL is a locomotion benchmark covered by this count.",
+          "value": "fewer than 15M"
+        },
+        "accelerator_type": {
+          "quote": "single NVIDIA L40S GPU (48 GB)",
+          "justification": "Explicit.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "NVIDIA L40S GPU (48 GB)",
+          "justification": "Explicit.",
+          "value": "NVIDIA L40S GPU (48 GB)"
+        },
+        "accelerator_count": {
+          "quote": "a single NVIDIA L40S GPU",
+          "justification": "Explicit.",
+          "value": "1"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Unknown.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "fully vectorized JAX implementation",
+          "justification": "Vectorized batching on a GPU.",
+          "value": [
+            "data"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "Not stated for NeoRL.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "Our results use 6 seeds",
+          "justification": "NeoRL main results use six seeds.",
+          "value": [
+            {
+              "kind": "seed",
+              "count": 6,
+              "what": "seeds"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "recurrent actor",
+            "role_in_run": "main"
+          },
+          {
+            "name": "recurrent critic",
+            "role_in_run": "critic"
+          },
+          {
+            "name": "world model ensemble",
+            "role_in_run": "data-source"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "NeoRL locomotion benchmark",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "NEUBAY"
+          },
+          {
+            "name": "Uncertainty threshold U(ζ) for rollout truncation"
+          },
+          {
+            "name": "REDQ"
+          },
+          {
+            "name": "memoroid"
+          },
+          {
+            "name": "linear recurrent units (LRUs)"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "2M gradient steps",
+          "justification": "The NeoRL recurrent agents are trained.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "",
+          "justification": "Unknown.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "The recurrent encoder has fewer than 600k parameters, the actor MLP head fewer than 200k, and the critic MLP head ... fewer than 1.5M.",
+          "justification": "Explicit locomotion agent component counts.",
+          "value": "encoder <600k; actor head <200k; critic head <1.5M"
+        },
+        "accelerator_type": {
+          "quote": "single NVIDIA L40S GPU (48 GB)",
+          "justification": "Explicit.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "NVIDIA L40S GPU (48 GB)",
+          "justification": "Explicit.",
+          "value": "NVIDIA L40S GPU (48 GB)"
+        },
+        "accelerator_count": {
+          "quote": "a single NVIDIA L40S GPU",
+          "justification": "Explicit.",
+          "value": "1"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Unknown.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "with 3 seeds in parallel, using a fully vectorized JAX implementation",
+          "justification": "Parallel data-style execution.",
+          "value": [
+            "data"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "Our results use 6 seeds",
+          "justification": "Six seeds for NeoRL results.",
+          "value": [
+            {
+              "kind": "seed",
+              "count": 6,
+              "what": "seeds"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "world model ensemble",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "D4RL Adroit benchmark",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "maximum likelihood estimation (MLE)"
+          },
+          {
+            "name": "AdamW"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "world model is trained once per seed",
+          "justification": "Separate world-model fitting.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "",
+          "justification": "Unknown.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "",
+          "justification": "No Adroit world-ensemble parameter count is stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "single NVIDIA L40S GPU (48 GB)",
+          "justification": "Explicit.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "NVIDIA L40S GPU (48 GB)",
+          "justification": "Explicit.",
+          "value": "NVIDIA L40S GPU (48 GB)"
+        },
+        "accelerator_count": {
+          "quote": "a single NVIDIA L40S GPU",
+          "justification": "Explicit.",
+          "value": "1"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Unknown.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "fully vectorized JAX implementation",
+          "justification": "Vectorized ensemble training.",
+          "value": [
+            "data"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "Our results use 6 seeds",
+          "justification": "Adroit results use six seeds.",
+          "value": [
+            {
+              "kind": "seed",
+              "count": 6,
+              "what": "seeds"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "recurrent actor",
+            "role_in_run": "main"
+          },
+          {
+            "name": "recurrent critic",
+            "role_in_run": "critic"
+          },
+          {
+            "name": "world model ensemble",
+            "role_in_run": "data-source"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "D4RL Adroit benchmark",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "NEUBAY"
+          },
+          {
+            "name": "Uncertainty threshold U(ζ) for rollout truncation"
+          },
+          {
+            "name": "REDQ"
+          },
+          {
+            "name": "memoroid"
+          },
+          {
+            "name": "linear recurrent units (LRUs)"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "2M gradient steps",
+          "justification": "The Adroit recurrent agent is trained.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "",
+          "justification": "Unknown.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "",
+          "justification": "No total Adroit agent parameter count is stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "single NVIDIA L40S GPU (48 GB)",
+          "justification": "Explicit.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "NVIDIA L40S GPU (48 GB)",
+          "justification": "Explicit.",
+          "value": "NVIDIA L40S GPU (48 GB)"
+        },
+        "accelerator_count": {
+          "quote": "a single NVIDIA L40S GPU",
+          "justification": "Explicit.",
+          "value": "1"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Unknown.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "with 3 seeds in parallel, using a fully vectorized JAX implementation",
+          "justification": "Parallel data-style execution.",
+          "value": [
+            "data"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "Our results use 6 seeds",
+          "justification": "Adroit results use six seeds.",
+          "value": [
+            {
+              "kind": "seed",
+              "count": 6,
+              "what": "seeds"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "world model ensemble",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "D4RL AntMaze benchmark",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "maximum likelihood estimation (MLE)"
+          },
+          {
+            "name": "AdamW"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "world model is trained once per seed",
+          "justification": "Separate world-model fitting.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "",
+          "justification": "Unknown.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "",
+          "justification": "No AntMaze parameter count is stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "single NVIDIA L40S GPU (48 GB)",
+          "justification": "Explicit.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "NVIDIA L40S GPU (48 GB)",
+          "justification": "Explicit.",
+          "value": "NVIDIA L40S GPU (48 GB)"
+        },
+        "accelerator_count": {
+          "quote": "a single NVIDIA L40S GPU",
+          "justification": "Explicit.",
+          "value": "1"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Unknown.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "fully vectorized JAX implementation",
+          "justification": "Vectorized data-style execution.",
+          "value": [
+            "data"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "Our results use 6 seeds",
+          "justification": "AntMaze results use six seeds.",
+          "value": [
+            {
+              "kind": "seed",
+              "count": 6,
+              "what": "seeds"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "recurrent actor",
+            "role_in_run": "main"
+          },
+          {
+            "name": "recurrent critic",
+            "role_in_run": "critic"
+          },
+          {
+            "name": "world model ensemble",
+            "role_in_run": "data-source"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "D4RL AntMaze benchmark",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "NEUBAY"
+          },
+          {
+            "name": "Uncertainty threshold U(ζ) for rollout truncation"
+          },
+          {
+            "name": "REDQ"
+          },
+          {
+            "name": "memoroid"
+          },
+          {
+            "name": "linear recurrent units (LRUs)"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "3M in AntMaze",
+          "justification": "The AntMaze agent is trained for 3M gradient steps.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "",
+          "justification": "Unknown.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "",
+          "justification": "No total count stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "single NVIDIA L40S GPU (48 GB)",
+          "justification": "Explicit.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "NVIDIA L40S GPU (48 GB)",
+          "justification": "Explicit.",
+          "value": "NVIDIA L40S GPU (48 GB)"
+        },
+        "accelerator_count": {
+          "quote": "a single NVIDIA L40S GPU",
+          "justification": "Explicit.",
+          "value": "1"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Unknown.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "with 3 seeds in parallel, using a fully vectorized JAX implementation",
+          "justification": "Parallel data-style execution.",
+          "value": [
+            "data"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "Our results use 6 seeds",
+          "justification": "AntMaze results use six seeds.",
+          "value": [
+            {
+              "kind": "seed",
+              "count": 6,
+              "what": "seeds"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "Markov agent",
+            "role_in_run": "main"
+          },
+          {
+            "name": "world model ensemble",
+            "role_in_run": "data-source"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "D4RL locomotion benchmark",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "NeoRL locomotion benchmark",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "D4RL Adroit benchmark",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "D4RL AntMaze benchmark",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "NEUBAY"
+          },
+          {
+            "name": "REDQ"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "we remove the LRU encoder and only train the actor-critic MLP",
+          "justification": "This is the Markov-agent training ablation.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "",
+          "justification": "Unknown.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "",
+          "justification": "No ablation parameter count is stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "single NVIDIA L40S GPU (48 GB)",
+          "justification": "All experiments use this hardware.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "NVIDIA L40S GPU (48 GB)",
+          "justification": "Explicit.",
+          "value": "NVIDIA L40S GPU (48 GB)"
+        },
+        "accelerator_count": {
+          "quote": "a single NVIDIA L40S GPU",
+          "justification": "Explicit.",
+          "value": "1"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Unknown.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "fully vectorized JAX implementation",
+          "justification": "Vectorized data-style execution.",
+          "value": [
+            "data"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "",
+          "justification": "The ablation's seed count is not explicitly isolated from the main-results statement.",
+          "value": []
+        }
+      }
+    ]
+  },
+  "usage": {
+    "input_tokens": 77870,
+    "output_tokens": 14958,
+    "total_tokens": 92828
+  }
+}

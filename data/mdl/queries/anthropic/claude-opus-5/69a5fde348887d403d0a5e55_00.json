@@ -1,0 +1,1781 @@
+{
+  "paper": "69a5fde348887d403d0a5e55.txt",
+  "words": 11221,
+  "extractions": {
+    "title": {
+      "quote": "C LOSING THE G AP BETWEEN TD L EARNING AND S UPERVISED L EARNING – A G ENERALISATION P OINT OF V IEW",
+      "justification": "Title from the paper header",
+      "value": "Closing the Gap between TD Learning and Supervised Learning – A Generalisation Point of View"
+    },
+    "description": "The paper formalises the RL \"stitching\" property as a form of combinatorial generalisation, argues that supervised-learning-based RL (outcome-conditioned behavioural cloning) methods lack it, constructs new offline maze datasets that explicitly test for it, and proposes a temporal data augmentation that improves stitching for OCBC methods (RvS, DT) on state-based and image-based goal- and return-conditioned tasks.",
+    "type": {
+      "quote": "On 10 different environments, including both state and image based tasks, and goal and return conditioning, adding data augmentation improves the generalisation capabilities of SL approaches by up to a factor of 2.5.",
+      "justification": "The paper combines theory with extensive empirical evaluation across 10 environments and ablations; experiments dominate.",
+      "value": "empirical"
+    },
+    "research_fields": [
+      {
+        "name": {
+          "quote": "Some reinforcement learning (RL) algorithms can stitch pieces of experience to solve a task never seen before during training.",
+          "justification": "The paper studies RL algorithms and their stitching property.",
+          "value": "Reinforcement Learning"
+        },
+        "aliases": [
+          "RL"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "Our work focuses on the offline RL setting where the agent has access to a fixed dataset of N trajectories",
+          "justification": "The work focuses on the offline RL setting and contributes new offline datasets.",
+          "value": "Offline Reinforcement Learning"
+        },
+        "aliases": [
+          "offline RL"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "We will study the problem of goal-conditioned RL in a controlled Markov process",
+          "justification": "The study of goal-conditioned policies is central.",
+          "value": "Goal-conditioned Reinforcement Learning"
+        },
+        "aliases": [
+          "goal-conditioned RL"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "RL methods based on supervised-learning (SL)",
+          "justification": "The paper analyses RL methods based on supervised learning and borrows data augmentation from SL.",
+          "value": "Supervised Learning"
+        },
+        "aliases": [
+          "SL"
+        ],
+        "role": "used"
+      },
+      {
+        "name": {
+          "quote": "Conditional imitation learning methods do not have the combinatorial generalisation property.",
+          "justification": "Outcome conditional behavioral cloning is a conditional imitation learning setting.",
+          "value": "Imitation Learning"
+        },
+        "aliases": [
+          "behavioral cloning"
+        ],
+        "role": "used"
+      }
+    ],
+    "models": [
+      {
+        "name": {
+          "quote": "DT [2] treats RL as a sequential SL problem and uses the transformer architecture as a policy.",
+          "justification": "DT is one of the two OCBC methods executed in the experiments.",
+          "value": "Decision Transformer"
+        },
+        "aliases": [
+          "DT"
+        ],
+        "is_contributed": {
+          "quote": "Lili Chen, Kevin Lu, ... Decision transformer: Reinforcement learning via sequence modeling.",
+          "justification": "DT comes from prior work and is used as a baseline.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we train DT on 10 million transitions (10 times more than Fig. 5) on all “point” maze tasks",
+          "justification": "DT is trained and evaluated across tasks with ablations on layers and dataset size.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "In Fig. 5, we can see that both DT and RvS struggle to solve unseen tasks at test-time.",
+          "justification": "DT is compared to DT + data augmentation and RvS.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "We used the exact same hyper-parameters that the original DT paper [2] used for their mujoco experiments.",
+          "justification": "DT is trained from scratch on the new offline datasets.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "Decision transformer: Reinforcement learning via sequence modeling. Advances in neural information processing systems, 34:15084–15097, 2021.",
+          "justification": "Reference [2].",
+          "value": "Decision transformer: Reinforcement learning via sequence modeling"
+        }
+      },
+      {
+        "name": {
+          "quote": "RvS [3] is an OCBC algorithm that uses a fully connected policy network",
+          "justification": "RvS is the second OCBC method executed.",
+          "value": "RvS"
+        },
+        "aliases": [
+          "RvS policy"
+        ],
+        "is_contributed": {
+          "quote": "Scott Emmons, Benjamin Eysenbach, Ilya Kostrikov, and Sergey Levine. Rvs: What is essential for offline rl via supervised learning?",
+          "justification": "From prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "applying temporal data-augmentation to RvS improves the goal-reaching success rate on 5/6 tasks",
+          "justification": "RvS is trained and evaluated on all tasks.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "All choices of centroids significantly outperform the RvS method on both tasks.",
+          "justification": "RvS compared against RvS + augmentation and DT.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "training steps 1 × 10^6",
+          "justification": "RvS policy networks are trained for 1e6 steps.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "Rvs: What is essential for offline rl via supervised learning? arXiv preprint arXiv:2112.10751, 2021.",
+          "justification": "Reference [3].",
+          "value": "Rvs: What is essential for offline rl via supervised learning?"
+        }
+      },
+      {
+        "name": {
+          "quote": "To collect data for the “ant” maze, we use the same pre-trained policy from D4RL [15].",
+          "justification": "A pre-trained policy was used to collect ant maze data.",
+          "value": "pre-trained policy from D4RL"
+        },
+        "aliases": [
+          "D4RL ant policy"
+        ],
+        "is_contributed": {
+          "quote": "we use the same pre-trained policy from D4RL [15]",
+          "justification": "Taken from D4RL.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "To collect data for the “ant” maze, we use the same pre-trained policy from D4RL [15].",
+          "justification": "It was run to generate the new ant maze offline datasets.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "To collect data for the “ant” maze, we use the same pre-trained policy from D4RL [15].",
+          "justification": "It is only a data collector, not compared.",
+          "value": false
+        },
+        "execution_mode": {
+          "quote": "To collect data for the “ant” maze, we use the same pre-trained policy from D4RL [15].",
+          "justification": "Used only to roll out data collection.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "Justin Fu, Aviral Kumar, Ofir Nachum, George Tucker, and Sergey Levine. D4rl: Datasets for deep data-driven reinforcement learning, 2021.",
+          "justification": "Reference [15].",
+          "value": "D4rl: Datasets for deep data-driven reinforcement learning"
+        }
+      }
+    ],
+    "data_sources": [
+      {
+        "name": {
+          "quote": "we use the same “point” and “ant” mazes (umaze, medium and large) from D4RL [15].",
+          "justification": "D4RL mazes and datasets are referenced and their environments reused.",
+          "value": "D4RL"
+        },
+        "aliases": [
+          "d4rl"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "the maze datasets from D4RL [15] were originally motivated to test the stitching capabilities of RL algorithms",
+          "justification": "No size stated for original D4RL datasets.",
+          "value": "unknown"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "D4rl: Datasets for deep data-driven reinforcement learning, 2021.",
+          "justification": "Reference [15].",
+          "value": "D4rl: Datasets for deep data-driven reinforcement learning"
+        }
+      },
+      {
+        "name": {
+          "quote": "To collect our datasets, we use the same “point” and “ant” mazes (umaze, medium and large) from D4RL [15].",
+          "justification": "New offline datasets collected in the point mazes.",
+          "value": "\"point\" maze (umaze, medium, large)"
+        },
+        "aliases": [
+          "point-maze",
+          "point maze-medium"
+        ],
+        "role": "contributed",
+        "size": {
+          "quote": "we train DT on 10 million transitions (10 times more than Fig. 5) on all “point” maze tasks",
+          "justification": "The ablation states dataset sizes explicitly.",
+          "value": "10 million transitions (for the larger dataset ablation); dataset size ablated from 1e5 to 1e7"
+        },
+        "derived_from": [
+          "D4RL"
+        ],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "we use the same “point” and “ant” mazes (umaze, medium and large) from D4RL [15]",
+          "justification": "Mazes come from D4RL.",
+          "value": "D4rl: Datasets for deep data-driven reinforcement learning"
+        }
+      },
+      {
+        "name": {
+          "quote": "In Fig. 12, we provide a visualisation of the offline dataset in all “ant” mazes.",
+          "justification": "New offline datasets collected in the ant mazes.",
+          "value": "\"ant\" maze (umaze, medium, large)"
+        },
+        "aliases": [
+          "ant-maze",
+          "ant maze-medium"
+        ],
+        "role": "contributed",
+        "size": {
+          "quote": "Offline datasets that we collect for the “ant\" mazes.",
+          "justification": "No explicit dataset size for ant mazes.",
+          "value": "unknown"
+        },
+        "derived_from": [
+          "D4RL"
+        ],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "we use the same “point” and “ant” mazes (umaze, medium and large) from D4RL [15]",
+          "justification": "Ant mazes from D4RL.",
+          "value": "D4rl: Datasets for deep data-driven reinforcement learning"
+        }
+      },
+      {
+        "name": {
+          "quote": "For the goal-conditioned tasks, we use an image-based version of the “point” mazes 3. The agent is given a top-down view of the maze to infer its location.",
+          "justification": "Image-based version of the point mazes used for high-dimensional experiments.",
+          "value": "visual point-maze"
+        },
+        "aliases": [
+          "image-based point maze"
+        ],
+        "role": "contributed",
+        "size": {
+          "quote": "we use an image-based version of the “point” mazes",
+          "justification": "No size stated.",
+          "value": "unknown"
+        },
+        "derived_from": [
+          "\"point\" maze (umaze, medium, large)"
+        ],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "we use an image-based version of the “point” mazes 3",
+          "justification": "No separate reference.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "For the return conditioned tasks, we create a new task using Miniworld [57] (See Fig. 4) called “collect”.",
+          "justification": "A new image-based return-conditioned task built with Miniworld.",
+          "value": "Miniworld \"collect\""
+        },
+        "aliases": [
+          "miniworld",
+          "collect"
+        ],
+        "role": "contributed",
+        "size": {
+          "quote": "There are two data collecting policies, each collecting only one key.",
+          "justification": "No dataset size stated.",
+          "value": "unknown"
+        },
+        "derived_from": [],
+        "sample_properties": [
+          {
+            "name": "number of actions",
+            "value": {
+              "quote": "it can choose amongst 5 actions – {forward, backward, turn right, turn left, pickup}",
+              "justification": "Stated action set size.",
+              "value": "5"
+            },
+            "unit": "actions"
+          }
+        ],
+        "referenced_paper_title": {
+          "quote": "Maxime Chevalier-Boisvert, Bolun Dai, ... Minigrid & miniworld: Modular & customizable reinforcement learning environments for goal-oriented tasks.",
+          "justification": "Reference [57].",
+          "value": "Minigrid & miniworld: Modular & customizable reinforcement learning environments for goal-oriented tasks"
+        }
+      },
+      {
+        "name": {
+          "quote": "we use two offline datasets collected from a simple didactic MDP (see Fig. 10)",
+          "justification": "Small offline datasets from didactic MDPs used in Appendix B experiments.",
+          "value": "didactic MDP datasets (v1, stochastic-v1, v2, stochastic-v2)"
+        },
+        "aliases": [
+          "v1",
+          "stochastic-v1",
+          "v2",
+          "stochastic-v2"
+        ],
+        "role": "contributed",
+        "size": {
+          "quote": "we perform more experiments on two offline datasets v2 and stochastic-v2",
+          "justification": "No dataset size stated.",
+          "value": "unknown"
+        },
+        "derived_from": [],
+        "sample_properties": [
+          {
+            "name": "number of states",
+            "value": {
+              "quote": "MDP with 5 states and 2 actions (up and right).",
+              "justification": "Stated in figure captions.",
+              "value": "5 states (v1) and 7 states (v2)"
+            },
+            "unit": "states"
+          }
+        ],
+        "referenced_paper_title": {
+          "quote": "we use two offline datasets collected from a simple didactic MDP",
+          "justification": "Original to this paper.",
+          "value": "unknown"
+        }
+      }
+    ],
+    "libraries": [
+      {
+        "name": {
+          "quote": "We use the k-means algorithm from scikit-learn [62] with the default parameters to group states together.",
+          "justification": "Used for the k-means clustering implementation.",
+          "value": "scikit-learn"
+        },
+        "aliases": [
+          "sklearn"
+        ],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "Scikit-learn: Machine learning in Python. Journal of Machine Learning Research, 12:2825–2830, 2011.",
+          "justification": "Reference [62].",
+          "value": "Scikit-learn: Machine learning in Python"
+        }
+      },
+      {
+        "name": {
+          "quote": "we create a new task using Miniworld [57]",
+          "justification": "Used to create the new image-based environment.",
+          "value": "Miniworld"
+        },
+        "aliases": [
+          "Minigrid & Miniworld"
+        ],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "Minigrid & miniworld: Modular & customizable reinforcement learning environments for goal-oriented tasks. CoRR, abs/2306.13831, 2023.",
+          "justification": "Reference [57].",
+          "value": "Minigrid & miniworld: Modular & customizable reinforcement learning environments for goal-oriented tasks"
+        }
+      },
+      {
+        "name": {
+          "quote": "In the “ant\" maze task, the agent is a 3-d ant from Farama Foundation [61].",
+          "justification": "The 3-d ant agent is from Farama Foundation / Gymnasium.",
+          "value": "Farama Foundation (Gymnasium)"
+        },
+        "aliases": [
+          "Gymnasium"
+        ],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "Mark Towers, Jordan K. Terry, ... Gymnasium, March 2023.",
+          "justification": "Reference [61].",
+          "value": "Gymnasium"
+        }
+      }
+    ],
+    "algorithms": [
+      {
+        "name": {
+          "quote": "We propose a temporal data augmentation and demonstrate that adding it to SL-based methods enables them to successfully complete tasks not seen together during training.",
+          "justification": "The paper's central contributed procedure.",
+          "value": "temporal data augmentation"
+        },
+        "aliases": [
+          "state augmentation",
+          "data augmentation"
+        ],
+        "is_contributed": {
+          "quote": "The key contribution of our paper is this form of data augmentation, which is shown in blue text.",
+          "justification": "Explicitly stated as the key contribution.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "applying temporal data-augmentation to RvS improves the goal-reaching success rate on 5/6 tasks",
+          "justification": "Applied on top of RvS and DT in experiments.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Adding data augmentation outperforms the OCBC baselines on most tasks.",
+          "justification": "Compared to baselines without augmentation.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "temporal data augmentation augments the original goal, with a new goal sampled from a different overlapping trajectory in the offline dataset",
+          "justification": "Paper's description of the role.",
+          "value": "augments the original goal with a new goal sampled from a different overlapping trajectory in the offline dataset"
+        },
+        "composed_of": [
+          "k-means"
+        ],
+        "referenced_paper_title": {
+          "quote": "We propose a temporal data augmentation",
+          "justification": "Contributed in this paper.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "“Only goal augmentation” refers to an oracle version of our augmentation that uses privileged information (x, y coordinates) when performing augmentation.",
+          "justification": "Oracle version of the augmentation using privileged x,y coordinates.",
+          "value": "only goal augmentation"
+        },
+        "aliases": [
+          "oracle augmentation"
+        ],
+        "is_contributed": {
+          "quote": "we also compare an oracle version of our data augmentation",
+          "justification": "A variant introduced in this paper.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "This oracle version uses only the x, y coordinates from the state vector to apply the K-means algorithm.",
+          "justification": "Results reported in Fig 5.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Adding temporal data augmentation (both standard and oracle versions) improves the performance of both RvS and DT on 5/6 tasks.",
+          "justification": "Compared with standard augmentation and baselines.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "“Only goal augmentation” refers to an oracle version of our augmentation that uses privileged information (x, y coordinates) when performing augmentation.",
+          "justification": "Paper's wording.",
+          "value": "oracle version of our augmentation that uses privileged information (x, y coordinates) when performing augmentation"
+        },
+        "composed_of": [
+          "K-means"
+        ],
+        "referenced_paper_title": {
+          "quote": "we also compare an oracle version of our data augmentation",
+          "justification": "Contributed here.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "In our experiments, we use the k-means algorithm [54].",
+          "justification": "Used to group states for augmentation.",
+          "value": "k-means"
+        },
+        "aliases": [
+          "K-means",
+          "CLUSTER"
+        ],
+        "is_contributed": {
+          "quote": "every state can be assigned a discrete label from k different categories using a clustering algorithm [54, 55]",
+          "justification": "Classic clustering algorithm.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We use the k-means algorithm from scikit-learn [62] with the default parameters to group states together.",
+          "justification": "Run on dataset states before training.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "we ablate the choice of the number of centroids used in K-means",
+          "justification": "Not compared against other clustering methods; only number of centroids ablated.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "The problem of sampling nearby states can be solved by clustering all the states from the offline dataset before training.",
+          "justification": "Paper's wording.",
+          "value": "used to group states together / cluster all the states from the offline dataset before training"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "S. Lloyd. Least squares quantization in pcm. IEEE Transactions on Information Theory, 28(2):129–137, 1982.",
+          "justification": "Reference [54].",
+          "value": "Least squares quantization in pcm"
+        }
+      },
+      {
+        "name": {
+          "quote": "Outcome Conditional behavioral cloning (OCBC). ... These methods take as input a dataset of trajectories ... and learn a goal-conditioned policy π(a | s, g) using a maximum likelihood objective",
+          "justification": "The class of methods trained via maximum likelihood objective.",
+          "value": "Outcome Conditional behavioral cloning (OCBC)"
+        },
+        "aliases": [
+          "OCBC"
+        ],
+        "is_contributed": {
+          "quote": "collectively known as outcome conditional behavioral cloning algorithms (OCBC)",
+          "justification": "Existing class of methods.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Algorithm 1 Outcome-conditioned behavioral cloning with (temporal) data augmentation.",
+          "justification": "RvS and DT are trained with this objective.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Adding data augmentation outperforms the OCBC baselines on most tasks.",
+          "justification": "Compared with and without augmentation.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "we will present empirical results using a simple and popular class of goal-conditioned RL methods: Outcome conditional behavioral cloning",
+          "justification": "Paper's words.",
+          "value": "a simple and popular class of goal-conditioned RL methods used for empirical results"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Outcome conditional behavioral cloning [44]",
+          "justification": "Reference [44] is cited at the definition of OCBC.",
+          "value": "Imitating past successes can be very suboptimal"
+        }
+      },
+      {
+        "name": {
+          "quote": "optimizer AdamW",
+          "justification": "Optimizer used for DT.",
+          "value": "AdamW"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "optimizer AdamW",
+          "justification": "Standard optimizer.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "optimizer AdamW",
+          "justification": "Used in training DT.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "optimizer AdamW",
+          "justification": "Not compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "Table 1: Hyperparameters for DT. ... optimizer AdamW",
+          "justification": "Listed in the hyperparameter table for DT.",
+          "value": "optimizer for DT"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "optimizer AdamW",
+          "justification": "No reference given.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "optimizer Adam",
+          "justification": "Optimizer used for RvS.",
+          "value": "Adam"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "optimizer Adam",
+          "justification": "Standard optimizer.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Table 2: Hyperparameters for RvS. ... optimizer Adam",
+          "justification": "Used in training RvS.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "optimizer Adam",
+          "justification": "Not compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "Table 2: Hyperparameters for RvS. ... optimizer Adam",
+          "justification": "Listed in RvS hyperparameters.",
+          "value": "optimizer for RvS"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "optimizer Adam",
+          "justification": "No reference given.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "weight decay 1 × 10−4",
+          "justification": "A training hyperparameter procedure listed for DT.",
+          "value": "weight decay"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "weight decay 1 × 10−4",
+          "justification": "Standard regularisation.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "weight decay 1 × 10−4",
+          "justification": "Used in DT training.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "weight decay 1 × 10−4",
+          "justification": "Not compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "Table 1: Hyperparameters for DT. ... weight decay 1 × 10−4",
+          "justification": "Listed in table.",
+          "value": "training hyperparameter for DT"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "weight decay 1 × 10−4",
+          "justification": "No reference.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "To collect data for the “point” maze, we use a PID controller.",
+          "justification": "Used to collect point maze data.",
+          "value": "PID controller"
+        },
+        "aliases": [
+          "PID"
+        ],
+        "is_contributed": {
+          "quote": "we use a PID controller",
+          "justification": "Standard control procedure.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "To collect data for the “point” maze, we use a PID controller.",
+          "justification": "Run to generate the point maze offline datasets.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "To collect data for the “point” maze, we use a PID controller.",
+          "justification": "Not compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "To collect data for the “point” maze, we use a PID controller.",
+          "justification": "Paper's wording.",
+          "value": "used to collect data for the \"point\" maze"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "we use a PID controller",
+          "justification": "No reference.",
+          "value": "unknown"
+        }
+      }
+    ],
+    "runs": [
+      {
+        "models": [
+          {
+            "name": "pre-trained policy from D4RL",
+            "role_in_run": "data-source"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "\"ant\" maze (umaze, medium, large)",
+            "access": "interactive",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [],
+        "produces": [
+          "\"ant\" maze (umaze, medium, large)"
+        ],
+        "execution_mode": {
+          "quote": "To collect data for the “ant” maze, we use the same pre-trained policy from D4RL [15].",
+          "justification": "This stage rolls out policies in the mazes to produce the new offline datasets.",
+          "value": "generate"
+        },
+        "epochs": {
+          "quote": "To collect data for the “ant” maze, we use the same pre-trained policy from D4RL [15].",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "we use the same pre-trained policy from D4RL [15]",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "To collect data for the “ant” maze, we use the same pre-trained policy from D4RL [15].",
+          "justification": "Hardware not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "To collect data for the “ant” maze, we use the same pre-trained policy from D4RL [15].",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "To collect data for the “ant” maze, we use the same pre-trained policy from D4RL [15].",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "To collect data for the “ant” maze, we use the same pre-trained policy from D4RL [15].",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "To collect data for the “ant” maze, we use the same pre-trained policy from D4RL [15].",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "To collect data for the “ant” maze, we use the same pre-trained policy from D4RL [15].",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "To collect data for the “ant” maze, we use the same pre-trained policy from D4RL [15].",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "To collect data for the “ant” maze, we use the same pre-trained policy from D4RL [15].",
+          "justification": "Not stated.",
+          "value": []
+        }
+      },
+      {
+        "models": [],
+        "data_sources": [
+          {
+            "name": "\"point\" maze (umaze, medium, large)",
+            "access": "interactive",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "PID controller"
+          }
+        ],
+        "produces": [
+          "\"point\" maze (umaze, medium, large)"
+        ],
+        "execution_mode": {
+          "quote": "To collect data for the “point” maze, we use a PID controller.",
+          "justification": "Dataset collection stage using a PID controller.",
+          "value": "generate"
+        },
+        "epochs": {
+          "quote": "To collect data for the “point” maze, we use a PID controller.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "To collect data for the “point” maze, we use a PID controller.",
+          "justification": "Not a learned model.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "To collect data for the “point” maze, we use a PID controller.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "To collect data for the “point” maze, we use a PID controller.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "To collect data for the “point” maze, we use a PID controller.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "To collect data for the “point” maze, we use a PID controller.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "To collect data for the “point” maze, we use a PID controller.",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "To collect data for the “point” maze, we use a PID controller.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "To collect data for the “point” maze, we use a PID controller.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "To collect data for the “point” maze, we use a PID controller.",
+          "justification": "Not stated.",
+          "value": []
+        }
+      },
+      {
+        "models": [],
+        "data_sources": [
+          {
+            "name": "Miniworld \"collect\"",
+            "access": "interactive",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [],
+        "produces": [
+          "Miniworld \"collect\""
+        ],
+        "execution_mode": {
+          "quote": "These data collection policies are implemented by controlling the agent manually.",
+          "justification": "Data for the Miniworld task is collected by manually controlled policies.",
+          "value": "generate"
+        },
+        "epochs": {
+          "quote": "There are two data collecting policies, each collecting only one of the key.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "These data collection policies are implemented by controlling the agent manually.",
+          "justification": "Not applicable.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "These data collection policies are implemented by controlling the agent manually.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "These data collection policies are implemented by controlling the agent manually.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "These data collection policies are implemented by controlling the agent manually.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "These data collection policies are implemented by controlling the agent manually.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "These data collection policies are implemented by controlling the agent manually.",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "These data collection policies are implemented by controlling the agent manually.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "These data collection policies are implemented by controlling the agent manually.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "These data collection policies are implemented by controlling the agent manually.",
+          "justification": "Not stated.",
+          "value": []
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "RvS",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "\"point\" maze (umaze, medium, large)",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          },
+          {
+            "name": "\"ant\" maze (umaze, medium, large)",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Outcome Conditional behavioral cloning (OCBC)"
+          },
+          {
+            "name": "Adam"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "RvS is an OCBC algorithm which uses a fully connected neural network policy. We use the hyperparameters as prescribed by the original paper [3].",
+          "justification": "RvS baseline trained on the new state-based maze datasets.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "training steps 1 × 10^6",
+          "justification": "Stated in hyperparameter table (training steps, not epochs).",
+          "value": "1 × 10^6 training steps"
+        },
+        "parameter_count": {
+          "quote": "hidden layers 2 hidden layer dimension 1024",
+          "justification": "Only layer sizes stated, not parameter count.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "All experiments are conducted across five random seeds.",
+          "justification": "Hardware not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "All experiments are conducted across five random seeds.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "All experiments are conducted across five random seeds.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "All experiments are conducted across five random seeds.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "All experiments are conducted across five random seeds.",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "All experiments are conducted across five random seeds.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "All experiments are conducted across five random seeds.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "All experiments are conducted across five random seeds.",
+          "justification": "Five seeds across the 6 state-based maze tasks.",
+          "value": [
+            {
+              "kind": "seed",
+              "count": 5,
+              "what": "random seeds"
+            },
+            {
+              "kind": "variant",
+              "count": 6,
+              "what": "point and ant mazes (umaze, medium, large)"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "RvS",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "\"point\" maze (umaze, medium, large)",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          },
+          {
+            "name": "\"ant\" maze (umaze, medium, large)",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "temporal data augmentation"
+          },
+          {
+            "name": "only goal augmentation"
+          },
+          {
+            "name": "k-means"
+          },
+          {
+            "name": "Outcome Conditional behavioral cloning (OCBC)"
+          },
+          {
+            "name": "Adam"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "applying temporal data-augmentation to RvS improves the goal-reaching success rate on 5/6 tasks",
+          "justification": "RvS trained with temporal data augmentation on state-based mazes.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "training steps 1 × 10^6",
+          "justification": "Same RvS hyperparameters.",
+          "value": "1 × 10^6 training steps"
+        },
+        "parameter_count": {
+          "quote": "hidden layers 2 hidden layer dimension 1024",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "All experiments are conducted across five random seeds.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "All experiments are conducted across five random seeds.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "All experiments are conducted across five random seeds.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "All experiments are conducted across five random seeds.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "All experiments are conducted across five random seeds.",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "All experiments are conducted across five random seeds.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "All experiments are conducted across five random seeds.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "In Fig. 8, we ablate the choice of the number of centroids used in K-means on two environments",
+          "justification": "Seeds, tasks, augmentation variants and K ablation are all stated.",
+          "value": [
+            {
+              "kind": "seed",
+              "count": 5,
+              "what": "random seeds"
+            },
+            {
+              "kind": "variant",
+              "count": 6,
+              "what": "point and ant mazes (umaze, medium, large)"
+            },
+            {
+              "kind": "variant",
+              "count": 2,
+              "what": "state augmentation and only goal augmentation (oracle)"
+            },
+            {
+              "kind": "hyperparameter",
+              "count": 6,
+              "what": "number of centroids used for K-means (10, 25, 40, 50, 75, 100) in the ablation"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "Decision Transformer",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "\"point\" maze (umaze, medium, large)",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          },
+          {
+            "name": "\"ant\" maze (umaze, medium, large)",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Outcome Conditional behavioral cloning (OCBC)"
+          },
+          {
+            "name": "AdamW"
+          },
+          {
+            "name": "weight decay"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "We used the exact same hyper-parameters that the original DT paper [2] used for their mujoco experiments.",
+          "justification": "DT baseline trained on new maze datasets.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "training steps 2 × 10^5",
+          "justification": "Stated in DT hyperparameter table.",
+          "value": "2 × 10^5 training steps"
+        },
+        "parameter_count": {
+          "quote": "hidden layers (self attention layers) 3 embedding dimension 128",
+          "justification": "Only embedding dim/layers stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "All experiments are conducted across five random seeds.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "All experiments are conducted across five random seeds.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "All experiments are conducted across five random seeds.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "All experiments are conducted across five random seeds.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "All experiments are conducted across five random seeds.",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "All experiments are conducted across five random seeds.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "All experiments are conducted across five random seeds.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "All experiments are conducted across five random seeds.",
+          "justification": "Stated five seeds and six state-based maze tasks.",
+          "value": [
+            {
+              "kind": "seed",
+              "count": 5,
+              "what": "random seeds"
+            },
+            {
+              "kind": "variant",
+              "count": 6,
+              "what": "point and ant mazes (umaze, medium, large)"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "Decision Transformer",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "\"point\" maze (umaze, medium, large)",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          },
+          {
+            "name": "\"ant\" maze (umaze, medium, large)",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "temporal data augmentation"
+          },
+          {
+            "name": "only goal augmentation"
+          },
+          {
+            "name": "k-means"
+          },
+          {
+            "name": "Outcome Conditional behavioral cloning (OCBC)"
+          },
+          {
+            "name": "AdamW"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "DT + state augmentation (ours)",
+          "justification": "DT trained with temporal augmentation on state-based mazes.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "training steps 2 × 10^5",
+          "justification": "DT hyperparameters.",
+          "value": "2 × 10^5 training steps"
+        },
+        "parameter_count": {
+          "quote": "embedding dimension 128",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "All experiments are conducted across five random seeds.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "All experiments are conducted across five random seeds.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "All experiments are conducted across five random seeds.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "All experiments are conducted across five random seeds.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "All experiments are conducted across five random seeds.",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "All experiments are conducted across five random seeds.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "All experiments are conducted across five random seeds.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "Adding temporal data augmentation (both standard and oracle versions) improves the performance of both RvS and DT on 5/6 tasks.",
+          "justification": "Figure 5 reports both augmentation variants over five seeds and six tasks.",
+          "value": [
+            {
+              "kind": "seed",
+              "count": 5,
+              "what": "random seeds"
+            },
+            {
+              "kind": "variant",
+              "count": 6,
+              "what": "point and ant mazes (umaze, medium, large)"
+            },
+            {
+              "kind": "variant",
+              "count": 2,
+              "what": "state augmentation and only goal augmentation (oracle)"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "RvS",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "visual point-maze",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Outcome Conditional behavioral cloning (OCBC)"
+          },
+          {
+            "name": "temporal data augmentation"
+          },
+          {
+            "name": "k-means"
+          },
+          {
+            "name": "Adam"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "For the goal-conditioned tasks, we use an image-based version of the “point” mazes 3.",
+          "justification": "RvS trained on image-based point mazes, with and without augmentation.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "we use an image-based version of the “point” mazes",
+          "justification": "Not separately stated for image tasks.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "we use an image-based version of the “point” mazes",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "All experiments are conducted across five random seeds.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "All experiments are conducted across five random seeds.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "All experiments are conducted across five random seeds.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "All experiments are conducted across five random seeds.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "All experiments are conducted across five random seeds.",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "All experiments are conducted across five random seeds.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "All experiments are conducted across five random seeds.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "In Fig. 6, we can see that temporal data augmentation improves the performance of RvS and DT on 4/4 and 3/4 tasks, respectively.",
+          "justification": "Figure 6 shows three visual mazes with and without augmentation, five seeds overall.",
+          "value": [
+            {
+              "kind": "seed",
+              "count": 5,
+              "what": "random seeds"
+            },
+            {
+              "kind": "variant",
+              "count": 3,
+              "what": "visual point-maze umaze, medium, large"
+            },
+            {
+              "kind": "variant",
+              "count": 2,
+              "what": "with and without data augmentation"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "Decision Transformer",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Miniworld \"collect\"",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Outcome Conditional behavioral cloning (OCBC)"
+          },
+          {
+            "name": "temporal data augmentation"
+          },
+          {
+            "name": "k-means"
+          },
+          {
+            "name": "AdamW"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "At test time, the OCBC policy is conditioned on the unseen return of 2 (collect both keys).",
+          "justification": "DT trained on the image-based return-conditioned Miniworld collect task, with and without augmentation.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "For the return conditioned tasks, we create a new task using Miniworld [57]",
+          "justification": "Not stated for this task.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "embedding dimension 128",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "All experiments are conducted across five random seeds.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "All experiments are conducted across five random seeds.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "All experiments are conducted across five random seeds.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "All experiments are conducted across five random seeds.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "All experiments are conducted across five random seeds.",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "All experiments are conducted across five random seeds.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "All experiments are conducted across five random seeds.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "All experiments are conducted across five random seeds.",
+          "justification": "Figure 6 right compares DT and DT + augmentation; five seeds stated globally.",
+          "value": [
+            {
+              "kind": "seed",
+              "count": 5,
+              "what": "random seeds"
+            },
+            {
+              "kind": "variant",
+              "count": 2,
+              "what": "DT and DT + Data Augmentation"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "Decision Transformer",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "\"point\" maze (umaze, medium, large)",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Outcome Conditional behavioral cloning (OCBC)"
+          },
+          {
+            "name": "temporal data augmentation"
+          },
+          {
+            "name": "AdamW"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "we train DT on 10 million transitions (10 times more than Fig. 5) on all “point” maze tasks",
+          "justification": "Scaling ablation training DT on varying dataset sizes and model depths.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "Performance of DT trained on different offline dataset sizes (left) and using a different number of hidden layers (right)",
+          "justification": "Not stated for ablation.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "we increased the number of layers in the original DT model",
+          "justification": "Only number of hidden layers is varied; no parameter counts given.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "All experiments are conducted across five random seeds.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "All experiments are conducted across five random seeds.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "All experiments are conducted across five random seeds.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "All experiments are conducted across five random seeds.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "All experiments are conducted across five random seeds.",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "All experiments are conducted across five random seeds.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "All experiments are conducted across five random seeds.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "Performance of DT trained on different offline dataset sizes (left) and using a different number of hidden layers (right) averaged across all “point” mazes.",
+          "justification": "The ablation varies dataset size and number of hidden layers as shown in Fig. 7.",
+          "value": [
+            {
+              "kind": "seed",
+              "count": 5,
+              "what": "random seeds"
+            },
+            {
+              "kind": "hyperparameter",
+              "count": 3,
+              "what": "offline dataset sizes (1e5, 1e6, 1e7)"
+            },
+            {
+              "kind": "hyperparameter",
+              "count": 4,
+              "what": "number of hidden layers (3, 4, 5, 6)"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "Decision Transformer",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "didactic MDP datasets (v1, stochastic-v1, v2, stochastic-v2)",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Outcome Conditional behavioral cloning (OCBC)"
+          },
+          {
+            "name": "AdamW"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "In v1 , 3/10 random seeds of DT are successfully able to navigate from states 1 to 4, while 7/10 fail.",
+          "justification": "DT is trained on didactic MDP offline datasets for the spurious correlation experiments.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "we use two offline datasets collected from a simple didactic MDP",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "the DT model picks up on one of two spurious relations present in the dataset",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "In stochastic-v1, we see that all 10 seeds of DT fail.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "In stochastic-v1, we see that all 10 seeds of DT fail.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "In stochastic-v1, we see that all 10 seeds of DT fail.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "In stochastic-v1, we see that all 10 seeds of DT fail.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "In stochastic-v1, we see that all 10 seeds of DT fail.",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "In stochastic-v1, we see that all 10 seeds of DT fail.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "In stochastic-v1, we see that all 10 seeds of DT fail.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "In v2, 10/10 random seeds of DT are able to successfully navigate from states 0 to 4.",
+          "justification": "The paper reports 10 seeds on each of four didactic datasets.",
+          "value": [
+            {
+              "kind": "seed",
+              "count": 10,
+              "what": "random seeds"
+            },
+            {
+              "kind": "variant",
+              "count": 4,
+              "what": "didactic datasets v1, stochastic-v1, v2, stochastic-v2"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "usage": {
+    "input_tokens": 38650,
+    "output_tokens": 18033,
+    "total_tokens": 56683
+  }
+}

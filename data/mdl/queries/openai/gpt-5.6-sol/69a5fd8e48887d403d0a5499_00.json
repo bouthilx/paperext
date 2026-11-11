@@ -1,0 +1,631 @@
+{
+  "paper": "69a5fd8e48887d403d0a5499.txt",
+  "words": 6969,
+  "extractions": {
+    "title": {
+      "quote": "Towards Robust Saliency Maps",
+      "justification": "The paper title is printed at the beginning of the manuscript.",
+      "value": "Towards Robust Saliency Maps"
+    },
+    "description": "The paper contributes and empirically evaluates a saliency-robustness verification procedure for Vanilla Gradient, implemented by combining Marabou with Crown/LiRPA and benchmarked against Z3 on BanditNet and mnistfc_256x2.",
+    "type": {
+      "quote": "We conduct experiments on our synthetic benchmarks and dataset and a neural network from VNNCOMP23",
+      "justification": "The work proposes a method and reports timed experiments on neural networks and benchmark inputs.",
+      "value": "empirical"
+    },
+    "research_fields": [
+      {
+        "name": {
+          "quote": "we propose a novel method to solve the saliency-robustness problem more effectively, by combining two state-of-the-art techniques in neural network verification",
+          "justification": "The central technical contribution is a new verification method for neural networks.",
+          "value": "neural network verification"
+        },
+        "aliases": [
+          "NN verification"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "Saliency maps are one of the most popular tools to interpret the operation of a neural network",
+          "justification": "The paper advances the formal evaluation of saliency maps as neural-network explanations.",
+          "value": "saliency maps"
+        },
+        "aliases": [],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "we propose to use formal methods to mathematically prove or disprove a relationship between a saliency map and the prediction of the network",
+          "justification": "Formal methods are used and advanced through a new verification specification and solver construction.",
+          "value": "formal methods"
+        },
+        "aliases": [],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "ReLU activated neural networks for classification tasks",
+          "justification": "Neural-network classification is the application setting in which the verification method is evaluated.",
+          "value": "neural network classification"
+        },
+        "aliases": [],
+        "role": "used"
+      },
+      {
+        "name": {
+          "quote": "Adversarial attacks against neural networks and the robustness verification problem",
+          "justification": "Adversarial robustness supplies the verification formulation and VNNCOMP evaluation regions, but the main contribution concerns saliency robustness.",
+          "value": "adversarial robustness"
+        },
+        "aliases": [],
+        "role": "used"
+      }
+    ],
+    "models": [
+      {
+        "name": {
+          "quote": "We train BanditNet, a 2 layers Fully-Connected Network with 6 neurons each",
+          "justification": "BanditNet is a separately trained learned classifier introduced and executed in the paper.",
+          "value": "BanditNet"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "We train BanditNet, a 2 layers Fully-Connected Network with 6 neurons each, on our synthetic benchmark.",
+          "justification": "The authors train this model for their experiment, making it a paper-specific contributed model.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "For BanditNet, we verify the saliency-robustness for the whole input domain",
+          "justification": "The paper trains and then runs verification computations involving BanditNet.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "We run each query using both Z3 and Marabou+Crown/LiRPA",
+          "justification": "The solvers are compared, not BanditNet against another model.",
+          "value": false
+        },
+        "execution_mode": {
+          "quote": "We train BanditNet",
+          "justification": "Training has precedence over its later verification-time execution.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "We train BanditNet",
+          "justification": "BanditNet is introduced in this paper and has no external reference paper.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "the pre-trained model mnistfc_256x2, a 2-layers fully connected network with 256 neurons for each layer",
+          "justification": "This explicitly names and describes the pretrained model used in the experiments.",
+          "value": "mnistfc_256x2"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "benchmark from VNNCOMP23 ... We use the MNIST dataset and the pre-trained model mnistfc_256x2",
+          "justification": "The model is obtained as a pretrained VNNCOMP23 benchmark artifact rather than contributed by this paper.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "our method ... scales to the mnistfc_256x2 pre-trained network used in VNNCOMP23",
+          "justification": "The authors execute their verification method on this network.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "We use the MNIST dataset and the pre-trained model mnistfc_256x2",
+          "justification": "Only one MNIST model is evaluated; the numerical comparisons concern verification methods and configurations.",
+          "value": false
+        },
+        "execution_mode": {
+          "quote": "the pre-trained model mnistfc_256x2",
+          "justification": "The paper does not train or finetune it; it executes forward/gradient and verification computations on the pretrained model.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "The third international verification of neural networks competition (vnn-comp 2022): Summary and results",
+          "justification": "This is the title in the references for the cited VNNCOMP benchmark source.",
+          "value": "The third international verification of neural networks competition (vnn-comp 2022): Summary and results"
+        }
+      }
+    ],
+    "data_sources": [
+      {
+        "name": {
+          "quote": "We use the MNIST dataset",
+          "justification": "MNIST is the named dataset supplying experimental images.",
+          "value": "MNIST"
+        },
+        "aliases": [],
+        "role": "used",
+        "size": {
+          "quote": "We use the MNIST dataset",
+          "justification": "The paper does not state the number of MNIST samples used.",
+          "value": "unknown"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "We use the MNIST dataset",
+          "justification": "No MNIST reference-paper title appears in the supplied references.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "benchmark from VNNCOMP23 (Müller et al., 2023) – the annual neural network verification competition",
+          "justification": "The paper consumes named VNNCOMP23 benchmark instances/regions in its evaluation.",
+          "value": "VNNCOMP23"
+        },
+        "aliases": [
+          "VNNCOMP23 benchmarks"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "Marabou can find adversarial examples in 10 regions centered at 7 inputs at 2 different epsilon values",
+          "justification": "This is the explicitly stated portion of the VNNCOMP23 benchmark used for the main MNIST-region experiment.",
+          "value": "10 regions centered at 7 inputs at 2 different epsilon values"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "The third international verification of neural networks competition (vnn-comp 2022): Summary and results",
+          "justification": "This is the cited Müller et al. reference title associated with VNNCOMP.",
+          "value": "The third international verification of neural networks competition (vnn-comp 2022): Summary and results"
+        }
+      }
+    ],
+    "libraries": [
+      {
+        "name": {
+          "quote": "an off-the-shelf SMT solver such as Z3",
+          "justification": "Z3 is an explicitly used solver software artifact.",
+          "value": "Z3"
+        },
+        "aliases": [],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "Z3: An efficient smt solver.",
+          "justification": "This is the Z3 paper title in the references.",
+          "value": "Z3: An efficient smt solver"
+        }
+      },
+      {
+        "name": {
+          "quote": "we use Marabou (Katz et al., 2019), a dedicated state-of-the-art constraint-based NN verifier as the core solver",
+          "justification": "Marabou is explicitly used as the core solver.",
+          "value": "Marabou"
+        },
+        "aliases": [],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "The marabou framework for verification and analysis of deep neural networks.",
+          "justification": "This is the referenced Marabou paper title.",
+          "value": "The marabou framework for verification and analysis of deep neural networks"
+        }
+      },
+      {
+        "name": {
+          "quote": "we use Crown/LiRPA (Shi et al., 2022) ... to precompute the Jacobian bounds to use with Marabou",
+          "justification": "Crown/LiRPA is explicitly used to compute bounds.",
+          "value": "Crown/LiRPA"
+        },
+        "aliases": [
+          "Crown",
+          "LiRPA"
+        ],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "Efficiently computing local lipschitz constants of neural networks via bound propagation.",
+          "justification": "This is the cited Shi et al. reference tied to the employed Jacobian-bound computation.",
+          "value": "Efficiently computing local lipschitz constants of neural networks via bound propagation"
+        }
+      }
+    ],
+    "algorithms": [
+      {
+        "name": {
+          "quote": "called saliency-robustness",
+          "justification": "This is the paper's exact name for its contributed verification specification/procedure.",
+          "value": "saliency-robustness"
+        },
+        "aliases": [
+          "saliency-robustness problem",
+          "saliency-robustness property"
+        ],
+        "is_contributed": {
+          "quote": "We propose a novel safety property for a neural network and its Vanilla Gradient saliency map, called saliency-robustness.",
+          "justification": "The paper explicitly labels it novel and a contribution.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "For BanditNet, we verify the saliency-robustness for the whole input domain",
+          "justification": "The property is instantiated and solved in the experiments.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "compare the performance between Z3 ... and our proposed method",
+          "justification": "The computation for this property is solved by two approaches whose numerical timings/results are compared.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "aims to verify whether a Vanilla Gradient saliency map can serve as an explanation or certification for a prediction",
+          "justification": "This directly states the procedure's role in the paper.",
+          "value": "verify whether a Vanilla Gradient saliency map can serve as an explanation or certification for a prediction"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "We propose a novel verification problem, called saliency-robustness",
+          "justification": "It is introduced by this paper, so there is no external reference-paper title.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "Vanilla Gradient (VG)",
+          "justification": "The paper uses this exact saliency-map procedure in its proposed specification and experiments.",
+          "value": "Vanilla Gradient (VG)"
+        },
+        "aliases": [
+          "Vanilla Gradient",
+          "VG"
+        ],
+        "is_contributed": {
+          "quote": "Vanilla Gradient (VG) (Baehrens et al., 2010)",
+          "justification": "It is attributed to prior work rather than contributed here.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we evaluate the saliency-robustness of the Vanilla Gradient",
+          "justification": "The experiments compute and verify Vanilla Gradient saliency maps.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "In this work, we focus on Vanilla Gradient.",
+          "justification": "Other saliency methods are discussed, but no numerical comparison against them is executed.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "the map computes the gradient explanation",
+          "justification": "This is the paper's description of Vanilla Gradient's operation.",
+          "value": "computes the gradient explanation"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "How to explain individual classification decisions.",
+          "justification": "This is the Baehrens et al. reference title cited for Vanilla Gradient.",
+          "value": "How to explain individual classification decisions"
+        }
+      },
+      {
+        "name": {
+          "quote": "Marabou+Crown/LiRPA",
+          "justification": "The experiments use this exact label for the proposed combined solving procedure.",
+          "value": "Marabou+Crown/LiRPA"
+        },
+        "aliases": [
+          "Marabou + Crown/LiRPA",
+          "our method"
+        ],
+        "is_contributed": {
+          "quote": "we propose a method combining constraint-based neural network verifier with Jacobian bounding to solve it more effectively",
+          "justification": "The combination is the paper's contributed solver method.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "We run each query using both Z3 and Marabou+Crown/LiRPA",
+          "justification": "The method is explicitly run on the experimental queries.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "compare the performance between Z3 – a state-of-the-art SMT solver, and our proposed method",
+          "justification": "Its performance is numerically compared with Z3.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "to precompute the Jacobian bounds to use with Marabou",
+          "justification": "The combined method uses Crown/LiRPA bounds in the Marabou solver to solve saliency-robustness.",
+          "value": "precompute the Jacobian bounds to use with Marabou and solve the saliency-robustness problem"
+        },
+        "composed_of": [
+          "Marabou",
+          "Crown/LiRPA"
+        ],
+        "referenced_paper_title": {
+          "quote": "we propose a method combining constraint-based neural network verifier with Jacobian bounding",
+          "justification": "The combination itself is introduced here, although its components cite prior papers.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "Crown-Optimized method",
+          "justification": "The paper explicitly names this bound-computation method and uses it in the reference configuration.",
+          "value": "Crown-Optimized method"
+        },
+        "aliases": [
+          "Crown-Optimized"
+        ],
+        "is_contributed": {
+          "quote": "Unless specified otherwise, we use the Crown-Optimized method in Crown/LiRPA",
+          "justification": "It is an existing method provided by Crown/LiRPA, not introduced here.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Unless specified otherwise, we use the Crown-Optimized method in Crown/LiRPA",
+          "justification": "The paper explicitly says it uses this method.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "we turn off all optimizations in Crown/LiRPA, and another experiment in which we keep the same set of optimizations but use the default number of refinement iterations (20)",
+          "justification": "Optimized, unoptimized, and iteration-count configurations are numerically compared in Table 3.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "to obtain looser bounds, then set them in Marabou",
+          "justification": "It controls the Jacobian bounds supplied to Marabou in the bound-tightness experiment.",
+          "value": "obtain Jacobian bounds that are set in Marabou"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Efficiently computing local lipschitz constants of neural networks via bound propagation.",
+          "justification": "This is the cited Crown/LiRPA bound-propagation paper.",
+          "value": "Efficiently computing local lipschitz constants of neural networks via bound propagation"
+        }
+      }
+    ],
+    "runs": [
+      {
+        "models": [
+          {
+            "name": "BanditNet",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [],
+        "algorithms": [],
+        "produces": [],
+        "execution_mode": {
+          "quote": "We train BanditNet, a 2 layers Fully-Connected Network with 6 neurons each, on our synthetic benchmark.",
+          "justification": "This is the model-fitting stage. The synthetic benchmark is unnamed and therefore is not catalogued as a Data Source.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "We train BanditNet",
+          "justification": "No epoch count is stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "a 2 layers Fully-Connected Network with 6 neurons each",
+          "justification": "The architecture is stated, but no total parameter count is explicitly given.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "We train BanditNet",
+          "justification": "The paper does not identify the hardware used for this training stage.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "We train BanditNet",
+          "justification": "No accelerator model is stated for training.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "We train BanditNet",
+          "justification": "No accelerator count is stated for training.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "We train BanditNet",
+          "justification": "Training precision is not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "We train BanditNet",
+          "justification": "No training parallelism strategy is stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "We train BanditNet",
+          "justification": "Training duration is not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "We train BanditNet",
+          "justification": "Hardware utilisation is not reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "We train BanditNet",
+          "justification": "No seeds or other multiplicative training repetitions are stated.",
+          "value": []
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "BanditNet",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [],
+        "algorithms": [
+          {
+            "name": "saliency-robustness"
+          },
+          {
+            "name": "Vanilla Gradient (VG)"
+          },
+          {
+            "name": "Marabou+Crown/LiRPA"
+          },
+          {
+            "name": "Crown-Optimized method"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "For BanditNet, we verify the saliency-robustness for the whole input domain",
+          "justification": "This stage executes the trained model and its gradients for verification without fitting parameters.",
+          "value": "inference"
+        },
+        "epochs": {
+          "quote": "For BanditNet, we verify the saliency-robustness",
+          "justification": "Epochs do not apply to this inference/verification stage.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "a 2 layers Fully-Connected Network with 6 neurons each",
+          "justification": "No explicit total parameter count is stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "Experiments are run on a c5a.16xlarge EC2 instances with 64 cores and 124GB of RAM.",
+          "justification": "The experimental solvers run on a many-core EC2 CPU instance.",
+          "value": "cpu"
+        },
+        "accelerator_model": {
+          "quote": "c5a.16xlarge EC2 instances",
+          "justification": "This is the specific compute-instance model stated by the paper.",
+          "value": "c5a.16xlarge EC2 instance"
+        },
+        "accelerator_count": {
+          "quote": "we allow the solver to use up to 30 cores",
+          "justification": "The paper states the maximum CPU-core allocation per solver query.",
+          "value": "up to 30 cores"
+        },
+        "precision": {
+          "quote": "One thread to validity is the soundness of floating point arithmetic",
+          "justification": "Floating-point arithmetic is mentioned, but no standard precision such as fp32 or fp64 is specified.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "we allow the solver to use up to 30 cores",
+          "justification": "Multiple cores are allowed, but the paper does not identify data, tensor, pipeline, or expert parallelism.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "The timeout for each query is set to 10 minutes.",
+          "justification": "A timeout is not the actual duration of the run, and the paper reports heterogeneous per-query timings rather than one run duration.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "Experiments are run on a c5a.16xlarge EC2 instances with 64 cores and 124GB of RAM.",
+          "justification": "No utilisation percentage or equivalent measure is reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "at different values of δ ranging from 0.5 to 1.5. We run each query using both Z3 and Marabou+Crown/LiRPA",
+          "justification": "The excerpt does not explicitly state a structured total repetition count; the table entries are query configurations, so no repetition factor is inferred.",
+          "value": []
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "mnistfc_256x2",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "MNIST",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          },
+          {
+            "name": "VNNCOMP23",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "saliency-robustness"
+          },
+          {
+            "name": "Vanilla Gradient (VG)"
+          },
+          {
+            "name": "Marabou+Crown/LiRPA"
+          },
+          {
+            "name": "Crown-Optimized method"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "we look at inputs in the benchmarks that are known to have adversarial examples in their vicinity",
+          "justification": "The pretrained network is evaluated and verified on fixed benchmark inputs, with no parameter fitting.",
+          "value": "inference"
+        },
+        "epochs": {
+          "quote": "the pre-trained model mnistfc_256x2",
+          "justification": "Epochs do not apply to this inference/verification run and none are stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "a 2-layers fully connected network with 256 neurons for each layer",
+          "justification": "Layer widths are given but no explicit total parameter count is stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "Experiments are run on a c5a.16xlarge EC2 instances with 64 cores and 124GB of RAM.",
+          "justification": "The experiments use a many-core EC2 CPU instance.",
+          "value": "cpu"
+        },
+        "accelerator_model": {
+          "quote": "c5a.16xlarge EC2 instances",
+          "justification": "This is the named compute-instance model.",
+          "value": "c5a.16xlarge EC2 instance"
+        },
+        "accelerator_count": {
+          "quote": "we allow the solver to use up to 30 cores",
+          "justification": "This is the stated maximum core allocation for each solver.",
+          "value": "up to 30 cores"
+        },
+        "precision": {
+          "quote": "One thread to validity is the soundness of floating point arithmetic",
+          "justification": "The paper does not specify fp32, fp64, or another numerical precision.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "we allow the solver to use up to 30 cores",
+          "justification": "Core-level concurrency is stated, but no schema-listed model parallelism strategy is identified.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "The timeout for each query is set to 10 minutes.",
+          "justification": "This gives a timeout rather than a single actual duration; completed queries have varying timings.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "Experiments are run on a c5a.16xlarge EC2 instances with 64 cores and 124GB of RAM.",
+          "justification": "No hardware-utilisation figure is reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "Marabou can find adversarial examples in 10 regions centered at 7 inputs at 2 different epsilon values",
+          "justification": "These are benchmark regions/examples processed, not random seeds or a stated repetition factor, so they are not recorded as repetitions.",
+          "value": []
+        }
+      }
+    ]
+  },
+  "usage": {
+    "input_tokens": 25188,
+    "output_tokens": 6862,
+    "total_tokens": 32050
+  }
+}

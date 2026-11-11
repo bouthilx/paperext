@@ -1,0 +1,1359 @@
+{
+  "paper": "69a5fd9448887d403d0a555b.txt",
+  "words": 24676,
+  "extractions": {
+    "title": {
+      "quote": "Trained Without My Consent: Detecting Code Inclusion In Language Models Trained on Code",
+      "justification": "Title page",
+      "value": "Trained Without My Consent: Detecting Code Inclusion In Language Models Trained on Code"
+    },
+    "description": "The paper proposes TraWiC, a model-agnostic, interpretable membership-inference-based approach to detect whether code from a project was included in an LLM's training dataset. It extracts syntactic and semantic identifiers from scripts, masks them, queries LLMs (SantaCoder, Llama-2 7B, Mistral 7B) under a Fill-In-the-Middle objective, compares outputs by exact match or Levenshtein edit distance, and trains classifiers (random forest, XGBoost, SVM) on hit features. Results are compared against code clone detectors NiCad and JPlag.",
+    "type": {
+      "quote": "In our experiments, we observe that TraWiC is capable of detecting 83.87% of codes that were used to train an LLM.",
+      "justification": "The paper runs experiments with LLMs, fine-tuning, classifiers and reports performance metrics.",
+      "value": "empirical"
+    },
+    "research_fields": [
+      {
+        "name": {
+          "quote": "Large Language Models (LLM) which are now being used for various Software Engineering (SE) tasks",
+          "justification": "The paper addresses code auditing, licensing and clone detection within SE.",
+          "value": "Software Engineering"
+        },
+        "aliases": [
+          "SE"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "we propose a new approach, TraWiC; a model-agnostic and interpretable method based on membership inference for detecting code inclusion in an LLM’s training dataset.",
+          "justification": "The approach is based on membership inference, and the paper advances its application to code.",
+          "value": "Membership Inference Attack"
+        },
+        "aliases": [
+          "MIA"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "Code Clone Detection (CCD) is a widely researched area and is an important aspect of software quality assurance.",
+          "justification": "Used as a baseline/comparison venue.",
+          "value": "Code Clone Detection"
+        },
+        "aliases": [
+          "CCD"
+        ],
+        "role": "used"
+      },
+      {
+        "name": {
+          "quote": "One of the highly active fields of research in ML is Natural Language Processing (NLP).",
+          "justification": "Mentioned as the field where LLMs are developed.",
+          "value": "Natural Language Processing"
+        },
+        "aliases": [
+          "NLP"
+        ],
+        "role": "referenced"
+      },
+      {
+        "name": {
+          "quote": "TraWiC is designed to work with LLMs trained on code",
+          "justification": "The study's subject models.",
+          "value": "Large Language Models"
+        },
+        "aliases": [
+          "LLMs"
+        ],
+        "role": "used"
+      }
+    ],
+    "models": [
+      {
+        "name": {
+          "quote": "SantaCoder is an LLM trained by HuggingFace on TheStack for program synthesis",
+          "justification": "One of the three LLMs under study.",
+          "value": "SantaCoder"
+        },
+        "aliases": [
+          "comment_to_code model"
+        ],
+        "is_contributed": {
+          "quote": "SantaCoder is an LLM trained by HuggingFace on TheStack",
+          "justification": "Existing model by HuggingFace.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "the given model is queried to predict the masked element given prefix and suffix as input",
+          "justification": "Inference queries were made on SantaCoder to predict masked elements.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Table 2. Results of TraWiC’s code inclusion detection with different edit distance thresholds on SantaCoder",
+          "justification": "TraWiC results are reported across the three models.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "SantaCoder is trained for code completion, using the FIM objective. As such, it natively supports the FIM task that is used for TraWiC.",
+          "justification": "SantaCoder natively supports FIM so it was only queried, not fine-tuned.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "Loubna Ben Allal, ... 2023. SantaCoder: don’t reach for the stars! arXiv preprint arXiv:2301.03988 (2023).",
+          "justification": "Reference [9].",
+          "value": "SantaCoder: don't reach for the stars!"
+        }
+      },
+      {
+        "name": {
+          "quote": "Llama-2 is a family of LLMs developed by Meta [71].",
+          "justification": "One of the models under study, fine-tuned for FIM.",
+          "value": "Llama-2"
+        },
+        "aliases": [
+          "Llama-2 7B",
+          "Llama"
+        ],
+        "is_contributed": {
+          "quote": "Llama-2 is a family of LLMs developed by Meta",
+          "justification": "Existing model by Meta.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "For our experiments, we use the pre-trained version with 7 billion parameters and fine-tune it on a dataset that we have constructed.",
+          "justification": "Fine-tuned and queried.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Table 3. Results of TraWiC’s code inclusion detection with different edit distance thresholds on Llama-2",
+          "justification": "Compared with Mistral and SantaCoder in TraWiC performance tables.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "we use the Quantized Low-Rank Adaption (QLoRA) [24] approach which is a parameter-efficient fine-tuning (PEFT) method",
+          "justification": "Fine-tuned with QLoRA for FIM.",
+          "value": "finetune"
+        },
+        "referenced_paper_title": {
+          "quote": "Hugo Touvron, Louis Martin, Kevin Stone, ... 2023. Llama 2: Open foundation and fine-tuned chat models.",
+          "justification": "Reference [71].",
+          "value": "Llama 2: Open foundation and fine-tuned chat models"
+        }
+      },
+      {
+        "name": {
+          "quote": "Mistral 7B [38] is a 7-billion-parameter LLM developed by the Mistral research group",
+          "justification": "One of the models under study.",
+          "value": "Mistral 7B"
+        },
+        "aliases": [
+          "Mistral"
+        ],
+        "is_contributed": {
+          "quote": "Mistral 7B [38] is a 7-billion-parameter LLM developed by the Mistral research group",
+          "justification": "Existing model.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Therefore, for our experiments, we first construct a dataset and fine-tune both models on the constructed dataset.",
+          "justification": "Fine-tuned and queried.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Table 4. Results of TraWiC’s code inclusion detection with different edit distance thresholds on Mistral",
+          "justification": "Results reported and compared against Llama-2 and SantaCoder.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "we use the dataset that we constructed from GitHub repositories as described in Section 4.2, to fine-tune the models for the FIM objective",
+          "justification": "Fine-tuned for the FIM objective.",
+          "value": "finetune"
+        },
+        "referenced_paper_title": {
+          "quote": "Albert Q Jiang, ... 2023. Mistral 7B. arXiv preprint arXiv:2310.06825 (2023).",
+          "justification": "Reference [38].",
+          "value": "Mistral 7B"
+        }
+      },
+      {
+        "name": {
+          "quote": "We have chosen to use random forests as the classifier for our experiments",
+          "justification": "The classifier used for dataset inclusion detection.",
+          "value": "random forest"
+        },
+        "aliases": [
+          "RF"
+        ],
+        "is_contributed": {
+          "quote": "We have chosen to use random forests as the classifier for our experiments",
+          "justification": "Standard classifier.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "the classifier’s task is to detect whether a script was included in the LLM’s training dataset",
+          "justification": "Trained on the constructed features.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "random forests outperform both XGB and SVM across all edit distance thresholds",
+          "justification": "Compared against XGB and SVM.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "Both SVM and XGB classifiers were trained on the same dataset as the random forest model.",
+          "justification": "Trained on the constructed dataset.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "We have chosen to use random forests as the classifier for our experiments",
+          "justification": "No specific reference paper for random forest given.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "we have also experimented with XGBoost (XGB) and Support Vector Machine (SVM) classifiers",
+          "justification": "Alternative classifier experimented with.",
+          "value": "XGBoost (XGB)"
+        },
+        "aliases": [
+          "XGB"
+        ],
+        "is_contributed": {
+          "quote": "we have also experimented with XGBoost (XGB)",
+          "justification": "Standard classifier.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Both SVM and XGB classifiers were trained on the same dataset as the random forest model.",
+          "justification": "Trained and evaluated.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Table 6. Performance comparison of different classifiers on the generated dataset",
+          "justification": "Compared in Table 6.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "Both SVM and XGB classifiers were trained on the same dataset as the random forest model.",
+          "justification": "Trained on the constructed dataset.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "we have also experimented with XGBoost (XGB) and Support Vector Machine (SVM) classifiers",
+          "justification": "No reference given.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "we have also experimented with XGBoost (XGB) and Support Vector Machine (SVM) classifiers",
+          "justification": "Alternative classifier experimented with.",
+          "value": "Support Vector Machine (SVM)"
+        },
+        "aliases": [
+          "SVM"
+        ],
+        "is_contributed": {
+          "quote": "Support Vector Machine (SVM) classifiers",
+          "justification": "Standard classifier.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Both SVM and XGB classifiers were trained on the same dataset as the random forest model.",
+          "justification": "Trained and evaluated.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Table 11. Results of TraWiC’s code inclusion detection with different edit distance thresholds - SVM",
+          "justification": "Compared in Table 6 and Table 11.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "Both SVM and XGB classifiers were trained on the same dataset as the random forest model.",
+          "justification": "Trained on the constructed dataset.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "Support Vector Machine (SVM) classifiers",
+          "justification": "No reference given.",
+          "value": "unknown"
+        }
+      }
+    ],
+    "data_sources": [
+      {
+        "name": {
+          "quote": "TheStack4 is a large dataset (3 terabytes) of code collected from GitHub by HuggingFace5.",
+          "justification": "Main dataset used, SantaCoder's training corpus.",
+          "value": "TheStack"
+        },
+        "aliases": [
+          "The Stack"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "Our analysis for SantaCoder was conducted on 263 repositories extracted from TheStack, totaling 9,409 scripts with 1,866 scripts not included in SantaCoder’s training dataset.",
+          "justification": "Multiple size statements given in the paper.",
+          "value": "3 terabytes; 137.36 million repositories; 106.91 million Python scripts; analysis on 263 repositories totaling 9,409 scripts"
+        },
+        "derived_from": [],
+        "sample_properties": [
+          {
+            "name": "scripts per project (filter)",
+            "value": {
+              "quote": "we first filter the Python projects by considering a minimum of 10 and a maximum of 50 scripts per project",
+              "justification": "Filtering criterion stated.",
+              "value": "a minimum of 10 and a maximum of 50 scripts per project"
+            },
+            "unit": "scripts"
+          }
+        ],
+        "referenced_paper_title": {
+          "quote": "Denis Kocetkov, ... 2022. The Stack: 3 TB of permissively licensed source code.",
+          "justification": "Reference [40].",
+          "value": "The Stack: 3 TB of permissively licensed source code"
+        }
+      },
+      {
+        "name": {
+          "quote": "we construct a dataset from GitHub repositories that were published after the release of both Mistral and Llama-2 (September 2023).",
+          "justification": "Dataset constructed from GitHub repos published after Mistral/Llama-2 release.",
+          "value": "GitHub repositories"
+        },
+        "aliases": [
+          "constructed GitHub dataset"
+        ],
+        "role": "contributed",
+        "size": {
+          "quote": "The resulting dataset contains over 1355 Python scripts from 51 repositories out of which 20000 data points ... were constructed.",
+          "justification": "Explicitly stated.",
+          "value": "over 1355 Python scripts from 51 repositories out of which 20000 data points"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "we construct a dataset from GitHub repositories that were published after the release of both Mistral and Llama-2",
+          "justification": "No reference paper; it is the authors' own constructed dataset.",
+          "value": "unknown"
+        }
+      }
+    ],
+    "libraries": [
+      {
+        "name": {
+          "quote": "we compare TraWiC against two of the widely used open-source code clone detectors, NiCad [59] and JPlag [75]",
+          "justification": "Clone detection tool used as baseline.",
+          "value": "NiCad"
+        },
+        "aliases": [],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "Chanchal K Roy and James R Cordy. 2008. NICAD: Accurate detection of near-miss intentional clones using flexible pretty-printing and code normalization.",
+          "justification": "Reference [59].",
+          "value": "NICAD: Accurate detection of near-miss intentional clones using flexible pretty-printing and code normalization"
+        }
+      },
+      {
+        "name": {
+          "quote": "For the purpose of this study, we use the latest version of JPlag6.",
+          "justification": "Clone detection tool used as baseline.",
+          "value": "JPlag"
+        },
+        "aliases": [],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "Lutz Prechelt, Guido Malpohl, Michael Philippsen, et al. 2002. Finding plagiarisms among a set of programs with JPlag.",
+          "justification": "Reference [53].",
+          "value": "Finding plagiarisms among a set of programs with JPlag"
+        }
+      },
+      {
+        "name": {
+          "quote": "using the ast and tokenize modules to extract docstrings and comments from Python files",
+          "justification": "Python module used for extracting docstrings/comments.",
+          "value": "ast"
+        },
+        "aliases": [],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "using the ast and tokenize modules",
+          "justification": "Standard Python module, no reference.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "using the ast and tokenize modules to extract docstrings and comments from Python files",
+          "justification": "Python module used for extracting docstrings/comments.",
+          "value": "tokenize"
+        },
+        "aliases": [],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "using the ast and tokenize modules",
+          "justification": "Standard Python module, no reference.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "We release TraWiC’s code alongside our data to be used by other researchers and studies [72].",
+          "justification": "The released code of the approach.",
+          "value": "TraWiC"
+        },
+        "aliases": [],
+        "role": "contributed",
+        "referenced_paper_title": {
+          "quote": "trawic. 2024. TraWiC. https://github.com/CommissarSilver/TraWiC.",
+          "justification": "Reference [72] is the replication package.",
+          "value": "TraWiC"
+        }
+      },
+      {
+        "name": {
+          "quote": "NiCad employs a parser-based, language-specific approach using the TXL transformation system",
+          "justification": "Mentioned as the system NiCad employs.",
+          "value": "TXL transformation system"
+        },
+        "aliases": [
+          "TXL"
+        ],
+        "role": "referenced",
+        "referenced_paper_title": {
+          "quote": "using the TXL transformation system to extract and normalize potential code clones",
+          "justification": "No reference given.",
+          "value": "unknown"
+        }
+      }
+    ],
+    "algorithms": [
+      {
+        "name": {
+          "quote": "we propose a new approach, TraWiC; a model-agnostic and interpretable method based on membership inference for detecting code inclusion in an LLM’s training dataset.",
+          "justification": "The contributed approach.",
+          "value": "TraWiC"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "We propose a model-agnostic, interpretable, and efficient approach for dataset inclusion detection for LLMs.",
+          "justification": "Main contribution.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "In our experiments, we observe that TraWiC is capable of detecting 83.87% of codes that were used to train an LLM.",
+          "justification": "Run across three models.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Our approach outperforms the widely used code clone detection tools NiCad and JPlag.",
+          "justification": "Compared with NiCad and JPlag.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "TraWiC: A model-agnostic, interpretable approach that exploits the memorization ability of LLMs trained on code to detect whether codes from a project (collection of codes) were included in a model’s training dataset.",
+          "justification": "Paper's own description.",
+          "value": "A model-agnostic, interpretable approach that exploits the memorization ability of LLMs trained on code to detect whether codes from a project were included in a model's training dataset."
+        },
+        "composed_of": [
+          "pre-processing",
+          "inference",
+          "comparison",
+          "classification"
+        ],
+        "referenced_paper_title": {
+          "quote": "we present TraWiC",
+          "justification": "This is the paper's own contribution.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "we apply the Fill-In-the-Middle (FIM) technique which is commonly used in both pre-training and fine-tuning of LLMs [12]",
+          "justification": "The infilling technique used for querying/fine-tuning.",
+          "value": "Fill-In-the-Middle (FIM)"
+        },
+        "aliases": [
+          "FIM"
+        ],
+        "is_contributed": {
+          "quote": "which is commonly used in both pre-training and fine-tuning of LLMs [12]",
+          "justification": "Existing technique.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "In order to fine-tune the models for the FIM objective, we use the same prompt format as the one which was used to train SantaCoder.",
+          "justification": "Used to query models and fine-tune.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "we apply the Fill-In-the-Middle (FIM) technique",
+          "justification": "Not numerically compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "This technique consists of breaking a script into three parts: prefix, masked element, and suffix. The model is then tasked to predict the masked element given the prefix and suffix as input.",
+          "justification": "Paper's own description.",
+          "value": "breaking a script into three parts: prefix, masked element, and suffix; the model is then tasked to predict the masked element given the prefix and suffix as input"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Mohammad Bavarian, ... 2022. Efficient Training of Language Models to Fill in the Middle.",
+          "justification": "Reference [12].",
+          "value": "Efficient Training of Language Models to Fill in the Middle"
+        }
+      },
+      {
+        "name": {
+          "quote": "we use the Quantized Low-Rank Adaption (QLoRA) [24] approach which is a parameter-efficient fine-tuning (PEFT) method [26]",
+          "justification": "Fine-tuning method used.",
+          "value": "Quantized Low-Rank Adaption (QLoRA)"
+        },
+        "aliases": [
+          "QLoRA"
+        ],
+        "is_contributed": {
+          "quote": "Quantized Low-Rank Adaption (QLoRA) [24]",
+          "justification": "Existing method.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "In order to fine-tune the models on our dataset for the FIM objective, we use the Quantized Low-Rank Adaption (QLoRA) [24] approach",
+          "justification": "Used to fine-tune Llama-2 and Mistral.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "we use the Quantized Low-Rank Adaption (QLoRA) [24] approach",
+          "justification": "Not compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "In order to fine-tune the models on our dataset for the FIM objective, we use the Quantized Low-Rank Adaption (QLoRA) [24] approach which is a parameter-efficient fine-tuning (PEFT) method [26].",
+          "justification": "Paper's own words.",
+          "value": "parameter-efficient fine-tuning method used to fine-tune the models on our dataset for the FIM objective"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Tim Dettmers, Artidoro Pagnoni, Ari Holtzman, and Luke Zettlemoyer. 2024. Qlora: Efficient finetuning of quantized llms.",
+          "justification": "Reference [24].",
+          "value": "Qlora: Efficient finetuning of quantized llms"
+        }
+      },
+      {
+        "name": {
+          "quote": "we use the Levenshtein distance (edit distance) score [43]",
+          "justification": "Used for comparing semantic identifiers.",
+          "value": "Levenshtein distance (edit distance)"
+        },
+        "aliases": [
+          "edit distance"
+        ],
+        "is_contributed": {
+          "quote": "we use the Levenshtein distance (edit distance) score [43]",
+          "justification": "Classical metric.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we compare the generated output with the original elements and calculate the edit distance between the two",
+          "justification": "Used in comparison stage.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "We choose the edit distance metric as we do not aim to inspect whether the model’s output is similar to the original masked element in meaning but in syntactic structure.",
+          "justification": "Not compared against alternatives numerically.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "for semantic identifiers (strings/documentation), to assess the similarity between two sequences (series of tokens), we use the Levenshtein distance (edit distance) score",
+          "justification": "Paper's own words.",
+          "value": "to assess the similarity between two sequences (series of tokens)"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "V. I. Levenshtein. 1966. Binary Codes Capable of Correcting Deletions, Insertions and Reversals.",
+          "justification": "Reference [43].",
+          "value": "Binary Codes Capable of Correcting Deletions, Insertions and Reversals"
+        }
+      },
+      {
+        "name": {
+          "quote": "we employed the grid search methodology which involves an exhaustive exploration of hyperparameters [41]",
+          "justification": "Used for hyperparameter selection.",
+          "value": "grid search"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "we employed the grid search methodology",
+          "justification": "Standard method.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "For optimal classifier selection, we employed the grid search methodology",
+          "justification": "Used to select the best classifiers.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "we employed the grid search methodology which involves an exhaustive exploration of hyperparameters",
+          "justification": "Not compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "For optimal classifier selection, we employed the grid search methodology which involves an exhaustive exploration of hyperparameters [41], where for each model, we evaluated various combinations of settings.",
+          "justification": "Paper's own words.",
+          "value": "optimal classifier selection via exhaustive exploration of hyperparameters"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Yann LeCun, Yoshua Bengio, and Geoffrey Hinton. 2015. Deep learning.",
+          "justification": "Reference [41] cited alongside.",
+          "value": "Deep learning"
+        }
+      },
+      {
+        "name": {
+          "quote": "We first analyze the constructed dataset for training the classification models using Spearman’s rank correlation coefficient [80]",
+          "justification": "Used in feature analysis.",
+          "value": "Spearman’s rank correlation coefficient"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "using Spearman’s rank correlation coefficient [80]",
+          "justification": "Standard statistic.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Figure 4 displays the correlation analysis of the extracted features",
+          "justification": "Correlation analysis conducted.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "using Spearman’s rank correlation coefficient [80] to assess the relationship between the constructed features of the dataset",
+          "justification": "Not compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "to assess the relationship between the constructed features of the dataset",
+          "justification": "Paper's own words.",
+          "value": "to assess the relationship between the constructed features of the dataset"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Jerrold H Zar. 2005. Spearman rank correlation.",
+          "justification": "Reference [80].",
+          "value": "Spearman rank correlation"
+        }
+      },
+      {
+        "name": {
+          "quote": "we analyze the classification models’ feature importance using the gini importance criterion [14]",
+          "justification": "Used for feature importance analysis.",
+          "value": "gini importance criterion"
+        },
+        "aliases": [
+          "Gini impurity"
+        ],
+        "is_contributed": {
+          "quote": "using the gini importance criterion [14]",
+          "justification": "Standard criterion.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Figure 3 displays different feature importance distributions",
+          "justification": "Feature importance figures produced.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "we analyze the classification models’ feature importance using the gini importance criterion",
+          "justification": "Not compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "we analyze the classification models’ feature importance using the gini importance criterion [14]",
+          "justification": "Paper's own words.",
+          "value": "analyze the classification models’ feature importance"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Leo Breiman. 2017. Classification and regression trees.",
+          "justification": "Reference [14].",
+          "value": "Classification and regression trees"
+        }
+      },
+      {
+        "name": {
+          "quote": "comparing these strings using the “Greedy String Tiling” [75] algorithm",
+          "justification": "Algorithm used by JPlag.",
+          "value": "Greedy String Tiling"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "comparing these strings using the “Greedy String Tiling” [75] algorithm",
+          "justification": "Existing algorithm within JPlag.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "JPlag [53] compares the similarity of programs in two phases: converting programs into token strings and comparing these strings using the “Greedy String Tiling” [75] algorithm.",
+          "justification": "Executed as part of running JPlag.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "comparing these strings using the “Greedy String Tiling” [75] algorithm",
+          "justification": "Not independently compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "This algorithm identifies the longest common substrings between two token strings and marks them as tiles.",
+          "justification": "Paper's own words.",
+          "value": "identifies the longest common substrings between two token strings and marks them as tiles"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Michael J Wise. 1993. String similarity via greedy string tiling and running Karp-Rabin matching.",
+          "justification": "Reference [75].",
+          "value": "String similarity via greedy string tiling and running Karp-Rabin matching"
+        }
+      },
+      {
+        "name": {
+          "quote": "Previous works have used exact memorization [70] and name cloze [19] approaches to analyze the outputs of a model for detecting dataset inclusion.",
+          "justification": "Prior MIA approach discussed and contrasted.",
+          "value": "name cloze"
+        },
+        "aliases": [
+          "name cloze prediction"
+        ],
+        "is_contributed": {
+          "quote": "Chang et al. [19] attempt to probe ChatGPT and GPT-4 by using “name cloze” membership inference queries.",
+          "justification": "Prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Using name cloze prediction, similar to exact memorization, would entail breaking down the code into 𝑛 parts",
+          "justification": "Discussed, not run in this paper.",
+          "value": false
+        },
+        "is_compared": {
+          "quote": "In comparison, TraWiC benefits from the best aspects of both approaches.",
+          "justification": "Discussed qualitatively only.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "Previous works have used exact memorization [70] and name cloze [19] approaches to analyze the outputs of a model for detecting dataset inclusion.",
+          "justification": "Paper's framing.",
+          "value": "previous MIA approach for detecting dataset inclusion that TraWiC is contrasted against"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Kent K Chang, Mackenzie Cramer, Sandeep Soni, and David Bamman. 2023. Speak, memory: An archaeology of books known to chatgpt/gpt-4.",
+          "justification": "Reference [19].",
+          "value": "Speak, memory: An archaeology of books known to chatgpt/gpt-4"
+        }
+      },
+      {
+        "name": {
+          "quote": "Previous works have used exact memorization [70] and name cloze [19] approaches",
+          "justification": "Prior approach discussed.",
+          "value": "exact memorization"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "As an example, let us consider the exact memorization approach.",
+          "justification": "Prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Here, we would be required to break down each script in 𝑃 into 𝑛 different parts",
+          "justification": "Only discussed.",
+          "value": false
+        },
+        "is_compared": {
+          "quote": "In comparison, TraWiC benefits from the best aspects of both approaches.",
+          "justification": "Qualitative contrast only.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "Previous works have used exact memorization [70] and name cloze [19] approaches to analyze the outputs of a model for detecting dataset inclusion.",
+          "justification": "Paper's framing.",
+          "value": "previous approach for analyzing model outputs for detecting dataset inclusion"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Kushal Tirumala, Aram Markosyan, Luke Zettlemoyer, and Armen Aghajanyan. 2022. Memorization without overfitting: Analyzing the training dynamics of large language models.",
+          "justification": "Reference [70].",
+          "value": "Memorization without overfitting: Analyzing the training dynamics of large language models"
+        }
+      },
+      {
+        "name": {
+          "quote": "To simulate these scenarios, we introduce noise during the hit-count process for syntactic identifiers.",
+          "justification": "Procedure applied during hit-count for robustness/sensitivity analysis.",
+          "value": "noise injection"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "we introduce noise during the hit-count process for syntactic identifiers",
+          "justification": "A simulation procedure used in the analysis.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Results of TraWiC’s dataset inclusion detection with noise injection across different levels",
+          "justification": "Results reported across noise ratios.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "varying the levels of noise (with noise ratios of 0.1, 0.5, and 0.9) injected during the syntactic, semantic, and their combination’s hit-count process",
+          "justification": "Not compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "This noise emulates situations where the LLM produces a syntactic identifier that deviates from the original, resulting in a miss.",
+          "justification": "Paper's own words.",
+          "value": "simulates situations where the LLM produces a syntactic identifier that deviates from the original, to test robustness against data obfuscation"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "we introduce noise during the hit-count process",
+          "justification": "No reference.",
+          "value": "unknown"
+        }
+      }
+    ],
+    "runs": [
+      {
+        "models": [
+          {
+            "name": "SantaCoder",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "TheStack",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "TraWiC"
+          },
+          {
+            "name": "Fill-In-the-Middle (FIM)"
+          },
+          {
+            "name": "Levenshtein distance (edit distance)"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "After breaking the script into (prefix, suffix, masked element) tuples as shown in Algorithm 1, the given model is queried to predict the masked element given prefix and suffix as input.",
+          "justification": "SantaCoder queried to predict masked elements from TheStack scripts.",
+          "value": "inference"
+        },
+        "epochs": {
+          "quote": "the given model is queried to predict the masked element",
+          "justification": "Not applicable/not stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "SantaCoder is an LLM trained by HuggingFace on TheStack for program synthesis",
+          "justification": "Paper does not state SantaCoder's parameter count.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "the majority of these models are so large that they require computing resources that are not available outside of the enterprise",
+          "justification": "No hardware stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "While we conducted multiple experimental runs and fixed hyperparameters to ensure consistency and reproducibility",
+          "justification": "Paper mentions multiple experimental runs but not a count.",
+          "value": "unknown"
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "Llama-2",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Mistral 7B",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "GitHub repositories",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Quantized Low-Rank Adaption (QLoRA)"
+          },
+          {
+            "name": "Fill-In-the-Middle (FIM)"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "we first construct a dataset and fine-tune both models on the constructed dataset",
+          "justification": "Both models fine-tuned on the constructed dataset for FIM.",
+          "value": "finetune"
+        },
+        "epochs": {
+          "quote": "the results presented in Tables 3 and 4 are conducted on models that were fine-tuned on the dataset for 3 epochs",
+          "justification": "Stated explicitly.",
+          "value": "3 epochs"
+        },
+        "parameter_count": {
+          "quote": "we use the pre-trained version with 7 billion parameters and fine-tune it on a dataset that we have constructed",
+          "justification": "Both models are 7B.",
+          "value": "7 billion parameters"
+        },
+        "accelerator_type": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "we use the Quantized Low-Rank Adaption (QLoRA) [24] approach",
+          "justification": "QLoRA implies quantization but no explicit precision stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "both models were fine-tuned on the same dataset",
+          "justification": "Not stated.",
+          "value": "unknown"
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "Llama-2",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Mistral 7B",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "GitHub repositories",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "TraWiC"
+          },
+          {
+            "name": "Fill-In-the-Middle (FIM)"
+          },
+          {
+            "name": "Levenshtein distance (edit distance)"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "the given model is queried to predict the masked element given prefix and suffix as input",
+          "justification": "Fine-tuned models queried to predict masked elements for inclusion detection.",
+          "value": "inference"
+        },
+        "epochs": {
+          "quote": "unknown",
+          "justification": "Inference only.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "Mistral 7B [38] is a 7-billion-parameter LLM",
+          "justification": "Both models 7B.",
+          "value": "7 billion parameters"
+        },
+        "accelerator_type": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "random forest",
+            "role_in_run": "main"
+          },
+          {
+            "name": "XGBoost (XGB)",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Support Vector Machine (SVM)",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "TheStack",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "grid search"
+          },
+          {
+            "name": "gini importance criterion"
+          },
+          {
+            "name": "Spearman’s rank correlation coefficient"
+          },
+          {
+            "name": "noise injection"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "Both SVM and XGB classifiers were trained on the same dataset as the random forest model.",
+          "justification": "Classifiers trained on the hit-feature dataset derived from SantaCoder outputs.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "For optimal classifier selection, we employed the grid search methodology",
+          "justification": "Grid search combinations stated but no total count.",
+          "value": "unknown"
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "random forest",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "GitHub repositories",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "grid search"
+          },
+          {
+            "name": "gini importance criterion"
+          },
+          {
+            "name": "noise injection"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "This means the classifier was trained on 1,355 scripts from 51 repositories.",
+          "justification": "Classifier trained on 1,355 scripts features from fine-tuned models.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "SantaCoder",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "TheStack",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Greedy String Tiling"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "we query the model with the prefix and have the model generate the suffix",
+          "justification": "Model generates code snippets which are then compared pair-wise with NiCad/JPlag.",
+          "value": "inference"
+        },
+        "epochs": {
+          "quote": "unknown",
+          "justification": "Not applicable.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "Sampling 5% (1726 projects / ≈ 34600 scripts)\nSampling 9% (3108 projects / ≈ 62280 scripts)\nSampling 10% (3452 projects / ≈ 69200 scripts)",
+          "justification": "Three sampling percentages reported per tool.",
+          "value": "3 sampling ratios (5%, 9%, 10%)"
+        }
+      }
+    ]
+  },
+  "usage": {
+    "input_tokens": 73642,
+    "output_tokens": 15177,
+    "total_tokens": 88819
+  }
+}

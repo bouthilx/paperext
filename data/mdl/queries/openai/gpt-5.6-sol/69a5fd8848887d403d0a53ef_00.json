@@ -1,0 +1,2477 @@
+{
+  "paper": "69a5fd8848887d403d0a53ef.txt",
+  "words": 15574,
+  "extractions": {
+    "title": {
+      "quote": "PairBench: Are Vision-Language Models Reliable at Comparing What They See?",
+      "justification": "The title appears at the beginning of the paper.",
+      "value": "PairBench: Are Vision-Language Models Reliable at Comparing What They See?"
+    },
+    "description": "Introduces and releases PAIRBENCH, a benchmark framework and four derived datasets for inference-only evaluation of vision-language models on image–image and image–text comparison, and evaluates 23 VLM configurations plus vision encoders using named scoring metrics and transformations.",
+    "type": {
+      "quote": "We carried out an extensive evaluation covering several state-of-the-art VLMs, both proprietary and open-source, multiple dataset configurations, and different prompt templates.",
+      "justification": "The paper conducts experiments, human annotation, model inference, metric computation, and numerical comparisons.",
+      "value": "empirical"
+    },
+    "research_fields": [
+      {
+        "name": {
+          "quote": "Understanding how effectively large vision language models (VLMs) compare visual inputs is crucial",
+          "justification": "The paper directly evaluates vision-language models.",
+          "value": "vision-language models"
+        },
+        "aliases": [
+          "VLMs",
+          "large vision language models"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "PAIRBENCH, a framework designed to evaluate VLMs as similarity estimators",
+          "justification": "The principal contribution is a model-evaluation framework and benchmark.",
+          "value": "vision-language model evaluation"
+        },
+        "aliases": [
+          "VLM evaluation"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "including automated evaluation, reranking, and retrieval-augmented generation",
+          "justification": "Automated evaluation is a directly addressed application of the framework.",
+          "value": "automated evaluation"
+        },
+        "aliases": [
+          "automatic evaluation",
+          "VLMs as judges"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "evaluates VLMs as customizable similarity tools",
+          "justification": "Visual similarity estimation and pairwise comparison are directly advanced by the benchmark.",
+          "value": "visual similarity estimation"
+        },
+        "aliases": [
+          "similarity kernels",
+          "pairwise comparisons"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "We collect all the model performances from the OPEN VLM LEADERBOARD",
+          "justification": "Multimodal benchmarking is used as the comparison setting for correlation analysis.",
+          "value": "multimodal benchmarking"
+        },
+        "aliases": [
+          "multimodal model evaluation"
+        ],
+        "role": "used"
+      }
+    ],
+    "models": [
+      {
+        "name": {
+          "quote": "Chameleon-7B",
+          "justification": "Named among the openly available models evaluated.",
+          "value": "Chameleon-7B"
+        },
+        "aliases": [
+          "Chameleon"
+        ],
+        "is_contributed": {
+          "quote": "From the openly available models, we evaluated Chameleon-7B",
+          "justification": "It is an external model, not introduced here.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "From the openly available models, we evaluated Chameleon-7B",
+          "justification": "The authors evaluated it.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Comparison of the MMScore metric (×100) of VLMs",
+          "justification": "Its scores appear in comparative result tables.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "We run all open-source models on a single NVIDIA H100 GPU using greedy sampling for inference.",
+          "justification": "It was used for inference only.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "Chameleon: Plug-and-play compositional reasoning with large language models.",
+          "justification": "This is the cited Chameleon paper title in the references.",
+          "value": "Chameleon: Plug-and-play compositional reasoning with large language models"
+        }
+      },
+      {
+        "name": {
+          "quote": "LLaVA-OneVision-7B",
+          "justification": "Named among the openly available models evaluated.",
+          "value": "LLaVA-OneVision-7B"
+        },
+        "aliases": [
+          "Llava-OneVision-7B"
+        ],
+        "is_contributed": {
+          "quote": "we evaluated ... LLaVA-OneVision-7B",
+          "justification": "External evaluated model.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we evaluated ... LLaVA-OneVision-7B",
+          "justification": "The authors evaluated it.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "LLaVA-OneVision-7B",
+          "justification": "It appears in comparative tables and plots.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "using greedy sampling for inference",
+          "justification": "Inference-only evaluation.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "Llava-onevision: Easy visual task transfer.",
+          "justification": "Reference title associated with this model.",
+          "value": "Llava-onevision: Easy visual task transfer"
+        }
+      },
+      {
+        "name": {
+          "quote": "Pixtral-12B",
+          "justification": "Named among the evaluated models.",
+          "value": "Pixtral-12B"
+        },
+        "aliases": [
+          "Pixtral 12b"
+        ],
+        "is_contributed": {
+          "quote": "we evaluated ... Pixtral-12B",
+          "justification": "External model.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we evaluated ... Pixtral-12B",
+          "justification": "Executed in evaluation.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Pixtral-12B",
+          "justification": "Reported in comparative result tables.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "using greedy sampling for inference",
+          "justification": "Inference-only evaluation.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "Pixtral 12b.",
+          "justification": "Reference title for Pixtral.",
+          "value": "Pixtral 12b"
+        }
+      },
+      {
+        "name": {
+          "quote": "Phi-3.5-vision",
+          "justification": "Named among the evaluated models.",
+          "value": "Phi-3.5-vision"
+        },
+        "aliases": [
+          "Phi3.5-Vision"
+        ],
+        "is_contributed": {
+          "quote": "we evaluated ... Phi-3.5-vision",
+          "justification": "External model.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we evaluated ... Phi-3.5-vision",
+          "justification": "Executed in evaluation.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Phi-3.5-vision",
+          "justification": "Reported in comparative tables.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "using greedy sampling for inference",
+          "justification": "Inference-only evaluation.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "Phi-3 technical report: A highly capable language model locally on your phone.",
+          "justification": "Reference cited for Phi-3.5-vision.",
+          "value": "Phi-3 technical report: A highly capable language model locally on your phone"
+        }
+      },
+      {
+        "name": {
+          "quote": "four model sizes (1B, 2B, 4B, and 8B) of InternVL2",
+          "justification": "The paper explicitly evaluates the 1B configuration.",
+          "value": "InternVL2-1B"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "four model sizes ... of InternVL2",
+          "justification": "External family.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we evaluated ... four model sizes (1B, 2B, 4B, and 8B) of InternVL2",
+          "justification": "Executed in evaluation.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "InternVL2-1B",
+          "justification": "Reported in result tables.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "using greedy sampling for inference",
+          "justification": "Inference-only.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "Enhancing the reasoning ability of multimodal large language models via mixed preference optimization.",
+          "justification": "The cited InternVL2 reference title.",
+          "value": "Enhancing the reasoning ability of multimodal large language models via mixed preference optimization"
+        }
+      },
+      {
+        "name": {
+          "quote": "four model sizes (1B, 2B, 4B, and 8B) of InternVL2",
+          "justification": "The 2B configuration is explicit.",
+          "value": "InternVL2-2B"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "four model sizes ... of InternVL2",
+          "justification": "External family.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we evaluated ... four model sizes (1B, 2B, 4B, and 8B) of InternVL2",
+          "justification": "Executed.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "InternVL2-2B",
+          "justification": "Reported numerically.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "using greedy sampling for inference",
+          "justification": "Inference-only.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "Enhancing the reasoning ability of multimodal large language models via mixed preference optimization.",
+          "justification": "Cited family reference.",
+          "value": "Enhancing the reasoning ability of multimodal large language models via mixed preference optimization"
+        }
+      },
+      {
+        "name": {
+          "quote": "four model sizes (1B, 2B, 4B, and 8B) of InternVL2",
+          "justification": "The 4B configuration is explicit.",
+          "value": "InternVL2-4B"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "four model sizes ... of InternVL2",
+          "justification": "External.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we evaluated ... four model sizes (1B, 2B, 4B, and 8B) of InternVL2",
+          "justification": "Executed.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "InternVL2-4B",
+          "justification": "Reported numerically.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "using greedy sampling for inference",
+          "justification": "Inference-only.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "Enhancing the reasoning ability of multimodal large language models via mixed preference optimization.",
+          "justification": "Cited family reference.",
+          "value": "Enhancing the reasoning ability of multimodal large language models via mixed preference optimization"
+        }
+      },
+      {
+        "name": {
+          "quote": "four model sizes (1B, 2B, 4B, and 8B) of InternVL2",
+          "justification": "The 8B configuration is explicit.",
+          "value": "InternVL2-8B"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "four model sizes ... of InternVL2",
+          "justification": "External.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we evaluated ... four model sizes (1B, 2B, 4B, and 8B) of InternVL2",
+          "justification": "Executed.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "InternVL2-8B",
+          "justification": "Reported numerically.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "using greedy sampling for inference",
+          "justification": "Inference-only.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "Enhancing the reasoning ability of multimodal large language models via mixed preference optimization.",
+          "justification": "Cited family reference.",
+          "value": "Enhancing the reasoning ability of multimodal large language models via mixed preference optimization"
+        }
+      },
+      {
+        "name": {
+          "quote": "four model sizes (1B, 2B, 4B, and 8B) of InternVL2.5",
+          "justification": "The 1B configuration is explicit.",
+          "value": "InternVL2.5-1B"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "four model sizes ... of InternVL2.5",
+          "justification": "External family.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we evaluated ... four model sizes (1B, 2B, 4B, and 8B) of InternVL2.5",
+          "justification": "Executed.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "InternVL2.5-1B",
+          "justification": "Reported numerically.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "using greedy sampling for inference",
+          "justification": "Inference-only.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "Expanding performance boundaries of open-source multimodal models with model, data, and test-time scaling.",
+          "justification": "Cited InternVL2.5 paper.",
+          "value": "Expanding performance boundaries of open-source multimodal models with model, data, and test-time scaling"
+        }
+      },
+      {
+        "name": {
+          "quote": "four model sizes (1B, 2B, 4B, and 8B) of InternVL2.5",
+          "justification": "The 2B configuration is explicit.",
+          "value": "InternVL2.5-2B"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "four model sizes ... of InternVL2.5",
+          "justification": "External.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we evaluated ... four model sizes (1B, 2B, 4B, and 8B) of InternVL2.5",
+          "justification": "Executed.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "InternVL2.5-2B",
+          "justification": "Reported numerically.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "using greedy sampling for inference",
+          "justification": "Inference-only.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "Expanding performance boundaries of open-source multimodal models with model, data, and test-time scaling.",
+          "justification": "Cited family paper.",
+          "value": "Expanding performance boundaries of open-source multimodal models with model, data, and test-time scaling"
+        }
+      },
+      {
+        "name": {
+          "quote": "four model sizes (1B, 2B, 4B, and 8B) of InternVL2.5",
+          "justification": "The 4B configuration is explicit.",
+          "value": "InternVL2.5-4B"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "four model sizes ... of InternVL2.5",
+          "justification": "External.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we evaluated ... four model sizes (1B, 2B, 4B, and 8B) of InternVL2.5",
+          "justification": "Executed.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "InternVL2.5-4B",
+          "justification": "Reported numerically.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "using greedy sampling for inference",
+          "justification": "Inference-only.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "Expanding performance boundaries of open-source multimodal models with model, data, and test-time scaling.",
+          "justification": "Cited family paper.",
+          "value": "Expanding performance boundaries of open-source multimodal models with model, data, and test-time scaling"
+        }
+      },
+      {
+        "name": {
+          "quote": "four model sizes (1B, 2B, 4B, and 8B) of InternVL2.5",
+          "justification": "The 8B configuration is explicit.",
+          "value": "InternVL2.5-8B"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "four model sizes ... of InternVL2.5",
+          "justification": "External.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we evaluated ... four model sizes (1B, 2B, 4B, and 8B) of InternVL2.5",
+          "justification": "Executed.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "InternVL2.5-8B",
+          "justification": "Reported numerically.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "using greedy sampling for inference",
+          "justification": "Inference-only.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "Expanding performance boundaries of open-source multimodal models with model, data, and test-time scaling.",
+          "justification": "Cited family paper.",
+          "value": "Expanding performance boundaries of open-source multimodal models with model, data, and test-time scaling"
+        }
+      },
+      {
+        "name": {
+          "quote": "two capacities (2B and 7B) of Qwen2-VL",
+          "justification": "The 2B configuration is explicit.",
+          "value": "Qwen2-VL-2B"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "two capacities ... of Qwen2-VL",
+          "justification": "External model family.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we evaluated ... two capacities (2B and 7B) of Qwen2-VL",
+          "justification": "Executed.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Qwen2-VL-2B",
+          "justification": "Reported numerically.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "using greedy sampling for inference",
+          "justification": "Inference-only.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "Qwen2-vl: Enhancing vision-language model’s perception of the world at any resolution.",
+          "justification": "Cited Qwen2-VL paper.",
+          "value": "Qwen2-vl: Enhancing vision-language model’s perception of the world at any resolution"
+        }
+      },
+      {
+        "name": {
+          "quote": "two capacities (2B and 7B) of Qwen2-VL",
+          "justification": "The 7B configuration is explicit.",
+          "value": "Qwen2-VL-7B"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "two capacities ... of Qwen2-VL",
+          "justification": "External.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we evaluated ... two capacities (2B and 7B) of Qwen2-VL",
+          "justification": "Executed.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Qwen2-VL-7B",
+          "justification": "Reported numerically.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "using greedy sampling for inference",
+          "justification": "Inference-only.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "Qwen2-vl: Enhancing vision-language model’s perception of the world at any resolution.",
+          "justification": "Cited family paper.",
+          "value": "Qwen2-vl: Enhancing vision-language model’s perception of the world at any resolution"
+        }
+      },
+      {
+        "name": {
+          "quote": "MolmoE-1B",
+          "justification": "Explicit Molmo version evaluated.",
+          "value": "MolmoE-1B"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "three versions ... of Molmo",
+          "justification": "External model.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "three versions (MolmoE-1B, Molmo-7B-O, and Molmo-7B-D) of Molmo",
+          "justification": "Executed.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "MolmoE-1B",
+          "justification": "Reported numerically.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "using greedy sampling for inference",
+          "justification": "Inference-only.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "Molmo and pixmo: Open weights and open data for state-of-the-art multimodal models.",
+          "justification": "Cited Molmo paper.",
+          "value": "Molmo and pixmo: Open weights and open data for state-of-the-art multimodal models"
+        }
+      },
+      {
+        "name": {
+          "quote": "Molmo-7B-O",
+          "justification": "Explicit Molmo version evaluated.",
+          "value": "Molmo-7B-O"
+        },
+        "aliases": [
+          "Molmo-O-7B"
+        ],
+        "is_contributed": {
+          "quote": "three versions ... of Molmo",
+          "justification": "External.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "three versions (MolmoE-1B, Molmo-7B-O, and Molmo-7B-D) of Molmo",
+          "justification": "Executed.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Molmo-7B-O",
+          "justification": "Reported numerically.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "using greedy sampling for inference",
+          "justification": "Inference-only.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "Molmo and pixmo: Open weights and open data for state-of-the-art multimodal models.",
+          "justification": "Cited Molmo paper.",
+          "value": "Molmo and pixmo: Open weights and open data for state-of-the-art multimodal models"
+        }
+      },
+      {
+        "name": {
+          "quote": "Molmo-7B-D",
+          "justification": "Explicit Molmo version evaluated.",
+          "value": "Molmo-7B-D"
+        },
+        "aliases": [
+          "Molmo-D-7B"
+        ],
+        "is_contributed": {
+          "quote": "three versions ... of Molmo",
+          "justification": "External.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "three versions (MolmoE-1B, Molmo-7B-O, and Molmo-7B-D) of Molmo",
+          "justification": "Executed.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Molmo-7B-D",
+          "justification": "Reported numerically.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "using greedy sampling for inference",
+          "justification": "Inference-only.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "Molmo and pixmo: Open weights and open data for state-of-the-art multimodal models.",
+          "justification": "Cited Molmo paper.",
+          "value": "Molmo and pixmo: Open weights and open data for state-of-the-art multimodal models"
+        }
+      },
+      {
+        "name": {
+          "quote": "GPT-4o-0513",
+          "justification": "Explicit commercial model version benchmarked.",
+          "value": "GPT-4o-0513"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "benchmarked three versions of GPT-4o",
+          "justification": "External commercial model.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "benchmarked three versions of GPT-4o (GPT-4o-0513, GPT-4o-0806, GPT-4o-1120)",
+          "justification": "Executed via API.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "GPT-4o-0513",
+          "justification": "Reported numerically.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "For closed-source models, we use API access",
+          "justification": "API inference only.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "Gpt-4 technical report.",
+          "justification": "Cited GPT-4 reference.",
+          "value": "Gpt-4 technical report"
+        }
+      },
+      {
+        "name": {
+          "quote": "GPT-4o-0806",
+          "justification": "Explicit commercial version.",
+          "value": "GPT-4o-0806"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "benchmarked three versions of GPT-4o",
+          "justification": "External.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "benchmarked three versions of GPT-4o (GPT-4o-0513, GPT-4o-0806, GPT-4o-1120)",
+          "justification": "Executed via API.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "GPT-4o-0806",
+          "justification": "Reported numerically.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "For closed-source models, we use API access",
+          "justification": "Inference only.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "Gpt-4 technical report.",
+          "justification": "Cited GPT-4 reference.",
+          "value": "Gpt-4 technical report"
+        }
+      },
+      {
+        "name": {
+          "quote": "GPT-4o-1120",
+          "justification": "Explicit commercial version.",
+          "value": "GPT-4o-1120"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "benchmarked three versions of GPT-4o",
+          "justification": "External.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "benchmarked three versions of GPT-4o (GPT-4o-0513, GPT-4o-0806, GPT-4o-1120)",
+          "justification": "Executed via API.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "GPT-4o-1120",
+          "justification": "Reported numerically.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "For closed-source models, we use API access",
+          "justification": "Inference only.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "Gpt-4 technical report.",
+          "justification": "Cited GPT-4 reference.",
+          "value": "Gpt-4 technical report"
+        }
+      },
+      {
+        "name": {
+          "quote": "GPT-4o-mini-0718",
+          "justification": "Explicit commercial model benchmarked.",
+          "value": "GPT-4o-mini-0718"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "GPT-4o-mini-0718",
+          "justification": "External model.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We also considered commercial grade models and benchmarked ... GPT-4o-mini-0718",
+          "justification": "Executed via API.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "GPT-4o-mini-0718",
+          "justification": "Reported numerically.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "For closed-source models, we use API access",
+          "justification": "Inference only.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "Gpt-4 technical report.",
+          "justification": "The paper associates GPT models with this cited report.",
+          "value": "Gpt-4 technical report"
+        }
+      },
+      {
+        "name": {
+          "quote": "Gemini-1.5-Flash",
+          "justification": "Explicit Gemini version benchmarked.",
+          "value": "Gemini-1.5-Flash"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "two versions of Gemini-1.5",
+          "justification": "External model.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "two versions of Gemini-1.5 (Gemini-1.5-Flash, Gemini-1.5-Pro)",
+          "justification": "Executed via API.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Gemini-1.5-Flash",
+          "justification": "Reported numerically.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "For closed-source models, we use API access",
+          "justification": "Inference only.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "Gemini 1.5: Unlocking multimodal understanding across millions of tokens of context.",
+          "justification": "Cited Gemini paper.",
+          "value": "Gemini 1.5: Unlocking multimodal understanding across millions of tokens of context"
+        }
+      },
+      {
+        "name": {
+          "quote": "Gemini-1.5-Pro",
+          "justification": "Explicit Gemini version benchmarked.",
+          "value": "Gemini-1.5-Pro"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "two versions of Gemini-1.5",
+          "justification": "External model.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "two versions of Gemini-1.5 (Gemini-1.5-Flash, Gemini-1.5-Pro)",
+          "justification": "Executed via API.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Gemini-1.5-Pro",
+          "justification": "Reported numerically.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "For closed-source models, we use API access",
+          "justification": "Inference only.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "Gemini 1.5: Unlocking multimodal understanding across millions of tokens of context.",
+          "justification": "Cited Gemini paper.",
+          "value": "Gemini 1.5: Unlocking multimodal understanding across millions of tokens of context"
+        }
+      },
+      {
+        "name": {
+          "quote": "DINOv2-Base",
+          "justification": "Explicit image encoder evaluated in Appendix C.4.",
+          "value": "DINOv2-Base"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "three DINOv2 versions ... are chosen to encode images",
+          "justification": "External encoder.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "three DINOv2 versions (DINOv2-Base, DINOv2-Small, and DINOv2-Large) ... are chosen to encode images",
+          "justification": "Executed for image encoding.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "we explore how image encoders compare to VLMs on our metrics",
+          "justification": "Numerically compared to VLMs.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "chosen to encode images",
+          "justification": "Inference-only encoding.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "unknown",
+          "justification": "No DINOv2 reference title is included in the supplied references.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "DINOv2-Small",
+          "justification": "Explicit image encoder evaluated.",
+          "value": "DINOv2-Small"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "three DINOv2 versions ... are chosen",
+          "justification": "External.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "DINOv2-Base, DINOv2-Small, and DINOv2-Large",
+          "justification": "Executed.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "we explore how image encoders compare to VLMs",
+          "justification": "Compared numerically.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "chosen to encode images",
+          "justification": "Inference-only.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "unknown",
+          "justification": "No DINOv2 reference title is supplied.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "DINOv2-Large",
+          "justification": "Explicit image encoder evaluated.",
+          "value": "DINOv2-Large"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "three DINOv2 versions ... are chosen",
+          "justification": "External.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "DINOv2-Base, DINOv2-Small, and DINOv2-Large",
+          "justification": "Executed.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "we explore how image encoders compare to VLMs",
+          "justification": "Compared numerically.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "chosen to encode images",
+          "justification": "Inference-only.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "unknown",
+          "justification": "No DINOv2 reference title is supplied.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "the LAION- and OpenAI- CLIP-trained ViTs (base and large)",
+          "justification": "The paper names these encoders collectively rather than giving individual checkpoint identifiers.",
+          "value": "LAION- and OpenAI- CLIP-trained ViTs (base and large)"
+        },
+        "aliases": [
+          "CLIP-trained ViTs"
+        ],
+        "is_contributed": {
+          "quote": "are chosen to encode images",
+          "justification": "External encoders.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "the LAION- and OpenAI- CLIP-trained ViTs (base and large) are chosen to encode images",
+          "justification": "Executed for image encoding.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "we explore how image encoders compare to VLMs",
+          "justification": "Compared numerically.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "chosen to encode images",
+          "justification": "Inference-only.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "Learning transferable visual models from natural language supervision.",
+          "justification": "Cited CLIP paper title.",
+          "value": "Learning transferable visual models from natural language supervision"
+        }
+      }
+    ],
+    "data_sources": [
+      {
+        "name": {
+          "quote": "PAIRBENCH",
+          "justification": "The benchmark dataset/framework is released by the paper.",
+          "value": "PAIRBENCH"
+        },
+        "aliases": [
+          "PAIR B ENCH",
+          "PairBench"
+        ],
+        "role": "contributed",
+        "size": {
+          "quote": "which consist of 70K data pairs for comparisons",
+          "justification": "The paper states an approximate total pair count.",
+          "value": "70K data pairs"
+        },
+        "derived_from": [
+          "COCO",
+          "IN100",
+          "WhatsUp"
+        ],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "PairBench: Are Vision-Language Models Reliable at Comparing What They See?",
+          "justification": "PAIRBENCH is contributed in this paper.",
+          "value": "PairBench: Are Vision-Language Models Reliable at Comparing What They See?"
+        }
+      },
+      {
+        "name": {
+          "quote": "PBCOCO",
+          "justification": "Named PairBench instantiation derived from COCO.",
+          "value": "PBCOCO"
+        },
+        "aliases": [
+          "COCO"
+        ],
+        "role": "contributed",
+        "size": {
+          "quote": "We select 500 random images from each of COCO and IN100",
+          "justification": "The source selection used for this instantiation is stated.",
+          "value": "500 selected source images"
+        },
+        "derived_from": [
+          "COCO"
+        ],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "PairBench: Are Vision-Language Models Reliable at Comparing What They See?",
+          "justification": "Contributed here.",
+          "value": "PairBench: Are Vision-Language Models Reliable at Comparing What They See?"
+        }
+      },
+      {
+        "name": {
+          "quote": "PBIN100",
+          "justification": "Named PairBench instantiation derived from IN100.",
+          "value": "PBIN100"
+        },
+        "aliases": [
+          "IN100"
+        ],
+        "role": "contributed",
+        "size": {
+          "quote": "We select 500 random images from each of COCO and IN100",
+          "justification": "The selected source count is explicit.",
+          "value": "500 selected source images"
+        },
+        "derived_from": [
+          "IN100"
+        ],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "PairBench: Are Vision-Language Models Reliable at Comparing What They See?",
+          "justification": "Contributed here.",
+          "value": "PairBench: Are Vision-Language Models Reliable at Comparing What They See?"
+        }
+      },
+      {
+        "name": {
+          "quote": "PBWU-II",
+          "justification": "Named PairBench image-image instantiation from WhatsUp.",
+          "value": "PBWU-II"
+        },
+        "aliases": [
+          "WU-II"
+        ],
+        "role": "contributed",
+        "size": {
+          "quote": "WhatsUp (subset A) 418 ... WhatsUp (subset B) 408",
+          "justification": "The paper states the selected counts for its two source subsets.",
+          "value": "418 subset-A and 408 subset-B selected items"
+        },
+        "derived_from": [
+          "WhatsUp"
+        ],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "PairBench: Are Vision-Language Models Reliable at Comparing What They See?",
+          "justification": "Contributed here.",
+          "value": "PairBench: Are Vision-Language Models Reliable at Comparing What They See?"
+        }
+      },
+      {
+        "name": {
+          "quote": "PBWU-IT",
+          "justification": "Named PairBench image-text instantiation from WhatsUp.",
+          "value": "PBWU-IT"
+        },
+        "aliases": [
+          "WU-IT",
+          "PBIT"
+        ],
+        "role": "contributed",
+        "size": {
+          "quote": "WhatsUp (subset A) 418; WhatsUp (Subset B) 408",
+          "justification": "The paper states source item counts for both subsets.",
+          "value": "418 subset-A and 408 subset-B selected items"
+        },
+        "derived_from": [
+          "WhatsUp"
+        ],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "PairBench: Are Vision-Language Models Reliable at Comparing What They See?",
+          "justification": "Contributed here.",
+          "value": "PairBench: Are Vision-Language Models Reliable at Comparing What They See?"
+        }
+      },
+      {
+        "name": {
+          "quote": "COCO",
+          "justification": "Named source dataset used to construct PBCOCO.",
+          "value": "COCO"
+        },
+        "aliases": [
+          "MS-COCO",
+          "Microsoft COCO"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "We select 500 random images from each of COCO and IN100",
+          "justification": "Only the used subset size is reported.",
+          "value": "500 random images"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "Microsoft coco: Common objects in context.",
+          "justification": "COCO reference title.",
+          "value": "Microsoft coco: Common objects in context"
+        }
+      },
+      {
+        "name": {
+          "quote": "IN100",
+          "justification": "Named ImageNet subset/source used to construct PBIN100.",
+          "value": "IN100"
+        },
+        "aliases": [
+          "ImageNet-100"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "We select 500 random images from each of COCO and IN100",
+          "justification": "Used subset count is stated.",
+          "value": "500 random images"
+        },
+        "derived_from": [
+          "ImageNet"
+        ],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "Imagenet: A large-scale hierarchical image database.",
+          "justification": "The paper cites ImageNet for IN100.",
+          "value": "Imagenet: A large-scale hierarchical image database"
+        }
+      },
+      {
+        "name": {
+          "quote": "ImageNet",
+          "justification": "Named original source associated with IN100 and the benchmark construction.",
+          "value": "ImageNet"
+        },
+        "aliases": [],
+        "role": "used",
+        "size": {
+          "quote": "unknown",
+          "justification": "The paper does not state how many original ImageNet examples beyond the IN100 selection were used.",
+          "value": "unknown"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "Imagenet: A large-scale hierarchical image database.",
+          "justification": "Reference title for ImageNet.",
+          "value": "Imagenet: A large-scale hierarchical image database"
+        }
+      },
+      {
+        "name": {
+          "quote": "WhatsUp",
+          "justification": "Named source dataset used for image-image and image-text PairBench instantiations.",
+          "value": "WhatsUp"
+        },
+        "aliases": [],
+        "role": "used",
+        "size": {
+          "quote": "all the image-text pairs from both subsets provided by the WhatsUp dataset",
+          "justification": "All pairs from two subsets were used; Table 8 gives 418 and 408 selected items.",
+          "value": "418 subset-A and 408 subset-B items"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "What’s \"up\" with vision-language models? investigating their struggle with spatial reasoning.",
+          "justification": "WhatsUp reference title.",
+          "value": "What’s \"up\" with vision-language models? investigating their struggle with spatial reasoning"
+        }
+      },
+      {
+        "name": {
+          "quote": "OPEN VLM LEADERBOARD",
+          "justification": "Named source from which external benchmark performance values were collected.",
+          "value": "OPEN VLM LEADERBOARD"
+        },
+        "aliases": [
+          "OpenVLM"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "resulting in all 23 ... models",
+          "justification": "The filtered leaderboard data used covered 23 models.",
+          "value": "23 models"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "Vlmevalkit: An open-source toolkit for evaluating large multi-modality models.",
+          "justification": "The paper cites Duan et al. when naming the leaderboard.",
+          "value": "Vlmevalkit: An open-source toolkit for evaluating large multi-modality models"
+        }
+      }
+    ],
+    "libraries": [
+      {
+        "name": {
+          "quote": "OPENROUTER",
+          "justification": "Used for API access to closed-source models.",
+          "value": "OPENROUTER"
+        },
+        "aliases": [
+          "OpenRouter"
+        ],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "unknown",
+          "justification": "No reference-paper title is supplied for this service.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "OpenAI",
+          "justification": "Used as an API platform for closed-source inference.",
+          "value": "OpenAI"
+        },
+        "aliases": [
+          "OpenAI API"
+        ],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "unknown",
+          "justification": "The API platform does not have a cited software paper here.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "HuggingFace",
+          "justification": "The benchmark is released there and official model implementations are discussed.",
+          "value": "HuggingFace"
+        },
+        "aliases": [
+          "Hugging Face"
+        ],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "unknown",
+          "justification": "No Hugging Face library paper is cited.",
+          "value": "unknown"
+        }
+      }
+    ],
+    "algorithms": [
+      {
+        "name": {
+          "quote": "PAIRBENCH",
+          "justification": "The paper names its contributed evaluation procedure/framework.",
+          "value": "PAIRBENCH"
+        },
+        "aliases": [
+          "PAIR B ENCH",
+          "PairBench"
+        ],
+        "is_contributed": {
+          "quote": "We propose PAIRBENCH, a framework for evaluating VLMs as similarity kernels",
+          "justification": "It is a principal contribution.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "We instantiated PAIRBENCH",
+          "justification": "The procedure is executed to build and run the benchmark.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "PAIRBENCH strongly correlates with results on complex reasoning benchmarks",
+          "justification": "Its outputs are numerically compared with benchmark results.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "a framework designed to evaluate VLMs as similarity estimators",
+          "justification": "Direct statement of its role.",
+          "value": "a framework designed to evaluate VLMs as similarity estimators"
+        },
+        "composed_of": [
+          "MMScore",
+          "ε-RelaxSym",
+          "Smoothness",
+          "Controllability"
+        ],
+        "referenced_paper_title": {
+          "quote": "PairBench: Are Vision-Language Models Reliable at Comparing What They See?",
+          "justification": "Contributed by this paper.",
+          "value": "PairBench: Are Vision-Language Models Reliable at Comparing What They See?"
+        }
+      },
+      {
+        "name": {
+          "quote": "MMScore",
+          "justification": "Named principal PairBench metric.",
+          "value": "MMScore"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "We first introduce MMScore",
+          "justification": "Introduced here.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "we compute it as the normalized mutual information between the predicted and the ground-truth scores",
+          "justification": "Computed in the experiments.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Aggregated MMScore",
+          "justification": "Compared across models.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "measures the alignment between model predictions and human assessments",
+          "justification": "Direct role statement.",
+          "value": "measures the alignment between model predictions and human assessments"
+        },
+        "composed_of": [
+          "normalized mutual information"
+        ],
+        "referenced_paper_title": {
+          "quote": "PairBench: Are Vision-Language Models Reliable at Comparing What They See?",
+          "justification": "Introduced here.",
+          "value": "PairBench: Are Vision-Language Models Reliable at Comparing What They See?"
+        }
+      },
+      {
+        "name": {
+          "quote": "ε-RelaxSym",
+          "justification": "Named PairBench metric.",
+          "value": "ε-RelaxSym"
+        },
+        "aliases": [
+          "1-RelaxSym",
+          "1-Relaxed Symmetry",
+          "1-RS"
+        ],
+        "is_contributed": {
+          "quote": "We thus introduce ε-RelaxSym",
+          "justification": "Introduced here.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "we set ε = 1",
+          "justification": "Computed in experiments.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Aggregated MMScore, 1-RS:1-RelaxSym",
+          "justification": "Compared across models.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "evaluate how consistent models are with respect to input order",
+          "justification": "Direct role statement.",
+          "value": "evaluate how consistent models are with respect to input order"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "PairBench: Are Vision-Language Models Reliable at Comparing What They See?",
+          "justification": "Introduced here.",
+          "value": "PairBench: Are Vision-Language Models Reliable at Comparing What They See?"
+        }
+      },
+      {
+        "name": {
+          "quote": "Smoothness",
+          "justification": "Named PairBench metric.",
+          "value": "Smoothness"
+        },
+        "aliases": [
+          "SM"
+        ],
+        "is_contributed": {
+          "quote": "We aim to measure how smooth the kernels induced by VLMs are.",
+          "justification": "Defined as part of the contribution.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "smoothness (SM) is computed as",
+          "justification": "Computed in experiments.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Aggregated ... SM",
+          "justification": "Compared across models.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "measure how smooth the kernels induced by VLMs are",
+          "justification": "Direct role statement.",
+          "value": "measure how smooth the kernels induced by VLMs are"
+        },
+        "composed_of": [
+          "entropy"
+        ],
+        "referenced_paper_title": {
+          "quote": "PairBench: Are Vision-Language Models Reliable at Comparing What They See?",
+          "justification": "Introduced here.",
+          "value": "PairBench: Are Vision-Language Models Reliable at Comparing What They See?"
+        }
+      },
+      {
+        "name": {
+          "quote": "Controllability",
+          "justification": "Named PairBench metric.",
+          "value": "Controllability"
+        },
+        "aliases": [
+          "Cont"
+        ],
+        "is_contributed": {
+          "quote": "We measure how responsive to instructions models are.",
+          "justification": "Defined in this paper.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "Cont(M, DN) =",
+          "justification": "Computed in experiments.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Aggregated ... Cont",
+          "justification": "Compared across models.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "We measure how responsive to instructions models are.",
+          "justification": "Direct role statement.",
+          "value": "measure how responsive to instructions models are"
+        },
+        "composed_of": [
+          "MMScore"
+        ],
+        "referenced_paper_title": {
+          "quote": "PairBench: Are Vision-Language Models Reliable at Comparing What They See?",
+          "justification": "Introduced here.",
+          "value": "PairBench: Are Vision-Language Models Reliable at Comparing What They See?"
+        }
+      },
+      {
+        "name": {
+          "quote": "color jitter",
+          "justification": "Named image transformation applied during dataset construction.",
+          "value": "color jitter"
+        },
+        "aliases": [
+          "CJ"
+        ],
+        "is_contributed": {
+          "quote": "five standard image transformations",
+          "justification": "A standard external transformation, not introduced here.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we create a different control sample for each one of the transformations in {color jitter, rotation, gaussian blur, perspective shift, elastic transformation}",
+          "justification": "Applied in dataset creation.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Models are evaluated across multiple criteria: color jitter (CJ)",
+          "justification": "Results are compared by transformation.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "construct three types of pairs: an identical, a transformed, and an irrelevant pair",
+          "justification": "Used to create transformed comparison pairs.",
+          "value": "used to create transformed comparison pairs"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "unknown",
+          "justification": "No specific reference paper is supplied.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "rotation",
+          "justification": "Named transformation.",
+          "value": "rotation"
+        },
+        "aliases": [
+          "R"
+        ],
+        "is_contributed": {
+          "quote": "five standard image transformations",
+          "justification": "Standard external procedure.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "{color jitter, rotation, gaussian blur, perspective shift, elastic transformation}",
+          "justification": "Applied to source images.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "rotation (R)",
+          "justification": "Numerically compared criterion.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "The generated data consists of points from the original dataset paired with their transformed version.",
+          "justification": "Creates transformed pairs.",
+          "value": "used to create transformed comparison pairs"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "unknown",
+          "justification": "No specific reference.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "gaussian blur",
+          "justification": "Named transformation.",
+          "value": "gaussian blur"
+        },
+        "aliases": [
+          "GB",
+          "Gaussian Blur"
+        ],
+        "is_contributed": {
+          "quote": "five standard image transformations",
+          "justification": "Standard external procedure.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "{color jitter, rotation, gaussian blur, perspective shift, elastic transformation}",
+          "justification": "Applied.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "gaussian blur (GB)",
+          "justification": "Compared criterion.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "The generated data consists of points from the original dataset paired with their transformed version.",
+          "justification": "Creates transformed pairs.",
+          "value": "used to create transformed comparison pairs"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "unknown",
+          "justification": "No specific reference.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "perspective shift",
+          "justification": "Named transformation.",
+          "value": "perspective shift"
+        },
+        "aliases": [
+          "PS",
+          "Perspective Shift"
+        ],
+        "is_contributed": {
+          "quote": "five standard image transformations",
+          "justification": "Standard external procedure.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "{color jitter, rotation, gaussian blur, perspective shift, elastic transformation}",
+          "justification": "Applied.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "perspective shift (PS)",
+          "justification": "Compared criterion.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "The generated data consists of points from the original dataset paired with their transformed version.",
+          "justification": "Creates transformed pairs.",
+          "value": "used to create transformed comparison pairs"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "unknown",
+          "justification": "No specific reference.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "elastic transformation",
+          "justification": "Named transformation.",
+          "value": "elastic transformation"
+        },
+        "aliases": [
+          "ET",
+          "Elastic Transform"
+        ],
+        "is_contributed": {
+          "quote": "five standard image transformations",
+          "justification": "Standard external procedure.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "{color jitter, rotation, gaussian blur, perspective shift, elastic transformation}",
+          "justification": "Applied.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "elastic transform (ET)",
+          "justification": "Compared criterion.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "The generated data consists of points from the original dataset paired with their transformed version.",
+          "justification": "Creates transformed pairs.",
+          "value": "used to create transformed comparison pairs"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "unknown",
+          "justification": "No specific reference.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "spatial position transform",
+          "justification": "Named transformation used for WhatsUp-derived pairs.",
+          "value": "spatial position transform"
+        },
+        "aliases": [
+          "SP",
+          "spatial position shift"
+        ],
+        "is_contributed": {
+          "quote": "a spatial position shift known to challenge VLMs",
+          "justification": "It is not claimed as newly invented.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we construct the data pairs by either only using the ‘spatial position’ transform",
+          "justification": "Applied in dataset creation.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "spatial position (SP) criterion",
+          "justification": "Results are compared for it.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "only ‘spatial position’ transform is applied for the image-text pairs",
+          "justification": "Creates spatially altered pairs.",
+          "value": "applied to construct WhatsUp image-image and image-text comparison pairs"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "unknown",
+          "justification": "No specific procedure reference.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "greedy sampling",
+          "justification": "Named decoding procedure for open-source model inference.",
+          "value": "greedy sampling"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "using greedy sampling for inference",
+          "justification": "Standard existing procedure.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We run all open-source models ... using greedy sampling for inference.",
+          "justification": "Executed for every open-source VLM.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "using greedy sampling for inference",
+          "justification": "It is fixed rather than itself compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "using greedy sampling for inference",
+          "justification": "Direct role statement.",
+          "value": "the decoding strategy for open-source model inference"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "unknown",
+          "justification": "No reference paper given.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "randomized prompting strategy",
+          "justification": "Named strategy used to select among five prompt templates.",
+          "value": "randomized prompting strategy"
+        },
+        "aliases": [
+          "randomized approach"
+        ],
+        "is_contributed": {
+          "quote": "we applied a randomized prompting strategy",
+          "justification": "Presented as part of the paper's evaluation design.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "five template prompts ... that are randomly selected for each data pair",
+          "justification": "Executed during inference.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "MMScore performance ... for various prompt templates",
+          "justification": "Prompt templates are compared numerically.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "five template prompts with different lengths and wordings but with the same semantic meaning, that are randomly selected for each data pair",
+          "justification": "Direct description.",
+          "value": "randomly selects one of five semantically equivalent prompt templates for each data pair"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "PairBench: Are Vision-Language Models Reliable at Comparing What They See?",
+          "justification": "Applied and described here.",
+          "value": "PairBench: Are Vision-Language Models Reliable at Comparing What They See?"
+        }
+      },
+      {
+        "name": {
+          "quote": "cosine similarity",
+          "justification": "Named scoring procedure for image encoders.",
+          "value": "cosine similarity"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "we compute the cosine similarity",
+          "justification": "Standard existing procedure.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "To generate the similarity score ... we compute the cosine similarity of the representation of each image",
+          "justification": "Executed in encoder experiments.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "we explore how image encoders compare to VLMs on our metrics",
+          "justification": "Its resulting scores are compared.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "compute the cosine similarity of the representation of each image and scale the scores between 1-10",
+          "justification": "Direct role.",
+          "value": "compute image-encoder similarity scores, scale them to 1–10, and round to the nearest integer"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "unknown",
+          "justification": "No specific reference.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "Spearman correlation",
+          "justification": "Named correlation procedure.",
+          "value": "Spearman correlation"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "we compute the Spearman correlation",
+          "justification": "Standard procedure, not introduced.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we compute the Spearman correlation with respect to other popular benchmarks",
+          "justification": "Executed in analysis.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Spearman correlation of different metrics of PAIRBENCH with performance on other benchmarks",
+          "justification": "Multiple metrics and benchmarks are numerically compared.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "compute the Spearman correlation with respect to other popular benchmarks",
+          "justification": "Direct role.",
+          "value": "compute correlations between aggregated PAIRBENCH metrics and Open VLM Leaderboard benchmark performance"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "unknown",
+          "justification": "No specific reference.",
+          "value": "unknown"
+        }
+      }
+    ],
+    "runs": [
+      {
+        "models": [
+          {
+            "name": "Chameleon-7B",
+            "role_in_run": "main"
+          },
+          {
+            "name": "LLaVA-OneVision-7B",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Pixtral-12B",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Phi-3.5-vision",
+            "role_in_run": "main"
+          },
+          {
+            "name": "InternVL2-1B",
+            "role_in_run": "main"
+          },
+          {
+            "name": "InternVL2-2B",
+            "role_in_run": "main"
+          },
+          {
+            "name": "InternVL2-4B",
+            "role_in_run": "main"
+          },
+          {
+            "name": "InternVL2-8B",
+            "role_in_run": "main"
+          },
+          {
+            "name": "InternVL2.5-1B",
+            "role_in_run": "main"
+          },
+          {
+            "name": "InternVL2.5-2B",
+            "role_in_run": "main"
+          },
+          {
+            "name": "InternVL2.5-4B",
+            "role_in_run": "main"
+          },
+          {
+            "name": "InternVL2.5-8B",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Qwen2-VL-2B",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Qwen2-VL-7B",
+            "role_in_run": "main"
+          },
+          {
+            "name": "MolmoE-1B",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Molmo-7B-O",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Molmo-7B-D",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "PBCOCO",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          },
+          {
+            "name": "PBIN100",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          },
+          {
+            "name": "PBWU-II",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          },
+          {
+            "name": "PBWU-IT",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "PAIRBENCH"
+          },
+          {
+            "name": "greedy sampling"
+          },
+          {
+            "name": "randomized prompting strategy"
+          },
+          {
+            "name": "MMScore"
+          },
+          {
+            "name": "ε-RelaxSym"
+          },
+          {
+            "name": "Smoothness"
+          },
+          {
+            "name": "Controllability"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "We run all open-source models on a single NVIDIA H100 GPU using greedy sampling for inference.",
+          "justification": "This is inference-only benchmarking of all open-source VLM configurations.",
+          "value": "inference"
+        },
+        "epochs": {
+          "quote": "unknown",
+          "justification": "No epochs apply or are stated for inference.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "four model sizes (1B, 2B, 4B, and 8B) ... two capacities (2B and 7B) ... MolmoE-1B, Molmo-7B-O, and Molmo-7B-D",
+          "justification": "The run includes multiple explicitly stated scales, so no single parameter count describes the grouped compute configuration.",
+          "value": "multiple: 1B, 2B, 4B, 7B, 8B, and 12B configurations"
+        },
+        "accelerator_type": {
+          "quote": "a single NVIDIA H100 GPU",
+          "justification": "Explicit GPU hardware.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "a single NVIDIA H100 GPU",
+          "justification": "Specific accelerator named.",
+          "value": "NVIDIA H100"
+        },
+        "accelerator_count": {
+          "quote": "a single NVIDIA H100 GPU",
+          "justification": "Explicit count.",
+          "value": "1"
+        },
+        "precision": {
+          "quote": "unknown",
+          "justification": "No numerical precision is stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "a single NVIDIA H100 GPU",
+          "justification": "A single accelerator means no multi-accelerator parallelism for this run.",
+          "value": [
+            "none"
+          ]
+        },
+        "duration": {
+          "quote": "unknown",
+          "justification": "No duration is stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "unknown",
+          "justification": "No utilization is reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "unknown",
+          "justification": "The paper does not state independent repeated executions or seeds for model inference.",
+          "value": []
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "GPT-4o-0513",
+            "role_in_run": "main"
+          },
+          {
+            "name": "GPT-4o-0806",
+            "role_in_run": "main"
+          },
+          {
+            "name": "GPT-4o-1120",
+            "role_in_run": "main"
+          },
+          {
+            "name": "GPT-4o-mini-0718",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Gemini-1.5-Flash",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Gemini-1.5-Pro",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "PBCOCO",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          },
+          {
+            "name": "PBIN100",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          },
+          {
+            "name": "PBWU-II",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          },
+          {
+            "name": "PBWU-IT",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "PAIRBENCH"
+          },
+          {
+            "name": "randomized prompting strategy"
+          },
+          {
+            "name": "MMScore"
+          },
+          {
+            "name": "ε-RelaxSym"
+          },
+          {
+            "name": "Smoothness"
+          },
+          {
+            "name": "Controllability"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "For closed-source models, we use API access through either OPENROUTER or OpenAI, applying the default inference hyperparameters",
+          "justification": "Closed models are invoked for inference through APIs.",
+          "value": "inference"
+        },
+        "epochs": {
+          "quote": "unknown",
+          "justification": "No epochs are stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "unknown",
+          "justification": "No parameter counts are given for these proprietary models.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "unknown",
+          "justification": "API backend accelerator hardware is not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "unknown",
+          "justification": "No API backend accelerator model is stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "unknown",
+          "justification": "No count is stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "unknown",
+          "justification": "No precision is stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "unknown",
+          "justification": "No parallelism information is stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "unknown",
+          "justification": "No duration is stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "unknown",
+          "justification": "No utilization is stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "unknown",
+          "justification": "No independent repetition factors are stated.",
+          "value": []
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "DINOv2-Base",
+            "role_in_run": "main"
+          },
+          {
+            "name": "DINOv2-Small",
+            "role_in_run": "main"
+          },
+          {
+            "name": "DINOv2-Large",
+            "role_in_run": "main"
+          },
+          {
+            "name": "LAION- and OpenAI- CLIP-trained ViTs (base and large)",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "PBCOCO",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          },
+          {
+            "name": "PBIN100",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "color jitter"
+          },
+          {
+            "name": "rotation"
+          },
+          {
+            "name": "gaussian blur"
+          },
+          {
+            "name": "perspective shift"
+          },
+          {
+            "name": "elastic transformation"
+          },
+          {
+            "name": "cosine similarity"
+          },
+          {
+            "name": "MMScore"
+          },
+          {
+            "name": "ε-RelaxSym"
+          },
+          {
+            "name": "Smoothness"
+          },
+          {
+            "name": "Controllability"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "three DINOv2 versions ... and the LAION- and OpenAI- CLIP-trained ViTs (base and large) are chosen to encode images",
+          "justification": "The encoders are run in inference mode to generate representations and similarity scores.",
+          "value": "inference"
+        },
+        "epochs": {
+          "quote": "unknown",
+          "justification": "No epochs are stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "unknown",
+          "justification": "No encoder parameter counts are stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "unknown",
+          "justification": "The paper does not explicitly assign hardware to the encoder experiment.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "unknown",
+          "justification": "No explicit accelerator model for this experiment.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "unknown",
+          "justification": "No explicit accelerator count for this experiment.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "unknown",
+          "justification": "No precision is stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "unknown",
+          "justification": "No parallelism is stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "unknown",
+          "justification": "No duration is stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "unknown",
+          "justification": "No utilization is stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "we set k = 5",
+          "justification": "Here k=5 is the number of transformed versions averaged per image, a workload detail rather than independent reruns, so it is not recorded as a repetition factor.",
+          "value": []
+        }
+      },
+      {
+        "models": [],
+        "data_sources": [
+          {
+            "name": "COCO",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "IN100",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "WhatsUp",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "PAIRBENCH"
+          },
+          {
+            "name": "color jitter"
+          },
+          {
+            "name": "rotation"
+          },
+          {
+            "name": "gaussian blur"
+          },
+          {
+            "name": "perspective shift"
+          },
+          {
+            "name": "elastic transformation"
+          },
+          {
+            "name": "spatial position transform"
+          }
+        ],
+        "produces": [
+          "PBCOCO",
+          "PBIN100",
+          "PBWU-II",
+          "PBWU-IT"
+        ],
+        "execution_mode": {
+          "quote": "The PAIRBENCH framework takes in a source dataset and creates augmented versions of the data to obtain data pairs",
+          "justification": "This is a separate non-model data-production stage.",
+          "value": "generate"
+        },
+        "epochs": {
+          "quote": "unknown",
+          "justification": "Epochs do not apply and are not stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "unknown",
+          "justification": "No model is fitted or run.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "unknown",
+          "justification": "No hardware is stated for dataset construction.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "unknown",
+          "justification": "No accelerator model is stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "unknown",
+          "justification": "No accelerator count is stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "unknown",
+          "justification": "No numerical precision is stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "unknown",
+          "justification": "No parallelism is stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "unknown",
+          "justification": "No duration is stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "unknown",
+          "justification": "No utilization is stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "unknown",
+          "justification": "No independent execution repetitions are stated.",
+          "value": []
+        }
+      },
+      {
+        "models": [],
+        "data_sources": [
+          {
+            "name": "OPEN VLM LEADERBOARD",
+            "access": "fixed",
+            "roles_in_run": [
+              "reference"
+            ]
+          },
+          {
+            "name": "PAIRBENCH",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Spearman correlation"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "we compute the Spearman correlation with respect to other popular benchmarks",
+          "justification": "This is a non-model analysis computation over fixed results; the schema's generate mode best represents non-model computation.",
+          "value": "generate"
+        },
+        "epochs": {
+          "quote": "unknown",
+          "justification": "Not applicable and unstated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "unknown",
+          "justification": "No model is trained or inferred in this analysis stage.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "unknown",
+          "justification": "No hardware is stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "unknown",
+          "justification": "No hardware model is stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "unknown",
+          "justification": "No count is stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "unknown",
+          "justification": "No precision is stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "unknown",
+          "justification": "No parallelism is stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "unknown",
+          "justification": "No duration is stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "unknown",
+          "justification": "No utilization is stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "unknown",
+          "justification": "No independent repetition factors are stated.",
+          "value": []
+        }
+      }
+    ]
+  },
+  "usage": {
+    "input_tokens": 44890,
+    "output_tokens": 15172,
+    "total_tokens": 60062
+  }
+}

@@ -1,0 +1,826 @@
+{
+  "paper": "69a5fdc448887d403d0a5abf.txt",
+  "words": 5080,
+  "extractions": {
+    "title": {
+      "quote": "Probabilistic Mobility Load Balancing for\nMulti-band 5G and Beyond Networks",
+      "justification": "Title as given on the paper's first page.",
+      "value": "Probabilistic Mobility Load Balancing for Multi-band 5G and Beyond Networks"
+    },
+    "description": "The paper formulates multi-band mobility load balancing (MLB) in 5G cellular networks as a multi-objective stochastic UE-band assignment problem, transforms it into a Linear Program via the epigraph technique, and proposes an event-triggered algorithm (PMLB) with probabilistic rounding. It is evaluated in a proprietary packet-level System Level Simulator against rule-based and 3GPP-defined MLB baselines.",
+    "type": {
+      "quote": "The experiments are conducted on a proprietary System Level Simulator (SLS) [10], which is a packet-level simulator that emulates traffic for 5G networks based on real-word data.",
+      "justification": "The paper proposes an algorithm and evaluates it via simulation experiments, though it also includes optimization formulation/transformation.",
+      "value": "empirical"
+    },
+    "research_fields": [
+      {
+        "name": {
+          "quote": "Index Terms—Cellular networks, load balancing, optimization",
+          "justification": "Index terms state the field.",
+          "value": "Cellular networks / load balancing"
+        },
+        "aliases": [
+          "mobility load balancing",
+          "MLB",
+          "5G networks"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "we model the load balancing problem as a multi-objective stochastic optimization",
+          "justification": "The paper formulates and solves a multi-objective stochastic optimization problem, transforming it into an LP.",
+          "value": "Optimization"
+        },
+        "aliases": [
+          "multi-objective optimization",
+          "linear programming"
+        ],
+        "role": "used"
+      },
+      {
+        "name": {
+          "quote": "MLB is commonly studied within the context of self-organizing networks (SON)",
+          "justification": "MLB studied in the context of SON.",
+          "value": "Self-organizing networks (SON)"
+        },
+        "aliases": [
+          "SON"
+        ],
+        "role": "referenced"
+      },
+      {
+        "name": {
+          "quote": "Reinforcement Learning (RL)-based MLB was presented in [9]",
+          "justification": "Named only as related prior work context.",
+          "value": "Reinforcement Learning"
+        },
+        "aliases": [
+          "RL"
+        ],
+        "role": "referenced"
+      }
+    ],
+    "models": [],
+    "data_sources": [
+      {
+        "name": {
+          "quote": "The experiments are conducted on a proprietary System Level Simulator (SLS) [10], which is a packet-level simulator that emulates traffic for 5G networks based on real-word data.",
+          "justification": "The proprietary packet-level simulator provides the traffic/network scenarios consumed by the experiments.",
+          "value": "System Level Simulator (SLS)"
+        },
+        "aliases": [
+          "SLS",
+          "proprietary System Level Simulator"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "Simulation time\t24 h",
+          "justification": "The paper gives simulation parameters (24 h simulation time, 400 or 200 UEs per cell) but no dataset sample count.",
+          "value": "unknown"
+        },
+        "derived_from": [],
+        "sample_properties": [
+          {
+            "name": "Simulation time",
+            "value": {
+              "quote": "Simulation time\t24 h",
+              "justification": "Table I simulation parameters.",
+              "value": "24 h"
+            },
+            "unit": "hours"
+          },
+          {
+            "name": "Number of cells",
+            "value": {
+              "quote": "# of cells\t3",
+              "justification": "Table I.",
+              "value": "3"
+            },
+            "unit": "cells"
+          },
+          {
+            "name": "Number of bands",
+            "value": {
+              "quote": "Number of bands B\t4",
+              "justification": "Table I.",
+              "value": "4"
+            },
+            "unit": "bands"
+          },
+          {
+            "name": "Bandwidth for each band",
+            "value": {
+              "quote": "Bandwidth for each band\t[20, 10, 5, 10] MHz",
+              "justification": "Table I.",
+              "value": "[20, 10, 5, 10] MHz"
+            },
+            "unit": "MHz"
+          },
+          {
+            "name": "# PRB for each band",
+            "value": {
+              "quote": "# PRB for each band\t[100, 50, 25, 50]",
+              "justification": "Table I.",
+              "value": "[100, 50, 25, 50]"
+            },
+            "unit": "PRBs"
+          },
+          {
+            "name": "Packet size",
+            "value": {
+              "quote": "Packet size\t1500 Bytes",
+              "justification": "Table I.",
+              "value": "1500 Bytes"
+            },
+            "unit": "Bytes"
+          },
+          {
+            "name": "Inter-site distance",
+            "value": {
+              "quote": "Inter-site distance\t200 m",
+              "justification": "Table I.",
+              "value": "200 m"
+            },
+            "unit": "meters"
+          },
+          {
+            "name": "UEs per cell",
+            "value": {
+              "quote": "Scenario A: A heavy traffic scenario with 400 UEs per cell and packet inter-arrival time 1/λu of 20 ms, Scenario B: A moderate traffic scenario with the same number of UEs but a packet inter-arrival time 1/λu of 50 ms, and Scenario C: A light traffic scenario with lower number of UEs with 200 UEs per cell",
+              "justification": "Scenario descriptions.",
+              "value": "400 UEs per cell (Scenarios A and B), 200 UEs per cell (Scenario C)"
+            },
+            "unit": "UEs"
+          }
+        ],
+        "referenced_paper_title": {
+          "quote": "The experiments are conducted on a proprietary System Level Simulator (SLS) [10]",
+          "justification": "The SLS is cited to reference [10].",
+          "value": "Multiobjective load balancing for multiband downlink cellular networks: A meta-reinforcement learning approach"
+        }
+      }
+    ],
+    "libraries": [
+      {
+        "name": {
+          "quote": "the existence of a variety of open sourced solvers such as CVXPY [15] that can be used",
+          "justification": "Named as an open-source solver usable for the LP.",
+          "value": "CVXPY"
+        },
+        "aliases": [],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "S. Diamond and S. Boyd, “CVXPY: A python-embedded modeling language for convex optimization,”",
+          "justification": "Reference [15].",
+          "value": "CVXPY: A python-embedded modeling language for convex optimization"
+        }
+      }
+    ],
+    "algorithms": [
+      {
+        "name": {
+          "quote": "Algorithm 1: Probabilistic Mobility Load Balancing (PMLB)",
+          "justification": "The paper's proposed algorithm, named in Algorithm 1.",
+          "value": "Probabilistic Mobility Load Balancing (PMLB)"
+        },
+        "aliases": [
+          "PMLB",
+          "P-LB"
+        ],
+        "is_contributed": {
+          "quote": "We propose an event-based MLB algorithm with probabilistic assignment scheme, which uses the solution of the Linear Program",
+          "justification": "Explicit contribution.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "The proposed PMLB algorithm is compared to two baselines",
+          "justification": "Run in the simulator experiments.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "The proposed PMLB algorithm is compared to two baselines, namely, a rule-based MLB (RBMLB) and the 3GPP defined MLB",
+          "justification": "Compared against RBMLB and 3GPP MLB.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "We propose an event-based MLB algorithm with probabilistic assignment scheme, which uses the solution of the Linear Program, such that the assignment for a UE is given by a probability distribution over the bands.",
+          "justification": "Paper's own words describing it.",
+          "value": "an event-based MLB algorithm with probabilistic assignment scheme, which uses the solution of the Linear Program"
+        },
+        "composed_of": [
+          "probabilistic rounding",
+          "epigraph technique",
+          "load balancing index (LBI)"
+        ],
+        "referenced_paper_title": {
+          "quote": "The proposed Probabilistic MLB (PMLB) algorithm is presented in Algorithm 1",
+          "justification": "Contributed here, no reference.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "We further propose the probabilistic rounding approach, which is to make use of constraint (6b) and regard the UE assignment vector xu as a probability distribution over the bands.",
+          "justification": "Named approach for relaxing integrality.",
+          "value": "probabilistic rounding"
+        },
+        "aliases": [
+          "P-LB"
+        ],
+        "is_contributed": {
+          "quote": "We further propose the probabilistic rounding approach",
+          "justification": "Proposed by the authors.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "To compare with our approach with probabilistic rounding (P-LB)",
+          "justification": "Used and compared in the optimization analysis.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Although for our approach we observe a slightly worse objective value, it keeps a constant gap between the MILP.",
+          "justification": "Compared with MILP and deterministic rounding.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "which is to make use of constraint (6b) and regard the UE assignment vector xu as a probability distribution over the bands",
+          "justification": "Paper's description.",
+          "value": "to make use of constraint (6b) and regard the UE assignment vector xu as a probability distribution over the bands"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "We further propose the probabilistic rounding approach",
+          "justification": "No reference.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "we solve it with integer relaxation considering the deterministic rounding approach (D-LP), where the values are rounded to the nearest integer",
+          "justification": "Named baseline rounding technique.",
+          "value": "deterministic rounding approach (D-LP)"
+        },
+        "aliases": [
+          "D-LP"
+        ],
+        "is_contributed": {
+          "quote": "the D-LP method achieves a worse value",
+          "justification": "Baseline for comparison.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Afterwards, we solve it with integer relaxation considering the deterministic rounding approach (D-LP)",
+          "justification": "Executed in the optimization analysis.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "the D-LP method achieves a worse value, but it also increases the performance gap as we increase the number of UEs",
+          "justification": "Compared in Fig. 2.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "where the values are rounded to the nearest integer (i.e., 0 or 1) and ties broken evenly",
+          "justification": "Paper's description.",
+          "value": "comparison rounding technique where values are rounded to the nearest integer and ties broken evenly"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "the deterministic rounding approach (D-LP)",
+          "justification": "No reference.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "the LP in (10) is solved without integer relaxation using a Mixed-Integer LP (MILP) solver by employing the Branch and Bound algorithm",
+          "justification": "Named algorithm used in the MILP solver.",
+          "value": "Branch and Bound"
+        },
+        "aliases": [
+          "MILP solver"
+        ],
+        "is_contributed": {
+          "quote": "using a Mixed-Integer LP (MILP) solver by employing the Branch and Bound algorithm",
+          "justification": "Standard algorithm used as reference.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "the time increases exponentially for MILP",
+          "justification": "Executed to produce MILP solution times and objective values.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "the MILP achieves the best objective value",
+          "justification": "MILP compared against relaxations.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "the LP in (10) is solved without integer relaxation using a Mixed-Integer LP (MILP) solver by employing the Branch and Bound algorithm",
+          "justification": "Paper's words.",
+          "value": "used to solve the LP in (10) without integer relaxation as a Mixed-Integer LP"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "by employing the Branch and Bound algorithm",
+          "justification": "No specific reference.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "we leverage the epigraph technique [13] to linearize the objective function",
+          "justification": "Named transformation procedure.",
+          "value": "epigraph technique"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "By leveraging problem transformation methods (e.g., epigraph technique), we reduce the problem into a Linear Program",
+          "justification": "Standard convex optimization technique cited to Boyd.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we leverage the epigraph technique [13] to linearize the objective function by first introducing a non-negative slack variable t",
+          "justification": "Applied to transform the problem that is then solved.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "we leverage the epigraph technique [13] to linearize the objective function",
+          "justification": "Not numerically compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "By leveraging problem transformation methods (e.g., epigraph technique), we reduce the problem into a Linear Program to reduce the solution complexity.",
+          "justification": "Paper's words.",
+          "value": "to linearize the objective function and reduce the problem into a Linear Program"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "S. Boyd, S. P. Boyd, and L. Vandenberghe, Convex optimization.",
+          "justification": "Reference [13].",
+          "value": "Convex optimization"
+        }
+      },
+      {
+        "name": {
+          "quote": "we define the load balancing index (LBI) as follows",
+          "justification": "Named index used as the event trigger / metric.",
+          "value": "load balancing index (LBI)"
+        },
+        "aliases": [
+          "LBI",
+          "Jain's Fairness Index",
+          "JFI"
+        ],
+        "is_contributed": {
+          "quote": "Therein, to indicate how much the loads between the bands are evenly distributed, we define the load balancing index (LBI)",
+          "justification": "Defined in this paper (based on JFI) to trigger optimization.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "calculate LBI according to (11);",
+          "justification": "Computed in Algorithm 1 and reported in results.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "We can see the LBI values in Fig. 3(f).",
+          "justification": "LBI values compared across algorithms in Fig. 3(f).",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "to indicate how much the loads between the bands are evenly distributed, we define the load balancing index (LBI)",
+          "justification": "Paper's words.",
+          "value": "to indicate how much the loads between the bands are evenly distributed and to define the event triggering optimization"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "the LBI is simply the Jain’s Fairness Index (JFI) [16]",
+          "justification": "JFI reference [16].",
+          "value": "A quantitative measure of fairness and discrimination"
+        }
+      },
+      {
+        "name": {
+          "quote": "a rule-based MLB (RBMLB)",
+          "justification": "Named baseline algorithm.",
+          "value": "rule-based MLB (RBMLB)"
+        },
+        "aliases": [
+          "RBMLB"
+        ],
+        "is_contributed": {
+          "quote": "RBMLB is a proprietary MLB algorithm that is developed by Samsung and used by some telecom operators.",
+          "justification": "Proprietary Samsung baseline.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "The proposed PMLB algorithm is compared to two baselines, namely, a rule-based MLB (RBMLB)",
+          "justification": "Run in simulation for comparison.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "PMLB algorithm outperforms RBMLB, achieving an 18% improvement in the average throughput",
+          "justification": "Numerically compared throughout Fig. 3.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "It uses a fixed set of rules such that a pool of UEs that are randomly selected moved between bands, in addition to the A2, A4, and the A5 events",
+          "justification": "Paper's words.",
+          "value": "baseline that uses a fixed set of rules such that a pool of UEs that are randomly selected moved between bands"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "RBMLB is a proprietary MLB algorithm that is developed by Samsung",
+          "justification": "Proprietary, no reference.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "The proposed PMLB algorithm is compared to two baselines, namely, a rule-based MLB (RBMLB) and the 3GPP defined MLB",
+          "justification": "Named baseline.",
+          "value": "3GPP defined MLB"
+        },
+        "aliases": [
+          "vanilla MLB"
+        ],
+        "is_contributed": {
+          "quote": "the 3GPP defined MLB let the UEs associates with bands based on the A2 event",
+          "justification": "Standard baseline.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "the 3GPP defined MLB let the UEs associates with bands based on the A2 event",
+          "justification": "Simulated as baseline.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "the vanilla MLB algorithm utilized mainly two bands which have the best channel quality",
+          "justification": "Compared in Fig. 3.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "the 3GPP defined MLB let the UEs associates with bands based on the A2 event",
+          "justification": "Paper's words.",
+          "value": "baseline that lets the UEs associate with bands based on the A2 event"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "the 3GPP default rule set for MLB [2] is employed such as the A2 and A5 events",
+          "justification": "3GPP MLB rule set reference [2].",
+          "value": "LTE; Evolved Universal Terrestrial Radio Access Network (E-UTRAN); Self-configuring and self-optimizing network (SON) use cases and solutions"
+        }
+      },
+      {
+        "name": {
+          "quote": "The NO MLB baseline let the UEs camp on the first 2 bands only without relocating any UEs",
+          "justification": "Named baseline without load balancing.",
+          "value": "NO MLB"
+        },
+        "aliases": [
+          "no load balancing baseline"
+        ],
+        "is_contributed": {
+          "quote": "in addition to the no load balancing baseline",
+          "justification": "Baseline.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "The NO MLB baseline let the UEs camp on the first 2 bands only without relocating any UEs",
+          "justification": "Simulated as baseline.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "in addition to the no load balancing baseline",
+          "justification": "Included in performance comparison.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "The NO MLB baseline let the UEs camp on the first 2 bands only without relocating any UEs",
+          "justification": "Paper's words.",
+          "value": "baseline that lets the UEs camp on the first 2 bands only without relocating any UEs"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "the no load balancing baseline",
+          "justification": "No reference.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "Scheduler\tProportional Fair",
+          "justification": "Named scheduler in simulation parameters.",
+          "value": "Proportional Fair"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "Scheduler\tProportional Fair",
+          "justification": "Standard scheduler used in simulation.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Scheduler\tProportional Fair",
+          "justification": "Part of the simulation configuration.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Scheduler\tProportional Fair",
+          "justification": "Not compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "Scheduler\tProportional Fair",
+          "justification": "Listed in Table I simulation parameters.",
+          "value": "the scheduler used in the simulation"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Scheduler\tProportional Fair",
+          "justification": "No reference given.",
+          "value": "unknown"
+        }
+      }
+    ],
+    "runs": [
+      {
+        "models": [],
+        "data_sources": [
+          {
+            "name": "System Level Simulator (SLS)",
+            "access": "interactive",
+            "roles_in_run": [
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Probabilistic Mobility Load Balancing (PMLB)"
+          },
+          {
+            "name": "probabilistic rounding"
+          },
+          {
+            "name": "load balancing index (LBI)"
+          },
+          {
+            "name": "epigraph technique"
+          },
+          {
+            "name": "Proportional Fair"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "The experiments are conducted on a proprietary System Level Simulator (SLS) [10], which is a packet-level simulator that emulates traffic for 5G networks based on real-word data.",
+          "justification": "The run steps a packet-level network simulator to evaluate the algorithm; no model is fitted or inferred.",
+          "value": "generate"
+        },
+        "epochs": {
+          "quote": "Simulation time\t24 h",
+          "justification": "Not applicable/stated; simulation time of 24 h is given instead.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "The experiments are conducted on a proprietary System Level Simulator (SLS)",
+          "justification": "No learned model.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "The experiments are conducted on a proprietary System Level Simulator (SLS) [10]",
+          "justification": "No hardware stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "The experiments are conducted on a proprietary System Level Simulator (SLS) [10]",
+          "justification": "No hardware stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "The experiments are conducted on a proprietary System Level Simulator (SLS) [10]",
+          "justification": "No hardware stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "The experiments are conducted on a proprietary System Level Simulator (SLS) [10]",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "The experiments are conducted on a proprietary System Level Simulator (SLS) [10]",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "Simulation time\t24 h",
+          "justification": "Only simulated time (24 h) is stated, not wall-clock compute duration.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "The experiments are conducted on a proprietary System Level Simulator (SLS) [10]",
+          "justification": "Not reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "In the conducted experiments, we consider three dynamic traffic scenarios: Scenario A ... Scenario B ... Scenario C",
+          "justification": "The paper runs three traffic scenarios and compares four algorithms.",
+          "value": [
+            {
+              "kind": "variant",
+              "count": 3,
+              "what": "three dynamic traffic scenarios (A heavy, B moderate, C light)"
+            },
+            {
+              "kind": "variant",
+              "count": 4,
+              "what": "algorithms compared: PMLB, RBMLB, 3GPP defined MLB, NO MLB"
+            }
+          ]
+        }
+      },
+      {
+        "models": [],
+        "data_sources": [
+          {
+            "name": "System Level Simulator (SLS)",
+            "access": "generator",
+            "roles_in_run": [
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Branch and Bound"
+          },
+          {
+            "name": "deterministic rounding approach (D-LP)"
+          },
+          {
+            "name": "probabilistic rounding"
+          },
+          {
+            "name": "epigraph technique"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "first, the LP in (10) is solved without integer relaxation using a Mixed-Integer LP (MILP) solver by employing the Branch and Bound algorithm.",
+          "justification": "This stage solves the optimization problem repeatedly at varying numbers of UEs to measure solution time and objective value; it fits no model.",
+          "value": "generate"
+        },
+        "epochs": {
+          "quote": "In Fig. 2(a), we show the LP solution time in milliseconds.",
+          "justification": "Not applicable.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "as we increase the number UEs in the problem (i.e., increasing the number of variables)",
+          "justification": "No model parameters.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "In Fig. 2(a), we show the LP solution time in milliseconds.",
+          "justification": "No hardware described.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "In Fig. 2(a), we show the LP solution time in milliseconds.",
+          "justification": "No hardware described.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "In Fig. 2(a), we show the LP solution time in milliseconds.",
+          "justification": "No hardware described.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "In Fig. 2(a), we show the LP solution time in milliseconds.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "In Fig. 2(a), we show the LP solution time in milliseconds.",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "In Fig. 2(a), we show the LP solution time in milliseconds.",
+          "justification": "Per-solve times are plotted in milliseconds but no total duration is stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "In Fig. 2(a), we show the LP solution time in milliseconds.",
+          "justification": "Not reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "To compare with our approach with probabilistic rounding (P-LB), first, the LP in (10) is solved without integer relaxation using a Mixed-Integer LP (MILP) solver ... Afterwards, we solve it with integer relaxation considering the deterministic rounding approach (D-LP)",
+          "justification": "Three solution approaches were compared; the sweep over number of UEs is described but no count given.",
+          "value": [
+            {
+              "kind": "variant",
+              "count": 3,
+              "what": "solution methods compared: MILP, D-LP, P-LB"
+            }
+          ]
+        }
+      },
+      {
+        "models": [],
+        "data_sources": [
+          {
+            "name": "System Level Simulator (SLS)",
+            "access": "generator",
+            "roles_in_run": [
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Probabilistic Mobility Load Balancing (PMLB)"
+          },
+          {
+            "name": "epigraph technique"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "To find the Pareto-optimal solutions to the MOP, the weights values are varied for each objective and then the solutions for each variation form the Pareto front.",
+          "justification": "Solving the MOP repeatedly at varying objective weights to trace the Pareto front; no fitting.",
+          "value": "generate"
+        },
+        "epochs": {
+          "quote": "The Pareto front for our MOP and the tradeoffs between the two objectives are depicted in Fig. 1.",
+          "justification": "Not applicable.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "Each point on the curve represents a different value for the objective weight w.",
+          "justification": "No model.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "The Pareto front for our MOP and the tradeoffs between the two objectives are depicted in Fig. 1.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "The Pareto front for our MOP and the tradeoffs between the two objectives are depicted in Fig. 1.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "The Pareto front for our MOP and the tradeoffs between the two objectives are depicted in Fig. 1.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "The Pareto front for our MOP and the tradeoffs between the two objectives are depicted in Fig. 1.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "The Pareto front for our MOP and the tradeoffs between the two objectives are depicted in Fig. 1.",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "The Pareto front for our MOP and the tradeoffs between the two objectives are depicted in Fig. 1.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "The Pareto front for our MOP and the tradeoffs between the two objectives are depicted in Fig. 1.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "Each point on the curve represents a different value for the objective weight w.",
+          "justification": "The paper says the weight w is varied but does not state how many values; recorded as a weight-sweep factor with unstated count.",
+          "value": [
+            {
+              "kind": "hyperparameter",
+              "count": 2,
+              "what": "objective weight w varied to form the Pareto front (number of values not stated)"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "usage": {
+    "input_tokens": 23528,
+    "output_tokens": 9958,
+    "total_tokens": 33486
+  }
+}

@@ -1,0 +1,1453 @@
+{
+  "paper": "69a5fdbf48887d403d0a5a21.txt",
+  "words": 6481,
+  "extractions": {
+    "title": {
+      "quote": "Robust Knowledge Unlearning via Mechanistic Localizations",
+      "justification": "Title as given at the top of the paper.",
+      "value": "Robust Knowledge Unlearning via Mechanistic Localizations"
+    },
+    "description": "The paper studies machine unlearning in large language models, comparing localization methods (Causal Tracing, Attribution Patching, manual mechanistic interpretability, random, all-MLPs, nonlocalized) combined with localized fine-tuning and weight masking on Gemma-7B, evaluated on Sports Facts unlearning tasks with standard, MCQ, adversarial relearning, latent probing, and MMLU evaluations.",
+    "type": {
+      "quote": "Our experiments demonstrate that manual mechanistic unlearning outperforms all other automated localization and nonlocalized unlearning approaches.",
+      "justification": "The paper runs experiments on Gemma-7B with multiple localization/unlearning configurations and reports accuracy tables and figures.",
+      "value": "empirical"
+    },
+    "research_fields": [
+      {
+        "name": {
+          "quote": "Methods for machine unlearning in large language models seek to remove undesirable knowledge or capabilities without compromising general language modeling performance.",
+          "justification": "The paper proposes and evaluates unlearning methods for LLMs.",
+          "value": "Machine Unlearning"
+        },
+        "aliases": [
+          "unlearning"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "This work investigates the use of mechanistic interpretability to improve the precision and effectiveness of unlearning.",
+          "justification": "The paper uses and advances interpretability-based localization and suggests unlearning as a testbed for interpretability methods.",
+          "value": "Mechanistic Interpretability"
+        },
+        "aliases": [
+          "interpretability"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "Large language models (LLMs) often learn to encode undesirable knowledge",
+          "justification": "Setting is large language models and factual recall tasks.",
+          "value": "Natural Language Processing"
+        },
+        "aliases": [
+          "NLP",
+          "large language models"
+        ],
+        "role": "used"
+      },
+      {
+        "name": {
+          "quote": "This paper advances the fields of interpretability and unlearning, both of which are relevant for ensuring the safety, privacy, and fairness of models.",
+          "justification": "Paper frames unlearning as relevant to safety, privacy, fairness.",
+          "value": "AI Safety"
+        },
+        "aliases": [
+          "safety"
+        ],
+        "role": "referenced"
+      }
+    ],
+    "models": [
+      {
+        "name": {
+          "quote": "For all tasks, we use the Gemma-7B LLM (Team et al., 2024)",
+          "justification": "The LLM used for all unlearning tasks.",
+          "value": "Gemma-7B"
+        },
+        "aliases": [
+          "Gemma"
+        ],
+        "is_contributed": {
+          "quote": "we use the Gemma-7B LLM (Team et al., 2024)",
+          "justification": "Pre-existing model from Google.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "For localized fine-tuning on Gemma, we trained using 50 iterations of batch size 4 with 16 accumulation steps",
+          "justification": "The model was fine-tuned, masked, and evaluated.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "manual interpretability achieves the highest robust multiple-choice forget accuracy and the highest MMLU",
+          "justification": "Different unlearned variants of Gemma-7B are compared across localizations.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "We test localized fine-tuning of the model, following work by Lee et al. (2023) and Panigrahi et al. (2023).",
+          "justification": "The model is fine-tuned (localized fine-tuning) rather than trained from scratch.",
+          "value": "finetune"
+        },
+        "referenced_paper_title": {
+          "quote": "Team, G., Mesnard, T., Hardin, C., ... Gemma: Open models based on gemini research and technology. arXiv preprint arXiv:2403.08295, 2024.",
+          "justification": "Reference given for Gemma.",
+          "value": "Gemma: Open models based on gemini research and technology"
+        }
+      },
+      {
+        "name": {
+          "quote": "rather than the Pythia-2.8B (Mallen & Belrose, 2023) model tested in Nanda et al. (2023)",
+          "justification": "Mentioned as the model used in prior work but not used here.",
+          "value": "Pythia-2.8B"
+        },
+        "aliases": [
+          "Pythia 2.8B"
+        ],
+        "is_contributed": {
+          "quote": "rather than the Pythia-2.8B (Mallen & Belrose, 2023) model tested in Nanda et al. (2023)",
+          "justification": "Prior model referenced only.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "For all tasks, we use the Gemma-7B LLM (Team et al., 2024) rather than the Pythia-2.8B ... model tested in Nanda et al. (2023)",
+          "justification": "Explicitly not used in this work.",
+          "value": false
+        },
+        "is_compared": {
+          "quote": "who discover components in Pythia 2.8B responsible for token concatenation, fact lookup, and attribute extraction",
+          "justification": "No numerical comparison is made with Pythia.",
+          "value": false
+        },
+        "execution_mode": {
+          "quote": "rather than the Pythia-2.8B (Mallen & Belrose, 2023) model tested in Nanda et al. (2023)",
+          "justification": "Not executed in this paper.",
+          "value": "unknown"
+        },
+        "referenced_paper_title": {
+          "quote": "Mallen, A. and Belrose, N. Eliciting latent knowledge from quirky language models, 2023.",
+          "justification": "Citation attached to Pythia-2.8B in the paper.",
+          "value": "Eliciting latent knowledge from quirky language models"
+        }
+      },
+      {
+        "name": {
+          "quote": "we train logistic regression models (probes) (Alain & Bengio, 2018) on the activations of every model layer to predict the correct sport from the prompt",
+          "justification": "Linear probes trained on activations to detect latent knowledge.",
+          "value": "logistic regression models (probes)"
+        },
+        "aliases": [
+          "linear probes",
+          "probes"
+        ],
+        "is_contributed": {
+          "quote": "We train three linear probes (Alain & Bengio, 2018) for every model and layer",
+          "justification": "Standard probing technique from Alain & Bengio.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We train three linear probes (Alain & Bengio, 2018) for every model and layer, one for each sport",
+          "justification": "Probes were trained and evaluated per layer.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Figure 2 ... show the accuracy of the trained per-layer probes on the forget set for each of the unlearning tasks",
+          "justification": "Probe accuracies compared across unlearning methods.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "For more details on probe training, see Appendix A.4.3.",
+          "justification": "Probes are trained from scratch on activations.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "Alain, G. and Bengio, Y. Understanding intermediate layers using linear classifier probes, 2018.",
+          "justification": "Cited reference for probes.",
+          "value": "Understanding intermediate layers using linear classifier probes"
+        }
+      }
+    ],
+    "data_sources": [
+      {
+        "name": {
+          "quote": "We focus on unlearning subsets of the Sports Facts dataset from Nanda et al. (2023), which contains subject-sport relations across three sports categories for 1567 athletes.",
+          "justification": "Primary dataset of athlete-sport associations used for unlearning.",
+          "value": "Sports Facts dataset"
+        },
+        "aliases": [
+          "Sports Facts"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "which contains subject-sport relations across three sports categories for 1567 athletes",
+          "justification": "Stated in the paper.",
+          "value": "1567 athletes"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "Nanda, N., Rajamanoharan, S., Kramar, J., and Shah, R. Fact finding: Attempting to reverse-engineer factual recall on the neuron level, Dec 2023.",
+          "justification": "Nanda et al. 2023 is the source of the Sports Facts dataset.",
+          "value": "Fact finding: Attempting to reverse-engineer factual recall on the neuron level"
+        }
+      },
+      {
+        "name": {
+          "quote": "and LSFT is a cross-entropy loss on the Pile dataset (Gao et al., 2020)",
+          "justification": "Used for the SFT cross-entropy loss term.",
+          "value": "The Pile"
+        },
+        "aliases": [
+          "Pile"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "a cross-entropy loss on the Pile dataset (Gao et al., 2020)",
+          "justification": "No size used stated.",
+          "value": "unknown"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "Gao, L., Biderman, S., Black, S., ... The pile: An 800gb dataset of diverse text for language modeling, 2020.",
+          "justification": "Cited reference.",
+          "value": "The pile: An 800gb dataset of diverse text for language modeling"
+        }
+      },
+      {
+        "name": {
+          "quote": "we also evaluate our models’ accuracy on MMLU (Hendrycks et al., 2021) as a proxy for the general side effects of unlearning",
+          "justification": "Used to measure general capabilities / side effects.",
+          "value": "MMLU"
+        },
+        "aliases": [
+          "Measuring massive multitask language understanding"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "we also evaluate our models’ accuracy on MMLU (Hendrycks et al., 2021)",
+          "justification": "No size stated.",
+          "value": "unknown"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "Hendrycks, D., Burns, C., Basart, S., Zou, A., Mazeika, M., Song, D., and Steinhardt, J. Measuring massive multitask language understanding, 2021.",
+          "justification": "Cited reference.",
+          "value": "Measuring massive multitask language understanding"
+        }
+      },
+      {
+        "name": {
+          "quote": "because we have to evaluate many model variations, we use a smaller MMLU test set from Polo et al. (2024)",
+          "justification": "Smaller MMLU set used for many model variations.",
+          "value": "tinyBenchmarks MMLU test set"
+        },
+        "aliases": [
+          "smaller MMLU test set",
+          "tinybenchmarks"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "we use a smaller MMLU test set from Polo et al. (2024)",
+          "justification": "Size not stated.",
+          "value": "unknown"
+        },
+        "derived_from": [
+          "MMLU"
+        ],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "Polo, F. M., Weber, L., Choshen, L., Sun, Y., Xu, G., and Yurochkin, M. tinybenchmarks: evaluating llms with fewer examples, 2024.",
+          "justification": "Cited reference.",
+          "value": "tinybenchmarks: evaluating llms with fewer examples"
+        }
+      }
+    ],
+    "libraries": [],
+    "algorithms": [
+      {
+        "name": {
+          "quote": "First, we test Causal Tracing, a method for finding components with high direct importance for factual associations (Meng et al., 2023).",
+          "justification": "Localization method tested.",
+          "value": "Causal Tracing"
+        },
+        "aliases": [
+          "CT",
+          "Localized CT"
+        ],
+        "is_contributed": {
+          "quote": "Causal Tracing (Meng et al., 2023) and Automated circuit discovery (ACDC) (Conmy et al., 2023) utilize repeated activation patching",
+          "justification": "From Meng et al. 2023.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "In particular, Attribution Patching and Causal Tracing localizations cause the model to have zero accuracy on the in-distribution set",
+          "justification": "Used to localize components for unlearning experiments.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "C AUSAL T RACING 0.201 0.998 0.849 0.611",
+          "justification": "Compared in tables against other localizations.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "First, we test Causal Tracing, a method for finding components with high direct importance for factual associations (Meng et al., 2023).",
+          "justification": "Described as such in Section 2.3.",
+          "value": "a method for finding components with high direct importance for factual associations, used as a localization method for unlearning"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Meng, K., Bau, D., Andonian, A., and Belinkov, Y. Locating and editing factual associations in gpt, 2023.",
+          "justification": "Meng et al. 2023 reference.",
+          "value": "Locating and editing factual associations in gpt"
+        }
+      },
+      {
+        "name": {
+          "quote": "so we also use Attribution Patching (Nanda, 2023), which uses a linear approximation to activation patching to automatically localize over components with high direct and indirect importance.",
+          "justification": "Localization method tested.",
+          "value": "Attribution Patching"
+        },
+        "aliases": [
+          "AP",
+          "Localized AP"
+        ],
+        "is_contributed": {
+          "quote": "Efficient methods such as attribution patching (Nanda, 2023)",
+          "justification": "From Nanda 2023.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Attribution Patching and Causal Tracing localizations cause the model to have zero accuracy on the in-distribution set",
+          "justification": "Used to localize components in experiments.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "ATTRIB . PATCHING 0.000 1.000 0.767 0.602",
+          "justification": "Compared in tables and figures.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "which uses a linear approximation to activation patching to automatically localize over components with high direct and indirect importance",
+          "justification": "Paper's own description.",
+          "value": "uses a linear approximation to activation patching to automatically localize over components with high direct and indirect importance"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Nanda, N. Attribution patching: Activation patching at industrial scale, 2023.",
+          "justification": "Nanda 2023 blog reference.",
+          "value": "Attribution patching: Activation patching at industrial scale"
+        }
+      },
+      {
+        "name": {
+          "quote": "we exploit the findings from this literature to design a manual interpretability-based unlearning technique that we refer to as manual mechanistic unlearning",
+          "justification": "The paper's contributed technique.",
+          "value": "manual mechanistic unlearning"
+        },
+        "aliases": [
+          "Manual",
+          "Manual Interp",
+          "manual mechanistic interpretability"
+        ],
+        "is_contributed": {
+          "quote": "In this work we exploit the findings from this literature to design a manual interpretability-based unlearning technique that we refer to as manual mechanistic unlearning.",
+          "justification": "Explicitly the paper's technique.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "we localize the fact lookup stage to be the MLP components between layers 2 and 7",
+          "justification": "Used throughout the experiments.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "manual mechanistic unlearning outperforms all other automated localization and nonlocalized unlearning approaches",
+          "justification": "Compared against automated localizations.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "Using this, we localize our unlearning and cause the model to robustly unlearn facts with minimal side effects.",
+          "justification": "Paper's own words.",
+          "value": "a manual interpretability-based unlearning technique used to localize unlearning and cause the model to robustly unlearn facts with minimal side effects"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "we use a manually derived localization inspired by Nanda et al. (2023)",
+          "justification": "Inspired by Nanda et al. 2023.",
+          "value": "Fact finding: Attempting to reverse-engineer factual recall on the neuron level"
+        }
+      },
+      {
+        "name": {
+          "quote": "We test localized fine-tuning of the model, following work by Lee et al. (2023) and Panigrahi et al. (2023).",
+          "justification": "One of the two unlearning methods.",
+          "value": "localized fine-tuning"
+        },
+        "aliases": [
+          "Localized Finetuning"
+        ],
+        "is_contributed": {
+          "quote": "following work by Lee et al. (2023) and Panigrahi et al. (2023)",
+          "justification": "Follows prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Our results with localized fine-tuning are shown in Table 1 (for sports) and Table 2 (for athletes).",
+          "justification": "Results in Tables 1 and 2.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "In this section, we show the results of unlearning across all of the mentioned localization techniques for localized fine-tuning and weight masking.",
+          "justification": "Compared with weight masking.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "Then, we optimize over the parameters of these isolated components using an unlearning loss function",
+          "justification": "Paper describes the two-step unlearning process.",
+          "value": "optimizing over the parameters of isolated components using an unlearning loss function"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Lee, Y., Chen, A. S., Tajwar, F., Kumar, A., Yao, H., Liang, P., and Finn, C. Surgical fine-tuning improves adaptation to distribution shifts, 2023.",
+          "justification": "Lee et al. 2023 reference.",
+          "value": "Surgical fine-tuning improves adaptation to distribution shifts"
+        }
+      },
+      {
+        "name": {
+          "quote": "We also try training a binary differentiable mask over individual weights of the model, inspired by weight pruning/masking works",
+          "justification": "The weight masking unlearning method.",
+          "value": "binary differentiable mask over individual weights"
+        },
+        "aliases": [
+          "weight masking",
+          "binary mask unlearning"
+        ],
+        "is_contributed": {
+          "quote": "inspired by weight pruning/masking works (Bayazit et al., 2023; Panigrahi et al., 2023)",
+          "justification": "Inspired by prior weight pruning/masking works.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "In particular, we empirically evaluate how a learned binary mask over the individual weights of the localized components can produce unlearning",
+          "justification": "Section 3.2 reports weight masking results.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "we employ weight masking to quantify the size of edits needed to unlearn facts, for more direct comparisons",
+          "justification": "Compared across localizations and edit sizes.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "In this section we employ weight masking to quantify the size of edits needed to unlearn facts, for more direct comparisons.",
+          "justification": "Paper's own words.",
+          "value": "used to quantify the size of edits needed to unlearn facts, for more direct comparisons"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Bayazit, D., Foroutan, N., Chen, Z., Weiss, G., and Bosselut, A. Discovering knowledge-critical subnetworks in pretrained language models, 2023.",
+          "justification": "Bayazit et al. 2023 cited as inspiration.",
+          "value": "Discovering knowledge-critical subnetworks in pretrained language models"
+        }
+      },
+      {
+        "name": {
+          "quote": "The unlearning loss we use is the Log-1-minus-P measure from Mazeika et al. (2024), for its stability and fewer side effects.",
+          "justification": "The unlearning loss used.",
+          "value": "Log-1-minus-P"
+        },
+        "aliases": [
+          "Log-1-minus-P measure"
+        ],
+        "is_contributed": {
+          "quote": "the Log-1-minus-P measure from Mazeika et al. (2024)",
+          "justification": "From Mazeika et al. 2024.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "The unlearning loss we use is the Log-1-minus-P measure from Mazeika et al. (2024)",
+          "justification": "Used as the unlearning loss in all runs.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "for its stability and fewer side effects",
+          "justification": "No comparison with other losses.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "The unlearning loss we use is the Log-1-minus-P measure from Mazeika et al. (2024), for its stability and fewer side effects.",
+          "justification": "Paper states it is the unlearning loss.",
+          "value": "the unlearning loss used on the forget set"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Mazeika, M., Phan, L., Yin, X., ... Harmbench: A standardized evaluation framework for automated red teaming and robust refusal, 2024.",
+          "justification": "Mazeika et al. 2024 reference.",
+          "value": "Harmbench: A standardized evaluation framework for automated red teaming and robust refusal"
+        }
+      },
+      {
+        "name": {
+          "quote": "For our binary mask unlearning, we additionally include λ4 ∗ Lreg , an L1 regularization term.",
+          "justification": "Additional regularization term in the mask loss.",
+          "value": "L1 regularization"
+        },
+        "aliases": [
+          "Lreg"
+        ],
+        "is_contributed": {
+          "quote": "we additionally include λ4 ∗ Lreg , an L1 regularization term",
+          "justification": "Standard technique.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "For weight masking regularization, we used λ4 = 1 ∗ 10−7",
+          "justification": "Used in weight masking runs.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "an L1 regularization term",
+          "justification": "Not compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "For our binary mask unlearning, we additionally include λ4 ∗ Lreg , an L1 regularization term.",
+          "justification": "Paper states it is added for binary mask unlearning.",
+          "value": "regularization term added to the binary mask unlearning loss"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "an L1 regularization term",
+          "justification": "No reference given.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "We retrain with a rank-64 LoRA across all linear modules, with details available in Appendix A.4.2.",
+          "justification": "Used for adversarial relearning.",
+          "value": "LoRA"
+        },
+        "aliases": [
+          "rank-64 LoRA"
+        ],
+        "is_contributed": {
+          "quote": "We retrain with a rank-64 LoRA on all linear modules.",
+          "justification": "Standard method.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We retrain with a rank-64 LoRA on all linear modules.",
+          "justification": "Used in relearning experiments.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "We retrain with a rank-64 LoRA across all linear modules",
+          "justification": "Not compared as a method.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "We retrain the model with only two athletes in Df orget for multiple iterations (along with a standard retain and SFT loss)",
+          "justification": "Described in adversarial relearning section.",
+          "value": "used to retrain (adversarially relearn) unlearned models with two athletes in the forget set"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "We retrain with a rank-64 LoRA on all linear modules.",
+          "justification": "No LoRA paper reference in the reference list.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "using an AdamW optimizer (Kingma & Ba, 2017) with 0 weight decay, a learning rate of 1 ∗ 10−5",
+          "justification": "Optimizer used for localized fine-tuning.",
+          "value": "AdamW"
+        },
+        "aliases": [
+          "AdamW optimizer"
+        ],
+        "is_contributed": {
+          "quote": "using an AdamW optimizer (Kingma & Ba, 2017)",
+          "justification": "Standard optimizer.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "For localized fine-tuning on Gemma, we trained using 50 iterations of batch size 4 with 16 accumulation steps, using an AdamW optimizer",
+          "justification": "Used for fine-tuning runs.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "using an AdamW optimizer (Kingma & Ba, 2017) with 0 weight decay",
+          "justification": "Not compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "For localized fine-tuning on Gemma, we trained using 50 iterations of batch size 4 with 16 accumulation steps, using an AdamW optimizer (Kingma & Ba, 2017)",
+          "justification": "Stated in hyperparameters.",
+          "value": "optimizer used for localized fine-tuning on Gemma"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Kingma, D. P. and Ba, J. Adam: A method for stochastic optimization, 2017.",
+          "justification": "Cited reference.",
+          "value": "Adam: A method for stochastic optimization"
+        }
+      },
+      {
+        "name": {
+          "quote": "using an SGD optimizer (for memory efficiency) with learning rate of 1 ∗ 10−3",
+          "justification": "Optimizer used for weight masking.",
+          "value": "SGD"
+        },
+        "aliases": [
+          "SGD optimizer"
+        ],
+        "is_contributed": {
+          "quote": "using an SGD optimizer (for memory efficiency)",
+          "justification": "Standard optimizer.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "For weight masking, we unlearned using 50 iterations of batch size 10 with 15 accumulation steps, using an SGD optimizer",
+          "justification": "Used in weight masking runs.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "using an SGD optimizer (for memory efficiency) with learning rate of 1 ∗ 10−3",
+          "justification": "Not compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "For weight masking, we unlearned using 50 iterations of batch size 10 with 15 accumulation steps, using an SGD optimizer (for memory efficiency)",
+          "justification": "Stated in hyperparameters.",
+          "value": "optimizer used for weight masking unlearning"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "using an SGD optimizer (for memory efficiency)",
+          "justification": "No reference.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "and a cosine annealing scheduler for both basketball and athletes",
+          "justification": "Learning rate schedule used.",
+          "value": "cosine annealing scheduler"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "and a cosine annealing scheduler for both basketball and athletes",
+          "justification": "Standard schedule.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "a learning rate of 1 ∗ 10−5 , and a cosine annealing scheduler",
+          "justification": "Used in fine-tuning runs.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "and a cosine annealing scheduler for both basketball and athletes",
+          "justification": "Not compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "a learning rate of 1 ∗ 10−5 , and a cosine annealing scheduler for both basketball and athletes",
+          "justification": "Stated in hyperparameters.",
+          "value": "learning rate scheduler for localized fine-tuning"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "and a cosine annealing scheduler",
+          "justification": "No reference.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "We additionally consider the common factual editing methodology, specifically an error injection setup (Hase et al., 2023) where we replace correct athlete-sport associations with incorrect associations between athlete and ”Golf”.",
+          "justification": "Alternative editing setup used in appendix.",
+          "value": "error injection"
+        },
+        "aliases": [
+          "fact injection"
+        ],
+        "is_contributed": {
+          "quote": "Additional results from the standard error injection setup (Meng et al., 2023; Hase et al., 2023) are shown in Appendix A.1.",
+          "justification": "From Hase et al. / Meng et al.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "The results are in Table 3 and Table 4",
+          "justification": "Results in Tables 3 and 4.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "we demonstrate that our manual localization method again achieves the strongest robust unlearning generalization",
+          "justification": "Compared across localizations.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "an error injection setup (Hase et al., 2023) where we replace correct athlete-sport associations with incorrect associations between athlete and ”Golf”",
+          "justification": "Paper's own description.",
+          "value": "a setup where correct athlete-sport associations are replaced with incorrect associations between athlete and 'Golf'"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Hase, P., Bansal, M., Kim, B., and Ghandeharioun, A. Does localization inform editing? surprising differences in causality-based localization vs. knowledge editing in language models, 2023.",
+          "justification": "Hase et al. 2023 reference.",
+          "value": "Does localization inform editing? surprising differences in causality-based localization vs. knowledge editing in language models"
+        }
+      },
+      {
+        "name": {
+          "quote": "we aim to perform fact erasure (Hase et al., 2023), generally reducing the probability of the correct answer without a candidate replacement",
+          "justification": "The unlearning objective used.",
+          "value": "fact erasure"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "we aim to perform fact erasure (Hase et al., 2023)",
+          "justification": "From Hase et al.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "In this work, for simplicity, we aim to perform fact erasure (Hase et al., 2023)",
+          "justification": "Main experiments use fact erasure.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "generally reducing the probability of the correct answer without a candidate replacement",
+          "justification": "Not compared as a method per se.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "we aim to perform fact erasure (Hase et al., 2023), generally reducing the probability of the correct answer without a candidate replacement",
+          "justification": "Paper's own words.",
+          "value": "generally reducing the probability of the correct answer without a candidate replacement"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Hase, P., Bansal, M., Kim, B., and Ghandeharioun, A. Does localization inform editing? ... 2023.",
+          "justification": "Hase et al. 2023 reference.",
+          "value": "Does localization inform editing? surprising differences in causality-based localization vs. knowledge editing in language models"
+        }
+      },
+      {
+        "name": {
+          "quote": "we find the mean ablation of all attention heads past layer 7 to have minimal impact on the linear representation of player attributes",
+          "justification": "Used in the Gemma interpretability analysis.",
+          "value": "mean ablation"
+        },
+        "aliases": [
+          "mean ablating"
+        ],
+        "is_contributed": {
+          "quote": "Difference in final layer probe accuracy when mean ablating a single head for all heads between layers 0 and 6.",
+          "justification": "Standard interpretability technique.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we find the mean ablation of all attention heads past layer 7 to have minimal impact",
+          "justification": "Performed in appendix analysis.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "+ Ablate Heads at Layers >= 7",
+          "justification": "Not compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "we find the mean ablation of all attention heads past layer 7 to have minimal impact on the linear representation of player attributes (Figure 9)",
+          "justification": "Appendix A.2 usage.",
+          "value": "used in the Gemma interpretability analysis to assess head importance for the linear representation of player attributes"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "mean ablating a single head",
+          "justification": "No reference.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "We split the basketball Df orget set and both Dretain sets (basketball and athletes) into an 80%-20% train-test-split",
+          "justification": "Evaluation split procedure.",
+          "value": "80%-20% train-test-split"
+        },
+        "aliases": [
+          "train-test split"
+        ],
+        "is_contributed": {
+          "quote": "We split the basketball Df orget set and both Dretain sets ... into an 80%-20% train-test-split",
+          "justification": "Standard evaluation protocol.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "all of our reported numbers are on the test set",
+          "justification": "Applied for reported numbers.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "an 80%-20% train-test-split",
+          "justification": "Not compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "We split the basketball Df orget set and both Dretain sets (basketball and athletes) into an 80%-20% train-test-split, and all of our reported numbers are on the test set.",
+          "justification": "Appendix A.4.1.",
+          "value": "splitting forget and retain sets for evaluation, with reported numbers on the test set"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "80%-20% train-test-split",
+          "justification": "No reference.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "Automated circuit discovery (ACDC) (Conmy et al., 2023) utilize repeated activation patching to find these subnetworks",
+          "justification": "Mentioned in related work as an automated circuit discovery method.",
+          "value": "ACDC"
+        },
+        "aliases": [
+          "Automated circuit discovery"
+        ],
+        "is_contributed": {
+          "quote": "Automated circuit discovery (ACDC) (Conmy et al., 2023)",
+          "justification": "Prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Causal Tracing (Meng et al., 2023) and Automated circuit discovery (ACDC) (Conmy et al., 2023) utilize repeated activation patching",
+          "justification": "Only cited in related work, not used.",
+          "value": false
+        },
+        "is_compared": {
+          "quote": "Automated circuit discovery (ACDC) (Conmy et al., 2023)",
+          "justification": "Not evaluated here.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "Causal Tracing (Meng et al., 2023) and Automated circuit discovery (ACDC) (Conmy et al., 2023) utilize repeated activation patching to find these subnetworks that are most critical for the model’s behavior on that task.",
+          "justification": "Related work mention.",
+          "value": "cited as an automated circuit discovery method using repeated activation patching"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Conmy, A., Mavor-Parker, A. N., Lynch, A., Heimersheim, S., and Garriga-Alonso, A. Towards automated circuit discovery for mechanistic interpretability, 2023.",
+          "justification": "Conmy et al. 2023 reference.",
+          "value": "Towards automated circuit discovery for mechanistic interpretability"
+        }
+      },
+      {
+        "name": {
+          "quote": "Efficient methods such as attribution patching (Nanda, 2023) and edge attribution patching (Syed et al., 2023) are linear approximations of activation patching",
+          "justification": "Mentioned in related work.",
+          "value": "edge attribution patching"
+        },
+        "aliases": [
+          "EAP"
+        ],
+        "is_contributed": {
+          "quote": "edge attribution patching (Syed et al., 2023)",
+          "justification": "Prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Efficient methods such as attribution patching (Nanda, 2023) and edge attribution patching (Syed et al., 2023) are linear approximations of activation patching for discovering important components quickly.",
+          "justification": "Not used in experiments.",
+          "value": false
+        },
+        "is_compared": {
+          "quote": "edge attribution patching (Syed et al., 2023)",
+          "justification": "Not evaluated.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "are linear approximations of activation patching for discovering important components quickly",
+          "justification": "Related work mention.",
+          "value": "cited as an efficient linear approximation of activation patching for discovering important components"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Syed, A., Rager, C., and Conmy, A. Attribution patching outperforms automated circuit discovery, 2023.",
+          "justification": "Syed et al. 2023 reference.",
+          "value": "Attribution patching outperforms automated circuit discovery"
+        }
+      }
+    ],
+    "runs": [
+      {
+        "models": [
+          {
+            "name": "Gemma-7B",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Sports Facts dataset",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "The Pile",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "localized fine-tuning"
+          },
+          {
+            "name": "Log-1-minus-P"
+          },
+          {
+            "name": "AdamW"
+          },
+          {
+            "name": "cosine annealing scheduler"
+          },
+          {
+            "name": "fact erasure"
+          },
+          {
+            "name": "Causal Tracing"
+          },
+          {
+            "name": "Attribution Patching"
+          },
+          {
+            "name": "manual mechanistic unlearning"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "For localized fine-tuning on Gemma, we trained using 50 iterations of batch size 4 with 16 accumulation steps",
+          "justification": "Localized fine-tuning of Gemma-7B for unlearning.",
+          "value": "finetune"
+        },
+        "epochs": {
+          "quote": "we trained using 50 iterations of batch size 4 with 16 accumulation steps",
+          "justification": "Stated in Appendix A.3; iterations rather than epochs.",
+          "value": "50 iterations of batch size 4 with 16 accumulation steps"
+        },
+        "parameter_count": {
+          "quote": "For all tasks, we use the Gemma-7B LLM (Team et al., 2024)",
+          "justification": "Paper does not state parameter count explicitly beyond the name.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "For localized fine-tuning on Gemma, we trained using 50 iterations of batch size 4 with 16 accumulation steps",
+          "justification": "No hardware mentioned.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "For localized fine-tuning on Gemma, we trained using 50 iterations",
+          "justification": "No hardware mentioned.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "For localized fine-tuning on Gemma, we trained using 50 iterations",
+          "justification": "No hardware mentioned.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "using an AdamW optimizer (Kingma & Ba, 2017) with 0 weight decay",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "with 16 accumulation steps",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "we trained using 50 iterations of batch size 4 with 16 accumulation steps",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "we trained using 50 iterations",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "In this section, we show the results of unlearning across all of the mentioned localization techniques for localized fine-tuning and weight masking.",
+          "justification": "Six localizations across two unlearning tasks and two objectives are run, but exact repetitions aren't stated.",
+          "value": "unknown"
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "Gemma-7B",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Sports Facts dataset",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "The Pile",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "binary differentiable mask over individual weights"
+          },
+          {
+            "name": "Log-1-minus-P"
+          },
+          {
+            "name": "L1 regularization"
+          },
+          {
+            "name": "SGD"
+          },
+          {
+            "name": "Causal Tracing"
+          },
+          {
+            "name": "Attribution Patching"
+          },
+          {
+            "name": "manual mechanistic unlearning"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "For weight masking, we unlearned using 50 iterations of batch size 10 with 15 accumulation steps, using an SGD optimizer",
+          "justification": "Training a binary mask over model weights is an optimisation over the pretrained model.",
+          "value": "finetune"
+        },
+        "epochs": {
+          "quote": "we unlearned using 50 iterations of batch size 10 with 15 accumulation steps",
+          "justification": "Stated in Appendix A.3.",
+          "value": "50 iterations of batch size 10 with 15 accumulation steps"
+        },
+        "parameter_count": {
+          "quote": "Testing the models’ unlearning of basketball athletes against the number of weights masked",
+          "justification": "Not stated; mask sizes are given in number of masked weights but not model parameter count.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "using an SGD optimizer (for memory efficiency)",
+          "justification": "No hardware stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "using an SGD optimizer (for memory efficiency)",
+          "justification": "No hardware stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "using an SGD optimizer (for memory efficiency)",
+          "justification": "No hardware stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "clamping the mask values between 0 and 1 every update step",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "with 15 accumulation steps",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "we unlearned using 50 iterations",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "we unlearned using 50 iterations",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "We show standard evaluations across a sweep of discretization thresholds",
+          "justification": "Sweeps over discretization thresholds and localizations, exact count not stated.",
+          "value": "unknown"
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "Gemma-7B",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Sports Facts dataset",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "The Pile",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "LoRA"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "We retrain with a rank-64 LoRA across all linear modules",
+          "justification": "Adversarial relearning retrains unlearned models with LoRA.",
+          "value": "finetune"
+        },
+        "epochs": {
+          "quote": "Retraining basketball-unlearned models with two athletes in the forget set, for ten iterations.",
+          "justification": "Figures state ten relearning iterations.",
+          "value": "ten iterations"
+        },
+        "parameter_count": {
+          "quote": "We retrain with a rank-64 LoRA on all linear modules.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "We retrain with a rank-64 LoRA on all linear modules.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "We retrain with a rank-64 LoRA on all linear modules.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "We retrain with a rank-64 LoRA on all linear modules.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "We retrain with a rank-64 LoRA on all linear modules.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "We retrain with a rank-64 LoRA on all linear modules.",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "for ten iterations",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "for ten iterations",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "Figure 1 and Figure 10 compare relearning robustness of different unlearning techniques",
+          "justification": "Done for each unlearned model variant but count not stated.",
+          "value": "unknown"
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "logistic regression models (probes)",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Gemma-7B",
+            "role_in_run": "data-source"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Sports Facts dataset",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [],
+        "produces": [],
+        "execution_mode": {
+          "quote": "we train logistic regression models (probes) (Alain & Bengio, 2018) on the activations of every model layer to predict the correct sport from the prompt",
+          "justification": "Linear probes are trained on activations of each layer.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "We train three linear probes (Alain & Bengio, 2018) for every model and layer",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "We train three linear probes (Alain & Bengio, 2018) for every model and layer",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "We train three linear probes (Alain & Bengio, 2018) for every model and layer",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "We train three linear probes for every model and layer",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "We train three linear probes for every model and layer",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "We train three linear probes for every model and layer",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "We train three linear probes for every model and layer",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "We train three linear probes for every model and layer",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "We train three linear probes for every model and layer",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "We train three linear probes (Alain & Bengio, 2018) for every model and layer, one for each sport",
+          "justification": "Paper states three probes per model and layer.",
+          "value": "three linear probes for every model and layer"
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "Gemma-7B",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "MMLU",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          },
+          {
+            "name": "tinyBenchmarks MMLU test set",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          },
+          {
+            "name": "Sports Facts dataset",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "80%-20% train-test-split"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "Finally, we also evaluate our models’ accuracy on MMLU (Hendrycks et al., 2021) as a proxy for the general side effects of unlearning unrelated to sports.",
+          "justification": "Evaluation of unlearned models on prompts, MCQ format and MMLU.",
+          "value": "inference"
+        },
+        "epochs": {
+          "quote": "we first evaluate the accuracy of our models to complete the prompt",
+          "justification": "Not applicable/stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "we use the Gemma-7B LLM (Team et al., 2024)",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "we also evaluate our models’ accuracy on MMLU",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "we also evaluate our models’ accuracy on MMLU",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "we also evaluate our models’ accuracy on MMLU",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "we also evaluate our models’ accuracy on MMLU",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "we also evaluate our models’ accuracy on MMLU",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "we also evaluate our models’ accuracy on MMLU",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "we also evaluate our models’ accuracy on MMLU",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "because we have to evaluate many model variations, we use a smaller MMLU test set from Polo et al. (2024)",
+          "justification": "Many model variations evaluated but count not stated.",
+          "value": "unknown"
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "Gemma-7B",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Sports Facts dataset",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "mean ablation"
+          },
+          {
+            "name": "Attribution Patching"
+          },
+          {
+            "name": "Causal Tracing"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "We replicate a key result of their work in Gemma-7B and localize the fact lookup stage to be the MLP components between layers 2 and 7",
+          "justification": "Interpretability analysis with ablations and probe accuracy measurement on Gemma.",
+          "value": "inference"
+        },
+        "epochs": {
+          "quote": "The analysis is performed in Appendix A.2.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "We replicate a key result of their work in Gemma-7B",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "we find the mean ablation of all attention heads past layer 7 to have minimal impact",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "we find the mean ablation of all attention heads past layer 7",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "we find the mean ablation of all attention heads past layer 7",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "we find the mean ablation of all attention heads past layer 7",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "we find the mean ablation of all attention heads past layer 7",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "The analysis is performed in Appendix A.2.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "The analysis is performed in Appendix A.2.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "Difference in final layer probe accuracy when mean ablating a single head for all heads between layers 0 and 6.",
+          "justification": "Not stated; ablations done per head across layers 0-6.",
+          "value": "unknown"
+        }
+      }
+    ]
+  },
+  "usage": {
+    "input_tokens": 27642,
+    "output_tokens": 17694,
+    "total_tokens": 45336
+  }
+}

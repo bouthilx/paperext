@@ -1,0 +1,1982 @@
+{
+  "paper": "69a5fd5548887d403d0a4e67.txt",
+  "words": 12564,
+  "extractions": {
+    "title": {
+      "quote": "WebArena Verified",
+      "justification": "The title appears at the beginning of the paper.",
+      "value": "WebArena Verified"
+    },
+    "description": "Introduces and empirically evaluates WebArena Verified, a revised WebArena benchmark and deterministic evaluation framework, plus a lower-cost hard subset.",
+    "type": {
+      "quote": "We demonstrate that verified scoring reduces false positives; we establish baseline performance with a leading agent (OpenAI operator) and quantify the impact of improved evaluation (§5).",
+      "justification": "The paper audits benchmark tasks, executes baseline agents, and reports measured success rates and statistical intervals.",
+      "value": "empirical"
+    },
+    "research_fields": [
+      {
+        "name": {
+          "quote": "Autonomous web agents increasingly execute complex web workflows.",
+          "justification": "The paper contributes a benchmark and evaluation framework for autonomous agents acting on websites.",
+          "value": "Autonomous web agents"
+        },
+        "aliases": [
+          "web agents"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "Evaluation reliability remains a central bottleneck in agent benchmarking.",
+          "justification": "Reliable agent benchmarking is a central target of the paper's contributions.",
+          "value": "Agent benchmarking"
+        },
+        "aliases": [
+          "agentic benchmarks"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "rigorous and reproducible evaluation is indispensable for progress",
+          "justification": "The work advances reproducible benchmark evaluation through deterministic verification, confidence intervals, and auditing.",
+          "value": "Benchmark evaluation reliability"
+        },
+        "aliases": [
+          "measurement reliability"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "web automation agents",
+          "justification": "The experiments and comparisons concern agents that automate browser tasks.",
+          "value": "Web automation"
+        },
+        "aliases": [
+          "web-based automation"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "Unlike static natural language processing (NLP) benchmarks",
+          "justification": "NLP benchmarking is discussed as related context rather than directly advanced.",
+          "value": "Natural language processing"
+        },
+        "aliases": [
+          "NLP"
+        ],
+        "role": "referenced"
+      }
+    ],
+    "models": [
+      {
+        "name": {
+          "quote": "OpenAI Operator",
+          "justification": "Named as the primary executed baseline agent.",
+          "value": "OpenAI Operator"
+        },
+        "aliases": [
+          "Operator"
+        ],
+        "is_contributed": {
+          "quote": "We evaluate the OpenAI Operator as our primary baseline",
+          "justification": "It is an external baseline, not contributed here.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We evaluate the OpenAI Operator as our primary baseline",
+          "justification": "The authors explicitly evaluated it.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Agent performance on the original benchmark and WebArena Verified.",
+          "justification": "Its numerical results are compared across benchmark variants and against the naive baseline ensemble.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "We run one seed per agent without retries on a Chromium based browser",
+          "justification": "The pretrained agent is evaluated without any reported fitting.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "https://openai.com/index/introducing-operator/",
+          "justification": "Only a product webpage is cited, not a paper title.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "GPT-5",
+          "justification": "Named as a knowledge-only model used for contamination analysis.",
+          "value": "GPT-5"
+        },
+        "aliases": [
+          "Knowledge-OnlyGPT-5",
+          "Knowledge-Only GPT-5"
+        ],
+        "is_contributed": {
+          "quote": "Knowledge-OnlyGPT-5 : Uses GPT-5 with contamination detection prompt",
+          "justification": "GPT-5 is an external model.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We implemented two knowledge-only agents using state-of-the-art language models",
+          "justification": "The authors ran GPT-5 as a knowledge-only agent.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "GPT-5 reached 22.7% on vulnerable tasks and 4.9% overall, while Claude Sonnet 4 achieved 5.1% and 1.1% respectively.",
+          "justification": "GPT-5 is numerically compared with Claude Sonnet 4.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "provide answers based solely on pre-training knowledge",
+          "justification": "It was prompted for answers and not trained or fine-tuned.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "Knowledge-OnlyGPT-5 : Uses GPT-5 with contamination detection prompt",
+          "justification": "No reference-paper title for GPT-5 is supplied.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "Claude Sonnet 4",
+          "justification": "Named as a knowledge-only model used for contamination analysis.",
+          "value": "Claude Sonnet 4"
+        },
+        "aliases": [
+          "Knowledge-OnlyClaude",
+          "Knowledge-onlyClaude Sonnet 4"
+        ],
+        "is_contributed": {
+          "quote": "Knowledge-OnlyClaude : Uses Claude Sonnet 4 with contamination detection prompt",
+          "justification": "Claude Sonnet 4 is an external model.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We implemented two knowledge-only agents using state-of-the-art language models",
+          "justification": "The authors ran Claude Sonnet 4 as a knowledge-only agent.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "GPT-5 reached 22.7% on vulnerable tasks and 4.9% overall, while Claude Sonnet 4 achieved 5.1% and 1.1% respectively.",
+          "justification": "It is numerically compared with GPT-5.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "provide answers based solely on pre-training knowledge",
+          "justification": "It was used for inference only.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "Knowledge-OnlyClaude : Uses Claude Sonnet 4 with contamination detection prompt",
+          "justification": "No reference-paper title is supplied.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "IBM CUGA",
+          "justification": "Named in ranking validation and used as the comparison anchor.",
+          "value": "IBM CUGA"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "we use four agents with complete leaderboard coverage",
+          "justification": "It is an external leaderboard agent.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We utilize existing trajectories from the official leaderboard",
+          "justification": "The paper analyzes existing trajectories rather than reporting a new execution by the authors.",
+          "value": false
+        },
+        "is_compared": {
+          "quote": "We anchor all pairwise contrasts at IBM CUGA",
+          "justification": "It is numerically compared with other agents.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "existing trajectories from the official leaderboard",
+          "justification": "The reported results concern inference trajectories, although they were not newly executed by the authors.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "IBM CUGA",
+          "justification": "No reference-paper title is given.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "ZetaLabs",
+          "justification": "Named among agents used for ranking validation.",
+          "value": "ZetaLabs"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "we use four agents with complete leaderboard coverage",
+          "justification": "It is an external leaderboard agent.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We utilize existing trajectories from the official leaderboard",
+          "justification": "Its existing results are reused rather than newly run.",
+          "value": false
+        },
+        "is_compared": {
+          "quote": "IBM CUGA vs ZetaLabs",
+          "justification": "It is numerically compared with IBM CUGA.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "existing trajectories from the official leaderboard",
+          "justification": "The referenced trajectories are inference outputs.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "https://www.zetalabs.ai/",
+          "justification": "Only a website is cited, not a paper title.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "OccamAgent",
+          "justification": "Named among four agents used in hard-subset ranking validation.",
+          "value": "OccamAgent"
+        },
+        "aliases": [
+          "AgentOccam"
+        ],
+        "is_contributed": {
+          "quote": "we use four agents with complete leaderboard coverage",
+          "justification": "It is an external agent.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We utilize existing trajectories from the official leaderboard",
+          "justification": "The paper reuses existing trajectories/results.",
+          "value": false
+        },
+        "is_compared": {
+          "quote": "IBM CUGA vs OccamAgent",
+          "justification": "It is numerically compared with IBM CUGA.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "existing trajectories from the official leaderboard",
+          "justification": "The reported trajectories are inference outputs.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "AgentOccam: A Simple Yet Strong Baseline for LLM-Based Web Agents",
+          "justification": "This is the title in reference [14].",
+          "value": "AgentOccam: A Simple Yet Strong Baseline for LLM-Based Web Agents"
+        }
+      },
+      {
+        "name": {
+          "quote": "Beyond Browsing",
+          "justification": "Named in figures and hard-subset validation.",
+          "value": "Beyond Browsing"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "we use four agents with complete leaderboard coverage",
+          "justification": "It is an external leaderboard agent.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We utilize existing trajectories from the official leaderboard",
+          "justification": "Existing trajectories/results are analyzed.",
+          "value": false
+        },
+        "is_compared": {
+          "quote": "All agents maintain their exact relative positions.",
+          "justification": "Its results enter the numerical ranking comparison.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "existing trajectories from the official leaderboard",
+          "justification": "The referenced trajectories are inference outputs.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "Beyond Browsing",
+          "justification": "No reference-paper title is supplied.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "SteP",
+          "justification": "Named as one of the agents whose unachievable-task behavior is plotted.",
+          "value": "SteP"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "SteP (27.8%)",
+          "justification": "It is an external agent, not a contribution of this paper.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We analyze trajectories from seven top leaderboard agents",
+          "justification": "Existing trajectories are analyzed rather than newly executed.",
+          "value": false
+        },
+        "is_compared": {
+          "quote": "Estimated over-acceptance by agent.",
+          "justification": "It is included in a numerical agent comparison.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "We analyze trajectories from seven top leaderboard agents",
+          "justification": "Those trajectories represent inference behavior.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "SteP",
+          "justification": "No reference-paper title is given.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "GUGA",
+          "justification": "Named in the unachievable-task behavior figure.",
+          "value": "GUGA"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "GUGA (19.4%)",
+          "justification": "It is external.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We analyze trajectories from seven top leaderboard agents",
+          "justification": "Existing trajectories are analyzed.",
+          "value": false
+        },
+        "is_compared": {
+          "quote": "Estimated over-acceptance by agent.",
+          "justification": "It participates in a numerical comparison.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "We analyze trajectories from seven top leaderboard agents",
+          "justification": "The trajectories represent inference.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "GUGA",
+          "justification": "No reference-paper title is supplied.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "Learn-by-interact",
+          "justification": "Named in the unachievable-task behavior figure.",
+          "value": "Learn-by-interact"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "Learn-by-interact (16.7%)",
+          "justification": "It is external.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We analyze trajectories from seven top leaderboard agents",
+          "justification": "Existing trajectories are analyzed.",
+          "value": false
+        },
+        "is_compared": {
+          "quote": "Estimated over-acceptance by agent.",
+          "justification": "It participates in a numerical comparison.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "We analyze trajectories from seven top leaderboard agents",
+          "justification": "The trajectories represent inference.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "Learn-by-interact",
+          "justification": "No reference-paper title is supplied.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "Jace.AI",
+          "justification": "Named in the unachievable-task behavior figure.",
+          "value": "Jace.AI"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "Jace.AI (13.9%)",
+          "justification": "It is external.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We analyze trajectories from seven top leaderboard agents",
+          "justification": "Existing trajectories are analyzed.",
+          "value": false
+        },
+        "is_compared": {
+          "quote": "Estimated over-acceptance by agent.",
+          "justification": "It participates in a numerical comparison.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "We analyze trajectories from seven top leaderboard agents",
+          "justification": "The trajectories represent inference.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "Jace.AI",
+          "justification": "No reference-paper title is supplied.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "ScribeAgent",
+          "justification": "Named in the unachievable-task behavior figure.",
+          "value": "ScribeAgent"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "ScribeAgent (0%)",
+          "justification": "It is external.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We analyze trajectories from seven top leaderboard agents",
+          "justification": "Existing trajectories are analyzed.",
+          "value": false
+        },
+        "is_compared": {
+          "quote": "Estimated over-acceptance by agent.",
+          "justification": "It participates in a numerical comparison.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "We analyze trajectories from seven top leaderboard agents",
+          "justification": "The trajectories represent inference.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "ScribeAgent",
+          "justification": "No reference-paper title is supplied.",
+          "value": "unknown"
+        }
+      }
+    ],
+    "data_sources": [
+      {
+        "name": {
+          "quote": "WebArena Verified",
+          "justification": "The paper contributes this named revised benchmark.",
+          "value": "WebArena Verified"
+        },
+        "aliases": [
+          "WebArena-Verified"
+        ],
+        "role": "contributed",
+        "size": {
+          "quote": "WebArena Verified is our primary contribution with enhanced verification protocols",
+          "justification": "The benchmark retains the full 812-task coverage described throughout the paper.",
+          "value": "812 tasks"
+        },
+        "derived_from": [
+          "WebArena"
+        ],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "We introduce WebArena Verified",
+          "justification": "This is the artifact introduced by the current paper, so it has no separate referenced paper.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "WebArena",
+          "justification": "The original benchmark is audited and used for baseline evaluation.",
+          "value": "WebArena"
+        },
+        "aliases": [
+          "original WebArena"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "the original 812 task benchmark",
+          "justification": "The paper explicitly states the number of tasks used.",
+          "value": "812 tasks"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "WebArena: A Realistic Web Environment for Building Autonomous Agents",
+          "justification": "This is reference [16].",
+          "value": "WebArena: A Realistic Web Environment for Building Autonomous Agents"
+        }
+      },
+      {
+        "name": {
+          "quote": "WebArena Verified Hard",
+          "justification": "Named hard subset introduced and evaluated by the paper.",
+          "value": "WebArena Verified Hard"
+        },
+        "aliases": [
+          "verified hard",
+          "hard subset"
+        ],
+        "role": "contributed",
+        "size": {
+          "quote": "This yields 137 tasks",
+          "justification": "The paper explicitly states the subset size.",
+          "value": "137 tasks"
+        },
+        "derived_from": [
+          "WebArena Verified"
+        ],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "we introduce WebArena Verified Hard",
+          "justification": "It is introduced in this paper.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "VisualWebArena",
+          "justification": "Named related benchmark.",
+          "value": "VisualWebArena"
+        },
+        "aliases": [],
+        "role": "referenced",
+        "size": {
+          "quote": "VisualWebArena introduces new evaluators",
+          "justification": "No number of samples used in this paper is stated.",
+          "value": "unknown"
+        },
+        "derived_from": [
+          "WebArena"
+        ],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "VisualWebArena: Evaluating Multimodal Agents on Realistic Visual Web Tasks",
+          "justification": "This is reference [8].",
+          "value": "VisualWebArena: Evaluating Multimodal Agents on Realistic Visual Web Tasks"
+        }
+      },
+      {
+        "name": {
+          "quote": "Mind2Web",
+          "justification": "Named as a follow-up web-agent benchmark.",
+          "value": "Mind2Web"
+        },
+        "aliases": [],
+        "role": "referenced",
+        "size": {
+          "quote": "Mind2Web [4]",
+          "justification": "No used sample count is stated.",
+          "value": "unknown"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "Mind2Web: Towards a Generalist Agent for the Web",
+          "justification": "This is reference [4].",
+          "value": "Mind2Web: Towards a Generalist Agent for the Web"
+        }
+      },
+      {
+        "name": {
+          "quote": "WorkArena",
+          "justification": "Named related benchmark.",
+          "value": "WorkArena"
+        },
+        "aliases": [],
+        "role": "referenced",
+        "size": {
+          "quote": "WorkArena and WorkArena++",
+          "justification": "No used sample count is stated.",
+          "value": "unknown"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "WorkArena: How Capable Are Web Agents at Solving Common Knowledge Work Tasks?",
+          "justification": "This is reference [5].",
+          "value": "WorkArena: How Capable Are Web Agents at Solving Common Knowledge Work Tasks?"
+        }
+      },
+      {
+        "name": {
+          "quote": "WorkArena++",
+          "justification": "Named related benchmark.",
+          "value": "WorkArena++"
+        },
+        "aliases": [],
+        "role": "referenced",
+        "size": {
+          "quote": "WorkArena and WorkArena++",
+          "justification": "No used sample count is stated.",
+          "value": "unknown"
+        },
+        "derived_from": [
+          "WorkArena"
+        ],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "WorkArena++: Towards Compositional Planning and Reasoning-based Common Knowledge Work Tasks",
+          "justification": "This is reference [3].",
+          "value": "WorkArena++: Towards Compositional Planning and Reasoning-based Common Knowledge Work Tasks"
+        }
+      },
+      {
+        "name": {
+          "quote": "OSWorld",
+          "justification": "Named related agent benchmark environment.",
+          "value": "OSWorld"
+        },
+        "aliases": [],
+        "role": "referenced",
+        "size": {
+          "quote": "OSWorld [13]",
+          "justification": "No used sample count is stated.",
+          "value": "unknown"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "OSWorld: Benchmarking Multimodal Agents for Open-Ended Tasks in Real Computer Environments",
+          "justification": "This is reference [13].",
+          "value": "OSWorld: Benchmarking Multimodal Agents for Open-Ended Tasks in Real Computer Environments"
+        }
+      },
+      {
+        "name": {
+          "quote": "AndroidWorld",
+          "justification": "Named related benchmark environment.",
+          "value": "AndroidWorld"
+        },
+        "aliases": [],
+        "role": "referenced",
+        "size": {
+          "quote": "AndroidWorld [11]",
+          "justification": "No used sample count is stated.",
+          "value": "unknown"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "AndroidWorld: A Dynamic Benchmarking Environment for Autonomous Agents",
+          "justification": "This is reference [11].",
+          "value": "AndroidWorld: A Dynamic Benchmarking Environment for Autonomous Agents"
+        }
+      },
+      {
+        "name": {
+          "quote": "SWE-bench Verified",
+          "justification": "Named as a verified benchmark example.",
+          "value": "SWE-bench Verified"
+        },
+        "aliases": [],
+        "role": "referenced",
+        "size": {
+          "quote": "SWE-bench Verified agents achieved roughly doubled performance",
+          "justification": "No sample count used in this paper is stated.",
+          "value": "unknown"
+        },
+        "derived_from": [
+          "SWE-bench"
+        ],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "Introducing SWE-bench Verified",
+          "justification": "Reference [2] is a webpage with this title.",
+          "value": "Introducing SWE-bench Verified"
+        }
+      },
+      {
+        "name": {
+          "quote": "OSWorld-Verified",
+          "justification": "Named as a related verified benchmark.",
+          "value": "OSWorld-Verified"
+        },
+        "aliases": [],
+        "role": "referenced",
+        "size": {
+          "quote": "systematic review of over 300 feedback items",
+          "justification": "This is not a stated dataset sample count, so size remains unknown.",
+          "value": "unknown"
+        },
+        "derived_from": [
+          "OSWorld"
+        ],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "Introducing OSWorld-Verified",
+          "justification": "Reference [1] has this title.",
+          "value": "Introducing OSWorld-Verified"
+        }
+      },
+      {
+        "name": {
+          "quote": "WebArena-Lite",
+          "justification": "Named related reduced-scope benchmark.",
+          "value": "WebArena-Lite"
+        },
+        "aliases": [],
+        "role": "referenced",
+        "size": {
+          "quote": "WebArena-Lite [10] reduces scope to 165 tasks",
+          "justification": "The paper states its task count.",
+          "value": "165 tasks"
+        },
+        "derived_from": [
+          "WebArena"
+        ],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "VisualAgentBench: Towards Large Multimodal Models as Visual Foundation Agents",
+          "justification": "The cited reference [10] has this title, despite the text's WebArena-Lite label.",
+          "value": "VisualAgentBench: Towards Large Multimodal Models as Visual Foundation Agents"
+        }
+      },
+      {
+        "name": {
+          "quote": "τ-bench",
+          "justification": "Named benchmark used as an example in related discussion.",
+          "value": "τ-bench"
+        },
+        "aliases": [
+          "tau-bench"
+        ],
+        "role": "referenced",
+        "size": {
+          "quote": "τ-bench [15]",
+          "justification": "No sample count used in this paper is stated.",
+          "value": "unknown"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "τ-bench: A Benchmark for Tool-Agent-User Interaction in Real-World Domains",
+          "justification": "This is reference [15], normalized only for typography in the title field.",
+          "value": "{$\\tau$}-bench: A Benchmark for Tool-Agent-User Interaction in Real-World Domains"
+        }
+      }
+    ],
+    "libraries": [
+      {
+        "name": {
+          "quote": "original WebArena harness",
+          "justification": "The paper explicitly says analyses and evaluations use this software harness.",
+          "value": "WebArena harness"
+        },
+        "aliases": [
+          "agent eval harness",
+          "original evaluation harness"
+        ],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "WebArena: A Realistic Web Environment for Building Autonomous Agents",
+          "justification": "The harness accompanies WebArena, reference [16].",
+          "value": "WebArena: A Realistic Web Environment for Building Autonomous Agents"
+        }
+      },
+      {
+        "name": {
+          "quote": "Using Playwright network monitoring",
+          "justification": "Playwright is explicitly used for network activity verification.",
+          "value": "Playwright"
+        },
+        "aliases": [],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "Using Playwright network monitoring",
+          "justification": "No paper reference is supplied for Playwright.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "official Docker images",
+          "justification": "Docker images are explicitly used to reproduce the self-hosted environments.",
+          "value": "Docker"
+        },
+        "aliases": [],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "official Docker images",
+          "justification": "No paper reference is supplied.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "Chromium based browser",
+          "justification": "A Chromium-based browser is explicitly used for the primary evaluation.",
+          "value": "Chromium"
+        },
+        "aliases": [],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "Chromium based browser",
+          "justification": "No paper reference is supplied.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "JSON Schema Draft-07 validation",
+          "justification": "This software schema standard is explicitly used to validate responses.",
+          "value": "JSON Schema Draft-07"
+        },
+        "aliases": [],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "JSON Schema Draft-07 validation",
+          "justification": "No paper reference is supplied.",
+          "value": "unknown"
+        }
+      }
+    ],
+    "algorithms": [
+      {
+        "name": {
+          "quote": "Agentic Benchmark Checklist (ABC)",
+          "justification": "Exact procedure/framework name used to organize the audit.",
+          "value": "Agentic Benchmark Checklist (ABC)"
+        },
+        "aliases": [
+          "ABC framework"
+        ],
+        "is_contributed": {
+          "quote": "Zhu et al. [17] introduced the Agentic Benchmark Checklist (ABC)",
+          "justification": "It comes from prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We apply the Agentic Benchmark Checklist ABC framework [17] to organize findings",
+          "justification": "The authors explicitly apply it.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "We assign issue labels under the ABC framework taxonomy",
+          "justification": "It organizes results but is not numerically compared with another audit framework.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "to organize findings across task validity, outcome validity, and reporting",
+          "justification": "This directly states its role.",
+          "value": "to organize findings across task validity, outcome validity, and reporting"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Establishing Best Practices for Building Rigorous Agentic Benchmarks",
+          "justification": "This is reference [17].",
+          "value": "Establishing Best Practices for Building Rigorous Agentic Benchmarks"
+        }
+      },
+      {
+        "name": {
+          "quote": "Type-Aware Exact Matching",
+          "justification": "Named evaluation procedure introduced and executed by the paper.",
+          "value": "Type-Aware Exact Matching"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "We replace substring matching with exact comparison plus semantic normalization.",
+          "justification": "This benchmark procedure is introduced as part of WebArena Verified.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "Type-Aware Exact Matching: We replace substring matching with exact comparison plus semantic normalization.",
+          "justification": "It is implemented in the contributed evaluator.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "replaced substring matching with exact/normalized comparators",
+          "justification": "Its outcomes are compared against original substring-based evaluation.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "disallowing partial matches",
+          "justification": "The paper says it eliminates false positives by disallowing partial matches.",
+          "value": "replaces substring matching with exact comparison plus semantic normalization"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Type-Aware Exact Matching",
+          "justification": "Introduced in this paper.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "Backend State Verification",
+          "justification": "Named evaluation procedure introduced by the paper.",
+          "value": "Backend State Verification"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "Backend State Verification: For mutation tasks, we validate state changes via REST API or direct database queries",
+          "justification": "It is a core contribution of WebArena Verified.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "we validate state changes via REST API or direct database queries",
+          "justification": "The procedure was used in the evaluator.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "rather than DOM inspection",
+          "justification": "It is contrasted with the original DOM-dependent checks.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "validate state changes via REST API or direct database queries rather than DOM inspection",
+          "justification": "Direct statement of its role.",
+          "value": "validate state changes via REST API or direct database queries rather than DOM inspection"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Backend State Verification",
+          "justification": "Introduced in this paper.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "Network Activity Monitoring",
+          "justification": "Named procedure in Table 3 and implemented with Playwright.",
+          "value": "Network Activity Monitoring"
+        },
+        "aliases": [
+          "Agent Activity Verification",
+          "network activity verification"
+        ],
+        "is_contributed": {
+          "quote": "Network Activity Monitoring | 812 | Activity verification ensures agents genuinely interact",
+          "justification": "It is introduced as an evaluation improvement.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "Using Playwright network monitoring, we require at least one request to the task’s target domain",
+          "justification": "The authors executed it during evaluation.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Under WebArena Verified these wins drop to 0.0% because network activity verification requires task relevant web interactions",
+          "justification": "Its effect is quantified against the original benchmark.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "ensures agents genuinely interact with target websites rather than relying on cached knowledge",
+          "justification": "Direct role stated in Table 3.",
+          "value": "ensures agents genuinely interact with target websites rather than relying on cached knowledge"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Network Activity Monitoring",
+          "justification": "Introduced in this paper.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "Structured Response Protocol",
+          "justification": "Named response and evaluation procedure introduced by the paper.",
+          "value": "Structured Response Protocol"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "We replace free form outputs with a structured protocol",
+          "justification": "It is a paper contribution.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "For WebArena Verified, we adapt prompts to the structured JSON schema",
+          "justification": "It is used in the experiments.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "we report before and after parse failure rates",
+          "justification": "The structured protocol is compared to the prior free-form protocol.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "makes evaluation deterministic and reduces ambiguity",
+          "justification": "The paper directly states the role.",
+          "value": "makes evaluation deterministic and reduces ambiguity"
+        },
+        "composed_of": [
+          "JSON Schema Draft-07 validation"
+        ],
+        "referenced_paper_title": {
+          "quote": "Structured Response Protocol",
+          "justification": "Introduced in this paper.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "template–macro success",
+          "justification": "Named primary metric used to score verified benchmark runs.",
+          "value": "template–macro success"
+        },
+        "aliases": [
+          "template-macro success",
+          "SR tmpl"
+        ],
+        "is_contributed": {
+          "quote": "Our primary metric is the template–macro success",
+          "justification": "The metric is adopted as the paper's primary evaluation method, though not claimed as entirely novel.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "For WebArena Verified we report template macro success",
+          "justification": "It is computed in experiments.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "The original reports success rate in percent. Verified reports template–macro success",
+          "justification": "It is numerically contrasted with simple success rate.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "defined as the mean of per-template success rates",
+          "justification": "Direct definition of its role.",
+          "value": "the mean of per-template success rates"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "This approach follows established best practices for agentic benchmarks [17]",
+          "justification": "The cited methodological source is reference [17].",
+          "value": "Establishing Best Practices for Building Rigorous Agentic Benchmarks"
+        }
+      },
+      {
+        "name": {
+          "quote": "paired template-level analysis",
+          "justification": "Named comparison procedure used for agent comparisons.",
+          "value": "paired template-level analysis"
+        },
+        "aliases": [
+          "paired, template-level analysis"
+        ],
+        "is_contributed": {
+          "quote": "For agent comparisons, we employ a paired template-level analysis",
+          "justification": "It is used but not claimed as novel.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we use a paired, template-level analysis",
+          "justification": "The analysis is performed.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "IBM CUGA vs ZetaLabs",
+          "justification": "It produces numerical pairwise comparisons.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "controls for template difficulty and site mix",
+          "justification": "Direct stated role.",
+          "value": "controls for template difficulty and site mix"
+        },
+        "composed_of": [
+          "two-sided 95% t-interval"
+        ],
+        "referenced_paper_title": {
+          "quote": "paired template-level analysis",
+          "justification": "No distinct reference-paper title is given for this standard procedure.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "Wilson Score confidence intervals",
+          "justification": "Named statistical procedure used for task-difficulty classification.",
+          "value": "Wilson Score confidence intervals"
+        },
+        "aliases": [
+          "Wilson lower bound",
+          "Wilson CIs"
+        ],
+        "is_contributed": {
+          "quote": "We employ Wilson Score confidence intervals",
+          "justification": "This is a standard prior procedure.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We employ Wilson Score confidence intervals with conservative parameters to identify challenging tasks",
+          "justification": "The paper explicitly applies it.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "we report a sensitivity analysis over z and τeasy",
+          "justification": "Different threshold settings are analyzed, but the algorithm itself is not compared to a separate classifier.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "to identify challenging tasks",
+          "justification": "Directly states its role.",
+          "value": "to identify challenging tasks"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Wilson Score confidence intervals",
+          "justification": "No reference-paper title is supplied.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "Template-Based Stratified Sampling Strategy",
+          "justification": "Named procedure used to build the hard subset.",
+          "value": "Template-Based Stratified Sampling Strategy"
+        },
+        "aliases": [
+          "stratified sampling"
+        ],
+        "is_contributed": {
+          "quote": "We implement a systematic sampling approach",
+          "justification": "This specific subset-construction procedure is contributed.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "apply stratified sampling across 159 intent templates",
+          "justification": "It is executed to construct the subset.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "The hard subset achieves perfect ranking preservation",
+          "justification": "The resulting subset is numerically validated against the full benchmark.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "ensure balanced representation across all core capabilities",
+          "justification": "Directly states its role.",
+          "value": "ensure balanced representation across all core capabilities"
+        },
+        "composed_of": [
+          "Wilson Score confidence intervals"
+        ],
+        "referenced_paper_title": {
+          "quote": "Template-Based Stratified Sampling Strategy",
+          "justification": "Introduced in this paper.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "Kendall’s τb",
+          "justification": "Named ranking-correlation procedure used for subset validation.",
+          "value": "Kendall’s τb"
+        },
+        "aliases": [
+          "Kendall's tau-b"
+        ],
+        "is_contributed": {
+          "quote": "We compute Kendall’s τb",
+          "justification": "This is a standard statistical procedure.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We compute Kendall’s τb between agent rankings on the full dataset and the hard subset",
+          "justification": "It is explicitly computed.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Kendall’s τb = 1.0000",
+          "justification": "It provides a numerical comparison of rankings.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "between agent rankings on the full dataset and the hard subset",
+          "justification": "Direct statement of its use.",
+          "value": "compare agent rankings on the full dataset and the hard subset"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Kendall’s τb",
+          "justification": "No reference-paper title is supplied.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "Cohen’s kappa",
+          "justification": "Named inter-rater-reliability statistic used in the audit.",
+          "value": "Cohen’s kappa"
+        },
+        "aliases": [
+          "Cohen’s κ"
+        ],
+        "is_contributed": {
+          "quote": "we report unweighted Cohen’s kappa",
+          "justification": "This is a standard statistic.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we report unweighted Cohen’s kappa at the task level",
+          "justification": "It is explicitly computed.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "site-level macro-averages of κ=0.82 ... 0.85 ... 0.81 ... and 0.84",
+          "justification": "Numerical values are compared across sites.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "Inter-Rater Reliability",
+          "justification": "It measures annotation agreement.",
+          "value": "measure inter-rater reliability for binary task-category annotations"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Cohen’s kappa",
+          "justification": "No reference-paper title is supplied.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "bootstrap confidence interval",
+          "justification": "Named uncertainty procedure used for kappa and ranking fidelity.",
+          "value": "bootstrap confidence interval"
+        },
+        "aliases": [
+          "bootstrap CI"
+        ],
+        "is_contributed": {
+          "quote": "95 % bootstrap confidence interval",
+          "justification": "This is a standard procedure.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "with a bootstrap confidence interval reported",
+          "justification": "The paper computes bootstrap intervals.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Kendall’s τb = 1.00 between full benchmark and subset rankings with a bootstrap confidence interval",
+          "justification": "It quantifies uncertainty rather than serving as a competing algorithm.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "with a bootstrap confidence interval",
+          "justification": "Used to quantify uncertainty around reported statistics.",
+          "value": "quantify uncertainty around reliability and ranking statistics"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "bootstrap confidence interval",
+          "justification": "No reference-paper title is supplied.",
+          "value": "unknown"
+        }
+      }
+    ],
+    "runs": [
+      {
+        "models": [
+          {
+            "name": "OpenAI Operator",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "WebArena",
+            "access": "interactive",
+            "roles_in_run": [
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [],
+        "produces": [],
+        "execution_mode": {
+          "quote": "We evaluate the OpenAI Operator as our primary baseline",
+          "justification": "The agent interacts with the benchmark for evaluation only.",
+          "value": "inference"
+        },
+        "epochs": {
+          "quote": "We run one seed per agent without retries",
+          "justification": "No training passes are involved.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "OpenAI Operator",
+          "justification": "No parameter count is stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "Chromium based browser",
+          "justification": "Browser software is stated, but compute hardware is not.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "Chromium based browser",
+          "justification": "No accelerator model is stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "We run one seed per agent without retries",
+          "justification": "This is a seed count, not an accelerator count.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "OpenAI Operator",
+          "justification": "No numerical precision is stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "OpenAI Operator",
+          "justification": "No parallelism strategy is stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "Measured wall clock time per run is median 13.2 hours with an interquartile range of 12.8 to 13.9 hours",
+          "justification": "This is the stated full-benchmark evaluation duration.",
+          "value": "median 13.2 hours (IQR 12.8–13.9 hours)"
+        },
+        "utilisation": {
+          "quote": "Measured wall clock time per run",
+          "justification": "No hardware utilisation is reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "We run one seed per agent without retries",
+          "justification": "The paper explicitly states one seed, but a count of one is not recorded as a repetition factor under the extraction rules.",
+          "value": []
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "OpenAI Operator",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "WebArena Verified",
+            "access": "interactive",
+            "roles_in_run": [
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Structured Response Protocol"
+          },
+          {
+            "name": "Type-Aware Exact Matching"
+          },
+          {
+            "name": "Backend State Verification"
+          },
+          {
+            "name": "Network Activity Monitoring"
+          },
+          {
+            "name": "template–macro success"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "For WebArena Verified, we adapt prompts to the structured JSON schema",
+          "justification": "The pretrained agent is evaluated by inference.",
+          "value": "inference"
+        },
+        "epochs": {
+          "quote": "We run one seed per agent without retries",
+          "justification": "No training epochs are involved.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "OpenAI Operator",
+          "justification": "No parameter count is stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "Chromium based browser",
+          "justification": "No hardware accelerator type is stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "Chromium based browser",
+          "justification": "No accelerator model is stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "Chromium based browser",
+          "justification": "No accelerator count is stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "OpenAI Operator",
+          "justification": "No precision is stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "OpenAI Operator",
+          "justification": "No parallelism is stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "Measured wall clock time per run is median 13.2 hours with an interquartile range of 12.8 to 13.9 hours",
+          "justification": "This is the stated full-benchmark evaluation duration.",
+          "value": "median 13.2 hours (IQR 12.8–13.9 hours)"
+        },
+        "utilisation": {
+          "quote": "Measured wall clock time per run",
+          "justification": "No utilisation metric is reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "We run one seed per agent without retries",
+          "justification": "A single seed is stated; no multiplicative repetition factor greater than one applies.",
+          "value": []
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "OpenAI Operator",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "WebArena Verified Hard",
+            "access": "interactive",
+            "roles_in_run": [
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Structured Response Protocol"
+          },
+          {
+            "name": "Type-Aware Exact Matching"
+          },
+          {
+            "name": "Backend State Verification"
+          },
+          {
+            "name": "Network Activity Monitoring"
+          },
+          {
+            "name": "template–macro success"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "OpenAI Operator reaches 49.0% ± 4.8% on verified full and 33.2% ± 6.7% on verified hard.",
+          "justification": "This is inference-time benchmark evaluation.",
+          "value": "inference"
+        },
+        "epochs": {
+          "quote": "We run one seed per agent without retries",
+          "justification": "No epochs are stated or applicable.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "OpenAI Operator",
+          "justification": "No parameter count is stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "Chromium based browser",
+          "justification": "No hardware accelerator type is stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "Chromium based browser",
+          "justification": "No accelerator model is stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "Chromium based browser",
+          "justification": "No accelerator count is stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "OpenAI Operator",
+          "justification": "No precision is stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "OpenAI Operator",
+          "justification": "No parallelism is stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "approximately 2.3 hours",
+          "justification": "The paper states the hard-subset evaluation duration.",
+          "value": "approximately 2.3 hours"
+        },
+        "utilisation": {
+          "quote": "approximately 2.3 hours",
+          "justification": "No utilisation metric is reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "We run one seed per agent without retries",
+          "justification": "A single seed is stated; no multiplicative repetition factor greater than one applies.",
+          "value": []
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "GPT-5",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "WebArena",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [],
+        "produces": [],
+        "execution_mode": {
+          "quote": "These agents receive only the task intent and provide answers based solely on pre-training knowledge",
+          "justification": "GPT-5 performs inference over fixed task intents without browsing.",
+          "value": "inference"
+        },
+        "epochs": {
+          "quote": "provide answers based solely on pre-training knowledge",
+          "justification": "No training is performed.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "GPT-5",
+          "justification": "No parameter count is stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "GPT-5",
+          "justification": "No hardware is stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "GPT-5",
+          "justification": "No accelerator model is stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "GPT-5",
+          "justification": "No accelerator count is stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "GPT-5",
+          "justification": "No precision is stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "GPT-5",
+          "justification": "No parallelism is stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "GPT-5 reached 22.7% on vulnerable tasks and 4.9% overall",
+          "justification": "No execution duration is stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "GPT-5",
+          "justification": "No utilisation is stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "all 812 tasks",
+          "justification": "Task count is workload, not repetition; no seed or repeat count is stated.",
+          "value": []
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "Claude Sonnet 4",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "WebArena",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [],
+        "produces": [],
+        "execution_mode": {
+          "quote": "These agents receive only the task intent and provide answers based solely on pre-training knowledge",
+          "justification": "Claude Sonnet 4 performs inference over fixed task intents without browsing.",
+          "value": "inference"
+        },
+        "epochs": {
+          "quote": "provide answers based solely on pre-training knowledge",
+          "justification": "No training is performed.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "Claude Sonnet 4",
+          "justification": "No parameter count is stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "Claude Sonnet 4",
+          "justification": "No hardware is stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "Claude Sonnet 4",
+          "justification": "No accelerator model is stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "Claude Sonnet 4",
+          "justification": "No accelerator count is stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "Claude Sonnet 4",
+          "justification": "No precision is stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "Claude Sonnet 4",
+          "justification": "No parallelism is stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "Claude Sonnet 4 achieved 5.1% and 1.1% respectively",
+          "justification": "No duration is stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "Claude Sonnet 4",
+          "justification": "No utilisation is stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "all 812 tasks",
+          "justification": "Task count is workload, not repetition; no repetition count is stated.",
+          "value": []
+        }
+      },
+      {
+        "models": [],
+        "data_sources": [
+          {
+            "name": "WebArena",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Agentic Benchmark Checklist (ABC)"
+          },
+          {
+            "name": "Cohen’s kappa"
+          },
+          {
+            "name": "bootstrap confidence interval"
+          }
+        ],
+        "produces": [
+          "WebArena Verified"
+        ],
+        "execution_mode": {
+          "quote": "We created WebArena Verified through a systematic audit of all 812 tasks",
+          "justification": "This stage transforms/audits an existing source to produce a named revised data source without fitting a model.",
+          "value": "generate"
+        },
+        "epochs": {
+          "quote": "systematic audit of all 812 tasks",
+          "justification": "No epochs are stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "systematic audit of all 812 tasks",
+          "justification": "No model is run in this configuration.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "Analyses were conducted using the original WebArena harness",
+          "justification": "No hardware type is stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "official Docker images",
+          "justification": "No accelerator model is stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "Four annotators independently labeled tasks",
+          "justification": "Annotator count is not accelerator count.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "systematic audit",
+          "justification": "No numerical precision is stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "Four annotators independently labeled tasks",
+          "justification": "This describes human annotation, not compute parallelism.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "systematic audit of all 812 tasks",
+          "justification": "No duration is stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "systematic audit",
+          "justification": "No utilisation is stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "Four annotators completed two calibration rounds",
+          "justification": "Calibration rounds are part of an annotation protocol, not repeated executions of a compute configuration.",
+          "value": []
+        }
+      },
+      {
+        "models": [],
+        "data_sources": [
+          {
+            "name": "WebArena Verified",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Wilson Score confidence intervals"
+          },
+          {
+            "name": "Template-Based Stratified Sampling Strategy"
+          },
+          {
+            "name": "Kendall’s τb"
+          }
+        ],
+        "produces": [
+          "WebArena Verified Hard"
+        ],
+        "execution_mode": {
+          "quote": "We construct the subset with a preregistered three step process",
+          "justification": "This stage transforms a fixed benchmark into a named subset and does not fit a model.",
+          "value": "generate"
+        },
+        "epochs": {
+          "quote": "three step process",
+          "justification": "No epochs are stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "This yields 137 tasks",
+          "justification": "No model or parameter count is involved.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "three step process",
+          "justification": "No hardware is stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "three step process",
+          "justification": "No accelerator model is stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "three step process",
+          "justification": "No accelerator count is stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "three step process",
+          "justification": "No numerical precision is stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "three step process",
+          "justification": "No parallelism strategy is stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "three step process",
+          "justification": "No construction duration is stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "three step process",
+          "justification": "No utilisation is stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "we report a sensitivity analysis over z and τeasy",
+          "justification": "No explicit count of threshold settings is stated.",
+          "value": []
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "IBM CUGA",
+            "role_in_run": "main"
+          },
+          {
+            "name": "ZetaLabs",
+            "role_in_run": "main"
+          },
+          {
+            "name": "OccamAgent",
+            "role_in_run": "main"
+          },
+          {
+            "name": "Beyond Browsing",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "WebArena Verified",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          },
+          {
+            "name": "WebArena Verified Hard",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "template–macro success"
+          },
+          {
+            "name": "paired template-level analysis"
+          },
+          {
+            "name": "Kendall’s τb"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "we use four agents with complete leaderboard coverage for reliable statistical analysis",
+          "justification": "The paper analyzes pre-existing inference results; it does not newly execute these models.",
+          "value": "inference"
+        },
+        "epochs": {
+          "quote": "existing trajectories from the official leaderboard",
+          "justification": "No training epochs are involved.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "four agents with complete leaderboard coverage",
+          "justification": "No parameter counts are stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "existing trajectories from the official leaderboard",
+          "justification": "No hardware is stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "existing trajectories from the official leaderboard",
+          "justification": "No accelerator model is stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "existing trajectories from the official leaderboard",
+          "justification": "No accelerator count is stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "existing trajectories from the official leaderboard",
+          "justification": "No precision is stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "existing trajectories from the official leaderboard",
+          "justification": "No parallelism is stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "existing trajectories from the official leaderboard",
+          "justification": "No runtime for these referenced executions is stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "existing trajectories from the official leaderboard",
+          "justification": "No utilisation is stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "four agents with complete leaderboard coverage",
+          "justification": "Four different model variants are participants in a comparison, not repeated executions of one run configuration.",
+          "value": []
+        }
+      }
+    ]
+  },
+  "usage": {
+    "input_tokens": 32262,
+    "output_tokens": 11800,
+    "total_tokens": 44062
+  }
+}

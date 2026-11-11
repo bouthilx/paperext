@@ -1,0 +1,1651 @@
+{
+  "paper": "69a5fdc648887d403d0a5aeb.txt",
+  "words": 16269,
+  "extractions": {
+    "title": {
+      "quote": "Characterizing and Classifying Developer Forum Posts with their Intentions",
+      "justification": "Title as given on the first page.",
+      "value": "Characterizing and Classifying Developer Forum Posts with their Intentions"
+    },
+    "description": "The paper studies technical forum posts (Stack Exchange, Lithium, Discourse) from an industrial data dump, performs a manual qualitative study of post content types and intentions, proposes an intention taxonomy, and builds a transformer PTM-based multi-label intention detection framework, comparing six PTMs against two baselines (random-forest and CNN-based) with cross-validation.",
+    "type": {
+      "quote": "Through manual labeling and analysis on a sampled post dataset extracted from online forums, we understand the relevance between the constitution of posts (code, error messages) and their intentions.",
+      "justification": "The work is an empirical study with manual annotation and model experiments.",
+      "value": "empirical"
+    },
+    "research_fields": [
+      {
+        "name": {
+          "quote": "Empirical Software Engineering",
+          "justification": "The paper is an empirical software engineering study on developer forums.",
+          "value": "Empirical Software Engineering"
+        },
+        "aliases": [
+          "SE"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "Most of these approaches are based on textual features of posts and adopt natural language processing to recommend potential post tags.",
+          "justification": "NLP methods (PTMs, embeddings) are used as the technical setting.",
+          "value": "Natural Language Processing"
+        },
+        "aliases": [
+          "NLP"
+        ],
+        "role": "used"
+      },
+      {
+        "name": {
+          "quote": "Keywords Developer Forum · Online Community · Intention · Tag Recommendation.",
+          "justification": "Tag recommendation is the related field complemented by the work.",
+          "value": "Tag Recommendation"
+        },
+        "aliases": [],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "Researchers have developed various approaches to fulfill the task of tag recommendation in the software engineering domain.",
+          "justification": "Mining software repositories / developer community content is the setting.",
+          "value": "Mining Software Repositories"
+        },
+        "aliases": [
+          "MSR"
+        ],
+        "role": "used"
+      }
+    ],
+    "models": [
+      {
+        "name": {
+          "quote": "We use the BERTbase in the experiment.",
+          "justification": "BERT base is one of the PTMs evaluated in the framework.",
+          "value": "BERT"
+        },
+        "aliases": [
+          "BERTbase",
+          "Bidirectional Encoder Representations from Transformers"
+        ],
+        "is_contributed": {
+          "quote": "Bidirectional Encoder Representations from Transformers (BERT) (Devlin et al., 2018) is a transformer-based architecture",
+          "justification": "Pre-existing model.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We compare the performances of six variants of our framework with the PTMs mentioned above.",
+          "justification": "Used as encoder and fine-tuned (pooler layer).",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "the variants with BERT and RoBERTa models achieved the same performance (F1-score of 0.522)",
+          "justification": "Compared against other PTM variants.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "we further fine-tune the pooler layer in the two best-performing PTMs (e.g., BERT and RoBERTa)",
+          "justification": "Fine-tuned in RQ2.",
+          "value": "finetune"
+        },
+        "referenced_paper_title": {
+          "quote": "Devlin, J., Chang, M.-W., Lee, K., and Toutanova, K. (2018). Bert: Pre-training of deep bidirectional transformers for language understanding.",
+          "justification": "Reference listed.",
+          "value": "Bert: Pre-training of deep bidirectional transformers for language understanding"
+        }
+      },
+      {
+        "name": {
+          "quote": "RoBERTa (Liu et al., 2019) modified some hyper-parameters and training tasks while maintaining the original BERT architecture.",
+          "justification": "One of the six PTMs evaluated.",
+          "value": "RoBERTa"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "RoBERTa (Liu et al., 2019)",
+          "justification": "Pre-existing model.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "the variant with RoBERTa consistently outperformed others in terms of all F1-score@k",
+          "justification": "Executed in experiments.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "the variant with RoBERTa consistently outperformed others",
+          "justification": "Compared with other variants and baselines.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "we further fine-tune the pooler layer in the two best-performing PTMs (e.g., BERT and RoBERTa)",
+          "justification": "Fine-tuned.",
+          "value": "finetune"
+        },
+        "referenced_paper_title": {
+          "quote": "Liu, Y., Ott, M., Goyal, N., ... (2019). Roberta: A robustly optimized bert pretraining approach.",
+          "justification": "Reference listed.",
+          "value": "Roberta: A robustly optimized bert pretraining approach"
+        }
+      },
+      {
+        "name": {
+          "quote": "ALBERT (Lan et al., 2019) further improve the original BERT by adopting parameter reduction techniques.",
+          "justification": "One of the six PTM variants.",
+          "value": "ALBERT"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "ALBERT (Lan et al., 2019)",
+          "justification": "Pre-existing model.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "The variant with ALBERT was outperformed by the best two by 26.4% in terms of Micro F1-score.",
+          "justification": "Executed as framework variant.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "The variant with ALBERT was outperformed by the best two by 26.4%",
+          "justification": "Compared.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "During the training process, we fixed all parameters of the PTMs, and only updated the parameters of layers on top of the PTMs.",
+          "justification": "Used frozen as encoder for inference; the classifier on top is trained.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "Lan, Z., Chen, M., Goodman, S., Gimpel, K., Sharma, P., and Soricut, R. (2019). Albert: A lite bert for self-supervised learning of language representations.",
+          "justification": "Reference listed.",
+          "value": "Albert: A lite bert for self-supervised learning of language representations"
+        }
+      },
+      {
+        "name": {
+          "quote": "DistilBERT (Sanh et al., 2019) is a distilled version, which has 40% fewer parameters while maintaining over 95% of the BERT model.",
+          "justification": "One of six PTM variants.",
+          "value": "DistilBERT"
+        },
+        "aliases": [
+          "DistilBert"
+        ],
+        "is_contributed": {
+          "quote": "DistilBERT (Sanh et al., 2019)",
+          "justification": "Pre-existing model.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Since DistilBert is not pre-trained with the next sentence prediction task, there is no pooler output layer. Instead, we use the output of a linear classification head.",
+          "justification": "Executed as variant.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "We also observed a performance loss when PTMs with fewer parameters were used: the distilled version of BERT (i.e., DistilBERT) compared with BERT.",
+          "justification": "Compared.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "we fixed the parameters of PTMs and only updated the layers on top of them in backpropagation",
+          "justification": "Used frozen.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "Sanh, V., Debut, L., Chaumond, J., and Wolf, T. (2019). Distilbert, a distilled version of bert: smaller, faster, cheaper and lighter.",
+          "justification": "Reference listed.",
+          "value": "Distilbert, a distilled version of bert: smaller, faster, cheaper and lighter"
+        }
+      },
+      {
+        "name": {
+          "quote": "BERTOverflow (Tabassum et al., 2020) is proposed with a named entity recognition technique.",
+          "justification": "One of the six PTM variants.",
+          "value": "BERTOverflow"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "BERTOverflow (Tabassum et al., 2020)",
+          "justification": "Pre-existing model.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "The worst performance was achieved by the variant with BERTOverflow, a domain-specific PTM trained with Stack Overflow data, with a Micro F1-score of 0.340.",
+          "justification": "Executed as variant.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "The worst performance was achieved by the variant with BERTOverflow",
+          "justification": "Compared.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "During the training process, we fixed all parameters of the PTMs",
+          "justification": "Frozen encoder.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "Tabassum, J., Maddela, M., Xu, W., and Ritter, A. (2020). Code and named entity recognition in stackoverflow.",
+          "justification": "Reference listed.",
+          "value": "Code and named entity recognition in stackoverflow"
+        }
+      },
+      {
+        "name": {
+          "quote": "Pre-trained with both natural language corpus and programming language data, CodeBERT (Feng et al., 2020) is able to generate embeddings for both forms of input data.",
+          "justification": "One of the six PTM variants.",
+          "value": "CodeBERT"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "CodeBERT (Feng et al., 2020)",
+          "justification": "Pre-existing model.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Compared with BERTOverflow, another domain-specific PTM (i.e., CodeBERT) achieved a moderate result",
+          "justification": "Executed as variant.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "another domain-specific PTM (i.e., CodeBERT) achieved a moderate result, only inferior to the best ones by 5.7%",
+          "justification": "Compared.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "we fixed the parameters of PTMs and only updated the layers on top of them",
+          "justification": "Frozen encoder.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "Feng, Z., Guo, D., Tang, D., Duan, N., ... (2020). Codebert: A pre-trained model for programming and natural languages.",
+          "justification": "Reference listed.",
+          "value": "Codebert: A pre-trained model for programming and natural languages"
+        }
+      },
+      {
+        "name": {
+          "quote": "To automatically detect the content categories (i.e., natural language, code, error message, config, command line, and others) of code blocks, we constructed a multinomial Naive Bayes classifier.",
+          "justification": "A classifier built and trained by the authors.",
+          "value": "multinomial Naive Bayes classifier"
+        },
+        "aliases": [
+          "Multinomial Naive Bayes classifier",
+          "code block classifier"
+        ],
+        "is_contributed": {
+          "quote": "we constructed a multinomial Naive Bayes classifier",
+          "justification": "Built as part of the proposed framework.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "The classifier achieved an accuracy of 83.3% on the test set.",
+          "justification": "Trained and evaluated.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "The classifier achieved an accuracy of 83.3% on the test set.",
+          "justification": "No numerical comparison with other classifiers reported.",
+          "value": false
+        },
+        "execution_mode": {
+          "quote": "Based on the document-term matrix of textual data in code blocks, we trained the classifier.",
+          "justification": "Trained from scratch.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "we constructed a multinomial Naive Bayes classifier",
+          "justification": "No reference paper given.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "Baseline 1: Random Forest Binary Classifiers are used in Beyer et al. (2020) to classify Stack Overflow posts into seven intention categories.",
+          "justification": "Baseline model re-implemented and trained on the authors' dataset.",
+          "value": "Random Forest Binary Classifiers"
+        },
+        "aliases": [
+          "Baseline 1",
+          "Random Forest"
+        ],
+        "is_contributed": {
+          "quote": "This approach, to our knowledge, is the state-of-the-art work that proposed an automated approach for detecting QA post intentions.",
+          "justification": "Prior work baseline.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we follow the preprocessing and configurations from their work and train a set of random forest classifiers for our intention categories with our dataset as the baseline model",
+          "justification": "Trained by the authors.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Table 9 The performance of our approach after fine-tuning the PTMs compared with baselines.",
+          "justification": "Compared numerically.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "train a set of random forest classifiers for our intention categories with our dataset",
+          "justification": "Trained from scratch.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "Beyer, S., Macho, C., Di Penta, M., and Pinzger, M. (2020). What kind of questions do developers ask on stack overflow? a comparison of automated approaches to classify posts into question categories.",
+          "justification": "Reference listed.",
+          "value": "What kind of questions do developers ask on stack overflow? a comparison of automated approaches to classify posts into question categories"
+        }
+      },
+      {
+        "name": {
+          "quote": "Baseline 2: A CNN-based approach is introduced by Huang et al. (2018) for the task of extracting intentions from issue reports on GitHub.",
+          "justification": "Second baseline re-implemented and trained.",
+          "value": "CNN-based approach"
+        },
+        "aliases": [
+          "Baseline 2",
+          "CNN"
+        ],
+        "is_contributed": {
+          "quote": "A CNN-based approach is introduced by Huang et al. (2018)",
+          "justification": "Prior work baseline.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "In our work, we utilize the same CNN architecture while we substitute the cross entropy loss with the BCE loss to adapt to our task",
+          "justification": "Implemented and trained by authors.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Baseline 2 (CNN-based) 0.558 0.577 0.567 0.765",
+          "justification": "Numerically compared in Table 9.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "We evaluate the baseline approaches with the same cross-validation process mentioned in Section 3.3.3.",
+          "justification": "Trained and evaluated.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "Huang, Q., Xia, X., Lo, D., and Murphy, G. C. (2018). Automating intention mining.",
+          "justification": "Reference listed.",
+          "value": "Automating intention mining"
+        }
+      },
+      {
+        "name": {
+          "quote": "we use the pre-trained GloVe word embeddings (Pennington et al., 2014) to transform words into the corresponding vector representations as the input to the CNN model",
+          "justification": "Pre-trained embeddings used as input for the CNN baseline.",
+          "value": "GloVe"
+        },
+        "aliases": [
+          "GloVe word embeddings"
+        ],
+        "is_contributed": {
+          "quote": "pre-trained GloVe word embeddings (Pennington et al., 2014)",
+          "justification": "Pre-existing.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we use the pre-trained GloVe word embeddings ... as the input to the CNN model",
+          "justification": "Used to produce embeddings.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "baseline methods employing traditional feature extraction or basic word embedding",
+          "justification": "Not compared as a model itself.",
+          "value": false
+        },
+        "execution_mode": {
+          "quote": "we use the pre-trained GloVe word embeddings (Pennington et al., 2014) to transform words into the corresponding vector representations",
+          "justification": "Only used for inference/lookup.",
+          "value": "inference"
+        },
+        "referenced_paper_title": {
+          "quote": "Pennington, J., Socher, R., and Manning, C. D. (2014). Glove: Global vectors for word representation.",
+          "justification": "Reference listed.",
+          "value": "Glove: Global vectors for word representation"
+        }
+      }
+    ],
+    "data_sources": [
+      {
+        "name": {
+          "quote": "We constructed our studied dataset by sampling from a data dump provided by our industrial partner.",
+          "justification": "The industrial data dump is the base source of posts.",
+          "value": "data dump (from our industrial partner)"
+        },
+        "aliases": [
+          "Data Dump"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "From around 7.7 million primary posts in the data dump",
+          "justification": "Stated size.",
+          "value": "around 7.7 million primary posts"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "The acquisition process of this data dump was facilitated by our partner’s own web crawlers.",
+          "justification": "No reference paper.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "Finally, we constructed a dataset with 384 posts, of which 198 were from Stack Exchange, 137 from Lithium and 49 from Discourse forums",
+          "justification": "The manually studied sampled dataset.",
+          "value": "Dataset (Manual Study)"
+        },
+        "aliases": [
+          "sampled dataset",
+          "384 sampled posts"
+        ],
+        "role": "contributed",
+        "size": {
+          "quote": "we constructed a dataset with 384 posts",
+          "justification": "Stated size.",
+          "value": "384 posts"
+        },
+        "derived_from": [
+          "data dump (from our industrial partner)"
+        ],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "we adopted a stratified random sampling strategy to sample 384 posts",
+          "justification": "No reference paper.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "At last, we were able to extend our intention annotation dataset to the size of 784.",
+          "justification": "The annotated intention dataset used to train/evaluate the framework.",
+          "value": "Intention Dataset"
+        },
+        "aliases": [
+          "intention annotation dataset",
+          "annotated dataset"
+        ],
+        "role": "contributed",
+        "size": {
+          "quote": "In total, we have 784 samples. For each iteration, we used 157 samples as the test set, 502 as training data, and 125 as the validation set.",
+          "justification": "Stated size.",
+          "value": "784 samples"
+        },
+        "derived_from": [
+          "data dump (from our industrial partner)"
+        ],
+        "sample_properties": [
+          {
+            "name": "description length (tokens)",
+            "value": {
+              "quote": "The average, median and maximum lengths are 112, 83 and 1168, respectively, in our dataset.",
+              "justification": "Stated per-sample token counts.",
+              "value": "average 112, median 83, maximum 1168"
+            },
+            "unit": "tokens"
+          }
+        ],
+        "referenced_paper_title": {
+          "quote": "We have released our annotated dataset and code in the supplementary material package hosted on a GitHub repository",
+          "justification": "No reference paper.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "We constructed a code block dataset for training and evaluating of the classifier by sampling and annotating code blocks from our data dump.",
+          "justification": "Dataset built for the code block classifier.",
+          "value": "code block dataset"
+        },
+        "aliases": [],
+        "role": "contributed",
+        "size": {
+          "quote": "The code block dataset has 10k samples in total",
+          "justification": "Stated size.",
+          "value": "10k samples"
+        },
+        "derived_from": [
+          "data dump (from our industrial partner)"
+        ],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "We constructed a code block dataset for training and evaluating of the classifier",
+          "justification": "No reference paper.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "Stack Exchange 4,058,490 198 (52%)",
+          "justification": "One of the platforms the posts come from.",
+          "value": "Stack Exchange"
+        },
+        "aliases": [
+          "Stack Overflow",
+          "Server Fault"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "Stack Exchange 4,058,490 198 (52%)",
+          "justification": "Stated total and sampled counts.",
+          "value": "4,058,490 total; 198 sampled"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "A question-and-answer website that covers a wide range of topics and domains.",
+          "justification": "No reference paper.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "Lithium 2,694,643 137 (36%)",
+          "justification": "One of the platforms the posts come from.",
+          "value": "Lithium"
+        },
+        "aliases": [
+          "Lithium forums"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "Lithium 2,694,643 137 (36%)",
+          "justification": "Stated counts.",
+          "value": "2,694,643 total; 137 sampled"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "A forum software developed by Lithium Technologies.",
+          "justification": "No reference paper.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "Discourse 948,580 49 (12%)",
+          "justification": "One of the platforms the posts come from.",
+          "value": "Discourse"
+        },
+        "aliases": [
+          "Discourse forums"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "Discourse 948,580 49 (12%)",
+          "justification": "Stated counts.",
+          "value": "948,580 total; 49 sampled"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "An open-source forum software.",
+          "justification": "No reference paper.",
+          "value": "unknown"
+        }
+      }
+    ],
+    "libraries": [
+      {
+        "name": {
+          "quote": "we employ PTMs released in the Hugging Face (Wolf et al., 2019) to generate contextual embeddings",
+          "justification": "Hugging Face transformers used to obtain the PTMs.",
+          "value": "Hugging Face"
+        },
+        "aliases": [
+          "Huggingface's transformers"
+        ],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "Wolf, T., Debut, L., Sanh, V., Chaumond, J., Delangue, C., Moi, A., Cistac, P., Rault, T., Louf, R., Funtowicz, M., et al. (2019). Huggingface’s transformers: State-of-the-art natural language processing.",
+          "justification": "Reference listed.",
+          "value": "Huggingface’s transformers: State-of-the-art natural language processing"
+        }
+      }
+    ],
+    "algorithms": [
+      {
+        "name": {
+          "quote": "we adopted a stratified random sampling strategy to sample 384 posts",
+          "justification": "Named sampling procedure applied to the data dump.",
+          "value": "stratified random sampling"
+        },
+        "aliases": [
+          "Stratified Sampling"
+        ],
+        "is_contributed": {
+          "quote": "we adopted a stratified random sampling strategy",
+          "justification": "Standard procedure.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "From around 7.7 million primary posts in the data dump, we adopted a stratified random sampling strategy to sample 384 posts",
+          "justification": "Executed for dataset construction.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "we adopted a stratified random sampling strategy to sample 384 posts",
+          "justification": "Not compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "in order to obtain precise estimates of the characteristics of posts from different platforms",
+          "justification": "Used to construct the sampled study dataset.",
+          "value": "to sample posts from the data dump for the manual study"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Boslaugh, S. (2012). Statistics in a nutshell: A desktop quick reference.",
+          "justification": "Cited for sample size computation.",
+          "value": "Statistics in a nutshell: A desktop quick reference"
+        }
+      },
+      {
+        "name": {
+          "quote": "Through the initial inspection which involved an open coding approach (Khandkar, 2009)",
+          "justification": "Named qualitative analysis procedure.",
+          "value": "open coding"
+        },
+        "aliases": [
+          "open coding approach"
+        ],
+        "is_contributed": {
+          "quote": "we adopted an open coding approach",
+          "justification": "Existing method.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we first developed a content type taxonomy through an open coding approach (Khandkar, 2009) and annotated the sampled posts accordingly",
+          "justification": "Applied in the manual study.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "we adopted an open coding approach",
+          "justification": "Not compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "we first developed a content type taxonomy through an open coding approach",
+          "justification": "Used for taxonomy construction and annotation.",
+          "value": "used to summarize content types and intention categories from sampled posts"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Khandkar, S. H. (2009). Open coding. University of Calgary, 23(2009).",
+          "justification": "Reference listed.",
+          "value": "Open coding"
+        }
+      },
+      {
+        "name": {
+          "quote": "We measured the inter-rater agreement between two coders using Krippendorff’s Alpha score (Krippendorff, 2011)",
+          "justification": "Named agreement measurement procedure.",
+          "value": "Krippendorff’s Alpha"
+        },
+        "aliases": [
+          "Krippendorff's Alpha score"
+        ],
+        "is_contributed": {
+          "quote": "Krippendorff’s Alpha, a standard and flexible coefficient for measuring inter-coder agreement",
+          "justification": "Standard statistic.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "the Krippendorff’s Alpha coefficients for all intention categories range between 0.62 and 0.81",
+          "justification": "Computed on annotations.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "the Krippendorff’s Alpha coefficients for all intention categories range between 0.62 and 0.81",
+          "justification": "Not compared as an algorithm.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "We measured the inter-rater agreement between two coders using Krippendorff’s Alpha score",
+          "justification": "Used to evaluate annotation reliability.",
+          "value": "measuring inter-rater agreement of the manual annotations"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Krippendorff, K. (2011). Computing krippendorff’s alpha-reliability.",
+          "justification": "Reference listed.",
+          "value": "Computing krippendorff’s alpha-reliability"
+        }
+      },
+      {
+        "name": {
+          "quote": "We then employed TF-IDF (term frequency-inverse document frequency) to transform tokens into numerical arrays",
+          "justification": "Named feature extraction procedure.",
+          "value": "TF-IDF"
+        },
+        "aliases": [
+          "term frequency-inverse document frequency"
+        ],
+        "is_contributed": {
+          "quote": "We then employed TF-IDF",
+          "justification": "Standard method.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We then employed TF-IDF (term frequency-inverse document frequency) to transform tokens into numerical arrays, representing each token frequency across the dataset.",
+          "justification": "Executed to build document-term matrix.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "We then employed TF-IDF",
+          "justification": "Not compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "to transform tokens into numerical arrays, representing each token frequency across the dataset",
+          "justification": "Feature representation for the code block classifier.",
+          "value": "transform code block tokens into numerical features for the Naive Bayes classifier"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "We then employed TF-IDF (term frequency-inverse document frequency)",
+          "justification": "No reference.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "We adopted grid-search to tune the hyperparameter (i.e., Additive smoothing parameter) of the Multinomial Naive Bayes classifier using the evaluation set.",
+          "justification": "Named hyperparameter search procedure.",
+          "value": "grid-search"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "We adopted grid-search to tune the hyperparameter",
+          "justification": "Standard method.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We adopted grid-search to tune the hyperparameter (i.e., Additive smoothing parameter)",
+          "justification": "Executed.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "We adopted grid-search to tune the hyperparameter",
+          "justification": "Not compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "to tune the hyperparameter (i.e., Additive smoothing parameter) of the Multinomial Naive Bayes classifier using the evaluation set",
+          "justification": "Hyperparameter tuning of the code block classifier.",
+          "value": "tune the additive smoothing hyperparameter of the code block classifier"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "We adopted grid-search to tune the hyperparameter",
+          "justification": "No reference.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "We utilized SMOTE resampling (Chawla et al., 2002) to address class imbalance during the training process.",
+          "justification": "Named resampling procedure.",
+          "value": "SMOTE"
+        },
+        "aliases": [
+          "SMOTE resampling"
+        ],
+        "is_contributed": {
+          "quote": "We utilized SMOTE resampling (Chawla et al., 2002)",
+          "justification": "Existing technique.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We utilized SMOTE resampling (Chawla et al., 2002) to address class imbalance during the training process.",
+          "justification": "Executed during classifier training.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "We utilized SMOTE resampling",
+          "justification": "Not compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "to address class imbalance during the training process",
+          "justification": "Data balancing for the code block classifier.",
+          "value": "address class imbalance when training the code block content classifier"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Chawla, N. V., Bowyer, K. W., Hall, L. O., and Kegelmeyer, W. P. (2002). Smote: synthetic minority over-sampling technique.",
+          "justification": "Reference listed.",
+          "value": "Smote: synthetic minority over-sampling technique"
+        }
+      },
+      {
+        "name": {
+          "quote": "We used five-fold cross-validation to counter the limited size of the dataset",
+          "justification": "Named evaluation procedure.",
+          "value": "five-fold cross-validation"
+        },
+        "aliases": [
+          "5-fold cross-validation",
+          "cross-validation"
+        ],
+        "is_contributed": {
+          "quote": "We used five-fold cross-validation",
+          "justification": "Standard method.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We randomly divided our annotated dataset into five folds. For each iteration, we used one fold as the test set and the other four folds as the training set.",
+          "justification": "Executed for training/evaluation.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "We evaluate the baseline approaches with the same cross-validation process mentioned in Section 3.3.3.",
+          "justification": "Not compared as an algorithm.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "We used five-fold cross-validation to counter the limited size of the dataset, aiming to enhance the reliability of our evaluation.",
+          "justification": "Evaluation protocol.",
+          "value": "evaluation protocol for the intention detection framework and baselines"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "We used five-fold cross-validation to counter the limited size of the dataset",
+          "justification": "No reference.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "we use a Sigmoid function as our output layer and adopt the Binary Cross Entropy loss (BCE loss) for each output node",
+          "justification": "Named training objective.",
+          "value": "Binary Cross Entropy loss (BCE loss)"
+        },
+        "aliases": [
+          "BCE loss"
+        ],
+        "is_contributed": {
+          "quote": "adopt the Binary Cross Entropy loss (BCE loss) for each output node",
+          "justification": "Standard loss.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "the loss function for our model is the summation of the BCE losses of all output nodes over a batch of training data",
+          "justification": "Used in training.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "we substitute the cross entropy loss with the BCE loss to adapt to our task",
+          "justification": "Not compared numerically.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "the loss function for our model is the summation of the BCE losses of all output nodes over a batch of training data",
+          "justification": "Training objective of multi-label classification.",
+          "value": "the multi-label training loss function"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "we adopt the Binary Cross Entropy loss (BCE loss)",
+          "justification": "No reference.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "For sequences longer than 256 tokens, we adopt the head-only truncation.",
+          "justification": "Named input preprocessing procedure.",
+          "value": "head-only truncation"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "we adopt the head-only truncation",
+          "justification": "Standard technique.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "For sequences longer than 256 tokens, we adopt the head-only truncation.",
+          "justification": "Applied to inputs.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "we adopt the head-only truncation",
+          "justification": "Not compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "For sequences longer than 256 tokens, we adopt the head-only truncation.",
+          "justification": "Handling long post descriptions.",
+          "value": "truncate post descriptions longer than the maximum input length"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "we adopt the head-only truncation",
+          "justification": "No reference.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "we made some adjustments to the predicted labels to make them more reasonable",
+          "justification": "Named post-processing step in the framework (section title 'Prediction Refinement').",
+          "value": "Prediction Refinement"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "3.3.4 Prediction Refinement",
+          "justification": "Introduced by the authors as part of the framework.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "We map the output to categories with a threshold of 0.5 when evaluating our model.",
+          "justification": "Applied at inference time.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "we force the model to output at least one label by assigning the class with the highest probability as the detection result",
+          "justification": "Not compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "we force the model to output at least one label by assigning the class with the highest probability as the detection result",
+          "justification": "Post-processing of predicted labels.",
+          "value": "adjusting the model's predicted labels at inference"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "3.3.4 Prediction Refinement",
+          "justification": "No reference.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "We conduct an ablation study to investigate the importance of employing code block content as a feature.",
+          "justification": "Named evaluation procedure.",
+          "value": "ablation study"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "We conduct an ablation study",
+          "justification": "Standard experimental procedure.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We train and evaluate the ablated framework with 5-fold cross-validation to get an unbiased performance estimation.",
+          "justification": "Executed in RQ3.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Table 11 The results of ablation study.",
+          "justification": "Produces comparison results.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "to investigate the importance of employing code block content as a feature",
+          "justification": "RQ3 evaluation.",
+          "value": "investigating the contribution of the code block content feature"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "We conduct an ablation study",
+          "justification": "No reference.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "we adopt the one-vs-one configuration to compute the average AUC for all pairwise combinations of classes (Hand and Till, 2001)",
+          "justification": "Named evaluation metric procedure.",
+          "value": "one-vs-one AUC"
+        },
+        "aliases": [
+          "Area Under Curve (AUC)"
+        ],
+        "is_contributed": {
+          "quote": "we adopt the one-vs-one configuration to compute the average AUC",
+          "justification": "Existing metric.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "The performance improvement is reflected in the average AUC, with an increment of 3.0% and 6.8% for the two variants.",
+          "justification": "Computed in evaluation.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Average AUC 0.754 0.787",
+          "justification": "Used in comparisons, not compared itself.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "we adopt the one-vs-one configuration to compute the average AUC for all pairwise combinations of classes",
+          "justification": "Evaluation metric.",
+          "value": "evaluation metric measuring class separability"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Hand, D. J. and Till, R. J. (2001). A simple generalisation of the area under the roc curve for multiple class classification problems.",
+          "justification": "Reference listed.",
+          "value": "A simple generalisation of the area under the roc curve for multiple class classification problems"
+        }
+      }
+    ],
+    "runs": [
+      {
+        "models": [
+          {
+            "name": "multinomial Naive Bayes classifier",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "code block dataset",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "TF-IDF"
+          },
+          {
+            "name": "SMOTE"
+          },
+          {
+            "name": "grid-search"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "Based on the document-term matrix of textual data in code blocks, we trained the classifier.",
+          "justification": "A training run for the code block content classifier.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "Based on the document-term matrix of textual data in code blocks, we trained the classifier.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "we constructed a multinomial Naive Bayes classifier",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "the adopted classifier has lower computational costs than many embedding techniques",
+          "justification": "Hardware not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "we constructed a multinomial Naive Bayes classifier",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "we constructed a multinomial Naive Bayes classifier",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "we constructed a multinomial Naive Bayes classifier",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "we constructed a multinomial Naive Bayes classifier",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "we constructed a multinomial Naive Bayes classifier",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "we constructed a multinomial Naive Bayes classifier",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "We adopted grid-search to tune the hyperparameter (i.e., Additive smoothing parameter)",
+          "justification": "Grid search mentioned but number of values not stated.",
+          "value": []
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "BERT",
+            "role_in_run": "main"
+          },
+          {
+            "name": "RoBERTa",
+            "role_in_run": "main"
+          },
+          {
+            "name": "ALBERT",
+            "role_in_run": "main"
+          },
+          {
+            "name": "DistilBERT",
+            "role_in_run": "main"
+          },
+          {
+            "name": "BERTOverflow",
+            "role_in_run": "main"
+          },
+          {
+            "name": "CodeBERT",
+            "role_in_run": "main"
+          },
+          {
+            "name": "multinomial Naive Bayes classifier",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Intention Dataset",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "five-fold cross-validation"
+          },
+          {
+            "name": "Binary Cross Entropy loss (BCE loss)"
+          },
+          {
+            "name": "head-only truncation"
+          },
+          {
+            "name": "Prediction Refinement"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "During the training process, we fixed all parameters of the PTMs, and only updated the parameters of layers on top of the PTMs.",
+          "justification": "Classifier layers on top of frozen PTMs are trained (RQ1).",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "which was used to calculate the loss for guiding the early stopping",
+          "justification": "Epoch count not stated; early stopping used.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "In total, it contains 110M parameters and is trained with a large corpus of English data.",
+          "justification": "BERTbase parameter count stated.",
+          "value": "110M (BERTbase)"
+        },
+        "accelerator_type": {
+          "quote": "we employ PTMs released in the Hugging Face (Wolf et al., 2019) to generate contextual embeddings",
+          "justification": "Hardware not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "we employ PTMs released in the Hugging Face",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "we employ PTMs released in the Hugging Face",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "we employ PTMs released in the Hugging Face",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "we employ PTMs released in the Hugging Face",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "we employ PTMs released in the Hugging Face",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "we employ PTMs released in the Hugging Face",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "We compare the performance of six variants of our intention detection framework with transformer-based PTMs.",
+          "justification": "Six PTM variants, each with 5 cross-validation folds.",
+          "value": [
+            {
+              "kind": "variant",
+              "count": 6,
+              "what": "six variants of our intention detection framework with transformer-based PTMs"
+            },
+            {
+              "kind": "fold",
+              "count": 5,
+              "what": "five-fold cross-validation"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "BERT",
+            "role_in_run": "main"
+          },
+          {
+            "name": "RoBERTa",
+            "role_in_run": "main"
+          },
+          {
+            "name": "multinomial Naive Bayes classifier",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Intention Dataset",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "five-fold cross-validation"
+          },
+          {
+            "name": "Binary Cross Entropy loss (BCE loss)"
+          },
+          {
+            "name": "Prediction Refinement"
+          },
+          {
+            "name": "one-vs-one AUC"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "we further fine-tune the pooler layer in the two best-performing PTMs (e.g., BERT and RoBERTa)",
+          "justification": "Fine-tuning run for RQ2.",
+          "value": "finetune"
+        },
+        "epochs": {
+          "quote": "a randomly selected 1/8 of the training set used for validation and to calculate the loss for early stopping",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "In total, it contains 110M parameters",
+          "justification": "BERTbase size stated.",
+          "value": "110M (BERTbase)"
+        },
+        "accelerator_type": {
+          "quote": "Fine-tuning PTMs can be expensive.",
+          "justification": "Hardware not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "Fine-tuning PTMs can be expensive.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "Fine-tuning PTMs can be expensive.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "Fine-tuning PTMs can be expensive.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "Fine-tuning PTMs can be expensive.",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "Fine-tuning PTMs can be expensive.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "Fine-tuning PTMs can be expensive.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "To better evaluate the performance of our proposed approach, we performed 10-fold cross-validation and calculated the metrics over all the posts in our dataset.",
+          "justification": "Two PTM variants fine-tuned; cross-validation folds stated (10-fold mentioned here, 5-fold elsewhere).",
+          "value": [
+            {
+              "kind": "variant",
+              "count": 2,
+              "what": "two best-performing PTMs (BERT and RoBERTa) fine-tuned"
+            },
+            {
+              "kind": "fold",
+              "count": 10,
+              "what": "10-fold cross-validation"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "Random Forest Binary Classifiers",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Intention Dataset",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "five-fold cross-validation"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "we follow the preprocessing and configurations from their work and train a set of random forest classifiers for our intention categories with our dataset as the baseline model",
+          "justification": "Baseline trained by the authors.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "train a set of random forest classifiers for our intention categories with our dataset",
+          "justification": "Not applicable/stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "train a set of random forest classifiers",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "train a set of random forest classifiers",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "train a set of random forest classifiers",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "train a set of random forest classifiers",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "train a set of random forest classifiers",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "train a set of random forest classifiers",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "train a set of random forest classifiers",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "train a set of random forest classifiers",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "We evaluate the baseline approaches with the same cross-validation process mentioned in Section 3.3.3.",
+          "justification": "Cross-validation folds.",
+          "value": [
+            {
+              "kind": "fold",
+              "count": 5,
+              "what": "five-fold cross-validation"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "CNN-based approach",
+            "role_in_run": "main"
+          },
+          {
+            "name": "GloVe",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Intention Dataset",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "five-fold cross-validation"
+          },
+          {
+            "name": "Binary Cross Entropy loss (BCE loss)"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "we utilize the same CNN architecture while we substitute the cross entropy loss with the BCE loss to adapt to our task",
+          "justification": "The CNN baseline is trained on the authors' dataset.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "we utilize the same CNN architecture",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "we utilize the same CNN architecture",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "Batch normalization is integrated with the CNN layer to enhance training speed.",
+          "justification": "Hardware not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "we utilize the same CNN architecture",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "we utilize the same CNN architecture",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "we utilize the same CNN architecture",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "we utilize the same CNN architecture",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "we utilize the same CNN architecture",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "we utilize the same CNN architecture",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "We evaluate the baseline approaches with the same cross-validation process mentioned in Section 3.3.3.",
+          "justification": "Cross-validation folds.",
+          "value": [
+            {
+              "kind": "fold",
+              "count": 5,
+              "what": "five-fold cross-validation"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "BERT",
+            "role_in_run": "main"
+          },
+          {
+            "name": "RoBERTa",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Intention Dataset",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "ablation study"
+          },
+          {
+            "name": "five-fold cross-validation"
+          },
+          {
+            "name": "Binary Cross Entropy loss (BCE loss)"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "We train and evaluate the ablated framework with 5-fold cross-validation to get an unbiased performance estimation.",
+          "justification": "Ablated framework (without code block classifier) trained.",
+          "value": "finetune"
+        },
+        "epochs": {
+          "quote": "We train and evaluate the ablated framework with 5-fold cross-validation",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "In total, it contains 110M parameters",
+          "justification": "BERTbase size stated in the paper.",
+          "value": "110M (BERTbase)"
+        },
+        "accelerator_type": {
+          "quote": "We train and evaluate the ablated framework with 5-fold cross-validation",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "We train and evaluate the ablated framework",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "We train and evaluate the ablated framework",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "We train and evaluate the ablated framework",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "We train and evaluate the ablated framework",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "We train and evaluate the ablated framework",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "We train and evaluate the ablated framework",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "Table 11 The results of ablation study. Ablated Model BERT ... RoBERTa",
+          "justification": "Two ablated variants across five folds.",
+          "value": [
+            {
+              "kind": "variant",
+              "count": 2,
+              "what": "ablated BERT and RoBERTa variants"
+            },
+            {
+              "kind": "fold",
+              "count": 5,
+              "what": "5-fold cross-validation"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "usage": {
+    "input_tokens": 48816,
+    "output_tokens": 18119,
+    "total_tokens": 66935
+  }
+}

@@ -1,0 +1,4316 @@
+title:
+  quote: 'G RAPH T EXT: G RAPH R EASONING IN T EXT S PACE'
+  justification: Title from header
+  value: 'GraphText: Graph Reasoning in Text Space'
+description: Proposes GraphText, which turns a graph into natural language through a graph-syntax tree so an LLM can treat
+  node classification as text generation; evaluated training-free with ChatGPT/GPT-4 in-context learning and by instruction-tuning
+  Llama-2-7B, against GNN baselines (GCN, GAT, GCNII, GATv2) trained on citation and WebKB graphs.
+type:
+  quote: We conduct extensive experiments to demonstrate the effectiveness of G RAPH T EXT.
+  justification: The paper proposes a framework and evaluates it empirically on benchmark datasets.
+  value: empirical
+research_fields:
+- name:
+    quote: LLMs have not made significant advancements in the realm of graph machine learning
+    justification: The paper advances graph machine learning via LLMs.
+    value: Graph Machine Learning
+  aliases:
+  - graph ML
+  role: contributed
+- name:
+    quote: perform graph reasoning in text space
+    justification: The proposed framework directly advances graph reasoning using natural-language representations.
+    value: graph reasoning
+  aliases: []
+  role: contributed
+- name:
+    quote: Large Language Models (LLMs) have gained the ability to assimilate human knowledge and facilitate natural language
+      interactions
+    justification: The work is on LLM/NLP methods (text space reasoning, prompting, instruction tuning).
+    value: Natural Language Processing
+  aliases:
+  - NLP
+  role: used
+- name:
+    quote: we demonstrate this capability on the node classification tasks
+    justification: Node classification is the evaluation task setting.
+    value: Node Classification
+  aliases: []
+  role: used
+models:
+- name:
+    quote: G RAPH T EXT utilizes a single pre-trained LLM (ChatGPT) for all datasets without any graph-specific training.
+    justification: ChatGPT is used as the LLM backbone in GraphText.
+    value: ChatGPT
+  aliases: []
+  is_contributed:
+    quote: OpenAI. Introducing chatgpt. 2023.
+    justification: Existing closed-source model by OpenAI.
+    value: false
+  is_executed:
+    quote: We leverage G RAPH T EXT with ChatGPT and GPT-4 to perform graph reasoning on the provided example.
+    justification: Queried via API for in-context learning experiments.
+    value: true
+  is_compared:
+    quote: our best results from instruction tuning across various settings surpass those of ChatGPT and approach the GNN
+      baselines
+    justification: ChatGPT results compared against Llama-2 and GNNs.
+    value: true
+  execution_mode:
+    quote: even without training on graph data, G RAPH T EXT with ChatGPT can deliver performance on par with, or even surpassing,
+      supervised graph neural networks through in-context learning
+    justification: Used only for inference / in-context learning.
+    value: inference
+  referenced_paper_title:
+    quote: OpenAI. Introducing chatgpt. 2023. URL https://openai.com/blog/chatgpt.
+    justification: Reference entry.
+    value: Introducing ChatGPT
+- name:
+    quote: The table showcases the performance of GPT-4 and ChatGPT before and after human interactions
+    justification: GPT-4 used in interactive reasoning experiments.
+    value: GPT-4
+  aliases: []
+  is_contributed:
+    quote: 'Sparks of artificial general intelligence: Early experiments with GPT-4'
+    justification: Existing model.
+    value: false
+  is_executed:
+    quote: We leverage G RAPH T EXT with ChatGPT and GPT-4 to perform graph reasoning on the provided example.
+    justification: Run 15 times of evaluation.
+    value: true
+  is_compared:
+    quote: "GPT-4 significantly outperforms ChatGPT, achieving an accuracy of 73.3%, markedly superior to ChatGPT\u2019s 26.7%."
+    justification: Compared against ChatGPT.
+    value: true
+  execution_mode:
+    quote: We performed 15 times of evaluation and here we show one sample of correct and incorrect responses below
+    justification: Inference-only prompting.
+    value: inference
+  referenced_paper_title:
+    quote: 'Sparks of artificial general intelligence: Early experiments with GPT-4.'
+    justification: Reference entry.
+    value: 'Sparks of Artificial General Intelligence: Early experiments with GPT-4'
+- name:
+    quote: even with a relatively smaller open-source model, Llama-2-7B
+    justification: Open-source LLM instruction tuned in experiments.
+    value: Llama-2-7B
+  aliases:
+  - Llama-2
+  - LLaMA-2
+  - LLaMA2-7b
+  is_contributed:
+    quote: 'Llama 2: Open foundation and fine-tuned chat models.'
+    justification: Existing model by Meta.
+    value: false
+  is_executed:
+    quote: We utilize AdamW (Loshchilov & Hutter, 2019) in conjunction with DeepSpeed (Rasley et al., 2020) to train the huggingface
+      LLaMA2-7b model
+    justification: Fine-tuned in the paper.
+    value: true
+  is_compared:
+    quote: even with a relatively smaller open-source model, Llama-2-7B, our best results from instruction tuning across various
+      settings surpass those of ChatGPT
+    justification: Compared to ChatGPT and GNNs.
+    value: true
+  execution_mode:
+    quote: then fine-tune the large language model by the widely-used and efficient Low-Rank Adaptation (LoRA)
+    justification: Fine-tuned with LoRA.
+    value: finetune
+  referenced_paper_title:
+    quote: 'Llama 2: Open foundation and fine-tuned chat models.'
+    justification: Reference entry.
+    value: 'Llama 2: Open Foundation and Fine-Tuned Chat Models'
+- name:
+    quote: We selected standard GNNs, including GCN (Kipf & Welling, 2017)
+    justification: Baseline GNN.
+    value: GCN
+  aliases:
+  - Graph Convolutional Network
+  is_contributed:
+    quote: Thomas N. Kipf and Max Welling. Semi-supervised classification with graph convolutional networks. In ICLR, 2017.
+    justification: Existing model.
+    value: false
+  is_executed:
+    quote: These GNN baselines are supervised and specific to individual graphs, trained solely for inference on one dataset.
+    justification: Trained as baselines on each dataset.
+    value: true
+  is_compared:
+    quote: G RAPH T EXT surpasses several GNN baselines
+    justification: Compared in Table 1 and 4.
+    value: true
+  execution_mode:
+    quote: These GNN baselines are supervised and specific to individual graphs, trained solely for inference on one dataset.
+    justification: Trained supervised.
+    value: train
+  referenced_paper_title:
+    quote: Semi-supervised classification with graph convolutional networks. In ICLR, 2017.
+    justification: Reference entry.
+    value: Semi-supervised Classification with Graph Convolutional Networks
+- name:
+    quote: GCN (Kipf & Welling, 2017) and GAT (Velickovic et al., 2018)
+    justification: Baseline GNN.
+    value: GAT
+  aliases:
+  - Graph Attention Networks
+  is_contributed:
+    quote: Graph attention networks. In ICLR, 2018.
+    justification: Existing model.
+    value: false
+  is_executed:
+    quote: These GNN baselines are supervised and specific to individual graphs, trained solely for inference on one dataset.
+    justification: Trained as baselines.
+    value: true
+  is_compared:
+    quote: 'Table 1: Node classification results (accuracy %).'
+    justification: Reported in comparison tables.
+    value: true
+  execution_mode:
+    quote: These GNN baselines are supervised
+    justification: Trained.
+    value: train
+  referenced_paper_title:
+    quote: Graph attention networks. In ICLR, 2018.
+    justification: Reference entry.
+    value: Graph Attention Networks
+- name:
+    quote: their more recent variants GCNII (Chen et al., 2020)
+    justification: Baseline GNN.
+    value: GCNII
+  aliases: []
+  is_contributed:
+    quote: Ming Chen, Zhewei Wei, Zengfeng Huang, Bolin Ding, and Yaliang Li. Simple and deep graph convolutional networks.
+      In ICML, 2020.
+    justification: Existing model.
+    value: false
+  is_executed:
+    quote: These GNN baselines are supervised and specific to individual graphs, trained solely for inference on one dataset.
+    justification: Trained as baseline.
+    value: true
+  is_compared:
+    quote: 'Table 1: Node classification results (accuracy %).'
+    justification: Reported in Table 1.
+    value: true
+  execution_mode:
+    quote: These GNN baselines are supervised
+    justification: Trained.
+    value: train
+  referenced_paper_title:
+    quote: Simple and deep graph convolutional networks. In ICML, 2020.
+    justification: Reference entry.
+    value: Simple and Deep Graph Convolutional Networks
+- name:
+    quote: GATv2 (Brody et al., 2022), as our baselines
+    justification: Baseline GNN.
+    value: GATv2
+  aliases: []
+  is_contributed:
+    quote: Shaked Brody, Uri Alon, and Eran Yahav. How attentive are graph attention networks? In ICLR, 2022.
+    justification: Existing model.
+    value: false
+  is_executed:
+    quote: These GNN baselines are supervised and specific to individual graphs, trained solely for inference on one dataset.
+    justification: Trained as baseline.
+    value: true
+  is_compared:
+    quote: 'Table 1: Node classification results (accuracy %).'
+    justification: Reported in Table 1.
+    value: true
+  execution_mode:
+    quote: These GNN baselines are supervised
+    justification: Trained.
+    value: train
+  referenced_paper_title:
+    quote: How attentive are graph attention networks? In ICLR, 2022.
+    justification: Reference entry.
+    value: How Attentive are Graph Attention Networks?
+- name:
+    quote: we use a Multi-Layer Perceptron (MLP) projector to map continuous features into the input text space
+    justification: A learned projector trained in the instruction-tuning run.
+    value: Multi-Layer Perceptron (MLP) projector
+  aliases:
+  - MLP projector
+  is_contributed:
+    quote: inspired by multi-modality LLMs Wang et al. (2023b), we use a Multi-Layer Perceptron (MLP) projector
+    justification: Component introduced in this framework's implementation, inspired by prior work.
+    value: true
+  is_executed:
+    quote: "the \u201C<x emb>\u201D is the text token embedding for feature feature \u201Cx\u201D generated by the MLP projector"
+    justification: Used in the instruction tuning experiments.
+    value: true
+  is_compared:
+    quote: ''
+    justification: Not compared as a standalone model.
+    value: false
+  execution_mode:
+    quote: We utilize AdamW (Loshchilov & Hutter, 2019) in conjunction with DeepSpeed (Rasley et al., 2020) to train the huggingface
+      LLaMA2-7b model
+    justification: Trained together with the LLM finetuning.
+    value: train
+  referenced_paper_title:
+    quote: 'G RAPH T EXT: G RAPH R EASONING IN T EXT S PACE'
+    justification: Contributed by this paper (inspired by VisionLLM).
+    value: 'GraphText: Graph Reasoning in Text Space'
+- name:
+    quote: with both raw text attributes (Chen et al., 2023) and continuous features (Reimers & Gurevych, 2019)
+    justification: Sentence-BERT used to produce continuous features.
+    value: Sentence-BERT
+  aliases:
+  - sentence-bert
+  is_contributed:
+    quote: 'Sentence-bert: Sentence embeddings using siamese bertnetworks.'
+    justification: Existing model.
+    value: false
+  is_executed:
+    quote: continuous features (Reimers & Gurevych, 2019)
+    justification: Paper does not state it ran the encoder itself; features cited from reference.
+    value: false
+  is_compared:
+    quote: continuous features (Reimers & Gurevych, 2019)
+    justification: Not compared numerically.
+    value: false
+  execution_mode:
+    quote: continuous features (Reimers & Gurevych, 2019)
+    justification: Not described.
+    value: unknown
+  referenced_paper_title:
+    quote: 'Sentence-bert: Sentence embeddings using siamese bertnetworks.'
+    justification: Reference entry.
+    value: 'Sentence-BERT: Sentence Embeddings using Siamese BERT-Networks'
+data_sources:
+- name:
+    quote: we use two citation datasets (Cora (McCallum et al., 2000) and Citeseer (Giles et al., 1998))
+    justification: Dataset used for node classification.
+    value: Cora
+  aliases: []
+  role: used
+  size:
+    quote: Cora 2708 5278 7 1433 140 500 1000
+    justification: Table 5 statistics.
+    value: 2708 nodes, 5278 edges; 140 train / 500 validation / 1000 test
+  derived_from: []
+  sample_properties:
+  - name: '#Features'
+    value:
+      quote: Cora 2708 5278 7 1433
+      justification: Feature dimension in Table 5.
+      value: '1433'
+    unit: features
+  - name: '#Classes'
+    value:
+      quote: Cora 2708 5278 7
+      justification: Classes in Table 5.
+      value: '7'
+    unit: classes
+  referenced_paper_title:
+    quote: Andrew Kachites McCallum, Kamal Nigam, Jason Rennie, and Kristie Seymore. Automating the construction of internet
+      portals with machine learning.
+    justification: Reference entry.
+    value: Automating the Construction of Internet Portals with Machine Learning
+- name:
+    quote: Citeseer (Giles et al., 1998)
+    justification: Dataset used.
+    value: Citeseer
+  aliases: []
+  role: used
+  size:
+    quote: Citeseer 3327 4552 6 3703 120 500 1000
+    justification: Table 5 statistics.
+    value: 3327 nodes, 4552 edges; 120 train / 500 validation / 1000 test
+  derived_from: []
+  sample_properties:
+  - name: '#Features'
+    value:
+      quote: Citeseer 3327 4552 6 3703
+      justification: Table 5.
+      value: '3703'
+    unit: features
+  - name: '#Classes'
+    value:
+      quote: Citeseer 3327 4552 6
+      justification: Table 5.
+      value: '6'
+    unit: classes
+  referenced_paper_title:
+    quote: 'C Lee Giles, Kurt D Bollacker, and Steve Lawrence. Citeseer: An automatic citation indexing system.'
+    justification: Reference entry.
+    value: 'CiteSeer: An Automatic Citation Indexing System'
+- name:
+    quote: we use two text-attributed-graph (TAG) version of Cora and Citeseer, denoted as Cora-TAG and Citeseer-TAG
+    justification: TAG version of Cora.
+    value: Cora-TAG
+  aliases: []
+  role: used
+  size:
+    quote: Cora-TAG 2708 5278 7 1433 1624 541 543
+    justification: Table 5.
+    value: 2708 nodes, 5278 edges; 1624 train / 541 validation / 543 test
+  derived_from:
+  - Cora
+  sample_properties: []
+  referenced_paper_title:
+    quote: Exploring the potential of large language models (llms) in learning on graphs.
+    justification: TAG datasets from Graph-LLM repository.
+    value: Exploring the Potential of Large Language Models (LLMs) in Learning on Graphs
+- name:
+    quote: two text-attributed-graph (TAG) version of Cora and Citeseer, denoted as Cora-TAG and Citeseer-TAG
+    justification: TAG version of Citeseer.
+    value: Citeseer-TAG
+  aliases: []
+  role: used
+  size:
+    quote: Citeseer-TAG 3327 4552 6 3703 1911 637 638
+    justification: Table 5.
+    value: 3327 nodes, 4552 edges; 1911 train / 637 validation / 638 test
+  derived_from:
+  - Citeseer
+  sample_properties: []
+  referenced_paper_title:
+    quote: Exploring the potential of large language models (llms) in learning on graphs.
+    justification: Source of TAG datasets.
+    value: Exploring the Potential of Large Language Models (LLMs) in Learning on Graphs
+- name:
+    quote: three webpage datasets (Texas, Wisconsin, and Cornell (Pei et al., 2020))
+    justification: WebKB subset used.
+    value: Texas
+  aliases: []
+  role: used
+  size:
+    quote: Texas 183 325 5 1703 87 59 37
+    justification: Table 5.
+    value: 183 nodes, 325 edges; 87 train / 59 validation / 37 test
+  derived_from:
+  - WebKB
+  sample_properties:
+  - name: '#Features'
+    value:
+      quote: Texas 183 325 5 1703
+      justification: Table 5.
+      value: '1703'
+    unit: features
+  referenced_paper_title:
+    quote: 'Hongbin Pei, Bingzhe Wei, Kevin Chen-Chuan Chang, Yu Lei, and Bo Yang. Geom-gcn: Geometric graph convolutional
+      networks. In ICLR, 2020.'
+    justification: Reference entry.
+    value: 'Geom-GCN: Geometric Graph Convolutional Networks'
+- name:
+    quote: three webpage datasets (Texas, Wisconsin, and Cornell (Pei et al., 2020))
+    justification: WebKB subset used.
+    value: Wisconsin
+  aliases: []
+  role: used
+  size:
+    quote: Wisconsin 251 515 5 1703 120 80 51
+    justification: Table 5.
+    value: 251 nodes, 515 edges; 120 train / 80 validation / 51 test
+  derived_from:
+  - WebKB
+  sample_properties:
+  - name: '#Features'
+    value:
+      quote: Wisconsin 251 515 5 1703
+      justification: Table 5.
+      value: '1703'
+    unit: features
+  referenced_paper_title:
+    quote: 'Geom-gcn: Geometric graph convolutional networks. In ICLR, 2020.'
+    justification: Reference entry.
+    value: 'Geom-GCN: Geometric Graph Convolutional Networks'
+- name:
+    quote: three webpage datasets (Texas, Wisconsin, and Cornell (Pei et al., 2020))
+    justification: WebKB subset used.
+    value: Cornell
+  aliases: []
+  role: used
+  size:
+    quote: Cornell 183 298 5 1703 87 59 37
+    justification: Table 5.
+    value: 183 nodes, 298 edges; 87 train / 59 validation / 37 test
+  derived_from:
+  - WebKB
+  sample_properties:
+  - name: '#Features'
+    value:
+      quote: Cornell 183 298 5 1703
+      justification: Table 5.
+      value: '1703'
+    unit: features
+  referenced_paper_title:
+    quote: 'Geom-gcn: Geometric graph convolutional networks. In ICLR, 2020.'
+    justification: Reference entry.
+    value: 'Geom-GCN: Geometric Graph Convolutional Networks'
+- name:
+    quote: WebKB graphs
+    justification: Named as the source collection from which Cornell, Texas, and Wisconsin are selected.
+    value: WebKB
+  aliases:
+  - WebKB graphs
+  role: referenced
+  size:
+    quote: ''
+    justification: The paper gives sizes only for the three selected subsets.
+    value: unknown
+  derived_from: []
+  sample_properties: []
+  referenced_paper_title:
+    quote: 'Geom-gcn: Geometric graph convolutional networks.'
+    justification: The collection is cited through Pei et al. (2020).
+    value: 'Geom-gcn: Geometric graph convolutional networks'
+libraries:
+- name:
+    quote: We utilize AdamW (Loshchilov & Hutter, 2019) in conjunction with DeepSpeed (Rasley et al., 2020) to train the huggingface
+      LLaMA2-7b model
+    justification: Used for training.
+    value: DeepSpeed
+  aliases: []
+  role: used
+  referenced_paper_title:
+    quote: 'Jeff Rasley, Samyam Rajbhandari, Olatunji Ruwase, and Yuxiong He. Deepspeed: System optimizations enable training
+      deep learning models with over 100 billion parameters.'
+    justification: Reference entry.
+    value: 'DeepSpeed: System Optimizations Enable Training Deep Learning Models with Over 100 Billion Parameters'
+- name:
+    quote: to train the huggingface LLaMA2-7b model
+    justification: HuggingFace used to obtain/train the model.
+    value: huggingface
+  aliases:
+  - Hugging Face
+  role: used
+  referenced_paper_title:
+    quote: https://huggingface.co/meta-llama/Llama-2-7b-hf
+    justification: Only a URL is given.
+    value: unknown
+algorithms:
+- name:
+    quote: we propose a novel framework G RAPH T EXT, which takes graph data to build a graph-syntax tree
+    justification: The contributed framework/procedure.
+    value: GraphText
+  aliases:
+  - GRAPHTEXT
+  - GRAPH TEXT
+  is_contributed:
+    quote: we bridge this gap with a novel framework, G RAPH T EXT, that translates graphs to natural language
+    justification: Main contribution.
+    value: true
+  is_executed:
+    quote: We conduct extensive experiments to demonstrate the effectiveness of G RAPH T EXT.
+    justification: Executed in experiments.
+    value: true
+  is_compared:
+    quote: G RAPH T EXT surpasses several GNN baselines
+    justification: Compared to GNNs.
+    value: true
+  paper_role:
+    quote: G RAPH T EXT derives a graph-syntax tree for each graph that encapsulates both the node attributes and inter-node
+      relationships. Traversal of the tree yields a graph text sequence, which is then processed by an LLM
+    justification: Paper's own description of its role.
+    value: translates graphs to natural language so an LLM can treat graph tasks as text generation tasks
+  composed_of:
+  - graph-syntax tree
+  - K-means
+  - in-context learning (ICL)
+  referenced_paper_title:
+    quote: 'G RAPH T EXT: G RAPH R EASONING IN T EXT S PACE'
+    justification: This paper.
+    value: 'GraphText: Graph Reasoning in Text Space'
+- name:
+    quote: we introduce graph-syntax trees as a bridge between relational and sequential data
+    justification: Core procedure of constructing the prompt.
+    value: graph-syntax tree
+  aliases:
+  - G-Syntax Tree
+  is_contributed:
+    quote: Inspired by linguistic syntax trees (Chiswell & Hodges, 2007), we introduce graph-syntax trees
+    justification: Introduced in this paper.
+    value: true
+  is_executed:
+    quote: 'Given an input graph, G RAPH T EXT constructs a graph-syntax tree by incorporating two types of information: text
+      attributes and relations.'
+    justification: Used in all experiments.
+    value: true
+  is_compared:
+    quote: we present four ablation types
+    justification: Compared against ablation variants.
+    value: true
+  paper_role:
+    quote: The traversal of the resulting graph-syntax tree leads to a text sequence in natural language.
+    justification: Paper's own words.
+    value: transforms a graph into a 1-dimensional natural language sequence (graph prompt)
+  composed_of: []
+  referenced_paper_title:
+    quote: 'G RAPH T EXT: G RAPH R EASONING IN T EXT S PACE'
+    justification: Contributed by this paper.
+    value: 'GraphText: Graph Reasoning in Text Space'
+- name:
+    quote: we use the cluster index of K-means to generate a sequence of length 1 for all continuous features
+    justification: Discretization procedure.
+    value: K-means
+  aliases: []
+  is_contributed:
+    quote: we propose to use discretization methods, e.g. clustering, to transform the continuous feature into a discrete
+      space
+    justification: Standard algorithm, not contributed.
+    value: false
+  is_executed:
+    quote: For continuous attributes, we use K-means to discretize continuous features (with the K being the number of classes).
+    justification: Used in experiments.
+    value: true
+  is_compared:
+    quote: "features generated by K-means clustering of X (referred to as \u2018feat\u2019)"
+    justification: Not compared as an algorithm itself.
+    value: false
+  paper_role:
+    quote: we use K-means to discretize continuous features (with the K being the number of classes)
+    justification: Paper's own words.
+    value: discretize continuous features into text attributes
+  composed_of: []
+  referenced_paper_title:
+    quote: we use the cluster index of K-means
+    justification: No reference given.
+    value: unknown
+- name:
+    quote: personalized pagerank (Klicpera et al., 2019)
+    justification: Used to build relation matrices.
+    value: personalized pagerank
+  aliases:
+  - PPR
+  is_contributed:
+    quote: 'Predict then propagate: Graph neural networks meet personalized pagerank.'
+    justification: Existing method.
+    value: false
+  is_executed:
+    quote: 'we employ two types of relations: the original graph structure (A with self-loops) and synthetic relations based
+      on feature similarity, shortest-path distance, and personalized pagerank'
+    justification: Used to construct relations.
+    value: true
+  is_compared:
+    quote: the first PPR neighbor denotes the most important label prediction
+    justification: Used, not a method the paper compares against.
+    value: false
+  paper_role:
+    quote: "pagerank matrix Klicpera et al. (2019), with restart probability \u03B1 = 0.25, denoted as \u03A0"
+    justification: Paper's own words.
+    value: synthetic relation used to build graph-syntax tree relations
+  composed_of: []
+  referenced_paper_title:
+    quote: 'Predict then propagate: Graph neural networks meet personalized pagerank. In ICLR, 2019.'
+    justification: Reference entry.
+    value: 'Predict then Propagate: Graph Neural Networks meet Personalized PageRank'
+- name:
+    quote: fine-tune the large language model by the widely-used and efficient Low-Rank Adaptation (LoRA) (Hu et al., 2022)
+    justification: Parameter-efficient finetuning method.
+    value: Low-Rank Adaptation (LoRA)
+  aliases:
+  - LoRA
+  is_contributed:
+    quote: 'Lora: Low-rank adaptation of large language models. In ICLR, 2022.'
+    justification: Existing method.
+    value: false
+  is_executed:
+    quote: then fine-tune the large language model by the widely-used and efficient Low-Rank Adaptation (LoRA)
+    justification: Used in instruction tuning.
+    value: true
+  is_compared:
+    quote: fine-tune the large language model by the widely-used and efficient Low-Rank Adaptation (LoRA)
+    justification: Not compared against alternatives.
+    value: false
+  paper_role:
+    quote: we expand the original vocabulary of Llama-2 by introducing selected options as new tokens and then fine-tune the
+      large language model by the widely-used and efficient Low-Rank Adaptation (LoRA)
+    justification: Paper's own words.
+    value: efficient fine-tuning of the open-source LLM
+  composed_of: []
+  referenced_paper_title:
+    quote: 'Lora: Low-rank adaptation of large language models. In ICLR, 2022.'
+    justification: Reference entry.
+    value: 'LoRA: Low-Rank Adaptation of Large Language Models'
+- name:
+    quote: We utilize AdamW (Loshchilov & Hutter, 2019)
+    justification: Optimizer used.
+    value: AdamW
+  aliases: []
+  is_contributed:
+    quote: Ilya Loshchilov and Frank Hutter. Decoupled weight decay regularization.
+    justification: Existing optimizer.
+    value: false
+  is_executed:
+    quote: We utilize AdamW (Loshchilov & Hutter, 2019) in conjunction with DeepSpeed (Rasley et al., 2020) to train the huggingface
+      LLaMA2-7b model
+    justification: Used in training.
+    value: true
+  is_compared:
+    quote: We utilize AdamW
+    justification: Not compared.
+    value: false
+  paper_role:
+    quote: We utilize AdamW (Loshchilov & Hutter, 2019) in conjunction with DeepSpeed (Rasley et al., 2020) to train the huggingface
+      LLaMA2-7b model
+    justification: Paper's own words.
+    value: optimizer used to train the LLaMA2-7b model
+  composed_of: []
+  referenced_paper_title:
+    quote: Ilya Loshchilov and Frank Hutter. Decoupled weight decay regularization. In 7th International Conference on Learning
+      Representations, ICLR 2019
+    justification: Reference entry.
+    value: Decoupled Weight Decay Regularization
+- name:
+    quote: in-context learning (ICL)
+    justification: Training-free prompting procedure.
+    value: in-context learning (ICL)
+  aliases:
+  - ICL
+  - few-shot in-context learning
+  is_contributed:
+    quote: Language models are few-shot learners
+    justification: Existing procedure.
+    value: false
+  is_executed:
+    quote: We perform 1, 3, 5, 10, 15, and 20-shot node classification on Citeseer and Texas datasets.
+    justification: Executed in experiments.
+    value: true
+  is_compared:
+    quote: Experiments are conducted using in-context learning with ChatGPT, as well as instruction tuning with Llama-2
+    justification: ICL vs instruction tuning compared.
+    value: true
+  paper_role:
+    quote: One unique ability of G RAPH T EXT is the training-free graph reasoning by in-context learning (ICL).
+    justification: Paper's own words.
+    value: training-free graph reasoning via few-shot demonstrations
+  composed_of: []
+  referenced_paper_title:
+    quote: Language models are few-shot learners.
+    justification: Reference entry.
+    value: Language Models are Few-Shot Learners
+- name:
+    quote: we further explored the potential of instruction tuning on currently available open-source LLMs
+    justification: Procedure for finetuning.
+    value: instruction tuning
+  aliases: []
+  is_contributed:
+    quote: This validates that our method can be beneficial in an instruction-tuning scenario.
+    justification: Existing paradigm applied here.
+    value: false
+  is_executed:
+    quote: Experiments are conducted using in-context learning with ChatGPT, as well as instruction tuning with Llama-2
+    justification: Executed.
+    value: true
+  is_compared:
+    quote: our best results from instruction tuning across various settings surpass those of ChatGPT
+    justification: Compared against ICL results.
+    value: true
+  paper_role:
+    quote: we further explored the potential of instruction tuning on currently available open-source LLMs, such as Llama-2
+    justification: Paper's own words.
+    value: adapting open-source LLMs to graph reasoning
+  composed_of:
+  - Low-Rank Adaptation (LoRA)
+  referenced_paper_title:
+    quote: 'Llama 2: Open foundation and fine-tuned chat models.'
+    justification: No dedicated reference.
+    value: unknown
+- name:
+    quote: in the setting of standard zero-shot chain of thought reasoning Wei et al. (2022)
+    justification: Reasoning procedure used in interactive experiments.
+    value: zero-shot chain of thought reasoning
+  aliases:
+  - chain-of-thought
+  is_contributed:
+    quote: Chain-of-thought prompting elicits reasoning in large language models.
+    justification: Existing procedure.
+    value: false
+  is_executed:
+    quote: 'Below is the example of graph reasoning on Cora node #2188 in the setting of standard zero-shot chain of thought
+      reasoning'
+    justification: Executed with ChatGPT/GPT-4.
+    value: true
+  is_compared:
+    quote: The table showcases the performance of GPT-4 and ChatGPT before and after human interactions
+    justification: Used, not a method the paper compares against.
+    value: false
+  paper_role:
+    quote: we demonstrate how G RAPH T EXT can engage in self-interaction via zero-shot chain of thought reasoning
+    justification: Paper's own words.
+    value: self-interaction reasoning used in interactive graph reasoning experiments
+  composed_of: []
+  referenced_paper_title:
+    quote: Chain-of-thought prompting elicits reasoning in large language models. In NeurIPS, 2022.
+    justification: Reference entry.
+    value: Chain-of-Thought Prompting Elicits Reasoning in Large Language Models
+runs:
+- models:
+  - name: GCN
+    role_in_run: main
+  data_sources:
+  - name: Cora
+    access: fixed
+    roles_in_run:
+    - train
+    - validation
+  algorithms: []
+  produces: []
+  execution_mode:
+    quote: These GNN baselines are supervised and specific to individual graphs, trained solely for inference on one dataset.
+    justification: GCN trained by the paper on Cora (Table 1); evaluation is a separate inference run.
+    value: train
+  epochs:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parameter_count:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_type:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_model:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_count:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  precision:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parallelism:
+    quote: ''
+    justification: Not stated in the paper.
+    value:
+    - unknown
+  duration:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  utilisation:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  repetitions:
+    quote: ''
+    justification: Not stated.
+    value: []
+- models:
+  - name: GCN
+    role_in_run: main
+  data_sources:
+  - name: Cora
+    access: fixed
+    roles_in_run:
+    - test
+  algorithms: []
+  produces: []
+  execution_mode:
+    quote: 'Table 1: Node classification results (accuracy %).'
+    justification: Test-set evaluation of the trained GCN on Cora.
+    value: inference
+  epochs:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parameter_count:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_type:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_model:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_count:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  precision:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parallelism:
+    quote: ''
+    justification: Not stated in the paper.
+    value:
+    - unknown
+  duration:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  utilisation:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  repetitions:
+    quote: ''
+    justification: Not stated.
+    value: []
+- models:
+  - name: GCN
+    role_in_run: main
+  data_sources:
+  - name: Citeseer
+    access: fixed
+    roles_in_run:
+    - train
+    - validation
+  algorithms: []
+  produces: []
+  execution_mode:
+    quote: These GNN baselines are supervised and specific to individual graphs, trained solely for inference on one dataset.
+    justification: GCN trained by the paper on Citeseer (Table 1); evaluation is a separate inference run.
+    value: train
+  epochs:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parameter_count:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_type:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_model:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_count:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  precision:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parallelism:
+    quote: ''
+    justification: Not stated in the paper.
+    value:
+    - unknown
+  duration:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  utilisation:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  repetitions:
+    quote: We perform 1, 3, 5, 10, 15, and 20-shot node classification on Citeseer and Texas datasets.
+    justification: 'Label-budget sweep: Fig 3 retrains each GNN at 6 shot counts on Citeseer and Texas. Full-batch GNN propagates
+      the whole graph regardless, so the data processed is unchanged.'
+    value:
+    - kind: hyperparameter
+      count: 7
+      what: 'label budgets: standard split (Table 1) + 1, 3, 5, 10, 15 and 20-shot (Figure 3); not crossed, so summed'
+- models:
+  - name: GCN
+    role_in_run: main
+  data_sources:
+  - name: Citeseer
+    access: fixed
+    roles_in_run:
+    - test
+  algorithms: []
+  produces: []
+  execution_mode:
+    quote: 'Table 1: Node classification results (accuracy %).'
+    justification: Test-set evaluation of the trained GCN on Citeseer.
+    value: inference
+  epochs:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parameter_count:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_type:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_model:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_count:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  precision:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parallelism:
+    quote: ''
+    justification: Not stated in the paper.
+    value:
+    - unknown
+  duration:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  utilisation:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  repetitions:
+    quote: We perform 1, 3, 5, 10, 15, and 20-shot node classification on Citeseer and Texas datasets.
+    justification: 'Label-budget sweep: Fig 3 retrains each GNN at 6 shot counts on Citeseer and Texas. Full-batch GNN propagates
+      the whole graph regardless, so the data processed is unchanged.'
+    value:
+    - kind: hyperparameter
+      count: 7
+      what: 'label budgets: standard split (Table 1) + 1, 3, 5, 10, 15 and 20-shot (Figure 3); not crossed, so summed'
+- models:
+  - name: GCN
+    role_in_run: main
+  data_sources:
+  - name: Texas
+    access: fixed
+    roles_in_run:
+    - train
+    - validation
+  algorithms: []
+  produces: []
+  execution_mode:
+    quote: These GNN baselines are supervised and specific to individual graphs, trained solely for inference on one dataset.
+    justification: GCN trained by the paper on Texas (Table 1); evaluation is a separate inference run.
+    value: train
+  epochs:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parameter_count:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_type:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_model:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_count:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  precision:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parallelism:
+    quote: ''
+    justification: Not stated in the paper.
+    value:
+    - unknown
+  duration:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  utilisation:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  repetitions:
+    quote: We perform 1, 3, 5, 10, 15, and 20-shot node classification on Citeseer and Texas datasets.
+    justification: 'Label-budget sweep: Fig 3 retrains each GNN at 6 shot counts on Citeseer and Texas. Full-batch GNN propagates
+      the whole graph regardless, so the data processed is unchanged.'
+    value:
+    - kind: hyperparameter
+      count: 7
+      what: 'label budgets: standard split (Table 1) + 1, 3, 5, 10, 15 and 20-shot (Figure 3); not crossed, so summed'
+- models:
+  - name: GCN
+    role_in_run: main
+  data_sources:
+  - name: Texas
+    access: fixed
+    roles_in_run:
+    - test
+  algorithms: []
+  produces: []
+  execution_mode:
+    quote: 'Table 1: Node classification results (accuracy %).'
+    justification: Test-set evaluation of the trained GCN on Texas.
+    value: inference
+  epochs:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parameter_count:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_type:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_model:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_count:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  precision:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parallelism:
+    quote: ''
+    justification: Not stated in the paper.
+    value:
+    - unknown
+  duration:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  utilisation:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  repetitions:
+    quote: We perform 1, 3, 5, 10, 15, and 20-shot node classification on Citeseer and Texas datasets.
+    justification: 'Label-budget sweep: Fig 3 retrains each GNN at 6 shot counts on Citeseer and Texas. Full-batch GNN propagates
+      the whole graph regardless, so the data processed is unchanged.'
+    value:
+    - kind: hyperparameter
+      count: 7
+      what: 'label budgets: standard split (Table 1) + 1, 3, 5, 10, 15 and 20-shot (Figure 3); not crossed, so summed'
+- models:
+  - name: GCN
+    role_in_run: main
+  data_sources:
+  - name: Wisconsin
+    access: fixed
+    roles_in_run:
+    - train
+    - validation
+  algorithms: []
+  produces: []
+  execution_mode:
+    quote: These GNN baselines are supervised and specific to individual graphs, trained solely for inference on one dataset.
+    justification: GCN trained by the paper on Wisconsin (Table 1); evaluation is a separate inference run.
+    value: train
+  epochs:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parameter_count:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_type:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_model:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_count:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  precision:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parallelism:
+    quote: ''
+    justification: Not stated in the paper.
+    value:
+    - unknown
+  duration:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  utilisation:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  repetitions:
+    quote: ''
+    justification: Not stated.
+    value: []
+- models:
+  - name: GCN
+    role_in_run: main
+  data_sources:
+  - name: Wisconsin
+    access: fixed
+    roles_in_run:
+    - test
+  algorithms: []
+  produces: []
+  execution_mode:
+    quote: 'Table 1: Node classification results (accuracy %).'
+    justification: Test-set evaluation of the trained GCN on Wisconsin.
+    value: inference
+  epochs:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parameter_count:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_type:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_model:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_count:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  precision:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parallelism:
+    quote: ''
+    justification: Not stated in the paper.
+    value:
+    - unknown
+  duration:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  utilisation:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  repetitions:
+    quote: ''
+    justification: Not stated.
+    value: []
+- models:
+  - name: GCN
+    role_in_run: main
+  data_sources:
+  - name: Cornell
+    access: fixed
+    roles_in_run:
+    - train
+    - validation
+  algorithms: []
+  produces: []
+  execution_mode:
+    quote: These GNN baselines are supervised and specific to individual graphs, trained solely for inference on one dataset.
+    justification: GCN trained by the paper on Cornell (Table 1); evaluation is a separate inference run.
+    value: train
+  epochs:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parameter_count:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_type:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_model:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_count:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  precision:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parallelism:
+    quote: ''
+    justification: Not stated in the paper.
+    value:
+    - unknown
+  duration:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  utilisation:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  repetitions:
+    quote: ''
+    justification: Not stated.
+    value: []
+- models:
+  - name: GCN
+    role_in_run: main
+  data_sources:
+  - name: Cornell
+    access: fixed
+    roles_in_run:
+    - test
+  algorithms: []
+  produces: []
+  execution_mode:
+    quote: 'Table 1: Node classification results (accuracy %).'
+    justification: Test-set evaluation of the trained GCN on Cornell.
+    value: inference
+  epochs:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parameter_count:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_type:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_model:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_count:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  precision:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parallelism:
+    quote: ''
+    justification: Not stated in the paper.
+    value:
+    - unknown
+  duration:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  utilisation:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  repetitions:
+    quote: ''
+    justification: Not stated.
+    value: []
+- models:
+  - name: GAT
+    role_in_run: main
+  data_sources:
+  - name: Cora
+    access: fixed
+    roles_in_run:
+    - train
+    - validation
+  algorithms: []
+  produces: []
+  execution_mode:
+    quote: These GNN baselines are supervised and specific to individual graphs, trained solely for inference on one dataset.
+    justification: GAT trained by the paper on Cora (Table 1); evaluation is a separate inference run.
+    value: train
+  epochs:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parameter_count:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_type:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_model:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_count:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  precision:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parallelism:
+    quote: ''
+    justification: Not stated in the paper.
+    value:
+    - unknown
+  duration:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  utilisation:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  repetitions:
+    quote: ''
+    justification: Not stated.
+    value: []
+- models:
+  - name: GAT
+    role_in_run: main
+  data_sources:
+  - name: Cora
+    access: fixed
+    roles_in_run:
+    - test
+  algorithms: []
+  produces: []
+  execution_mode:
+    quote: 'Table 1: Node classification results (accuracy %).'
+    justification: Test-set evaluation of the trained GAT on Cora.
+    value: inference
+  epochs:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parameter_count:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_type:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_model:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_count:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  precision:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parallelism:
+    quote: ''
+    justification: Not stated in the paper.
+    value:
+    - unknown
+  duration:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  utilisation:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  repetitions:
+    quote: ''
+    justification: Not stated.
+    value: []
+- models:
+  - name: GAT
+    role_in_run: main
+  data_sources:
+  - name: Citeseer
+    access: fixed
+    roles_in_run:
+    - train
+    - validation
+  algorithms: []
+  produces: []
+  execution_mode:
+    quote: These GNN baselines are supervised and specific to individual graphs, trained solely for inference on one dataset.
+    justification: GAT trained by the paper on Citeseer (Table 1); evaluation is a separate inference run.
+    value: train
+  epochs:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parameter_count:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_type:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_model:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_count:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  precision:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parallelism:
+    quote: ''
+    justification: Not stated in the paper.
+    value:
+    - unknown
+  duration:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  utilisation:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  repetitions:
+    quote: We perform 1, 3, 5, 10, 15, and 20-shot node classification on Citeseer and Texas datasets.
+    justification: 'Label-budget sweep: Fig 3 retrains each GNN at 6 shot counts on Citeseer and Texas. Full-batch GNN propagates
+      the whole graph regardless, so the data processed is unchanged.'
+    value:
+    - kind: hyperparameter
+      count: 7
+      what: 'label budgets: standard split (Table 1) + 1, 3, 5, 10, 15 and 20-shot (Figure 3); not crossed, so summed'
+- models:
+  - name: GAT
+    role_in_run: main
+  data_sources:
+  - name: Citeseer
+    access: fixed
+    roles_in_run:
+    - test
+  algorithms: []
+  produces: []
+  execution_mode:
+    quote: 'Table 1: Node classification results (accuracy %).'
+    justification: Test-set evaluation of the trained GAT on Citeseer.
+    value: inference
+  epochs:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parameter_count:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_type:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_model:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_count:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  precision:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parallelism:
+    quote: ''
+    justification: Not stated in the paper.
+    value:
+    - unknown
+  duration:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  utilisation:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  repetitions:
+    quote: We perform 1, 3, 5, 10, 15, and 20-shot node classification on Citeseer and Texas datasets.
+    justification: 'Label-budget sweep: Fig 3 retrains each GNN at 6 shot counts on Citeseer and Texas. Full-batch GNN propagates
+      the whole graph regardless, so the data processed is unchanged.'
+    value:
+    - kind: hyperparameter
+      count: 7
+      what: 'label budgets: standard split (Table 1) + 1, 3, 5, 10, 15 and 20-shot (Figure 3); not crossed, so summed'
+- models:
+  - name: GAT
+    role_in_run: main
+  data_sources:
+  - name: Texas
+    access: fixed
+    roles_in_run:
+    - train
+    - validation
+  algorithms: []
+  produces: []
+  execution_mode:
+    quote: These GNN baselines are supervised and specific to individual graphs, trained solely for inference on one dataset.
+    justification: GAT trained by the paper on Texas (Table 1); evaluation is a separate inference run.
+    value: train
+  epochs:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parameter_count:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_type:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_model:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_count:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  precision:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parallelism:
+    quote: ''
+    justification: Not stated in the paper.
+    value:
+    - unknown
+  duration:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  utilisation:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  repetitions:
+    quote: We perform 1, 3, 5, 10, 15, and 20-shot node classification on Citeseer and Texas datasets.
+    justification: 'Label-budget sweep: Fig 3 retrains each GNN at 6 shot counts on Citeseer and Texas. Full-batch GNN propagates
+      the whole graph regardless, so the data processed is unchanged.'
+    value:
+    - kind: hyperparameter
+      count: 7
+      what: 'label budgets: standard split (Table 1) + 1, 3, 5, 10, 15 and 20-shot (Figure 3); not crossed, so summed'
+- models:
+  - name: GAT
+    role_in_run: main
+  data_sources:
+  - name: Texas
+    access: fixed
+    roles_in_run:
+    - test
+  algorithms: []
+  produces: []
+  execution_mode:
+    quote: 'Table 1: Node classification results (accuracy %).'
+    justification: Test-set evaluation of the trained GAT on Texas.
+    value: inference
+  epochs:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parameter_count:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_type:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_model:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_count:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  precision:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parallelism:
+    quote: ''
+    justification: Not stated in the paper.
+    value:
+    - unknown
+  duration:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  utilisation:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  repetitions:
+    quote: We perform 1, 3, 5, 10, 15, and 20-shot node classification on Citeseer and Texas datasets.
+    justification: 'Label-budget sweep: Fig 3 retrains each GNN at 6 shot counts on Citeseer and Texas. Full-batch GNN propagates
+      the whole graph regardless, so the data processed is unchanged.'
+    value:
+    - kind: hyperparameter
+      count: 7
+      what: 'label budgets: standard split (Table 1) + 1, 3, 5, 10, 15 and 20-shot (Figure 3); not crossed, so summed'
+- models:
+  - name: GAT
+    role_in_run: main
+  data_sources:
+  - name: Wisconsin
+    access: fixed
+    roles_in_run:
+    - train
+    - validation
+  algorithms: []
+  produces: []
+  execution_mode:
+    quote: These GNN baselines are supervised and specific to individual graphs, trained solely for inference on one dataset.
+    justification: GAT trained by the paper on Wisconsin (Table 1); evaluation is a separate inference run.
+    value: train
+  epochs:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parameter_count:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_type:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_model:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_count:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  precision:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parallelism:
+    quote: ''
+    justification: Not stated in the paper.
+    value:
+    - unknown
+  duration:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  utilisation:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  repetitions:
+    quote: ''
+    justification: Not stated.
+    value: []
+- models:
+  - name: GAT
+    role_in_run: main
+  data_sources:
+  - name: Wisconsin
+    access: fixed
+    roles_in_run:
+    - test
+  algorithms: []
+  produces: []
+  execution_mode:
+    quote: 'Table 1: Node classification results (accuracy %).'
+    justification: Test-set evaluation of the trained GAT on Wisconsin.
+    value: inference
+  epochs:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parameter_count:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_type:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_model:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_count:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  precision:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parallelism:
+    quote: ''
+    justification: Not stated in the paper.
+    value:
+    - unknown
+  duration:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  utilisation:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  repetitions:
+    quote: ''
+    justification: Not stated.
+    value: []
+- models:
+  - name: GAT
+    role_in_run: main
+  data_sources:
+  - name: Cornell
+    access: fixed
+    roles_in_run:
+    - train
+    - validation
+  algorithms: []
+  produces: []
+  execution_mode:
+    quote: These GNN baselines are supervised and specific to individual graphs, trained solely for inference on one dataset.
+    justification: GAT trained by the paper on Cornell (Table 1); evaluation is a separate inference run.
+    value: train
+  epochs:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parameter_count:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_type:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_model:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_count:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  precision:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parallelism:
+    quote: ''
+    justification: Not stated in the paper.
+    value:
+    - unknown
+  duration:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  utilisation:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  repetitions:
+    quote: ''
+    justification: Not stated.
+    value: []
+- models:
+  - name: GAT
+    role_in_run: main
+  data_sources:
+  - name: Cornell
+    access: fixed
+    roles_in_run:
+    - test
+  algorithms: []
+  produces: []
+  execution_mode:
+    quote: 'Table 1: Node classification results (accuracy %).'
+    justification: Test-set evaluation of the trained GAT on Cornell.
+    value: inference
+  epochs:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parameter_count:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_type:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_model:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_count:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  precision:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parallelism:
+    quote: ''
+    justification: Not stated in the paper.
+    value:
+    - unknown
+  duration:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  utilisation:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  repetitions:
+    quote: ''
+    justification: Not stated.
+    value: []
+- models:
+  - name: GCNII
+    role_in_run: main
+  data_sources:
+  - name: Cora
+    access: fixed
+    roles_in_run:
+    - train
+    - validation
+  algorithms: []
+  produces: []
+  execution_mode:
+    quote: These GNN baselines are supervised and specific to individual graphs, trained solely for inference on one dataset.
+    justification: GCNII trained by the paper on Cora (Table 1); evaluation is a separate inference run.
+    value: train
+  epochs:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parameter_count:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_type:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_model:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_count:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  precision:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parallelism:
+    quote: ''
+    justification: Not stated in the paper.
+    value:
+    - unknown
+  duration:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  utilisation:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  repetitions:
+    quote: ''
+    justification: Not stated.
+    value: []
+- models:
+  - name: GCNII
+    role_in_run: main
+  data_sources:
+  - name: Cora
+    access: fixed
+    roles_in_run:
+    - test
+  algorithms: []
+  produces: []
+  execution_mode:
+    quote: 'Table 1: Node classification results (accuracy %).'
+    justification: Test-set evaluation of the trained GCNII on Cora.
+    value: inference
+  epochs:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parameter_count:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_type:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_model:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_count:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  precision:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parallelism:
+    quote: ''
+    justification: Not stated in the paper.
+    value:
+    - unknown
+  duration:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  utilisation:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  repetitions:
+    quote: ''
+    justification: Not stated.
+    value: []
+- models:
+  - name: GCNII
+    role_in_run: main
+  data_sources:
+  - name: Citeseer
+    access: fixed
+    roles_in_run:
+    - train
+    - validation
+  algorithms: []
+  produces: []
+  execution_mode:
+    quote: These GNN baselines are supervised and specific to individual graphs, trained solely for inference on one dataset.
+    justification: GCNII trained by the paper on Citeseer (Table 1); evaluation is a separate inference run.
+    value: train
+  epochs:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parameter_count:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_type:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_model:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_count:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  precision:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parallelism:
+    quote: ''
+    justification: Not stated in the paper.
+    value:
+    - unknown
+  duration:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  utilisation:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  repetitions:
+    quote: We perform 1, 3, 5, 10, 15, and 20-shot node classification on Citeseer and Texas datasets.
+    justification: 'Label-budget sweep: Fig 3 retrains each GNN at 6 shot counts on Citeseer and Texas. Full-batch GNN propagates
+      the whole graph regardless, so the data processed is unchanged.'
+    value:
+    - kind: hyperparameter
+      count: 7
+      what: 'label budgets: standard split (Table 1) + 1, 3, 5, 10, 15 and 20-shot (Figure 3); not crossed, so summed'
+- models:
+  - name: GCNII
+    role_in_run: main
+  data_sources:
+  - name: Citeseer
+    access: fixed
+    roles_in_run:
+    - test
+  algorithms: []
+  produces: []
+  execution_mode:
+    quote: 'Table 1: Node classification results (accuracy %).'
+    justification: Test-set evaluation of the trained GCNII on Citeseer.
+    value: inference
+  epochs:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parameter_count:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_type:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_model:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_count:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  precision:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parallelism:
+    quote: ''
+    justification: Not stated in the paper.
+    value:
+    - unknown
+  duration:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  utilisation:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  repetitions:
+    quote: We perform 1, 3, 5, 10, 15, and 20-shot node classification on Citeseer and Texas datasets.
+    justification: 'Label-budget sweep: Fig 3 retrains each GNN at 6 shot counts on Citeseer and Texas. Full-batch GNN propagates
+      the whole graph regardless, so the data processed is unchanged.'
+    value:
+    - kind: hyperparameter
+      count: 7
+      what: 'label budgets: standard split (Table 1) + 1, 3, 5, 10, 15 and 20-shot (Figure 3); not crossed, so summed'
+- models:
+  - name: GCNII
+    role_in_run: main
+  data_sources:
+  - name: Texas
+    access: fixed
+    roles_in_run:
+    - train
+    - validation
+  algorithms: []
+  produces: []
+  execution_mode:
+    quote: These GNN baselines are supervised and specific to individual graphs, trained solely for inference on one dataset.
+    justification: GCNII trained by the paper on Texas (Table 1); evaluation is a separate inference run.
+    value: train
+  epochs:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parameter_count:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_type:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_model:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_count:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  precision:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parallelism:
+    quote: ''
+    justification: Not stated in the paper.
+    value:
+    - unknown
+  duration:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  utilisation:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  repetitions:
+    quote: We perform 1, 3, 5, 10, 15, and 20-shot node classification on Citeseer and Texas datasets.
+    justification: 'Label-budget sweep: Fig 3 retrains each GNN at 6 shot counts on Citeseer and Texas. Full-batch GNN propagates
+      the whole graph regardless, so the data processed is unchanged.'
+    value:
+    - kind: hyperparameter
+      count: 7
+      what: 'label budgets: standard split (Table 1) + 1, 3, 5, 10, 15 and 20-shot (Figure 3); not crossed, so summed'
+- models:
+  - name: GCNII
+    role_in_run: main
+  data_sources:
+  - name: Texas
+    access: fixed
+    roles_in_run:
+    - test
+  algorithms: []
+  produces: []
+  execution_mode:
+    quote: 'Table 1: Node classification results (accuracy %).'
+    justification: Test-set evaluation of the trained GCNII on Texas.
+    value: inference
+  epochs:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parameter_count:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_type:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_model:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_count:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  precision:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parallelism:
+    quote: ''
+    justification: Not stated in the paper.
+    value:
+    - unknown
+  duration:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  utilisation:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  repetitions:
+    quote: We perform 1, 3, 5, 10, 15, and 20-shot node classification on Citeseer and Texas datasets.
+    justification: 'Label-budget sweep: Fig 3 retrains each GNN at 6 shot counts on Citeseer and Texas. Full-batch GNN propagates
+      the whole graph regardless, so the data processed is unchanged.'
+    value:
+    - kind: hyperparameter
+      count: 7
+      what: 'label budgets: standard split (Table 1) + 1, 3, 5, 10, 15 and 20-shot (Figure 3); not crossed, so summed'
+- models:
+  - name: GCNII
+    role_in_run: main
+  data_sources:
+  - name: Wisconsin
+    access: fixed
+    roles_in_run:
+    - train
+    - validation
+  algorithms: []
+  produces: []
+  execution_mode:
+    quote: These GNN baselines are supervised and specific to individual graphs, trained solely for inference on one dataset.
+    justification: GCNII trained by the paper on Wisconsin (Table 1); evaluation is a separate inference run.
+    value: train
+  epochs:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parameter_count:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_type:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_model:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_count:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  precision:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parallelism:
+    quote: ''
+    justification: Not stated in the paper.
+    value:
+    - unknown
+  duration:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  utilisation:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  repetitions:
+    quote: ''
+    justification: Not stated.
+    value: []
+- models:
+  - name: GCNII
+    role_in_run: main
+  data_sources:
+  - name: Wisconsin
+    access: fixed
+    roles_in_run:
+    - test
+  algorithms: []
+  produces: []
+  execution_mode:
+    quote: 'Table 1: Node classification results (accuracy %).'
+    justification: Test-set evaluation of the trained GCNII on Wisconsin.
+    value: inference
+  epochs:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parameter_count:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_type:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_model:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_count:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  precision:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parallelism:
+    quote: ''
+    justification: Not stated in the paper.
+    value:
+    - unknown
+  duration:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  utilisation:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  repetitions:
+    quote: ''
+    justification: Not stated.
+    value: []
+- models:
+  - name: GCNII
+    role_in_run: main
+  data_sources:
+  - name: Cornell
+    access: fixed
+    roles_in_run:
+    - train
+    - validation
+  algorithms: []
+  produces: []
+  execution_mode:
+    quote: These GNN baselines are supervised and specific to individual graphs, trained solely for inference on one dataset.
+    justification: GCNII trained by the paper on Cornell (Table 1); evaluation is a separate inference run.
+    value: train
+  epochs:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parameter_count:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_type:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_model:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_count:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  precision:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parallelism:
+    quote: ''
+    justification: Not stated in the paper.
+    value:
+    - unknown
+  duration:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  utilisation:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  repetitions:
+    quote: ''
+    justification: Not stated.
+    value: []
+- models:
+  - name: GCNII
+    role_in_run: main
+  data_sources:
+  - name: Cornell
+    access: fixed
+    roles_in_run:
+    - test
+  algorithms: []
+  produces: []
+  execution_mode:
+    quote: 'Table 1: Node classification results (accuracy %).'
+    justification: Test-set evaluation of the trained GCNII on Cornell.
+    value: inference
+  epochs:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parameter_count:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_type:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_model:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_count:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  precision:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parallelism:
+    quote: ''
+    justification: Not stated in the paper.
+    value:
+    - unknown
+  duration:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  utilisation:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  repetitions:
+    quote: ''
+    justification: Not stated.
+    value: []
+- models:
+  - name: GATv2
+    role_in_run: main
+  data_sources:
+  - name: Cora
+    access: fixed
+    roles_in_run:
+    - train
+    - validation
+  algorithms: []
+  produces: []
+  execution_mode:
+    quote: These GNN baselines are supervised and specific to individual graphs, trained solely for inference on one dataset.
+    justification: GATv2 trained by the paper on Cora (Table 1); evaluation is a separate inference run.
+    value: train
+  epochs:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parameter_count:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_type:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_model:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_count:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  precision:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parallelism:
+    quote: ''
+    justification: Not stated in the paper.
+    value:
+    - unknown
+  duration:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  utilisation:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  repetitions:
+    quote: ''
+    justification: Not stated.
+    value: []
+- models:
+  - name: GATv2
+    role_in_run: main
+  data_sources:
+  - name: Cora
+    access: fixed
+    roles_in_run:
+    - test
+  algorithms: []
+  produces: []
+  execution_mode:
+    quote: 'Table 1: Node classification results (accuracy %).'
+    justification: Test-set evaluation of the trained GATv2 on Cora.
+    value: inference
+  epochs:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parameter_count:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_type:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_model:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_count:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  precision:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parallelism:
+    quote: ''
+    justification: Not stated in the paper.
+    value:
+    - unknown
+  duration:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  utilisation:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  repetitions:
+    quote: ''
+    justification: Not stated.
+    value: []
+- models:
+  - name: GATv2
+    role_in_run: main
+  data_sources:
+  - name: Citeseer
+    access: fixed
+    roles_in_run:
+    - train
+    - validation
+  algorithms: []
+  produces: []
+  execution_mode:
+    quote: These GNN baselines are supervised and specific to individual graphs, trained solely for inference on one dataset.
+    justification: GATv2 trained by the paper on Citeseer (Table 1); evaluation is a separate inference run.
+    value: train
+  epochs:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parameter_count:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_type:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_model:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_count:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  precision:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parallelism:
+    quote: ''
+    justification: Not stated in the paper.
+    value:
+    - unknown
+  duration:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  utilisation:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  repetitions:
+    quote: We perform 1, 3, 5, 10, 15, and 20-shot node classification on Citeseer and Texas datasets.
+    justification: 'Label-budget sweep: Fig 3 retrains each GNN at 6 shot counts on Citeseer and Texas. Full-batch GNN propagates
+      the whole graph regardless, so the data processed is unchanged.'
+    value:
+    - kind: hyperparameter
+      count: 7
+      what: 'label budgets: standard split (Table 1) + 1, 3, 5, 10, 15 and 20-shot (Figure 3); not crossed, so summed'
+- models:
+  - name: GATv2
+    role_in_run: main
+  data_sources:
+  - name: Citeseer
+    access: fixed
+    roles_in_run:
+    - test
+  algorithms: []
+  produces: []
+  execution_mode:
+    quote: 'Table 1: Node classification results (accuracy %).'
+    justification: Test-set evaluation of the trained GATv2 on Citeseer.
+    value: inference
+  epochs:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parameter_count:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_type:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_model:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_count:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  precision:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parallelism:
+    quote: ''
+    justification: Not stated in the paper.
+    value:
+    - unknown
+  duration:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  utilisation:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  repetitions:
+    quote: We perform 1, 3, 5, 10, 15, and 20-shot node classification on Citeseer and Texas datasets.
+    justification: 'Label-budget sweep: Fig 3 retrains each GNN at 6 shot counts on Citeseer and Texas. Full-batch GNN propagates
+      the whole graph regardless, so the data processed is unchanged.'
+    value:
+    - kind: hyperparameter
+      count: 7
+      what: 'label budgets: standard split (Table 1) + 1, 3, 5, 10, 15 and 20-shot (Figure 3); not crossed, so summed'
+- models:
+  - name: GATv2
+    role_in_run: main
+  data_sources:
+  - name: Texas
+    access: fixed
+    roles_in_run:
+    - train
+    - validation
+  algorithms: []
+  produces: []
+  execution_mode:
+    quote: These GNN baselines are supervised and specific to individual graphs, trained solely for inference on one dataset.
+    justification: GATv2 trained by the paper on Texas (Table 1); evaluation is a separate inference run.
+    value: train
+  epochs:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parameter_count:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_type:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_model:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_count:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  precision:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parallelism:
+    quote: ''
+    justification: Not stated in the paper.
+    value:
+    - unknown
+  duration:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  utilisation:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  repetitions:
+    quote: We perform 1, 3, 5, 10, 15, and 20-shot node classification on Citeseer and Texas datasets.
+    justification: 'Label-budget sweep: Fig 3 retrains each GNN at 6 shot counts on Citeseer and Texas. Full-batch GNN propagates
+      the whole graph regardless, so the data processed is unchanged.'
+    value:
+    - kind: hyperparameter
+      count: 7
+      what: 'label budgets: standard split (Table 1) + 1, 3, 5, 10, 15 and 20-shot (Figure 3); not crossed, so summed'
+- models:
+  - name: GATv2
+    role_in_run: main
+  data_sources:
+  - name: Texas
+    access: fixed
+    roles_in_run:
+    - test
+  algorithms: []
+  produces: []
+  execution_mode:
+    quote: 'Table 1: Node classification results (accuracy %).'
+    justification: Test-set evaluation of the trained GATv2 on Texas.
+    value: inference
+  epochs:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parameter_count:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_type:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_model:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_count:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  precision:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parallelism:
+    quote: ''
+    justification: Not stated in the paper.
+    value:
+    - unknown
+  duration:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  utilisation:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  repetitions:
+    quote: We perform 1, 3, 5, 10, 15, and 20-shot node classification on Citeseer and Texas datasets.
+    justification: 'Label-budget sweep: Fig 3 retrains each GNN at 6 shot counts on Citeseer and Texas. Full-batch GNN propagates
+      the whole graph regardless, so the data processed is unchanged.'
+    value:
+    - kind: hyperparameter
+      count: 7
+      what: 'label budgets: standard split (Table 1) + 1, 3, 5, 10, 15 and 20-shot (Figure 3); not crossed, so summed'
+- models:
+  - name: GATv2
+    role_in_run: main
+  data_sources:
+  - name: Wisconsin
+    access: fixed
+    roles_in_run:
+    - train
+    - validation
+  algorithms: []
+  produces: []
+  execution_mode:
+    quote: These GNN baselines are supervised and specific to individual graphs, trained solely for inference on one dataset.
+    justification: GATv2 trained by the paper on Wisconsin (Table 1); evaluation is a separate inference run.
+    value: train
+  epochs:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parameter_count:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_type:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_model:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_count:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  precision:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parallelism:
+    quote: ''
+    justification: Not stated in the paper.
+    value:
+    - unknown
+  duration:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  utilisation:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  repetitions:
+    quote: ''
+    justification: Not stated.
+    value: []
+- models:
+  - name: GATv2
+    role_in_run: main
+  data_sources:
+  - name: Wisconsin
+    access: fixed
+    roles_in_run:
+    - test
+  algorithms: []
+  produces: []
+  execution_mode:
+    quote: 'Table 1: Node classification results (accuracy %).'
+    justification: Test-set evaluation of the trained GATv2 on Wisconsin.
+    value: inference
+  epochs:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parameter_count:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_type:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_model:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_count:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  precision:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parallelism:
+    quote: ''
+    justification: Not stated in the paper.
+    value:
+    - unknown
+  duration:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  utilisation:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  repetitions:
+    quote: ''
+    justification: Not stated.
+    value: []
+- models:
+  - name: GATv2
+    role_in_run: main
+  data_sources:
+  - name: Cornell
+    access: fixed
+    roles_in_run:
+    - train
+    - validation
+  algorithms: []
+  produces: []
+  execution_mode:
+    quote: These GNN baselines are supervised and specific to individual graphs, trained solely for inference on one dataset.
+    justification: GATv2 trained by the paper on Cornell (Table 1); evaluation is a separate inference run.
+    value: train
+  epochs:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parameter_count:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_type:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_model:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_count:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  precision:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parallelism:
+    quote: ''
+    justification: Not stated in the paper.
+    value:
+    - unknown
+  duration:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  utilisation:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  repetitions:
+    quote: ''
+    justification: Not stated.
+    value: []
+- models:
+  - name: GATv2
+    role_in_run: main
+  data_sources:
+  - name: Cornell
+    access: fixed
+    roles_in_run:
+    - test
+  algorithms: []
+  produces: []
+  execution_mode:
+    quote: 'Table 1: Node classification results (accuracy %).'
+    justification: Test-set evaluation of the trained GATv2 on Cornell.
+    value: inference
+  epochs:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parameter_count:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_type:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_model:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_count:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  precision:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parallelism:
+    quote: ''
+    justification: Not stated in the paper.
+    value:
+    - unknown
+  duration:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  utilisation:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  repetitions:
+    quote: ''
+    justification: Not stated.
+    value: []
+- models:
+  - name: GCN
+    role_in_run: main
+  data_sources:
+  - name: Cora-TAG
+    access: fixed
+    roles_in_run:
+    - train
+    - validation
+  algorithms: []
+  produces: []
+  execution_mode:
+    quote: These GNN baselines are supervised and specific to individual graphs, trained solely for inference on one dataset.
+    justification: 'GCN on Cora-TAG (Table 4): not stated, but the Table 1 GNNs are stated as trained and Table 4 is a related
+      experiment (owner rule); numbers are not Chen et al. 2023''s.'
+    value: train
+  epochs:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parameter_count:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_type:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_model:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_count:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  precision:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parallelism:
+    quote: ''
+    justification: Not stated in the paper.
+    value:
+    - unknown
+  duration:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  utilisation:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  repetitions:
+    quote: ''
+    justification: Not stated.
+    value: []
+- models:
+  - name: GCN
+    role_in_run: main
+  data_sources:
+  - name: Cora-TAG
+    access: fixed
+    roles_in_run:
+    - test
+  algorithms: []
+  produces: []
+  execution_mode:
+    quote: Experiments are conducted using in-context learning with ChatGPT, as well as instruction tuning with Llama-2
+    justification: Test-set evaluation of the trained GCN on Cora-TAG (Table 4).
+    value: inference
+  epochs:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parameter_count:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_type:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_model:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_count:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  precision:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parallelism:
+    quote: ''
+    justification: Not stated in the paper.
+    value:
+    - unknown
+  duration:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  utilisation:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  repetitions:
+    quote: ''
+    justification: Not stated.
+    value: []
+- models:
+  - name: GCN
+    role_in_run: main
+  data_sources:
+  - name: Citeseer-TAG
+    access: fixed
+    roles_in_run:
+    - train
+    - validation
+  algorithms: []
+  produces: []
+  execution_mode:
+    quote: These GNN baselines are supervised and specific to individual graphs, trained solely for inference on one dataset.
+    justification: 'GCN on Citeseer-TAG (Table 4): not stated, but the Table 1 GNNs are stated as trained and Table 4 is a
+      related experiment (owner rule); numbers are not Chen et al. 2023''s.'
+    value: train
+  epochs:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parameter_count:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_type:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_model:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_count:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  precision:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parallelism:
+    quote: ''
+    justification: Not stated in the paper.
+    value:
+    - unknown
+  duration:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  utilisation:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  repetitions:
+    quote: ''
+    justification: Not stated.
+    value: []
+- models:
+  - name: GCN
+    role_in_run: main
+  data_sources:
+  - name: Citeseer-TAG
+    access: fixed
+    roles_in_run:
+    - test
+  algorithms: []
+  produces: []
+  execution_mode:
+    quote: Experiments are conducted using in-context learning with ChatGPT, as well as instruction tuning with Llama-2
+    justification: Test-set evaluation of the trained GCN on Citeseer-TAG (Table 4).
+    value: inference
+  epochs:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parameter_count:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_type:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_model:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_count:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  precision:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parallelism:
+    quote: ''
+    justification: Not stated in the paper.
+    value:
+    - unknown
+  duration:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  utilisation:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  repetitions:
+    quote: ''
+    justification: Not stated.
+    value: []
+- models:
+  - name: GAT
+    role_in_run: main
+  data_sources:
+  - name: Cora-TAG
+    access: fixed
+    roles_in_run:
+    - train
+    - validation
+  algorithms: []
+  produces: []
+  execution_mode:
+    quote: These GNN baselines are supervised and specific to individual graphs, trained solely for inference on one dataset.
+    justification: 'GAT on Cora-TAG (Table 4): not stated, but the Table 1 GNNs are stated as trained and Table 4 is a related
+      experiment (owner rule); numbers are not Chen et al. 2023''s.'
+    value: train
+  epochs:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parameter_count:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_type:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_model:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_count:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  precision:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parallelism:
+    quote: ''
+    justification: Not stated in the paper.
+    value:
+    - unknown
+  duration:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  utilisation:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  repetitions:
+    quote: ''
+    justification: Not stated.
+    value: []
+- models:
+  - name: GAT
+    role_in_run: main
+  data_sources:
+  - name: Cora-TAG
+    access: fixed
+    roles_in_run:
+    - test
+  algorithms: []
+  produces: []
+  execution_mode:
+    quote: Experiments are conducted using in-context learning with ChatGPT, as well as instruction tuning with Llama-2
+    justification: Test-set evaluation of the trained GAT on Cora-TAG (Table 4).
+    value: inference
+  epochs:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parameter_count:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_type:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_model:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_count:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  precision:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parallelism:
+    quote: ''
+    justification: Not stated in the paper.
+    value:
+    - unknown
+  duration:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  utilisation:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  repetitions:
+    quote: ''
+    justification: Not stated.
+    value: []
+- models:
+  - name: GAT
+    role_in_run: main
+  data_sources:
+  - name: Citeseer-TAG
+    access: fixed
+    roles_in_run:
+    - train
+    - validation
+  algorithms: []
+  produces: []
+  execution_mode:
+    quote: These GNN baselines are supervised and specific to individual graphs, trained solely for inference on one dataset.
+    justification: 'GAT on Citeseer-TAG (Table 4): not stated, but the Table 1 GNNs are stated as trained and Table 4 is a
+      related experiment (owner rule); numbers are not Chen et al. 2023''s.'
+    value: train
+  epochs:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parameter_count:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_type:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_model:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_count:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  precision:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parallelism:
+    quote: ''
+    justification: Not stated in the paper.
+    value:
+    - unknown
+  duration:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  utilisation:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  repetitions:
+    quote: ''
+    justification: Not stated.
+    value: []
+- models:
+  - name: GAT
+    role_in_run: main
+  data_sources:
+  - name: Citeseer-TAG
+    access: fixed
+    roles_in_run:
+    - test
+  algorithms: []
+  produces: []
+  execution_mode:
+    quote: Experiments are conducted using in-context learning with ChatGPT, as well as instruction tuning with Llama-2
+    justification: Test-set evaluation of the trained GAT on Citeseer-TAG (Table 4).
+    value: inference
+  epochs:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parameter_count:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_type:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_model:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_count:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  precision:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parallelism:
+    quote: ''
+    justification: Not stated in the paper.
+    value:
+    - unknown
+  duration:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  utilisation:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  repetitions:
+    quote: ''
+    justification: Not stated.
+    value: []
+- models:
+  - name: ChatGPT
+    role_in_run: main
+  data_sources:
+  - name: Cora
+    access: fixed
+    roles_in_run:
+    - test
+  algorithms:
+  - name: GraphText
+  - name: graph-syntax tree
+  - name: in-context learning (ICL)
+  - name: K-means
+  - name: personalized pagerank
+  produces: []
+  execution_mode:
+    quote: In contrast, G RAPH T EXT utilizes a single pre-trained LLM (ChatGPT) for all datasets without any graph-specific
+      training.
+    justification: GraphText in-context learning with ChatGPT on Cora.
+    value: inference
+  epochs:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parameter_count:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_type:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_model:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_count:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  precision:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parallelism:
+    quote: ''
+    justification: Not stated in the paper.
+    value:
+    - unknown
+  duration:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  utilisation:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  repetitions:
+    quote: 'Table 3: Ablations of G RAPH T EXT on Cora, Citeseer and Texas.'
+    justification: Table 1 configs, Table 3 GraphText row (76.5, not a Table 1 cell) and ablations; not crossed.
+    value:
+    - kind: variant
+      count: 11
+      what: 6 Table 1 configurations (3 text attributes x 2 relations) + 1 GraphText configuration in Table 3 not in Table
+        1 + 4 graph-syntax tree ablations (Table 3, which names no LLM; ChatGPT is the only model run on all its datasets);
+        not crossed, so summed
+- models:
+  - name: ChatGPT
+    role_in_run: main
+  data_sources:
+  - name: Citeseer
+    access: fixed
+    roles_in_run:
+    - test
+  algorithms:
+  - name: GraphText
+  - name: graph-syntax tree
+  - name: in-context learning (ICL)
+  - name: K-means
+  - name: personalized pagerank
+  produces: []
+  execution_mode:
+    quote: In contrast, G RAPH T EXT utilizes a single pre-trained LLM (ChatGPT) for all datasets without any graph-specific
+      training.
+    justification: GraphText in-context learning with ChatGPT on Citeseer.
+    value: inference
+  epochs:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parameter_count:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_type:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_model:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_count:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  precision:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parallelism:
+    quote: ''
+    justification: Not stated in the paper.
+    value:
+    - unknown
+  duration:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  utilisation:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  repetitions:
+    quote: We perform 1, 3, 5, 10, 15, and 20-shot node classification on Citeseer and Texas datasets.
+    justification: Table 1 configs, Fig 3 shots and Table 3 ablations; not crossed.
+    value:
+    - kind: variant
+      count: 16
+      what: 6 Table 1 configurations + 6 shot settings (Figure 3) + 4 graph-syntax tree ablations (Table 3, which names no
+        LLM; ChatGPT is the only model run on all its datasets); not crossed, so summed
+- models:
+  - name: ChatGPT
+    role_in_run: main
+  data_sources:
+  - name: Texas
+    access: fixed
+    roles_in_run:
+    - test
+  algorithms:
+  - name: GraphText
+  - name: graph-syntax tree
+  - name: in-context learning (ICL)
+  - name: K-means
+  - name: personalized pagerank
+  produces: []
+  execution_mode:
+    quote: In contrast, G RAPH T EXT utilizes a single pre-trained LLM (ChatGPT) for all datasets without any graph-specific
+      training.
+    justification: GraphText in-context learning with ChatGPT on Texas.
+    value: inference
+  epochs:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parameter_count:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_type:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_model:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_count:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  precision:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parallelism:
+    quote: ''
+    justification: Not stated in the paper.
+    value:
+    - unknown
+  duration:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  utilisation:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  repetitions:
+    quote: We perform 1, 3, 5, 10, 15, and 20-shot node classification on Citeseer and Texas datasets.
+    justification: Table 1 configs, Fig 3 shots and Table 3 ablations; not crossed.
+    value:
+    - kind: variant
+      count: 16
+      what: 6 Table 1 configurations + 6 shot settings (Figure 3) + 4 graph-syntax tree ablations (Table 3, which names no
+        LLM; ChatGPT is the only model run on all its datasets); not crossed, so summed
+- models:
+  - name: ChatGPT
+    role_in_run: main
+  data_sources:
+  - name: Wisconsin
+    access: fixed
+    roles_in_run:
+    - test
+  algorithms:
+  - name: GraphText
+  - name: graph-syntax tree
+  - name: in-context learning (ICL)
+  - name: K-means
+  - name: personalized pagerank
+  produces: []
+  execution_mode:
+    quote: In contrast, G RAPH T EXT utilizes a single pre-trained LLM (ChatGPT) for all datasets without any graph-specific
+      training.
+    justification: GraphText in-context learning with ChatGPT on Wisconsin.
+    value: inference
+  epochs:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parameter_count:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_type:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_model:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_count:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  precision:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parallelism:
+    quote: ''
+    justification: Not stated in the paper.
+    value:
+    - unknown
+  duration:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  utilisation:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  repetitions:
+    quote: Additionally, we employ two types of relations
+    justification: Table 1 crosses 3 text-attribute settings with 2 relation settings (all 6 rows).
+    value:
+    - kind: variant
+      count: 3
+      what: 'text attributes: label, label+feat, label+feat+synth.'
+    - kind: variant
+      count: 2
+      what: 'relations: original, ori.+synth.'
+- models:
+  - name: ChatGPT
+    role_in_run: main
+  data_sources:
+  - name: Cornell
+    access: fixed
+    roles_in_run:
+    - test
+  algorithms:
+  - name: GraphText
+  - name: graph-syntax tree
+  - name: in-context learning (ICL)
+  - name: K-means
+  - name: personalized pagerank
+  produces: []
+  execution_mode:
+    quote: In contrast, G RAPH T EXT utilizes a single pre-trained LLM (ChatGPT) for all datasets without any graph-specific
+      training.
+    justification: GraphText in-context learning with ChatGPT on Cornell.
+    value: inference
+  epochs:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parameter_count:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_type:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_model:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_count:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  precision:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parallelism:
+    quote: ''
+    justification: Not stated in the paper.
+    value:
+    - unknown
+  duration:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  utilisation:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  repetitions:
+    quote: Additionally, we employ two types of relations
+    justification: Table 1 crosses 3 text-attribute settings with 2 relation settings (all 6 rows).
+    value:
+    - kind: variant
+      count: 3
+      what: 'text attributes: label, label+feat, label+feat+synth.'
+    - kind: variant
+      count: 2
+      what: 'relations: original, ori.+synth.'
+- models:
+  - name: ChatGPT
+    role_in_run: main
+  data_sources:
+  - name: Cora
+    access: fixed
+    roles_in_run:
+    - test
+  algorithms:
+  - name: GraphText
+  - name: graph-syntax tree
+  - name: in-context learning (ICL)
+  - name: zero-shot chain of thought reasoning
+  - name: personalized pagerank
+  produces: []
+  execution_mode:
+    quote: We leverage G RAPH T EXT with ChatGPT and GPT-4 to perform graph reasoning on the provided example.
+    justification: 'ChatGPT on the single Cora node #2188 (Table 2, Appendix C).'
+    value: inference
+  epochs:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parameter_count:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_type:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_model:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_count:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  precision:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parallelism:
+    quote: ''
+    justification: Not stated in the paper.
+    value:
+    - unknown
+  duration:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  utilisation:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  repetitions:
+    quote: We performed 15 times of evaluation
+    justification: 15 identical reruns of one prompt, before and after one fixed human message. ChatGPT 'After' percentages
+      are elevenths (11 evaluations?) - not stated, not recorded.
+    value:
+    - kind: seed
+      count: 15
+      what: 15 times of evaluation
+    - kind: variant
+      count: 2
+      what: before and after human interaction
+- models:
+  - name: GPT-4
+    role_in_run: main
+  data_sources:
+  - name: Cora
+    access: fixed
+    roles_in_run:
+    - test
+  algorithms:
+  - name: GraphText
+  - name: graph-syntax tree
+  - name: in-context learning (ICL)
+  - name: zero-shot chain of thought reasoning
+  - name: personalized pagerank
+  produces: []
+  execution_mode:
+    quote: We leverage G RAPH T EXT with ChatGPT and GPT-4 to perform graph reasoning on the provided example.
+    justification: 'GPT-4 on the single Cora node #2188 (Table 2, Appendix C).'
+    value: inference
+  epochs:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parameter_count:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_type:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_model:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_count:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  precision:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parallelism:
+    quote: ''
+    justification: Not stated in the paper.
+    value:
+    - unknown
+  duration:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  utilisation:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  repetitions:
+    quote: We performed 15 times of evaluation
+    justification: 15 identical reruns of one prompt, before and after one fixed human message. ChatGPT 'After' percentages
+      are elevenths (11 evaluations?) - not stated, not recorded.
+    value:
+    - kind: seed
+      count: 15
+      what: 15 times of evaluation
+    - kind: variant
+      count: 2
+      what: before and after human interaction
+- models:
+  - name: ChatGPT
+    role_in_run: main
+  data_sources:
+  - name: Cora-TAG
+    access: fixed
+    roles_in_run:
+    - test
+  algorithms:
+  - name: GraphText
+  - name: graph-syntax tree
+  - name: in-context learning (ICL)
+  - name: K-means
+  produces: []
+  execution_mode:
+    quote: Experiments are conducted using in-context learning with ChatGPT, as well as instruction tuning with Llama-2
+    justification: ChatGPT in-context learning on Cora-TAG (Table 4).
+    value: inference
+  epochs:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parameter_count:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_type:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_model:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_count:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  precision:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parallelism:
+    quote: ''
+    justification: Not stated in the paper.
+    value:
+    - unknown
+  duration:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  utilisation:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  repetitions:
+    quote: Experiments are conducted using in-context learning with ChatGPT, as well as instruction tuning with Llama-2
+    justification: Three input settings in Table 4.
+    value:
+    - kind: variant
+      count: 3
+      what: 'input settings: text, feat, feat+text'
+- models:
+  - name: ChatGPT
+    role_in_run: main
+  data_sources:
+  - name: Citeseer-TAG
+    access: fixed
+    roles_in_run:
+    - test
+  algorithms:
+  - name: GraphText
+  - name: graph-syntax tree
+  - name: in-context learning (ICL)
+  - name: K-means
+  produces: []
+  execution_mode:
+    quote: Experiments are conducted using in-context learning with ChatGPT, as well as instruction tuning with Llama-2
+    justification: ChatGPT in-context learning on Citeseer-TAG (Table 4).
+    value: inference
+  epochs:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parameter_count:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_type:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_model:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_count:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  precision:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parallelism:
+    quote: ''
+    justification: Not stated in the paper.
+    value:
+    - unknown
+  duration:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  utilisation:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  repetitions:
+    quote: Experiments are conducted using in-context learning with ChatGPT, as well as instruction tuning with Llama-2
+    justification: Three input settings in Table 4.
+    value:
+    - kind: variant
+      count: 3
+      what: 'input settings: text, feat, feat+text'
+- models:
+  - name: Llama-2-7B
+    role_in_run: main
+  - name: Multi-Layer Perceptron (MLP) projector
+    role_in_run: main
+  data_sources:
+  - name: Cora-TAG
+    access: fixed
+    roles_in_run:
+    - train
+    - validation
+  algorithms:
+  - name: GraphText
+  - name: graph-syntax tree
+  - name: instruction tuning
+  - name: Low-Rank Adaptation (LoRA)
+  - name: AdamW
+  produces: []
+  execution_mode:
+    quote: then fine-tune the large language model by the widely-used and efficient Low-Rank Adaptation (LoRA) (Hu et al.,
+      2022).
+    justification: LoRA instruction tuning of Llama-2-7B, co-training the MLP projector, on Cora-TAG.
+    value: finetune
+  epochs:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parameter_count:
+    quote: even with a relatively smaller open-source model, Llama-2-7B
+    justification: 'Size-suffixed checkpoint name: 7B by definition (owner rule).'
+    value: 7B
+  accelerator_type:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_model:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_count:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  precision:
+    quote: with FP16 activated.
+    justification: Stated for training.
+    value: fp16
+  parallelism:
+    quote: ''
+    justification: Not stated in the paper.
+    value:
+    - unknown
+  duration:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  utilisation:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  repetitions:
+    quote: Experiments are conducted using in-context learning with ChatGPT, as well as instruction tuning with Llama-2
+    justification: Three input settings in Table 4.
+    value:
+    - kind: variant
+      count: 3
+      what: 'input settings: text, feat, feat+text; the MLP projector participates only in feat and feat+text'
+- models:
+  - name: Llama-2-7B
+    role_in_run: main
+  - name: Multi-Layer Perceptron (MLP) projector
+    role_in_run: main
+  data_sources:
+  - name: Cora-TAG
+    access: fixed
+    roles_in_run:
+    - test
+  algorithms:
+  - name: GraphText
+  - name: graph-syntax tree
+  produces: []
+  execution_mode:
+    quote: Experiments are conducted using in-context learning with ChatGPT, as well as instruction tuning with Llama-2
+    justification: Test-set evaluation of the instruction-tuned model on Cora-TAG (Table 4).
+    value: inference
+  epochs:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parameter_count:
+    quote: even with a relatively smaller open-source model, Llama-2-7B
+    justification: 'Size-suffixed checkpoint name: 7B by definition (owner rule).'
+    value: 7B
+  accelerator_type:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_model:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_count:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  precision:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parallelism:
+    quote: ''
+    justification: Not stated in the paper.
+    value:
+    - unknown
+  duration:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  utilisation:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  repetitions:
+    quote: Experiments are conducted using in-context learning with ChatGPT, as well as instruction tuning with Llama-2
+    justification: Three input settings in Table 4.
+    value:
+    - kind: variant
+      count: 3
+      what: 'input settings: text, feat, feat+text; the MLP projector participates only in feat and feat+text'
+- models:
+  - name: Llama-2-7B
+    role_in_run: main
+  - name: Multi-Layer Perceptron (MLP) projector
+    role_in_run: main
+  data_sources:
+  - name: Citeseer-TAG
+    access: fixed
+    roles_in_run:
+    - train
+    - validation
+  algorithms:
+  - name: GraphText
+  - name: graph-syntax tree
+  - name: instruction tuning
+  - name: Low-Rank Adaptation (LoRA)
+  - name: AdamW
+  produces: []
+  execution_mode:
+    quote: then fine-tune the large language model by the widely-used and efficient Low-Rank Adaptation (LoRA) (Hu et al.,
+      2022).
+    justification: LoRA instruction tuning of Llama-2-7B, co-training the MLP projector, on Citeseer-TAG.
+    value: finetune
+  epochs:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parameter_count:
+    quote: even with a relatively smaller open-source model, Llama-2-7B
+    justification: 'Size-suffixed checkpoint name: 7B by definition (owner rule).'
+    value: 7B
+  accelerator_type:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_model:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_count:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  precision:
+    quote: with FP16 activated.
+    justification: Stated for training.
+    value: fp16
+  parallelism:
+    quote: ''
+    justification: Not stated in the paper.
+    value:
+    - unknown
+  duration:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  utilisation:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  repetitions:
+    quote: Experiments are conducted using in-context learning with ChatGPT, as well as instruction tuning with Llama-2
+    justification: Three input settings in Table 4.
+    value:
+    - kind: variant
+      count: 3
+      what: 'input settings: text, feat, feat+text; the MLP projector participates only in feat and feat+text'
+- models:
+  - name: Llama-2-7B
+    role_in_run: main
+  - name: Multi-Layer Perceptron (MLP) projector
+    role_in_run: main
+  data_sources:
+  - name: Citeseer-TAG
+    access: fixed
+    roles_in_run:
+    - test
+  algorithms:
+  - name: GraphText
+  - name: graph-syntax tree
+  produces: []
+  execution_mode:
+    quote: Experiments are conducted using in-context learning with ChatGPT, as well as instruction tuning with Llama-2
+    justification: Test-set evaluation of the instruction-tuned model on Citeseer-TAG (Table 4).
+    value: inference
+  epochs:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parameter_count:
+    quote: even with a relatively smaller open-source model, Llama-2-7B
+    justification: 'Size-suffixed checkpoint name: 7B by definition (owner rule).'
+    value: 7B
+  accelerator_type:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_model:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  accelerator_count:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  precision:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  parallelism:
+    quote: ''
+    justification: Not stated in the paper.
+    value:
+    - unknown
+  duration:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  utilisation:
+    quote: ''
+    justification: Not stated in the paper.
+    value: unknown
+  repetitions:
+    quote: Experiments are conducted using in-context learning with ChatGPT, as well as instruction tuning with Llama-2
+    justification: Three input settings in Table 4.
+    value:
+    - kind: variant
+      count: 3
+      what: 'input settings: text, feat, feat+text; the MLP projector participates only in feat and feat+text'

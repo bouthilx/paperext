@@ -1,0 +1,1586 @@
+{
+  "paper": "69a5fd6b48887d403d0a50c1.txt",
+  "words": 10601,
+  "extractions": {
+    "title": {
+      "quote": "Learning From the Past with Cascading Eligibility Traces",
+      "justification": "Title as given at the top of the paper",
+      "value": "Learning From the Past with Cascading Eligibility Traces"
+    },
+    "description": "The paper proposes cascading eligibility traces (CETs), eligibility traces formed by a state-space model inspired by biochemical cascades, to handle delayed credit assignment signals in models of synaptic plasticity. The authors test CETs on supervised image classification (MNIST, CIFAR-10) and reinforcement learning (CartPole, LunarLander, MinAtar/SpaceInvaders) under behaviorally relevant delays and extremely long retrograde-signaling delays, measuring accuracy, episodic return, and gradient cosine alignment.",
+    "type": {
+      "quote": "We present a series of results that demonstrate the utility of CETs for credit assignment with biologically realistic delays.",
+      "justification": "The paper runs simulations/experiments on datasets and RL environments, with some analytic derivations in appendix.",
+      "value": "empirical"
+    },
+    "research_fields": [
+      {
+        "name": {
+          "quote": "These results demonstrate that CETs can provide an excellent basis for modeling synaptic plasticity.",
+          "justification": "The paper models synaptic plasticity and biological credit assignment mechanisms.",
+          "value": "Computational Neuroscience / synaptic plasticity and biological credit assignment"
+        },
+        "aliases": [
+          "biologically plausible learning",
+          "synaptic plasticity modeling"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "reinforcement learning on state-based environments (namely CartPole and LunarLander)",
+          "justification": "RL tasks are used as an evaluation setting with Actor-Critic training.",
+          "value": "Reinforcement learning"
+        },
+        "aliases": [
+          "RL"
+        ],
+        "role": "used"
+      },
+      {
+        "name": {
+          "quote": "We use two types of tasks: supervised image recognition on MNIST [LeCun, 1998] and CIFAR-10",
+          "justification": "MNIST and CIFAR-10 image classification used as tasks.",
+          "value": "Supervised image recognition"
+        },
+        "aliases": [
+          "image classification"
+        ],
+        "role": "used"
+      }
+    ],
+    "models": [
+      {
+        "name": {
+          "quote": "We use a 3-layer MLP (input → 512 → 512 → 10) for MNIST",
+          "justification": "The MNIST network described in the experiments.",
+          "value": "3-layer MLP (input → 512 → 512 → 10)"
+        },
+        "aliases": [
+          "MLP"
+        ],
+        "is_contributed": {
+          "quote": "We use a 3-layer MLP (input → 512 → 512 → 10) for MNIST",
+          "justification": "Standard architecture used as a testbed.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "All experiments were done on RTX 8000 and A100 GPUs.",
+          "justification": "Trained on MNIST on GPUs.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Accuracy for MNIST and CIFAR-10 datasets across varying numbers of CET states and delays",
+          "justification": "Accuracies compared across CET orders and against backprop.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "Networks were trained using the cross-entropy loss and the AdamW optimizer",
+          "justification": "Networks were trained from scratch.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "We use a 3-layer MLP (input → 512 → 512 → 10) for MNIST",
+          "justification": "No reference paper for the generic MLP.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "a small CNN with 3 convolutional layers (input → 32 → 64 → 128) and two linear layers (512 → 10) for CIFAR-10",
+          "justification": "CIFAR-10 architecture.",
+          "value": "small CNN with 3 convolutional layers"
+        },
+        "aliases": [
+          "CNN"
+        ],
+        "is_contributed": {
+          "quote": "a small CNN with 3 convolutional layers (input → 32 → 64 → 128) and two linear layers (512 → 10) for CIFAR-10",
+          "justification": "Standard architecture used as a testbed.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "each CIFAR-10 run takes approximately 30 minutes for Section 4.1 and up to 24 hours for Section 4.2 on a RTX 8000",
+          "justification": "Trained on CIFAR-10 on GPUs.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "backprop: 0.81",
+          "justification": "Compared across CET orders and backprop baseline.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "Networks were trained using the cross-entropy loss and the AdamW optimizer",
+          "justification": "Trained from scratch on CIFAR-10.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "a small CNN with 3 convolutional layers",
+          "justification": "No reference for the generic CNN.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "For RL, we use a 3-layer MLP with a hidden dimension of 256 that we train with the Actor-Critic method",
+          "justification": "RL agent architecture.",
+          "value": "3-layer MLP with a hidden dimension of 256 (Actor-Critic)"
+        },
+        "aliases": [
+          "Actor",
+          "Critic"
+        ],
+        "is_contributed": {
+          "quote": "For RL, we use a 3-layer MLP with a hidden dimension of 256",
+          "justification": "Standard architecture.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Each RL run takes approximately 1-2 hours to complete.",
+          "justification": "Trained in the RL environments.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Mean episodic return for different RL environments across varying numbers of CET states and delays",
+          "justification": "Returns compared across CET orders and backprop.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "that we train with the Actor-Critic method",
+          "justification": "Trained with Actor-Critic.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "For RL, we use a 3-layer MLP with a hidden dimension of 256",
+          "justification": "No specific reference paper.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "or a convolutional neural network (CNN) for MinAtar/SpaceInvaders-v0, consisting of three convolutional layers (kernel size 3, zero-padding 1) followed by two fully connected layers",
+          "justification": "Separate critic architecture for MinAtar.",
+          "value": "convolutional neural network (CNN) for MinAtar/SpaceInvaders-v0 critic"
+        },
+        "aliases": [
+          "MinAtar CNN"
+        ],
+        "is_contributed": {
+          "quote": "a convolutional neural network (CNN) for MinAtar/SpaceInvaders-v0",
+          "justification": "Standard architecture.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "For the Critic, we used either the same architecture as the Actor, a three-layer MLP with hidden dimension 256, or a convolutional neural network (CNN) for MinAtar/SpaceInvaders-v0",
+          "justification": "Used in MinAtar experiments.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "MinAtar/SpaceInvaders (Fig. 4, right) is a more complex, image-based environment",
+          "justification": "Results on MinAtar compared across CET orders.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "we train with the Actor-Critic method",
+          "justification": "Trained during RL.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "a convolutional neural network (CNN) for MinAtar/SpaceInvaders-v0",
+          "justification": "No reference paper.",
+          "value": "unknown"
+        }
+      }
+    ],
+    "data_sources": [
+      {
+        "name": {
+          "quote": "supervised image recognition on MNIST [LeCun, 1998]",
+          "justification": "Used for supervised image recognition experiments.",
+          "value": "MNIST"
+        },
+        "aliases": [],
+        "role": "used",
+        "size": {
+          "quote": "supervised image recognition on MNIST [LeCun, 1998]",
+          "justification": "Paper does not state the number of samples.",
+          "value": "unknown"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "Yann LeCun. The mnist database of handwritten digits. http://yann. lecun. com/exdb/mnist/, 1998.",
+          "justification": "Reference in bibliography.",
+          "value": "The mnist database of handwritten digits"
+        }
+      },
+      {
+        "name": {
+          "quote": "CIFAR-10 [Krizhevsky et al., 2014]",
+          "justification": "Used for supervised image recognition experiments.",
+          "value": "CIFAR-10"
+        },
+        "aliases": [],
+        "role": "used",
+        "size": {
+          "quote": "CIFAR-10 [Krizhevsky et al., 2014]",
+          "justification": "Paper does not state dataset size.",
+          "value": "unknown"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "Alex Krizhevsky, Vinod Nair, Geoffrey Hinton, et al. The cifar-10 dataset.",
+          "justification": "Bibliography entry.",
+          "value": "The cifar-10 dataset"
+        }
+      },
+      {
+        "name": {
+          "quote": "reinforcement learning on state-based environments (namely CartPole and LunarLander)",
+          "justification": "RL environment used.",
+          "value": "CartPole-v1"
+        },
+        "aliases": [
+          "CartPole"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "CartPole-v1\nTotal number of samples\n...\n5_000_000",
+          "justification": "Stated in hyperparameter table.",
+          "value": "5_000_000 total number of samples"
+        },
+        "derived_from": [],
+        "sample_properties": [
+          {
+            "name": "simulated time per step",
+            "value": {
+              "quote": "This time was set to 200 ms for behavioral timescale experiments (Section 4.1) and 300 ms for retrograde signaling (Section 4.2)",
+              "justification": "Stated in experimental details.",
+              "value": "200 ms for behavioral timescale experiments and 300 ms for retrograde signaling"
+            },
+            "unit": "ms"
+          }
+        ],
+        "referenced_paper_title": {
+          "quote": "namely CartPole and LunarLander",
+          "justification": "No specific reference cited for CartPole.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "reinforcement learning on state-based environments (namely CartPole and LunarLander)",
+          "justification": "RL environment used.",
+          "value": "LunarLander-v2"
+        },
+        "aliases": [
+          "LunarLander",
+          "LunaLander-v2"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "LunaLander-v2\nTotal number of samples\n...\n5_000_000",
+          "justification": "Stated in hyperparameter table.",
+          "value": "5_000_000 total number of samples"
+        },
+        "derived_from": [],
+        "sample_properties": [
+          {
+            "name": "simulated time per step",
+            "value": {
+              "quote": "This time was set to 200 ms for behavioral timescale experiments (Section 4.1) and 300 ms for retrograde signaling (Section 4.2)",
+              "justification": "Stated in experimental details.",
+              "value": "200 ms for behavioral timescale experiments and 300 ms for retrograde signaling"
+            },
+            "unit": "ms"
+          }
+        ],
+        "referenced_paper_title": {
+          "quote": "namely CartPole and LunarLander",
+          "justification": "No specific reference cited.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "as well as on a more complex visual environment (namely MinAtar/SpaceInvaders [Young and Tian, 2019], which use raw pixel observations as input)",
+          "justification": "Visual RL environment used.",
+          "value": "MinAtar/SpaceInvaders"
+        },
+        "aliases": [
+          "MinAtar/SpaceInvaders-v0",
+          "SpaceInvaders-v0"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "MinAtar/SpaceInvaders-v0\nTotal number of samples\n...\n10_000_000",
+          "justification": "Stated in RL hyperparameter table.",
+          "value": "10_000_000 total number of samples"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "Kenny Young and Tian Tian. Minatar: An atari-inspired testbed for thorough and reproducible reinforcement learning experiments. arXiv preprint arXiv:1903.03176, 2019.",
+          "justification": "Bibliography entry.",
+          "value": "Minatar: An atari-inspired testbed for thorough and reproducible reinforcement learning experiments"
+        }
+      }
+    ],
+    "libraries": [
+      {
+        "name": {
+          "quote": "The PyTorch [Paszke et al., 2019] implementation and experiments are provided in the Supplementary Material.",
+          "justification": "Implementation framework.",
+          "value": "PyTorch"
+        },
+        "aliases": [],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "Adam Paszke, Sam Gross, ... Pytorch: An imperative style, high-performance deep learning library, 2019.",
+          "justification": "Bibliography entry.",
+          "value": "Pytorch: An imperative style, high-performance deep learning library"
+        }
+      }
+    ],
+    "algorithms": [
+      {
+        "name": {
+          "quote": "we propose using ETs constructed from a simple state-space model",
+          "justification": "The paper's contributed method.",
+          "value": "cascading eligibility traces (CETs)"
+        },
+        "aliases": [
+          "CET",
+          "CETs"
+        ],
+        "is_contributed": {
+          "quote": "Here, we present a generalization of traditional eligibility traces.",
+          "justification": "Core contribution of the paper.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "We illustrate the influence of CETs on learning with delays in two scenarios",
+          "justification": "Used in all experiments.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Comparison of a standard ET and CETs with 2/6/10 states representing delay T",
+          "justification": "Compared against classical ETs and backprop.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "eligibility traces formed by a state-space model, inspired by a cascade of biochemical reactions, can provide a temporally precise memory for handling credit assignment at arbitrary delays",
+          "justification": "Stated role in the abstract.",
+          "value": "provide a temporally precise memory for handling credit assignment at arbitrary delays"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "we propose using ETs constructed from a simple state-space model",
+          "justification": "Contributed by this paper.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "Eligibility traces (ET) represent the classic solution to this problem",
+          "justification": "Classical baseline method.",
+          "value": "Eligibility traces (ET)"
+        },
+        "aliases": [
+          "ET",
+          "ETs"
+        ],
+        "is_contributed": {
+          "quote": "Eligibility traces (ETs) have long been a dominant framework for modeling how synaptic plasticity mechanisms may bridge temporal gaps",
+          "justification": "Pre-existing standard approach.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "A single state (top row) corresponds to standard ETs.",
+          "justification": "Used as the 1-state CET baseline in experiments.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Comparison of a standard ET and CETs with 2/6/10 states",
+          "justification": "Compared against CETs.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "classical ETs (corresponding to a CET with one state) maintain strong performance up to delays of two seconds",
+          "justification": "Described as baseline.",
+          "value": "classic solution to delayed credit assignment; baseline corresponding to a CET with one state"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Wulfram Gerstner, Marco Lehmann, Vasiliki Liakoni, Dane Corneil, and Johanni Brea. Eligibility traces and plasticity on behavioral time scales",
+          "justification": "Cited reference for eligibility traces.",
+          "value": "Eligibility traces and plasticity on behavioral time scales: experimental support of neohebbian three-factor learning rules"
+        }
+      },
+      {
+        "name": {
+          "quote": "the true gradient as calculated by backpropagation",
+          "justification": "Used as baseline/true gradient.",
+          "value": "backpropagation"
+        },
+        "aliases": [
+          "backprop",
+          "BPTT"
+        ],
+        "is_contributed": {
+          "quote": "the Critic is updated via standard backpropagation",
+          "justification": "Standard algorithm.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "backprop: 0.99",
+          "justification": "Used to compute true gradients and baselines.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "dashed line: mean final backprop performance",
+          "justification": "Baseline performance reported.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "only the Actor is trained with a delayed error signal, while the Critic is updated via standard backpropagation",
+          "justification": "Stated in text.",
+          "value": "provides the true gradient baseline and updates the Critic"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "the true gradient as calculated by backpropagation",
+          "justification": "No specific citation for backprop itself.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "we use a 3-layer MLP with a hidden dimension of 256 that we train with the Actor-Critic method",
+          "justification": "RL training method.",
+          "value": "Actor-Critic"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "train with the Actor-Critic method",
+          "justification": "Standard RL method.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "In Actor-Critic, we train the Critic using the standard λ-return, while the Actor is trained using RL eligibility traces",
+          "justification": "Used in all RL experiments.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "train with the Actor-Critic method",
+          "justification": "Not itself compared; CET orders are compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "For RL, we use a 3-layer MLP with a hidden dimension of 256 that we train with the Actor-Critic method",
+          "justification": "Stated role.",
+          "value": "the RL training method for the agents"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "train with the Actor-Critic method",
+          "justification": "No direct citation.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "The Actor is trained using an online implementation of the λ-return via RL eligibility traces [Sutton and Barto, 2018].",
+          "justification": "Specific actor training procedure.",
+          "value": "online implementation of the λ-return via RL eligibility traces"
+        },
+        "aliases": [
+          "RL eligibility traces",
+          "λ-return"
+        ],
+        "is_contributed": {
+          "quote": "via RL eligibility traces [Sutton and Barto, 2018]",
+          "justification": "From Sutton and Barto.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Algorithm 1 Actor learning via RL eligibility traces.",
+          "justification": "Used in RL training (Algorithm 1).",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "The Actor is trained using an online implementation of the λ-return via RL eligibility traces",
+          "justification": "Not compared itself.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "The Actor is trained using an online implementation of the λ-return via RL eligibility traces",
+          "justification": "Stated role.",
+          "value": "used to train the Actor"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Richard S. Sutton and Andrew G. Barto. Reinforcement Learning: An Introduction, chapter 12",
+          "justification": "Cited textbook.",
+          "value": "Reinforcement Learning: An Introduction"
+        }
+      },
+      {
+        "name": {
+          "quote": "Lambda for general advantage estimation",
+          "justification": "Listed hyperparameter in RL table.",
+          "value": "general advantage estimation"
+        },
+        "aliases": [
+          "GAE"
+        ],
+        "is_contributed": {
+          "quote": "Lambda for general advantage estimation 0.95",
+          "justification": "Standard RL technique.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Lambda for general advantage estimation 0.95",
+          "justification": "Hyperparameter used in RL runs.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Lambda for general advantage estimation",
+          "justification": "Not compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "Lambda for general advantage estimation",
+          "justification": "Listed as a hyperparameter of RL experiments.",
+          "value": "advantage estimation in the RL training setup"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Lambda for general advantage estimation",
+          "justification": "Not cited.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "Networks were trained using the cross-entropy loss and the AdamW optimizer with β1 = 0.9, β2 = 0.999.",
+          "justification": "Optimizer used in visual experiments.",
+          "value": "AdamW optimizer"
+        },
+        "aliases": [
+          "AdamW"
+        ],
+        "is_contributed": {
+          "quote": "the AdamW optimizer with β1 = 0.9, β2 = 0.999",
+          "justification": "Standard optimizer.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Networks were trained using the cross-entropy loss and the AdamW optimizer",
+          "justification": "Used in training.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "the AdamW optimizer",
+          "justification": "Not compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "Networks were trained using the cross-entropy loss and the AdamW optimizer",
+          "justification": "Stated role.",
+          "value": "optimizer for training networks on the visual tasks"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "the AdamW optimizer",
+          "justification": "Not cited.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "Optimizer\nAdam",
+          "justification": "Optimizer in RL experiments.",
+          "value": "Adam"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "Optimizer Adam",
+          "justification": "Standard optimizer.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Optimizer Adam",
+          "justification": "Used for RL runs.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Optimizer Adam",
+          "justification": "Not compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "Optimizer Adam",
+          "justification": "Listed in RL hyperparameter table.",
+          "value": "optimizer for RL experiments"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Optimizer Adam",
+          "justification": "Not cited.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "The learning rate was scaled with a linear warm-up over 10% and 20% of the training steps ... followed by cosine annealing to 10% of the initial learning rate.",
+          "justification": "Learning rate schedule.",
+          "value": "linear warm-up ... followed by cosine annealing"
+        },
+        "aliases": [
+          "cosine annealing",
+          "warm-up"
+        ],
+        "is_contributed": {
+          "quote": "followed by cosine annealing to 10% of the initial learning rate",
+          "justification": "Standard schedule.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "The learning rate was scaled with a linear warm-up",
+          "justification": "Used in visual experiments.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "followed by cosine annealing",
+          "justification": "Not compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "The learning rate was scaled with a linear warm-up over 10% and 20% of the training steps",
+          "justification": "Stated in experimental details.",
+          "value": "learning rate schedule for the visual experiments"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "followed by cosine annealing",
+          "justification": "Not cited.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "the weight decay was chosen from the set {0.1, 0.01, 0.001, 0.0}",
+          "justification": "Hyperparameter used with tuned values.",
+          "value": "weight decay"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "the weight decay was chosen from the set {0.1, 0.01, 0.001, 0.0}",
+          "justification": "Standard regularization.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "the weight decay was fixed to 0.1",
+          "justification": "Used in training runs.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "the weight decay was chosen from the set",
+          "justification": "Not compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "the weight decay was chosen from the set {0.1, 0.01, 0.001, 0.0}",
+          "justification": "Stated in experimental details.",
+          "value": "regularization hyperparameter in training"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "weight decay",
+          "justification": "Not cited.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "Maximum gradient norm for clipping 0.5",
+          "justification": "Gradient clipping used in RL.",
+          "value": "Maximum gradient norm for clipping"
+        },
+        "aliases": [
+          "gradient clipping"
+        ],
+        "is_contributed": {
+          "quote": "Maximum gradient norm for clipping 0.5",
+          "justification": "Standard technique.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Maximum gradient norm for clipping 0.5",
+          "justification": "Used in RL runs.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Maximum gradient norm for clipping",
+          "justification": "Not compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "Maximum gradient norm for clipping 0.5",
+          "justification": "Hyperparameter in RL table.",
+          "value": "gradient clipping in RL training"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Maximum gradient norm for clipping",
+          "justification": "Not cited.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "Policy entropy regularization coefficient 0.01",
+          "justification": "RL regularization listed.",
+          "value": "Policy entropy regularization"
+        },
+        "aliases": [
+          "entropy regularization"
+        ],
+        "is_contributed": {
+          "quote": "Policy entropy regularization coefficient 0.01",
+          "justification": "Standard RL technique.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Policy entropy regularization coefficient 0.01",
+          "justification": "Used in RL runs.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Policy entropy regularization coefficient",
+          "justification": "Not compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "Policy entropy regularization coefficient 0.01",
+          "justification": "Listed hyperparameter.",
+          "value": "regularization in the RL objective"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Policy entropy regularization coefficient",
+          "justification": "Not cited.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "Data augmentation using random horizontal flips was applied only to the CIFAR-10 experiments.",
+          "justification": "Data augmentation for CIFAR-10.",
+          "value": "random horizontal flips"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "Data augmentation using random horizontal flips",
+          "justification": "Standard augmentation.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Data augmentation using random horizontal flips was applied only to the CIFAR-10 experiments.",
+          "justification": "Applied in CIFAR-10 experiments.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Data augmentation using random horizontal flips",
+          "justification": "Not compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "Data augmentation using random horizontal flips was applied only to the CIFAR-10 experiments.",
+          "justification": "Stated role.",
+          "value": "data augmentation applied to the CIFAR-10 experiments"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "random horizontal flips",
+          "justification": "Not cited.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "B.2 Sparsification",
+          "justification": "Named procedure in appendix B.2 for zeroing inputs except salient ones.",
+          "value": "Sparsification"
+        },
+        "aliases": [
+          "salience signal"
+        ],
+        "is_contributed": {
+          "quote": "we assume that the CETs are modulated by an additional “salience signal” that zeros out the input to the CETs unless the loss is very large.",
+          "justification": "Introduced to handle very long delays in this work.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "We use 1.25 % of points with the largest losses in a batch",
+          "justification": "Used in the retrograde visual experiments.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "we reduced the number of inputs being stored in CETs",
+          "justification": "Not directly compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "to handle very long delays on visual tasks (MNIST, CIFAR-10), we reduced the number of inputs being stored in CETs",
+          "justification": "Stated role.",
+          "value": "reduce the number of inputs being stored in CETs for very long delays on visual tasks"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "inspired by work on reducing the energetic costs of plasticity [van Rossum and Pache, 2024]",
+          "justification": "Inspiration cited.",
+          "value": "Competitive plasticity to reduce the energetic costs of learning"
+        }
+      },
+      {
+        "name": {
+          "quote": "We measured the cosine similarity, a⊤ b/(∥a∥ ∥b∥), between the vector of weight updates given by our CETs",
+          "justification": "Evaluation measure of gradient alignment.",
+          "value": "cosine similarity"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "We measured the cosine similarity",
+          "justification": "Standard metric.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "In Fig. 5, we plot cosine similarity for all CET models",
+          "justification": "Computed during experiments.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "we plot cosine similarity for all CET models",
+          "justification": "Metric rather than compared method.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "We measured the cosine similarity ... between the vector of weight updates given by our CETs, a, and the true gradient as calculated by backpropagation, b.",
+          "justification": "Stated role.",
+          "value": "measure of alignment between weight updates and the true gradient"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "We measured the cosine similarity",
+          "justification": "Not cited.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "we used two normalization schemes for CET outputs: area and peak normalizations",
+          "justification": "Named normalization schemes for CET outputs.",
+          "value": "area and peak normalizations"
+        },
+        "aliases": [
+          "area normalization",
+          "peak normalization"
+        ],
+        "is_contributed": {
+          "quote": "Additionally, we used two normalization schemes for CET outputs: area and peak normalizations.",
+          "justification": "Introduced as part of the CET implementation.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "For Fig.8, this normalization hyperparameter was also searched.",
+          "justification": "Used in RL experiments.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "this normalization hyperparameter was also searched",
+          "justification": "Treated as a hyperparameter.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "we used two normalization schemes for CET outputs: area and peak normalizations",
+          "justification": "Stated role.",
+          "value": "normalization schemes for CET outputs"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "two normalization schemes for CET outputs",
+          "justification": "Contributed implementation detail.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "a learning signal is broadcast across layers (e.g. direct feedback alignment [Nøkland, 2016]",
+          "justification": "Mentioned as a related credit assignment mechanism.",
+          "value": "direct feedback alignment"
+        },
+        "aliases": [
+          "feedback alignment"
+        ],
+        "is_contributed": {
+          "quote": "direct feedback alignment [Nøkland, 2016]",
+          "justification": "Prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "the approach with CETs here could also easily be used in conjunction with other solutions to weight transport, including feedback alignment [Lillicrap et al., 2016]",
+          "justification": "Only referenced, not run.",
+          "value": false
+        },
+        "is_compared": {
+          "quote": "including feedback alignment [Lillicrap et al., 2016]",
+          "justification": "Not compared numerically.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "as would be the case for various models of biological credit assignment in which a learning signal is broadcast across layers (e.g. direct feedback alignment [Nøkland, 2016]",
+          "justification": "Mentioned as context.",
+          "value": "cited as an alternative biological credit assignment mechanism where a learning signal is broadcast across layers"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Arild Nøkland. Direct feedback alignment provides learning in deep neural networks.",
+          "justification": "Bibliography entry.",
+          "value": "Direct feedback alignment provides learning in deep neural networks"
+        }
+      }
+    ],
+    "runs": [
+      {
+        "models": [
+          {
+            "name": "3-layer MLP (input → 512 → 512 → 10)",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "MNIST",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "cascading eligibility traces (CETs)"
+          },
+          {
+            "name": "Eligibility traces (ET)"
+          },
+          {
+            "name": "AdamW optimizer"
+          },
+          {
+            "name": "linear warm-up ... followed by cosine annealing"
+          },
+          {
+            "name": "weight decay"
+          },
+          {
+            "name": "cosine similarity"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "All experiments in Section 4.1 as well as the MNIST experiments in Section 4.2 were run for 20000 training steps.",
+          "justification": "Networks trained on MNIST with CET-based updates.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "All experiments in Section 4.1 as well as the MNIST experiments in Section 4.2 were run for 20000 training steps.",
+          "justification": "Stated as number of training steps.",
+          "value": "20000 training steps"
+        },
+        "parameter_count": {
+          "quote": "We use a 3-layer MLP (input → 512 → 512 → 10) for MNIST",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "All experiments were done on RTX 8000 and A100 GPUs.",
+          "justification": "RTX 8000 / A100 GPUs used.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "Each MNIST run takes between 3 and 10 minutes on an RTX 8000 GPU",
+          "justification": "MNIST runs timed on RTX 8000.",
+          "value": "RTX 8000"
+        },
+        "accelerator_count": {
+          "quote": "All experiments were done on RTX 8000 and A100 GPUs.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "All experiments were done on RTX 8000 and A100 GPUs.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "All experiments were done on RTX 8000 and A100 GPUs.",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "Each MNIST run takes between 3 and 10 minutes on an RTX 8000 GPU",
+          "justification": "Stated in compute section.",
+          "value": "between 3 and 10 minutes per MNIST run"
+        },
+        "utilisation": {
+          "quote": "All experiments were done on RTX 8000 and A100 GPUs.",
+          "justification": "Not reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "the maximal learning rate was selected from a logarithmic grid of 5 points spanning 10−3 to 10−7 , and the weight decay was chosen from the set {0.1, 0.01, 0.001, 0.0}",
+          "justification": "Table 2 lists 4 CET orders at 6 delays; the grid is described in appendix.",
+          "value": "24 configurations (4 CET orders × 6 delays) plus hyperparameter grid search over 5 learning rates and 4 weight decays"
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "small CNN with 3 convolutional layers",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "CIFAR-10",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "cascading eligibility traces (CETs)"
+          },
+          {
+            "name": "Eligibility traces (ET)"
+          },
+          {
+            "name": "AdamW optimizer"
+          },
+          {
+            "name": "random horizontal flips"
+          },
+          {
+            "name": "linear warm-up ... followed by cosine annealing"
+          },
+          {
+            "name": "weight decay"
+          },
+          {
+            "name": "cosine similarity"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "All experiments in Section 4.1 ... were run for 20000 training steps.",
+          "justification": "CNN trained on CIFAR-10 at behavioral timescales.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "All experiments in Section 4.1 as well as the MNIST experiments in Section 4.2 were run for 20000 training steps.",
+          "justification": "Stated for Section 4.1 experiments.",
+          "value": "20000 training steps"
+        },
+        "parameter_count": {
+          "quote": "a small CNN with 3 convolutional layers (input → 32 → 64 → 128) and two linear layers (512 → 10) for CIFAR-10",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "All experiments were done on RTX 8000 and A100 GPUs.",
+          "justification": "GPUs used.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "each CIFAR-10 run takes approximately 30 minutes for Section 4.1",
+          "justification": "CIFAR-10 runs timed on RTX 8000.",
+          "value": "RTX 8000"
+        },
+        "accelerator_count": {
+          "quote": "All experiments were done on RTX 8000 and A100 GPUs.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "All experiments were done on RTX 8000 and A100 GPUs.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "All experiments were done on RTX 8000 and A100 GPUs.",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "each CIFAR-10 run takes approximately 30 minutes for Section 4.1",
+          "justification": "Stated for Section 4.1 CIFAR-10 runs.",
+          "value": "approximately 30 minutes per run"
+        },
+        "utilisation": {
+          "quote": "All experiments were done on RTX 8000 and A100 GPUs.",
+          "justification": "Not reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "the maximal learning rate was selected from a logarithmic grid of 5 points spanning 10−3 to 10−7 , and the weight decay was chosen from the set {0.1, 0.01, 0.001, 0.0}",
+          "justification": "Table 1 lists these configurations.",
+          "value": "24 configurations (4 CET orders × 6 delays) plus learning-rate and weight-decay grid search"
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "3-layer MLP (input → 512 → 512 → 10)",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "MNIST",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "cascading eligibility traces (CETs)"
+          },
+          {
+            "name": "Eligibility traces (ET)"
+          },
+          {
+            "name": "Sparsification"
+          },
+          {
+            "name": "AdamW optimizer"
+          },
+          {
+            "name": "linear warm-up ... followed by cosine annealing"
+          },
+          {
+            "name": "cosine similarity"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "All experiments in Section 4.1 as well as the MNIST experiments in Section 4.2 were run for 20000 training steps.",
+          "justification": "Retrograde-timescale MNIST training.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "the MNIST experiments in Section 4.2 were run for 20000 training steps",
+          "justification": "Stated.",
+          "value": "20000 training steps"
+        },
+        "parameter_count": {
+          "quote": "We use a 3-layer MLP (input → 512 → 512 → 10) for MNIST",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "All experiments were done on RTX 8000 and A100 GPUs.",
+          "justification": "GPUs used.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "Each MNIST run takes between 3 and 10 minutes on an RTX 8000 GPU",
+          "justification": "MNIST runs timed on RTX 8000.",
+          "value": "RTX 8000"
+        },
+        "accelerator_count": {
+          "quote": "All experiments were done on RTX 8000 and A100 GPUs.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "All experiments were done on RTX 8000 and A100 GPUs.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "All experiments were done on RTX 8000 and A100 GPUs.",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "Each MNIST run takes between 3 and 10 minutes on an RTX 8000 GPU",
+          "justification": "Stated.",
+          "value": "between 3 and 10 minutes per MNIST run"
+        },
+        "utilisation": {
+          "quote": "All experiments were done on RTX 8000 and A100 GPUs.",
+          "justification": "Not reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "Table 4: Configurations for MNIST experiments at retrograde timescales. CET order 1 2 6 10",
+          "justification": "Table 4 lists 4 configurations.",
+          "value": "4 CET orders (1, 2, 6, 10) with hyperparameter search"
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "small CNN with 3 convolutional layers",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "CIFAR-10",
+            "access": "fixed",
+            "roles_in_run": [
+              "train",
+              "validation",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "cascading eligibility traces (CETs)"
+          },
+          {
+            "name": "Eligibility traces (ET)"
+          },
+          {
+            "name": "Sparsification"
+          },
+          {
+            "name": "AdamW optimizer"
+          },
+          {
+            "name": "random horizontal flips"
+          },
+          {
+            "name": "linear warm-up ... followed by cosine annealing"
+          },
+          {
+            "name": "weight decay"
+          },
+          {
+            "name": "cosine similarity"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "The CIFAR-10 experiments in Section 4.2 were run for 1562500 steps",
+          "justification": "Retrograde-timescale CIFAR-10 training.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "The CIFAR-10 experiments in Section 4.2 were run for 1562500 steps, in large part due to lower learning rates.",
+          "justification": "Stated.",
+          "value": "1562500 steps"
+        },
+        "parameter_count": {
+          "quote": "a small CNN with 3 convolutional layers",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "All experiments were done on RTX 8000 and A100 GPUs.",
+          "justification": "GPUs used.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "up to 24 hours for Section 4.2 on a RTX 8000",
+          "justification": "Stated for Section 4.2 CIFAR-10 runs.",
+          "value": "RTX 8000"
+        },
+        "accelerator_count": {
+          "quote": "All experiments were done on RTX 8000 and A100 GPUs.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "All experiments were done on RTX 8000 and A100 GPUs.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "All experiments were done on RTX 8000 and A100 GPUs.",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "each CIFAR-10 run takes approximately 30 minutes for Section 4.1 and up to 24 hours for Section 4.2 on a RTX 8000",
+          "justification": "Stated.",
+          "value": "up to 24 hours per run"
+        },
+        "utilisation": {
+          "quote": "All experiments were done on RTX 8000 and A100 GPUs.",
+          "justification": "Not reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "the maximal learning rate was selected from {5 × 10−5 , 2.5 × 10−5 , 1 × 10−5 , 7.5 × 10−6 , 5 × 10−6 , 2.5 × 10−6 , 1 × 10−6 }, and the weight decay was fixed to 0.1",
+          "justification": "Table 3 and appendix describe these.",
+          "value": "4 CET orders (1, 2, 6, 10) with learning rate search over 7 values"
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "3-layer MLP with a hidden dimension of 256 (Actor-Critic)",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "CartPole-v1",
+            "access": "interactive",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "LunarLander-v2",
+            "access": "interactive",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Actor-Critic"
+          },
+          {
+            "name": "online implementation of the λ-return via RL eligibility traces"
+          },
+          {
+            "name": "cascading eligibility traces (CETs)"
+          },
+          {
+            "name": "Eligibility traces (ET)"
+          },
+          {
+            "name": "general advantage estimation"
+          },
+          {
+            "name": "Adam"
+          },
+          {
+            "name": "Maximum gradient norm for clipping"
+          },
+          {
+            "name": "Policy entropy regularization"
+          },
+          {
+            "name": "area and peak normalizations"
+          },
+          {
+            "name": "cosine similarity"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "For RL, we use a 3-layer MLP with a hidden dimension of 256 that we train with the Actor-Critic method, and report results over 3 seeds.",
+          "justification": "Online RL training of actor and critic.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "Total number of samples 5_000_000",
+          "justification": "Stated in hyperparameter table for both environments.",
+          "value": "5_000_000 total number of samples"
+        },
+        "parameter_count": {
+          "quote": "a 3-layer MLP with a hidden dimension of 256",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "All experiments were done on RTX 8000 and A100 GPUs.",
+          "justification": "GPUs used for all experiments.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "All experiments were done on RTX 8000 and A100 GPUs.",
+          "justification": "Stated as the hardware for all experiments.",
+          "value": "RTX 8000 and A100"
+        },
+        "accelerator_count": {
+          "quote": "All experiments were done on RTX 8000 and A100 GPUs.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "All experiments were done on RTX 8000 and A100 GPUs.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "Number of environments 4",
+          "justification": "Not stated; 4 parallel environments is not a model parallelism strategy.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "Each RL run takes approximately 1-2 hours to complete.",
+          "justification": "Stated in compute section.",
+          "value": "approximately 1-2 hours per RL run"
+        },
+        "utilisation": {
+          "quote": "All experiments were done on RTX 8000 and A100 GPUs.",
+          "justification": "Not reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "and report results over 3 seeds",
+          "justification": "Stated seeds and hyperparameter tables.",
+          "value": "3 seeds per configuration, across CET orders and delays with learning rate and β search"
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "3-layer MLP with a hidden dimension of 256 (Actor-Critic)",
+            "role_in_run": "main"
+          },
+          {
+            "name": "convolutional neural network (CNN) for MinAtar/SpaceInvaders-v0 critic",
+            "role_in_run": "critic"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "MinAtar/SpaceInvaders",
+            "access": "interactive",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Actor-Critic"
+          },
+          {
+            "name": "online implementation of the λ-return via RL eligibility traces"
+          },
+          {
+            "name": "cascading eligibility traces (CETs)"
+          },
+          {
+            "name": "Eligibility traces (ET)"
+          },
+          {
+            "name": "general advantage estimation"
+          },
+          {
+            "name": "Adam"
+          },
+          {
+            "name": "Maximum gradient norm for clipping"
+          },
+          {
+            "name": "Policy entropy regularization"
+          },
+          {
+            "name": "area and peak normalizations"
+          },
+          {
+            "name": "cosine similarity"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "as well as on a more complex visual environment (namely MinAtar/SpaceInvaders [Young and Tian, 2019], which use raw pixel observations as input)",
+          "justification": "Online RL training on MinAtar.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "MinAtar/SpaceInvaders-v0\nTotal number of samples\n...\n10_000_000",
+          "justification": "Stated in table.",
+          "value": "10_000_000 total number of samples"
+        },
+        "parameter_count": {
+          "quote": "a convolutional neural network (CNN) for MinAtar/SpaceInvaders-v0",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "All experiments were done on RTX 8000 and A100 GPUs.",
+          "justification": "GPUs used.",
+          "value": "gpu"
+        },
+        "accelerator_model": {
+          "quote": "All experiments were done on RTX 8000 and A100 GPUs.",
+          "justification": "Stated hardware.",
+          "value": "RTX 8000 and A100"
+        },
+        "accelerator_count": {
+          "quote": "All experiments were done on RTX 8000 and A100 GPUs.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "All experiments were done on RTX 8000 and A100 GPUs.",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "Number of environments 32",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "Each RL run takes approximately 1-2 hours to complete.",
+          "justification": "Stated in compute section.",
+          "value": "approximately 1-2 hours per RL run"
+        },
+        "utilisation": {
+          "quote": "All experiments were done on RTX 8000 and A100 GPUs.",
+          "justification": "Not reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "and report results over 3 seeds",
+          "justification": "Seeds stated and configuration table.",
+          "value": "3 seeds per configuration, with 5 CET orders × 4 delays (Table 6)"
+        }
+      }
+    ]
+  },
+  "usage": {
+    "input_tokens": 37629,
+    "output_tokens": 17804,
+    "total_tokens": 55433
+  }
+}

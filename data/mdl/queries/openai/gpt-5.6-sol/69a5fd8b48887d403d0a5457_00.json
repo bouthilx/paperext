@@ -1,0 +1,2636 @@
+{
+  "paper": "69a5fd8b48887d403d0a5457.txt",
+  "words": 24355,
+  "extractions": {
+    "title": {
+      "quote": "TOWARDS GENERAL-PURPOSE MODEL-FREE REINFORCEMENT LEARNING",
+      "justification": "This is the paper title printed on the first page.",
+      "value": "Towards General-Purpose Model-Free Reinforcement Learning"
+    },
+    "description": "Introduces and empirically evaluates the MR.Q model-free deep reinforcement-learning procedure, together with multiple baselines and design variants, on Gym locomotion, DeepMind Control Suite, and Atari environments.",
+    "type": {
+      "quote": "We evaluate our method, MR.Q, on four widely used RL benchmarks and 118 environments",
+      "justification": "The paper trains and evaluates agents, baselines, and ablations numerically, so it is empirical.",
+      "value": "empirical"
+    },
+    "research_fields": [
+      {
+        "name": {
+          "quote": "general-purpose model-free deep RL algorithms",
+          "justification": "The paper explicitly frames its contribution as advancing general-purpose model-free deep reinforcement learning.",
+          "value": "model-free deep reinforcement learning"
+        },
+        "aliases": [
+          "model-free deep RL",
+          "RL"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "model-based representations",
+          "justification": "The proposed method advances dynamics/model-based representation learning within a model-free agent.",
+          "value": "dynamics-based representation learning"
+        },
+        "aliases": [
+          "model-based representation learning"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "continuous control robotics tasks",
+          "justification": "Continuous-control robotics tasks are used as evaluation settings.",
+          "value": "continuous control"
+        },
+        "aliases": [],
+        "role": "used"
+      },
+      {
+        "name": {
+          "quote": "image-based observations",
+          "justification": "Visual control is an evaluation domain rather than the central research contribution.",
+          "value": "visual reinforcement learning"
+        },
+        "aliases": [
+          "visual control"
+        ],
+        "role": "used"
+      }
+    ],
+    "models": [
+      {
+        "name": {
+          "quote": "our algorithm, MR.Q",
+          "justification": "MR.Q denotes the learned agent evaluated throughout the paper.",
+          "value": "MR.Q"
+        },
+        "aliases": [
+          "Model-based Representations for Q-learning"
+        ],
+        "is_contributed": {
+          "quote": "This paper introduces MR.Q",
+          "justification": "MR.Q is the paper's principal contribution.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "All main experiments were run for 10 seeds",
+          "justification": "MR.Q was trained and evaluated in the reported experiments.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "compare its performance against strong domain-specific baselines",
+          "justification": "MR.Q is numerically compared with multiple baselines.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "Agents are trained",
+          "justification": "MR.Q agents are trained in each benchmark.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "This paper introduces MR.Q",
+          "justification": "MR.Q is introduced in this paper, not a referenced paper.",
+          "value": "Towards General-Purpose Model-Free Reinforcement Learning"
+        }
+      },
+      {
+        "name": {
+          "quote": "DreamerV3",
+          "justification": "DreamerV3 is an evaluated model-based baseline.",
+          "value": "DreamerV3"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "DreamerV3 (Hafner et al., 2023)",
+          "justification": "It is prior work, not contributed here.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Results for Gym and DMC were obtained by re-running the authors’ code",
+          "justification": "The authors executed DreamerV3 on Gym and DMC.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "DreamerV3",
+          "justification": "It appears in numerical benchmark tables and curves.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "re-running the authors’ code",
+          "justification": "The reruns train agents on the benchmark environments.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "Mastering diverse domains through world models.",
+          "justification": "This is the cited DreamerV3 paper title.",
+          "value": "Mastering diverse domains through world models"
+        }
+      },
+      {
+        "name": {
+          "quote": "TD-MPC2",
+          "justification": "TD-MPC2 is an evaluated model-based baseline.",
+          "value": "TD-MPC2"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "TD-MPC2 (Hansen et al., 2024)",
+          "justification": "It is prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Results for DMC were obtained by re-running the authors’ code",
+          "justification": "The authors executed TD-MPC2.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "TD-MPC2",
+          "justification": "It appears in numerical comparisons.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "All experiments were run for 10 seeds",
+          "justification": "The TD-MPC2 reruns trained benchmark agents.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "Td-mpc2: Scalable, robust world models for continuous control.",
+          "justification": "This is the reference title.",
+          "value": "Td-mpc2: Scalable, robust world models for continuous control"
+        }
+      },
+      {
+        "name": {
+          "quote": "PPO",
+          "justification": "PPO is the general model-free baseline.",
+          "value": "PPO"
+        },
+        "aliases": [
+          "Proximal policy optimization"
+        ],
+        "is_contributed": {
+          "quote": "PPO (Schulman et al., 2017)",
+          "justification": "It is prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Results were gathered using Stable Baselines 3",
+          "justification": "The paper ran PPO via Stable Baselines 3.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "a general model-free algorithm, PPO",
+          "justification": "PPO is numerically compared on all benchmark families.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "Agents are trained",
+          "justification": "The PPO agents are trained on the environments.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "Proximal policy optimization algorithms.",
+          "justification": "This is the cited PPO paper.",
+          "value": "Proximal policy optimization algorithms"
+        }
+      },
+      {
+        "name": {
+          "quote": "TD7",
+          "justification": "TD7 is an evaluated model-free baseline.",
+          "value": "TD7"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "TD7 (Fujimoto et al., 2024)",
+          "justification": "It is prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Results for DMC were obtained by re-running the authors’ code",
+          "justification": "The authors ran TD7 for DMC.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "We also include TD7",
+          "justification": "TD7 is numerically compared.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "All experiments use 10 seeds",
+          "justification": "The DMC reruns train TD7 agents.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "For SALE: State-action representation learning for deep reinforcement learning.",
+          "justification": "This is the TD7 reference title.",
+          "value": "For SALE: State-action representation learning for deep reinforcement learning"
+        }
+      },
+      {
+        "name": {
+          "quote": "DrQ-v2",
+          "justification": "DrQ-v2 is a visual-control baseline.",
+          "value": "DrQ-v2"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "DrQ-v2 (Yarats et al., 2022)",
+          "justification": "It is prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "For missing any results, we re-ran the authors’ code",
+          "justification": "At least some DrQ-v2 configurations were executed by the paper's authors.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "we include DrQ-v2",
+          "justification": "It is numerically compared on DMC visual.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "we re-ran the authors’ code ... for 10 seeds",
+          "justification": "Those reruns train the agent.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "Mastering visual continuous control: Improved data-augmented reinforcement learning.",
+          "justification": "This is the cited DrQ-v2 paper.",
+          "value": "Mastering visual continuous control: Improved data-augmented reinforcement learning"
+        }
+      },
+      {
+        "name": {
+          "quote": "DQN",
+          "justification": "DQN is an Atari baseline whose Dopamine results are used.",
+          "value": "DQN"
+        },
+        "aliases": [
+          "Deep Q-Network"
+        ],
+        "is_contributed": {
+          "quote": "DQN (Mnih et al., 2015)",
+          "justification": "It is prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Results were obtained from the Dopamine framework",
+          "justification": "The wording does not state that the authors reran DQN; its results were obtained from a framework.",
+          "value": false
+        },
+        "is_compared": {
+          "quote": "DQN",
+          "justification": "DQN is included in Atari numerical tables.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "Agents are trained for 2.5M time steps",
+          "justification": "The reported DQN baseline is a trained Atari agent, though not executed by these authors.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "Human-level control through deep reinforcement learning.",
+          "justification": "This is the cited DQN paper.",
+          "value": "Human-level control through deep reinforcement learning"
+        }
+      },
+      {
+        "name": {
+          "quote": "Rainbow",
+          "justification": "Rainbow is an Atari baseline whose Dopamine results are used.",
+          "value": "Rainbow"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "Rainbow (Hessel et al., 2018)",
+          "justification": "It is prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Results were obtained from the Dopamine framework",
+          "justification": "The paper does not say the authors reran Rainbow.",
+          "value": false
+        },
+        "is_compared": {
+          "quote": "Rainbow",
+          "justification": "Rainbow is included in Atari numerical comparisons.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "Agents are trained for 2.5M time steps",
+          "justification": "The reported baseline is trained, although its numbers were obtained rather than rerun.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "Rainbow: Combining improvements in deep reinforcement learning.",
+          "justification": "This is the cited Rainbow paper.",
+          "value": "Rainbow: Combining improvements in deep reinforcement learning"
+        }
+      },
+      {
+        "name": {
+          "quote": "TD3",
+          "justification": "TD3 supplies normalization scores and underlies several MR.Q update choices.",
+          "value": "TD3"
+        },
+        "aliases": [
+          "Twin Delayed Deep Deterministic Policy Gradient"
+        ],
+        "is_contributed": {
+          "quote": "TD3 (Fujimoto et al., 2018)",
+          "justification": "It is prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "TD3 scores obtained from TD7",
+          "justification": "The paper uses previously obtained TD3 scores rather than reporting a TD3 rerun.",
+          "value": false
+        },
+        "is_compared": {
+          "quote": "underperforming TD3 in Gym",
+          "justification": "TD3 is used numerically for normalization and discussion.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "TD3 scores obtained from TD7",
+          "justification": "The referenced scores come from trained agents.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "Addressing function approximation error in actor-critic methods.",
+          "justification": "This is the cited TD3 paper.",
+          "value": "Addressing function approximation error in actor-critic methods"
+        }
+      }
+    ],
+    "data_sources": [
+      {
+        "name": {
+          "quote": "Gym - Locomotion",
+          "justification": "This named benchmark subset supplies interactive training and evaluation experiences.",
+          "value": "Gym - Locomotion"
+        },
+        "aliases": [
+          "Gym locomotion tasks"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "considers 5 locomotion tasks",
+          "justification": "The paper explicitly states five tasks.",
+          "value": "5 tasks"
+        },
+        "derived_from": [
+          "Gym benchmark"
+        ],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "Openai gym",
+          "justification": "The benchmark is cited to the OpenAI Gym paper.",
+          "value": "Openai gym"
+        }
+      },
+      {
+        "name": {
+          "quote": "DMC - Proprioceptive",
+          "justification": "This named benchmark configuration supplies vector-observation control tasks.",
+          "value": "DMC - Proprioceptive"
+        },
+        "aliases": [
+          "DeepMind Control suite",
+          "DM control suite"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "all 28 default tasks",
+          "justification": "The paper states that 28 tasks are used.",
+          "value": "28 tasks"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "Deepmind control suite.",
+          "justification": "This is the dataset/environment reference title.",
+          "value": "Deepmind control suite"
+        }
+      },
+      {
+        "name": {
+          "quote": "DMC - Visual",
+          "justification": "This named visual configuration supplies image-observation control tasks.",
+          "value": "DMC - Visual"
+        },
+        "aliases": [
+          "visual DMC benchmark"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "includes the same 28 tasks as the proprioceptive benchmark",
+          "justification": "The paper explicitly gives 28 tasks by reference to the proprioceptive suite.",
+          "value": "28 tasks"
+        },
+        "derived_from": [
+          "DMC - Proprioceptive"
+        ],
+        "sample_properties": [
+          {
+            "name": "image resolution",
+            "value": {
+              "quote": "resized to 84 × 84 pixels in RGB format",
+              "justification": "The paper states the visual observation dimensions and color format.",
+              "value": "84 × 84"
+            },
+            "unit": "pixels"
+          },
+          {
+            "name": "observations per state",
+            "value": {
+              "quote": "the state (network input) is composed of the previous 3 observations",
+              "justification": "The paper states the frame-stack depth.",
+              "value": "3"
+            },
+            "unit": "observations"
+          }
+        ],
+        "referenced_paper_title": {
+          "quote": "Deepmind control suite.",
+          "justification": "This is the cited source paper.",
+          "value": "Deepmind control suite"
+        }
+      },
+      {
+        "name": {
+          "quote": "Atari",
+          "justification": "Atari is the named interactive benchmark used for discrete-action visual RL.",
+          "value": "Atari"
+        },
+        "aliases": [
+          "Atari-57 benchmark"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "the 57 games in the Atari-57 benchmark",
+          "justification": "The paper explicitly states 57 games.",
+          "value": "57 games"
+        },
+        "derived_from": [
+          "Arcade Learning Environment"
+        ],
+        "sample_properties": [
+          {
+            "name": "image resolution",
+            "value": {
+              "quote": "resized to 84 × 84 pixels",
+              "justification": "The preprocessing section states the resolution.",
+              "value": "84 × 84"
+            },
+            "unit": "pixels"
+          },
+          {
+            "name": "observations per state",
+            "value": {
+              "quote": "The state (network input) is composed of the previous 4 observations",
+              "justification": "The paper states the stack depth.",
+              "value": "4"
+            },
+            "unit": "observations"
+          }
+        ],
+        "referenced_paper_title": {
+          "quote": "The arcade learning environment: An evaluation platform for general agents.",
+          "justification": "This is the Atari/ALE reference title.",
+          "value": "The arcade learning environment: An evaluation platform for general agents"
+        }
+      },
+      {
+        "name": {
+          "quote": "Arcade Learning Environment",
+          "justification": "The paper explicitly says Atari is built on this named environment source.",
+          "value": "Arcade Learning Environment"
+        },
+        "aliases": [
+          "ALE"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "Atari ... includes the 57 games used by DreamerV3",
+          "justification": "The source is used through the 57-game Atari benchmark.",
+          "value": "57 games"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "The arcade learning environment: An evaluation platform for general agents.",
+          "justification": "This is its cited paper.",
+          "value": "The arcade learning environment: An evaluation platform for general agents"
+        }
+      }
+    ],
+    "libraries": [
+      {
+        "name": {
+          "quote": "Gymnasium 0.29.1",
+          "justification": "Listed under software versions.",
+          "value": "Gymnasium"
+        },
+        "aliases": [],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "Gymnasium: A standard interface for reinforcement learning environments.",
+          "justification": "This is the cited Gymnasium paper.",
+          "value": "Gymnasium: A standard interface for reinforcement learning environments"
+        }
+      },
+      {
+        "name": {
+          "quote": "MuJoCo 3.2.2",
+          "justification": "Listed under software versions and used as the physics engine.",
+          "value": "MuJoCo"
+        },
+        "aliases": [],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "Mujoco: A physics engine for model-based control.",
+          "justification": "This is the cited MuJoCo paper.",
+          "value": "Mujoco: A physics engine for model-based control"
+        }
+      },
+      {
+        "name": {
+          "quote": "NumPy 2.1.1",
+          "justification": "Listed under software versions.",
+          "value": "NumPy"
+        },
+        "aliases": [],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "Array programming with NumPy.",
+          "justification": "This is the cited NumPy paper.",
+          "value": "Array programming with NumPy"
+        }
+      },
+      {
+        "name": {
+          "quote": "Python 3.11.8",
+          "justification": "Listed under software versions.",
+          "value": "Python"
+        },
+        "aliases": [],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "Python tutorial.",
+          "justification": "This is the cited Python reference.",
+          "value": "Python tutorial"
+        }
+      },
+      {
+        "name": {
+          "quote": "PyTorch 2.4.1",
+          "justification": "Listed under software versions and used for the displayed implementation.",
+          "value": "PyTorch"
+        },
+        "aliases": [],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "Pytorch: An imperative style, high-performance deep learning library.",
+          "justification": "This is the cited PyTorch paper.",
+          "value": "Pytorch: An imperative style, high-performance deep learning library"
+        }
+      },
+      {
+        "name": {
+          "quote": "Stable Baselines 3",
+          "justification": "Used to run PPO.",
+          "value": "Stable Baselines 3"
+        },
+        "aliases": [
+          "Stable-Baselines3"
+        ],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "Stable-baselines3: Reliable reinforcement learning implementations.",
+          "justification": "This is the cited library paper.",
+          "value": "Stable-baselines3: Reliable reinforcement learning implementations"
+        }
+      },
+      {
+        "name": {
+          "quote": "Dopamine framework",
+          "justification": "Used as the source of DQN and Rainbow results.",
+          "value": "Dopamine"
+        },
+        "aliases": [],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "Dopamine: A research framework for deep reinforcement learning.",
+          "justification": "This is the cited framework paper.",
+          "value": "Dopamine: A research framework for deep reinforcement learning"
+        }
+      }
+    ],
+    "algorithms": [
+      {
+        "name": {
+          "quote": "MR.Q (Model-based Representations for Q-learning)",
+          "justification": "Exact expanded name given in the algorithm section.",
+          "value": "MR.Q (Model-based Representations for Q-learning)"
+        },
+        "aliases": [
+          "MR.Q"
+        ],
+        "is_contributed": {
+          "quote": "We now present the details of MR.Q",
+          "justification": "The paper contributes this algorithm.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "We evaluate our method, MR.Q",
+          "justification": "It is executed across all four benchmarks.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "compare its performance against strong domain-specific baselines",
+          "justification": "It is numerically compared.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "a model-free RL algorithm that learns an approximately linear representation of the value function through model-based objectives",
+          "justification": "This directly states its role.",
+          "value": "a model-free RL algorithm that learns an approximately linear representation of the value function through model-based objectives"
+        },
+        "composed_of": [
+          "LAP",
+          "deterministic policy gradient",
+          "Gumbel-Softmax",
+          "multi-step returns",
+          "Huber loss",
+          "AdamW"
+        ],
+        "referenced_paper_title": {
+          "quote": "This paper introduces MR.Q",
+          "justification": "Introduced in this paper.",
+          "value": "Towards General-Purpose Model-Free Reinforcement Learning"
+        }
+      },
+      {
+        "name": {
+          "quote": "LAP",
+          "justification": "Exact abbreviation used for prioritized replay sampling.",
+          "value": "LAP"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "LAP (Fujimoto et al., 2020)",
+          "justification": "Prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We use LAP ... to sample transitions with priority",
+          "justification": "It is part of MR.Q training.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "In No LAP, we remove prioritized sampling",
+          "justification": "It is ablated numerically.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "to sample transitions with priority according to their TD errors",
+          "justification": "Direct role statement.",
+          "value": "to sample transitions with priority according to their TD errors"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "An equivalence between loss functions and non-uniform sampling in experience replay.",
+          "justification": "This is the cited LAP paper.",
+          "value": "An equivalence between loss functions and non-uniform sampling in experience replay"
+        }
+      },
+      {
+        "name": {
+          "quote": "AdamW",
+          "justification": "Exact optimizer name in the hyperparameter table.",
+          "value": "AdamW"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "AdamW (Loshchilov & Hutter, 2019)",
+          "justification": "Prior optimizer.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Optimizer AdamW",
+          "justification": "Used for encoder, value, and policy networks.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Optimizer AdamW",
+          "justification": "No optimizer comparison is reported.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "Optimizer",
+          "justification": "The table labels its role exactly.",
+          "value": "Optimizer"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Decoupled weight decay regularization.",
+          "justification": "This is the AdamW reference.",
+          "value": "Decoupled weight decay regularization"
+        }
+      },
+      {
+        "name": {
+          "quote": "deterministic policy gradient",
+          "justification": "Exact procedure named in the policy section.",
+          "value": "deterministic policy gradient"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "deterministic policy gradient (Silver et al., 2014)",
+          "justification": "Prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "the policy is updated using the deterministic policy gradient",
+          "justification": "Used in MR.Q policy training.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "the policy is updated using",
+          "justification": "It is not independently compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "the policy is updated using the deterministic policy gradient",
+          "justification": "Direct role statement.",
+          "value": "the policy is updated using the deterministic policy gradient"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Deterministic policy gradient algorithms.",
+          "justification": "This is the cited paper.",
+          "value": "Deterministic policy gradient algorithms"
+        }
+      },
+      {
+        "name": {
+          "quote": "Gumbel-Softmax",
+          "justification": "Exact name used for discrete actions.",
+          "value": "Gumbel-Softmax"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "Gumbel-Softmax (Jang et al., 2017",
+          "justification": "Prior procedure.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we use Gumbel-Softmax ... for discrete actions",
+          "justification": "Executed for discrete-action policy updates.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "we use Gumbel-Softmax",
+          "justification": "No separate numeric comparison is shown.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "for discrete actions",
+          "justification": "Direct role phrase.",
+          "value": "for discrete actions"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Categorical reparameterization with gumbel-softmax.",
+          "justification": "This is the cited paper.",
+          "value": "Categorical reparameterization with gumbel-softmax"
+        }
+      },
+      {
+        "name": {
+          "quote": "multi-step returns",
+          "justification": "Exact procedure named in the value-learning section.",
+          "value": "multi-step returns"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "following numerous prior work ... we predict multi-step returns",
+          "justification": "Not introduced here.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we predict multi-step returns over a horizon HQ",
+          "justification": "Used in MR.Q training.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "In 1-step return, we remove multi-step value predictions",
+          "justification": "Numerically ablated.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "we predict multi-step returns over a horizon HQ",
+          "justification": "Direct role statement.",
+          "value": "predict multi-step returns over a horizon HQ"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "unknown",
+          "justification": "Several prior works are cited rather than one uniquely identified reference paper.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "Huber loss",
+          "justification": "Exact loss name in the value-learning section.",
+          "value": "Huber loss"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "we use the Huber loss",
+          "justification": "A standard prior loss, not contributed.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we use the Huber loss instead of mean-squared error",
+          "justification": "Used in MR.Q's value update.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "use the MSE instead of the Huber loss in the value update",
+          "justification": "Ablated as part of No LAP.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "to eliminate bias from prioritized sampling",
+          "justification": "Directly stated purpose.",
+          "value": "to eliminate bias from prioritized sampling"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "unknown",
+          "justification": "No unique Huber-loss reference title is identified.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "Two-Hot",
+          "justification": "Exact encoding procedure in Equation 15.",
+          "value": "Two-Hot"
+        },
+        "aliases": [
+          "two-hot encoding"
+        ],
+        "is_contributed": {
+          "quote": "a two-hot encoding of the reward",
+          "justification": "It is adopted rather than introduced.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "CE (r̃, Two-Hot(r))",
+          "justification": "Used in the reward loss.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "MSE reward loss",
+          "justification": "Its categorical reward formulation is compared against MSE.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "a two-hot encoding of the reward",
+          "justification": "Direct role phrase.",
+          "value": "a two-hot encoding of the reward"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "unknown",
+          "justification": "No single Two-Hot reference paper is uniquely assigned.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "sticky actions",
+          "justification": "Exact Atari preprocessing procedure named in the main text.",
+          "value": "sticky actions"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "sticky actions (Machado et al., 2018)",
+          "justification": "Prior evaluation procedure.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We follow standard preprocessing steps, including sticky actions",
+          "justification": "Used for Atari.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "including sticky actions",
+          "justification": "Not separately compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "standard preprocessing steps",
+          "justification": "The paper identifies it as Atari preprocessing.",
+          "value": "standard preprocessing steps"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Revisiting the arcade learning environment: Evaluation protocols and open problems for general agents.",
+          "justification": "This is the cited protocol paper.",
+          "value": "Revisiting the arcade learning environment: Evaluation protocols and open problems for general agents"
+        }
+      },
+      {
+        "name": {
+          "quote": "95% stratified bootstrap confidence interval",
+          "justification": "Exact evaluation procedure used for aggregate uncertainty.",
+          "value": "stratified bootstrap confidence interval"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "Error bars capture a 95% stratified bootstrap confidence interval",
+          "justification": "This is an evaluation procedure, not a contribution.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Error bars capture a 95% stratified bootstrap confidence interval",
+          "justification": "The procedure was applied to results.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "95% stratified bootstrap confidence interval",
+          "justification": "It is not itself compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "Error bars capture a 95% stratified bootstrap confidence interval",
+          "justification": "Direct role statement.",
+          "value": "capture uncertainty in aggregate performance"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "unknown",
+          "justification": "No reference paper is provided for this procedure.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "DreamerV3",
+          "justification": "Exact baseline procedure name.",
+          "value": "DreamerV3"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "DreamerV3 (Hafner et al., 2023)",
+          "justification": "Prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "re-running the authors’ code",
+          "justification": "Executed on Gym and DMC.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "compare ... DreamerV3",
+          "justification": "Numerically compared.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "general model-based approaches, DreamerV3",
+          "justification": "Paper's wording for its role.",
+          "value": "general model-based approach"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Mastering diverse domains through world models.",
+          "justification": "Reference title.",
+          "value": "Mastering diverse domains through world models"
+        }
+      },
+      {
+        "name": {
+          "quote": "TD-MPC2",
+          "justification": "Exact baseline procedure name.",
+          "value": "TD-MPC2"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "TD-MPC2 (Hansen et al., 2024)",
+          "justification": "Prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "obtained by re-running the authors’ code",
+          "justification": "Executed on Gym and DMC.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "TD-MPC2",
+          "justification": "Numerically compared.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "general model-based approaches",
+          "justification": "It is treated as a general model-based baseline.",
+          "value": "general model-based approach"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Td-mpc2: Scalable, robust world models for continuous control.",
+          "justification": "Reference title.",
+          "value": "Td-mpc2: Scalable, robust world models for continuous control"
+        }
+      },
+      {
+        "name": {
+          "quote": "PPO",
+          "justification": "Exact baseline algorithm name.",
+          "value": "PPO"
+        },
+        "aliases": [
+          "Proximal policy optimization"
+        ],
+        "is_contributed": {
+          "quote": "PPO (Schulman et al., 2017)",
+          "justification": "Prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Results were gathered using Stable Baselines 3",
+          "justification": "Executed by the authors.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "a general model-free algorithm, PPO",
+          "justification": "Numerically compared.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "a general model-free algorithm",
+          "justification": "Paper's wording.",
+          "value": "a general model-free algorithm"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Proximal policy optimization algorithms.",
+          "justification": "Reference title.",
+          "value": "Proximal policy optimization algorithms"
+        }
+      },
+      {
+        "name": {
+          "quote": "TD7",
+          "justification": "Exact baseline algorithm name.",
+          "value": "TD7"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "TD7 (Fujimoto et al., 2024)",
+          "justification": "Prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Results for DMC were obtained by re-running the authors’ code",
+          "justification": "Executed on DMC.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "We also include TD7",
+          "justification": "Numerically compared.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "a state-of-the-art (or near) approach for this benchmark",
+          "justification": "Paper's wording for its baseline role.",
+          "value": "a state-of-the-art (or near) approach for this benchmark"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "For SALE: State-action representation learning for deep reinforcement learning.",
+          "justification": "Reference title.",
+          "value": "For SALE: State-action representation learning for deep reinforcement learning"
+        }
+      },
+      {
+        "name": {
+          "quote": "DrQ-v2",
+          "justification": "Exact baseline algorithm name.",
+          "value": "DrQ-v2"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "DrQ-v2 (Yarats et al., 2022)",
+          "justification": "Prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we re-ran the authors’ code",
+          "justification": "Executed for missing visual-control results.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "we include DrQ-v2",
+          "justification": "Numerically compared.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "given its state-of-the-art (or near) performance in model-free RL",
+          "justification": "Paper's wording.",
+          "value": "visual model-free RL baseline"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Mastering visual continuous control: Improved data-augmented reinforcement learning.",
+          "justification": "Reference title.",
+          "value": "Mastering visual continuous control: Improved data-augmented reinforcement learning"
+        }
+      },
+      {
+        "name": {
+          "quote": "DQN",
+          "justification": "Exact Atari baseline name.",
+          "value": "DQN"
+        },
+        "aliases": [
+          "Deep Q-Network"
+        ],
+        "is_contributed": {
+          "quote": "DQN (Mnih et al., 2015)",
+          "justification": "Prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Results were obtained from the Dopamine framework",
+          "justification": "Not stated to have been rerun in this paper.",
+          "value": false
+        },
+        "is_compared": {
+          "quote": "DQN",
+          "justification": "Numerically compared on Atari.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "model-free approaches, DQN",
+          "justification": "Paper's wording.",
+          "value": "model-free approach"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Human-level control through deep reinforcement learning.",
+          "justification": "Reference title.",
+          "value": "Human-level control through deep reinforcement learning"
+        }
+      },
+      {
+        "name": {
+          "quote": "Rainbow",
+          "justification": "Exact Atari baseline name.",
+          "value": "Rainbow"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "Rainbow (Hessel et al., 2018)",
+          "justification": "Prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Results were obtained from the Dopamine framework",
+          "justification": "Not stated to have been rerun.",
+          "value": false
+        },
+        "is_compared": {
+          "quote": "Rainbow",
+          "justification": "Numerically compared on Atari.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "model-free approaches ... Rainbow",
+          "justification": "Paper's wording.",
+          "value": "model-free approach"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Rainbow: Combining improvements in deep reinforcement learning.",
+          "justification": "Reference title.",
+          "value": "Rainbow: Combining improvements in deep reinforcement learning"
+        }
+      }
+    ],
+    "runs": [
+      {
+        "models": [
+          {
+            "name": "MR.Q",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Gym - Locomotion",
+            "access": "interactive",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "MR.Q (Model-based Representations for Q-learning)"
+          },
+          {
+            "name": "LAP"
+          },
+          {
+            "name": "AdamW"
+          },
+          {
+            "name": "deterministic policy gradient"
+          },
+          {
+            "name": "multi-step returns"
+          },
+          {
+            "name": "Huber loss"
+          },
+          {
+            "name": "Two-Hot"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "Agents are trained for 1M time steps",
+          "justification": "MR.Q is trained online in Gym.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "unknown",
+          "justification": "No epoch count is stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "MR.Q (4.1M)",
+          "justification": "Figure 1 reports the Gym parameter count.",
+          "value": "4.1M"
+        },
+        "accelerator_type": {
+          "quote": "unknown",
+          "justification": "No accelerator type is stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "unknown",
+          "justification": "No accelerator model is stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "unknown",
+          "justification": "No accelerator count is stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "unknown",
+          "justification": "No precision is stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "unknown",
+          "justification": "No parallelism strategy is stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "unknown",
+          "justification": "No wall-clock or chip-time duration is stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "unknown",
+          "justification": "No utilization is stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "All main experiments were run for 10 seeds",
+          "justification": "The main configuration is repeated over ten seeds.",
+          "value": [
+            {
+              "kind": "seed",
+              "count": 10,
+              "what": "seeds"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "MR.Q",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "DMC - Proprioceptive",
+            "access": "interactive",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "MR.Q (Model-based Representations for Q-learning)"
+          },
+          {
+            "name": "LAP"
+          },
+          {
+            "name": "AdamW"
+          },
+          {
+            "name": "deterministic policy gradient"
+          },
+          {
+            "name": "multi-step returns"
+          },
+          {
+            "name": "Huber loss"
+          },
+          {
+            "name": "Two-Hot"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "Agents are trained for 500k time steps",
+          "justification": "MR.Q is trained online in DMC.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "unknown",
+          "justification": "No epochs stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "unknown",
+          "justification": "No DMC-specific parameter count is explicitly stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "unknown",
+          "justification": "Hardware is not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "unknown",
+          "justification": "Hardware is not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "unknown",
+          "justification": "Hardware is not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "unknown",
+          "justification": "Precision is not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "unknown",
+          "justification": "Parallelism is not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "unknown",
+          "justification": "Duration is not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "unknown",
+          "justification": "Utilization is not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "All main experiments were run for 10 seeds",
+          "justification": "Ten random seeds.",
+          "value": [
+            {
+              "kind": "seed",
+              "count": 10,
+              "what": "seeds"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "MR.Q",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "DMC - Visual",
+            "access": "interactive",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "MR.Q (Model-based Representations for Q-learning)"
+          },
+          {
+            "name": "LAP"
+          },
+          {
+            "name": "AdamW"
+          },
+          {
+            "name": "deterministic policy gradient"
+          },
+          {
+            "name": "multi-step returns"
+          },
+          {
+            "name": "Huber loss"
+          },
+          {
+            "name": "Two-Hot"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "Agents are trained for 500k time steps",
+          "justification": "MR.Q is trained online from visual observations.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "unknown",
+          "justification": "No epochs stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "unknown",
+          "justification": "No DMC-visual-specific parameter count is stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "unknown",
+          "justification": "Hardware is not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "unknown",
+          "justification": "Hardware is not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "unknown",
+          "justification": "Hardware is not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "unknown",
+          "justification": "Precision is not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "unknown",
+          "justification": "Parallelism is not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "unknown",
+          "justification": "Duration is not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "unknown",
+          "justification": "Utilization is not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "All main experiments were run for 10 seeds",
+          "justification": "Ten random seeds.",
+          "value": [
+            {
+              "kind": "seed",
+              "count": 10,
+              "what": "seeds"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "MR.Q",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Atari",
+            "access": "interactive",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "MR.Q (Model-based Representations for Q-learning)"
+          },
+          {
+            "name": "LAP"
+          },
+          {
+            "name": "AdamW"
+          },
+          {
+            "name": "deterministic policy gradient"
+          },
+          {
+            "name": "Gumbel-Softmax"
+          },
+          {
+            "name": "multi-step returns"
+          },
+          {
+            "name": "Huber loss"
+          },
+          {
+            "name": "Two-Hot"
+          },
+          {
+            "name": "sticky actions"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "Agents are trained for 2.5M time steps (equivalent to 10M frames)",
+          "justification": "MR.Q is trained online on Atari.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "unknown",
+          "justification": "No epochs stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "MR.Q (4.4M)",
+          "justification": "Figure 1 reports the Atari parameter count.",
+          "value": "4.4M"
+        },
+        "accelerator_type": {
+          "quote": "unknown",
+          "justification": "Hardware is not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "unknown",
+          "justification": "Hardware is not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "unknown",
+          "justification": "Hardware is not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "unknown",
+          "justification": "Precision is not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "unknown",
+          "justification": "Parallelism is not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "unknown",
+          "justification": "Duration is not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "unknown",
+          "justification": "Utilization is not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "All main experiments were run for 10 seeds",
+          "justification": "Ten random seeds.",
+          "value": [
+            {
+              "kind": "seed",
+              "count": 10,
+              "what": "seeds"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "DreamerV3",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Gym - Locomotion",
+            "access": "interactive",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "DreamerV3"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "Results for Gym ... were obtained by re-running the authors’ code",
+          "justification": "DreamerV3 was trained in Gym.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "unknown",
+          "justification": "No epochs.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "DreamerV3 (9.7M)",
+          "justification": "Figure 1 reports this Gym count.",
+          "value": "9.7M"
+        },
+        "accelerator_type": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "unknown",
+          "justification": "Only FPS, not total duration, is reported.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "over 10 seeds",
+          "justification": "DreamerV3 Gym reruns use ten seeds.",
+          "value": [
+            {
+              "kind": "seed",
+              "count": 10,
+              "what": "seeds"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "TD-MPC2",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Gym - Locomotion",
+            "access": "interactive",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "TD-MPC2"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "results for Gym were obtained by running their episodic branch",
+          "justification": "TD-MPC2 was trained on Gym.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "TD-MPC2 (5.5M)",
+          "justification": "Figure 1 gives the count.",
+          "value": "5.5M"
+        },
+        "accelerator_type": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "All experiments were run for 10 seeds",
+          "justification": "Ten seeds.",
+          "value": [
+            {
+              "kind": "seed",
+              "count": 10,
+              "what": "seeds"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "PPO",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Gym - Locomotion",
+            "access": "interactive",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "PPO"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "Results were gathered using Stable Baselines 3",
+          "justification": "PPO was trained in Gym.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "All main experiments were run for 10 seeds",
+          "justification": "Ten seeds.",
+          "value": [
+            {
+              "kind": "seed",
+              "count": 10,
+              "what": "seeds"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "DreamerV3",
+            "role_in_run": "main"
+          },
+          {
+            "name": "TD-MPC2",
+            "role_in_run": "main"
+          },
+          {
+            "name": "PPO",
+            "role_in_run": "main"
+          },
+          {
+            "name": "TD7",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "DMC - Proprioceptive",
+            "access": "interactive",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "DreamerV3"
+          },
+          {
+            "name": "TD-MPC2"
+          },
+          {
+            "name": "PPO"
+          },
+          {
+            "name": "TD7"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "Results for DMC were obtained by re-running the authors’ code",
+          "justification": "These four baseline agents were separately trained under the same benchmark workload; grouped here as one reported benchmark compute profile.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "unknown",
+          "justification": "No per-baseline DMC counts stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "All experiments were run for 10 seeds",
+          "justification": "Each baseline configuration uses ten seeds.",
+          "value": [
+            {
+              "kind": "seed",
+              "count": 10,
+              "what": "seeds"
+            },
+            {
+              "kind": "variant",
+              "count": 4,
+              "what": "baseline algorithms"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "DreamerV3",
+            "role_in_run": "main"
+          },
+          {
+            "name": "TD-MPC2",
+            "role_in_run": "main"
+          },
+          {
+            "name": "PPO",
+            "role_in_run": "main"
+          },
+          {
+            "name": "DrQ-v2",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "DMC - Visual",
+            "access": "interactive",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "DreamerV3"
+          },
+          {
+            "name": "TD-MPC2"
+          },
+          {
+            "name": "PPO"
+          },
+          {
+            "name": "DrQ-v2"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "For missing any results, we re-ran the authors’ code ... for 10 seeds",
+          "justification": "Visual-control baseline training/reruns are grouped by benchmark profile.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "for 10 seeds",
+          "justification": "Each rerun baseline uses ten seeds; four baseline variants are included.",
+          "value": [
+            {
+              "kind": "seed",
+              "count": 10,
+              "what": "seeds"
+            },
+            {
+              "kind": "variant",
+              "count": 4,
+              "what": "baseline algorithms"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "PPO",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Atari",
+            "access": "interactive",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "PPO"
+          },
+          {
+            "name": "sticky actions"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "Results were gathered using Stable Baselines 3",
+          "justification": "PPO was trained on Atari.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "All main experiments were run for 10 seeds",
+          "justification": "Ten seeds.",
+          "value": [
+            {
+              "kind": "seed",
+              "count": 10,
+              "what": "seeds"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "MR.Q",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Gym - Locomotion",
+            "access": "interactive",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "MR.Q (Model-based Representations for Q-learning)"
+          },
+          {
+            "name": "LAP"
+          },
+          {
+            "name": "AdamW"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "we attempt variations of MR.Q",
+          "justification": "This is the Gym design-study training profile.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "unknown",
+          "justification": "Variant parameter counts are not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "design study is based on 5 seeds",
+          "justification": "Thirteen named design variations are evaluated with five seeds.",
+          "value": [
+            {
+              "kind": "seed",
+              "count": 5,
+              "what": "seeds"
+            },
+            {
+              "kind": "variant",
+              "count": 13,
+              "what": "design choices"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "MR.Q",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "DMC - Proprioceptive",
+            "access": "interactive",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "MR.Q (Model-based Representations for Q-learning)"
+          },
+          {
+            "name": "LAP"
+          },
+          {
+            "name": "AdamW"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "Design study ... across each benchmark over 5 seeds",
+          "justification": "DMC-proprioceptive design variants were trained.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "design study is based on 5 seeds",
+          "justification": "Thirteen variants and five seeds.",
+          "value": [
+            {
+              "kind": "seed",
+              "count": 5,
+              "what": "seeds"
+            },
+            {
+              "kind": "variant",
+              "count": 13,
+              "what": "design choices"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "MR.Q",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "DMC - Visual",
+            "access": "interactive",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "MR.Q (Model-based Representations for Q-learning)"
+          },
+          {
+            "name": "LAP"
+          },
+          {
+            "name": "AdamW"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "Design study ... across each benchmark over 5 seeds",
+          "justification": "DMC-visual design variants were trained.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "design study is based on 5 seeds",
+          "justification": "Thirteen variants and five seeds.",
+          "value": [
+            {
+              "kind": "seed",
+              "count": 5,
+              "what": "seeds"
+            },
+            {
+              "kind": "variant",
+              "count": 13,
+              "what": "design choices"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "MR.Q",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Atari",
+            "access": "interactive",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "MR.Q (Model-based Representations for Q-learning)"
+          },
+          {
+            "name": "LAP"
+          },
+          {
+            "name": "AdamW"
+          },
+          {
+            "name": "Gumbel-Softmax"
+          },
+          {
+            "name": "sticky actions"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "Design study ... Atari - 1M ... over 5 seeds",
+          "justification": "Atari design variants were trained.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "unknown",
+          "justification": "Not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "design study is based on 5 seeds",
+          "justification": "Thirteen variants and five seeds.",
+          "value": [
+            {
+              "kind": "seed",
+              "count": 5,
+              "what": "seeds"
+            },
+            {
+              "kind": "variant",
+              "count": 13,
+              "what": "design choices"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "usage": {
+    "input_tokens": 68029,
+    "output_tokens": 13173,
+    "total_tokens": 81202
+  }
+}

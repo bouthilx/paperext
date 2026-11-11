@@ -1,0 +1,1475 @@
+{
+  "paper": "69a5fd7a48887d403d0a5273.txt",
+  "words": 21434,
+  "extractions": {
+    "title": {
+      "quote": "Implicit Diffusion: Efficient optimization through stochastic sampling",
+      "justification": "The title appears at the head of the paper.",
+      "value": "Implicit Diffusion: Efficient optimization through stochastic sampling"
+    },
+    "description": "Introduces and evaluates Implicit Diffusion, a single-loop procedure that jointly performs stochastic sampling and parameter optimization, with experiments on Langevin energy-based models and reward finetuning of denoising diffusion models.",
+    "type": {
+      "quote": "We provide theoretical and experimental results showcasing the performance of our method.",
+      "justification": "The paper includes both theory and executed experiments; its empirical runs make it an empirical study for this catalogue.",
+      "value": "empirical"
+    },
+    "research_fields": [
+      {
+        "name": {
+          "quote": "Sampling from a target distribution is a ubiquitous task at the heart of various methods in machine learning, optimization, and statistics.",
+          "justification": "The paper explicitly situates its contribution in machine learning.",
+          "value": "machine learning"
+        },
+        "aliases": [
+          "ML"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "we introduce Implicit Diffusion optimization, a single-loop optimization algorithm to optimize through sampling.",
+          "justification": "Optimization through stochastic sampling is the central field advanced by the new algorithm.",
+          "value": "optimization through stochastic sampling"
+        },
+        "aliases": [],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "This allows us to draw a link between optimization through stochastic sampling and bilevel optimization",
+          "justification": "The method advances a distribution-valued analogue of bilevel optimization.",
+          "value": "bilevel optimization"
+        },
+        "aliases": [],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "This approach is inspired by recent advances in bilevel optimization and automatic implicit differentiation",
+          "justification": "Automatic implicit differentiation is a methodological field directly addressed by the framework.",
+          "value": "automatic implicit differentiation"
+        },
+        "aliases": [],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "Applications include finetuning denoising diffusions and training energy-based models.",
+          "justification": "Denoising diffusion model finetuning is an experimental application domain advanced by the paper.",
+          "value": "denoising diffusion models"
+        },
+        "aliases": [
+          "denoising diffusions"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "Applications include finetuning denoising diffusions and training energy-based models.",
+          "justification": "Energy-based model training is another experimental application domain.",
+          "value": "energy-based models"
+        },
+        "aliases": [
+          "EBMs"
+        ],
+        "role": "contributed"
+      }
+    ],
+    "models": [
+      {
+        "name": {
+          "quote": "train from scratch an energy-based model",
+          "justification": "The appendix explicitly describes learned energy-based models trained in the experiments.",
+          "value": "energy-based model"
+        },
+        "aliases": [
+          "model",
+          "Gaussian mixture model"
+        ],
+        "is_contributed": {
+          "quote": "Applications include finetuning denoising diffusions and training energy-based models.",
+          "justification": "The energy-based model class is an application of the contributed algorithm, not itself introduced as a new model architecture.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We use Implicit Diffusion where the reward is the KL between the target distribution and the current one. We train for K = 40, 000 steps with a batch of size 1, 000.",
+          "justification": "The paper trained energy-based Gaussian-mixture models.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Evolution of the reward and of the log-likelihood of the samples for the initial model, for the Implicit Diffusion algorithm, and for the trained model after Implicit Diffusion.",
+          "justification": "The initial and trained energy-based models are numerically compared through reward and log-likelihood curves.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "train from scratch an energy-based model",
+          "justification": "At least one energy-based model experiment trains from scratch.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "Noise-contrastive estimation of unnormalized statistical models, with applications to natural image statistics.",
+          "justification": "This is the cited reference associated with energy-based-model contrastive learning.",
+          "value": "Noise-contrastive estimation of unnormalized statistical models, with applications to natural image statistics"
+        }
+      },
+      {
+        "name": {
+          "quote": "We report results on models pretrained on the image datasets MNIST (LeCun and Cortes, 1998), CIFAR-10 (Krizhevsky, 2009), and LSUN (bedrooms) (Yu et al., 2016).",
+          "justification": "The paper executes pretrained denoising diffusion models on three image datasets.",
+          "value": "denoising diffusion models"
+        },
+        "aliases": [
+          "denoising diffusions",
+          "score function",
+          "U-Net models"
+        ],
+        "is_contributed": {
+          "quote": "For pretraining, we follow the simple diffusion method (Hoogeboom et al., 2023) and use U-Net models (Ronneberger et al., 2015).",
+          "justification": "The architecture and diffusion-model family are existing assets; the contribution is the optimization procedure.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We also apply Implicit Diffusion for reward finetuning of denoising diffusion models pretrained on image datasets.",
+          "justification": "The models are pretrained, finetuned, and sampled in this paper.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "We report selected samples of π ⋆ (θt ), as well as reward and KL divergence estimates",
+          "justification": "Different finetuning configurations are evaluated numerically, but there is no numerical comparison against a distinct model family; therefore this is not treated as a model-to-model comparison.",
+          "value": false
+        },
+        "execution_mode": {
+          "quote": "For pretraining, we follow the simple diffusion method (Hoogeboom et al., 2023) and use U-Net models",
+          "justification": "The paper trains these models from scratch before reward finetuning, so train takes precedence.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "Denoising diffusion probabilistic models.",
+          "justification": "This is the foundational denoising diffusion model reference listed in the bibliography.",
+          "value": "Denoising diffusion probabilistic models"
+        }
+      }
+    ],
+    "data_sources": [
+      {
+        "name": {
+          "quote": "MNIST (LeCun and Cortes, 1998)",
+          "justification": "MNIST is used for pretraining and evaluation.",
+          "value": "MNIST"
+        },
+        "aliases": [
+          "MNIST handwritten digit database"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "",
+          "justification": "The paper does not state how many MNIST examples were used.",
+          "value": "unknown"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "MNIST handwritten digit database",
+          "justification": "This is the dataset reference title in the bibliography.",
+          "value": "MNIST handwritten digit database"
+        }
+      },
+      {
+        "name": {
+          "quote": "CIFAR-10 (Krizhevsky, 2009)",
+          "justification": "CIFAR-10 is used for pretraining and reward finetuning.",
+          "value": "CIFAR-10"
+        },
+        "aliases": [],
+        "role": "used",
+        "size": {
+          "quote": "",
+          "justification": "The paper does not state how many CIFAR-10 examples were used.",
+          "value": "unknown"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "Learning multiple layers of features from tiny images.",
+          "justification": "This is the cited CIFAR-10 reference title.",
+          "value": "Learning multiple layers of features from tiny images"
+        }
+      },
+      {
+        "name": {
+          "quote": "LSUN (bedrooms) (Yu et al., 2016)",
+          "justification": "The bedrooms subset of LSUN is used for pretraining and reward finetuning.",
+          "value": "LSUN (bedrooms)"
+        },
+        "aliases": [
+          "LSUN"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "",
+          "justification": "The paper does not state how many LSUN bedroom examples were used.",
+          "value": "unknown"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "Lsun: Construction of a large-scale image dataset using deep learning with humans in the loop.",
+          "justification": "This is the LSUN reference title in the bibliography.",
+          "value": "Lsun: Construction of a large-scale image dataset using deep learning with humans in the loop"
+        }
+      }
+    ],
+    "libraries": [
+      {
+        "name": {
+          "quote": "The code was implemented in JAX (Bradbury et al., 2018).",
+          "justification": "JAX is explicitly identified as the implementation library.",
+          "value": "JAX"
+        },
+        "aliases": [],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "JAX: composable transformations of Python+NumPy programs",
+          "justification": "This is the cited JAX title.",
+          "value": "JAX: composable transformations of Python+NumPy programs"
+        }
+      }
+    ],
+    "algorithms": [
+      {
+        "name": {
+          "quote": "we introduce the algorithm of Implicit Diffusion",
+          "justification": "This is the exact name of the paper's contributed procedure.",
+          "value": "Implicit Diffusion"
+        },
+        "aliases": [
+          "Implicit Diff.",
+          "Implicit Diffusion optimization"
+        ],
+        "is_contributed": {
+          "quote": "we introduce the algorithm of Implicit Diffusion",
+          "justification": "The paper explicitly introduces it.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "We run Implicit Diffusion using the finite time-horizon variant (Algorithm 3)",
+          "justification": "It is executed in both Langevin and denoising-diffusion experiments.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "We compare our approach with several baselines.",
+          "justification": "Its numerical performance is compared against nested-loop, unrolling, and reward-guided Langevin baselines.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "a single-loop optimization algorithm to optimize through sampling",
+          "justification": "This directly states its role.",
+          "value": "a single-loop optimization algorithm to optimize through sampling"
+        },
+        "composed_of": [
+          "sampling steps",
+          "optimization steps"
+        ],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "This algorithm is contributed by the current paper.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "Vanilla nested-loop approach (Baseline)",
+          "justification": "This is the exact Algorithm 1 heading.",
+          "value": "Vanilla nested-loop approach (Baseline)"
+        },
+        "aliases": [
+          "Nested loop",
+          "nested loop approach"
+        ],
+        "is_contributed": {
+          "quote": "Algorithm 1 Vanilla nested-loop approach (Baseline)",
+          "justification": "It is presented as a baseline, not the contribution.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Nested loop (♦): We run Algorithm 1 with T inner sampling steps for each gradient step.",
+          "justification": "The baseline is executed experimentally.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Implicit Diffusion strongly outperforms the nested loop approach.",
+          "justification": "It is numerically compared against Implicit Diffusion.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "at each optimization step k, run an inner loop for a large number T of steps of Σs to produce π̂k ≈ π ⋆ (θk ), and use it to evaluate a gradient.",
+          "justification": "This describes the baseline's role in the paper's words.",
+          "value": "at each optimization step, run an inner loop for T sampling steps and use its output to evaluate a gradient"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "No single reference paper is assigned to this generic baseline.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "Unrolling through the last step of sampling",
+          "justification": "This is the exact experimental baseline name.",
+          "value": "Unrolling through the last step of sampling"
+        },
+        "aliases": [
+          "unrolling algorithm"
+        ],
+        "is_contributed": {
+          "quote": "Recent studies show that differentiating through the last sampling step is an efficient and theoretically-grounded method in bilevel optimization (Bolte et al., 2023).",
+          "justification": "It is an existing baseline.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "For each optimization step, we perform T sampling steps, then differentiate through the last step of sampling by automatic differentiation.",
+          "justification": "The paper executes this procedure.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "comparison between Implicit Diffusion, nested loop algorithm and unrolling algorithm",
+          "justification": "It is numerically compared.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "perform T sampling steps, then differentiate through the last step of sampling by automatic differentiation",
+          "justification": "This is the procedure's experimental role.",
+          "value": "perform T sampling steps, then differentiate through the last step of sampling by automatic differentiation"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "One-step differentiation of iterative algorithms.",
+          "justification": "This is the cited paper for differentiating through the last iteration.",
+          "value": "One-step differentiation of iterative algorithms"
+        }
+      },
+      {
+        "name": {
+          "quote": "Langevin diffusion",
+          "justification": "The paper repeatedly names and executes Langevin diffusion.",
+          "value": "Langevin diffusion"
+        },
+        "aliases": [
+          "Langevin dynamics",
+          "Langevin process"
+        ],
+        "is_contributed": {
+          "quote": "Langevin dynamics. They are defined by the stochastic differential equation",
+          "justification": "This is an existing sampling procedure.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We run six sampling algorithms",
+          "justification": "Several experimental variants execute Langevin sampling.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "We compare our approach with several baselines. First, directly adding a reward term (▼) is less efficient",
+          "justification": "Langevin variants are compared numerically against Implicit Diffusion.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "sampling algorithms",
+          "justification": "It generates samples from the parameterized energy-based distributions and supports post-training inference.",
+          "value": "sampling algorithms"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Exponential convergence of langevin distributions and their discrete approximations.",
+          "justification": "This is the listed Langevin reference.",
+          "value": "Exponential convergence of langevin distributions and their discrete approximations"
+        }
+      },
+      {
+        "name": {
+          "quote": "adjoint method on SDEs for gradient estimation",
+          "justification": "The denoising-diffusion experiments explicitly apply this named gradient procedure.",
+          "value": "adjoint method on SDEs"
+        },
+        "aliases": [
+          "Differential adjoint method",
+          "adjoint method"
+        ],
+        "is_contributed": {
+          "quote": "The adjoint method is also defined in the SDE case (Li et al., 2020).",
+          "justification": "It is an existing procedure.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "applying the adjoint method on SDEs for gradient estimation",
+          "justification": "It is executed during diffusion reward finetuning.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "",
+          "justification": "No numerical comparison isolates the adjoint method against another gradient method.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "for gradient estimation",
+          "justification": "The paper states its role directly.",
+          "value": "for gradient estimation"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Scalable gradients and variational inference for stochastic differential equations.",
+          "justification": "This is the cited SDE-adjoint reference.",
+          "value": "Scalable gradients and variational inference for stochastic differential equations"
+        }
+      },
+      {
+        "name": {
+          "quote": "Girsanov’s theorem",
+          "justification": "The paper names the procedure used to estimate the KL term.",
+          "value": "Girsanov’s theorem"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "by Girsanov’s theorem (see Protter, 2005",
+          "justification": "It is an existing theorem/procedure.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "The KL term in the reward is computed using Girsanov’s theorem",
+          "justification": "It is operationally used in experiments.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "",
+          "justification": "It is not compared numerically as an alternative algorithm.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "The KL term in the reward is computed using Girsanov’s theorem",
+          "justification": "This gives its exact role.",
+          "value": "computed the KL term in the reward"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Stochastic integration and differential equations. A new approach",
+          "justification": "This is the cited Protter reference used for Girsanov's theorem.",
+          "value": "Stochastic integration and differential equations. A new approach"
+        }
+      },
+      {
+        "name": {
+          "quote": "Adam optimizer",
+          "justification": "Adam is explicitly used in diffusion pretraining and reward training.",
+          "value": "Adam"
+        },
+        "aliases": [
+          "Adam optimizer"
+        ],
+        "is_contributed": {
+          "quote": "We use the Adam optimizer (Kingma and Ba, 2015)",
+          "justification": "It is an existing optimizer.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We use the Adam optimizer (Kingma and Ba, 2015)",
+          "justification": "It is executed in the reported runs.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "",
+          "justification": "No optimizer comparison is reported.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "Optimizer",
+          "justification": "It performs parameter updates in diffusion pretraining and reward training.",
+          "value": "Optimizer"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Adam: A method for stochastic optimization.",
+          "justification": "This is the Adam reference title.",
+          "value": "Adam: A method for stochastic optimization"
+        }
+      },
+      {
+        "name": {
+          "quote": "simple diffusion method",
+          "justification": "This exact named method is followed for model pretraining.",
+          "value": "simple diffusion method"
+        },
+        "aliases": [
+          "simple diffusion"
+        ],
+        "is_contributed": {
+          "quote": "we follow the simple diffusion method (Hoogeboom et al., 2023)",
+          "justification": "It is an existing method.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "For pretraining, we follow the simple diffusion method",
+          "justification": "It is executed during diffusion-model pretraining.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "",
+          "justification": "No numerical method comparison is reported for pretraining.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "For pretraining, we follow the simple diffusion method",
+          "justification": "This states its role.",
+          "value": "used for pretraining"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "simple diffusion: End-to-end diffusion for high resolution images.",
+          "justification": "This is the cited method paper.",
+          "value": "simple diffusion: End-to-end diffusion for high resolution images"
+        }
+      },
+      {
+        "name": {
+          "quote": "DDPM",
+          "justification": "The CIFAR-10/LSUN pretraining table names DDPM as the sampler.",
+          "value": "DDPM"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "Sampler DDPM",
+          "justification": "It is an existing sampler used in the configuration.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Sampler | DDPM",
+          "justification": "It is used in pretraining.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "",
+          "justification": "DDPM and Euler are used at different stages, not presented as a controlled numerical comparison.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "Sampler",
+          "justification": "The table explicitly labels its role.",
+          "value": "Sampler"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Denoising diffusion probabilistic models.",
+          "justification": "This is the DDPM reference title.",
+          "value": "Denoising diffusion probabilistic models"
+        }
+      },
+      {
+        "name": {
+          "quote": "Euler",
+          "justification": "The reward-training tables name Euler as the sampler.",
+          "value": "Euler"
+        },
+        "aliases": [
+          "Euler solver"
+        ],
+        "is_contributed": {
+          "quote": "Sampler | Euler",
+          "justification": "It is an existing numerical solver.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Sampler | Euler",
+          "justification": "It is used for reward training and evaluation sampling.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "",
+          "justification": "No controlled sampler comparison is reported.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "Sampler",
+          "justification": "The table explicitly labels its role.",
+          "value": "Sampler"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "No specific Euler-method reference is provided.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "Ornstein-Uhlenbeck noise schedule",
+          "justification": "The MNIST setup names this schedule.",
+          "value": "Ornstein-Uhlenbeck noise schedule"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "We use an Ornstein-Uhlenbeck noise schedule",
+          "justification": "It is an existing schedule.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We use an Ornstein-Uhlenbeck noise schedule",
+          "justification": "It is used in MNIST pretraining and reward training.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "",
+          "justification": "No schedule comparison is reported.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "Noise schedule",
+          "justification": "The hyperparameter tables label its role.",
+          "value": "Noise schedule"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "",
+          "justification": "No specific reference is assigned to the schedule.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "Cosine (Nichol and Dhariwal, 2021)",
+          "justification": "This exact schedule is named in the CIFAR-10/LSUN tables.",
+          "value": "Cosine"
+        },
+        "aliases": [
+          "Cosine noise schedule"
+        ],
+        "is_contributed": {
+          "quote": "Cosine (Nichol and Dhariwal, 2021)",
+          "justification": "It is an existing schedule.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Noise schedule | Cosine (Nichol and Dhariwal, 2021)",
+          "justification": "It is used in CIFAR-10 and LSUN runs.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "",
+          "justification": "No schedule comparison is reported.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "Noise schedule",
+          "justification": "The table labels its role.",
+          "value": "Noise schedule"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Improved denoising diffusion probabilistic models.",
+          "justification": "This is the cited source for the cosine schedule.",
+          "value": "Improved denoising diffusion probabilistic models"
+        }
+      }
+    ],
+    "runs": [
+      {
+        "models": [
+          {
+            "name": "energy-based model",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [],
+        "algorithms": [
+          {
+            "name": "Implicit Diffusion"
+          },
+          {
+            "name": "Langevin diffusion"
+          },
+          {
+            "name": "Vanilla nested-loop approach (Baseline)"
+          },
+          {
+            "name": "Unrolling through the last step of sampling"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "reward training of Langevin processes, 10 runs",
+          "justification": "This configuration updates the parameters of the Gaussian-mixture energy model from an initialized model, so it is finetuning.",
+          "value": "finetune"
+        },
+        "epochs": {
+          "quote": "",
+          "justification": "Epochs are not defined or stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "θ ∈ R6",
+          "justification": "The executed reward-training potential has six learned parameters.",
+          "value": "6"
+        },
+        "accelerator_type": {
+          "quote": "",
+          "justification": "No hardware type is stated for the Langevin experiments.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "",
+          "justification": "No accelerator model is stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "",
+          "justification": "No accelerator count is stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Numerical precision is not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "No schema-level data, tensor, pipeline, or expert parallelism is stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "No wall-clock or chip-time duration is stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "No utilization is reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "We run six sampling algorithms ... Finally, the confidence intervals in Figure 6 are computed by performing 10 independent repetitions of the experiment",
+          "justification": "The experiment has an algorithm-variant factor and ten independent repetitions.",
+          "value": [
+            {
+              "kind": "variant",
+              "count": 6,
+              "what": "sampling algorithms"
+            },
+            {
+              "kind": "seed",
+              "count": 10,
+              "what": "independent repetitions"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "energy-based model",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [],
+        "algorithms": [
+          {
+            "name": "Implicit Diffusion"
+          },
+          {
+            "name": "Langevin diffusion"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "train from scratch an energy-based model",
+          "justification": "This configuration trains the seven-component Gaussian-mixture energy model from scratch.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "",
+          "justification": "Epochs are not stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "choose at initialization θ0 = (−7, −7, −7, −7, −7, −7, 11)",
+          "justification": "The explicit parameter vector has seven learned entries.",
+          "value": "7"
+        },
+        "accelerator_type": {
+          "quote": "",
+          "justification": "Hardware is not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "",
+          "justification": "Hardware model is not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "",
+          "justification": "Hardware count is not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Precision is not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "No schema-level parallelism strategy is stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "Duration is not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "Utilization is not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "",
+          "justification": "The paper does not state independent repetitions for this run.",
+          "value": []
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "energy-based model",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [],
+        "algorithms": [
+          {
+            "name": "Implicit Diffusion"
+          },
+          {
+            "name": "Langevin diffusion"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "train from scratch an energy-based model (Langevin diffusion). The potential V is a logsumexp of 2 quadratic forms, where the weights, centers, and the matrix of the forms are learnable parameters",
+          "justification": "This separately trains the full two-Gaussian parameterization from scratch.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "",
+          "justification": "Epochs are not stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "",
+          "justification": "Although tensor shapes are given, the paper does not state a total parameter count, so it is not computed here.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "",
+          "justification": "Hardware is not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "",
+          "justification": "Hardware model is not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "",
+          "justification": "Hardware count is not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Precision is not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "No schema-level parallelism strategy is stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "",
+          "justification": "Duration is not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "Utilization is not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "",
+          "justification": "No independent repetition count is stated.",
+          "value": []
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "denoising diffusion models",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "MNIST",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "simple diffusion method"
+          },
+          {
+            "name": "Adam"
+          },
+          {
+            "name": "DDPM"
+          },
+          {
+            "name": "Ornstein-Uhlenbeck noise schedule"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "We pretrain for 18k steps in 7 minutes on 4 TPUv2.",
+          "justification": "This is MNIST pretraining from scratch.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "",
+          "justification": "Only optimization steps, not epochs, are reported.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "For MNIST, we use a 2.5M parameters model",
+          "justification": "The paper explicitly states the model scale.",
+          "value": "2.5M"
+        },
+        "accelerator_type": {
+          "quote": "4 TPUv2",
+          "justification": "TPUv2 is TPU hardware.",
+          "value": "tpu"
+        },
+        "accelerator_model": {
+          "quote": "4 TPUv2",
+          "justification": "The specific accelerator is TPUv2.",
+          "value": "TPUv2"
+        },
+        "accelerator_count": {
+          "quote": "4 TPUv2",
+          "justification": "The paper explicitly states four accelerators.",
+          "value": "4"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Precision is not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "The paper does not identify data, tensor, pipeline, or expert parallelism.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "18k steps in 7 minutes on 4 TPUv2",
+          "justification": "The stated wall-clock duration and hardware are retained.",
+          "value": "7 minutes on 4 TPUv2"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "No utilization is reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "",
+          "justification": "No independent repetition count is stated.",
+          "value": []
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "denoising diffusion models",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "MNIST",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Implicit Diffusion"
+          },
+          {
+            "name": "adjoint method on SDEs"
+          },
+          {
+            "name": "Girsanov’s theorem"
+          },
+          {
+            "name": "Adam"
+          },
+          {
+            "name": "Euler"
+          },
+          {
+            "name": "Ornstein-Uhlenbeck noise schedule"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "For reward training, we train on a TPUv2 for 4 hours with a queue of size M = 4, T = 64 steps, and a batch size of 32.",
+          "justification": "This updates a pretrained MNIST model, hence finetuning.",
+          "value": "finetune"
+        },
+        "epochs": {
+          "quote": "",
+          "justification": "Epochs are not stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "For MNIST, we use a 2.5M parameters model",
+          "justification": "The finetuned MNIST model has the stated scale.",
+          "value": "2.5M"
+        },
+        "accelerator_type": {
+          "quote": "a TPUv2",
+          "justification": "The run uses a TPU.",
+          "value": "tpu"
+        },
+        "accelerator_model": {
+          "quote": "a TPUv2",
+          "justification": "The model is TPUv2.",
+          "value": "TPUv2"
+        },
+        "accelerator_count": {
+          "quote": "a TPUv2",
+          "justification": "The singular wording states one TPUv2.",
+          "value": "1"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Precision is not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "Queue parallelization does not establish one of the schema's distributed parallelism strategies.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "on a TPUv2 for 4 hours",
+          "justification": "The wall-clock duration and hardware are explicit.",
+          "value": "4 hours on a TPUv2"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "No utilization is reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "they are too costly to compute for the denoising diffusion experiments",
+          "justification": "The paper says error-bar repetitions were not performed, but does not provide a general execution count; the list remains empty rather than encoding one.",
+          "value": []
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "denoising diffusion models",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "CIFAR-10",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "simple diffusion method"
+          },
+          {
+            "name": "Adam"
+          },
+          {
+            "name": "DDPM"
+          },
+          {
+            "name": "Cosine"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "For CIFAR-10, we pretrain for 500k steps in 30 hours on 16 TPUv2",
+          "justification": "This is model pretraining from scratch.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "",
+          "justification": "Only optimization steps, not epochs, are stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "For CIFAR-10 and LSUN, we pretrain a 53.2M parameters model",
+          "justification": "The run's scale is explicitly stated.",
+          "value": "53.2M"
+        },
+        "accelerator_type": {
+          "quote": "16 TPUv2",
+          "justification": "The hardware is TPU.",
+          "value": "tpu"
+        },
+        "accelerator_model": {
+          "quote": "16 TPUv2",
+          "justification": "The specific model is TPUv2.",
+          "value": "TPUv2"
+        },
+        "accelerator_count": {
+          "quote": "16 TPUv2",
+          "justification": "Sixteen accelerators are stated.",
+          "value": "16"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Precision is not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "No schema-level parallelism strategy is named.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "500k steps in 30 hours on 16 TPUv2",
+          "justification": "The stated duration is retained.",
+          "value": "30 hours on 16 TPUv2"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "No utilization is reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "",
+          "justification": "No repetition count is stated.",
+          "value": []
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "denoising diffusion models",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "CIFAR-10",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Implicit Diffusion"
+          },
+          {
+            "name": "adjoint method on SDEs"
+          },
+          {
+            "name": "Girsanov’s theorem"
+          },
+          {
+            "name": "Adam"
+          },
+          {
+            "name": "Euler"
+          },
+          {
+            "name": "Cosine"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "For reward training, we train on a TPUv3 for 9 hours with a queue of size M = 4 and T = 64 steps, and a batch size of 32.",
+          "justification": "This finetunes the pretrained CIFAR-10 model.",
+          "value": "finetune"
+        },
+        "epochs": {
+          "quote": "",
+          "justification": "Epochs are not stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "For CIFAR-10 and LSUN, we pretrain a 53.2M parameters model",
+          "justification": "The finetuned model has the stated scale.",
+          "value": "53.2M"
+        },
+        "accelerator_type": {
+          "quote": "a TPUv3",
+          "justification": "The hardware is TPU.",
+          "value": "tpu"
+        },
+        "accelerator_model": {
+          "quote": "a TPUv3",
+          "justification": "The accelerator model is TPUv3.",
+          "value": "TPUv3"
+        },
+        "accelerator_count": {
+          "quote": "a TPUv3",
+          "justification": "The singular wording states one TPUv3.",
+          "value": "1"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Precision is not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "No schema-level distributed parallelism is named.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "on a TPUv3 for 9 hours",
+          "justification": "The duration and accelerator are explicit.",
+          "value": "9 hours on a TPUv3"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "No utilization is reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "they are too costly to compute for the denoising diffusion experiments",
+          "justification": "No independent repetition count is provided.",
+          "value": []
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "denoising diffusion models",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "LSUN (bedrooms)",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "simple diffusion method"
+          },
+          {
+            "name": "Adam"
+          },
+          {
+            "name": "DDPM"
+          },
+          {
+            "name": "Cosine"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "For LSUN, we pretrain for 13 hours",
+          "justification": "This is LSUN model pretraining.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "",
+          "justification": "Epochs are not stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "For CIFAR-10 and LSUN, we pretrain a 53.2M parameters model",
+          "justification": "The LSUN model scale is explicit.",
+          "value": "53.2M"
+        },
+        "accelerator_type": {
+          "quote": "",
+          "justification": "The LSUN pretraining sentence does not explicitly state its hardware.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "",
+          "justification": "The accelerator model is not explicitly tied to LSUN pretraining.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "",
+          "justification": "The accelerator count is not explicitly tied to LSUN pretraining.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Precision is not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "No schema-level parallelism is named.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "For LSUN, we pretrain for 13 hours",
+          "justification": "The paper states the duration.",
+          "value": "13 hours"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "No utilization is reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "",
+          "justification": "No repetition count is stated.",
+          "value": []
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "denoising diffusion models",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "LSUN (bedrooms)",
+            "access": "fixed",
+            "roles_in_run": [
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "Implicit Diffusion"
+          },
+          {
+            "name": "adjoint method on SDEs"
+          },
+          {
+            "name": "Girsanov’s theorem"
+          },
+          {
+            "name": "Adam"
+          },
+          {
+            "name": "Euler"
+          },
+          {
+            "name": "Cosine"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "For reward training, we train on a TPUv3 for 9 hours with a queue of size M = 2, T = 64 steps, and a batch size of 16.",
+          "justification": "This finetunes the pretrained LSUN model.",
+          "value": "finetune"
+        },
+        "epochs": {
+          "quote": "",
+          "justification": "Epochs are not stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "For CIFAR-10 and LSUN, we pretrain a 53.2M parameters model",
+          "justification": "The finetuned LSUN model has the stated scale.",
+          "value": "53.2M"
+        },
+        "accelerator_type": {
+          "quote": "a TPUv3",
+          "justification": "The hardware is TPU.",
+          "value": "tpu"
+        },
+        "accelerator_model": {
+          "quote": "a TPUv3",
+          "justification": "The accelerator model is TPUv3.",
+          "value": "TPUv3"
+        },
+        "accelerator_count": {
+          "quote": "a TPUv3",
+          "justification": "The singular wording states one TPUv3.",
+          "value": "1"
+        },
+        "precision": {
+          "quote": "",
+          "justification": "Precision is not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "",
+          "justification": "No schema-level distributed parallelism is named.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "on a TPUv3 for 9 hours",
+          "justification": "The duration and hardware are explicit.",
+          "value": "9 hours on a TPUv3"
+        },
+        "utilisation": {
+          "quote": "",
+          "justification": "No utilization is reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "they are too costly to compute for the denoising diffusion experiments",
+          "justification": "No independent repetition count is provided.",
+          "value": []
+        }
+      }
+    ]
+  },
+  "usage": {
+    "input_tokens": 50395,
+    "output_tokens": 9484,
+    "total_tokens": 59879
+  }
+}

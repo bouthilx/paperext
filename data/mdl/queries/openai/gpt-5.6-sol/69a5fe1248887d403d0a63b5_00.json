@@ -1,0 +1,1834 @@
+{
+  "paper": "69a5fe1248887d403d0a63b5.txt",
+  "words": 12427,
+  "extractions": {
+    "title": {
+      "quote": "The Dormant Neuron Phenomenon in Deep Reinforcement Learning",
+      "justification": "The title appears at the start of the paper.",
+      "value": "The Dormant Neuron Phenomenon in Deep Reinforcement Learning"
+    },
+    "description": "Empirical compute-artifact study of neural-network dormancy in deep reinforcement-learning agents, including the contributed ReDo procedure and experiments with DQN, DrQ(ϵ), SAC, Atari/ALE, MuJoCo tasks, and CIFAR-10.",
+    "type": {
+      "quote": "Our experiments demonstrate that ReDo maintains the expressive power of networks by reducing the number of dormant neurons and results in improved performance.",
+      "justification": "The paper reports experiments, quantitative comparisons, ablations, and confidence intervals.",
+      "value": "empirical"
+    },
+    "research_fields": [
+      {
+        "name": {
+          "quote": "the dormant neuron phenomenon in deep reinforcement learning",
+          "justification": "This is the principal field in which the paper identifies a phenomenon and contributes ReDo.",
+          "value": "deep reinforcement learning"
+        },
+        "aliases": [
+          "deep RL",
+          "DRL"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "the plasticity loss, in the continual learning setting",
+          "justification": "The paper directly studies loss of learning capacity/plasticity and relates its contribution to this area.",
+          "value": "neural network plasticity"
+        },
+        "aliases": [
+          "plasticity loss",
+          "capacity loss"
+        ],
+        "role": "contributed"
+      },
+      {
+        "name": {
+          "quote": "we consider two supervised learning scenarios using the standard CIFAR-10 dataset",
+          "justification": "Supervised learning is used as a comparison setting rather than the main target of the contribution.",
+          "value": "supervised learning"
+        },
+        "aliases": [],
+        "role": "used"
+      },
+      {
+        "name": {
+          "quote": "SAC (Haarnoja et al., 2018) on four MuJoCo environments",
+          "justification": "Continuous control is an evaluation domain for the proposed procedure.",
+          "value": "continuous control"
+        },
+        "aliases": [],
+        "role": "used"
+      }
+    ],
+    "models": [
+      {
+        "name": {
+          "quote": "We evaluate DQN on 17 games from the Arcade Learning Environment",
+          "justification": "The paper trains and evaluates DQN agents extensively.",
+          "value": "DQN"
+        },
+        "aliases": [
+          "DQN agent"
+        ],
+        "is_contributed": {
+          "quote": "we propose Recycling Dormant neurons (ReDo)",
+          "justification": "The contribution is ReDo, not DQN.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we train DQN for 10M frames",
+          "justification": "DQN was trained by the authors.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "DQN, with a replay ratio of 1, when using network resets ... weight decay (WD), and our proposed ReDo",
+          "justification": "DQN configurations are numerically compared under several procedures.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "we train DQN for 10M frames",
+          "justification": "The paper trains DQN rather than merely running inference.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "Human-level control through deep reinforcement learning.",
+          "justification": "This is the title of the cited Mnih et al. (2015) DQN paper.",
+          "value": "Human-level control through deep reinforcement learning"
+        }
+      },
+      {
+        "name": {
+          "quote": "DQN with the ResNet architecture used by the IMPALA agent",
+          "justification": "This is a separately executed DQN architecture configuration.",
+          "value": "DQN (ResNet)"
+        },
+        "aliases": [
+          "DQN with the ResNet architecture"
+        ],
+        "is_contributed": {
+          "quote": "we replace the default CNN architecture used by DQN with the ResNet architecture used by the IMPALA agent",
+          "justification": "The architecture is adopted for evaluation, not contributed.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we replace the default CNN architecture used by DQN with the ResNet architecture",
+          "justification": "The authors execute this architecture variant.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Varying architectures. To evaluate ReDo’s impact on different network architectures",
+          "justification": "It is numerically compared to the default architecture/configurations.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "DQN (ResNet)",
+          "justification": "The results are from training this DQN architecture.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "Impala: Scalable distributed deep-rl with importance weighted actor-learner architectures.",
+          "justification": "This is the reference associated with the adopted IMPALA ResNet architecture.",
+          "value": "Impala: Scalable distributed deep-rl with importance weighted actor-learner architectures"
+        }
+      },
+      {
+        "name": {
+          "quote": "we evaluate DrQ(ϵ) ... on the 26 games used in the Atari 100K benchmark",
+          "justification": "DrQ(ϵ) is trained and evaluated in the experiments.",
+          "value": "DrQ(ϵ)"
+        },
+        "aliases": [
+          "DrQ"
+        ],
+        "is_contributed": {
+          "quote": "we propose Recycling Dormant neurons (ReDo)",
+          "justification": "DrQ(ϵ) is an existing agent, not the paper's contribution.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we train for 400K steps",
+          "justification": "The DrQ(ϵ) agent is trained by the authors.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Evaluating the effect of increased replay ratio with and without ReDo",
+          "justification": "DrQ(ϵ) configurations with and without ReDo are numerically compared.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "we train for 400K steps",
+          "justification": "This explicitly states training.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "Image augmentation is all you need: Regularizing deep reinforcement learning from pixels.",
+          "justification": "This is the cited Yarats et al. (2021) reference for DrQ.",
+          "value": "Image augmentation is all you need: Regularizing deep reinforcement learning from pixels"
+        }
+      },
+      {
+        "name": {
+          "quote": "the actor and critic networks during the training of SAC",
+          "justification": "SAC uses separately identifiable learned actor and critic networks in one coupled training loop.",
+          "value": "SAC actor"
+        },
+        "aliases": [
+          "actor"
+        ],
+        "is_contributed": {
+          "quote": "SAC (Haarnoja et al., 2018)",
+          "justification": "The actor belongs to an existing algorithm.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "during the training of SAC on MuJoco environments",
+          "justification": "The actor was trained as part of SAC.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Comparison of the performance of SAC agents with ReDo and two different regularization methods",
+          "justification": "SAC actor-critic configurations are compared numerically.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "during the training of SAC",
+          "justification": "The model is trained.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "Soft actor-critic: Off-policy maximum entropy deep reinforcement learning with a stochastic actor.",
+          "justification": "This is the cited SAC paper.",
+          "value": "Soft actor-critic: Off-policy maximum entropy deep reinforcement learning with a stochastic actor"
+        }
+      },
+      {
+        "name": {
+          "quote": "the actor and critic networks during the training of SAC",
+          "justification": "The critic is a separable learned network co-optimized with the actor.",
+          "value": "SAC critic"
+        },
+        "aliases": [
+          "critic"
+        ],
+        "is_contributed": {
+          "quote": "SAC (Haarnoja et al., 2018)",
+          "justification": "The critic belongs to an existing algorithm.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "during the training of SAC on MuJoco environments",
+          "justification": "The critic was trained as part of SAC.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Comparison of the performance of SAC agents with ReDo and two different regularization methods",
+          "justification": "SAC configurations are numerically compared.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "during the training of SAC",
+          "justification": "The model is trained.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "Soft actor-critic: Off-policy maximum entropy deep reinforcement learning with a stochastic actor.",
+          "justification": "This is the cited SAC paper.",
+          "value": "Soft actor-critic: Off-policy maximum entropy deep reinforcement learning with a stochastic actor"
+        }
+      },
+      {
+        "name": {
+          "quote": "We train a convolutional neural network on CIFAR-10",
+          "justification": "This learned CNN is used in the supervised-learning comparison.",
+          "value": "CIFAR-10 convolutional neural network"
+        },
+        "aliases": [
+          "convolutional neural network"
+        ],
+        "is_contributed": {
+          "quote": "We train a convolutional neural network on CIFAR-10",
+          "justification": "It is an experimental network, not presented as a new model.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We train a convolutional neural network on CIFAR-10",
+          "justification": "The model was executed and trained.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "We analyze the dormant neurons in two supervised learning settings",
+          "justification": "The same network is compared under fixed and non-stationary targets.",
+          "value": true
+        },
+        "execution_mode": {
+          "quote": "train a network using the inputs and labels of CIFAR-10 for 100 epochs",
+          "justification": "The model is trained from scratch.",
+          "value": "train"
+        },
+        "referenced_paper_title": {
+          "quote": "Learning multiple layers of features from tiny images.",
+          "justification": "This is the CIFAR-10 reference listed in the bibliography, not a separate model paper.",
+          "value": "Learning multiple layers of features from tiny images"
+        }
+      }
+    ],
+    "data_sources": [
+      {
+        "name": {
+          "quote": "Arcade Learning Environment",
+          "justification": "This named environment suite supplies the online RL observations and rewards.",
+          "value": "Arcade Learning Environment"
+        },
+        "aliases": [
+          "ALE",
+          "Atari"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "We evaluate DQN on 17 games from the Arcade Learning Environment ... Additionally, we evaluate DrQ(ϵ) ... on the 26 games used in the Atari 100K benchmark",
+          "justification": "The paper states the numbers of environments used for DQN and DrQ(ϵ).",
+          "value": "17 games for DQN; 26 games for DrQ(ϵ)"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "The arcade learning environment: An evaluation platform for general agents.",
+          "justification": "This is the ALE reference title.",
+          "value": "The arcade learning environment: An evaluation platform for general agents"
+        }
+      },
+      {
+        "name": {
+          "quote": "Asterix, Demon Attack, Seaquest, Wizard of Wor, Bream Reader, Road Runner, James Bond, Qbert, Breakout, Enduro, Space Invaders, Pong, Zaxxon, Yars’ Revenge, Ms. Pacman, Double Dunk, Ice Hockey",
+          "justification": "These are the individually named ALE environments used for DQN experiments.",
+          "value": "17 Atari games"
+        },
+        "aliases": [
+          "Asterix",
+          "Demon Attack",
+          "Seaquest",
+          "Wizard of Wor",
+          "Bream Reader",
+          "Road Runner",
+          "James Bond",
+          "Qbert",
+          "Breakout",
+          "Enduro",
+          "Space Invaders",
+          "Pong",
+          "Zaxxon",
+          "Yars’ Revenge",
+          "Ms. Pacman",
+          "Double Dunk",
+          "Ice Hockey"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "We evaluate DQN ... on 17 games",
+          "justification": "The paper explicitly states the number of games.",
+          "value": "17 games"
+        },
+        "derived_from": [
+          "Arcade Learning Environment"
+        ],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "The arcade learning environment: An evaluation platform for general agents.",
+          "justification": "The games are supplied through ALE.",
+          "value": "The arcade learning environment: An evaluation platform for general agents"
+        }
+      },
+      {
+        "name": {
+          "quote": "the standard CIFAR-10 dataset",
+          "justification": "CIFAR-10 supplies the supervised-learning examples.",
+          "value": "CIFAR-10"
+        },
+        "aliases": [],
+        "role": "used",
+        "size": {
+          "quote": "We select 10000 samples from the dataset",
+          "justification": "This states the number of CIFAR-10 samples used.",
+          "value": "10000 samples"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "Learning multiple layers of features from tiny images.",
+          "justification": "This is the reference associated with CIFAR-10.",
+          "value": "Learning multiple layers of features from tiny images"
+        }
+      },
+      {
+        "name": {
+          "quote": "four environments from MuJoCo suite ... HalfCheetah-v2, Hopper-v2, Walker2d-v2, Ant-v2",
+          "justification": "These named interactive environments supply SAC experience.",
+          "value": "MuJoCo suite"
+        },
+        "aliases": [
+          "MuJoCo environments"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "four environments from MuJoCo suite",
+          "justification": "The paper states that four environments were used.",
+          "value": "4 environments"
+        },
+        "derived_from": [],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "Mujoco: A physics engine for model-based control.",
+          "justification": "This is the cited MuJoCo paper.",
+          "value": "Mujoco: A physics engine for model-based control"
+        }
+      },
+      {
+        "name": {
+          "quote": "HalfCheetah-v2, Hopper-v2, Walker2d-v2, Ant-v2",
+          "justification": "These are the four individually named continuous-control environments.",
+          "value": "HalfCheetah-v2, Hopper-v2, Walker2d-v2, Ant-v2"
+        },
+        "aliases": [
+          "HalfCheetah-v2",
+          "Hopper-v2",
+          "Walker2d-v2",
+          "Ant-v2"
+        ],
+        "role": "used",
+        "size": {
+          "quote": "four environments from MuJoCo suite ... HalfCheetah-v2, Hopper-v2, Walker2d-v2, Ant-v2",
+          "justification": "Exactly four environments are enumerated.",
+          "value": "4 environments"
+        },
+        "derived_from": [
+          "MuJoCo suite"
+        ],
+        "sample_properties": [],
+        "referenced_paper_title": {
+          "quote": "Mujoco: A physics engine for model-based control.",
+          "justification": "These environments are from the cited MuJoCo suite.",
+          "value": "Mujoco: A physics engine for model-based control"
+        }
+      }
+    ],
+    "libraries": [
+      {
+        "name": {
+          "quote": "All our experiments and implementations were conducted using the Dopamine framework",
+          "justification": "The paper explicitly states that Dopamine was used.",
+          "value": "Dopamine"
+        },
+        "aliases": [
+          "Dopamine framework"
+        ],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "Dopamine: A Research Framework for Deep Reinforcement Learning.",
+          "justification": "This is the cited Dopamine paper.",
+          "value": "Dopamine: A Research Framework for Deep Reinforcement Learning"
+        }
+      },
+      {
+        "name": {
+          "quote": "we build on the SAC implementation in TF-Agents",
+          "justification": "TF-Agents was explicitly used for SAC.",
+          "value": "TF-Agents"
+        },
+        "aliases": [],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "TF-Agents: A library for reinforcement learning in tensorflow.",
+          "justification": "This is the cited TF-Agents title.",
+          "value": "TF-Agents: A library for reinforcement learning in tensorflow"
+        }
+      },
+      {
+        "name": {
+          "quote": "thank the Python community ... for developing tools that enabled this work",
+          "justification": "Python is explicitly acknowledged as enabling the work.",
+          "value": "Python"
+        },
+        "aliases": [],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "Python reference manual.",
+          "justification": "This is the cited Python reference.",
+          "value": "Python reference manual"
+        }
+      },
+      {
+        "name": {
+          "quote": "including NumPy",
+          "justification": "NumPy is explicitly listed among tools that enabled the work.",
+          "value": "NumPy"
+        },
+        "aliases": [],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "Array programming with numpy.",
+          "justification": "This is the cited NumPy paper.",
+          "value": "Array programming with numpy"
+        }
+      },
+      {
+        "name": {
+          "quote": "including ... Matplotlib",
+          "justification": "Matplotlib is explicitly listed among tools that enabled the work.",
+          "value": "Matplotlib"
+        },
+        "aliases": [],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "Matplotlib: A 2d graphics environment.",
+          "justification": "This is the cited Matplotlib paper.",
+          "value": "Matplotlib: A 2d graphics environment"
+        }
+      },
+      {
+        "name": {
+          "quote": "including ... JAX",
+          "justification": "JAX is explicitly listed among tools that enabled the work.",
+          "value": "JAX"
+        },
+        "aliases": [],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "Jax: composable transformations of python+ numpy programs.",
+          "justification": "This is the cited JAX work.",
+          "value": "Jax: composable transformations of python+ numpy programs"
+        }
+      },
+      {
+        "name": {
+          "quote": "MuJoCo suite",
+          "justification": "The MuJoCo physics engine implements the continuous-control environments used by SAC.",
+          "value": "MuJoCo"
+        },
+        "aliases": [
+          "MuJoCo physics engine"
+        ],
+        "role": "used",
+        "referenced_paper_title": {
+          "quote": "Mujoco: A physics engine for model-based control.",
+          "justification": "This is the cited MuJoCo paper.",
+          "value": "Mujoco: A physics engine for model-based control"
+        }
+      }
+    ],
+    "algorithms": [
+      {
+        "name": {
+          "quote": "Recycling Dormant neurons (ReDo)",
+          "justification": "This is the exact name and abbreviation of the paper's contributed procedure.",
+          "value": "Recycling Dormant neurons (ReDo)"
+        },
+        "aliases": [
+          "ReDo"
+        ],
+        "is_contributed": {
+          "quote": "we propose Recycling Dormant neurons (ReDo), a simple and effective method",
+          "justification": "The paper explicitly proposes ReDo.",
+          "value": true
+        },
+        "is_executed": {
+          "quote": "For agents trained with ReDo, we use a threshold of τ = 0.1",
+          "justification": "ReDo was run in the experiments.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Comparison of the performance for ReDo and two different regularization methods",
+          "justification": "ReDo is numerically compared with Reset and weight decay.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "periodically check in all layers whether any neurons are τ-dormant; for these, reinitialize their incoming weights and zero out the outgoing weights",
+          "justification": "This directly states ReDo's role and operations.",
+          "value": "periodically checks for τ-dormant neurons, reinitializes their incoming weights, and zeros their outgoing weights"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "we propose Recycling Dormant neurons (ReDo)",
+          "justification": "ReDo is introduced in this paper.",
+          "value": "The Dormant Neuron Phenomenon in Deep Reinforcement Learning"
+        }
+      },
+      {
+        "name": {
+          "quote": "DQN (Mnih et al., 2015)",
+          "justification": "The paper names and executes DQN.",
+          "value": "DQN"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "DQN (Mnih et al., 2015)",
+          "justification": "DQN is prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we train DQN for 10M frames",
+          "justification": "DQN is executed.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "DQN ... when using network resets ... weight decay (WD), and our proposed ReDo",
+          "justification": "DQN configurations are compared numerically.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "a foundational agent on which most modern value-based agents are based",
+          "justification": "This is the paper's description of DQN's experimental role.",
+          "value": "a foundational agent used to analyze dormant neurons and evaluate ReDo"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Human-level control through deep reinforcement learning.",
+          "justification": "This is the DQN reference title.",
+          "value": "Human-level control through deep reinforcement learning"
+        }
+      },
+      {
+        "name": {
+          "quote": "DrQ(ϵ)",
+          "justification": "The exact notation is used throughout the paper.",
+          "value": "DrQ(ϵ)"
+        },
+        "aliases": [
+          "DrQ"
+        ],
+        "is_contributed": {
+          "quote": "DrQ(ϵ) (Yarats et al., 2021; Agarwal et al., 2021)",
+          "justification": "It is prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we evaluate DrQ(ϵ) ... on the 26 games",
+          "justification": "It was executed.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "DrQ(ϵ) ... study the following replay ratio values: 1 (default), 2, 4, 8",
+          "justification": "Its configurations are compared numerically.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "a sample-efficient value-based agent DrQ(ϵ)",
+          "justification": "This is the paper's characterization of its role.",
+          "value": "a sample-efficient value-based agent used to evaluate ReDo at different replay ratios"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Image augmentation is all you need: Regularizing deep reinforcement learning from pixels.",
+          "justification": "This is the cited DrQ paper.",
+          "value": "Image augmentation is all you need: Regularizing deep reinforcement learning from pixels"
+        }
+      },
+      {
+        "name": {
+          "quote": "SAC (Haarnoja et al., 2018)",
+          "justification": "The exact acronym is used for the actor-critic procedure.",
+          "value": "SAC"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "SAC (Haarnoja et al., 2018)",
+          "justification": "SAC is prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We continue our comparison ... with the SAC agent",
+          "justification": "SAC was run.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Comparison of the performance of SAC agents with ReDo and two different regularization methods",
+          "justification": "SAC configurations are compared numerically.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "an actor-critic method (SAC ... ) evaluated on the MuJoCo suite",
+          "justification": "This states its role.",
+          "value": "an actor-critic method evaluated on the MuJoCo suite"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Soft actor-critic: Off-policy maximum entropy deep reinforcement learning with a stochastic actor.",
+          "justification": "This is the SAC reference title.",
+          "value": "Soft actor-critic: Off-policy maximum entropy deep reinforcement learning with a stochastic actor"
+        }
+      },
+      {
+        "name": {
+          "quote": "Adam (Kingma & Ba, 2015)",
+          "justification": "Tables 1 and 4 specify Adam as the optimizer.",
+          "value": "Adam"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "Adam (Kingma & Ba, 2015)",
+          "justification": "Adam is prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "Optimizer Adam",
+          "justification": "The hyperparameter tables state that it was used.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Optimizer Adam",
+          "justification": "No numerical optimizer comparison is reported.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "Optimizer",
+          "justification": "The table labels Adam as the optimizer.",
+          "value": "Optimizer"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Adam: A method for stochastic optimization.",
+          "justification": "This is the cited Adam paper.",
+          "value": "Adam: A method for stochastic optimization"
+        }
+      },
+      {
+        "name": {
+          "quote": "SGD",
+          "justification": "Table 5 gives the exact optimizer abbreviation.",
+          "value": "SGD"
+        },
+        "aliases": [
+          "stochastic gradient descent"
+        ],
+        "is_contributed": {
+          "quote": "using stochastic gradient descent",
+          "justification": "SGD is existing prior art.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We train a convolutional neural network on CIFAR-10 ... using stochastic gradient descent",
+          "justification": "SGD was executed in the supervised run.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Optimizer SGD",
+          "justification": "No optimizer comparison is reported.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "using stochastic gradient descent and cross-entropy loss",
+          "justification": "It is the optimizer for the CIFAR-10 experiment.",
+          "value": "used to train the CIFAR-10 convolutional neural network"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "unknown",
+          "justification": "No distinct SGD reference title is identified in the provided references.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "temporal difference loss",
+          "justification": "The paper names this training loss.",
+          "value": "temporal difference loss"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "temporal difference loss (Sutton, 1988)",
+          "justification": "It is cited prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "The optimization performed aims to minimize the temporal difference loss",
+          "justification": "It is executed during value learning.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "minimize the temporal difference loss",
+          "justification": "The paper does not numerically compare it with another loss.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "The optimization performed aims to minimize the temporal difference loss",
+          "justification": "This directly states its role.",
+          "value": "the loss minimized to update the Q-network"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Learning to predict by the methods of temporal differences.",
+          "justification": "This is the cited Sutton (1988) title.",
+          "value": "Learning to predict by the methods of temporal differences"
+        }
+      },
+      {
+        "name": {
+          "quote": "cross-entropy loss",
+          "justification": "The appendix names the CIFAR-10 objective.",
+          "value": "cross-entropy loss"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "using stochastic gradient descent and cross-entropy loss",
+          "justification": "It is a standard existing objective.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "We train ... using stochastic gradient descent and cross-entropy loss",
+          "justification": "It is used in training.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "cross-entropy loss",
+          "justification": "No alternative supervised objective is compared.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "using stochastic gradient descent and cross-entropy loss",
+          "justification": "It is the CIFAR-10 training objective.",
+          "value": "the loss used to train the CIFAR-10 network"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "unknown",
+          "justification": "No specific cross-entropy reference is provided.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "n-step returns",
+          "justification": "The method is explicitly named in the multi-step-learning analysis.",
+          "value": "n-step returns"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "n-step returns ... (Sutton & Barto, 2018)",
+          "justification": "It is cited prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we added n-step returns with a value of n = 3",
+          "justification": "The paper executed it.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "While this change results in a general improvement in DQN’s performance",
+          "justification": "It is numerically evaluated against the default.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "we added n-step returns with a value of n = 3",
+          "justification": "This is its experimental role.",
+          "value": "added to DQN with n = 3 to study multi-step learning"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Reinforcement learning: An introduction.",
+          "justification": "This is the cited Sutton and Barto reference.",
+          "value": "Reinforcement learning: An introduction"
+        }
+      },
+      {
+        "name": {
+          "quote": "weight decay (WD)",
+          "justification": "The exact name and abbreviation appear in comparisons.",
+          "value": "weight decay (WD)"
+        },
+        "aliases": [
+          "WD"
+        ],
+        "is_contributed": {
+          "quote": "weight decay, as this is a simpler, but related, form of regularization",
+          "justification": "It is an existing regularizer.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "For weight decay, we searched over the grid [10−6, 10−5, 10−4, 10−3]",
+          "justification": "It was executed and tuned.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "ReDo is superior to both",
+          "justification": "It is numerically compared to ReDo and Reset.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "a simpler, but related, form of regularization",
+          "justification": "This is the paper's description.",
+          "value": "a regularization baseline"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "unknown",
+          "justification": "No single reference paper is attached to weight decay here.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "Reset",
+          "justification": "The appendix and figures use this exact baseline label.",
+          "value": "Reset"
+        },
+        "aliases": [
+          "network resets",
+          "periodic resets"
+        ],
+        "is_contributed": {
+          "quote": "Reset (Nikishin et al., 2022)",
+          "justification": "Reset is prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "For reset ... we consider re-initializing the last layer for Atari games",
+          "justification": "The baseline is run.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Comparison ... with ReDo and two different regularization methods (Reset ... and weight decay)",
+          "justification": "It is numerically compared.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "periodically resets only the penultimate layer for Atari environments",
+          "justification": "This states the role in the comparison.",
+          "value": "periodically resets network layers as a regularization baseline"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "The primacy bias in deep reinforcement learning.",
+          "justification": "This is the cited Nikishin et al. paper.",
+          "value": "The primacy bias in deep reinforcement learning"
+        }
+      },
+      {
+        "name": {
+          "quote": "Interquantile Mean (IQM)",
+          "justification": "The paper uses this exact capitalization and abbreviation.",
+          "value": "Interquantile Mean (IQM)"
+        },
+        "aliases": [
+          "IQM",
+          "interquartile mean"
+        ],
+        "is_contributed": {
+          "quote": "recommended by Agarwal et al. (2021)",
+          "justification": "It is adopted from prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we report the Interquantile Mean (IQM)",
+          "justification": "The evaluation procedure was executed.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "as a more statistically reliable alternative to median or mean",
+          "justification": "It is discussed relative to alternatives, but not itself numerically benchmarked as an algorithm.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "report reliable aggregated results across games using the interquartile mean (IQM)",
+          "justification": "This directly states its evaluation role.",
+          "value": "used to aggregate normalized scores across runs and games"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Deep reinforcement learning at the edge of the statistical precipice.",
+          "justification": "This is the cited source recommending IQM.",
+          "value": "Deep reinforcement learning at the edge of the statistical precipice"
+        }
+      },
+      {
+        "name": {
+          "quote": "95% stratified bootstrap confidence intervals",
+          "justification": "This exact evaluation procedure is stated.",
+          "value": "95% stratified bootstrap confidence intervals"
+        },
+        "aliases": [
+          "95% CIs"
+        ],
+        "is_contributed": {
+          "quote": "reporting 95% stratified bootstrap confidence intervals",
+          "justification": "It is an adopted statistical procedure.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "reporting 95% stratified bootstrap confidence intervals",
+          "justification": "The paper computes these intervals.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "reporting 95% stratified bootstrap confidence intervals",
+          "justification": "The procedure is not compared to another interval algorithm.",
+          "value": false
+        },
+        "paper_role": {
+          "quote": "reporting 95% stratified bootstrap confidence intervals",
+          "justification": "Its role is uncertainty reporting.",
+          "value": "used to report uncertainty for aggregated experimental results"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Deep reinforcement learning at the edge of the statistical precipice.",
+          "justification": "The evaluation recommendation is attributed to Agarwal et al. (2021).",
+          "value": "Deep reinforcement learning at the edge of the statistical precipice"
+        }
+      },
+      {
+        "name": {
+          "quote": "Continual Backprop",
+          "justification": "The appendix compares against this exact named procedure.",
+          "value": "Continual Backprop"
+        },
+        "aliases": [
+          "Continual BP"
+        ],
+        "is_contributed": {
+          "quote": "utility metric proposed by Continual Backprop (Dohare et al., 2021)",
+          "justification": "It is prior work.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "we use a fixed recycling schedule to compare ... ReDo and the utility metric proposed by Continual Backprop",
+          "justification": "It is executed in an ablation.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "both metrics achieve similar results",
+          "justification": "It is numerically compared with ReDo.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "compare the activation-based metric used by ReDo and the utility metric proposed by Continual Backprop",
+          "justification": "This states its role.",
+          "value": "a utility-based neuron-selection baseline"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "Continual backprop: Stochastic gradient descent with persistent randomness.",
+          "justification": "This is the cited paper title.",
+          "value": "Continual backprop: Stochastic gradient descent with persistent randomness"
+        }
+      },
+      {
+        "name": {
+          "quote": "Random",
+          "justification": "The paper names this neuron-selection baseline exactly.",
+          "value": "Random"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "Random: neurons are selected randomly",
+          "justification": "It is an ablation baseline rather than the contribution.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "neurons are selected randomly",
+          "justification": "The strategy was run in Figure 15.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Recycling active or random neurons hinders learning",
+          "justification": "It is numerically compared to ReDo and Inverse ReDo.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "neurons are selected randomly",
+          "justification": "This exactly describes its role.",
+          "value": "neurons are selected randomly for recycling"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "unknown",
+          "justification": "This ablation has no external reference.",
+          "value": "unknown"
+        }
+      },
+      {
+        "name": {
+          "quote": "Inverse ReDo",
+          "justification": "The paper names this strategy exactly.",
+          "value": "Inverse ReDo"
+        },
+        "aliases": [],
+        "is_contributed": {
+          "quote": "Inverse ReDo: neurons with the highest scores ... are selected",
+          "justification": "It is introduced as an ablation, not the main contribution.",
+          "value": false
+        },
+        "is_executed": {
+          "quote": "neurons with the highest scores according to Equation 1 are selected",
+          "justification": "The strategy was executed.",
+          "value": true
+        },
+        "is_compared": {
+          "quote": "Recycling active or random neurons hinders learning",
+          "justification": "It is compared with ReDo and Random.",
+          "value": true
+        },
+        "paper_role": {
+          "quote": "neurons with the highest scores according to Equation 1 are selected",
+          "justification": "This directly describes its role.",
+          "value": "selects the highest-scoring neurons for recycling"
+        },
+        "composed_of": [],
+        "referenced_paper_title": {
+          "quote": "unknown",
+          "justification": "This is an internal ablation with no cited source.",
+          "value": "unknown"
+        }
+      }
+    ],
+    "runs": [
+      {
+        "models": [
+          {
+            "name": "DQN",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Arcade Learning Environment",
+            "access": "interactive",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          },
+          {
+            "name": "17 Atari games",
+            "access": "interactive",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "DQN"
+          },
+          {
+            "name": "Recycling Dormant neurons (ReDo)"
+          },
+          {
+            "name": "Adam"
+          },
+          {
+            "name": "temporal difference loss"
+          },
+          {
+            "name": "n-step returns"
+          },
+          {
+            "name": "weight decay (WD)"
+          },
+          {
+            "name": "Reset"
+          },
+          {
+            "name": "Interquantile Mean (IQM)"
+          },
+          {
+            "name": "95% stratified bootstrap confidence intervals"
+          },
+          {
+            "name": "Random"
+          },
+          {
+            "name": "Inverse ReDo"
+          },
+          {
+            "name": "Continual Backprop"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "we train DQN for 10M frames",
+          "justification": "This run trains online DQN agents.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "unknown",
+          "justification": "RL training is stated in frames/iterations, not epochs.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "unknown",
+          "justification": "No parameter count is stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "unknown",
+          "justification": "No accelerator type is stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "unknown",
+          "justification": "No accelerator model is stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "unknown",
+          "justification": "No accelerator count is stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "unknown",
+          "justification": "Numerical precision is not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "unknown",
+          "justification": "No parallelism strategy is stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "unknown",
+          "justification": "No wall-clock or chip-time duration is stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "unknown",
+          "justification": "No hardware utilization is reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "using 5 independent seeds for each DQN experiment",
+          "justification": "The paper explicitly states five independent seeds.",
+          "value": [
+            {
+              "kind": "seed",
+              "count": 5,
+              "what": "independent seeds"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "DQN (ResNet)",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Arcade Learning Environment",
+            "access": "interactive",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          },
+          {
+            "name": "17 Atari games",
+            "access": "interactive",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "DQN"
+          },
+          {
+            "name": "Recycling Dormant neurons (ReDo)"
+          },
+          {
+            "name": "Adam"
+          },
+          {
+            "name": "temporal difference loss"
+          },
+          {
+            "name": "Interquantile Mean (IQM)"
+          },
+          {
+            "name": "95% stratified bootstrap confidence intervals"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "we replace the default CNN architecture used by DQN with the ResNet architecture",
+          "justification": "The ResNet DQN configuration is trained.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "unknown",
+          "justification": "No epochs are reported.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "unknown",
+          "justification": "No parameter count is given.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "unknown",
+          "justification": "Hardware is not stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "unknown",
+          "justification": "Hardware model is not stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "unknown",
+          "justification": "Hardware count is not stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "unknown",
+          "justification": "Precision is not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "unknown",
+          "justification": "Parallelism is not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "unknown",
+          "justification": "Duration is not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "unknown",
+          "justification": "Utilization is not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "We report results using 5 seeds",
+          "justification": "The architecture comparison uses five seeds.",
+          "value": [
+            {
+              "kind": "seed",
+              "count": 5,
+              "what": "seeds"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "DrQ(ϵ)",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Arcade Learning Environment",
+            "access": "interactive",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "DrQ(ϵ)"
+          },
+          {
+            "name": "Recycling Dormant neurons (ReDo)"
+          },
+          {
+            "name": "Adam"
+          },
+          {
+            "name": "Interquantile Mean (IQM)"
+          },
+          {
+            "name": "95% stratified bootstrap confidence intervals"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "we train for 400K steps",
+          "justification": "The DrQ(ϵ) agents are trained online.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "unknown",
+          "justification": "No epochs are stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "unknown",
+          "justification": "No parameter count is stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "unknown",
+          "justification": "No hardware type is stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "unknown",
+          "justification": "No accelerator model is stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "unknown",
+          "justification": "No accelerator count is stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "unknown",
+          "justification": "Precision is not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "unknown",
+          "justification": "Parallelism is not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "unknown",
+          "justification": "Duration is not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "unknown",
+          "justification": "Utilization is not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "10 for the DrQ ... experiments",
+          "justification": "The paper explicitly states ten independent seeds for DrQ.",
+          "value": [
+            {
+              "kind": "seed",
+              "count": 10,
+              "what": "independent seeds"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "SAC actor",
+            "role_in_run": "main"
+          },
+          {
+            "name": "SAC critic",
+            "role_in_run": "critic"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "MuJoCo suite",
+            "access": "interactive",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          },
+          {
+            "name": "HalfCheetah-v2, Hopper-v2, Walker2d-v2, Ant-v2",
+            "access": "interactive",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "SAC"
+          },
+          {
+            "name": "Recycling Dormant neurons (ReDo)"
+          },
+          {
+            "name": "Adam"
+          },
+          {
+            "name": "weight decay (WD)"
+          },
+          {
+            "name": "Reset"
+          },
+          {
+            "name": "Interquantile Mean (IQM)"
+          },
+          {
+            "name": "95% stratified bootstrap confidence intervals"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "during the training of SAC on MuJoco environments",
+          "justification": "Actor and critic are co-trained in one SAC loop.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "unknown",
+          "justification": "Training is specified in environment steps, not epochs.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "unknown",
+          "justification": "The paper states layer widths but not a parameter count.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "unknown",
+          "justification": "No accelerator type is reported.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "unknown",
+          "justification": "No accelerator model is reported.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "unknown",
+          "justification": "No accelerator count is reported.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "unknown",
+          "justification": "Precision is not reported.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "unknown",
+          "justification": "Parallelism is not reported.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "unknown",
+          "justification": "No execution duration is reported.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "unknown",
+          "justification": "No utilization is reported.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "10 for the ... SAC experiments",
+          "justification": "The main SAC experiments use ten independent seeds.",
+          "value": [
+            {
+              "kind": "seed",
+              "count": 10,
+              "what": "independent seeds"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "SAC actor",
+            "role_in_run": "main"
+          },
+          {
+            "name": "SAC critic",
+            "role_in_run": "critic"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "MuJoCo suite",
+            "access": "interactive",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          },
+          {
+            "name": "HalfCheetah-v2, Hopper-v2, Walker2d-v2, Ant-v2",
+            "access": "interactive",
+            "roles_in_run": [
+              "train",
+              "test"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "SAC"
+          },
+          {
+            "name": "Recycling Dormant neurons (ReDo)"
+          },
+          {
+            "name": "Adam"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "we decrease the size of the actor and critic networks by halving or quartering the width of their layers",
+          "justification": "These are separate reduced-scale SAC training configurations.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "unknown",
+          "justification": "No epochs are stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "unknown",
+          "justification": "Only relative widths, not parameter counts, are stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "unknown",
+          "justification": "No hardware type is stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "unknown",
+          "justification": "No hardware model is stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "unknown",
+          "justification": "No hardware count is stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "unknown",
+          "justification": "Precision is not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "unknown",
+          "justification": "Parallelism is not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "unknown",
+          "justification": "Duration is not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "unknown",
+          "justification": "Utilization is not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "using half and a quarter of the width ... We performed these experiments ... using 5 seeds",
+          "justification": "Two width variants are each evaluated with five seeds.",
+          "value": [
+            {
+              "kind": "variant",
+              "count": 2,
+              "what": "half and a quarter of the width of the actor and critic networks"
+            },
+            {
+              "kind": "seed",
+              "count": 5,
+              "what": "seeds"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "CIFAR-10 convolutional neural network",
+            "role_in_run": "main"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "CIFAR-10",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [
+          {
+            "name": "SGD"
+          },
+          {
+            "name": "cross-entropy loss"
+          }
+        ],
+        "produces": [],
+        "execution_mode": {
+          "quote": "train a network using the inputs and labels of CIFAR-10 for 100 epochs",
+          "justification": "This is supervised training from scratch.",
+          "value": "train"
+        },
+        "epochs": {
+          "quote": "for 100 epochs",
+          "justification": "The paper explicitly reports 100 epochs.",
+          "value": "100"
+        },
+        "parameter_count": {
+          "quote": "unknown",
+          "justification": "No parameter count is stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "unknown",
+          "justification": "No hardware type is stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "unknown",
+          "justification": "No hardware model is stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "unknown",
+          "justification": "No hardware count is stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "unknown",
+          "justification": "Precision is not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "unknown",
+          "justification": "Parallelism is not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "unknown",
+          "justification": "Duration is not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "unknown",
+          "justification": "Utilization is not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "Averaged over 3 independent seeds",
+          "justification": "The CIFAR-10 analysis explicitly uses three seeds.",
+          "value": [
+            {
+              "kind": "seed",
+              "count": 3,
+              "what": "independent seeds"
+            },
+            {
+              "kind": "variant",
+              "count": 2,
+              "what": "fixed and non-stationary targets"
+            }
+          ]
+        }
+      },
+      {
+        "models": [
+          {
+            "name": "DQN",
+            "role_in_run": "student"
+          }
+        ],
+        "data_sources": [
+          {
+            "name": "Arcade Learning Environment",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          },
+          {
+            "name": "17 Atari games",
+            "access": "fixed",
+            "roles_in_run": [
+              "train"
+            ]
+          }
+        ],
+        "algorithms": [],
+        "produces": [],
+        "execution_mode": {
+          "quote": "Next we fine-tune this network by distilling it towards a well performing DQN agent’s network",
+          "justification": "The pre-trained DQN is fine-tuned by regression/distillation on fixed inputs and targets.",
+          "value": "finetune"
+        },
+        "epochs": {
+          "quote": "unknown",
+          "justification": "No epoch count is stated.",
+          "value": "unknown"
+        },
+        "parameter_count": {
+          "quote": "unknown",
+          "justification": "No parameter count is stated.",
+          "value": "unknown"
+        },
+        "accelerator_type": {
+          "quote": "unknown",
+          "justification": "No hardware is stated.",
+          "value": "unknown"
+        },
+        "accelerator_model": {
+          "quote": "unknown",
+          "justification": "No accelerator model is stated.",
+          "value": "unknown"
+        },
+        "accelerator_count": {
+          "quote": "unknown",
+          "justification": "No accelerator count is stated.",
+          "value": "unknown"
+        },
+        "precision": {
+          "quote": "unknown",
+          "justification": "Precision is not stated.",
+          "value": "unknown"
+        },
+        "parallelism": {
+          "quote": "unknown",
+          "justification": "Parallelism is not stated.",
+          "value": [
+            "unknown"
+          ]
+        },
+        "duration": {
+          "quote": "unknown",
+          "justification": "Duration is not stated.",
+          "value": "unknown"
+        },
+        "utilisation": {
+          "quote": "unknown",
+          "justification": "Utilization is not stated.",
+          "value": "unknown"
+        },
+        "repetitions": {
+          "quote": "Results are averaged over 5 seeds",
+          "justification": "The regression experiment explicitly uses five seeds.",
+          "value": [
+            {
+              "kind": "seed",
+              "count": 5,
+              "what": "seeds"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "usage": {
+    "input_tokens": 35347,
+    "output_tokens": 11210,
+    "total_tokens": 46557
+  }
+}
