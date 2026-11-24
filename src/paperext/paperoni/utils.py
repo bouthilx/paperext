@@ -6,8 +6,8 @@ def auth_headers():
 
     The Bearer token is read from ``CFG.paperoni.token``. Keep that empty in the
     tracked config and provide the value at runtime via the
-    ``PAPEREXT_PAPERONI_TOKEN`` environment variable. Obtain the token from a
-    logged-in Paperoni session.
+    ``PAPEREXT_PAPERONI_TOKEN`` environment variable. Obtain the token from
+    https://paperoni.mila.quebec/token while logged in to Paperoni.
     """
     token = CFG.paperoni.token
     assert token, (
