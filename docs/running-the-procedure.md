@@ -146,8 +146,13 @@ how many it will actually query, because the ETA covers only the second number.
 
 ```console
 uv run python -m paperext.structured_output.mdl.verify data/mdl/queries/<provider>/<model>
-uv run python -m paperext.structured_output.mdl.check  data/mdl/queries/<provider>/<model> --details
+uv run python -m paperext.structured_output.mdl.check  data/mdl/queries/<provider>/<model>/*.json --details
 ```
+
+`verify` takes the bucket directory; `check` takes **files** — give it the
+directory and it fails trying to read it as one (`PermissionError` on Windows,
+`IsADirectoryError` elsewhere). With no paths at all, `check` reads every JSON
+and YAML under `data/mdl/merged` and `data/mdl/queries`, all buckets mixed.
 
 `verify` reports three kinds of result and the distinction is the point: **CHECK**
 is pass/fail and a failure is a prompt defect; **PROBE** must be non-zero and zero

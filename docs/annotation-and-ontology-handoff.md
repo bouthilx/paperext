@@ -77,6 +77,10 @@ every time.
   refused, `json_schema` over the grammar ceiling, and `json` (schema in the
   prompt, reply parsed back out) trips instructor's strict JSON decoder on the
   extracted quotes — which contain the punctuation that decoder rejects.
+- **Sonnet 5.5 is blocked the same way** (checked 2026-11-24): it also rejects
+  forced tools, and `json_schema` returns *"The compiled grammar is too large"*
+  (HTTP 400 before any generation, so the attempt is free). Cheaper models are
+  not a way around the schema ceiling either.
 - The empty `data/mdl/queries/anthropic/claude-opus-5-5/` directory in this repo
   is the residue of that attempt. It is not a bucket waiting to be filled.
 
