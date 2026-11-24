@@ -37,7 +37,7 @@ from paperext.analysis.frequency import (
     build_maps,
     group_files_by_paper,
     iter_paper_files,
-    load_extractions,
+    merge_paper_files,
 )
 from paperext.analysis.rollup import OTHER, load_cut
 
@@ -369,18 +369,7 @@ def main(argv: Optional["list[str]"] = None) -> None:
         "Loading %d papers (%d files) for %s", len(groups), len(files), platform
     )
 
-    papers = []
-    for _pid, paper_files in groups.items():
-        merged = None
-        for f in paper_files:
-            ext = load_extractions(f)
-            if merged is None:
-                merged = ext
-            else:
-                merged.models.extend(ext.models)
-                merged.datasets.extend(ext.datasets)
-                merged.libraries.extend(ext.libraries)
-        papers.append(merged)
+    papers = [merge_paper_files(paper_files) for paper_files in groups.values()]
 
     results = [
         aggregate_split(papers, dim, split, other_policy=args.other)

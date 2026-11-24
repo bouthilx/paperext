@@ -44,7 +44,10 @@ import logging
 from collections import Counter
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Iterable, Optional, Union
+from typing import TYPE_CHECKING, Iterable, Optional, Union
+
+if TYPE_CHECKING:
+    from paperext.structured_output.mdl.model import PaperExtractions
 
 from paperext.analysis.rollup import (
     OTHER,
@@ -178,6 +181,31 @@ def load_extractions(path: Union[str, Path]):
         for src_model in CONVERT_CHAIN[CONVERT_CHAIN.index(module) :]:
             extractions = CONVERT_MODEL[src_model](extractions)
     return extractions
+
+
+#: The entity lists a paper's query files are unioned over. One list, shared by
+#: every caller: the merge used to be written out per script and one copy kept
+#: reading the pre-v5 ``datasets`` field after the schema renamed it.
+MERGED_FIELDS = ("models", "data_sources", "libraries", "research_fields", "algorithms")
+
+
+def merge_paper_files(paper_files: Iterable[Path]) -> "PaperExtractions":
+    """One extraction for a paper queried several times: its lists, unioned.
+
+    Duplicates across query files are kept; within-paper dedup happens at item
+    level, downstream.
+    """
+    merged: "PaperExtractions | None" = None
+    for path in paper_files:
+        ext = load_extractions(path)
+        if merged is None:
+            merged = ext
+            continue
+        for name in MERGED_FIELDS:
+            getattr(merged, name).extend(getattr(ext, name))
+    if merged is None:
+        raise ValueError("merge_paper_files needs at least one file")
+    return merged
 
 
 def _paper_id(path: Path) -> str:
@@ -549,19 +577,7 @@ def main(argv: Optional["list[str]"] = None) -> None:
     # One merged v4 extraction list per paper (queries unioned at item level below;
     # here we just pass every query file's extractions and dedup within paper via
     # the paper grouping — retries add items, within-paper set dedup handles overlap).
-    papers = []
-    for pid, paper_files in groups.items():
-        merged = None
-        for f in paper_files:
-            ext = load_extractions(f)
-            if merged is None:
-                merged = ext
-            else:
-                merged.models.extend(ext.models)
-                merged.data_sources.extend(ext.data_sources)
-                merged.libraries.extend(ext.libraries)
-                merged.research_fields.extend(ext.research_fields)
-        papers.append(merged)
+    papers = [merge_paper_files(paper_files) for paper_files in groups.values()]
 
     results = [aggregate(papers, dim, other_policy=args.other) for dim in dims]
     written = write_reports(results, out_dir, args.other, top_n=args.top_n)

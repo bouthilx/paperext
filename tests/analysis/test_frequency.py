@@ -334,3 +334,36 @@ def test_load_extractions_upconverts_real_file():
             "inference",
             "unknown",
         )
+
+
+# --- merging a paper's query files -------------------------------------------
+
+V5_PAPER = (
+    Path(__file__).parents[2]
+    / "data/mdl/queries/anthropic/claude-opus-5/69a5fd4348887d403d0a4c69_00.json"
+)
+
+
+def test_merge_paper_files_unions_every_entity_list(tmp_path: Path) -> None:
+    """A paper queried twice merges into one extraction holding both lists.
+
+    The merge used to be written out twice (frequency and workload) and the
+    workload copy still read the pre-v5 ``datasets`` field, so it raised on any
+    current paper with more than one query file.
+    """
+    from paperext.analysis.frequency import load_extractions, merge_paper_files
+
+    first, second = tmp_path / "p_00.json", tmp_path / "p_01.json"
+    for path in (first, second):
+        path.write_bytes(V5_PAPER.read_bytes())
+    one = load_extractions(V5_PAPER)
+    merged = merge_paper_files([first, second])
+    for field in (
+        "models",
+        "data_sources",
+        "libraries",
+        "research_fields",
+        "algorithms",
+    ):
+        assert len(getattr(merged, field)) == 2 * len(getattr(one, field)), field
+    assert merge_paper_files([first]) == one
