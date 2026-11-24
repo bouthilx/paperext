@@ -18,6 +18,12 @@ from paperext.categorize.items import (
 QUERIES = Path(__file__).parents[2] / "data" / "mdl" / "queries" / "openai"
 #: The #52 worked example: a genuinely ambiguous name with a resolving quote.
 BIT_PAPER = QUERIES / "legacy-2024" / "2306.03522_00.json"
+OPUS5 = QUERIES.parent / "anthropic" / "claude-opus-5"
+#: A v5 record that validates and carries ``algorithms[]`` (9 of them).
+V5_PAPER = OPUS5 / "69a5fd4348887d403d0a4c69_00.json"
+#: A v5 record that predates the ``repetitions`` string -> list change, so it
+#: validates against no schema version (G3).
+STALE_PAPER = OPUS5 / "69a5fd3448887d403d0a4ad3_00.json"
 
 
 @pytest.fixture(scope="module")
@@ -95,9 +101,60 @@ def test_max_mentions_caps_the_mentions_kept():
 
 @pytest.mark.parametrize("dimension", sorted(DIMENSION_FIELDS))
 def test_every_dimension_folds(dimension):
-    items = build_items(dimension, files=[BIT_PAPER])
+    # The legacy record predates `algorithms[]`; fold a v5 record as well so
+    # every dimension has something to find.
+    items = build_items(dimension, files=[BIT_PAPER, V5_PAPER])
     assert items and all(i.dimension == dimension for i in items)
     assert all(i.surface and i.name for i in items)
+
+
+def test_algorithms_fold_from_v5_records() -> None:
+    """G1: corpus algorithm names reach an item, with their grounding."""
+    items = {i.surface: i for i in build_items("algorithms", files=[V5_PAPER])}
+    assert len(items) == 9
+    item = next(i for i in items.values() if i.name == "Wilcoxon test")
+    mention = item.mentions[0]
+    assert mention.paper == "69a5fd4348887d403d0a4c69"
+    assert mention.quote and mention.justification
+    assert isinstance(mention.is_executed, bool)
+    assert "cosine similarity" in mention.co_occurring
+
+
+def test_legacy_records_yield_no_algorithms() -> None:
+    """Pre-v5 records up-convert with an empty `algorithms[]` -- nothing, not an error."""
+    assert build_items("algorithms", files=[BIT_PAPER]) == []
+
+
+def test_a_stale_file_is_skipped_and_counted_not_fatal() -> None:
+    """G3: one file that validates against no schema must not stop the fold."""
+    skipped: "list[Path]" = []
+    with pytest.warns(UserWarning, match="validate"):
+        items = build_items("models", files=[STALE_PAPER, BIT_PAPER], skipped=skipped)
+    assert skipped == [STALE_PAPER]
+    assert items == build_items("models", files=[BIT_PAPER])
+
+
+def test_the_cli_reports_skipped_files(capsys: pytest.CaptureFixture[str]) -> None:
+    from paperext.categorize.items import main
+
+    with pytest.warns(UserWarning):
+        assert (
+            main(
+                [
+                    "--queries-dir",
+                    str(QUERIES.parent),
+                    "--platform",
+                    "anthropic",
+                    "--model",
+                    "claude-opus-5",
+                    "--top",
+                    "0",
+                ]
+            )
+            == 0
+        )
+    out = capsys.readouterr().out
+    assert "skipped" in out and "validate against no schema version" in out
 
 
 def test_domains_spans_primary_and_sub_fields():

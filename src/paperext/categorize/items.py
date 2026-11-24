@@ -31,6 +31,7 @@ from __future__ import annotations
 
 import argparse
 import sys
+import warnings
 from collections import Counter
 from pathlib import Path
 from typing import Any, Iterable, Iterator, Sequence, Union
@@ -53,6 +54,9 @@ DIMENSION_FIELDS: "dict[str, tuple[str, ...]]" = {
     "datasets": ("data_sources",),
     "libraries": ("libraries",),
     "domains": ("research_fields",),
+    # Extracted since schema v5; records from earlier schemas up-convert with
+    # an empty list, so a legacy corpus folds to zero algorithm items.
+    "algorithms": ("algorithms",),
 }
 
 #: Cap on mentions kept per item. The most-mentioned model has hundreds; three
@@ -277,12 +281,18 @@ def build_items(
     files: "Iterable[Union[str, Path]] | None" = None,
     max_mentions: "int | None" = None,
     max_co_occurring: int = DEFAULT_MAX_CO_OCCURRING,
+    skipped: "list[Path] | None" = None,
 ) -> "list[Item]":
     """Fold the stored extractions into one :class:`Item` per distinct name.
 
     Ordered most-mentioned first, ties by surface -- which is also the order the
     agent should run in, since the common names are the ones that move the counts
     and the ones whose decisions best inform the rest of the run.
+
+    A file that validates against no schema version (a schema change it
+    predates, or a truncated write) is skipped with a warning and appended to
+    *skipped* when given, as ``verify`` does. Raising instead let one stale file
+    block the whole fold, and at corpus scale one such file is expected.
     """
     if dimension not in DIMENSION_FIELDS:
         raise ValueError(
@@ -314,7 +324,13 @@ def build_items(
 
     for paper_id, paper_files in group_files_by_paper(paths).items():
         for path in paper_files:
-            extractions = load_extractions(path)
+            try:
+                extractions = load_extractions(path)
+            except ValueError as exc:
+                warnings.warn(f"skipping {path}: {exc}", stacklevel=2)
+                if skipped is not None:
+                    skipped.append(path)
+                continue
             for surface, spelling, mention in iter_mentions(
                 extractions,
                 dimension,
@@ -395,17 +411,24 @@ def main(argv: "Sequence[str] | None" = None) -> int:
     parser.add_argument("--top", type=int, default=20, help="rows to print")
     args = parser.parse_args(argv)
 
+    skipped: "list[Path]" = []
     items = build_items(
         args.dim,
         platform=args.platform,
         model=args.model,
         queries_dir=args.queries_dir,
         max_mentions=args.max_mentions,
+        skipped=skipped,
     )
     print(
         f"# {args.dim}: {len(items)} distinct names, "
         f"{sum(i.n_mentions for i in items)} mentions"
     )
+    if skipped:
+        print(
+            f"# skipped {len(skipped)} file(s) that validate against no schema "
+            "version -- the counts above exclude them"
+        )
     for item in items[: args.top]:
         print(f"  {item.n_mentions:>5}  {item.n_papers:>4}p  {item.name}")
     if args.out:

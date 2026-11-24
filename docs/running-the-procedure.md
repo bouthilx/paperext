@@ -208,7 +208,8 @@ does not exist. Use `--platform` / `--model`, or point `--queries-dir` at
 reads the v5 `data_sources` field; the dimension keeps its old name because
 renaming it would invalidate every recorded decision keyed on it. The mapping is
 in `DIMENSION_FIELDS` (`items.py`): `models→models`,
-`datasets→data_sources`, `libraries→libraries`, `domains→research_fields`.
+`datasets→data_sources`, `libraries→libraries`, `domains→research_fields`,
+`algorithms→algorithms`.
 
 ### 4b. Author the axes, then convert
 
@@ -318,18 +319,17 @@ milabench category files. `analysis/frequency.py` and `analysis/workload.py` hav
 
 ## 5. Where the procedure currently stops
 
-Reproduced in this checkout. These are the gaps between "the code runs" and "the
+Reproduced in this checkout (G1 and G3 since fixed). These are the gaps between "the code runs" and "the
 procedure completes", and three of them sit exactly on the join between the two
 halves.
 
-### G1 — `categorize-items` has no `algorithms` dimension
+### G1 — ~~`categorize-items` has no `algorithms` dimension~~ (fixed)
 
-`algorithms/v1` is a real ontology (lineage 1672 nodes, plus signal / role /
-attributes), and `DIMENSION_FIELDS` has no `algorithms` entry, so no items can be
-built for it. The extraction has produced `algorithms[]` since schema v5.
-**Corpus algorithm names currently cannot reach their own ontology.** The fix is
-one `DIMENSION_FIELDS` entry plus whatever `iter_mentions` needs for that entity
-type.
+`DIMENSION_FIELDS` now maps `algorithms→algorithms`, so `categorize-items --dim
+algorithms` folds the v5 `algorithms[]` field: 494 names on `gpt-5.6-sol`, 303 on
+`claude-opus-5`, 0 on `legacy-2024` (pre-v5, as expected). `paper_role` and
+`composed_of` are not carried onto the `Mention` yet; add them if placement turns
+out to need them.
 
 ### G2 — the placement agent cannot load a faceted dimension
 
@@ -350,23 +350,14 @@ faceted design — domains v1, data_sources v1, algorithms v1 — is **not reach
 by the agent that places corpus names**. Either the agent learns `Dimension`, or
 each axis is categorised against separately.
 
-### G3 — one stale file stops `categorize-items` dead
+### G3 — ~~one stale file stops `categorize-items` dead~~ (fixed)
 
-`load_extractions` raises `ValueError: Could not validate <path> against any
-model version` on the first file that fails, with no skip. Measured today:
-
-| bucket | files | validate | fail |
-|---|---|---|---|
-| `anthropic/claude-opus-5` | 51 | **28** | **23** |
-| `openai/gpt-5.6-sol` | 51 | 51 | 0 |
-| `openai/legacy-2024` | 2110 | 2110 (1750 as v3, 360 as v4, up-converted) | 0 |
-
-The 23 predate the `repetitions` string→list change. `verify.py` skips such files
-with a warning; `load_extractions` does not, so `categorize-items --platform
-anthropic --model claude-opus-5` fails outright while the same command on batch 2
-returns 368 names. **At corpus scale this matters more, not less**: one stale or
-truncated file blocks the whole fold. Either re-extract the stale files or make
-the loader skip-and-count like `verify` does.
+`build_items` now skips a file that validates against no schema version, warns
+per file, and the CLI prints `# skipped N file(s) ...` under the counts, the way
+`verify` reports them. `load_extractions` itself still raises (other callers rely
+on that). The data is unchanged: 23 of the 51 `anthropic/claude-opus-5` files
+predate the `repetitions` string→list change and are excluded from its counts
+until they are re-extracted.
 
 ### G4 — the gate exists for `models` only
 
